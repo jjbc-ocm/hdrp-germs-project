@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: mat_fx_cartoonLavaFall
+  m_Shader: {fileID: 4800000, guid: 0aef7cab2d2a64e4bbd8c61cab87a31e, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NM:
+        m_Texture: {fileID: 2800000, guid: 0c4f6b829fac2c748adb09bd48392cc5, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TEX:
+        m_Texture: {fileID: 2800000, guid: 9212f531d36922840a60320c6654129c, type: 3}
+        m_Scale: {x: 0.25, y: 0.25}
+        m_Offset: {x: 0, y: 0}
+    - _TEX1:
+        m_Texture: {fileID: 2800000, guid: cd664ea133bf44f4baa5b90048109a01, type: 3}
+        m_Scale: {x: 0.2, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _TEX2:
+        m_Texture: {fileID: 2800000, guid: 6de641ec6d691d549bb26f3d4e999528, type: 3}
+        m_Scale: {x: 1, y: 0.3}
+        m_Offset: {x: 0, y: 0}
+    - _TEX3:
+        m_Texture: {fileID: 2800000, guid: cceee303018ecc343866e2db15d9b39b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _Dist: 0.03
+    - _DstBlend: 0
+    - _Edge: 0.682
+    - _EdgeSmooth: 0.1
+    - _EdgeThick: 0.5
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _NM_speedX: 3
+    - _NM_speedY: 1
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _TEX1_speedX: 0.25
+    - _TEX1_speedY: 1
+    - _TEX2_speedX: 1
+    - _TEX2_speedY: 4
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 0.9811321, g: 0.8648616, b: 0, a: 1}
+    - _Emission: {r: 0.24528301, g: 0.0995949, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _NM_Vec: {r: 1, g: 1, b: 0.5, a: 0.5}
+    - _TEX1_Vec: {r: 1, g: 1, b: 1, a: 1}
+    - _TEX2_Vec: {r: 1, g: 1, b: 1, a: 1}
+    - _colFoam: {r: 1, g: 0.91764706, b: 0, a: 1}
+    - _colShade: {r: 1, g: 0.19670746, b: 0, a: 1}
+    - _colWater: {r: 1, g: 0.6472527, b: 0, a: 1}

@@ -1,0 +1,94 @@
+
+- Z E R I N   L A B S -
+Shader Pack #01 (Cartoon landscape shader pack)
+
+Welcome!
+...and thanks for buying this outstanding shader pack :)
+
+On this small tutorial you will find all the necessary details to configure the shaders and prepare your meshes to create amazing videogame grahics.
+
+
+PREPARING YOUR MESHES:
+----------------------------------------------------------------------
+In order to use this shader properly on your meshes you should prepare the so they can handle the shader and display their properties as expected:
+
+WATER SHADER:
+	Shader(s):
+		sh_fx_SOLID_cartoonWater 	(meant for solid flat water surfaces (without transparency))
+		
+	To prepare your mesh for the shader usage you should paint the water mesh using vertex colour:
+	- Paint in BLACK the edges of the water body.
+
+WATER STREAM/WATERFALL:
+	Shader(s):
+		sh_fx_SOLID_cartoonWaterFall	(meant for rivers, waterfalls or water streams)
+		
+	To prepare your mesh for the shader usage you should paint the water mesh using vertex colour:
+	- Paint in RED the vertices that belong to the river and leave in black those that belong to the waterfall
+	- Paint in GREEN the vertices of the edge of the river/waterfall
+
+WATER RIPPLES:
+	shader(s):
+		sh_fx_ADD_cartoonWaterRipples		(additive version)
+		sh_fx_CUTOUT_cartoonWaterRipples	(alpha test version)
+		
+	To prepare your mesh for the shader usage you should paint the water mesh using vertex colour:
+	- Paint in WHITE the are where you want the ripples to be visible.
+	- Leave in BLACK the rest.
+	- You can use this shader to emulate the waterfall foam too.
+
+MOVING GRASS/FOLIAGE:
+	Shader(s):
+		sh_fx_CUTOUT_vegetationMoving		(meant for "alpha" vegetation)
+		sh_fx_SOLID_vegetationMoving		(meant for "solid" vegetation)
+		
+	For Moving plants or grass it is required to paint your meshes with VERTEX COLOUR so you can control their movement.
+	- Paint in RED those parts that you want to move. 
+	- Keep in BLACK those areas that you want still.
+	- Alternatively, you can add other colours too (BLUE / GREEN) in order to add randomness to the movement.
+
+TERRAIN/PROP (triplanar shader):
+	Shader(s):
+		sh_regular_SOLID_groundWorldCoords_terrain		(meant for flat ground. it doesn't require UVs !!)
+		sh_regular_SOLID_groundWorldCoords_props		(meant for "irregular" terrain. it can be VC masked)
+		
+	It doesn't require any kind of preparation, however on the "prop" version you can limit the "grass" effect through B/W vertex colour masking.
+
+BONUS: MOVING FLAG SHADER:
+	Shader(s):
+		sh_fx_CUTOUT_flagAnimVert
+		
+	To prepare your mesh for the shader usage you should paint the water mesh using vertex colour:
+	- Red channel: It allows the flag to move (red = full movement / Black = still)
+	- Green+Blue channels: They add “randomness” to the movement of the flag.
+
+	
+	
+ADITIONAL INFORMATION:
+----------------------------------------------------------------------
+For further information about how to use and configure the shaders, 
+Please follow the included images for more information!
+
+
+
+HOW TO USE THE SHADERS INSIDE UNITY:
+----------------------------------------------------------------------
+For more detailed information about the shaders usage inside unity, please, check this video tutorials:
+
+- Grass and foliage shader:
+https://www.youtube.com/watch?v=zT8ff_Oog4o
+
+- Terrain triplanar (world mapping coordinates)
+https://www.youtube.com/watch?v=iuj6uIKKHbU
+
+- Waterfall, water, & ripples shaders
+https://www.youtube.com/watch?v=xMh3j4_CpKg
+
+
+
+CONTACT:
+----------------------------------------------------------------------
+Mail:				zerinlabs@gmail.com
+Twitter: 			@zerinlabs
+Site:				https://zerinlabs.blogspot.com/
+Youtube channel: 	https://www.youtube.com/channel/UC-u0QyXSJUS60hAfc-UnF-A
