@@ -65,7 +65,7 @@ namespace TanksMP
         }
 
 
-        //position the camera in every frame
+        /*//position the camera in every frame
         void LateUpdate()
         {
             //cancel if we don't have a target
@@ -87,9 +87,37 @@ namespace TanksMP
 
             //clamp distance
             transform.position = target.position - (transform.forward * Mathf.Abs(distance));
+        }*/
+
+        //position the camera in every frame
+        void LateUpdate()
+        {
+            //cancel if we don't have a target
+            if (!target)
+                return;
+
+            //convert the camera's transform angle into a rotation
+            Quaternion currentRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
+            //set the position of the camera on the x-z plane to:
+            //distance units behind the target, height units above the target
+            Vector3 pos = target.position;
+            pos -= currentRotation * Vector3.forward * Mathf.Abs(distance);
+            pos.y = Mathf.Abs(height);
+            transform.position = pos;
+
+            //look at the target
+            transform.LookAt(target);
+
+            transform.rotation = Quaternion.Euler(50, transform.eulerAngles.y, transform.eulerAngles.z);
+
+            //clamp distance
+            transform.position = target.position - (transform.forward * Mathf.Abs(distance));
+
+            transform.position = new Vector3(transform.position.x, height, transform.position.z);
         }
-        
-        
+
+
         /// <summary>
         /// Culls the specified layers of 'respawnMask' by the camera.
         /// </summary>
