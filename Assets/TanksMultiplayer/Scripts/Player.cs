@@ -322,10 +322,10 @@ namespace TanksMP
             {
                 //set next shot timestamp
                 nextFire = Time.time + fireRate;
-                
+
                 //send current client position and turret rotation along to sync the shot position
                 //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
-                short[] pos = new short[] { (short)(shotPos.position.x * 10), (short)(shotPos.position.z * 10)};
+                float[] pos = new float[] { shotPos.position.x , shotPos.position.z };
                 //send shot request with origin to server
                 this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, turretRotation);
             }
@@ -334,14 +334,14 @@ namespace TanksMP
         
         //called on the server first but forwarded to all clients
         [PunRPC]
-        protected void CmdShoot(short[] position, short angle)
+        protected void CmdShoot(float[] position, short angle)
         {   
             //get current bullet type
             int currentBullet = GetView().GetBullet();
 
             //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
             //this is done to compensate network lag and smoothing it out between both client/server positions
-            Vector3 shotCenter = Vector3.Lerp(shotPos.position, new Vector3(position[0]/10f, shotPos.position.y, position[1]/10f), 0.6f);
+            Vector3 shotCenter = Vector3.Lerp(shotPos.position, new Vector3(position[0], shotPos.position.y, position[1]), 0.6f);
             Quaternion syncedRot = turret.rotation = Quaternion.Euler(0, angle, 0);
 
             //spawn bullet using pooling

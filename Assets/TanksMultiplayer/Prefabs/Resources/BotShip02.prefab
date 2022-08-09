@@ -1360,6 +1360,7 @@ GameObject:
   - component: {fileID: 114000010356570362}
   - component: {fileID: 195000010656594416}
   - component: {fileID: 114000011118812870}
+  - component: {fileID: -7378439200734209461}
   m_Layer: 8
   m_Name: BotShip02
   m_TagString: Untagged
@@ -1504,6 +1505,26 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &-7378439200734209461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013952619036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643755d44d2e4374bb000b66089e3b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floaters:
+  - {fileID: 1041934439729276512}
+  underWaterDrag: 3
+  underWaterAngularDrag: 1
+  airDrag: 0
+  airAngularDrag: 0.05
+  floatingPower: 15
+  offsetY: -0.5
 --- !u!1 &1000014114107342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,7 +1642,7 @@ Transform:
   m_GameObject: {fileID: 2405181553155414853}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 128, y: 128, z: 128}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4000012430467682}

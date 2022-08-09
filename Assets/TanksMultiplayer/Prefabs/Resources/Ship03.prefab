@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114000011901014096}
   - component: {fileID: 114000013231430384}
   - component: {fileID: 114000014033440060}
+  - component: {fileID: -7161890728467168463}
   m_Layer: 8
   m_Name: Ship03
   m_TagString: Untagged
@@ -144,6 +145,26 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &-7161890728467168463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643755d44d2e4374bb000b66089e3b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floaters:
+  - {fileID: 8183468677979153597}
+  underWaterDrag: 3
+  underWaterAngularDrag: 1
+  airDrag: 0
+  airAngularDrag: 0.05
+  floatingPower: 15
+  offsetY: -0.5
 --- !u!1 &125288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,7 +1628,7 @@ Transform:
   m_GameObject: {fileID: 1769768931156586618}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 128, y: 128, z: 128}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 413990}
