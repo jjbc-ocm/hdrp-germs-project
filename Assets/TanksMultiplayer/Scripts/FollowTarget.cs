@@ -65,7 +65,8 @@ namespace TanksMP
         }
 
 
-        /*//position the camera in every frame
+        /* ORIGINAL
+        //position the camera in every frame
         void LateUpdate()
         {
             //cancel if we don't have a target
@@ -89,6 +90,7 @@ namespace TanksMP
             transform.position = target.position - (transform.forward * Mathf.Abs(distance));
         }*/
 
+        /* MODIFIED
         //position the camera in every frame
         void LateUpdate()
         {
@@ -115,6 +117,20 @@ namespace TanksMP
             transform.position = target.position - (transform.forward * Mathf.Abs(distance));
 
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
+        }*/
+
+        /* 3RD PERSON */
+        void LateUpdate()
+        {
+            //cancel if we don't have a target
+            if (!target)
+                return;
+
+            transform.parent = target;
+
+            transform.localPosition = new Vector3(0, 7, -20);
+
+            transform.localRotation = Quaternion.Euler(15, 0, 0);
         }
 
 
