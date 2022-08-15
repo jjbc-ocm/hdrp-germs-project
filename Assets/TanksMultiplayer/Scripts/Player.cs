@@ -288,7 +288,11 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                var forward = new Vector3(direction.x * Time.deltaTime, 0, 1);
+                float x = direction.x * (1 + direction.y * -0.5f) * Time.deltaTime;
+
+                float z = 1;
+
+                var forward = new Vector3(x, 0, z);
 
                 transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
             }

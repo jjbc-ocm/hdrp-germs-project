@@ -46,12 +46,18 @@ namespace TanksMP
         /// Values are calculated in the range of [-1, 1] translated to left/down right/up.
         /// </summary>
         public Vector2 position;
+
+        /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// </summary>
+        public bool isMoveable;
         
         //keeping track of current drag state
         private bool isDragging = false;
         
         //reference to thumb being dragged around
 		private RectTransform thumb;
+
 
 
         //initialize variables
@@ -102,7 +108,7 @@ namespace TanksMP
 
             //if the thumb leaves the joystick's boundaries,
             //clamp it to the max radius
-            if (length > radius)
+            if (length > radius && isMoveable)
             {
                 target.localPosition = Vector3.ClampMagnitude(target.localPosition, radius);
             }
@@ -120,8 +126,11 @@ namespace TanksMP
             //in the editor the joystick position does not move, we have to simulate it
 			//mirror player input to joystick position and calculate thumb position from that
 			#if UNITY_EDITOR
-				target.localPosition =  position * radius;
-				target.localPosition = Vector3.ClampMagnitude(target.localPosition, radius);
+                if (isMoveable)
+                {
+                    target.localPosition = position * radius;
+                    target.localPosition = Vector3.ClampMagnitude(target.localPosition, radius);
+                }
 			#endif
 
             //check for actual drag state and fire callback. We are doing this in Update(),
