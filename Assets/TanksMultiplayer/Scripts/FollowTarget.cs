@@ -14,6 +14,16 @@ namespace TanksMP
     public class FollowTarget : MonoBehaviour
     {
         /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// </summary>
+        public Vector3 position = new Vector3(0, 10, -15);
+
+        /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// </summary>
+        public Vector3 rotation = new Vector3(15, 0, 0);
+
+        /// <summary>
         /// The camera target to follow.
         /// Automatically picked up in LateUpdate().
         /// </summary>
@@ -65,7 +75,8 @@ namespace TanksMP
         }
 
 
-        /*//position the camera in every frame
+        /* ORIGINAL
+        //position the camera in every frame
         void LateUpdate()
         {
             //cancel if we don't have a target
@@ -89,6 +100,7 @@ namespace TanksMP
             transform.position = target.position - (transform.forward * Mathf.Abs(distance));
         }*/
 
+        /* MODIFIED
         //position the camera in every frame
         void LateUpdate()
         {
@@ -115,6 +127,20 @@ namespace TanksMP
             transform.position = target.position - (transform.forward * Mathf.Abs(distance));
 
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
+        }*/
+
+        /* 3RD PERSON */
+        void LateUpdate()
+        {
+            //cancel if we don't have a target
+            if (!target)
+                return;
+
+            transform.parent = target;
+
+            transform.localPosition = position;
+
+            transform.localRotation = Quaternion.Euler(rotation);
         }
 
 

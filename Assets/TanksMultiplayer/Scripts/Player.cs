@@ -152,7 +152,7 @@ namespace TanksMP
 			//get components and set camera target
             rb = GetComponent<Rigidbody>();
             camFollow = Camera.main.GetComponent<FollowTarget>();
-            camFollow.target = turret;
+            camFollow.target = transform;
 
 			//initialize input controls for mobile devices
 			//[0]=left joystick for movement, [1]=right joystick for shooting
@@ -269,13 +269,34 @@ namespace TanksMP
 
 
         //moves rigidbody in the direction passed in
-        void Move(Vector2 direction = default(Vector2))
+        // Commented by: Jilmer John Cariaso
+        /*void Move(Vector2 direction = default(Vector2))
         {
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
                 transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.y))
                                      * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
 
+            //create movement vector based on current rotation and speed
+            Vector3 movementDir = transform.forward * moveSpeed * Time.deltaTime;
+            //apply vector to rigidbody position
+            rb.MovePosition(rb.position + movementDir);
+        }*/
+
+        void Move(Vector2 direction = default(Vector2))
+        {
+            //if direction is not zero, rotate player in the moving direction relative to camera
+            if (direction != Vector2.zero)
+            {
+                float x = direction.x * (1 + direction.y * -0.5f) * Time.deltaTime;
+
+                float z = 1;
+
+                var forward = new Vector3(x, 0, z);
+
+                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
+            }
+            
             //create movement vector based on current rotation and speed
             Vector3 movementDir = transform.forward * moveSpeed * Time.deltaTime;
             //apply vector to rigidbody position
@@ -293,7 +314,8 @@ namespace TanksMP
 
 
         //rotates turret to the direction passed in
-        void RotateTurret(Vector2 direction = default(Vector2))
+        // Commented by: Jilmer John Cariaso
+        /*void RotateTurret(Vector2 direction = default(Vector2))
         {
             //don't rotate without values
             if (direction == Vector2.zero)
@@ -301,6 +323,16 @@ namespace TanksMP
 
             //get rotation value as angle out of the direction we received
             turretRotation = (short)Quaternion.LookRotation(new Vector3(direction.x, 0, direction.y)).eulerAngles.y;
+            OnTurretRotation();
+        }*/
+        void RotateTurret(Vector2 direction = default(Vector2))
+        {
+            //don't rotate without values
+            if (direction == Vector2.zero)
+                return;
+
+            //get rotation value as angle out of the direction we received
+            turretRotation = (short)Quaternion.LookRotation(transform.forward).eulerAngles.y;
             OnTurretRotation();
         }
 
