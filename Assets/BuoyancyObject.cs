@@ -29,7 +29,7 @@ public class BuoyancyObject : MonoBehaviour
     {
         deltaTime += Time.deltaTime;
 
-        transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 5f, transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 3f, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
     void FixedUpdate()

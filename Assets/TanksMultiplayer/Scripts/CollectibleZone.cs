@@ -56,16 +56,23 @@ namespace TanksMP
                 //the required object either does not have a CollectibleTeam component,
                 //is still being carried around or not yet at back at the spawn position
                 CollectibleTeam colReq = requireObject.obj.GetComponent<CollectibleTeam>();
-                if (colReq == null || colReq.carrierId >= 0 ||
-                    colReq.transform.position != requireObject.transform.position) // TODO: need to reimplement this because there will be only 1 chest to fight for in the future
-                    return;
+
+                if (colReq == null) return;
             }
 
             CollectibleTeam colOther = col.gameObject.GetComponent<CollectibleTeam>();
 
             //a team item, which is not our own, has been brought to this zone 
-            if (colOther != null && colOther.teamIndex != teamIndex)
+            if (colOther != null)// && colOther.teamIndex != teamIndex)
             {
+                Player player = colOther.transform.parent.GetComponent<Player>();
+
+                // Ensure that player can only drop the chest on its team base
+                if (player != null && player.GetView().GetTeam() != teamIndex)
+                {
+                    return;
+                }
+
                 if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
 
                 //add points for this score type to the correct team
