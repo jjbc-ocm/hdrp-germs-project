@@ -57,7 +57,7 @@ namespace TanksMP
                 //is still being carried around or not yet at back at the spawn position
                 CollectibleTeam colReq = requireObject.obj.GetComponent<CollectibleTeam>();
                 if (colReq == null || colReq.carrierId >= 0 ||
-                    colReq.transform.position != requireObject.transform.position)
+                    colReq.transform.position != requireObject.transform.position) // TODO: need to reimplement this because there will be only 1 chest to fight for in the future
                     return;
             }
 
