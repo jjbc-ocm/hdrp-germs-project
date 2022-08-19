@@ -18,7 +18,7 @@ namespace TanksMP
         /// Team index this Collectible belongs to, or -1 if unassigned.
         /// Teams are defined in the GameManager script inspector.
         /// </summary>
-        public int teamIndex = -1;
+        //public int teamIndex = -1;
 
         /// <summary>
         /// Optional: Material that should be re-assigned if this Collectible is dropped or returned.
@@ -49,7 +49,7 @@ namespace TanksMP
                 //clean up previous buffered RPCs so we only keep the most recent one
                 PhotonNetwork.RemoveRPCs(spawner.photonView);
 
-                //check if colliding player belongs to the same team as the item
+                /*//check if colliding player belongs to the same team as the item
                 if (teamIndex == player.GetView().GetTeam())
                 {
                     //player collected team item, return it to team home base
@@ -60,7 +60,10 @@ namespace TanksMP
                 {
                     //player picked up item from other team, send out buffered RPC for it to be remembered
                     spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
-                }
+                }*/
+
+                //player picked up item from other team, send out buffered RPC for it to be remembered
+                spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
             }
         }
 
@@ -73,24 +76,36 @@ namespace TanksMP
         {
             //do not allow collection if the item is already carried around
             //but also skip any processing if our flag is on the home base already
-            if (p == null || carrierId > 0 ||
-                teamIndex == p.GetView().GetTeam() && transform.position == spawner.transform.position)
+            if (p == null || 
+                carrierId > 0 //||
+                //teamIndex == p.GetView().GetTeam() && 
+                //transform.position == spawner.transform.position)
+                )
                 return false;
 
             //if a target renderer is set, assign team material
-            Colorize(p.GetView().GetTeam());
+            //Colorize(p.GetView().GetTeam());
 
             //return successful collection
             return true;
         }
 
+        /// <summary>
+        /// Implemented by: Jilmer John Cariaso
+        /// </summary>
+        public override void OnPickup()
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+        }
 
         /// <summary>
         /// Overrides the default behavior with a custom implementation.
         /// </summary>
         public override void OnDrop()
         {
-            Colorize(this.teamIndex);
+            //Colorize(this.teamIndex);
+
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 
 
@@ -99,7 +114,7 @@ namespace TanksMP
         /// </summary>
         public override void OnReturn()
         {
-            Colorize(this.teamIndex);
+            //Colorize(this.teamIndex);
         }
 
 
