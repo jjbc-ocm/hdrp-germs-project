@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections;
 using Photon.Pun;
+using System.Linq;
 
 namespace TanksMP
 {
@@ -31,6 +32,11 @@ namespace TanksMP
         public int respawnTime;
 
         /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// </summary>
+        public int totalScoreCondition;
+
+        /// <summary>
         /// Reference to the spawned prefab gameobject instance in the scene.
         /// </summary>
         [HideInInspector]
@@ -54,8 +60,7 @@ namespace TanksMP
             if(PhotonNetwork.IsMasterClient)
                 OnMasterClientSwitched(PhotonNetwork.LocalPlayer);
         }
-        
-        
+
         /// <summary>
         /// Synchronizes current active state of the object to joining players.
         /// </summary>
@@ -133,24 +138,32 @@ namespace TanksMP
         //waits for the delay to have passed and then instantiates the object
         IEnumerator SpawnRoutine()
 		{
-            yield return new WaitForEndOfFrame();
-            float delay = Mathf.Clamp(nextSpawn - (float)PhotonNetwork.Time, 0, respawnTime);
-			yield return new WaitForSeconds(delay);
-
-            if (PhotonNetwork.IsConnected)
+            while (true)
             {
-                //differ between CollectionType
-                if(colType == CollectionType.Pickup && obj != null)
+                yield return new WaitForSeconds(1);
+
+                var totalScore = PhotonNetwork.CurrentRoom.GetScore().Sum();
+
+                if (totalScoreCondition <= totalScore)
                 {
-                    //if the item is of type Pickup, it should not be destroyed after
-                    //the routine is over but returned to its original position again
-                    PhotonNetwork.RemoveRPCs(this.photonView);
-                    this.photonView.RPC("Return", RpcTarget.All);
-                }
-                else
-                {
-                    //instantiate a new copy on all clients
-                    this.photonView.RPC("Instantiate", RpcTarget.All);
+                    if (PhotonNetwork.IsConnected)
+                    {
+                        //differ between CollectionType
+                        if (colType == CollectionType.Pickup && obj != null)
+                        {
+                            //if the item is of type Pickup, it should not be destroyed after
+                            //the routine is over but returned to its original position again
+                            PhotonNetwork.RemoveRPCs(this.photonView);
+                            this.photonView.RPC("Return", RpcTarget.All);
+                        }
+                        else
+                        {
+                            //instantiate a new copy on all clients
+                            this.photonView.RPC("Instantiate", RpcTarget.All);
+
+                            break;
+                        }
+                    }
                 }
             }
         }

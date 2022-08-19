@@ -25,7 +25,7 @@ namespace TanksMP
         /// trigger a successful collection. One example would be for Capture The Flag, where the
         /// red flags needs to be at the red spawn, in order to successfully collect the blue flag.
         /// </summary>
-        public ObjectSpawner requireObject;
+        //public ObjectSpawner requireObject;
 
         /// <summary>
         /// Clip to play when a CollectibleTeam item is brought to this zone.
@@ -47,7 +47,7 @@ namespace TanksMP
 
             //check for the required object
             //continue, if it is not assigned to begin with
-            if (requireObject != null)
+            /*if (requireObject != null)
             {
                 //the required object is not instantiated
                 if (requireObject.obj == null)
@@ -58,7 +58,7 @@ namespace TanksMP
                 CollectibleTeam colReq = requireObject.obj.GetComponent<CollectibleTeam>();
 
                 if (colReq == null) return;
-            }
+            }*/
 
             CollectibleTeam colOther = col.gameObject.GetComponent<CollectibleTeam>();
 
