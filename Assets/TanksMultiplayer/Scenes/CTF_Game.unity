@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 1205999}
   - component: {fileID: 1206001}
   - component: {fileID: 1206000}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 22967475}
   - component: {fileID: 22967477}
   - component: {fileID: 22967476}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 27386524}
   - component: {fileID: 27386526}
   - component: {fileID: 27386525}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,7 @@ GameObject:
   - component: {fileID: 30210115}
   - component: {fileID: 30210117}
   - component: {fileID: 30210116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,6 +531,79 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 30210114}
   m_Mesh: {fileID: 4300024, guid: 219cc1118860c8541bfd70b3d9605978, type: 3}
+--- !u!1 &30808927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 30808928}
+  - component: {fileID: 30808930}
+  - component: {fileID: 30808929}
+  m_Layer: 5
+  m_Name: Minimap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &30808928
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30808927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1255764121}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 25, y: -75}
+  m_SizeDelta: {x: 192, y: 192}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &30808929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30808927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: 2220edfd43517604a9e7a1d57a46ea7b, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &30808930
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30808927}
+  m_CullTransparentMesh: 1
 --- !u!1 &32929786
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +615,7 @@ GameObject:
   - component: {fileID: 32929787}
   - component: {fileID: 32929789}
   - component: {fileID: 32929788}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -626,6 +699,10 @@ PrefabInstance:
       value: Gem 06 Orange (3)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -702,6 +779,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -785,7 +866,7 @@ GameObject:
   - component: {fileID: 39589095}
   - component: {fileID: 39589097}
   - component: {fileID: 39589096}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 06 Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -868,7 +949,7 @@ GameObject:
   - component: {fileID: 45185844}
   - component: {fileID: 45185846}
   - component: {fileID: 45185845}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -951,7 +1032,7 @@ GameObject:
   - component: {fileID: 48652896}
   - component: {fileID: 48652898}
   - component: {fileID: 48652897}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1033,6 +1114,10 @@ PrefabInstance:
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_Name
       value: LevelObj1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1193,7 +1278,7 @@ GameObject:
   - component: {fileID: 66076584}
   - component: {fileID: 66076586}
   - component: {fileID: 66076585}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1276,7 +1361,7 @@ GameObject:
   - component: {fileID: 71372022}
   - component: {fileID: 71372024}
   - component: {fileID: 71372023}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1427,6 +1512,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1727,7 +1816,7 @@ GameObject:
   - component: {fileID: 95662155}
   - component: {fileID: 95662157}
   - component: {fileID: 95662156}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2006,7 +2095,7 @@ GameObject:
   - component: {fileID: 103692329}
   - component: {fileID: 103692331}
   - component: {fileID: 103692330}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2167,7 +2256,7 @@ GameObject:
   - component: {fileID: 108417740}
   - component: {fileID: 108417742}
   - component: {fileID: 108417741}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2249,6 +2338,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2471,7 +2564,7 @@ GameObject:
   - component: {fileID: 117148853}
   - component: {fileID: 117148855}
   - component: {fileID: 117148854}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2554,7 +2647,7 @@ GameObject:
   - component: {fileID: 118224330}
   - component: {fileID: 118224332}
   - component: {fileID: 118224331}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2638,6 +2731,10 @@ PrefabInstance:
       value: LevelObj1
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -2703,7 +2800,7 @@ GameObject:
   - component: {fileID: 123239223}
   - component: {fileID: 123239225}
   - component: {fileID: 123239224}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2822,7 +2919,7 @@ GameObject:
   - component: {fileID: 124711780}
   - component: {fileID: 124711782}
   - component: {fileID: 124711781}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2905,7 +3002,7 @@ GameObject:
   - component: {fileID: 126487832}
   - component: {fileID: 126487834}
   - component: {fileID: 126487833}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2988,7 +3085,7 @@ GameObject:
   - component: {fileID: 128091847}
   - component: {fileID: 128091849}
   - component: {fileID: 128091848}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3071,7 +3168,7 @@ GameObject:
   - component: {fileID: 128711746}
   - component: {fileID: 128711748}
   - component: {fileID: 128711747}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3234,7 +3331,7 @@ GameObject:
   - component: {fileID: 131352150}
   - component: {fileID: 131352152}
   - component: {fileID: 131352151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3442,7 +3539,7 @@ GameObject:
   - component: {fileID: 163592486}
   - component: {fileID: 163592488}
   - component: {fileID: 163592487}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3525,7 +3622,7 @@ GameObject:
   - component: {fileID: 166074448}
   - component: {fileID: 166074450}
   - component: {fileID: 166074449}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3608,7 +3705,7 @@ GameObject:
   - component: {fileID: 169452522}
   - component: {fileID: 169452521}
   - component: {fileID: 169452520}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3691,7 +3788,7 @@ GameObject:
   - component: {fileID: 176661067}
   - component: {fileID: 176661069}
   - component: {fileID: 176661068}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3774,7 +3871,7 @@ GameObject:
   - component: {fileID: 196000780}
   - component: {fileID: 196000782}
   - component: {fileID: 196000781}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3857,7 +3954,7 @@ GameObject:
   - component: {fileID: 197271367}
   - component: {fileID: 197271369}
   - component: {fileID: 197271368}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3939,6 +4036,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4123,7 +4224,7 @@ GameObject:
   - component: {fileID: 206119125}
   - component: {fileID: 206119127}
   - component: {fileID: 206119126}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4206,7 +4307,7 @@ GameObject:
   - component: {fileID: 209971173}
   - component: {fileID: 209971175}
   - component: {fileID: 209971174}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4289,7 +4390,7 @@ GameObject:
   - component: {fileID: 211277824}
   - component: {fileID: 211277826}
   - component: {fileID: 211277825}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4372,7 +4473,7 @@ GameObject:
   - component: {fileID: 214132021}
   - component: {fileID: 214132023}
   - component: {fileID: 214132022}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4455,7 +4556,7 @@ GameObject:
   - component: {fileID: 214860438}
   - component: {fileID: 214860440}
   - component: {fileID: 214860439}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4669,6 +4770,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -4708,6 +4813,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 2716535957252113500, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692491602738884034, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
 --- !u!4 &224950914 stripped
@@ -4726,7 +4839,7 @@ GameObject:
   - component: {fileID: 225095930}
   - component: {fileID: 225095932}
   - component: {fileID: 225095931}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4809,7 +4922,7 @@ GameObject:
   - component: {fileID: 225572588}
   - component: {fileID: 225572590}
   - component: {fileID: 225572589}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4892,7 +5005,7 @@ GameObject:
   - component: {fileID: 227669182}
   - component: {fileID: 227669184}
   - component: {fileID: 227669183}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4975,7 +5088,7 @@ GameObject:
   - component: {fileID: 236981587}
   - component: {fileID: 236981589}
   - component: {fileID: 236981588}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5059,6 +5172,10 @@ PrefabInstance:
       value: Gem 06 Orange (9)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -5136,7 +5253,7 @@ GameObject:
   - component: {fileID: 245101510}
   - component: {fileID: 245101512}
   - component: {fileID: 245101511}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5219,7 +5336,7 @@ GameObject:
   - component: {fileID: 245741494}
   - component: {fileID: 245741496}
   - component: {fileID: 245741495}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5302,7 +5419,7 @@ GameObject:
   - component: {fileID: 249796398}
   - component: {fileID: 249796400}
   - component: {fileID: 249796399}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5385,7 +5502,7 @@ GameObject:
   - component: {fileID: 256390595}
   - component: {fileID: 256390597}
   - component: {fileID: 256390596}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5468,7 +5585,7 @@ GameObject:
   - component: {fileID: 259484837}
   - component: {fileID: 259484839}
   - component: {fileID: 259484838}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5551,7 +5668,7 @@ GameObject:
   - component: {fileID: 265972754}
   - component: {fileID: 265972756}
   - component: {fileID: 265972755}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5713,7 +5830,7 @@ GameObject:
   - component: {fileID: 268523885}
   - component: {fileID: 268523887}
   - component: {fileID: 268523886}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5973,7 +6090,7 @@ GameObject:
   - component: {fileID: 271941242}
   - component: {fileID: 271941244}
   - component: {fileID: 271941243}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6113,6 +6230,10 @@ PrefabInstance:
       value: Cartoon Musroom2 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7566459758367427362, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566459758367427362, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -6157,7 +6278,7 @@ GameObject:
   - component: {fileID: 295211305}
   - component: {fileID: 295211307}
   - component: {fileID: 295211306}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6241,6 +6362,10 @@ PrefabInstance:
       value: Gem 06 Orange (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -6314,6 +6439,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 760561811}
     m_Modifications:
+    - target: {fileID: 1000013481812936, guid: d0c802f41ec262242925e8e44affa6c7, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012160439120, guid: d0c802f41ec262242925e8e44affa6c7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -6395,7 +6524,7 @@ GameObject:
   - component: {fileID: 305246161}
   - component: {fileID: 305246163}
   - component: {fileID: 305246162}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6478,7 +6607,7 @@ GameObject:
   - component: {fileID: 305612890}
   - component: {fileID: 305612892}
   - component: {fileID: 305612891}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6561,7 +6690,7 @@ GameObject:
   - component: {fileID: 310521176}
   - component: {fileID: 310521178}
   - component: {fileID: 310521177}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6644,7 +6773,7 @@ GameObject:
   - component: {fileID: 312358922}
   - component: {fileID: 312358924}
   - component: {fileID: 312358923}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6727,6 +6856,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelRamp
       objectReference: {fileID: 0}
+    - target: {fileID: 1649210347552968, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4834482300056608, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -6781,7 +6914,7 @@ GameObject:
   - component: {fileID: 325338457}
   - component: {fileID: 325338459}
   - component: {fileID: 325338458}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6864,7 +6997,7 @@ GameObject:
   - component: {fileID: 328332000}
   - component: {fileID: 328332002}
   - component: {fileID: 328332001}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6947,7 +7080,7 @@ GameObject:
   - component: {fileID: 331578812}
   - component: {fileID: 331578814}
   - component: {fileID: 331578813}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7030,7 +7163,7 @@ GameObject:
   - component: {fileID: 334929318}
   - component: {fileID: 334929320}
   - component: {fileID: 334929319}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7113,7 +7246,7 @@ GameObject:
   - component: {fileID: 340004084}
   - component: {fileID: 340004086}
   - component: {fileID: 340004085}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7196,7 +7329,7 @@ GameObject:
   - component: {fileID: 345984360}
   - component: {fileID: 345984362}
   - component: {fileID: 345984361}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7279,7 +7412,7 @@ GameObject:
   - component: {fileID: 356056430}
   - component: {fileID: 356056432}
   - component: {fileID: 356056431}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7362,7 +7495,7 @@ GameObject:
   - component: {fileID: 358369077}
   - component: {fileID: 358369079}
   - component: {fileID: 358369078}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7445,7 +7578,7 @@ GameObject:
   - component: {fileID: 361796314}
   - component: {fileID: 361796316}
   - component: {fileID: 361796315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7528,7 +7661,7 @@ GameObject:
   - component: {fileID: 371179951}
   - component: {fileID: 371179953}
   - component: {fileID: 371179952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7611,7 +7744,7 @@ GameObject:
   - component: {fileID: 378299590}
   - component: {fileID: 378299592}
   - component: {fileID: 378299591}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7694,7 +7827,7 @@ GameObject:
   - component: {fileID: 380365015}
   - component: {fileID: 380365017}
   - component: {fileID: 380365016}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7777,7 +7910,7 @@ GameObject:
   - component: {fileID: 387103077}
   - component: {fileID: 387103079}
   - component: {fileID: 387103078}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7943,7 +8076,7 @@ GameObject:
   - component: {fileID: 399546500}
   - component: {fileID: 399546502}
   - component: {fileID: 399546501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8026,7 +8159,7 @@ GameObject:
   - component: {fileID: 405723271}
   - component: {fileID: 405723273}
   - component: {fileID: 405723272}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8109,7 +8242,7 @@ GameObject:
   - component: {fileID: 407229818}
   - component: {fileID: 407229820}
   - component: {fileID: 407229819}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8192,7 +8325,7 @@ GameObject:
   - component: {fileID: 407544631}
   - component: {fileID: 407544633}
   - component: {fileID: 407544632}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 05 Blue (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8275,7 +8408,7 @@ GameObject:
   - component: {fileID: 416531818}
   - component: {fileID: 416531820}
   - component: {fileID: 416531819}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8358,7 +8491,7 @@ GameObject:
   - component: {fileID: 417019566}
   - component: {fileID: 417019568}
   - component: {fileID: 417019567}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8441,7 +8574,7 @@ GameObject:
   - component: {fileID: 417716491}
   - component: {fileID: 417716493}
   - component: {fileID: 417716492}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8524,6 +8657,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelRamp
       objectReference: {fileID: 0}
+    - target: {fileID: 1649210347552968, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4834482300056608, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
       propertyPath: m_RootOrder
       value: 21
@@ -8578,7 +8715,7 @@ GameObject:
   - component: {fileID: 421363069}
   - component: {fileID: 421363071}
   - component: {fileID: 421363070}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8660,6 +8797,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -8984,7 +9125,7 @@ GameObject:
   - component: {fileID: 434331481}
   - component: {fileID: 434331483}
   - component: {fileID: 434331482}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9070,6 +9211,10 @@ PrefabInstance:
     - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_Name
       value: Cartoon Musroom1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -9168,7 +9313,7 @@ GameObject:
   - component: {fileID: 440470667}
   - component: {fileID: 440470669}
   - component: {fileID: 440470668}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 05 Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9251,7 +9396,7 @@ GameObject:
   - component: {fileID: 445824200}
   - component: {fileID: 445824202}
   - component: {fileID: 445824201}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9334,7 +9479,7 @@ GameObject:
   - component: {fileID: 452400109}
   - component: {fileID: 452400111}
   - component: {fileID: 452400110}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9417,7 +9562,7 @@ GameObject:
   - component: {fileID: 452559893}
   - component: {fileID: 452559895}
   - component: {fileID: 452559894}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9496,6 +9641,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -9689,6 +9838,10 @@ PrefabInstance:
       value: Rock1 (9)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -9770,7 +9923,7 @@ GameObject:
   - component: {fileID: 465085206}
   - component: {fileID: 465085208}
   - component: {fileID: 465085207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9853,7 +10006,7 @@ GameObject:
   - component: {fileID: 465293685}
   - component: {fileID: 465293687}
   - component: {fileID: 465293686}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9936,7 +10089,7 @@ GameObject:
   - component: {fileID: 465653006}
   - component: {fileID: 465653008}
   - component: {fileID: 465653007}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10153,6 +10306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelRamp
       objectReference: {fileID: 0}
+    - target: {fileID: 1649210347552968, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4834482300056608, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
       propertyPath: m_RootOrder
       value: 20
@@ -10207,7 +10364,7 @@ GameObject:
   - component: {fileID: 492327074}
   - component: {fileID: 492327076}
   - component: {fileID: 492327075}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10290,7 +10447,7 @@ GameObject:
   - component: {fileID: 502864003}
   - component: {fileID: 502864005}
   - component: {fileID: 502864004}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10373,7 +10530,7 @@ GameObject:
   - component: {fileID: 504348047}
   - component: {fileID: 504348049}
   - component: {fileID: 504348048}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10454,7 +10611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 505691090}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10582,6 +10739,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -10639,6 +10800,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelRamp
       objectReference: {fileID: 0}
+    - target: {fileID: 1649210347552968, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4834482300056608, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
       propertyPath: m_RootOrder
       value: 23
@@ -10693,7 +10858,7 @@ GameObject:
   - component: {fileID: 512516341}
   - component: {fileID: 512516343}
   - component: {fileID: 512516342}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10776,7 +10941,7 @@ GameObject:
   - component: {fileID: 514362882}
   - component: {fileID: 514362884}
   - component: {fileID: 514362883}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10859,7 +11024,7 @@ GameObject:
   - component: {fileID: 518709304}
   - component: {fileID: 518709306}
   - component: {fileID: 518709305}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10942,7 +11107,7 @@ GameObject:
   - component: {fileID: 526861204}
   - component: {fileID: 526861203}
   - component: {fileID: 526861202}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_grp2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11056,7 +11221,7 @@ GameObject:
   - component: {fileID: 527572047}
   - component: {fileID: 527572049}
   - component: {fileID: 527572048}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11139,7 +11304,7 @@ GameObject:
   - component: {fileID: 528928921}
   - component: {fileID: 528928923}
   - component: {fileID: 528928922}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11221,6 +11386,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: bdeb79af937bc3940958acedeb2e5c15, type: 3}
       propertyPath: m_Name
       value: Mushroom1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: bdeb79af937bc3940958acedeb2e5c15, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: bdeb79af937bc3940958acedeb2e5c15, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11323,7 +11492,7 @@ GameObject:
   - component: {fileID: 541602350}
   - component: {fileID: 541602352}
   - component: {fileID: 541602351}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11589,7 +11758,7 @@ GameObject:
   - component: {fileID: 553985188}
   - component: {fileID: 553985190}
   - component: {fileID: 553985189}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11673,6 +11842,10 @@ PrefabInstance:
       value: Rock1 (14)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -11754,6 +11927,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelObj4
       objectReference: {fileID: 0}
+    - target: {fileID: 1298238045835208, guid: 4013275a8b552334b9e3d43e8e643f1d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4220343266497688, guid: 4013275a8b552334b9e3d43e8e643f1d, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -11804,7 +11981,7 @@ GameObject:
   - component: {fileID: 560116153}
   - component: {fileID: 560116155}
   - component: {fileID: 560116154}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11887,7 +12064,7 @@ GameObject:
   - component: {fileID: 568364143}
   - component: {fileID: 568364145}
   - component: {fileID: 568364144}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11970,7 +12147,7 @@ GameObject:
   - component: {fileID: 595050839}
   - component: {fileID: 595050841}
   - component: {fileID: 595050840}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12053,7 +12230,7 @@ GameObject:
   - component: {fileID: 600386358}
   - component: {fileID: 600386360}
   - component: {fileID: 600386359}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12212,7 +12389,7 @@ GameObject:
   - component: {fileID: 603451032}
   - component: {fileID: 603451034}
   - component: {fileID: 603451033}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12292,6 +12469,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -12347,6 +12528,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1228086197551633127, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187600310691276766, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
 --- !u!4 &607103507 stripped
@@ -12365,7 +12554,7 @@ GameObject:
   - component: {fileID: 607479890}
   - component: {fileID: 607479892}
   - component: {fileID: 607479891}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12448,7 +12637,7 @@ GameObject:
   - component: {fileID: 608380980}
   - component: {fileID: 608380982}
   - component: {fileID: 608380981}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12530,7 +12719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 612155869}
   - component: {fileID: 612155868}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sky and Fog Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12714,7 +12903,7 @@ GameObject:
   - component: {fileID: 616535566}
   - component: {fileID: 616535568}
   - component: {fileID: 616535567}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12877,7 +13066,7 @@ GameObject:
   - component: {fileID: 620008299}
   - component: {fileID: 620008301}
   - component: {fileID: 620008300}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12958,7 +13147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 620659402}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13011,7 +13200,7 @@ GameObject:
   - component: {fileID: 622731433}
   - component: {fileID: 622731435}
   - component: {fileID: 622731434}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13094,7 +13283,7 @@ GameObject:
   - component: {fileID: 627856202}
   - component: {fileID: 627856204}
   - component: {fileID: 627856203}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13177,7 +13366,7 @@ GameObject:
   - component: {fileID: 629528962}
   - component: {fileID: 629528964}
   - component: {fileID: 629528963}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13260,7 +13449,7 @@ GameObject:
   - component: {fileID: 632488465}
   - component: {fileID: 632488467}
   - component: {fileID: 632488466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13343,7 +13532,7 @@ GameObject:
   - component: {fileID: 644364417}
   - component: {fileID: 644364419}
   - component: {fileID: 644364418}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13426,7 +13615,7 @@ GameObject:
   - component: {fileID: 644450892}
   - component: {fileID: 644450894}
   - component: {fileID: 644450893}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13509,7 +13698,7 @@ GameObject:
   - component: {fileID: 646033562}
   - component: {fileID: 646033564}
   - component: {fileID: 646033563}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13592,7 +13781,7 @@ GameObject:
   - component: {fileID: 646873270}
   - component: {fileID: 646873272}
   - component: {fileID: 646873271}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13675,7 +13864,7 @@ GameObject:
   - component: {fileID: 653344173}
   - component: {fileID: 653344175}
   - component: {fileID: 653344174}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13755,6 +13944,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -13789,6 +13982,14 @@ PrefabInstance:
     - target: {fileID: 4000013277480974, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716535957252113500, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692491602738884034, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
@@ -13945,6 +14146,10 @@ PrefabInstance:
       value: Cartoon Musroom3 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7028400960069009844, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028400960069009844, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -13985,7 +14190,7 @@ GameObject:
   - component: {fileID: 663404904}
   - component: {fileID: 663404906}
   - component: {fileID: 663404905}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14068,7 +14273,7 @@ GameObject:
   - component: {fileID: 669882258}
   - component: {fileID: 669882260}
   - component: {fileID: 669882259}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14151,7 +14356,7 @@ GameObject:
   - component: {fileID: 670301062}
   - component: {fileID: 670301061}
   - component: {fileID: 670301060}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: waterfall_ripples
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14234,7 +14439,7 @@ GameObject:
   - component: {fileID: 673042140}
   - component: {fileID: 673042142}
   - component: {fileID: 673042141}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14306,6 +14511,206 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673042139}
   m_Mesh: {fileID: 4300024, guid: 219cc1118860c8541bfd70b3d9605978, type: 3}
+--- !u!1 &680222029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680222030}
+  - component: {fileID: 680222032}
+  - component: {fileID: 680222031}
+  m_Layer: 0
+  m_Name: Minimap Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &680222030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680222029}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -30, y: 1000, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 901756992}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+--- !u!114 &680222031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680222029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearColorMode: 1
+  backgroundColorHDR: {r: 0, g: 0, b: 0, a: 0}
+  clearDepth: 1
+  volumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 129
+  volumeAnchorOverride: {fileID: 0}
+  antialiasing: 0
+  SMAAQuality: 2
+  dithering: 0
+  stopNaNs: 0
+  taaSharpenStrength: 0.5
+  TAAQuality: 1
+  taaHistorySharpening: 0.35
+  taaAntiFlicker: 0.5
+  taaMotionVectorRejection: 0
+  taaAntiHistoryRinging: 0
+  taaBaseBlendFactor: 0.875
+  physicalParameters:
+    m_Iso: 200
+    m_ShutterSpeed: 0.005
+    m_Aperture: 16
+    m_FocusDistance: 10
+    m_BladeCount: 5
+    m_Curvature: {x: 2, y: 11}
+    m_BarrelClipping: 0.25
+    m_Anamorphism: 0
+  flipYMode: 0
+  xrRendering: 1
+  fullscreenPassthrough: 0
+  allowDynamicResolution: 1
+  customRenderingSettings: 0
+  invertFaceCulling: 0
+  probeLayerMask:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  hasPersistentHistory: 0
+  allowDeepLearningSuperSampling: 1
+  deepLearningSuperSamplingUseCustomQualitySettings: 0
+  deepLearningSuperSamplingQuality: 0
+  deepLearningSuperSamplingUseCustomAttributes: 0
+  deepLearningSuperSamplingUseOptimalSettings: 1
+  deepLearningSuperSamplingSharpening: 0
+  exposureTarget: {fileID: 0}
+  materialMipBias: 0
+  m_RenderingPathCustomFrameSettings:
+    bitDatas:
+      data1: 72198262773251917
+      data2: 13763000468760363032
+    lodBias: 1
+    lodBiasMode: 0
+    lodBiasQualityLevel: 0
+    maximumLODLevel: 0
+    maximumLODLevelMode: 0
+    maximumLODLevelQualityLevel: 0
+    sssQualityMode: 0
+    sssQualityLevel: 0
+    sssCustomSampleBudget: 20
+    msaaMode: 9
+    materialQuality: 0
+  renderingPathCustomFrameSettingsOverrideMask:
+    mask:
+      data1: 0
+      data2: 0
+  defaultFrameSettings: 0
+  m_Version: 8
+  m_ObsoleteRenderingPath: 0
+  m_ObsoleteFrameSettings:
+    overrides: 0
+    enableShadow: 0
+    enableContactShadows: 0
+    enableShadowMask: 0
+    enableSSR: 0
+    enableSSAO: 0
+    enableSubsurfaceScattering: 0
+    enableTransmission: 0
+    enableAtmosphericScattering: 0
+    enableVolumetrics: 0
+    enableReprojectionForVolumetrics: 0
+    enableLightLayers: 0
+    enableExposureControl: 1
+    diffuseGlobalDimmer: 0
+    specularGlobalDimmer: 0
+    shaderLitMode: 0
+    enableDepthPrepassWithDeferredRendering: 0
+    enableTransparentPrepass: 0
+    enableMotionVectors: 0
+    enableObjectMotionVectors: 0
+    enableDecals: 0
+    enableRoughRefraction: 0
+    enableTransparentPostpass: 0
+    enableDistortion: 0
+    enablePostprocess: 0
+    enableOpaqueObjects: 0
+    enableTransparentObjects: 0
+    enableRealtimePlanarReflection: 0
+    enableMSAA: 0
+    enableAsyncCompute: 0
+    runLightListAsync: 0
+    runSSRAsync: 0
+    runSSAOAsync: 0
+    runContactShadowsAsync: 0
+    runVolumeVoxelizationAsync: 0
+    lightLoopSettings:
+      overrides: 0
+      enableDeferredTileAndCluster: 0
+      enableComputeLightEvaluation: 0
+      enableComputeLightVariants: 0
+      enableComputeMaterialVariants: 0
+      enableFptlForForwardOpaque: 0
+      enableBigTilePrepass: 0
+      isFptlEnabled: 0
+--- !u!20 &680222032
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680222029}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.1
+  far clip plane: 1000
+  field of view: 45
+  orthographic: 1
+  orthographic size: 300
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 2220edfd43517604a9e7a1d57a46ea7b, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 0
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 1
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &680341056
 GameObject:
   m_ObjectHideFlags: 1
@@ -14365,7 +14770,7 @@ GameObject:
   - component: {fileID: 682065799}
   - component: {fileID: 682065798}
   - component: {fileID: 682065797}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_grp2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14455,7 +14860,7 @@ GameObject:
   - component: {fileID: 682700674}
   - component: {fileID: 682700676}
   - component: {fileID: 682700675}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14672,7 +15077,7 @@ GameObject:
   - component: {fileID: 693890412}
   - component: {fileID: 693890414}
   - component: {fileID: 693890413}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14838,7 +15243,7 @@ GameObject:
   - component: {fileID: 699008381}
   - component: {fileID: 699008383}
   - component: {fileID: 699008382}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14921,7 +15326,7 @@ GameObject:
   - component: {fileID: 699904706}
   - component: {fileID: 699904708}
   - component: {fileID: 699904707}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15004,7 +15409,7 @@ GameObject:
   - component: {fileID: 706525016}
   - component: {fileID: 706525018}
   - component: {fileID: 706525017}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15087,7 +15492,7 @@ GameObject:
   - component: {fileID: 710253520}
   - component: {fileID: 710253522}
   - component: {fileID: 710253521}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15170,7 +15575,7 @@ GameObject:
   - component: {fileID: 712129080}
   - component: {fileID: 712129082}
   - component: {fileID: 712129081}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15253,7 +15658,7 @@ GameObject:
   - component: {fileID: 713789827}
   - component: {fileID: 713789829}
   - component: {fileID: 713789828}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15336,7 +15741,7 @@ GameObject:
   - component: {fileID: 725964841}
   - component: {fileID: 725964843}
   - component: {fileID: 725964842}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15459,7 +15864,7 @@ GameObject:
   - component: {fileID: 737894119}
   - component: {fileID: 737894121}
   - component: {fileID: 737894120}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 04 Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15542,7 +15947,7 @@ GameObject:
   - component: {fileID: 742858943}
   - component: {fileID: 742858945}
   - component: {fileID: 742858944}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15625,7 +16030,7 @@ GameObject:
   - component: {fileID: 757145592}
   - component: {fileID: 757145591}
   - component: {fileID: 757145590}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_grp3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15796,6 +16201,10 @@ PrefabInstance:
       value: Cartoon Musroom2 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7566459758367427362, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566459758367427362, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -15840,7 +16249,7 @@ GameObject:
   - component: {fileID: 759651290}
   - component: {fileID: 759651292}
   - component: {fileID: 759651291}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15923,7 +16332,7 @@ GameObject:
   - component: {fileID: 759760939}
   - component: {fileID: 759760941}
   - component: {fileID: 759760940}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16006,7 +16415,7 @@ GameObject:
   - component: {fileID: 760480763}
   - component: {fileID: 760480765}
   - component: {fileID: 760480764}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16123,7 +16532,7 @@ GameObject:
   - component: {fileID: 774226754}
   - component: {fileID: 774226756}
   - component: {fileID: 774226755}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16206,7 +16615,7 @@ GameObject:
   - component: {fileID: 774383053}
   - component: {fileID: 774383052}
   - component: {fileID: 774383051}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16372,7 +16781,7 @@ GameObject:
   - component: {fileID: 777790629}
   - component: {fileID: 777790628}
   - component: {fileID: 777790627}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_grp1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16486,7 +16895,7 @@ GameObject:
   - component: {fileID: 779443262}
   - component: {fileID: 779443264}
   - component: {fileID: 779443263}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16646,7 +17055,7 @@ GameObject:
   - component: {fileID: 794511639}
   - component: {fileID: 794511641}
   - component: {fileID: 794511640}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16729,7 +17138,7 @@ GameObject:
   - component: {fileID: 802591741}
   - component: {fileID: 802591743}
   - component: {fileID: 802591742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16812,7 +17221,7 @@ GameObject:
   - component: {fileID: 809654766}
   - component: {fileID: 809654768}
   - component: {fileID: 809654767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16893,7 +17302,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 810158071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mushrooms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17035,7 +17444,7 @@ GameObject:
   - component: {fileID: 820488786}
   - component: {fileID: 820488788}
   - component: {fileID: 820488787}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17118,7 +17527,7 @@ GameObject:
   - component: {fileID: 826415362}
   - component: {fileID: 826415361}
   - component: {fileID: 826415360}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17198,6 +17607,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -17245,6 +17658,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -270
       objectReference: {fileID: 0}
+    - target: {fileID: 2716535957252113500, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692491602738884034, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
 --- !u!4 &826496957 stripped
@@ -17263,7 +17684,7 @@ GameObject:
   - component: {fileID: 828088692}
   - component: {fileID: 828088691}
   - component: {fileID: 828088690}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BubblyPlant_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17346,7 +17767,7 @@ GameObject:
   - component: {fileID: 830421689}
   - component: {fileID: 830421691}
   - component: {fileID: 830421690}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17429,7 +17850,7 @@ GameObject:
   - component: {fileID: 832477732}
   - component: {fileID: 832477734}
   - component: {fileID: 832477733}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17512,7 +17933,7 @@ GameObject:
   - component: {fileID: 834155447}
   - component: {fileID: 834155446}
   - component: {fileID: 834155445}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17608,7 +18029,7 @@ GameObject:
   - component: {fileID: 835528045}
   - component: {fileID: 835528047}
   - component: {fileID: 835528046}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17691,7 +18112,7 @@ GameObject:
   - component: {fileID: 844672935}
   - component: {fileID: 844672937}
   - component: {fileID: 844672936}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17772,7 +18193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 844712241}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17827,7 +18248,7 @@ GameObject:
   - component: {fileID: 845066974}
   - component: {fileID: 845066976}
   - component: {fileID: 845066975}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17910,7 +18331,7 @@ GameObject:
   - component: {fileID: 852707314}
   - component: {fileID: 852707316}
   - component: {fileID: 852707315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18078,6 +18499,10 @@ PrefabInstance:
       value: Terrain
       objectReference: {fileID: 0}
     - target: {fileID: 5986448977431246842, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5986448977431246842, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -18107,7 +18532,7 @@ GameObject:
   - component: {fileID: 865688563}
   - component: {fileID: 865688562}
   - component: {fileID: 865688561}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18203,7 +18628,7 @@ GameObject:
   - component: {fileID: 866458602}
   - component: {fileID: 866458604}
   - component: {fileID: 866458603}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18284,7 +18709,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871941864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18337,7 +18762,7 @@ GameObject:
   - component: {fileID: 875383135}
   - component: {fileID: 875383137}
   - component: {fileID: 875383136}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18420,7 +18845,7 @@ GameObject:
   - component: {fileID: 880629849}
   - component: {fileID: 880629851}
   - component: {fileID: 880629850}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18503,7 +18928,7 @@ GameObject:
   - component: {fileID: 881179098}
   - component: {fileID: 881179100}
   - component: {fileID: 881179099}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18586,7 +19011,7 @@ GameObject:
   - component: {fileID: 882802962}
   - component: {fileID: 882802964}
   - component: {fileID: 882802963}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18683,7 +19108,7 @@ GameObject:
   - component: {fileID: 889824214}
   - component: {fileID: 889824216}
   - component: {fileID: 889824215}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18766,7 +19191,7 @@ GameObject:
   - component: {fileID: 889855070}
   - component: {fileID: 889855072}
   - component: {fileID: 889855071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18849,7 +19274,7 @@ GameObject:
   - component: {fileID: 891054625}
   - component: {fileID: 891054627}
   - component: {fileID: 891054626}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18933,6 +19358,10 @@ PrefabInstance:
       value: LevelObj1
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -18998,7 +19427,7 @@ GameObject:
   - component: {fileID: 898225245}
   - component: {fileID: 898225247}
   - component: {fileID: 898225246}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19169,6 +19598,7 @@ Transform:
   - {fileID: 944449214}
   - {fileID: 123910190}
   - {fileID: 1166590116}
+  - {fileID: 680222030}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19259,7 +19689,7 @@ GameObject:
   - component: {fileID: 924261143}
   - component: {fileID: 924261145}
   - component: {fileID: 924261144}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19342,7 +19772,7 @@ GameObject:
   - component: {fileID: 929614156}
   - component: {fileID: 929614158}
   - component: {fileID: 929614157}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19425,7 +19855,7 @@ GameObject:
   - component: {fileID: 932638583}
   - component: {fileID: 932638585}
   - component: {fileID: 932638584}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19508,7 +19938,7 @@ GameObject:
   - component: {fileID: 932967627}
   - component: {fileID: 932967629}
   - component: {fileID: 932967628}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19591,7 +20021,7 @@ GameObject:
   - component: {fileID: 936913908}
   - component: {fileID: 936913910}
   - component: {fileID: 936913909}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19674,7 +20104,7 @@ GameObject:
   - component: {fileID: 937018059}
   - component: {fileID: 937018061}
   - component: {fileID: 937018060}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19792,7 +20222,7 @@ GameObject:
   - component: {fileID: 946034408}
   - component: {fileID: 946034410}
   - component: {fileID: 946034409}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19873,7 +20303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957839278}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WaterFall_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19909,7 +20339,7 @@ GameObject:
   - component: {fileID: 963796078}
   - component: {fileID: 963796080}
   - component: {fileID: 963796079}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19992,7 +20422,7 @@ GameObject:
   - component: {fileID: 969158790}
   - component: {fileID: 969158792}
   - component: {fileID: 969158791}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20074,6 +20504,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20391,7 +20825,7 @@ GameObject:
   - component: {fileID: 995274001}
   - component: {fileID: 995274003}
   - component: {fileID: 995274002}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20472,7 +20906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1000429149}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20509,6 +20943,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20593,6 +21031,10 @@ PrefabInstance:
       value: Gem 06 Orange (2)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -20671,6 +21113,10 @@ PrefabInstance:
       value: LevelObj1
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -20728,7 +21174,7 @@ GameObject:
   - component: {fileID: 1017528983}
   - component: {fileID: 1017528985}
   - component: {fileID: 1017528984}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20811,7 +21257,7 @@ GameObject:
   - component: {fileID: 1017595892}
   - component: {fileID: 1017595894}
   - component: {fileID: 1017595893}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20894,7 +21340,7 @@ GameObject:
   - component: {fileID: 1017626729}
   - component: {fileID: 1017626731}
   - component: {fileID: 1017626730}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21142,7 +21588,7 @@ GameObject:
   - component: {fileID: 1022823432}
   - component: {fileID: 1022823434}
   - component: {fileID: 1022823433}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21225,7 +21671,7 @@ GameObject:
   - component: {fileID: 1023541615}
   - component: {fileID: 1023541614}
   - component: {fileID: 1023541613}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21321,7 +21767,7 @@ GameObject:
   - component: {fileID: 1025841399}
   - component: {fileID: 1025841401}
   - component: {fileID: 1025841400}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21404,7 +21850,7 @@ GameObject:
   - component: {fileID: 1028178398}
   - component: {fileID: 1028178400}
   - component: {fileID: 1028178399}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21487,7 +21933,7 @@ GameObject:
   - component: {fileID: 1030995399}
   - component: {fileID: 1030995401}
   - component: {fileID: 1030995400}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21570,7 +22016,7 @@ GameObject:
   - component: {fileID: 1032620613}
   - component: {fileID: 1032620615}
   - component: {fileID: 1032620614}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21650,6 +22096,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013869215390, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -21688,6 +22138,14 @@ PrefabInstance:
     - target: {fileID: 4000013277480974, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -180.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716535957252113500, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692491602738884034, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fbbc8a2cb76bb14a966059846307777, type: 3}
@@ -21755,7 +22213,7 @@ GameObject:
   - component: {fileID: 1035644141}
   - component: {fileID: 1035644143}
   - component: {fileID: 1035644142}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21838,7 +22296,7 @@ GameObject:
   - component: {fileID: 1047495586}
   - component: {fileID: 1047495588}
   - component: {fileID: 1047495587}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21921,7 +22379,7 @@ GameObject:
   - component: {fileID: 1047777476}
   - component: {fileID: 1047777475}
   - component: {fileID: 1047777474}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22004,7 +22462,7 @@ GameObject:
   - component: {fileID: 1048618287}
   - component: {fileID: 1048618289}
   - component: {fileID: 1048618288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22087,7 +22545,7 @@ GameObject:
   - component: {fileID: 1049947257}
   - component: {fileID: 1049947259}
   - component: {fileID: 1049947258}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22250,7 +22708,7 @@ GameObject:
   - component: {fileID: 1062136121}
   - component: {fileID: 1062136123}
   - component: {fileID: 1062136122}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22333,7 +22791,7 @@ GameObject:
   - component: {fileID: 1070347045}
   - component: {fileID: 1070347047}
   - component: {fileID: 1070347046}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22416,7 +22874,7 @@ GameObject:
   - component: {fileID: 1072273664}
   - component: {fileID: 1072273666}
   - component: {fileID: 1072273665}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22500,6 +22958,10 @@ PrefabInstance:
       value: Rock1 (17)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -22581,7 +23043,7 @@ GameObject:
   - component: {fileID: 1082343461}
   - component: {fileID: 1082343463}
   - component: {fileID: 1082343462}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22794,7 +23256,7 @@ GameObject:
   - component: {fileID: 1083466565}
   - component: {fileID: 1083466567}
   - component: {fileID: 1083466566}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22877,7 +23339,7 @@ GameObject:
   - component: {fileID: 1088459792}
   - component: {fileID: 1088459794}
   - component: {fileID: 1088459793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22960,7 +23422,7 @@ GameObject:
   - component: {fileID: 1090137944}
   - component: {fileID: 1090137946}
   - component: {fileID: 1090137945}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23043,7 +23505,7 @@ GameObject:
   - component: {fileID: 1097634823}
   - component: {fileID: 1097634825}
   - component: {fileID: 1097634824}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23126,7 +23588,7 @@ GameObject:
   - component: {fileID: 1102062580}
   - component: {fileID: 1102062582}
   - component: {fileID: 1102062581}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23209,7 +23671,7 @@ GameObject:
   - component: {fileID: 1102088438}
   - component: {fileID: 1102088440}
   - component: {fileID: 1102088439}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23292,7 +23754,7 @@ GameObject:
   - component: {fileID: 1110389363}
   - component: {fileID: 1110389365}
   - component: {fileID: 1110389364}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23375,7 +23837,7 @@ GameObject:
   - component: {fileID: 1116316982}
   - component: {fileID: 1116316984}
   - component: {fileID: 1116316983}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23455,6 +23917,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
     - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -23490,6 +23956,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 1228086197551633127, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187600310691276766, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
 --- !u!4 &1119307901 stripped
@@ -23508,7 +23982,7 @@ GameObject:
   - component: {fileID: 1123089862}
   - component: {fileID: 1123089864}
   - component: {fileID: 1123089863}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23591,7 +24065,7 @@ GameObject:
   - component: {fileID: 1124113421}
   - component: {fileID: 1124113423}
   - component: {fileID: 1124113422}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23674,7 +24148,7 @@ GameObject:
   - component: {fileID: 1127194346}
   - component: {fileID: 1127194348}
   - component: {fileID: 1127194347}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23757,7 +24231,7 @@ GameObject:
   - component: {fileID: 1128313057}
   - component: {fileID: 1128313059}
   - component: {fileID: 1128313058}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23840,7 +24314,7 @@ GameObject:
   - component: {fileID: 1128619559}
   - component: {fileID: 1128619561}
   - component: {fileID: 1128619560}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23923,7 +24397,7 @@ GameObject:
   - component: {fileID: 1129528627}
   - component: {fileID: 1129528629}
   - component: {fileID: 1129528628}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24006,7 +24480,7 @@ GameObject:
   - component: {fileID: 1134079322}
   - component: {fileID: 1134079321}
   - component: {fileID: 1134079320}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24102,7 +24576,7 @@ GameObject:
   - component: {fileID: 1145142791}
   - component: {fileID: 1145142793}
   - component: {fileID: 1145142792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24185,7 +24659,7 @@ GameObject:
   - component: {fileID: 1152752951}
   - component: {fileID: 1152752953}
   - component: {fileID: 1152752952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24268,7 +24742,7 @@ GameObject:
   - component: {fileID: 1159173124}
   - component: {fileID: 1159173126}
   - component: {fileID: 1159173125}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24427,7 +24901,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 1
   SMAAQuality: 2
@@ -24573,7 +25047,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -24634,7 +25108,7 @@ GameObject:
   - component: {fileID: 1178159256}
   - component: {fileID: 1178159258}
   - component: {fileID: 1178159257}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24713,6 +25187,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
+    - target: {fileID: 1649210347552968, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4834482300056608, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
       propertyPath: m_RootOrder
       value: 22
@@ -24843,7 +25321,7 @@ GameObject:
   - component: {fileID: 1193234224}
   - component: {fileID: 1193234226}
   - component: {fileID: 1193234225}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24926,7 +25404,7 @@ GameObject:
   - component: {fileID: 1193694606}
   - component: {fileID: 1193694608}
   - component: {fileID: 1193694607}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25009,7 +25487,7 @@ GameObject:
   - component: {fileID: 1196935369}
   - component: {fileID: 1196935371}
   - component: {fileID: 1196935370}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25141,7 +25619,7 @@ GameObject:
   - component: {fileID: 1207590162}
   - component: {fileID: 1207590164}
   - component: {fileID: 1207590163}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25224,7 +25702,7 @@ GameObject:
   - component: {fileID: 1218691206}
   - component: {fileID: 1218691208}
   - component: {fileID: 1218691207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25307,7 +25785,7 @@ GameObject:
   - component: {fileID: 1220521307}
   - component: {fileID: 1220521309}
   - component: {fileID: 1220521308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25390,7 +25868,7 @@ GameObject:
   - component: {fileID: 1224687871}
   - component: {fileID: 1224687873}
   - component: {fileID: 1224687872}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25472,6 +25950,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -25656,7 +26138,7 @@ GameObject:
   - component: {fileID: 1240436305}
   - component: {fileID: 1240436307}
   - component: {fileID: 1240436306}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25739,7 +26221,7 @@ GameObject:
   - component: {fileID: 1240484448}
   - component: {fileID: 1240484450}
   - component: {fileID: 1240484449}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25822,7 +26304,7 @@ GameObject:
   - component: {fileID: 1244575062}
   - component: {fileID: 1244575064}
   - component: {fileID: 1244575063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25905,7 +26387,7 @@ GameObject:
   - component: {fileID: 1246004759}
   - component: {fileID: 1246004761}
   - component: {fileID: 1246004760}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25988,7 +26470,7 @@ GameObject:
   - component: {fileID: 1254877456}
   - component: {fileID: 1254877458}
   - component: {fileID: 1254877457}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26108,10 +26590,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 2
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -26161,6 +26643,7 @@ RectTransform:
   - {fileID: 222470969}
   - {fileID: 1351009246}
   - {fileID: 786577692}
+  - {fileID: 30808928}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26180,7 +26663,7 @@ GameObject:
   - component: {fileID: 1255952905}
   - component: {fileID: 1255952907}
   - component: {fileID: 1255952906}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26264,6 +26747,10 @@ PrefabInstance:
       value: Rock1 (10)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -26345,7 +26832,7 @@ GameObject:
   - component: {fileID: 1261278652}
   - component: {fileID: 1261278654}
   - component: {fileID: 1261278653}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26428,7 +26915,7 @@ GameObject:
   - component: {fileID: 1269333929}
   - component: {fileID: 1269333931}
   - component: {fileID: 1269333930}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26511,7 +26998,7 @@ GameObject:
   - component: {fileID: 1282717769}
   - component: {fileID: 1282717771}
   - component: {fileID: 1282717770}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26594,7 +27081,7 @@ GameObject:
   - component: {fileID: 1285066819}
   - component: {fileID: 1285066821}
   - component: {fileID: 1285066820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26677,7 +27164,7 @@ GameObject:
   - component: {fileID: 1291284332}
   - component: {fileID: 1291284331}
   - component: {fileID: 1291284330}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BubblyPlant_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26762,7 +27249,7 @@ GameObject:
   - component: {fileID: 1292867969}
   - component: {fileID: 1292867971}
   - component: {fileID: 1292867970}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_05 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26845,7 +27332,7 @@ GameObject:
   - component: {fileID: 1293969346}
   - component: {fileID: 1293969348}
   - component: {fileID: 1293969347}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26928,7 +27415,7 @@ GameObject:
   - component: {fileID: 1298080799}
   - component: {fileID: 1298080801}
   - component: {fileID: 1298080800}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27011,7 +27498,7 @@ GameObject:
   - component: {fileID: 1307430605}
   - component: {fileID: 1307430607}
   - component: {fileID: 1307430606}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27094,7 +27581,7 @@ GameObject:
   - component: {fileID: 1311547618}
   - component: {fileID: 1311547620}
   - component: {fileID: 1311547619}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 06 Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27177,7 +27664,7 @@ GameObject:
   - component: {fileID: 1312941104}
   - component: {fileID: 1312941106}
   - component: {fileID: 1312941105}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27260,7 +27747,7 @@ GameObject:
   - component: {fileID: 1321957880}
   - component: {fileID: 1321957882}
   - component: {fileID: 1321957881}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27343,7 +27830,7 @@ GameObject:
   - component: {fileID: 1323054009}
   - component: {fileID: 1323054011}
   - component: {fileID: 1323054010}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27426,7 +27913,7 @@ GameObject:
   - component: {fileID: 1323139329}
   - component: {fileID: 1323139331}
   - component: {fileID: 1323139330}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27509,7 +27996,7 @@ GameObject:
   - component: {fileID: 1323916834}
   - component: {fileID: 1323916836}
   - component: {fileID: 1323916835}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27592,7 +28079,7 @@ GameObject:
   - component: {fileID: 1324888932}
   - component: {fileID: 1324888934}
   - component: {fileID: 1324888933}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27675,7 +28162,7 @@ GameObject:
   - component: {fileID: 1328005727}
   - component: {fileID: 1328005729}
   - component: {fileID: 1328005728}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27758,7 +28245,7 @@ GameObject:
   - component: {fileID: 1328374112}
   - component: {fileID: 1328374114}
   - component: {fileID: 1328374113}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27841,7 +28328,7 @@ GameObject:
   - component: {fileID: 1338772373}
   - component: {fileID: 1338772375}
   - component: {fileID: 1338772374}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27924,7 +28411,7 @@ GameObject:
   - component: {fileID: 1338906591}
   - component: {fileID: 1338906593}
   - component: {fileID: 1338906592}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28084,7 +28571,7 @@ GameObject:
   - component: {fileID: 1354004426}
   - component: {fileID: 1354004428}
   - component: {fileID: 1354004427}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 06 Yellow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28168,6 +28655,10 @@ PrefabInstance:
       value: Rock1 (5)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -28249,7 +28740,7 @@ GameObject:
   - component: {fileID: 1358379379}
   - component: {fileID: 1358379381}
   - component: {fileID: 1358379380}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28332,7 +28823,7 @@ GameObject:
   - component: {fileID: 1361385415}
   - component: {fileID: 1361385417}
   - component: {fileID: 1361385416}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28415,7 +28906,7 @@ GameObject:
   - component: {fileID: 1363431843}
   - component: {fileID: 1363431845}
   - component: {fileID: 1363431844}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28498,7 +28989,7 @@ GameObject:
   - component: {fileID: 1370636937}
   - component: {fileID: 1370636939}
   - component: {fileID: 1370636938}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: waterfall_ripples
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28581,7 +29072,7 @@ GameObject:
   - component: {fileID: 1373904189}
   - component: {fileID: 1373904191}
   - component: {fileID: 1373904190}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28664,7 +29155,7 @@ GameObject:
   - component: {fileID: 1389690793}
   - component: {fileID: 1389690795}
   - component: {fileID: 1389690794}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28747,7 +29238,7 @@ GameObject:
   - component: {fileID: 1391167628}
   - component: {fileID: 1391167630}
   - component: {fileID: 1391167629}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28869,7 +29360,7 @@ GameObject:
   - component: {fileID: 1397762016}
   - component: {fileID: 1397762015}
   - component: {fileID: 1397762014}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28965,7 +29456,7 @@ GameObject:
   - component: {fileID: 1400225770}
   - component: {fileID: 1400225772}
   - component: {fileID: 1400225771}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29048,7 +29539,7 @@ GameObject:
   - component: {fileID: 1402709625}
   - component: {fileID: 1402709627}
   - component: {fileID: 1402709626}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29131,7 +29622,7 @@ GameObject:
   - component: {fileID: 1409088742}
   - component: {fileID: 1409088744}
   - component: {fileID: 1409088743}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29214,7 +29705,7 @@ GameObject:
   - component: {fileID: 1412433406}
   - component: {fileID: 1412433408}
   - component: {fileID: 1412433407}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29297,7 +29788,7 @@ GameObject:
   - component: {fileID: 1416560298}
   - component: {fileID: 1416560300}
   - component: {fileID: 1416560299}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29379,6 +29870,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -29463,6 +29958,10 @@ PrefabInstance:
       value: Rock1 (16)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -29544,7 +30043,7 @@ GameObject:
   - component: {fileID: 1430350048}
   - component: {fileID: 1430350050}
   - component: {fileID: 1430350049}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29625,7 +30124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1433972864}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29678,7 +30177,7 @@ GameObject:
   - component: {fileID: 1441226946}
   - component: {fileID: 1441226948}
   - component: {fileID: 1441226947}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29761,6 +30260,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelRamp
       objectReference: {fileID: 0}
+    - target: {fileID: 1649210347552968, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4834482300056608, guid: 8425188e6809d044b881198c7fd896bb, type: 3}
       propertyPath: m_RootOrder
       value: 24
@@ -29815,7 +30318,7 @@ GameObject:
   - component: {fileID: 1449341911}
   - component: {fileID: 1449341913}
   - component: {fileID: 1449341912}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29898,7 +30401,7 @@ GameObject:
   - component: {fileID: 1450067396}
   - component: {fileID: 1450067398}
   - component: {fileID: 1450067397}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30057,7 +30560,7 @@ GameObject:
   - component: {fileID: 1454085448}
   - component: {fileID: 1454085450}
   - component: {fileID: 1454085449}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30140,7 +30643,7 @@ GameObject:
   - component: {fileID: 1454906191}
   - component: {fileID: 1454906193}
   - component: {fileID: 1454906192}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30303,7 +30806,7 @@ GameObject:
   - component: {fileID: 1462474603}
   - component: {fileID: 1462474605}
   - component: {fileID: 1462474604}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30387,6 +30890,10 @@ PrefabInstance:
       value: LevelObj1
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -30444,7 +30951,7 @@ GameObject:
   - component: {fileID: 1464499878}
   - component: {fileID: 1464499880}
   - component: {fileID: 1464499879}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30527,7 +31034,7 @@ GameObject:
   - component: {fileID: 1464784526}
   - component: {fileID: 1464784528}
   - component: {fileID: 1464784527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30611,7 +31118,7 @@ GameObject:
   - component: {fileID: 1476809247}
   - component: {fileID: 1476809246}
   - component: {fileID: 1476809249}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaTree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30708,7 +31215,7 @@ GameObject:
   - component: {fileID: 1482337681}
   - component: {fileID: 1482337683}
   - component: {fileID: 1482337682}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30791,7 +31298,7 @@ GameObject:
   - component: {fileID: 1504112246}
   - component: {fileID: 1504112248}
   - component: {fileID: 1504112247}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30952,7 +31459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1506391719}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30988,6 +31495,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -31071,7 +31582,7 @@ GameObject:
   - component: {fileID: 1516110488}
   - component: {fileID: 1516110490}
   - component: {fileID: 1516110489}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31154,7 +31665,7 @@ GameObject:
   - component: {fileID: 1516114005}
   - component: {fileID: 1516114007}
   - component: {fileID: 1516114006}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31233,6 +31744,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 110846516}
     m_Modifications:
+    - target: {fileID: 1298238045835208, guid: 4013275a8b552334b9e3d43e8e643f1d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4220343266497688, guid: 4013275a8b552334b9e3d43e8e643f1d, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -31282,6 +31797,10 @@ PrefabInstance:
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_Name
       value: Gem 06 Orange (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -31361,7 +31880,7 @@ GameObject:
   - component: {fileID: 1521910723}
   - component: {fileID: 1521910725}
   - component: {fileID: 1521910724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31444,7 +31963,7 @@ GameObject:
   - component: {fileID: 1522346662}
   - component: {fileID: 1522346664}
   - component: {fileID: 1522346663}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31527,7 +32046,7 @@ GameObject:
   - component: {fileID: 1525945004}
   - component: {fileID: 1525945006}
   - component: {fileID: 1525945005}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31609,6 +32128,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -31803,7 +32326,7 @@ GameObject:
   - component: {fileID: 1550420124}
   - component: {fileID: 1550420126}
   - component: {fileID: 1550420125}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31884,7 +32407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1558510151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31921,7 +32444,7 @@ GameObject:
   - component: {fileID: 1566559070}
   - component: {fileID: 1566559072}
   - component: {fileID: 1566559071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32004,7 +32527,7 @@ GameObject:
   - component: {fileID: 1579516324}
   - component: {fileID: 1579516326}
   - component: {fileID: 1579516325}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32217,7 +32740,7 @@ GameObject:
   - component: {fileID: 1595912599}
   - component: {fileID: 1595912601}
   - component: {fileID: 1595912600}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32300,7 +32823,7 @@ GameObject:
   - component: {fileID: 1599790772}
   - component: {fileID: 1599790774}
   - component: {fileID: 1599790773}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32383,7 +32906,7 @@ GameObject:
   - component: {fileID: 1601331187}
   - component: {fileID: 1601331186}
   - component: {fileID: 1601331185}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32466,7 +32989,7 @@ GameObject:
   - component: {fileID: 1607442585}
   - component: {fileID: 1607442587}
   - component: {fileID: 1607442586}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32549,7 +33072,7 @@ GameObject:
   - component: {fileID: 1613954304}
   - component: {fileID: 1613954306}
   - component: {fileID: 1613954305}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32632,7 +33155,7 @@ GameObject:
   - component: {fileID: 1616001205}
   - component: {fileID: 1616001204}
   - component: {fileID: 1616001203}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_grp1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32723,7 +33246,7 @@ GameObject:
   - component: {fileID: 1619484657}
   - component: {fileID: 1619484659}
   - component: {fileID: 1619484658}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32806,7 +33329,7 @@ GameObject:
   - component: {fileID: 1621859748}
   - component: {fileID: 1621859750}
   - component: {fileID: 1621859749}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32889,7 +33412,7 @@ GameObject:
   - component: {fileID: 1622526817}
   - component: {fileID: 1622526819}
   - component: {fileID: 1622526818}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32972,7 +33495,7 @@ GameObject:
   - component: {fileID: 1624067551}
   - component: {fileID: 1624067553}
   - component: {fileID: 1624067552}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33250,6 +33773,10 @@ PrefabInstance:
       value: Cartoon Musroom3
       objectReference: {fileID: 0}
     - target: {fileID: 7028400960069009844, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028400960069009844, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -33290,7 +33817,7 @@ GameObject:
   - component: {fileID: 1644447371}
   - component: {fileID: 1644447373}
   - component: {fileID: 1644447372}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33373,7 +33900,7 @@ GameObject:
   - component: {fileID: 1650802434}
   - component: {fileID: 1650802436}
   - component: {fileID: 1650802435}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33456,7 +33983,7 @@ GameObject:
   - component: {fileID: 1659977248}
   - component: {fileID: 1659977250}
   - component: {fileID: 1659977249}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33538,6 +34065,10 @@ PrefabInstance:
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_Name
       value: Gem 06 Orange (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -33674,6 +34205,10 @@ PrefabInstance:
       value: Cartoon Musroom2
       objectReference: {fileID: 0}
     - target: {fileID: 7566459758367427362, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566459758367427362, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -33716,7 +34251,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1679442746}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: New Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33778,7 +34313,7 @@ GameObject:
   - component: {fileID: 1681930930}
   - component: {fileID: 1681930932}
   - component: {fileID: 1681930931}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34016,6 +34551,10 @@ PrefabInstance:
       value: Rock1 (7)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -34097,7 +34636,7 @@ GameObject:
   - component: {fileID: 1694665064}
   - component: {fileID: 1694665066}
   - component: {fileID: 1694665065}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34180,7 +34719,7 @@ GameObject:
   - component: {fileID: 1709747466}
   - component: {fileID: 1709747468}
   - component: {fileID: 1709747467}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34262,6 +34801,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_Name
       value: Rock1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -34346,6 +34889,10 @@ PrefabInstance:
       value: LevelObj1
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -34403,7 +34950,7 @@ GameObject:
   - component: {fileID: 1717854245}
   - component: {fileID: 1717854247}
   - component: {fileID: 1717854246}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34486,7 +35033,7 @@ GameObject:
   - component: {fileID: 1720303744}
   - component: {fileID: 1720303746}
   - component: {fileID: 1720303745}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34569,7 +35116,7 @@ GameObject:
   - component: {fileID: 1731589599}
   - component: {fileID: 1731589601}
   - component: {fileID: 1731589600}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34653,6 +35200,10 @@ PrefabInstance:
       value: Rock1 (19)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -34734,7 +35285,7 @@ GameObject:
   - component: {fileID: 1737586219}
   - component: {fileID: 1737586221}
   - component: {fileID: 1737586220}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34817,7 +35368,7 @@ GameObject:
   - component: {fileID: 1741666838}
   - component: {fileID: 1741666837}
   - component: {fileID: 1741666836}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34900,7 +35451,7 @@ GameObject:
   - component: {fileID: 1741751093}
   - component: {fileID: 1741751095}
   - component: {fileID: 1741751094}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34984,6 +35535,10 @@ PrefabInstance:
       value: Gem 06 Orange (7)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -35061,7 +35616,7 @@ GameObject:
   - component: {fileID: 1743785307}
   - component: {fileID: 1743785309}
   - component: {fileID: 1743785308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35144,7 +35699,7 @@ GameObject:
   - component: {fileID: 1747247572}
   - component: {fileID: 1747247574}
   - component: {fileID: 1747247573}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35227,7 +35782,7 @@ GameObject:
   - component: {fileID: 1749776762}
   - component: {fileID: 1749776764}
   - component: {fileID: 1749776763}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35310,7 +35865,7 @@ GameObject:
   - component: {fileID: 1751954239}
   - component: {fileID: 1751954241}
   - component: {fileID: 1751954240}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35393,7 +35948,7 @@ GameObject:
   - component: {fileID: 1757798263}
   - component: {fileID: 1757798262}
   - component: {fileID: 1757798261}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_grp1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35507,7 +36062,7 @@ GameObject:
   - component: {fileID: 1763522543}
   - component: {fileID: 1763522545}
   - component: {fileID: 1763522544}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35670,7 +36225,7 @@ GameObject:
   - component: {fileID: 1768175805}
   - component: {fileID: 1768175807}
   - component: {fileID: 1768175806}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35753,7 +36308,7 @@ GameObject:
   - component: {fileID: 1770508366}
   - component: {fileID: 1770508368}
   - component: {fileID: 1770508367}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35836,7 +36391,7 @@ GameObject:
   - component: {fileID: 1771188323}
   - component: {fileID: 1771188325}
   - component: {fileID: 1771188324}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35919,7 +36474,7 @@ GameObject:
   - component: {fileID: 1774583940}
   - component: {fileID: 1774583942}
   - component: {fileID: 1774583941}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36003,6 +36558,10 @@ PrefabInstance:
       value: Gem 06 Orange (4)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -36080,7 +36639,7 @@ GameObject:
   - component: {fileID: 1779698961}
   - component: {fileID: 1779698963}
   - component: {fileID: 1779698962}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36246,7 +36805,7 @@ GameObject:
   - component: {fileID: 1789440827}
   - component: {fileID: 1789440829}
   - component: {fileID: 1789440828}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36329,7 +36888,7 @@ GameObject:
   - component: {fileID: 1790857993}
   - component: {fileID: 1790857995}
   - component: {fileID: 1790857994}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36412,7 +36971,7 @@ GameObject:
   - component: {fileID: 1796221776}
   - component: {fileID: 1796221778}
   - component: {fileID: 1796221777}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36495,7 +37054,7 @@ GameObject:
   - component: {fileID: 1805797435}
   - component: {fileID: 1805797437}
   - component: {fileID: 1805797436}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36579,6 +37138,10 @@ PrefabInstance:
       value: Gem 06 Orange (5)
       objectReference: {fileID: 0}
     - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817269464583552, guid: d5b42c16796ca3548a51f78a179d5157, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
@@ -36656,7 +37219,7 @@ GameObject:
   - component: {fileID: 1814598274}
   - component: {fileID: 1814598276}
   - component: {fileID: 1814598275}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36739,7 +37302,7 @@ GameObject:
   - component: {fileID: 1823218498}
   - component: {fileID: 1823218500}
   - component: {fileID: 1823218499}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36822,7 +37385,7 @@ GameObject:
   - component: {fileID: 1835737151}
   - component: {fileID: 1835737153}
   - component: {fileID: 1835737152}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36905,7 +37468,7 @@ GameObject:
   - component: {fileID: 1846965382}
   - component: {fileID: 1846965384}
   - component: {fileID: 1846965383}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36989,6 +37552,10 @@ PrefabInstance:
       value: Rock1 (13)
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 122
       objectReference: {fileID: 0}
@@ -37070,7 +37637,7 @@ GameObject:
   - component: {fileID: 1860351171}
   - component: {fileID: 1860351173}
   - component: {fileID: 1860351172}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37153,7 +37720,7 @@ GameObject:
   - component: {fileID: 1869443940}
   - component: {fileID: 1869443942}
   - component: {fileID: 1869443941}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37236,7 +37803,7 @@ GameObject:
   - component: {fileID: 1870780905}
   - component: {fileID: 1870780907}
   - component: {fileID: 1870780906}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37320,6 +37887,10 @@ PrefabInstance:
       value: LevelObj1
       objectReference: {fileID: 0}
     - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013559618520, guid: e15e5f00f5d859442a4d8a73f6b3629e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -37377,7 +37948,7 @@ GameObject:
   - component: {fileID: 1893966879}
   - component: {fileID: 1893966881}
   - component: {fileID: 1893966880}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37460,7 +38031,7 @@ GameObject:
   - component: {fileID: 1894387455}
   - component: {fileID: 1894387457}
   - component: {fileID: 1894387456}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37541,7 +38112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1898974636}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WaterFall_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37577,7 +38148,7 @@ GameObject:
   - component: {fileID: 1903585314}
   - component: {fileID: 1903585316}
   - component: {fileID: 1903585315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: waterfall_ripples (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37661,7 +38232,7 @@ GameObject:
   - component: {fileID: 1908597639}
   - component: {fileID: 1908597638}
   - component: {fileID: 1908597641}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37757,7 +38328,7 @@ GameObject:
   - component: {fileID: 1911921610}
   - component: {fileID: 1911921612}
   - component: {fileID: 1911921611}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37840,7 +38411,7 @@ GameObject:
   - component: {fileID: 1921236777}
   - component: {fileID: 1921236779}
   - component: {fileID: 1921236778}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37923,7 +38494,7 @@ GameObject:
   - component: {fileID: 1934053154}
   - component: {fileID: 1934053156}
   - component: {fileID: 1934053155}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38006,7 +38577,7 @@ GameObject:
   - component: {fileID: 1943603579}
   - component: {fileID: 1943603581}
   - component: {fileID: 1943603580}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38089,7 +38660,7 @@ GameObject:
   - component: {fileID: 1951521987}
   - component: {fileID: 1951521989}
   - component: {fileID: 1951521988}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38172,7 +38743,7 @@ GameObject:
   - component: {fileID: 1952928416}
   - component: {fileID: 1952928418}
   - component: {fileID: 1952928417}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38255,7 +38826,7 @@ GameObject:
   - component: {fileID: 1953385964}
   - component: {fileID: 1953385966}
   - component: {fileID: 1953385965}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38338,7 +38909,7 @@ GameObject:
   - component: {fileID: 1956699613}
   - component: {fileID: 1956699615}
   - component: {fileID: 1956699614}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38421,7 +38992,7 @@ GameObject:
   - component: {fileID: 1957409461}
   - component: {fileID: 1957409463}
   - component: {fileID: 1957409462}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38504,7 +39075,7 @@ GameObject:
   - component: {fileID: 1966443496}
   - component: {fileID: 1966443495}
   - component: {fileID: 1966443494}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_grp1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38744,7 +39315,7 @@ GameObject:
   - component: {fileID: 1973411495}
   - component: {fileID: 1973411497}
   - component: {fileID: 1973411496}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38827,7 +39398,7 @@ GameObject:
   - component: {fileID: 1979412584}
   - component: {fileID: 1979412586}
   - component: {fileID: 1979412585}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38910,7 +39481,7 @@ GameObject:
   - component: {fileID: 1982216311}
   - component: {fileID: 1982216313}
   - component: {fileID: 1982216312}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38993,7 +39564,7 @@ GameObject:
   - component: {fileID: 1991503752}
   - component: {fileID: 1991503754}
   - component: {fileID: 1991503753}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39076,7 +39647,7 @@ GameObject:
   - component: {fileID: 1993099284}
   - component: {fileID: 1993099283}
   - component: {fileID: 1993099282}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: waterfall_ripples (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39159,7 +39730,7 @@ GameObject:
   - component: {fileID: 1993959130}
   - component: {fileID: 1993959132}
   - component: {fileID: 1993959131}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39242,7 +39813,7 @@ GameObject:
   - component: {fileID: 1999465540}
   - component: {fileID: 1999465542}
   - component: {fileID: 1999465541}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39325,7 +39896,7 @@ GameObject:
   - component: {fileID: 2002661155}
   - component: {fileID: 2002661154}
   - component: {fileID: 2002661153}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BubblyPlant_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39411,6 +39982,10 @@ PrefabInstance:
     - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_Name
       value: Cartoon Musroom1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -39509,7 +40084,7 @@ GameObject:
   - component: {fileID: 2009749409}
   - component: {fileID: 2009749411}
   - component: {fileID: 2009749410}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39667,7 +40242,7 @@ GameObject:
   - component: {fileID: 2012734242}
   - component: {fileID: 2012734244}
   - component: {fileID: 2012734243}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39750,7 +40325,7 @@ GameObject:
   - component: {fileID: 2017658338}
   - component: {fileID: 2017658340}
   - component: {fileID: 2017658339}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39916,7 +40491,7 @@ GameObject:
   - component: {fileID: 2021225626}
   - component: {fileID: 2021225628}
   - component: {fileID: 2021225627}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39999,7 +40574,7 @@ GameObject:
   - component: {fileID: 2024203574}
   - component: {fileID: 2024203576}
   - component: {fileID: 2024203575}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40159,6 +40734,10 @@ PrefabInstance:
       value: LevelObj2
       objectReference: {fileID: 0}
     - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -40214,6 +40793,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1228086197551633127, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187600310691276766, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
 --- !u!4 &2038783867 stripped
@@ -40232,7 +40819,7 @@ GameObject:
   - component: {fileID: 2048455735}
   - component: {fileID: 2048455737}
   - component: {fileID: 2048455736}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40315,7 +40902,7 @@ GameObject:
   - component: {fileID: 2048721951}
   - component: {fileID: 2048721953}
   - component: {fileID: 2048721952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40398,7 +40985,7 @@ GameObject:
   - component: {fileID: 2051793621}
   - component: {fileID: 2051793623}
   - component: {fileID: 2051793622}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40481,7 +41068,7 @@ GameObject:
   - component: {fileID: 2057559612}
   - component: {fileID: 2057559614}
   - component: {fileID: 2057559613}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40564,7 +41151,7 @@ GameObject:
   - component: {fileID: 2061554646}
   - component: {fileID: 2061554648}
   - component: {fileID: 2061554647}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bushes_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40648,6 +41235,10 @@ PrefabInstance:
       value: LevelObj2
       objectReference: {fileID: 0}
     - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011924659208, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -40687,6 +41278,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180.00002
       objectReference: {fileID: 0}
+    - target: {fileID: 1228086197551633127, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187600310691276766, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b301cf42f45d47247acd714eac3b8eca, type: 3}
 --- !u!4 &2065344707 stripped
@@ -40705,7 +41304,7 @@ GameObject:
   - component: {fileID: 2070728717}
   - component: {fileID: 2070728719}
   - component: {fileID: 2070728718}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40788,7 +41387,7 @@ GameObject:
   - component: {fileID: 2075931413}
   - component: {fileID: 2075931415}
   - component: {fileID: 2075931414}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: waterfall_stream
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40871,7 +41470,7 @@ GameObject:
   - component: {fileID: 2088058988}
   - component: {fileID: 2088058990}
   - component: {fileID: 2088058989}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PalmTree_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40957,7 +41556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2109174768}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41059,7 +41658,7 @@ GameObject:
   - component: {fileID: 2116186268}
   - component: {fileID: 2116186270}
   - component: {fileID: 2116186269}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41142,7 +41741,7 @@ GameObject:
   - component: {fileID: 2117128011}
   - component: {fileID: 2117128013}
   - component: {fileID: 2117128012}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41225,7 +41824,7 @@ GameObject:
   - component: {fileID: 2120159678}
   - component: {fileID: 2120159680}
   - component: {fileID: 2120159679}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41308,7 +41907,7 @@ GameObject:
   - component: {fileID: 2121743646}
   - component: {fileID: 2121743648}
   - component: {fileID: 2121743647}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SeaWeed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41391,7 +41990,7 @@ GameObject:
   - component: {fileID: 2122619723}
   - component: {fileID: 2122619725}
   - component: {fileID: 2122619724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeirdPlant_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41474,7 +42073,7 @@ GameObject:
   - component: {fileID: 2125055659}
   - component: {fileID: 2125055661}
   - component: {fileID: 2125055660}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FlowerTree_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41555,7 +42154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2131085832}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HideBushes_grp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41594,7 +42193,7 @@ GameObject:
   - component: {fileID: 2131603776}
   - component: {fileID: 2131603778}
   - component: {fileID: 2131603777}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem 03 Yellow (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41677,7 +42276,7 @@ GameObject:
   - component: {fileID: 2144027997}
   - component: {fileID: 2144027996}
   - component: {fileID: 2144027995}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: waterfall_stream
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41777,7 +42376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013640562496}
   - component: {fileID: 65000013119789310}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: LevelSpawn (Blue)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41884,7 +42483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013051301900}
   - component: {fileID: 65000012396363698}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: LevelSpawn (Red)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43461,6 +44060,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CollectibleZoneRed
       objectReference: {fileID: 0}
+    - target: {fileID: 7013591273041753762, guid: aebe7312a7d2ea24f9683fd6c7f9eb50, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8769088576165708133, guid: aebe7312a7d2ea24f9683fd6c7f9eb50, type: 3}
       propertyPath: requireObject
       value: 
@@ -43553,6 +44156,10 @@ PrefabInstance:
     - target: {fileID: 7902734130337174434, guid: b3929861c66e1d74e9d491c6de7b9021, type: 3}
       propertyPath: m_Name
       value: CollectibleZoneBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902734130337174434, guid: b3929861c66e1d74e9d491c6de7b9021, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3929861c66e1d74e9d491c6de7b9021, type: 3}
