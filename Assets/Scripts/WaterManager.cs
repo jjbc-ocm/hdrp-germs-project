@@ -25,7 +25,7 @@ public class WaterManager : MonoBehaviour
 
     private void Update()
     {
-        deltaTime += Time.deltaTime;
+        deltaTime += Time.deltaTime * 0.25f;
 
         transform.position = posInit + Vector3.up * Mathf.Sin(deltaTime);
     }
