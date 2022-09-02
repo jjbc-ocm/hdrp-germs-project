@@ -92,6 +92,8 @@ namespace TanksMP
         /// </summary>
         public MeshRenderer[] renderers;
 
+        public GameObject ship;
+
         /// <summary>
         /// Last player gameobject that killed this one.
         /// </summary>
@@ -198,6 +200,11 @@ namespace TanksMP
             }
         }
 
+        void Update()
+        {
+            
+        }
+
 
         //continously check for input on desktop platforms
         #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
@@ -245,6 +252,12 @@ namespace TanksMP
 
             //rotate turret to look at the mouse direction
             RotateTurret(new Vector2(hitPos.x, hitPos.z));
+
+            //rotate ship based on turnDir
+            ship.transform.rotation = Quaternion.Euler(
+                ship.transform.eulerAngles.x, 
+                ship.transform.eulerAngles.y, 
+                (moveDir.x * (1 + moveDir.y * -0.5f)) * -10);
 
             //shoot bullet on left mouse click
             if (Input.GetButton("Fire1"))
