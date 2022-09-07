@@ -136,11 +136,19 @@ namespace TanksMP
             if (!target)
                 return;
 
-            transform.parent = target;
+            //transform.parent = target;
 
-            transform.localPosition = position;
+            var angleDeg = target.eulerAngles.y;
 
-            transform.localRotation = Quaternion.Euler(rotation);
+            
+
+            transform.rotation = Quaternion.Euler(new Vector3(0, angleDeg, 0) + rotation);
+
+            var angleRad = transform.eulerAngles.y * Mathf.Deg2Rad;
+
+            transform.position = target.position + new Vector3(Mathf.Sin(angleRad) * position.z, position.y, Mathf.Cos(angleRad) * position.z);
+
+            
         }
 
 

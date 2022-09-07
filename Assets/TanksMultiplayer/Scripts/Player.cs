@@ -153,7 +153,7 @@ namespace TanksMP
 
 			//get components and set camera target
             rb = GetComponent<Rigidbody>();
-            camFollow = Camera.main.GetComponent<FollowTarget>();
+            camFollow = GameManager.GetInstance().mainCamera.GetComponent<FollowTarget>();//Camera.main.GetComponent<FollowTarget>();
             camFollow.target = transform;
 
 			//initialize input controls for mobile devices
