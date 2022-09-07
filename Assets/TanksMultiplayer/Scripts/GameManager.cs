@@ -28,6 +28,12 @@ namespace TanksMP
         public Player localPlayer;
 
         /// <summary>
+        /// Added by: Jilmer John
+        /// Use this as reference for mainCamera
+        /// </summary>
+        public Camera mainCamera;
+
+        /// <summary>
         /// Active game mode played in the current scene.
         /// </summary>
         public GameMode gameMode = GameMode.TDM;
