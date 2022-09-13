@@ -94,6 +94,8 @@ namespace TanksMP
 
         public GameObject ship;
 
+        public Vector2 moveDir;
+
         /// <summary>
         /// Last player gameobject that killed this one.
         /// </summary>
@@ -219,7 +221,8 @@ namespace TanksMP
             }
 
             //movement variables
-            Vector2 moveDir;
+            moveDir = Vector2.zero;
+
             Vector2 turnDir;
 
             //reset moving input when no arrow keys are pressed down
@@ -254,9 +257,9 @@ namespace TanksMP
             RotateTurret(new Vector2(hitPos.x, hitPos.z));
 
             //rotate ship based on turnDir
-            ship.transform.rotation = Quaternion.Euler(
-                ship.transform.eulerAngles.x, 
-                ship.transform.eulerAngles.y, 
+            ship.transform.localRotation = Quaternion.Euler(
+                ship.transform.localEulerAngles.x, 
+                ship.transform.localEulerAngles.y, 
                 (moveDir.x * (1 + moveDir.y * -0.5f)) * -10);
 
             //shoot bullet on left mouse click

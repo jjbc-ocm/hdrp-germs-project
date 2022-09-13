@@ -138,11 +138,13 @@ namespace TanksMP
 
             //transform.parent = target;
 
+            var shakeDeg = 0;//Mathf.Clamp(target.eulerAngles.x, -5, 5);
+
             var angleDeg = target.eulerAngles.y;
 
-            
 
-            transform.rotation = Quaternion.Euler(new Vector3(0, angleDeg, 0) + rotation);
+
+            transform.rotation = Quaternion.Euler(new Vector3(shakeDeg, angleDeg, 0) + rotation);
 
             var angleRad = transform.eulerAngles.y * Mathf.Deg2Rad;
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class BuoyancyObject : MonoBehaviour
@@ -29,7 +30,11 @@ public class BuoyancyObject : MonoBehaviour
     {
         deltaTime += Time.deltaTime * 0.5f;
 
-        transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 3f, transform.eulerAngles.y, transform.eulerAngles.z);
+        var player = GetComponent<Player>();
+
+        var offset = player != null ? -Mathf.Abs(player.moveDir.y) : 0f;
+
+        transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 5f + offset * 5f, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
     void FixedUpdate()
