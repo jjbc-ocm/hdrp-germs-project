@@ -25,6 +25,10 @@ namespace TanksMP
         /// </summary>
         public Slider[] teamSize;
 
+        public Image[] team1PlayerIndicators;
+
+        public Image[] team2PlayerIndicators;
+
         /// <summary>
         /// UI texts displaying kill scores for each team.
         /// </summary>
@@ -103,9 +107,28 @@ namespace TanksMP
         /// </summary>
         public void OnTeamSizeChanged(int[] size)
         {
+            for (int i = 0; i < 3; i++)
+            {
+                team1PlayerIndicators[i].gameObject.SetActive(false);
+
+                team2PlayerIndicators[i].gameObject.SetActive(false);
+            }
+
             //loop over sliders values and assign it
 			for(int i = 0; i < size.Length; i++)
-            	teamSize[i].value = size[i];
+            {
+                teamSize[i].value = size[i];
+
+                for (int j = 0; j < size[i]; j++)
+                {
+                    if (i == 0)
+                        team1PlayerIndicators[j].gameObject.SetActive(true);
+
+                    if (i == 1)
+                        team2PlayerIndicators[j].gameObject.SetActive(true);
+                }
+                
+            }
         }
 
 
