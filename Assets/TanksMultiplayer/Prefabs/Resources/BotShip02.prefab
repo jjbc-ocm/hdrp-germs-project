@@ -1433,7 +1433,7 @@ MonoBehaviour:
   maxHealth: 10
   turretRotation: 0
   fireRate: 0.75
-  moveSpeed: 8
+  moveSpeed: 12
   healthSlider: {fileID: 114000010781945690}
   shieldSlider: {fileID: 114000013554628402}
   shotClip: {fileID: 8300000, guid: 9d685be7bcccd974bb6312c9965ff4e5, type: 3}
@@ -1453,6 +1453,7 @@ MonoBehaviour:
   - {fileID: 23000012377349526}
   - {fileID: 23000013752390478}
   ship: {fileID: 1000013434003786}
+  moveDir: {x: 0, y: 0}
   killedBy: {fileID: 0}
   camFollow: {fileID: 0}
   myName: 
