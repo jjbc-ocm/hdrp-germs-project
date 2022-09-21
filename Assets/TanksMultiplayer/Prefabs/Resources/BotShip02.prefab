@@ -1401,7 +1401,7 @@ Rigidbody:
   m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!65 &65000010219151550
@@ -1432,8 +1432,8 @@ MonoBehaviour:
   label: {fileID: 114000012191074864}
   maxHealth: 10
   turretRotation: 0
-  fireRate: 0.75
-  moveSpeed: 12
+  fireRate: 0.25
+  moveSpeed: 50
   healthSlider: {fileID: 114000010781945690}
   shieldSlider: {fileID: 114000013554628402}
   shotClip: {fileID: 8300000, guid: 9d685be7bcccd974bb6312c9965ff4e5, type: 3}
@@ -1520,6 +1520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 643755d44d2e4374bb000b66089e3b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 114000011118812870}
   floaters:
   - {fileID: 1041934439729276512}
   underWaterDrag: 3

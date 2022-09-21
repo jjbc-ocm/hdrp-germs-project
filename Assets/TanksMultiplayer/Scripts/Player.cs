@@ -316,7 +316,8 @@ namespace TanksMP
             //create movement vector based on current rotation and speed
             Vector3 movementDir = transform.forward * moveSpeed * Time.deltaTime;
             //apply vector to rigidbody position
-            rb.MovePosition(rb.position + movementDir);
+            //rb.MovePosition(rb.position + movementDir);
+            rb.AddForce(transform.forward * direction.y * moveSpeed);
         }
 
 
