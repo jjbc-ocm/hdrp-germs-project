@@ -26,6 +26,8 @@ public class BuoyancyObject : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+
+        m_Rigidbody.useGravity = !(photonView != null && !photonView.IsMine);
     }
 
     void Update()
