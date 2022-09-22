@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
@@ -5,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class BuoyancyObject : MonoBehaviour
 {
+    public PhotonView photonView;
     public Transform[] floaters;
     public float underWaterDrag = 3f;
     public float underWaterAngularDrag = 1f;
@@ -24,10 +26,14 @@ public class BuoyancyObject : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+
+        m_Rigidbody.useGravity = !(photonView != null && !photonView.IsMine);
     }
 
     void Update()
     {
+        if (photonView != null && !photonView.IsMine) return;
+
         deltaTime += Time.deltaTime * 0.5f;
 
         var player = GetComponent<Player>();
@@ -39,6 +45,8 @@ public class BuoyancyObject : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (photonView != null && !photonView.IsMine) return;
+
         var water = WaterManager.Instance;
 
         var waterHeight = water ? water.transform.position.y : 0;
@@ -72,7 +80,6 @@ public class BuoyancyObject : MonoBehaviour
     }
 
     void SwitchState(bool isUnderWater)
-
     {
         if (isUnderWater)
         {
