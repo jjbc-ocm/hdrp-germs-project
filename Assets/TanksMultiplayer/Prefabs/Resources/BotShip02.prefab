@@ -1356,11 +1356,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011607335632}
   - component: {fileID: 54000010020018720}
-  - component: {fileID: 65000010219151550}
   - component: {fileID: 114000010356570362}
   - component: {fileID: 195000010656594416}
   - component: {fileID: 114000011118812870}
   - component: {fileID: -7378439200734209461}
+  - component: {fileID: -1452849305508346462}
   m_Layer: 8
   m_Name: BotShip02
   m_TagString: Untagged
@@ -1404,19 +1404,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
---- !u!65 &65000010219151550
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013952619036}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 8}
-  m_Center: {x: 0, y: 2, z: 1}
 --- !u!114 &114000010356570362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1529,6 +1516,19 @@ MonoBehaviour:
   airAngularDrag: 0.05
   floatingPower: 10
   offsetY: -0.5
+--- !u!135 &-1452849305508346462
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013952619036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!1 &1000014114107342
 GameObject:
   m_ObjectHideFlags: 0
