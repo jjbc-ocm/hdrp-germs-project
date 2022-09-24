@@ -1360,7 +1360,7 @@ GameObject:
   - component: {fileID: 195000010656594416}
   - component: {fileID: 114000011118812870}
   - component: {fileID: -7378439200734209461}
-  - component: {fileID: -1452849305508346462}
+  - component: {fileID: 5102631160570148352}
   m_Layer: 8
   m_Name: BotShip02
   m_TagString: Untagged
@@ -1441,6 +1441,7 @@ MonoBehaviour:
   - {fileID: 23000013752390478}
   ship: {fileID: 1000013434003786}
   moveDir: {x: 0, y: 0}
+  iconIndicator: {fileID: 7052375613352702364}
   killedBy: {fileID: 0}
   camFollow: {fileID: 0}
   myName: 
@@ -1516,8 +1517,8 @@ MonoBehaviour:
   airAngularDrag: 0.05
   floatingPower: 10
   offsetY: -0.5
---- !u!135 &-1452849305508346462
-SphereCollider:
+--- !u!65 &5102631160570148352
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1527,8 +1528,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 3, z: 0}
+  m_Size: {x: 3, y: 6, z: 8}
+  m_Center: {x: 0, y: 2.25, z: 1}
 --- !u!1 &1000014114107342
 GameObject:
   m_ObjectHideFlags: 0

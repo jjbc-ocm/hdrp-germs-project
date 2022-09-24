@@ -96,6 +96,8 @@ namespace TanksMP
 
         public Vector2 moveDir;
 
+        public GameObject iconIndicator;
+
         /// <summary>
         /// Last player gameobject that killed this one.
         /// </summary>

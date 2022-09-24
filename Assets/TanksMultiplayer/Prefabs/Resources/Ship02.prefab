@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 114000013291451648}
   - component: {fileID: 114000012000490716}
   - component: {fileID: 983993601524078469}
-  - component: {fileID: 2568787530915591431}
+  - component: {fileID: 5606283660667125614}
   m_Layer: 8
   m_Name: Ship02
   m_TagString: Untagged
@@ -95,6 +95,7 @@ MonoBehaviour:
   - {fileID: 2366430}
   ship: {fileID: 125922}
   moveDir: {x: 0, y: 0}
+  iconIndicator: {fileID: 6924509017883009963}
   killedBy: {fileID: 0}
   camFollow: {fileID: 0}
 --- !u!114 &114000013291451648
@@ -158,8 +159,8 @@ MonoBehaviour:
   airAngularDrag: 0.05
   floatingPower: 10
   offsetY: -0.5
---- !u!135 &2568787530915591431
-SphereCollider:
+--- !u!65 &5606283660667125614
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -169,8 +170,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 3, z: 0}
+  m_Size: {x: 3, y: 6, z: 8}
+  m_Center: {x: 0, y: 2.25, z: 1}
 --- !u!1 &125288
 GameObject:
   m_ObjectHideFlags: 0

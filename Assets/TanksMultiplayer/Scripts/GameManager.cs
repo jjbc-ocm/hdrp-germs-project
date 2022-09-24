@@ -75,6 +75,22 @@ namespace TanksMP
             #endif
         }
 
+        void Update()
+        {
+            // Update fog-of-war for the local player
+            var players = FindObjectsOfType<Player>();
+
+            foreach (var player in players)
+            {
+                if (player.photonView.GetTeam() != localPlayer.photonView.GetTeam())
+                {
+                    var distance = Vector3.Distance(player.transform.position, localPlayer.transform.position);
+
+                    player.iconIndicator.SetActive(distance <= 150);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Returns a reference to this script instance.
