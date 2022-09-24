@@ -929,7 +929,7 @@ GameObject:
   - component: {fileID: 195000010447933354}
   - component: {fileID: 114000010553574260}
   - component: {fileID: 5606664800076556951}
-  - component: {fileID: 4817798332731376064}
+  - component: {fileID: -3560476470532476056}
   m_Layer: 8
   m_Name: BotShip03
   m_TagString: Untagged
@@ -1008,6 +1008,7 @@ MonoBehaviour:
   - {fileID: 23000013314767278}
   ship: {fileID: 1000011397430476}
   moveDir: {x: 0, y: 0}
+  iconIndicator: {fileID: 7824021103039300075}
   killedBy: {fileID: 0}
   camFollow: {fileID: 0}
   myName: 
@@ -1083,8 +1084,8 @@ MonoBehaviour:
   airAngularDrag: 0.05
   floatingPower: 10
   offsetY: -0.5
---- !u!135 &4817798332731376064
-SphereCollider:
+--- !u!65 &-3560476470532476056
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1094,8 +1095,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 3, z: 0}
+  m_Size: {x: 3, y: 6, z: 8}
+  m_Center: {x: 0, y: 2.25, z: 1}
 --- !u!1 &1000012535508634
 GameObject:
   m_ObjectHideFlags: 0
