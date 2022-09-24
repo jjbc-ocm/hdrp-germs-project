@@ -21,9 +21,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water_mat_04
-  m_Shader: {fileID: -6465566751694194690, guid: 634a30e078e15db43aadb6f78ae4da38,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 634a30e078e15db43aadb6f78ae4da38, type: 3}
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _DOUBLESIDED_ON
   - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
@@ -32,7 +32,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2750
+  m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
     RenderType: Transparent
@@ -196,7 +196,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
     - _AlphaCutoff: 0.5
-    - _AlphaCutoffEnable: 0
+    - _AlphaCutoffEnable: 1
     - _AlphaCutoffPostpass: 0.5
     - _AlphaCutoffPrepass: 0.5
     - _AlphaCutoffShadow: 0.5
@@ -264,7 +264,7 @@ Material:
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 1
     - _RefractionModel: 0
-    - _RenderQueueType: 3
+    - _RenderQueueType: 4
     - _RequireSplitLighting: 0
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
@@ -303,16 +303,14 @@ Material:
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 4
-    - _ZTestGBuffer: 4
+    - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_6a9a916e2c84442984edc20c082efe79: {r: 0.41429335, g: 0.74311143, b: 0.9245283,
-        a: 0.972549}
+    - Color_6a9a916e2c84442984edc20c082efe79: {r: 0.41429335, g: 0.74311143, b: 0.9245283, a: 0.972549}
     - Color_B55E5ACF: {r: 0, g: 0, b: 0, a: 1}
     - Color_B91ECEE9: {r: 1, g: 1, b: 1, a: 1}
-    - Color_c9a840f2115c4802ba54d713194f761d: {r: 0.15294118, g: 0.14117648, b: 0.23137257,
-        a: 1}
+    - Color_c9a840f2115c4802ba54d713194f761d: {r: 0.15294118, g: 0.14117648, b: 0.23137257, a: 1}
     - Vector2_130994fa54a3486dacf33287c0070f7f: {r: 9, g: 0, b: 0, a: 0}
     - Vector2_3E54EAD7: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_4F853676: {r: 1, g: 1, b: 0, a: 0}
@@ -320,7 +318,7 @@ Material:
     - Vector2_7A596307: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_87F9330C: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_BA8F5C5C: {r: 0, g: 0, b: 0, a: 0}
-    - Vector2_C8D89AD7: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_C8D89AD7: {r: 50, g: 50, b: 0, a: 0}
     - Vector2_EE3C156C: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
