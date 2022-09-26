@@ -264,11 +264,13 @@ namespace TanksMP
             if (!PhotonNetwork.IsMasterClient)
                 return;
 
+            //PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { Constants.KEY_PLAYER_INDEX, PhotonNetwork.CountOfPlayers } });
+
             //add ourselves to the game. This is only called for the master client
             //because other clients will trigger the OnPhotonPlayerConnected callback directly
             StartCoroutine(WaitForSceneChange());
         }
-
+        
 
         //this wait routine is needed on offline mode for waiting on completed scene change,
         //because in offline mode Photon does not pause network messages. But it doesn't hurt
@@ -315,12 +317,17 @@ namespace TanksMP
 		[PunRPC]
 		void AddPlayer()
 		{
+            //Debug.Log(PhotonNetwork.CountOfPlayers);
+            //Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties[Constants.KEY_PLAYER_INDEX]);
+
             //get our selected player prefab index
-			int prefabId = int.Parse(Encryptor.Decrypt(PlayerPrefs.GetString(PrefsKeys.activeTank)));
-            
+            //int prefabId = int.Parse(Encryptor.Decrypt(PlayerPrefs.GetString(PrefsKeys.activeTank)));
+            int prefabId = PhotonNetwork.CountOfPlayers - 1;//((int)PhotonNetwork.LocalPlayer.CustomProperties[Constants.KEY_PLAYER_INDEX]) - 1;
+
+
             //get the spawn position where our player prefab should be instantiated at, depending on the team assigned
             //if we cannot get a position, spawn it in the center of that team area - otherwise use the calculated position
-			Transform startPos = GameManager.GetInstance().teams[PhotonNetwork.LocalPlayer.GetTeam()].spawn;
+            Transform startPos = GameManager.GetInstance().teams[PhotonNetwork.LocalPlayer.GetTeam()].spawn;
 			if (startPos != null) PhotonNetwork.Instantiate(playerPrefabs[prefabId].name, startPos.position, startPos.rotation, 0);
 			else PhotonNetwork.Instantiate(playerPrefabs[prefabId].name, Vector3.zero, Quaternion.identity, 0);
 		}
