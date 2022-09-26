@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 488270}
   - component: {fileID: 5470280}
-  - component: {fileID: 6594302}
   - component: {fileID: 114000011901014096}
   - component: {fileID: 114000013231430384}
   - component: {fileID: 114000014033440060}
   - component: {fileID: -2083049068852066385}
+  - component: {fileID: 4803802976623517953}
   m_Layer: 8
   m_Name: Ship04
   m_TagString: Untagged
@@ -58,19 +58,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
---- !u!65 &6594302
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112386}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 8}
-  m_Center: {x: 0, y: 2, z: 1}
 --- !u!114 &114000011901014096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +93,7 @@ MonoBehaviour:
   - {fileID: 2366430}
   ship: {fileID: 125922}
   moveDir: {x: 0, y: 0}
+  iconIndicator: {fileID: 6097096151781405437}
   killedBy: {fileID: 0}
   camFollow: {fileID: 0}
 --- !u!114 &114000013231430384
@@ -169,6 +157,19 @@ MonoBehaviour:
   airAngularDrag: 0.05
   floatingPower: 10
   offsetY: -0.5
+--- !u!65 &4803802976623517953
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 6, z: 8}
+  m_Center: {x: 0, y: 2.25, z: 1}
 --- !u!1 &125288
 GameObject:
   m_ObjectHideFlags: 0

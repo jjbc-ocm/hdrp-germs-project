@@ -96,6 +96,8 @@ namespace TanksMP
 
         public Vector2 moveDir;
 
+        public GameObject iconIndicator;
+
         /// <summary>
         /// Last player gameobject that killed this one.
         /// </summary>
@@ -207,6 +209,7 @@ namespace TanksMP
             
         }
 
+        private Vector2 prevMoveDir;
 
         //continously check for input on desktop platforms
         #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
@@ -221,21 +224,21 @@ namespace TanksMP
             }
 
             //movement variables
-            moveDir = Vector2.zero;
+            //moveDir = Vector2.zero;
 
             Vector2 turnDir;
 
             //reset moving input when no arrow keys are pressed down
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
             {
-                moveDir.x = 0;
-                moveDir.y = 0;
+                moveDir.x += (0 - prevMoveDir.x) * 0.1f;
+                moveDir.y += (0 - prevMoveDir.y) * 0.1f;
             }
             else
             {
                 //read out moving directions and calculate force
-                moveDir.x = Input.GetAxis("Horizontal");
-                moveDir.y = Input.GetAxis("Vertical");
+                moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
+                moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
                 Move(moveDir);
             }
 
@@ -258,17 +261,20 @@ namespace TanksMP
 
             //rotate ship based on turnDir
             ship.transform.localRotation = Quaternion.Euler(
-                ship.transform.localEulerAngles.x, 
+                moveDir.y * -10,//ship.transform.localEulerAngles.x, 
                 ship.transform.localEulerAngles.y, 
                 (moveDir.x * (1 + moveDir.y * -0.5f)) * -10);
+            //rb.AddTorque(new Vector3(0, 0, moveDir.x * 15f));
 
             //shoot bullet on left mouse click
             if (Input.GetButton("Fire1"))
                 Shoot();
 
-			//replicate input to mobile controls for illustration purposes
-			#if UNITY_EDITOR
-				GameManager.GetInstance().ui.controls[0].position = moveDir;
+            prevMoveDir = moveDir;
+
+            //replicate input to mobile controls for illustration purposes
+            #if UNITY_EDITOR
+                GameManager.GetInstance().ui.controls[0].position = moveDir;
 				GameManager.GetInstance().ui.controls[1].position = turnDir;
 			#endif
         }

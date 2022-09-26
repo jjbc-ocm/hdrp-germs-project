@@ -763,11 +763,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013783089826}
   - component: {fileID: 54000014064254730}
-  - component: {fileID: 65000014268382324}
   - component: {fileID: 114000010978345236}
   - component: {fileID: 195000012828890094}
   - component: {fileID: 114000010316270970}
   - component: {fileID: -7186733498262730100}
+  - component: {fileID: 693361711817095969}
   m_Layer: 8
   m_Name: BotShip01
   m_TagString: Untagged
@@ -811,19 +811,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 3
---- !u!65 &65000014268382324
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013172141970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 8}
-  m_Center: {x: 0, y: 2, z: 1}
 --- !u!114 &114000010978345236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,6 +848,7 @@ MonoBehaviour:
   - {fileID: 23000012749821218}
   ship: {fileID: 1000013898440288}
   moveDir: {x: 0, y: 0}
+  iconIndicator: {fileID: 8393287531171678902}
   killedBy: {fileID: 0}
   camFollow: {fileID: 0}
   myName: 
@@ -936,6 +924,19 @@ MonoBehaviour:
   airAngularDrag: 0.05
   floatingPower: 10
   offsetY: -0.5
+--- !u!65 &693361711817095969
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013172141970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 6, z: 8}
+  m_Center: {x: 0, y: 2.25, z: 1}
 --- !u!1 &1000013481514286
 GameObject:
   m_ObjectHideFlags: 0

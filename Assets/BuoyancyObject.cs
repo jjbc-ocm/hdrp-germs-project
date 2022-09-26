@@ -40,7 +40,7 @@ public class BuoyancyObject : MonoBehaviour
 
         var offset = player != null ? -Mathf.Abs(player.moveDir.y) : 0f;
 
-        transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 5f + offset * 5f, transform.eulerAngles.y, transform.eulerAngles.z);
+        //transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 5f + offset * 5f, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
     void FixedUpdate()
