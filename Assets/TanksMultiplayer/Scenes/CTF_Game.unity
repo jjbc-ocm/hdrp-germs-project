@@ -14,9 +14,9 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
-  m_FogMode: 1
+  m_Fog: 1
+  m_FogColor: {r: 0.0491723, g: 0.054938182, b: 0.122641504, a: 1}
+  m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
@@ -26,19 +26,19 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.008810968, g: 0.022337224, b: 0.05660379, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 046d04b5759b3f446ab7d5dc4bc3c273, type: 2}
-  m_HaloStrength: 0.5
-  m_FlareStrength: 1
+  m_SkyboxMaterial: {fileID: 2100000, guid: 66204a2dd537858438bc1c57b0c90836, type: 2}
+  m_HaloStrength: 0.829
+  m_FlareStrength: 0.977
   m_FlareFadeSpeed: 3
-  m_HaloTexture: {fileID: 0}
+  m_HaloTexture: {fileID: 2800000, guid: 8caa437b19957a045866b84c6218a0db, type: 3}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
-  m_ReflectionBounces: 1
+  m_DefaultReflectionResolution: 1024
+  m_ReflectionBounces: 3
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1218422451}
-  m_IndirectSpecularColor: {r: 0.041284017, g: 0.07278917, b: 0.138498, a: 1}
+  m_IndirectSpecularColor: {r: 0.39763278, g: 0.5791725, b: 0.8468965, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 240655acf12d7684e85a159f8e5193ab, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 87c4a414e9ae90043aa1310e966590cc, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: bfe9eeef563de27418b976d6d38fd36b, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -6580,7 +6580,7 @@ PrefabInstance:
     - target: {fileID: 7566459758369428964, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e226bed390889f942acb445c8762b25f, type: 2}
+      objectReference: {fileID: 2100000, guid: 0ed6435005a9cf14693fb8e32097f983, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee1dcd8ef99b1fa44a08ff026c8a9d86, type: 3}
 --- !u!4 &272780588 stripped
@@ -9386,7 +9386,7 @@ PrefabInstance:
     - target: {fileID: 7359097164473123571, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0ed6435005a9cf14693fb8e32097f983, type: 2}
+      objectReference: {fileID: 2100000, guid: 1d79e5f08c36d6f43a30293935e75289, type: 2}
     - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_Name
       value: Cartoon Musroom1 (2)
@@ -11544,7 +11544,7 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: bdeb79af937bc3940958acedeb2e5c15, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ca7f8eab4edbd0240ae7749100c1baf6, type: 2}
+      objectReference: {fileID: 2100000, guid: fbc3c34ca09e7714cb04c14aec2dcb25, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdeb79af937bc3940958acedeb2e5c15, type: 3}
 --- !u!4 &531617241 stripped
@@ -18453,7 +18453,7 @@ PrefabInstance:
     - target: {fileID: 5986448977431246836, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_MaterialTemplate
       value: 
-      objectReference: {fileID: 2100000, guid: 67d5417799f45eb4fbab0048bb3adbc4, type: 2}
+      objectReference: {fileID: 2100000, guid: 609eaefcdba5eae42b580908c105f72d, type: 2}
     - target: {fileID: 5986448977431246836, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_SplatMapDistance
       value: 1000
@@ -21590,6 +21590,10 @@ PrefabInstance:
     - target: {fileID: 1000011801357322, guid: e2608078597680c4da9e44a1755363d7, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011801357322, guid: e2608078597680c4da9e44a1755363d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114000010149525428, guid: e2608078597680c4da9e44a1755363d7, type: 3}
       propertyPath: isMoveable
@@ -25292,15 +25296,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166590111}
-  m_LocalRotation: {x: 0.08715578, y: -0, z: -0, w: 0.9961947}
-  m_LocalPosition: {x: -2326, y: 100, z: 12835}
+  m_LocalRotation: {x: 0.026781416, y: 0.9479975, z: -0.08293976, w: 0.3061118}
+  m_LocalPosition: {x: -2370, y: 100, z: 13033.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 729047809}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10, y: 144.209, z: 0}
 --- !u!114 &1166590117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26427,6 +26431,10 @@ PrefabInstance:
     - target: {fileID: 1000011801357322, guid: e2608078597680c4da9e44a1755363d7, type: 3}
       propertyPath: m_Name
       value: JoystickLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011801357322, guid: e2608078597680c4da9e44a1755363d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114000011052247644, guid: e2608078597680c4da9e44a1755363d7, type: 3}
       propertyPath: m_Sprite
@@ -30623,6 +30631,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 67d5417799f45eb4fbab0048bb3adbc4, type: 2}
+    - target: {fileID: 6400000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: f14b9ebf144a903429e88727ad3fcadc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e7c5a68504558b45bd9e9301d6c579b, type: 3}
 --- !u!4 &1418163453 stripped
@@ -33405,7 +33417,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 008541be8ad8b3f42a5318e1c4a73d1c, type: 2}
+  - {fileID: 2100000, guid: 1bea844233e20044da37fd98c293843f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -34712,7 +34724,7 @@ PrefabInstance:
     - target: {fileID: 7028400960067018614, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5a99c27208d8b1e479452149a2e02ffa, type: 2}
+      objectReference: {fileID: 2100000, guid: 45c97745c63674b4ea56418ab5db0ffb, type: 2}
     - target: {fileID: 7028400960068787604, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -41114,7 +41126,7 @@ PrefabInstance:
     - target: {fileID: 7359097164473123571, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ca7f8eab4edbd0240ae7749100c1baf6, type: 2}
+      objectReference: {fileID: 2100000, guid: 5a99c27208d8b1e479452149a2e02ffa, type: 2}
     - target: {fileID: 7359097164475391025, guid: b5563ab9cd1a8a94aa65ec8855e73873, type: 3}
       propertyPath: m_Name
       value: Cartoon Musroom1

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Terrain Material2
-  m_Shader: {fileID: -6465566751694194690, guid: 989568fa5e6590a4ead42a5038b119d9, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c25b5ca7c353769468aaefe0b7fd5fea, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 0
@@ -26,6 +26,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_2FB2639E:
+        m_Texture: {fileID: 2800000, guid: f558badf436ff6941ab60f004b577b68, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_4DA392C4:
+        m_Texture: {fileID: 2800000, guid: 32103a2d7296f51469352bde5791135b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_63F2CB6E:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -34,8 +42,24 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2ed3d41b7c655bf4daa77f71b994f6ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Texture2D_76EA4F79:
+        m_Texture: {fileID: 2800000, guid: a4ec06682f0277246bd7bd84e21e6100, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_807CCE59:
+        m_Texture: {fileID: 2800000, guid: ee607e9e089b1f242835de6430216e9f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_82A7843A:
         m_Texture: {fileID: 2800000, guid: 19555d7d9d114c7f1100f5ab44295342, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_97E85261:
+        m_Texture: {fileID: 2800000, guid: 7ab962fd4d4f192489034511904c8316, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_9A343F67:
+        m_Texture: {fileID: 2800000, guid: d2ebe103d60ac7a40b6aad78aa84f846, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_f5cde98bb612489cb401448024b3d077:
@@ -174,6 +198,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_4fd25418ab6e4e488156f3ffbca64261_Texture_1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -226,6 +254,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ToonShade:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TransmittanceColorMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -249,15 +281,29 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_07c93c7e34df4237b5dd57255d7f857a: 2
+    - Vector1_14F41366: 0.45
+    - Vector1_20005ACC: 1
     - Vector1_3849afd7c2eb484893a68ec694cc75b3: 0
     - Vector1_449011F3: 0
     - Vector1_60E3CEAF: 0
+    - Vector1_6BE95D62: 1.12
     - Vector1_6f56a0970372485390c6587863c2374e: 4.43
+    - Vector1_76B3A494: 0.6
     - Vector1_7ab1e13367ff4c17b0a4403edd3d9450: 0.079
+    - Vector1_87E68FFC: 0.92
+    - Vector1_911158FA: 0
+    - Vector1_911821CD: -0.1
+    - Vector1_919657D6: 1.55
+    - Vector1_95CD4457: 1
+    - Vector1_98C96A7B: 0.1
+    - Vector1_9BB89E42: 0
     - Vector1_AE107DB7: 0
     - Vector1_AE2514A9: 0
     - Vector1_BD7D4EF1: 0.5
     - Vector1_C143A227: 0
+    - Vector1_F476F03B: 0.17
+    - Vector1_F90DFDAC: -0.26
+    - Vector1_FF255601: 0.5
     - Vector1_c0da6a80189144e5a45df6c62b281d57: 0
     - Vector1_d70d07d7ef17405a961168abe8e24a3a: 1.2
     - _AORemapMax: 1
@@ -434,8 +480,10 @@ Material:
     - Color_C124C0F0: {r: 0.62352943, g: 0.031372562, b: 0.4665718, a: 0}
     - Color_c9a840f2115c4802ba54d713194f761d: {r: 0.5283019, g: 0.38757002, b: 0.251691, a: 1}
     - Vector2_130994fa54a3486dacf33287c0070f7f: {r: 5, g: 20, b: 0, a: 0}
+    - Vector2_2D51171: {r: 5, g: 5, b: 0, a: 0}
     - Vector2_7338931E: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_9EF5856E: {r: 100, g: 100, b: 0, a: 0}
+    - Vector2_F1DC4308: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0.12941177}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0.12941177}
