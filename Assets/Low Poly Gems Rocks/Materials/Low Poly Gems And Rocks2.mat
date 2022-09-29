@@ -8,16 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Low Poly Gems And Rocks2
-  m_Shader: {fileID: -6465566751694194690, guid: 226ac7e0ec5e0c44aacb03b52fcf38ac,
-    type: 3}
-  m_ValidKeywords:
-  - _DISABLE_SSR_TRANSPARENT
-  - _DOUBLESIDED_ON
+  m_Shader: {fileID: -6465566751694194690, guid: 989568fa5e6590a4ead42a5038b119d9, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2225
+  m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
@@ -29,12 +26,28 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_28de85506601443d82b6148f21ccc69c:
+        m_Texture: {fileID: 8400000, guid: 4ae8ae7350b67b44785d874c413a2e03, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_63F2CB6E:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Texture2D_6490A223:
+        m_Texture: {fileID: 2800000, guid: f87d53fcaf34530488b706ee35d9b519, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_6d0f902902b04ba687ee00a51db7ba6d:
+        m_Texture: {fileID: 2800000, guid: 2ed3d41b7c655bf4daa77f71b994f6ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_75234e64d8d74583bd442975e49b1b99:
         m_Texture: {fileID: 2800000, guid: 2ed3d41b7c655bf4daa77f71b994f6ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_786b67b3efe14204b2f06f9afb9d8cf1:
+        m_Texture: {fileID: 2800000, guid: 11154d936b05e66498f68fa178c5cfbb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_82A7843A:
@@ -145,6 +158,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7fd4da11d9e44fe29a1feff327f298f5_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -191,18 +208,37 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Boolean_d3c978b0d14a4f66be175a9b89855be0: 0
     - Vector1_07c93c7e34df4237b5dd57255d7f857a: 2
+    - Vector1_17E53C12: 0.75
+    - Vector1_244B0600: 1
+    - Vector1_36E8227: 0.5
     - Vector1_3849afd7c2eb484893a68ec694cc75b3: 0
+    - Vector1_3D886DA1: 0
     - Vector1_449011F3: 0
+    - Vector1_46E42935: 0.2
+    - Vector1_47683D42: 0.85
+    - Vector1_55003dfa023448c3bffa42f3ca4a99a4: 1
     - Vector1_60E3CEAF: 0
+    - Vector1_6269b1025b26473ca8bc61634f34b537: 0.95
+    - Vector1_687f54e8c371429f86b9eaab0e7dfe3e: 0.05
+    - Vector1_6c82dffdd68049bcb019d3a9c64c92a0: 0.2
     - Vector1_6f56a0970372485390c6587863c2374e: -27.51
+    - Vector1_7273530c27a34c9f8ee5723b84f96baa: 0.2
     - Vector1_7ab1e13367ff4c17b0a4403edd3d9450: 0.948
+    - Vector1_A0EAD698: 1
+    - Vector1_A6A0BC26: 0.08
     - Vector1_AE107DB7: 0
     - Vector1_AE2514A9: 0
+    - Vector1_B9F56378: 0.5
     - Vector1_BD7D4EF1: 0.5
     - Vector1_C143A227: 0
+    - Vector1_C360A163: 2
+    - Vector1_E5C51606: 0
+    - Vector1_F38B44AA: 0.2
     - Vector1_c0da6a80189144e5a45df6c62b281d57: 0
     - Vector1_d70d07d7ef17405a961168abe8e24a3a: 8.72
+    - Vector1_dada42ebfac44076897b6de67441ba32: 0.3
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -222,6 +258,7 @@ Material:
     - _Blend: 0
     - _BlendMode: 1
     - _BumpScale: 1
+    - _BumpStrength: 0.5
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _CoatMask: 0
@@ -302,6 +339,7 @@ Material:
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceiveShadows: 1
@@ -350,6 +388,9 @@ Material:
     - _UVSec: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
+    - _WaveFrequency: 3
+    - _WaveScale: 0.1
+    - _WaveSpeed: 1
     - _WorkflowMode: 1
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
@@ -357,12 +398,17 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_6a9a916e2c84442984edc20c082efe79: {r: 0.17148922, g: 0.052954778, b: 0.3207547,
-        a: 0.1960784}
+    - Color_36218622185947c6a5ae36366d8e21d8: {r: 0.03921569, g: 0.09803919, b: 0.27450976, a: 0.7058824}
+    - Color_6a9a916e2c84442984edc20c082efe79: {r: 0.17148922, g: 0.052954778, b: 0.3207547, a: 0.1960784}
+    - Color_7D9A58EC: {r: 0.14035237, g: 0.16532877, b: 0.35849056, a: 0}
     - Color_8FCE145D: {r: 0.5326732, g: 0.22579211, b: 0.8113208, a: 0}
+    - Color_93e06cd551a5449091bcde90b46765a0: {r: 0.03804734, g: 0.5490196, b: 0.5490196, a: 0.1960784}
     - Color_C124C0F0: {r: 0.62352943, g: 0.031372562, b: 0.4665718, a: 0}
+    - Color_F01C36BF: {r: 0.10196077, g: 0.462745, b: 0.57647055, a: 1}
     - Color_c9a840f2115c4802ba54d713194f761d: {r: 0.8092098, g: 0, b: 1, a: 0.7058824}
     - Vector2_130994fa54a3486dacf33287c0070f7f: {r: 10, g: 10, b: 0, a: 0}
+    - Vector2_37B21477: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_4351ac2be1d74054986ec5378db9d578: {r: 10, g: 10, b: 0, a: 0}
     - Vector2_7338931E: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_9EF5856E: {r: 100, g: 100, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0.12941177}
@@ -413,4 +459,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 4
+  version: 5
