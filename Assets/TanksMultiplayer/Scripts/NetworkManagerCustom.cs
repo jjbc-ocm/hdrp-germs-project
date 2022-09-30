@@ -322,7 +322,7 @@ namespace TanksMP
 
             //get our selected player prefab index
             //int prefabId = int.Parse(Encryptor.Decrypt(PlayerPrefs.GetString(PrefsKeys.activeTank)));
-            int prefabId = PhotonNetwork.CountOfPlayers - 1;//((int)PhotonNetwork.LocalPlayer.CustomProperties[Constants.KEY_PLAYER_INDEX]) - 1;
+            int prefabId = Mathf.Max(0, PhotonNetwork.CountOfPlayers - 1);//((int)PhotonNetwork.LocalPlayer.CustomProperties[Constants.KEY_PLAYER_INDEX]) - 1;
 
 
             //get the spawn position where our player prefab should be instantiated at, depending on the team assigned

@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public class NoiseMaker : MonoBehaviour
@@ -56,7 +58,10 @@ public class NoiseMaker : MonoBehaviour
     [ContextMenu("Save Noise")]
     void CreateTexture3D()
     {
+#if UNITY_EDITOR
         // Save the texture to your Unity Project
         AssetDatabase.CreateAsset(tex3D, "Assets/Volume Fog/3DTexture.asset");
+#endif
+
     }
 }

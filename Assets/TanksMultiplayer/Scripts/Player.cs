@@ -318,12 +318,34 @@ namespace TanksMP
 
                 transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
             }
-            
-            //create movement vector based on current rotation and speed
-            Vector3 movementDir = transform.forward * moveSpeed * Time.deltaTime;
-            //apply vector to rigidbody position
-            //rb.MovePosition(rb.position + movementDir);
-            rb.AddForce(transform.forward * direction.y * moveSpeed);
+
+            Vector3 moveForce;
+
+            /* This will make the player avoid colliding with the terrain by observing distance */
+            // TODO: moving backward is bug
+            /* Moving forward against an obstacle */
+            if (Physics.Raycast(transform.position, transform.forward, 12, 1 << 6))
+            {
+                var directionY = Mathf.Min(0, direction.y);
+
+                moveForce = transform.forward * directionY * moveSpeed;
+            }
+
+            /* Moving backward against an obstacle */
+            else if (Physics.Raycast(transform.position, transform.forward * -1, 12, 1 << 6))
+            {
+                var directionY = Mathf.Max(0, direction.y);
+
+                moveForce = transform.forward * directionY * moveSpeed;
+            }
+
+            /* No obstacles */
+            else
+            {
+                moveForce = transform.forward * direction.y * moveSpeed;
+            }
+
+            rb.AddForce(moveForce);
         }
 
 
@@ -604,7 +626,7 @@ namespace TanksMP
         public void ResetPosition()
         {
             //start following the local player again
-            camFollow.target = turret;
+            camFollow.target = transform;
             camFollow.HideMask(false);
 
             //get team area and reposition it there

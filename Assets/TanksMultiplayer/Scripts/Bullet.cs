@@ -127,13 +127,14 @@ namespace TanksMP
             }
             else if (bounce > 0)
             {
+                Debug.Log("GOT HERE");
                 //a player was not hit but something else, and we still have some bounces left
                 //create a ray that points in the direction this bullet is currently flying to
                 Ray ray = new Ray(lastBouncePos - transform.forward * 0.5f, transform.forward);
                 RaycastHit hit;
 
-                //perform spherecast in the flying direction, on the default layer
-                if (Physics.SphereCast(ray, sphereCol.radius, out hit, Mathf.Infinity, 1 << 0))
+                //perform spherecast in the flying direction, on the non-minimap layer
+                if (Physics.SphereCast(ray, sphereCol.radius, out hit, Mathf.Infinity, 1 << 6))
                 {
                     //ignore multiple collisions i.e. inside colliders
                     if (Vector3.Distance(transform.position, lastBouncePos) < 0.05f)
