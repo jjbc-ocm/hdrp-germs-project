@@ -421,7 +421,11 @@ namespace TanksMP
         /// The key for accessing player scores per team out of the room properties.
         /// </summary>
         public const string score = "score";
-        
+
+        /// <summary>
+        /// The key 
+        /// </summary>
+        public const string viewIds = "viewIds";
         
         /// <summary>
         /// Returns the networked team fill for all teams out of properties.
