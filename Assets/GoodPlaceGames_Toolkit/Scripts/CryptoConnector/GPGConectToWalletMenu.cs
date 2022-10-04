@@ -11,7 +11,9 @@ using Nethereum.Util;
 
 public class GPGConectToWalletMenu : MonoBehaviour
 {
-  public string m_nextSceneToLoad = "Scene_MainMenu";
+  public string m_nextSceneName = "Scene_MainMenu";
+  [TextArea(7, 10)]
+  public string m_authMsg = "Welcome to Germ Pirates.\nThis request is only to verify your address with us and this will not trigger a blockchain transaction.";
 
   [DllImport("__Internal")]
   private static extern void Web3Connect();
@@ -39,7 +41,7 @@ public class GPGConectToWalletMenu : MonoBehaviour
   {
     if (m_walletConnected && GermAPIConnector.m_instance.m_connected && !m_loadSceneCalled && m_messageSigned)
     {
-      SceneManager.LoadScene(m_nextSceneToLoad);
+      SceneManager.LoadScene(m_nextSceneName);
       m_loadSceneCalled = true;
     }
   }
@@ -169,8 +171,8 @@ public class GPGConectToWalletMenu : MonoBehaviour
 //#if UNITY_WEBGL && !UNITY_EDITOR
       string Hash = GPGAPIConnector.HashString(DateTime.UtcNow.ToString());
 
-      string message = "Welcome to Cyberdogz.\nThis request is only to verify your address with us and this will not trigger a blockchain transaction. \n\nHash: " + Hash;
-      GPGAuthenticationMessage authMessage = (GPGAuthenticationMessage)GPGMessageManager.m_instance.ShowMessage(message, GPG_MESSAGE_TYPE.kAutentication);
+      string message = m_authMsg + "\n\nHash: " + Hash;
+      GPGStatusMessage authMessage = (GPGStatusMessage)GPGMessageManager.m_instance.ShowSignMessage(message, "AUTHENTICATION");
       authMessage.SetPendingState();
       string result = await GPGCryptoManager.m_instance.SignMessage(message);
       Debug.Log("SignMessage result: " + result);

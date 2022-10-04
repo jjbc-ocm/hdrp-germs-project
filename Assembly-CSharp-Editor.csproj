@@ -74,9 +74,9 @@
     <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\EdgeDetectionEditor.cs" />
     <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\DepthOfFieldDeprecatedEditor.cs" />
     <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\DepthOfFieldEditor.cs" />
+    <Compile Include="Assets\3d_party\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
     <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\ColorCorrectionLookupEditor.cs" />
     <Compile Include="Assets\NatureStarterKit2\Editor\ImageEffects\SunShaftsEditor.cs" />
-    <Compile Include="Assets\3d_party\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -921,6 +921,9 @@
     </Reference>
     <Reference Include="Unity.SysrootPackage.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.SysrootPackage.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

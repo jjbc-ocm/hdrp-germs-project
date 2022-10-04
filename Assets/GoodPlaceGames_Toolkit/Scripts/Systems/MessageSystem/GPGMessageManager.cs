@@ -6,7 +6,6 @@ public enum GPG_MESSAGE_TYPE
 {
   kDefault,
   kWarning,
-  kAutentication,
   kNarrow,
 }
 
@@ -15,7 +14,8 @@ public class GPGMessageManager : MonoBehaviour
   public GameObject m_canvas;
   public GameObject m_messagePrefab;
   public GameObject m_warningMessagePrefab;
-  public GameObject m_autenticationMessagePrefab;
+  public GameObject m_statusMessagePrefab;
+  public GameObject m_signMessagePrefab;
   public GameObject m_confirmationWindow;
   public GameObject m_narrowMessagePrefab;
 
@@ -48,10 +48,6 @@ public class GPGMessageManager : MonoBehaviour
     {
       prefabToUse = m_warningMessagePrefab;
     }
-    else if (type == GPG_MESSAGE_TYPE.kAutentication)
-    {
-      prefabToUse = m_autenticationMessagePrefab;
-    }
     else if (type == GPG_MESSAGE_TYPE.kNarrow)
     {
       prefabToUse = m_narrowMessagePrefab;
@@ -69,6 +65,28 @@ public class GPGMessageManager : MonoBehaviour
     messageWindow.Show();
     messageWindow.SetMessage(message);
     messageWindow.SetHeadline(headline);
+    return messageWindow;
+  }
+
+  public GPGStatusMessage ShowStatusMessage(string message, string headline)
+  {
+    GameObject prefabToUse = m_statusMessagePrefab;
+    GPGStatusMessage messageWindow = Instantiate(prefabToUse, m_canvas.transform).GetComponent<GPGStatusMessage>();
+    messageWindow.Show();
+    messageWindow.SetMessage(message);
+    messageWindow.SetHeadline(headline);
+    messageWindow.SetPendingState();
+    return messageWindow;
+  }
+
+  public GPGStatusMessage ShowSignMessage(string message, string headline)
+  {
+    GameObject prefabToUse = m_signMessagePrefab;
+    GPGStatusMessage messageWindow = Instantiate(prefabToUse, m_canvas.transform).GetComponent<GPGStatusMessage>();
+    messageWindow.Show();
+    messageWindow.SetMessage(message);
+    messageWindow.SetHeadline(headline);
+    messageWindow.SetPendingState();
     return messageWindow;
   }
 
