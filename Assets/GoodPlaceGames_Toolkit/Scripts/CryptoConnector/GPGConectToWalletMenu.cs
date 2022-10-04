@@ -11,7 +11,7 @@ using Nethereum.Util;
 
 public class GPGConectToWalletMenu : MonoBehaviour
 {
-  public string m_nextSceneName = "Scene_MainMenu";
+  public string m_nextSceneName = "Intro";
   [TextArea(7, 10)]
   public string m_authMsg = "Welcome to Germ Pirates.\nThis request is only to verify your address with us and this will not trigger a blockchain transaction.";
 
@@ -24,7 +24,6 @@ public class GPGConectToWalletMenu : MonoBehaviour
   [DllImport("__Internal")]
   private static extern void SetConnectAccount(string value);
 
-  private int expirationTime;
   private string account;
 
   bool m_walletConnected = false;
@@ -56,14 +55,14 @@ public class GPGConectToWalletMenu : MonoBehaviour
   #if !UNITY_EDITOR
     Web3Connect();
   #endif
-    StartCoroutine(OnConnected());
+    StartCoroutine(LoginWebGL());
 #else // desktop or mobile
-    StartCoroutine(OnLogin());
+    StartCoroutine(LoginDesktopAndMobile());
 #endif
 
   }
 
-  IEnumerator OnConnected()
+  IEnumerator LoginWebGL()
   {
     // if playing in editor then skip metamask an use a fixed address for quick testing reasons.
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -76,7 +75,7 @@ public class GPGConectToWalletMenu : MonoBehaviour
     };
 #else
 #if UNITY_EDITOR
-    account = "0xE70E6d970e5b90dAa7c97B35b3e40471B17c4B64"; // use test address while in untiy editor (only if WEBGL is activated)
+    account = "0x0000000000000000000000000000000000000000"; // use test address while in unity editor (only if WEBGL is activated)
 #else
     account = "0x0000000000000000000000000000000000000000";
 #endif
@@ -88,11 +87,6 @@ public class GPGConectToWalletMenu : MonoBehaviour
     }
     // save account for next scene
     PlayerPrefs.SetString("Account", account);
-    /*
-    Task task = CDCryptoManager.m_instance.SignMessage("Welcome.\nThis will not trigger a blockchain transaction.");
-    yield return new WaitUntil(() => task.IsCompleted);
-    Debug.Log("----SignMessage Task Completed");
-    */
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     // reset login message
@@ -118,64 +112,63 @@ public class GPGConectToWalletMenu : MonoBehaviour
 
     if (!m_signing && !m_messageSigned)
     {
-      AskSignMessage();
+      string Hash = GPGAPIConnector.HashString(DateTime.UtcNow.ToString());
+      string message = m_authMsg + "\n\nHash: " + Hash;
+      AskSignMessage(message);
     }
   }
 
-  public IEnumerator OnLogin()
+  public IEnumerator LoginDesktopAndMobile()
   {
     // get current timestamp
     int timestamp = (int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
     // set expiration time
     int expirationTime = timestamp + 60;
-    // set message
-    string message = expirationTime.ToString();
-    // sign message
-    Task<string> signTask = Web3Wallet.Sign(message);
-    yield return new WaitUntil(() => signTask.IsCompleted);
-    string signature = signTask.Result;
-    // verify account
-    Task<string> verifyTask = EVM.Verify(message, signature);
-    yield return new WaitUntil(() => verifyTask.IsCompleted);
-    string account = verifyTask.Result;
-    int now = (int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
-    // validate
-    if (account.Length == 42 && expirationTime >= now)
-    {
-      if (!AddressExtensions.IsEthereumChecksumAddress(account))
-      {
-        account = AddressExtensions.ConvertToEthereumChecksumAddress(account);
-      }
 
-      // save account
-      PlayerPrefs.SetString("Account", account);
-      print("Account: " + account);
-      m_walletConnected = true;
+    if (!m_messageSigned)
+    {
+      string Hash = GPGAPIConnector.HashString(DateTime.UtcNow.ToString());
+      string message = m_authMsg + "\n\nHash: " + Hash;
+
+      Task<string> signTask = AskSignMessage(message);
+      yield return new WaitUntil(() => signTask.IsCompleted);
+      string signature = signTask.Result;
+
+      // verify account
+      Task<string> verifyTask = EVM.Verify(message, signature);
+      yield return new WaitUntil(() => verifyTask.IsCompleted);
+      account = verifyTask.Result;
+
+      int now = (int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
+      // validate
+      if (account.Length == 42 && expirationTime >= now)
+      {
+        if (!AddressExtensions.IsEthereumChecksumAddress(account))
+        {
+          account = AddressExtensions.ConvertToEthereumChecksumAddress(account);
+        }
+
+        // save account
+        PlayerPrefs.SetString("Account", account);
+        print("Account: " + account);
+        m_walletConnected = true;
+      }
     }
 
     yield return StartCoroutine(GermAPIConnector.m_instance.IERequestAllData(account));
-
-
-    if (!m_signing && !m_messageSigned)
-    {
-      AskSignMessage();
-    }
   }
 
-  async void AskSignMessage()
+  async Task<string> AskSignMessage(string msg)
   {
     m_signing = true;
+    string resultSiganture = "";
 
     if (GermAPIConnector.m_useAPI)
     {
 //#if UNITY_WEBGL && !UNITY_EDITOR
-      string Hash = GPGAPIConnector.HashString(DateTime.UtcNow.ToString());
-
-      string message = m_authMsg + "\n\nHash: " + Hash;
-      GPGStatusMessage authMessage = (GPGStatusMessage)GPGMessageManager.m_instance.ShowSignMessage(message, "AUTHENTICATION");
+      GPGStatusMessage authMessage = (GPGStatusMessage)GPGMessageManager.m_instance.ShowSignMessage(msg, "AUTHENTICATION");
       authMessage.SetPendingState();
-      string result = await GPGCryptoManager.m_instance.SignMessage(message);
-      Debug.Log("SignMessage result: " + result);
+      string result = await GPGCryptoManager.m_instance.SignMessage(msg);
       if (result != "Error" && result != "")
       {
         authMessage.SetCompletedState();
@@ -189,10 +182,11 @@ public class GPGConectToWalletMenu : MonoBehaviour
       if (result != "Error" && result != "")
       {
         string signature = result;
-        Debug.Log("signature: " + signature);
+        Debug.Log("Signature: " + signature);
 
+        resultSiganture = signature;
         GermAPIConnector.m_registrySignature = signature;
-        GermAPIConnector.m_registryMessage = message;
+        GermAPIConnector.m_registryMessage = msg;
 
         m_messageSigned = true;
       }
@@ -206,10 +200,12 @@ public class GPGConectToWalletMenu : MonoBehaviour
     }
 
     m_signing = false;
+    return resultSiganture;
   }
 
   public async Task<bool> CheckEntryRequiriments()
   {
+    //Check for NFTs ownership here
     return true;
   }
 }
