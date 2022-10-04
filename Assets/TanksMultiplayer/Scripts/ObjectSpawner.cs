@@ -220,6 +220,9 @@ namespace TanksMP
             //cancel return timer as this object is now being carried around
             if (PhotonNetwork.IsMasterClient)
                 StopAllCoroutines();
+
+            // Update the UI
+            GameManager.GetInstance().ui.OnChestPickup(view.gameObject);
         }
 
 
@@ -254,6 +257,9 @@ namespace TanksMP
                 StopAllCoroutines();
                 StartCoroutine(SpawnRoutine());
             }
+
+            // Update the UI
+            GameManager.GetInstance().ui.OnChestPickup(null);
         }
 
 
@@ -279,6 +285,9 @@ namespace TanksMP
             //cancel return timer as the object is now back at its base position
             if (PhotonNetwork.IsMasterClient)
                 StopAllCoroutines();
+
+            // Update the UI
+            GameManager.GetInstance().ui.OnChestPickup(null);
         }
 
 
@@ -296,7 +305,10 @@ namespace TanksMP
             //if it should respawn again, trigger a new coroutine
 			if(PhotonNetwork.IsMasterClient && respawn)
                 StartCoroutine(SpawnRoutine());
-		}
+
+            // Update the UI
+            GameManager.GetInstance().ui.OnChestPickup(null);
+        }
         
         
         /// <summary>
