@@ -204,11 +204,6 @@ namespace TanksMP
             }
         }
 
-        void Update()
-        {
-            
-        }
-
         private Vector2 prevMoveDir;
 
         //continously check for input on desktop platforms
@@ -319,19 +314,19 @@ namespace TanksMP
                 transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
             }
 
-            Vector3 moveForce;
+            Vector3 moveForce = transform.forward * direction.y * moveSpeed;
 
             /* This will make the player avoid colliding with the terrain by observing distance */
             // TODO: moving backward is bug
             /* Moving forward against an obstacle */
-            if (Physics.Raycast(transform.position, transform.forward, 12, 1 << 6))
+            /*if (Physics.Raycast(transform.position, transform.forward, 12, 1 << 6))
             {
                 var directionY = Mathf.Min(0, direction.y);
 
                 moveForce = transform.forward * directionY * moveSpeed;
             }
 
-            /* Moving backward against an obstacle */
+            *//* Moving backward against an obstacle *//*
             else if (Physics.Raycast(transform.position, transform.forward * -1, 12, 1 << 6))
             {
                 var directionY = Mathf.Max(0, direction.y);
@@ -339,11 +334,11 @@ namespace TanksMP
                 moveForce = transform.forward * directionY * moveSpeed;
             }
 
-            /* No obstacles */
+            *//* No obstacles *//*
             else
             {
                 moveForce = transform.forward * direction.y * moveSpeed;
-            }
+            }*/
 
             rb.AddForce(moveForce);
         }

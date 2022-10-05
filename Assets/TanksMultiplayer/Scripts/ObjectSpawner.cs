@@ -222,7 +222,7 @@ namespace TanksMP
                 StopAllCoroutines();
 
             // Update the UI
-            GameManager.GetInstance().ui.OnChestPickup(view.gameObject);
+            GameManager.GetInstance().ui.OnChestPickup(view.GetComponent<Player>());
         }
 
 

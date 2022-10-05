@@ -139,7 +139,7 @@ namespace TanksMP
         /// <summary>
         /// Added by: Jilmer John Cariaso
         /// </summary>
-        public void OnChestPickup(GameObject obj)
+        public void OnChestPickup(Player obj)
         {
             var players = FindObjectsOfType<Player>();
 
@@ -151,12 +151,12 @@ namespace TanksMP
 
             for (int i = 0; i < team1ChestIndicators.Length; i++)
             {
-                team1ChestIndicators[i].gameObject.SetActive(obj != null && team1.Count() > i && team1[i].gameObject == obj);
+                team1ChestIndicators[i].gameObject.SetActive(obj != null && team1.Count() > i && team1[i] == obj);
             }
 
             for (int i = 0; i < team2ChestIndicators.Length; i++)
             {
-                team2ChestIndicators[i].gameObject.SetActive(obj != null && team2.Count() > i && team2[i].gameObject == obj);
+                team2ChestIndicators[i].gameObject.SetActive(obj != null && team2.Count() > i && team2[i] == obj);
             }
         }
 
