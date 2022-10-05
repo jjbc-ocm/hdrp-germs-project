@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using System.Linq;
 
 namespace TanksMP
 {
@@ -28,6 +29,10 @@ namespace TanksMP
         public Image[] team1PlayerIndicators;
 
         public Image[] team2PlayerIndicators;
+
+        public Image[] team1ChestIndicators;
+
+        public Image[] team2ChestIndicators;
 
         /// <summary>
         /// UI texts displaying kill scores for each team.
@@ -128,6 +133,30 @@ namespace TanksMP
                         team2PlayerIndicators[j].gameObject.SetActive(true);
                 }
                 
+            }
+        }
+
+        /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// </summary>
+        public void OnChestPickup(GameObject obj)
+        {
+            var players = FindObjectsOfType<Player>();
+
+            var team1 = players.Where(i => i.GetView().GetTeam() == 0).ToArray();
+
+            var team2 = players.Where(i => i.GetView().GetTeam() == 1).ToArray();
+
+            Debug.Log(team1.Length + " " + team2.Length);
+
+            for (int i = 0; i < team1ChestIndicators.Length; i++)
+            {
+                team1ChestIndicators[i].gameObject.SetActive(obj != null && team1.Count() > i && team1[i].gameObject == obj);
+            }
+
+            for (int i = 0; i < team2ChestIndicators.Length; i++)
+            {
+                team2ChestIndicators[i].gameObject.SetActive(obj != null && team2.Count() > i && team2[i].gameObject == obj);
             }
         }
 
