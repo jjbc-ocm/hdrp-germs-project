@@ -32,6 +32,9 @@ namespace TanksMP
         [HideInInspector]
         public short turretRotation;
 
+        [HideInInspector]
+        public Vector3 shipRotation;
+
         /// <summary>
         /// Delay between shots.
         /// </summary>
@@ -195,12 +198,16 @@ namespace TanksMP
             {             
                 //here we send the turret rotation angle to other clients
                 stream.SendNext(turretRotation);
+                stream.SendNext(shipRotation);
             }
             else
             {   
                 //here we receive the turret rotation angle from others and apply it
                 this.turretRotation = (short)stream.ReceiveNext();
+                this.shipRotation = (Vector3)stream.ReceiveNext();
                 OnTurretRotation();
+
+                ship.transform.localRotation = Quaternion.Euler(this.shipRotation);
             }
         }
 
@@ -255,10 +262,12 @@ namespace TanksMP
             RotateTurret(new Vector2(hitPos.x, hitPos.z));
 
             //rotate ship based on turnDir
-            ship.transform.localRotation = Quaternion.Euler(
+            //TODO: must put this in 
+            shipRotation = new Vector3(
                 moveDir.y * -10,//ship.transform.localEulerAngles.x, 
-                ship.transform.localEulerAngles.y, 
+                ship.transform.localEulerAngles.y,
                 (moveDir.x * (1 + moveDir.y * -0.5f)) * -10);
+            ship.transform.localRotation = Quaternion.Euler(shipRotation);
             //rb.AddTorque(new Vector3(0, 0, moveDir.x * 15f));
 
             //shoot bullet on left mouse click
