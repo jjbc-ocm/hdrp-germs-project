@@ -191,10 +191,10 @@ namespace TanksMP
             //unfortunately this cannot be set via the GameManager because it does not exist at that point
             short initialArrayLength;
             //get the selected game mode out of PlayerPrefs
-            GameMode activeGameMode = ((GameMode)PlayerPrefs.GetInt(PrefsKeys.gameMode));
+            GameMode activeGameMode = GameMode.CTF;//((GameMode)PlayerPrefs.GetInt(PrefsKeys.gameMode));
 
             //set the initial room array size initialization based on game mode
-            switch(activeGameMode)
+            switch (activeGameMode)
             {
                 case GameMode.CTF:
                     initialArrayLength = 2;

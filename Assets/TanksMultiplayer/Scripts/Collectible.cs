@@ -20,6 +20,11 @@ namespace TanksMP
         public AudioClip useClip;
 
         /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// </summary>
+        public GameObject graphics;
+
+        /// <summary>
         /// Reference to the local object (script) that spawned this Collectible.
         /// </summary>
         [HideInInspector]
@@ -30,7 +35,6 @@ namespace TanksMP
         /// </summary>
         [HideInInspector]
         public int carrierId = -1;
-        
                   
         /// <summary>
         /// Server only: check for players colliding with this item.

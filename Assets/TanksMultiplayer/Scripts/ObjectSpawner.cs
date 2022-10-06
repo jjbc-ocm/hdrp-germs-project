@@ -175,6 +175,8 @@ namespace TanksMP
         [PunRPC]
 		public void Instantiate()
 		{
+            Debug.Log("Instantiate");
+
             //sanity check in case there already is an object active
             if (obj != null)
                 return;
@@ -189,6 +191,8 @@ namespace TanksMP
                 //set internal item type automatically
                 if (colItem is CollectibleTeam) colType = CollectionType.Pickup;
                 else colType = CollectionType.Use;
+
+                colItem.graphics.SetActive(true);
             }
 		}
 
@@ -199,6 +203,8 @@ namespace TanksMP
         [PunRPC]
         public void Pickup(short viewId)
         {
+            Debug.Log("Pickup");
+
             //in case this method call is received over the network earlier than the
             //spawner instantiation, here we make sure to catch up and instantiate it directly
             if (obj == null)
@@ -215,6 +221,7 @@ namespace TanksMP
             {
                 colItem.carrierId = viewId;
                 colItem.OnPickup();
+                colItem.graphics.SetActive(false);
             }
 
             //cancel return timer as this object is now being carried around
@@ -222,7 +229,13 @@ namespace TanksMP
                 StopAllCoroutines();
 
             // Update the UI
-            GameManager.GetInstance().ui.OnChestPickup(view.gameObject);
+            GameManager.GetInstance().ui.OnChestPickup(view.GetComponent<Player>());
+
+            var destination = view.GetTeam() == 0
+                ? GameManager.GetInstance().zoneRed.transform.position
+                : GameManager.GetInstance().zoneBlue.transform.position;
+
+            GPSManager.Instance.SetDestination(destination);
         }
 
 
@@ -232,6 +245,8 @@ namespace TanksMP
         [PunRPC]
         public void Drop(Vector3 position)
         {
+            Debug.Log("Drop");
+
             //in case this method call is received over the network earlier than the
             //spawner instantiation, here we make sure to catch up and instantiate it directly
             if (obj == null)
@@ -247,6 +262,7 @@ namespace TanksMP
             {
                 colItem.carrierId = -1;
                 colItem.OnDrop();
+                colItem.graphics.SetActive(true);
             }
 
             //update respawn counter for a future point in time
@@ -260,6 +276,8 @@ namespace TanksMP
 
             // Update the UI
             GameManager.GetInstance().ui.OnChestPickup(null);
+
+            GPSManager.Instance.ClearDestination();
         }
 
 
@@ -270,6 +288,8 @@ namespace TanksMP
         [PunRPC]
         public void Return()
         {
+            Debug.Log("Return");
+
             //re-parent object to this spawner
             obj.transform.parent = PoolManager.GetPool(obj).transform;
             obj.transform.position = transform.position;
@@ -280,6 +300,7 @@ namespace TanksMP
             {
                 colItem.carrierId = -1;
                 colItem.OnReturn();
+                colItem.graphics.SetActive(true);
             }
 
             //cancel return timer as the object is now back at its base position
@@ -288,6 +309,8 @@ namespace TanksMP
 
             // Update the UI
             GameManager.GetInstance().ui.OnChestPickup(null);
+
+            GPSManager.Instance.ClearDestination();
         }
 
 
@@ -298,8 +321,10 @@ namespace TanksMP
         [PunRPC]
 		public void Destroy()
 		{
+            Debug.Log("Destroy");
+
             //despawn object and clear references
-			PoolManager.Despawn(obj);
+            PoolManager.Despawn(obj);
             obj = null;
 			
             //if it should respawn again, trigger a new coroutine
@@ -308,6 +333,8 @@ namespace TanksMP
 
             // Update the UI
             GameManager.GetInstance().ui.OnChestPickup(null);
+
+            GPSManager.Instance.ClearDestination();
         }
         
         
@@ -318,7 +345,9 @@ namespace TanksMP
         [PunRPC]
         public void SetRespawn(float init = 0f)
         {
-            if(init > 0f)
+            Debug.Log("SetRespawn");
+
+            if (init > 0f)
                 nextSpawn = init;
             else
                 nextSpawn = (float)PhotonNetwork.Time + respawnTime;

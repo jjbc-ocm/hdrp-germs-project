@@ -34,6 +34,16 @@ namespace TanksMP
         public Camera mainCamera;
 
         /// <summary>
+        /// Added by: Jilmer John
+        /// </summary>
+        public CollectibleZone zoneRed;
+
+        /// <summary>
+        /// Added by: Jilmer John
+        /// </summary>
+        public CollectibleZone zoneBlue;
+
+        /// <summary>
         /// Active game mode played in the current scene.
         /// </summary>
         public GameMode gameMode = GameMode.TDM;
