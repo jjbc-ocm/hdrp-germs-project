@@ -28,6 +28,12 @@ namespace TanksMP
         public Player localPlayer;
 
         /// <summary>
+        /// This is just temporary, because timer should be decided by the team first. Just use this for now for testing
+        /// Default is 15 min only for testing
+        /// </summary>
+        public double gameTimer = 900;
+
+        /// <summary>
         /// Added by: Jilmer John
         /// Use this as reference for mainCamera
         /// </summary>
@@ -258,7 +264,13 @@ namespace TanksMP
                     break;
                 }
             }
-            
+
+            // if maximum time is reached
+            if (Timer.Instance.TimeLapse >= gameTimer)
+            {
+                isOver = true;
+            }
+
             //return the result
             return isOver;
         }
