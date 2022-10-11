@@ -140,7 +140,7 @@ namespace TanksMP
 		{
             while (true)
             {
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(respawnTime);
 
                 var totalScore = PhotonNetwork.CurrentRoom.GetScore().Sum();
 
