@@ -6,6 +6,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using System;
 #if UNITY_ADS
 using UnityEngine.Advertisements;
 #endif
@@ -29,9 +30,9 @@ namespace TanksMP
 
         /// <summary>
         /// This is just temporary, because timer should be decided by the team first. Just use this for now for testing
-        /// Default is 15 min only for testing
+        /// Default is 10 min only for testing
         /// </summary>
-        public double gameTimer = 900;
+        public double gameTimer = 600;
 
         /// <summary>
         /// Added by: Jilmer John
@@ -52,7 +53,7 @@ namespace TanksMP
         /// <summary>
         /// Active game mode played in the current scene.
         /// </summary>
-        public GameMode gameMode = GameMode.TDM;
+        //public GameMode gameMode = GameMode.CaptureTheChest;
 
         /// <summary>
         /// Reference to the UI script displaying game stats.
@@ -214,33 +215,37 @@ namespace TanksMP
         /// </summary>
         public void AddScore(ScoreType scoreType, int teamIndex)
         {
-            //distinguish between game mode
-            switch(gameMode)
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
             {
-                //in TDM, we only grant points for killing
-                case GameMode.TDM:
-                    switch(scoreType)
-                    {
-                        case ScoreType.Kill:
-                            PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
-                            break;
-                    }
-                break;
+                var intMode = Convert.ToInt32(mode);
 
-                //in CTF, we grant points for both killing and flag capture
-                case GameMode.CTF:
-                    switch(scoreType)
-                    {
-                        case ScoreType.Kill:
-                            PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
-                            break;
+                var enumMode = (GameMode)intMode;
 
-                        case ScoreType.Capture:
-                            PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
-                            break;
-                    }
-                break;
+                switch (enumMode)
+                {
+                    case GameMode.CaptureTheChest:
+
+                        switch (scoreType)
+                        {
+                            case ScoreType.Capture:
+                                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
+                                break;
+                        }
+                        break;
+
+                    case GameMode.DeathMatch:
+                        switch (scoreType)
+                        {
+                            case ScoreType.Kill:
+                                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
+                                break;
+                        }
+                        break;
+                }
             }
+
+            //distinguish between game mode
+            
         }
         
 
@@ -266,11 +271,18 @@ namespace TanksMP
             }
 
             // if maximum time is reached
-            if (Timer.Instance.TimeLapse >= gameTimer)
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
             {
-                isOver = true;
-            }
+                var intMode = Convert.ToInt32(mode);
 
+                var enumMode = (GameMode)intMode;
+
+                if (enumMode == GameMode.Survival && Timer.Instance.TimeLapse >= gameTimer)
+                {
+                    isOver = true;
+                }
+            }
+            
             //return the result
             return isOver;
         }
@@ -411,14 +423,10 @@ namespace TanksMP
     /// </summary>
     public enum GameMode
     {
-        /// <summary>
-        /// Team Deathmatch
-        /// </summary>
-        TDM,
+        CaptureTheChest,
 
-        /// <summary>
-        /// Capture The Flag
-        /// </summary>
-        CTF
+        DeathMatch,
+
+        Survival
     }
 }

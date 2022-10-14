@@ -266,7 +266,7 @@ namespace TanksMP
             shipRotation = new Vector3(
                 moveDir.y * -10,//ship.transform.localEulerAngles.x, 
                 ship.transform.localEulerAngles.y,
-                (moveDir.x * (1 + moveDir.y * -0.5f)) * -10);
+                moveDir.x * -10);
             ship.transform.localRotation = Quaternion.Euler(shipRotation);
             //rb.AddTorque(new Vector3(0, 0, moveDir.x * 15f));
 
@@ -314,7 +314,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * (1 + direction.y * -0.5f) * Time.deltaTime;
+                float x = direction.x * Time.deltaTime * 1.5f;// * (1 + direction.y * -0.5f) * Time.deltaTime;
 
                 float z = 1;
 

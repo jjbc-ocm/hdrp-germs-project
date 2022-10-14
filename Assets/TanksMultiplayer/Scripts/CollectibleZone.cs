@@ -77,6 +77,7 @@ namespace TanksMP
 
                 //add points for this score type to the correct team
                 GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
+
                 //the maximum score has been reached now
                 if (GameManager.GetInstance().IsGameOver())
                 {
