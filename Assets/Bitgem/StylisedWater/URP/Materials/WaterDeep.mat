@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterDeep
-  m_Shader: {fileID: -6465566751694194690, guid: 39810a84e30e95d48be0bca493e650c2, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 7c47ef6eb90bd094ea6e7a915c282fb3, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
@@ -40,6 +40,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -48,7 +52,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8be6625426a343f09fa1a27e16ec1d13_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -66,13 +78,30 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Foam_Amount: 3.55
+    - Foam_Cutoff: 0.05
+    - Foam_Evolution_Speed: 0.4
+    - Foam_Scale: 2.53
+    - Global_Fading: 1000
+    - Light_Probe_Contribution: 2.5
+    - Refaction_Scale: 2
+    - Refraction_Evolution_Speed: 1
+    - Refraction_Height: 0.6
     - Vector1_17E53C12: 0.08
     - Vector1_244B0600: 1.5
+    - Vector1_25aa78d5cd65435697c3191e93a6343a: 200
+    - Vector1_2B58F275: 1
+    - Vector1_2FBE3DFA: 2
     - Vector1_34CF798A: 1.75
     - Vector1_36E8227: 0
     - Vector1_3D886DA1: 0.454
     - Vector1_46E42935: 0.4
     - Vector1_47683D42: 0.626
+    - Vector1_65DAC18D: 2
+    - Vector1_707bdef874cb42eb8b6d49e6e1b05c44: 2
+    - Vector1_77A997E: 0.5
+    - Vector1_7A056A02: 0.5
+    - Vector1_8CEB4E60: 1
     - Vector1_A0EAD698: 0.33
     - Vector1_A6A0BC26: 0.025
     - Vector1_B9F56378: 0.14
@@ -80,7 +109,15 @@ Material:
     - Vector1_DF445019: 1.5
     - Vector1_E03AB928: 0.025
     - Vector1_E5C51606: 0
+    - Vector1_EA2D80AD: 10
     - Vector1_F38B44AA: 0.35
+    - Vector1_F591A23A: 0
+    - Vector1_e447c4cc8b7d4aa1bb50df149727dbaf: 2
+    - Vector1_e9c25d97b3c945c396e5f78c4ad28a04: 0.03
+    - Water_Depth: 8
+    - Wave_Height: 3
+    - Wave_Scale: 17.4
+    - Wave_Speed: 0.2
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,16 +141,27 @@ Material:
     - _WaveFrequency: 20
     - _WaveScale: 2
     - _WaveSpeed: 1.7
+    - _Wind_Density: 0
+    - _Wind_Direction: 0
+    - _Wind_Speed: 0
+    - _Wind_Strength: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - Color_7D9A58EC: {r: 0.11921501, g: 0.24888752, b: 0.4433962, a: 0.9843137}
     - Color_F01C36BF: {r: 0.09011214, g: 0.40366176, b: 0.7075472, a: 0}
+    - Foam_Color: {r: 1, g: 1, b: 1, a: 0.5450981}
+    - Shallow_Water_Color: {r: 0, g: 0.65635085, b: 0.7924528, a: 0.3176471}
+    - Trough_Color: {r: 0, g: 0.3019853, b: 0.6886792, a: 0.4627451}
     - Vector2_37B21477: {r: 20, g: 20, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5702210360403225776
 MonoBehaviour:
