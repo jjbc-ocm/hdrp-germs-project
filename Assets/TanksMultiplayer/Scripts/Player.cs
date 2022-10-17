@@ -323,7 +323,11 @@ namespace TanksMP
                 transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
             }
 
-            Vector3 moveForce = transform.forward * direction.y * moveSpeed;
+            var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
+
+            Debug.Log(acceleration);
+
+            Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
 
             /* This will make the player avoid colliding with the terrain by observing distance */
             // TODO: moving backward is bug

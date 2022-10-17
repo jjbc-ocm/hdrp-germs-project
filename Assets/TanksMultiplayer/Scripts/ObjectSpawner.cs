@@ -235,7 +235,10 @@ namespace TanksMP
                 ? GameManager.GetInstance().zoneRed.transform.position
                 : GameManager.GetInstance().zoneBlue.transform.position;
 
-            GPSManager.Instance.SetDestination(destination);
+            if (view.IsMine)
+            {
+                GPSManager.Instance.SetDestination(destination);
+            }
         }
 
 
