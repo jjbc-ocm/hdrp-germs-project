@@ -175,7 +175,7 @@ namespace TanksMP
         [PunRPC]
 		public void Instantiate()
 		{
-            Debug.Log("Instantiate");
+            Debug.LogError("Instantiate");
 
             //sanity check in case there already is an object active
             if (obj != null)
@@ -192,7 +192,7 @@ namespace TanksMP
                 if (colItem is CollectibleTeam) colType = CollectionType.Pickup;
                 else colType = CollectionType.Use;
 
-                colItem.graphics.SetActive(true);
+                //colItem.graphics.SetActive(true);
             }
 		}
 
@@ -203,7 +203,7 @@ namespace TanksMP
         [PunRPC]
         public void Pickup(short viewId)
         {
-            Debug.Log("Pickup");
+            Debug.LogError("Pickup");
 
             //in case this method call is received over the network earlier than the
             //spawner instantiation, here we make sure to catch up and instantiate it directly
@@ -219,9 +219,9 @@ namespace TanksMP
             Collectible colItem = obj.GetComponent<Collectible>();
             if (colItem != null)
             {
-                colItem.carrierId = viewId;
+                colItem.CarrierId = viewId;
                 colItem.OnPickup();
-                colItem.graphics.SetActive(false);
+                //colItem.graphics.SetActive(false);
             }
 
             //cancel return timer as this object is now being carried around
@@ -248,7 +248,7 @@ namespace TanksMP
         [PunRPC]
         public void Drop(Vector3 position)
         {
-            Debug.Log("Drop");
+            Debug.LogError("Drop");
 
             //in case this method call is received over the network earlier than the
             //spawner instantiation, here we make sure to catch up and instantiate it directly
@@ -263,9 +263,9 @@ namespace TanksMP
             Collectible colItem = obj.GetComponent<Collectible>();
             if (colItem != null)
             {
-                colItem.carrierId = -1;
+                colItem.CarrierId = -1;
                 colItem.OnDrop();
-                colItem.graphics.SetActive(true);
+                //colItem.graphics.SetActive(true);
             }
 
             //update respawn counter for a future point in time
@@ -291,7 +291,7 @@ namespace TanksMP
         [PunRPC]
         public void Return()
         {
-            Debug.Log("Return");
+            Debug.LogError("Return");
 
             //re-parent object to this spawner
             obj.transform.parent = PoolManager.GetPool(obj).transform;
@@ -301,9 +301,9 @@ namespace TanksMP
             Collectible colItem = obj.GetComponent<Collectible>();
             if (colItem != null)
             {
-                colItem.carrierId = -1;
+                colItem.CarrierId = -1;
                 colItem.OnReturn();
-                colItem.graphics.SetActive(true);
+                //colItem.graphics.SetActive(true);
             }
 
             //cancel return timer as the object is now back at its base position
@@ -324,7 +324,7 @@ namespace TanksMP
         [PunRPC]
 		public void Destroy()
 		{
-            Debug.Log("Destroy");
+            Debug.LogError("Destroy");
 
             //despawn object and clear references
             PoolManager.Despawn(obj);
@@ -348,7 +348,7 @@ namespace TanksMP
         [PunRPC]
         public void SetRespawn(float init = 0f)
         {
-            Debug.Log("SetRespawn");
+            Debug.LogError("SetRespawn");
 
             if (init > 0f)
                 nextSpawn = init;

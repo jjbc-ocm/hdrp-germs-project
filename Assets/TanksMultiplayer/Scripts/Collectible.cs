@@ -12,17 +12,15 @@ namespace TanksMP
     /// Base class for all derived Collectibles (health, shields, etc.) consumed or carried around.
     /// Extend this to create highly customized Collectible with specific functionality.
     /// </summary>
-	public class Collectible : MonoBehaviour
-	{	    
+    /// 
+
+    [RequireComponent(typeof(PhotonView))]
+	public class Collectible : MonoBehaviourPun, IPunObservable
+    {	    
         /// <summary>
         /// Clip to play when this Collectible is consumed by a player.
         /// </summary>
         public AudioClip useClip;
-
-        /// <summary>
-        /// Added by: Jilmer John Cariaso
-        /// </summary>
-        public GameObject graphics;
 
         /// <summary>
         /// Reference to the local object (script) that spawned this Collectible.
@@ -30,12 +28,36 @@ namespace TanksMP
         [HideInInspector]
         public ObjectSpawner spawner;
 
-        /// <summary>
-        /// Persistent network (PhotonView) ID of the Player that picked up this Collectible.
-        /// </summary>
-        [HideInInspector]
-        public int carrierId = -1;
-                  
+        [SerializeField]
+        private GameObject graphics;
+
+        #region Network Synced
+
+        protected int carrierId = -1;
+
+        public int CarrierId { get => carrierId; set => carrierId = value; }
+
+        #endregion
+
+        void Update()
+        {
+            if (carrierId > 0)
+            {
+                var target = PhotonNetwork.GetPhotonView(carrierId);
+
+                if (target != null)
+                {
+                    transform.position = target.transform.position;
+                }
+            }
+
+            if (graphics != null)
+            {
+                graphics.SetActive(carrierId <= 0);
+            }
+        }
+
+
         /// <summary>
         /// Server only: check for players colliding with this item.
         /// Possible collision are defined in the Physics Matrix.
@@ -52,7 +74,8 @@ namespace TanksMP
             if (Apply(player))
             {
                 //destroy after use
-                spawner.photonView.RPC("Destroy", RpcTarget.All);           
+                //spawner.photonView.RPC("Destroy", RpcTarget.All);
+                PhotonNetwork.Destroy(photonView);
             }
 		}
 
@@ -105,6 +128,18 @@ namespace TanksMP
             if (useClip) AudioManager.Play3D(useClip, transform.position);
             carrierId = -1;
             spawner.SetRespawn();
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(carrierId);
+            }
+            else
+            {
+                carrierId = (int)stream.ReceiveNext();
+            }
         }
     }
 }

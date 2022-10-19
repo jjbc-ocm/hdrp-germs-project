@@ -37,28 +37,13 @@ namespace TanksMP
         /// Server only: check for collectibles colliding with the zone.
         /// Possible collision are defined in the Physics Matrix. 
         /// </summary>
-        public void OnTriggerEnter(Collider col)
+        /*public void OnTriggerEnter(Collider col)
         {
             if (!PhotonNetwork.IsMasterClient)
                 return;
 
             //the game is already over so don't do anything
             if (GameManager.GetInstance().IsGameOver()) return;
-
-            //check for the required object
-            //continue, if it is not assigned to begin with
-            /*if (requireObject != null)
-            {
-                //the required object is not instantiated
-                if (requireObject.obj == null)
-                    return;
-
-                //the required object either does not have a CollectibleTeam component,
-                //is still being carried around or not yet at back at the spawn position
-                CollectibleTeam colReq = requireObject.obj.GetComponent<CollectibleTeam>();
-
-                if (colReq == null) return;
-            }*/
 
             CollectibleTeam colOther = col.gameObject.GetComponent<CollectibleTeam>();
 
@@ -92,6 +77,74 @@ namespace TanksMP
                 PhotonNetwork.RemoveRPCs(colOther.spawner.photonView);
                 colOther.spawner.photonView.RPC("Destroy", RpcTarget.All);
             }
+        }*/
+
+        public void OnTriggerEnter(Collider col)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
+            if (GameManager.GetInstance().IsGameOver()) return;
+
+            var player = col.GetComponent<Player>();
+
+            if (player != null && player.GetView().GetTeam() != teamIndex) return;
+
+            var chestObject = GameObject.FindGameObjectWithTag("Chest");
+
+            if (chestObject == null) return;
+
+            var chest = chestObject.GetComponent<CollectibleTeam>();
+
+            if (chest.CarrierId != player.GetView().ViewID) return;
+
+            if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
+
+            GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
+
+            if (GameManager.GetInstance().IsGameOver())
+            {
+                //close room for joining players
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                //tell all clients the winning team
+                GameManager.GetInstance().localPlayer.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
+                return;
+            }
+
+            PhotonNetwork.Destroy(chest.photonView);
+
+            /*var item = col.gameObject.GetComponent<CollectibleTeam>();
+
+            //a team item, which is not our own, has been brought to this zone 
+            if (item != null)// && colOther.teamIndex != teamIndex)
+            {
+                Player player = item.transform.parent.GetComponent<Player>();
+
+                // Ensure that player can only drop the chest on its team base
+                if (player != null && player.GetView().GetTeam() != teamIndex)
+                {
+                    return;
+                }
+
+                if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
+
+                //add points for this score type to the correct team
+                GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
+
+                //the maximum score has been reached now
+                if (GameManager.GetInstance().IsGameOver())
+                {
+                    //close room for joining players
+                    PhotonNetwork.CurrentRoom.IsOpen = false;
+                    //tell all clients the winning team
+                    GameManager.GetInstance().localPlayer.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
+                    return;
+                }
+
+                //remove network messages about the Collectible since it is about to get destroyed 
+                PhotonNetwork.RemoveRPCs(colOther.spawner.photonView);
+                colOther.spawner.photonView.RPC("Destroy", RpcTarget.All);
+            }*/
         }
     }
 }

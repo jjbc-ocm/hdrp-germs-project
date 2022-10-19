@@ -29,11 +29,7 @@ namespace TanksMP
         /// <summary>
         /// Current turret rotation and shooting direction.
         /// </summary>
-        [HideInInspector]
-        public short turretRotation;
-
-        [HideInInspector]
-        public Vector3 shipRotation;
+        
 
         /// <summary>
         /// Delay between shots.
@@ -119,7 +115,18 @@ namespace TanksMP
         //reference to this rigidbody
         #pragma warning disable 0649
 		private Rigidbody rb;
-		#pragma warning restore 0649
+#pragma warning restore 0649
+
+
+
+
+        #region Network Sync
+
+        protected short turretRotation;
+
+        protected Vector3 shipRotation;
+
+        #endregion
 
 
         //initialize server values for this player
@@ -175,7 +182,6 @@ namespace TanksMP
             #endif
         }
 
-
         /// <summary>
         /// This method gets called whenever player properties have been changed on the network.
         /// </summary>
@@ -203,8 +209,8 @@ namespace TanksMP
             else
             {   
                 //here we receive the turret rotation angle from others and apply it
-                this.turretRotation = (short)stream.ReceiveNext();
-                this.shipRotation = (Vector3)stream.ReceiveNext();
+                turretRotation = (short)stream.ReceiveNext();
+                shipRotation = (Vector3)stream.ReceiveNext();
                 OnTurretRotation();
 
                 ship.transform.localRotation = Quaternion.Euler(this.shipRotation);
@@ -324,8 +330,6 @@ namespace TanksMP
             }
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
-
-            Debug.Log(acceleration);
 
             Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
 

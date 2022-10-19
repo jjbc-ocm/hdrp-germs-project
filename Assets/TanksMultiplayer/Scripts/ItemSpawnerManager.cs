@@ -1,7 +1,9 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ItemSpawnerManager : MonoBehaviourPun
 {
@@ -9,16 +11,25 @@ public class ItemSpawnerManager : MonoBehaviourPun
     public class ItemSpawner
     {
         [SerializeField]
-        private GameObject item;
+        private NavMeshAgent agent;
+
+        [SerializeField]
+        private GameObject prefab;
 
         [SerializeField]
         private float delay;
 
+        //private GameObject item;
+
         private float dt;
 
-        public GameObject Item { get => item; }
+        public NavMeshAgent Agent { get => agent; }
+
+        public GameObject Prefab { get => prefab; }
 
         public float Delay { get => delay; }
+
+        //public GameObject Item { get => item; set => item = value; }
 
         public float Dt { get => dt; set => dt = value; }
     }
@@ -30,22 +41,54 @@ public class ItemSpawnerManager : MonoBehaviourPun
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        foreach (var spawner in spawners)
+        for (var i = 0; i < spawners.Length; i++)
         {
-            spawner.Dt += Time.deltaTime;
+            var spawner = spawners[i];
 
             if (spawner.Dt >= spawner.Delay)
             {
-                spawner.Dt -= spawner.Delay;
+                spawner.Dt = 0;
 
-                photonView.RPC("SpawnItem", RpcTarget.All);
+                if (!IsExist(spawner.Prefab))
+                {
+                    RandomNavmeshLocation(i, 200, (position) =>
+                    {
+                        PhotonNetwork.InstantiateRoomObject(spawner.Prefab.name, position, Quaternion.identity);
+                    });
+                }
+            }
+            else
+            {
+                spawner.Dt += Time.deltaTime;
             }
         }
     }
-
-    [PunRPC]
-    public void SpawnItem()
+    private bool IsExist(GameObject obj)
     {
-        Debug.Log("Spawn Item called");
+        return GameObject.FindGameObjectWithTag(obj.tag) != null;
+    } 
+    private void RandomNavmeshLocation(int spawnerIndex, float radius, Action<Vector3> onSetDestination)
+    {
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * radius;
+
+        randomDirection.y = 0;
+
+        randomDirection += transform.position;
+
+        if (spawners[spawnerIndex].Agent.SetDestination(randomDirection))
+        {
+            StartCoroutine(YieldRandomNavmeshLocation(spawners[spawnerIndex].Agent, onSetDestination));
+        }
+    }
+
+    /// <summary>
+    /// Q: Why is it necessary than just to pass the position directly?
+    /// A: When SetDestination() is called, it needs time to calculate the path and will not return anything in an instant.
+    /// </summary>
+    private IEnumerator YieldRandomNavmeshLocation(NavMeshAgent agent, Action<Vector3> onSetDestination)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        onSetDestination.Invoke(agent.path.corners[agent.path.corners.Length - 1]);
     }
 }

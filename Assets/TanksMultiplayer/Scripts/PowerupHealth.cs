@@ -30,8 +30,8 @@ namespace TanksMP
             int value = p.GetView().GetHealth();
 
             //don't add health if it is at the maximum already
-            if (value == p.maxHealth)
-                return false;
+            /*if (value == p.maxHealth)
+                return false;*/
 
             //get current health value and add amount to it
             value += amount;
