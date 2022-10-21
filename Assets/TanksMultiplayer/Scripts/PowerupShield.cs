@@ -3,6 +3,7 @@
  * 	You shall not license, sublicense, sell, resell, transfer, assign, distribute or
  * 	otherwise make available to any third party the Service or the Content. */
 
+// TODO: remove this in the future, will soon be deprecated
 namespace TanksMP
 {
     /// <summary>
@@ -25,15 +26,15 @@ namespace TanksMP
             if (p == null)
                 return false;
 
-            int value = p.GetView().GetShield();
+            //int value = p.GetView().GetShield();
 
             //don't add shield if it is at the maximum already
-            if (value == amount)
-                return false;
+            /*if (value == amount)
+                return false;*/
 
             //assign absolute shield points to player
             //we can't go over the maximum thus no need to check it here
-            p.GetView().SetShield(amount);
+            //p.GetView().SetShield(amount);
 
             //return successful collection
             return true;

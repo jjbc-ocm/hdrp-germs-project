@@ -226,7 +226,7 @@ namespace TanksMP
             //do not trigger damage for colliding with our own bullet
             if (target.gameObject == owner || target.gameObject == null) return true;
             //perform the actual friendly fire check on both team indices and see if they match
-            else if (!GameManager.GetInstance().friendlyFire && origin.GetView().GetTeam() == target.GetView().GetTeam()) return true;
+            else if (!GameManager.GetInstance().friendlyFire && origin.photonView.GetTeam() == target.photonView.GetTeam()) return true;
 
             //friendly fire is off, this bullet should do damage
             return false;

@@ -107,9 +107,9 @@ namespace TanksMP
         {
             var players = FindObjectsOfType<Player>();
 
-            var team1 = players.Where(i => i.GetView().GetTeam() == 0).ToArray();
+            var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
 
-            var team2 = players.Where(i => i.GetView().GetTeam() == 1).ToArray();
+            var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
 
             for (int i = 0; i < 2; i++)
             {
@@ -187,9 +187,9 @@ namespace TanksMP
         {
             var players = FindObjectsOfType<Player>();
 
-            var team1 = players.Where(i => i.GetView().GetTeam() == 0).ToArray();
+            var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
 
-            var team2 = players.Where(i => i.GetView().GetTeam() == 1).ToArray();
+            var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
 
             for (int i = 0; i < team1ChestIndicators.Length; i++)
             {

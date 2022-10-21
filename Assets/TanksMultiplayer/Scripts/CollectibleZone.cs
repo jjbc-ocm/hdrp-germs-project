@@ -88,7 +88,7 @@ namespace TanksMP
 
             var player = col.GetComponent<Player>();
 
-            if (player != null && player.GetView().GetTeam() != teamIndex) return;
+            if (player != null && player.photonView.GetTeam() != teamIndex) return;
 
             var chestObject = GameObject.FindGameObjectWithTag("Chest");
 
@@ -96,7 +96,7 @@ namespace TanksMP
 
             var chest = chestObject.GetComponent<CollectibleTeam>();
 
-            if (chest.CarrierId != player.GetView().ViewID) return;
+            if (chest.CarrierId != player.photonView.ViewID) return;
 
             if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
 
