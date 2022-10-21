@@ -14,366 +14,233 @@ namespace TanksMP
     /// </summary>
     public static class PlayerExtensions
     {
-        //keys for saving and accessing values in custom properties Hashtable
         public const string team = "team";
+
+
         public const string health = "health";
-        public const string shield = "shield";
-        public const string ammo = "ammo";
-        public const string bullet = "bullet";
+        public const string regen = "regen";
+        public const string attackDamage = "attackDamage";
+        public const string abilityPower = "abilityPower";
+        public const string armor = "armor";
+        public const string resist = "resist";
+        public const string attackSpeed = "attackSpeed";
+        public const string moveSpeed = "moveSpeed";
 
+        #region For Photon View
 
-        /// <summary>
-        /// Returns the networked player nick name.
-        /// Offline: bot name. Online: PhotonPlayer name.
-        /// </summary>
         public static string GetName(this PhotonView player)
         {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    return bot.myName;
-                }
-            }
-
             return player.Owner.NickName;
         }
 
-        /// <summary>
-        /// Offline: returns the team number of a bot stored in PlayerBot.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
         public static int GetTeam(this PhotonView player)
         {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    return bot.teamIndex;
-                }
-            }
-
             return player.Owner.GetTeam();
         }
 
-        /// <summary>
-        /// Online: returns the networked team number of the player out of properties.
-        /// </summary>
+        public static int GetHealth(this PhotonView player)
+        {
+            return player.Owner.GetHealth();
+        }
+
+        public static int GetRegen(this PhotonView player)
+        {
+            return player.Owner.GetRegen();
+        }
+
+        public static int GetAttackDamage(this PhotonView player)
+        {
+            return player.Owner.GetAttackDamage();
+        }
+
+        public static int GetAbilityPower(this PhotonView player)
+        {
+            return player.Owner.GetAbilityPower();
+        }
+
+        public static int GetArmor(this PhotonView player)
+        {
+            return player.Owner.GetArmor();
+        }
+
+        public static int GetResist(this PhotonView player)
+        {
+            return player.Owner.GetResist();
+        }
+
+        public static int GetAttackSpeed(this PhotonView player)
+        {
+            return player.Owner.GetAttackSpeed();
+        }
+
+        public static int GetMoveSpeed(this PhotonView player)
+        {
+            return player.Owner.GetMoveSpeed();
+        }
+
+        public static void SetTeam(this PhotonView player, int teamIndex)
+        {
+            player.Owner.SetTeam(teamIndex);
+        }
+
+        public static void SetHealth(this PhotonView player, int value)
+        {
+            player.Owner.SetHealth(value);
+        }
+
+        public static void SetRegen(this PhotonView player, int value)
+        {
+            player.Owner.SetRegen(value);
+        }
+
+        public static void SetAttackDamage(this PhotonView player, int value)
+        {
+            player.Owner.SetAttackDamage(value);
+        }
+
+        public static void SetAbilityPower(this PhotonView player, int value)
+        {
+            player.Owner.SetAbilityPower(value);
+        }
+
+        public static void SetArmor(this PhotonView player, int value)
+        {
+            player.Owner.SetArmor(value);
+        }
+
+        public static void SetResist(this PhotonView player, int value)
+        {
+            player.Owner.SetResist(value);
+        }
+
+        public static void SetAttackSpeed(this PhotonView player, int value)
+        {
+            player.Owner.SetAttackSpeed(value);
+        }
+
+        public static void SetMoveSpeed(this PhotonView player, int value)
+        {
+            player.Owner.SetMoveSpeed(value);
+        }
+
+        public static void Clear(this PhotonView player)
+        {
+            player.Owner.Clear();
+        }
+
+        #endregion
+
+        #region For Photon Player
+
         public static int GetTeam(this Photon.Realtime.Player player)
         {
             return System.Convert.ToInt32(player.CustomProperties[team]);
         }
 
-        /// <summary>
-        /// Offline: synchronizes the team number of a PlayerBot locally.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static void SetTeam(this PhotonView player, int teamIndex)
-        {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    bot.teamIndex = teamIndex;
-                    return;
-                }
-            }
-
-            player.Owner.SetTeam(teamIndex);
-        }
-
-        /// <summary>
-        /// Online: synchronizes the team number of the player for all players via properties.
-        /// </summary>
-        public static void SetTeam(this Photon.Realtime.Player player, int teamIndex)
-        {
-            player.SetCustomProperties(new Hashtable() { { team, (byte)teamIndex } });
-        }
-
-        /// <summary>
-        /// Offline: returns the health value of a bot stored in PlayerBot.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static int GetHealth(this PhotonView player)
-        {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    return bot.health;
-                }
-            }
-
-            return player.Owner.GetHealth();
-        }
-
-        /// <summary>
-        /// Online: returns the networked health value of the player out of properties.
-        /// </summary>
         public static int GetHealth(this Photon.Realtime.Player player)
         {
             return System.Convert.ToInt32(player.CustomProperties[health]);
         }
 
-        /// <summary>
-        /// Offline: synchronizes the health value of a PlayerBot locally.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static void SetHealth(this PhotonView player, int value)
+        public static int GetRegen(this Photon.Realtime.Player player)
         {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    bot.health = value;
-                    return;
-                }
-            }
-
-            player.Owner.SetHealth(value);
+            return System.Convert.ToInt32(player.CustomProperties[regen]);
         }
 
-        /// <summary>
-        /// Online: synchronizes the health value of the player for all players via properties.
-        /// </summary>
+        public static int GetAttackDamage(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[attackDamage]);
+        }
+
+        public static int GetAbilityPower(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[abilityPower]);
+        }
+
+        public static int GetArmor(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[armor]);
+        }
+
+        public static int GetResist(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[resist]);
+        }
+
+        public static int GetAttackSpeed(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[attackSpeed]);
+        }
+
+        public static int GetMoveSpeed(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[moveSpeed]);
+        }
+
+        public static void SetTeam(this Photon.Realtime.Player player, int teamIndex)
+        {
+            player.SetCustomProperties(new Hashtable() { { team, (byte)teamIndex } });
+        }
+
         public static void SetHealth(this Photon.Realtime.Player player, int value)
         {
             player.SetCustomProperties(new Hashtable() { { health, (byte)value } });
         }
 
-        /// <summary>
-        /// Offline: returns the shield value of a bot stored in PlayerBot.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static int GetShield(this PhotonView player)
+        public static void SetRegen(this Photon.Realtime.Player player, int value)
         {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    return bot.shield;
-                }
-            }
-
-            return player.Owner.GetShield();
+            player.SetCustomProperties(new Hashtable() { { regen, (byte)value } });
         }
 
-        /// <summary>
-        /// Online: returns the networked shield value of the player out of properties.
-        /// </summary>
-        public static int GetShield(this Photon.Realtime.Player player)
+        public static void SetAttackDamage(this Photon.Realtime.Player player, int value)
         {
-            return System.Convert.ToInt32(player.CustomProperties[shield]);
+            player.SetCustomProperties(new Hashtable() { { attackDamage, (byte)value } });
         }
 
-        /// <summary>
-        /// Offline: synchronizes the shield value of a PlayerBot locally.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static void SetShield(this PhotonView player, int value)
+        public static void SetAbilityPower(this Photon.Realtime.Player player, int value)
         {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    bot.shield = value;
-                    return;
-                }
-            }
-
-            player.Owner.SetShield(value);
+            player.SetCustomProperties(new Hashtable() { { abilityPower, (byte)value } });
         }
 
-        /// <summary>
-        /// Online: synchronizes the shield value of the player for all players via properties.
-        /// </summary>
-        public static void SetShield(this Photon.Realtime.Player player, int value)
+        public static void SetArmor(this Photon.Realtime.Player player, int value)
         {
-            player.SetCustomProperties(new Hashtable() { { shield, (byte)value } });
+            player.SetCustomProperties(new Hashtable() { { armor, (byte)value } });
         }
 
-        /// <summary>
-        /// Decreases the networked shield value of the player or bot by the amount passed in.
-        /// </summary>
-        public static int DecreaseShield(this PhotonView player, int value)
+        public static void SetResist(this Photon.Realtime.Player player, int value)
         {
-            int newShield = player.GetShield();
-            newShield -= value;
-
-            player.SetShield(newShield);
-            return newShield;
+            player.SetCustomProperties(new Hashtable() { { resist, (byte)value } });
         }
 
-        /// <summary>
-        /// Offline: returns the ammo value of a bot stored in PlayerBot.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static int GetAmmo(this PhotonView player)
+        public static void SetAttackSpeed(this Photon.Realtime.Player player, int value)
         {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    return bot.ammo;
-                }
-            }
-
-            return player.Owner.GetAmmo();
+            player.SetCustomProperties(new Hashtable() { { attackSpeed, (byte)value } });
         }
 
-        /// <summary>
-        /// Online: returns the networked ammo value of the player out of properties.
-        /// </summary>
-        public static int GetAmmo(this Photon.Realtime.Player player)
+        public static void SetMoveSpeed(this Photon.Realtime.Player player, int value)
         {
-            return System.Convert.ToInt32(player.CustomProperties[ammo]);
+            player.SetCustomProperties(new Hashtable() { { moveSpeed, (byte)value } });
         }
 
-        /// <summary>
-        /// Offline: synchronizes the ammo count of a PlayerBot locally.
-        /// Provides an optional index parameter for setting a new bullet and ammo together.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static void SetAmmo(this PhotonView player, int value, int index = -1)
-        {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    bot.ammo = value;
-                    if (index >= 0)
-                        bot.currentBullet = index;
-                    return;
-                }
-            }
-
-            player.Owner.SetAmmo(value, index);
-        }
-
-        /// <summary>
-        /// Online: synchronizes the ammo count of the player for all players via properties.
-        /// Provides an optional index parameter for setting a new bullet and ammo together.
-        /// </summary>
-        public static void SetAmmo(this Photon.Realtime.Player player, int value, int index = -1)
-        {
-            Hashtable hash = new Hashtable();
-            hash.Add(ammo, (byte)value);
-            if (index >= 0)
-                hash.Add(bullet, (byte)index);
-
-            player.SetCustomProperties(hash);
-        }
-
-        /// <summary>
-        /// Decreases the networked ammo value of the player or bot by the amount passed in.
-        /// If the player runs out of ammo, the bullet index is set to the default automatically.
-        /// </summary>
-        public static int DecreaseAmmo(this PhotonView player, int value)
-        {
-            int newAmmo = player.GetAmmo();
-            newAmmo -= value;
-
-            if (newAmmo <= 0)
-                player.SetAmmo(newAmmo, 0);
-            else
-                player.SetAmmo(newAmmo);
-
-            return newAmmo;
-        }
-
-        /// <summary>
-        /// Offline: returns the bullet index of a bot stored in PlayerBot.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static int GetBullet(this PhotonView player)
-        {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    return bot.currentBullet;
-                }
-            }
-
-            return player.Owner.GetBullet();
-        }
-
-        /// <summary>
-        /// Online: returns the networked bullet index of the player out of properties.
-        /// </summary>
-        public static int GetBullet(this Photon.Realtime.Player player)
-        {
-            return System.Convert.ToInt32(player.CustomProperties[bullet]);
-        }
-
-        /// <summary>
-        /// Offline: synchronizes the currently selected bullet of a PlayerBot locally.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static void SetBullet(this PhotonView player, int value)
-        {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    bot.currentBullet = value;
-                    return;
-                }
-            }
-
-            player.Owner.SetBullet(value);
-        }
-
-        /// <summary>
-        /// Online: Synchronizes the currently selected bullet of the player for all players via properties.
-        /// </summary>
-        public static void SetBullet(this Photon.Realtime.Player player, int value)
-        {
-            player.SetCustomProperties(new Hashtable() { { bullet, (byte)value } });
-        }
-
-
-        /// <summary>
-        /// Offline: clears all properties of a PlayerBot locally.
-        /// Fallback to online mode for the master or in case offline mode was turned off.
-        /// </summary>
-        public static void Clear(this PhotonView player)
-        {
-            if (PhotonNetwork.OfflineMode == true)
-            {
-                PlayerBot bot = player.GetComponent<PlayerBot>();
-                if (bot != null)
-                {
-                    bot.currentBullet = 0;
-                    bot.health = 0;
-                    bot.shield = 0;
-                    return;
-                }
-            }
-
-            player.Owner.Clear();
-        }
-
-
-        /// <summary>
-        /// Online: Clears all networked variables of the player via properties in one instruction.
-        /// </summary>
         public static void Clear(this Photon.Realtime.Player player)
         {
-            player.SetCustomProperties(new Hashtable() { { PlayerExtensions.bullet, (byte)0 },
-                                                         { PlayerExtensions.health, (byte)0 },
-                                                         { PlayerExtensions.shield, (byte)0 } });
+            player.SetCustomProperties(
+                new Hashtable()
+                {
+                    { health, (byte)0 },
+                    { regen, (byte)0 },
+                    { attackDamage, (byte)0 },
+                    { abilityPower, (byte)0 },
+                    { armor, (byte)0 },
+                    { resist, (byte)0 },
+                    { attackSpeed, (byte)0 },
+                    { moveSpeed, (byte)0 }
+                });
+
         }
+
+        #endregion
+
+
     }
 }

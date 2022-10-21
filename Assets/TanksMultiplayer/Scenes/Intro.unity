@@ -5449,7 +5449,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Team Deathmatch
+  m_Text: Capture The Chest
 --- !u!222 &826261067
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7997,7 +7997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1373282608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8047,9 +8047,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: Capture The Chest
+      m_Image: {fileID: 0}
     - m_Text: Team Deathmatch
       m_Image: {fileID: 0}
-    - m_Text: Capture The Flag
+    - m_Text: Survival
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

@@ -17,6 +17,12 @@ namespace TanksMP
     public class UIGame : MonoBehaviourPunCallbacks
     {
         /// <summary>
+        /// Added by: Jilmer John Cariaso
+        /// This will spawn health bars for each player.
+        /// </summary>
+        public HealthBar prefabHealthBar;
+
+        /// <summary>
         /// Joystick components controlling player movement and actions on mobile devices.
         /// </summary>
         public UIJoystick[] controls;
@@ -33,6 +39,10 @@ namespace TanksMP
         public Image[] team1ChestIndicators;
 
         public Image[] team2ChestIndicators;
+
+        public HealthBar[] team1HealthBars;
+
+        public HealthBar[] team2HealthBars;
 
         /// <summary>
         /// UI texts displaying kill scores for each team.
@@ -93,6 +103,31 @@ namespace TanksMP
             AudioManager.PlayMusic(1);
         }
 
+        void Update()
+        {
+            var players = FindObjectsOfType<Player>();
+
+            var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
+
+            var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
+
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < (i == 0 ? team1.Count() : team2.Count()); j++)
+                {
+                    if (i == 0)
+                    {
+                        team1HealthBars[j].Player = j < team1.Count() ? team1[j] : null;
+                    }
+
+                    if (i == 1)
+                    {
+                        team2HealthBars[j].Player = j < team2.Count() ? team2[j] : null;
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// This method gets called whenever room properties have been changed on the network.
@@ -112,11 +147,17 @@ namespace TanksMP
         /// </summary>
         public void OnTeamSizeChanged(int[] size)
         {
+            
+
             for (int i = 0; i < 3; i++)
             {
                 team1PlayerIndicators[i].gameObject.SetActive(false);
 
                 team2PlayerIndicators[i].gameObject.SetActive(false);
+
+                team1HealthBars[i].Player = null;
+
+                team2HealthBars[i].Player = null;
             }
 
             //loop over sliders values and assign it
@@ -127,12 +168,15 @@ namespace TanksMP
                 for (int j = 0; j < size[i]; j++)
                 {
                     if (i == 0)
+                    {
                         team1PlayerIndicators[j].gameObject.SetActive(true);
+                    }
 
                     if (i == 1)
+                    {
                         team2PlayerIndicators[j].gameObject.SetActive(true);
+                    }
                 }
-                
             }
         }
 
@@ -143,11 +187,9 @@ namespace TanksMP
         {
             var players = FindObjectsOfType<Player>();
 
-            var team1 = players.Where(i => i.GetView().GetTeam() == 0).ToArray();
+            var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
 
-            var team2 = players.Where(i => i.GetView().GetTeam() == 1).ToArray();
-
-            Debug.Log(team1.Length + " " + team2.Length);
+            var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
 
             for (int i = 0; i < team1ChestIndicators.Length; i++)
             {

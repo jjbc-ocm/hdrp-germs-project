@@ -191,7 +191,7 @@ namespace TanksMP
             //unfortunately this cannot be set via the GameManager because it does not exist at that point
             short initialArrayLength;
             //get the selected game mode out of PlayerPrefs
-            GameMode activeGameMode = GameMode.CTF;//((GameMode)PlayerPrefs.GetInt(PrefsKeys.gameMode));
+            /*GameMode activeGameMode = GameMode.CTF;//((GameMode)PlayerPrefs.GetInt(PrefsKeys.gameMode));
 
             //set the initial room array size initialization based on game mode
             switch (activeGameMode)
@@ -202,7 +202,9 @@ namespace TanksMP
                 default:
                     initialArrayLength = 4;
                     break;
-            }
+            }*/
+
+            initialArrayLength = 2;
 
             //we created a room so we have to set the initial room properties for this room,
             //such as populating the team fill and score arrays
@@ -217,7 +219,7 @@ namespace TanksMP
             for(int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 string[] scenePath = SceneUtility.GetScenePathByBuildIndex(i).Split('/');
-                if (scenePath[scenePath.Length - 1].StartsWith(activeGameMode.ToString()))
+                if (scenePath[scenePath.Length - 1].StartsWith("CTF")) // TODO: do not hard code in the future
                 {
                     matchingScenes.Add(i);
                 }
@@ -352,9 +354,10 @@ namespace TanksMP
                 Collectible[] collectibles = targetPlayer.GetComponentsInChildren<Collectible>(true);
                 for (int i = 0; i < collectibles.Length; i++)
                 {
+                    // TODO: need to handle dropping of chest here?
                     //let the player drop the Collectible
-                    PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
-                    collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, targetPlayer.transform.position);
+                    //PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
+                    //collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, targetPlayer.transform.position);
                 }
             }
 

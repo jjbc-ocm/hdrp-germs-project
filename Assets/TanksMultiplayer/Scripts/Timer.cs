@@ -12,6 +12,9 @@ public class Timer : MonoBehaviour
     public static Timer Instance;
 
     [SerializeField]
+    private GameObject mainContent;
+
+    [SerializeField]
     private TMP_Text text;
     
     private bool hasStartTime;
@@ -19,6 +22,8 @@ public class Timer : MonoBehaviour
     private double startTime;
 
     public double TimeLapse { get => hasStartTime ? PhotonNetwork.Time - startTime : 0; }
+
+    public double ReverseTimeLapse { get => GameManager.GetInstance().gameTimer - TimeLapse; }
 
     void Awake()
     {
@@ -62,7 +67,16 @@ public class Timer : MonoBehaviour
         }
 
         /* Update UI */
-        var timeSpan = TimeSpan.FromSeconds(TimeLapse);
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
+        {
+            var intMode = Convert.ToInt32(mode);
+
+            var enumMode = (GameMode)intMode;
+
+            mainContent.SetActive(enumMode == GameMode.Survival);
+        }
+
+        var timeSpan = TimeSpan.FromSeconds(ReverseTimeLapse);
 
         var timeText = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
 

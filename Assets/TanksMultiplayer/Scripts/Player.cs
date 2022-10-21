@@ -10,10 +10,6 @@ using Photon.Realtime;
 
 namespace TanksMP
 {
-    /// <summary>
-    /// Networked player class implementing movement control and shooting.
-    /// Contains both server and client logic in an authoritative approach.
-    /// </summary> 
     public class Player : MonoBehaviourPunCallbacks, IPunObservable
     {
         /// <summary>
@@ -29,11 +25,7 @@ namespace TanksMP
         /// <summary>
         /// Current turret rotation and shooting direction.
         /// </summary>
-        [HideInInspector]
-        public short turretRotation;
-
-        [HideInInspector]
-        public Vector3 shipRotation;
+        
 
         /// <summary>
         /// Delay between shots.
@@ -119,37 +111,41 @@ namespace TanksMP
         //reference to this rigidbody
         #pragma warning disable 0649
 		private Rigidbody rb;
-		#pragma warning restore 0649
+#pragma warning restore 0649
 
 
-        //initialize server values for this player
+
+
+        #region Network Sync
+
+        protected short turretRotation;
+
+        protected Vector3 shipRotation;
+
+        #endregion
+
+        #region Unity
+
         void Awake()
         {
-            //only let the master do initialization
             if(!PhotonNetwork.IsMasterClient)
                 return;
             
-            //set players current health value after joining
-            GetView().SetHealth(maxHealth);
+            photonView.SetHealth(maxHealth);
         }
 
-
-        /// <summary>
-        /// Initialize synced values on every client.
-        /// Initialize camera and input for this local client.
-        /// </summary>
         void Start()
         {           
 			//get corresponding team and colorize renderers in team color
-            Team team = GameManager.GetInstance().teams[GetView().GetTeam()];
+            Team team = GameManager.GetInstance().teams[photonView.GetTeam()];
             for(int i = 0; i < renderers.Length; i++)
                 renderers[i].material = team.material;
 
             //set name in label
-            label.text = GetView().GetName();
+            label.text = photonView.GetName();
             //call hooks manually to update
-            OnHealthChange(GetView().GetHealth());
-            OnShieldChange(GetView().GetShield());
+            OnHealthChange(photonView.GetHealth());
+            //OnShieldChange(photonView.GetShield());
 
             //called only for this client 
             if (!photonView.IsMine)
@@ -162,62 +158,11 @@ namespace TanksMP
             rb = GetComponent<Rigidbody>();
             camFollow = GameManager.GetInstance().mainCamera.GetComponent<FollowTarget>();//Camera.main.GetComponent<FollowTarget>();
             camFollow.target = transform;
-
-			//initialize input controls for mobile devices
-			//[0]=left joystick for movement, [1]=right joystick for shooting
-            #if !UNITY_STANDALONE && !UNITY_WEBGL
-            GameManager.GetInstance().ui.controls[0].onDrag += Move;
-            GameManager.GetInstance().ui.controls[0].onDragEnd += MoveEnd;
-
-            GameManager.GetInstance().ui.controls[1].onDragBegin += ShootBegin;
-            GameManager.GetInstance().ui.controls[1].onDrag += RotateTurret;
-            GameManager.GetInstance().ui.controls[1].onDrag += Shoot;
-            #endif
         }
 
-
-        /// <summary>
-        /// This method gets called whenever player properties have been changed on the network.
-        /// </summary>
-        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player player, ExitGames.Client.Photon.Hashtable playerAndUpdatedProps)
-        {
-            //only react on property changes for this player
-            if(player != photonView.Owner)
-                return;
-
-            //update values that could change any time for visualization to stay up to date
-            OnHealthChange(player.GetHealth());
-            OnShieldChange(player.GetShield());
-        }
-
-        
-        //this method gets called multiple times per second, at least 10 times or more
-        void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {        
-            if (stream.IsWriting)
-            {             
-                //here we send the turret rotation angle to other clients
-                stream.SendNext(turretRotation);
-                stream.SendNext(shipRotation);
-            }
-            else
-            {   
-                //here we receive the turret rotation angle from others and apply it
-                this.turretRotation = (short)stream.ReceiveNext();
-                this.shipRotation = (Vector3)stream.ReceiveNext();
-                OnTurretRotation();
-
-                ship.transform.localRotation = Quaternion.Euler(this.shipRotation);
-            }
-        }
-
-        private Vector2 prevMoveDir;
-
-        //continously check for input on desktop platforms
-        #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
         void FixedUpdate()
-		{
-			//skip further calls for remote clients    
+        {
+            //skip further calls for remote clients    
             if (!photonView.IsMine)
             {
                 //keep turret rotation updated for all clients
@@ -266,7 +211,7 @@ namespace TanksMP
             shipRotation = new Vector3(
                 moveDir.y * -10,//ship.transform.localEulerAngles.x, 
                 ship.transform.localEulerAngles.y,
-                (moveDir.x * (1 + moveDir.y * -0.5f)) * -10);
+                moveDir.x * -10);
             ship.transform.localRotation = Quaternion.Euler(shipRotation);
             //rb.AddTorque(new Vector3(0, 0, moveDir.x * 15f));
 
@@ -277,44 +222,59 @@ namespace TanksMP
             prevMoveDir = moveDir;
 
             //replicate input to mobile controls for illustration purposes
-            #if UNITY_EDITOR
-                GameManager.GetInstance().ui.controls[0].position = moveDir;
-				GameManager.GetInstance().ui.controls[1].position = turnDir;
-			#endif
+#if UNITY_EDITOR
+            GameManager.GetInstance().ui.controls[0].position = moveDir;
+            GameManager.GetInstance().ui.controls[1].position = turnDir;
+#endif
         }
-        #endif
-            
-      
+
+        #endregion
+
         /// <summary>
-        /// Helper method for getting the current object owner.
+        /// This method gets called whenever player properties have been changed on the network.
         /// </summary>
-        public PhotonView GetView()
+        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player player, ExitGames.Client.Photon.Hashtable playerAndUpdatedProps)
         {
-            return this.photonView;
+            //only react on property changes for this player
+            if(player != photonView.Owner)
+                return;
+
+            //update values that could change any time for visualization to stay up to date
+            OnHealthChange(player.GetHealth());
+            //OnShieldChange(player.GetShield());
         }
 
+        
+        //this method gets called multiple times per second, at least 10 times or more
+        void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {        
+            if (stream.IsWriting)
+            {             
+                //here we send the turret rotation angle to other clients
+                stream.SendNext(turretRotation);
+                stream.SendNext(shipRotation);
+            }
+            else
+            {   
+                //here we receive the turret rotation angle from others and apply it
+                turretRotation = (short)stream.ReceiveNext();
+                shipRotation = (Vector3)stream.ReceiveNext();
+                OnTurretRotation();
 
-        //moves rigidbody in the direction passed in
-        // Commented by: Jilmer John Cariaso
-        /*void Move(Vector2 direction = default(Vector2))
-        {
-            //if direction is not zero, rotate player in the moving direction relative to camera
-            if (direction != Vector2.zero)
-                transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.y))
-                                     * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
+                ship.transform.localRotation = Quaternion.Euler(this.shipRotation);
+            }
+        }
 
-            //create movement vector based on current rotation and speed
-            Vector3 movementDir = transform.forward * moveSpeed * Time.deltaTime;
-            //apply vector to rigidbody position
-            rb.MovePosition(rb.position + movementDir);
-        }*/
+        private Vector2 prevMoveDir;
+
+        
 
         void Move(Vector2 direction = default(Vector2))
         {
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * (1 + direction.y * -0.5f) * Time.deltaTime;
+                float x = direction.x * Time.deltaTime * 1.5f;// * (1 + direction.y * -0.5f) * Time.deltaTime;
 
                 float z = 1;
 
@@ -323,7 +283,9 @@ namespace TanksMP
                 transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
             }
 
-            Vector3 moveForce = transform.forward * direction.y * moveSpeed;
+            var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
+
+            Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
 
             /* This will make the player avoid colliding with the terrain by observing distance */
             // TODO: moving backward is bug
@@ -416,9 +378,9 @@ namespace TanksMP
         //called on the server first but forwarded to all clients
         [PunRPC]
         protected void CmdShoot(float[] position, short angle)
-        {   
+        {
             //get current bullet type
-            int currentBullet = GetView().GetBullet();
+            int currentBullet = 0; // photonView.GetBullet();
 
             //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
             //this is done to compensate network lag and smoothing it out between both client/server positions
@@ -434,7 +396,7 @@ namespace TanksMP
             if (PhotonNetwork.IsMasterClient && currentBullet != 0)
             {
                 //if ran out of ammo: reset bullet automatically
-                GetView().DecreaseAmmo(1);
+                //photonView.DecreaseAmmo(1);
             }
 
             //send event to all clients for spawning effects
@@ -484,15 +446,15 @@ namespace TanksMP
         public void TakeDamage(Bullet bullet)
         {
             //store network variables temporary
-            int health = GetView().GetHealth();
-            int shield = GetView().GetShield();
+            int health = photonView.GetHealth();
+            //int shield = photonView.GetShield();
 
             //reduce shield on hit
-            if (shield > 0)
+            /*if (shield > 0)
             {
-                GetView().DecreaseShield(1);
+                photonView.DecreaseShield(1);
                 return;
-            }
+            }*/
 
             //substract health by damage
             //locally for now, to only have one update later on
@@ -506,8 +468,8 @@ namespace TanksMP
 
                 //get killer and increase score for that enemy team
                 Player other = bullet.owner.GetComponent<Player>();
-                int otherTeam = other.GetView().GetTeam();
-                if(GetView().GetTeam() != otherTeam)
+                int otherTeam = other.photonView.GetTeam();
+                if(photonView.GetTeam() != otherTeam)
                     GameManager.GetInstance().AddScore(ScoreType.Kill, otherTeam);
 
                 //the maximum score has been reached now
@@ -522,15 +484,16 @@ namespace TanksMP
 
                 //the game is not over yet, reset runtime values
                 //also tell all clients to despawn this player
-                GetView().SetHealth(maxHealth);
-                GetView().SetBullet(0);
+                photonView.SetHealth(maxHealth);
+                //photonView.SetBullet(0);
 
                 //clean up collectibles on this player by letting them drop down
                 Collectible[] collectibles = GetComponentsInChildren<Collectible>(true);
                 for (int i = 0; i < collectibles.Length; i++)
                 {
-                    PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
-                    collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, transform.position);
+                    // TODO: need to handle dropping of chest here
+                    //PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
+                    //collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, transform.position);
                 }
 
                 //tell the dead player who killed him (owner of the bullet)
@@ -543,7 +506,7 @@ namespace TanksMP
             else
             {
                 //we didn't die, set health to new value
-                GetView().SetHealth(health);
+                photonView.SetHealth(health);
             }
         }
 
@@ -578,7 +541,7 @@ namespace TanksMP
                     //spawn death particles locally using pooling and colorize them in the player's team color
                     GameObject particle = PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
                     ParticleColor pColor = particle.GetComponent<ParticleColor>();
-                    if (pColor) pColor.SetColor(GameManager.GetInstance().teams[GetView().GetTeam()].material.color);
+                    if (pColor) pColor.SetColor(GameManager.GetInstance().teams[photonView.GetTeam()].material.color);
                 }
 
                 //play sound clip on player death
@@ -590,7 +553,7 @@ namespace TanksMP
                 //send player back to the team area, this will get overwritten by the exact position from the client itself later on
                 //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
                 //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
-                GetComponent<PhotonTransformView>().OnPhotonSerializeView(new PhotonStream(false, new object[] { GameManager.GetInstance().GetSpawnPosition(GetView().GetTeam()),
+                GetComponent<PhotonTransformView>().OnPhotonSerializeView(new PhotonStream(false, new object[] { GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
                                                                                                                  Vector3.zero, Quaternion.identity }), new PhotonMessageInfo());
             }
 
@@ -634,7 +597,7 @@ namespace TanksMP
             camFollow.HideMask(false);
 
             //get team area and reposition it there
-            transform.position = GameManager.GetInstance().GetSpawnPosition(GetView().GetTeam());
+            transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
 
             //reset forces modified by input
             rb.velocity = Vector3.zero;
