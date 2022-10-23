@@ -228,7 +228,12 @@ namespace TanksMP
                         switch (scoreType)
                         {
                             case ScoreType.Capture:
+                                PhotonNetwork.CurrentRoom.AddCoins(teamIndex, 500);
                                 PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
+                                break;
+
+                            case ScoreType.Kill:
+                                // If killed an enemy, give score of coins?
                                 break;
                         }
                         break;
@@ -243,8 +248,6 @@ namespace TanksMP
                         break;
                 }
             }
-
-            //distinguish between game mode
             
         }
         
@@ -306,8 +309,8 @@ namespace TanksMP
             {
                 killedByName = other.photonView.GetName();
                 //increase local death counter for this game
-                ui.killCounter[1].text = (int.Parse(ui.killCounter[1].text) + 1).ToString();
-                ui.killCounter[1].GetComponent<Animator>().Play("Animation");
+                //ui.killCounter[1].text = (int.Parse(ui.killCounter[1].text) + 1).ToString();
+                //ui.killCounter[1].GetComponent<Animator>().Play("Animation");
             }
 
             //calculate if we should show a video ad

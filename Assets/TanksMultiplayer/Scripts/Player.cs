@@ -12,19 +12,14 @@ namespace TanksMP
 {
     public class Player : MonoBehaviourPunCallbacks, IPunObservable
     {
-        /// <summary>
-        /// UI Text displaying the player name.
-        /// </summary>    
-        public Text label;
+        [SerializeField]
+        private Text label;
 
-        /// <summary>
-        /// Maximum health value at game start.
-        /// </summary>
-        public int maxHealth = 10;
+        [SerializeField]
+        private int maxHealth = 10;
 
-        /// <summary>
-        /// Current turret rotation and shooting direction.
-        /// </summary>
+        [SerializeField]
+        private int maxMana = 10;
         
 
         /// <summary>
@@ -113,7 +108,11 @@ namespace TanksMP
 		private Rigidbody rb;
 #pragma warning restore 0649
 
+        public Text Label { get => label; }
 
+        public int MaxHealth { get => maxHealth; }
+
+        public int MaxMana { get => maxMana; }
 
 
         #region Network Sync
@@ -132,6 +131,8 @@ namespace TanksMP
                 return;
             
             photonView.SetHealth(maxHealth);
+
+            photonView.SetMana(maxMana);
         }
 
         void Start()
@@ -223,8 +224,8 @@ namespace TanksMP
 
             //replicate input to mobile controls for illustration purposes
 #if UNITY_EDITOR
-            GameManager.GetInstance().ui.controls[0].position = moveDir;
-            GameManager.GetInstance().ui.controls[1].position = turnDir;
+            //GameManager.GetInstance().ui.controls[0].position = moveDir;
+            //GameManager.GetInstance().ui.controls[1].position = turnDir;
 #endif
         }
 
@@ -532,8 +533,8 @@ namespace TanksMP
                 //yes, that's my kill: increase local kill counter
                 if (this != GameManager.GetInstance().localPlayer && killedBy == GameManager.GetInstance().localPlayer.gameObject)
                 {
-                    GameManager.GetInstance().ui.killCounter[0].text = (int.Parse(GameManager.GetInstance().ui.killCounter[0].text) + 1).ToString();
-                    GameManager.GetInstance().ui.killCounter[0].GetComponent<Animator>().Play("Animation");
+                    //GameManager.GetInstance().ui.killCounter[0].text = (int.Parse(GameManager.GetInstance().ui.killCounter[0].text) + 1).ToString();
+                    //GameManager.GetInstance().ui.killCounter[0].GetComponent<Animator>().Play("Animation");
                 }
 
                 if (explosionFX)
@@ -604,8 +605,8 @@ namespace TanksMP
             rb.angularVelocity = Vector3.zero;
             transform.rotation = Quaternion.identity;
             //reset input left over
-            GameManager.GetInstance().ui.controls[0].OnEndDrag(null);
-            GameManager.GetInstance().ui.controls[1].OnEndDrag(null);
+            //GameManager.GetInstance().ui.controls[0].OnEndDrag(null);
+            //GameManager.GetInstance().ui.controls[1].OnEndDrag(null);
         }
 
 
