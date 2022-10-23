@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class ShipHUD : MonoBehaviour
 {
     [SerializeField]
     private Camera mainCamera;
@@ -17,10 +17,16 @@ public class HealthBar : MonoBehaviour
     private TMP_Text textName;
 
     [SerializeField]
-    private Image imageMainProgress;
+    private Image imageMainHealth;
 
     [SerializeField]
-    private Image imageSubProgress;
+    private Image imageSubHealth;
+
+    [SerializeField]
+    private Image imageMainMana;
+
+    [SerializeField]
+    private Image imageSubMana;
 
     public Player Player { get; set; }
 
@@ -39,8 +45,12 @@ public class HealthBar : MonoBehaviour
 
         textName.text = Player.photonView.GetName();
 
-        imageMainProgress.fillAmount = Player.photonView.GetHealth() / (float)Player.maxHealth;
+        imageMainHealth.fillAmount = Player.photonView.GetHealth() / (float)Player.MaxHealth;
 
-        imageSubProgress.fillAmount += (imageMainProgress.fillAmount - imageSubProgress.fillAmount) / 10f;
+        imageSubHealth.fillAmount += (imageMainHealth.fillAmount - imageSubHealth.fillAmount) / 10f;
+
+        imageMainMana.fillAmount = Player.photonView.GetMana() / (float)Player.MaxMana;
+
+        imageSubMana.fillAmount += (imageMainMana.fillAmount - imageSubMana.fillAmount) / 10f;
     }
 }

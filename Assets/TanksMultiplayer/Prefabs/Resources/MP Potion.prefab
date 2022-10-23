@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 4000012517790088}
   - component: {fileID: 65000012185149634}
   - component: {fileID: 54000011390207216}
-  - component: {fileID: 114000013082861366}
+  - component: {fileID: 2947339386706641285}
   - component: {fileID: 95000014185611394}
   - component: {fileID: -3612442099128080776}
   - component: {fileID: 3193125735945047850}
   - component: {fileID: 3157966691349504960}
   m_Layer: 6
-  m_Name: PowerupShield
+  m_Name: MP Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &114000013082861366
+--- !u!114 &2947339386706641285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,14 +79,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010293127126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f5b08fda6756a24aaaea9d08e8b8b44, type: 3}
+  m_Script: {fileID: 11500000, guid: 66ea7ba8606ddbd4db99d7790d6ccded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useClip: {fileID: 8300000, guid: 30cbc4f0e846df04d9c25940ff239106, type: 3}
   graphics: {fileID: 0}
-  spawner: {fileID: 0}
-  carrierId: -1
-  amount: 3
+  amount: 5
 --- !u!95 &95000014185611394
 Animator:
   serializedVersion: 4
@@ -146,7 +144,9 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 2947339386706641285}
+  - {fileID: 3157966691349504960}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

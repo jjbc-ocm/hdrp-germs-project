@@ -18,6 +18,7 @@ namespace TanksMP
 
 
         public const string health = "health";
+        public const string mana = "mana";
         public const string regen = "regen";
         public const string attackDamage = "attackDamage";
         public const string abilityPower = "abilityPower";
@@ -41,6 +42,11 @@ namespace TanksMP
         public static int GetHealth(this PhotonView player)
         {
             return player.Owner.GetHealth();
+        }
+
+        public static int GetMana(this PhotonView player)
+        {
+            return player.Owner.GetMana();
         }
 
         public static int GetRegen(this PhotonView player)
@@ -86,6 +92,11 @@ namespace TanksMP
         public static void SetHealth(this PhotonView player, int value)
         {
             player.Owner.SetHealth(value);
+        }
+
+        public static void SetMana(this PhotonView player, int value)
+        {
+            player.Owner.SetMana(value);
         }
 
         public static void SetRegen(this PhotonView player, int value)
@@ -142,6 +153,11 @@ namespace TanksMP
             return System.Convert.ToInt32(player.CustomProperties[health]);
         }
 
+        public static int GetMana(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[mana]);
+        }
+
         public static int GetRegen(this Photon.Realtime.Player player)
         {
             return System.Convert.ToInt32(player.CustomProperties[regen]);
@@ -185,6 +201,11 @@ namespace TanksMP
         public static void SetHealth(this Photon.Realtime.Player player, int value)
         {
             player.SetCustomProperties(new Hashtable() { { health, (byte)value } });
+        }
+
+        public static void SetMana(this Photon.Realtime.Player player, int value)
+        {
+            player.SetCustomProperties(new Hashtable() { { mana, (byte)value } });
         }
 
         public static void SetRegen(this Photon.Realtime.Player player, int value)

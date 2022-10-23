@@ -19,7 +19,8 @@ public class ItemSpawnerManager : MonoBehaviourPun
         [SerializeField]
         private float delay;
 
-        //private GameObject item;
+        [SerializeField]
+        private int maxLimit;
 
         private float dt;
 
@@ -29,7 +30,7 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
         public float Delay { get => delay; }
 
-        //public GameObject Item { get => item; set => item = value; }
+        public int MaxLimit { get => maxLimit; }
 
         public float Dt { get => dt; set => dt = value; }
     }
@@ -49,7 +50,7 @@ public class ItemSpawnerManager : MonoBehaviourPun
             {
                 spawner.Dt = 0;
 
-                if (!IsExist(spawner.Prefab))
+                if (CanSpawn(spawner))
                 {
                     RandomNavmeshLocation(i, 200, (position) =>
                     {
@@ -63,9 +64,13 @@ public class ItemSpawnerManager : MonoBehaviourPun
             }
         }
     }
-    private bool IsExist(GameObject obj)
+    private bool CanSpawn(ItemSpawner spawner)
     {
-        return GameObject.FindGameObjectWithTag(obj.tag) != null;
+        //return GameObject.FindGameObjectWithTag(obj.tag) != null;
+
+        var objWithTags = GameObject.FindGameObjectsWithTag(spawner.Prefab.tag);
+
+        return objWithTags.Length < spawner.MaxLimit;
     } 
     private void RandomNavmeshLocation(int spawnerIndex, float radius, Action<Vector3> onSetDestination)
     {
