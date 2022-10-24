@@ -21,19 +21,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_testScene_terrain_ground_URP
-  m_Shader: {fileID: -6465566751694194690, guid: c25b5ca7c353769468aaefe0b7fd5fea,
-    type: 3}
-  m_ValidKeywords:
-  - _ALPHATEST_ON
+  m_Shader: {fileID: -6465566751694194690, guid: c25b5ca7c353769468aaefe0b7fd5fea, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _DISABLE_DECALS
   - _DISABLE_SSR_TRANSPARENT
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  stringTagMap: {}
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
@@ -222,9 +219,12 @@ Material:
     - _OcclusionStrength: 1
     - _Offset: -1.66
     - _OpaqueCullMode: 2
+    - _OutlineDepthSensitivity: 1
+    - _OutlineNormalsSensitivity: 1
+    - _OutlineThickness: 1
     - _Overbright: 0.5
     - _Parallax: 0.02
-    - _QueueControl: -1
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceivesSSR: 1
@@ -277,9 +277,11 @@ Material:
     - _DF2: {r: 0.5, g: 0.25, b: 0.05, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GroundTint: {r: 0, g: 0, b: 0, a: 0}
     - _MK: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _OverlayColor: {r: 0, g: 0, b: 0, a: 1}
     - _OverlaySpeed: {r: 10, g: 0, b: 2, a: 2}
+    - _TopTint: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4647915089820419452
 MonoBehaviour:

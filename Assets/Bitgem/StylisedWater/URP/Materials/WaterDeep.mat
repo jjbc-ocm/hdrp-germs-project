@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterDeep
-  m_Shader: {fileID: -6465566751694194690, guid: 7c47ef6eb90bd094ea6e7a915c282fb3, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 39810a84e30e95d48be0bca493e650c2, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
@@ -78,15 +78,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Foam_Amount: 3.55
+    - Foam_Amount: 10
     - Foam_Cutoff: 0.05
     - Foam_Evolution_Speed: 0.4
-    - Foam_Scale: 2.53
+    - Foam_Scale: 1.72
     - Global_Fading: 1000
     - Light_Probe_Contribution: 2.5
     - Refaction_Scale: 2
     - Refraction_Evolution_Speed: 1
-    - Refraction_Height: 0.6
+    - Refraction_Height: 1
     - Vector1_17E53C12: 0.08
     - Vector1_244B0600: 1.5
     - Vector1_25aa78d5cd65435697c3191e93a6343a: 200
@@ -94,9 +94,9 @@ Material:
     - Vector1_2FBE3DFA: 2
     - Vector1_34CF798A: 1.75
     - Vector1_36E8227: 0
-    - Vector1_3D886DA1: 0.454
+    - Vector1_3D886DA1: 1
     - Vector1_46E42935: 0.4
-    - Vector1_47683D42: 0.626
+    - Vector1_47683D42: 0.835
     - Vector1_65DAC18D: 2
     - Vector1_707bdef874cb42eb8b6d49e6e1b05c44: 2
     - Vector1_77A997E: 0.5
@@ -112,9 +112,9 @@ Material:
     - Vector1_EA2D80AD: 10
     - Vector1_F38B44AA: 0.35
     - Vector1_F591A23A: 0
-    - Vector1_e447c4cc8b7d4aa1bb50df149727dbaf: 2
+    - Vector1_e447c4cc8b7d4aa1bb50df149727dbaf: 10
     - Vector1_e9c25d97b3c945c396e5f78c4ad28a04: 0.03
-    - Water_Depth: 8
+    - Water_Depth: 65.2
     - Wave_Height: 3
     - Wave_Scale: 17.4
     - Wave_Speed: 0.2
@@ -130,6 +130,9 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _OutlineDepthSensitivity: 1
+    - _OutlineNormalsSensitivity: 1
+    - _OutlineThickness: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -148,11 +151,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_7D9A58EC: {r: 0.11921501, g: 0.24888752, b: 0.4433962, a: 0.9843137}
+    - Color_7D9A58EC: {r: 0.05482378, g: 0.09070368, b: 0.1509434, a: 0.9843137}
     - Color_F01C36BF: {r: 0.09011214, g: 0.40366176, b: 0.7075472, a: 0}
     - Foam_Color: {r: 1, g: 1, b: 1, a: 0.5450981}
-    - Shallow_Water_Color: {r: 0, g: 0.65635085, b: 0.7924528, a: 0.3176471}
-    - Trough_Color: {r: 0, g: 0.3019853, b: 0.6886792, a: 0.4627451}
+    - Shallow_Water_Color: {r: 0.12127627, g: 0, b: 0.20754719, a: 0.3176471}
+    - Trough_Color: {r: 0.9980638, g: 0.4669811, b: 1, a: 0.4627451}
     - Vector2_37B21477: {r: 20, g: 20, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

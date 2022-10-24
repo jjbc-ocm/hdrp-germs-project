@@ -354,9 +354,10 @@ namespace TanksMP
                 Collectible[] collectibles = targetPlayer.GetComponentsInChildren<Collectible>(true);
                 for (int i = 0; i < collectibles.Length; i++)
                 {
+                    // TODO: need to handle dropping of chest here?
                     //let the player drop the Collectible
-                    PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
-                    collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, targetPlayer.transform.position);
+                    //PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
+                    //collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, targetPlayer.transform.position);
                 }
             }
 

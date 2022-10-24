@@ -37,9 +37,9 @@ public class HealthBar : MonoBehaviour
 
         mainContent.SetActive(transform.position.z > 0);
 
-        textName.text = Player.GetView().GetName();
+        textName.text = Player.photonView.GetName();
 
-        imageMainProgress.fillAmount = Player.GetView().GetHealth() / (float)Player.maxHealth;
+        imageMainProgress.fillAmount = Player.photonView.GetHealth() / (float)Player.maxHealth;
 
         imageSubProgress.fillAmount += (imageMainProgress.fillAmount - imageSubProgress.fillAmount) / 10f;
     }

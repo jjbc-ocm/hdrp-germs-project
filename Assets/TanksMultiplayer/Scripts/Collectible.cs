@@ -25,8 +25,8 @@ namespace TanksMP
         /// <summary>
         /// Reference to the local object (script) that spawned this Collectible.
         /// </summary>
-        [HideInInspector]
-        public ObjectSpawner spawner;
+        //[HideInInspector]
+        //public ObjectSpawner spawner;
 
         [SerializeField]
         private GameObject graphics;
@@ -127,7 +127,7 @@ namespace TanksMP
         {
             if (useClip) AudioManager.Play3D(useClip, transform.position);
             carrierId = -1;
-            spawner.SetRespawn();
+            //spawner.SetRespawn();
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

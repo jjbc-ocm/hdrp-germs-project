@@ -56,7 +56,7 @@ namespace TanksMP
                 //player picked up item from other team, send out buffered RPC for it to be remembered
                 //spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
 
-                var view = player.GetView();
+                var view = player.photonView;
 
                 carrierId = view.ViewID;
 
@@ -66,8 +66,6 @@ namespace TanksMP
 
                 if (view.IsMine)
                 {
-                    Debug.Log("EEEEEEEE");
-
                     var destination = view.GetTeam() == 0
                         ? GameManager.GetInstance().zoneRed.transform.position
                         : GameManager.GetInstance().zoneBlue.transform.position;

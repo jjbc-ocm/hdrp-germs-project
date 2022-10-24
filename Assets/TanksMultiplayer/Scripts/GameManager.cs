@@ -304,7 +304,7 @@ namespace TanksMP
             //suicide or regular kill?
             if (other != localPlayer)
             {
-                killedByName = other.GetView().GetName();
+                killedByName = other.photonView.GetName();
                 //increase local death counter for this game
                 ui.killCounter[1].text = (int.Parse(ui.killCounter[1].text) + 1).ToString();
                 ui.killCounter[1].GetComponent<Animator>().Play("Animation");
@@ -318,7 +318,7 @@ namespace TanksMP
 
             //when no ad is being shown, set the death text
             //and start waiting for the respawn delay immediately
-            ui.SetDeathText(killedByName, teams[other.GetView().GetTeam()]);
+            ui.SetDeathText(killedByName, teams[other.photonView.GetTeam()]);
             StartCoroutine(SpawnRoutine());
         }
 
