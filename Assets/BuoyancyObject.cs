@@ -47,6 +47,8 @@ public class BuoyancyObject : MonoBehaviour
     {
         if (photonView != null && !photonView.IsMine) return;
 
+        if (floaters == null) return;
+
         var water = WaterManager.Instance;
 
         var waterHeight = water ? water.transform.position.y : 0;
