@@ -12,35 +12,37 @@ namespace TanksMP
 {
     public class Player : MonoBehaviourPunCallbacks, IPunObservable
     {
-        [SerializeField]
-        private Text label;
+        //[SerializeField]
+        //private Text label;
+
+        [Header("Stats")]
 
         [SerializeField]
-        private int maxHealth = 10;
+        private int maxHealth = 175;
 
         [SerializeField]
-        private int maxMana = 10;
-        
+        private int maxMana = 100;
 
-        /// <summary>
-        /// Delay between shots.
-        /// </summary>
-        public float fireRate = 0.75f;
+        [SerializeField]
+        private int attackDamage = 50;
 
-        /// <summary>
-        /// Movement speed in all directions.
-        /// </summary>
-        public float moveSpeed = 8f;
+        [SerializeField]
+        private int abilityPower = 50;
 
-        /// <summary>
-        /// UI Slider visualizing health value.
-        /// </summary>
-        public Slider healthSlider;
+        [SerializeField]
+        private int armor = 50;
 
-        /// <summary>
-        /// UI Slider visualizing shield value.
-        /// </summary>
-        public Slider shieldSlider;
+        [SerializeField]
+        private int resist = 50;
+
+        [SerializeField]
+        private int attackSpeed = 50;
+
+        [SerializeField]
+        private int moveSpeed = 50;
+
+
+        [Header("Other Properties")]
 
         /// <summary>
         /// Clip to play when a shot has been fired.
@@ -108,7 +110,7 @@ namespace TanksMP
 		private Rigidbody rb;
 #pragma warning restore 0649
 
-        public Text Label { get => label; }
+        //public Text Label { get => label; }
 
         public int MaxHealth { get => maxHealth; }
 
@@ -138,14 +140,14 @@ namespace TanksMP
         void Start()
         {           
 			//get corresponding team and colorize renderers in team color
-            Team team = GameManager.GetInstance().teams[photonView.GetTeam()];
-            for(int i = 0; i < renderers.Length; i++)
-                renderers[i].material = team.material;
+            //Team team = GameManager.GetInstance().teams[photonView.GetTeam()];
+            //for(int i = 0; i < renderers.Length; i++)
+            //    renderers[i].material = team.material;
 
             //set name in label
-            label.text = photonView.GetName();
+            //label.text = photonView.GetName();
             //call hooks manually to update
-            OnHealthChange(photonView.GetHealth());
+            //OnHealthChange(photonView.GetHealth());
             //OnShieldChange(photonView.GetShield());
 
             //called only for this client 
@@ -241,7 +243,7 @@ namespace TanksMP
                 return;
 
             //update values that could change any time for visualization to stay up to date
-            OnHealthChange(player.GetHealth());
+            //OnHealthChange(player.GetHealth());
             //OnShieldChange(player.GetShield());
         }
 
@@ -365,7 +367,7 @@ namespace TanksMP
             if (Time.time > nextFire)
             {
                 //set next shot timestamp
-                nextFire = Time.time + fireRate;
+                nextFire = Time.time + attackSpeed;
 
                 //send current client position and turret rotation along to sync the shot position
                 //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
@@ -426,18 +428,18 @@ namespace TanksMP
 
         //hook for updating health locally
         //(the actual value updates via player properties)
-        protected void OnHealthChange(int value)
+       /* protected void OnHealthChange(int value)
         {
-            healthSlider.value = (float)value / maxHealth;
-        }
+            //healthSlider.value = (float)value / maxHealth;
+        }*/
 
 
         //hook for updating shield locally
         //(the actual value updates via player properties)
-        protected void OnShieldChange(int value)
+        /*protected void OnShieldChange(int value)
         {
-            shieldSlider.value = value;
-        }
+            //shieldSlider.value = value;
+        }*/
 
 
         /// <summary>
