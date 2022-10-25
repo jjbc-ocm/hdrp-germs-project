@@ -4708,7 +4708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &817342817534197974
 Transform:
   m_ObjectHideFlags: 0
@@ -9349,7 +9349,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3593937637121146536}
   serializedVersion: 8
-  lengthInSec: 20
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -9424,7 +9424,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4
+      scalar: 4.96
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9969,7 +9969,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 5
     angle: 0
     length: 2
     boxThickness: {x: 0, y: 0, z: 0}
@@ -9977,7 +9977,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 1, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 20, y: 15, z: 15}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -10056,7 +10056,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 3
+      value: 0.82
       mode: 0
       spread: 0
       speed:
