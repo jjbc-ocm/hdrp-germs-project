@@ -367,7 +367,7 @@ namespace TanksMP
             if (Time.time > nextFire)
             {
                 //set next shot timestamp
-                nextFire = Time.time + attackSpeed;
+                nextFire = Time.time + attackSpeed / 100f;
 
                 //send current client position and turret rotation along to sync the shot position
                 //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
