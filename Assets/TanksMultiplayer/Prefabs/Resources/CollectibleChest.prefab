@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -94166505240839190}
   - component: {fileID: 3979043259747378316}
   - component: {fileID: 4158095178616296789}
+  - component: {fileID: 5178268916305896957}
   m_Layer: 6
   m_Name: CollectibleChest
   m_TagString: Chest
@@ -82,6 +83,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useClip: {fileID: 8300000, guid: 30cbc4f0e846df04d9c25940ff239106, type: 3}
   graphics: {fileID: 27110911831047797}
+  OnCollectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-94166505240839190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +147,20 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &5178268916305896957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815488680999885027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ad6451fcb74f842bee0936a347c4f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_reward: 500
+  m_collectible: {fileID: 8819360837122733933}
 --- !u!1 &6840944930323841682
 GameObject:
   m_ObjectHideFlags: 0
