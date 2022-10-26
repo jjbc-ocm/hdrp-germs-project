@@ -7,14 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: example-water-02
-  m_Shader: {fileID: -6465566751694194690, guid: 2cddf2ee6a74aca44af00f5a49bd2cf1, type: 3}
+  m_Name: WaterFall-Water
+  m_Shader: {fileID: -6465566751694194690, guid: 4ad8c1bd17d226e4baa3fded96867f24, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 3000
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -48,6 +48,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8be6625426a343f09fa1a27e16ec1d13_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -66,34 +70,60 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_17E53C12: 0
-    - Vector1_244B0600: 1.2
+    - Foam_Amount: 7.59
+    - Foam_Cutoff: 0.5
+    - Foam_Evolution_Speed: 1.89
+    - Foam_Scale: 1.06
+    - Global_Fading: 5000
+    - Light_Probe_Contribution: 2.5
+    - Refaction_Scale: 1.79
+    - Refraction_Evolution_Speed: 3.58
+    - Refraction_Height: 0.795
+    - Vector1_17E53C12: 0.02
+    - Vector1_244B0600: 7.32
+    - Vector1_25aa78d5cd65435697c3191e93a6343a: 10
+    - Vector1_2B58F275: 1
+    - Vector1_2FBE3DFA: 2
     - Vector1_34CF798A: 1.75
-    - Vector1_36E8227: 0.36
-    - Vector1_3D886DA1: 0.16
-    - Vector1_46E42935: 0.096
-    - Vector1_47683D42: 0.514
+    - Vector1_36E8227: 0
+    - Vector1_3D886DA1: 0.343
+    - Vector1_46E42935: 0.725
+    - Vector1_47683D42: 0.277
+    - Vector1_65DAC18D: 2
+    - Vector1_707bdef874cb42eb8b6d49e6e1b05c44: 2
+    - Vector1_77A997E: 0.5
+    - Vector1_7A056A02: 0.5
+    - Vector1_8CEB4E60: 1
     - Vector1_A0EAD698: 0
-    - Vector1_A6A0BC26: 1.5
-    - Vector1_B9F56378: 0.3
+    - Vector1_A6A0BC26: 1.65
+    - Vector1_B9F56378: 2.1
     - Vector1_C360A163: 0
     - Vector1_DF445019: 1.5
-    - Vector1_E03AB928: 0.025
-    - Vector1_E5C51606: 0
-    - Vector1_F38B44AA: 0.35
+    - Vector1_E03AB928: 0.05
+    - Vector1_E5C51606: 2.59
+    - Vector1_EA2D80AD: 10
+    - Vector1_F38B44AA: 2.09
+    - Vector1_F591A23A: 0
+    - Vector1_e447c4cc8b7d4aa1bb50df149727dbaf: 1
+    - Vector1_e9c25d97b3c945c396e5f78c4ad28a04: 0.5
+    - Water_Depth: 28.5
+    - Wave_Height: 0.001
+    - Wave_Scale: 10
+    - Wave_Speed: 0.72
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
+    - _BumpStrength: 0.5
     - _Cull: 2
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
-    - _Glossiness: 0
+    - _Glossiness: 0.829
     - _GlossyReflections: 0
-    - _Metallic: 0
+    - _Metallic: 0.526
     - _OcclusionStrength: 1
-    - _QueueControl: 0
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -101,15 +131,18 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WaveFrequency: 20
-    - _WaveScale: 2
-    - _WaveSpeed: 1.2
+    - _WaveFrequency: 47.69
+    - _WaveScale: 0.012
+    - _WaveSpeed: 8.69
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_7D9A58EC: {r: 0.19471928, g: 0, b: 0.20754719, a: 0.9843137}
-    - Color_F01C36BF: {r: 0.8396226, g: 0.10693307, b: 0.69324064, a: 0}
-    - Vector2_37B21477: {r: 14, g: 14, b: 0, a: 0}
+    - Color_7D9A58EC: {r: 0.1254895, g: 0.25564453, b: 0.5660378, a: 1}
+    - Color_F01C36BF: {r: 0.04705883, g: 0.4784314, b: 0.75294125, a: 1}
+    - Foam_Color: {r: 1, g: 1, b: 1, a: 0.5450981}
+    - Shallow_Water_Color: {r: 0.48235294, g: 0, b: 0.58431375, a: 0.3176471}
+    - Trough_Color: {r: 0.24705882, g: 0, b: 0.14117648, a: 0.4627451}
+    - Vector2_37B21477: {r: 2.73, g: 0.56, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

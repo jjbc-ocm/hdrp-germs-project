@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TanksMP
 {
-	public class PowerupHealth : Collectible
+	public class ManaCollectible : Collectible
     {
         [SerializeField]
         private int amount = 5;
@@ -17,11 +17,11 @@ namespace TanksMP
             if (p == null)
                 return false;
 
-            int value = p.photonView.GetHealth() + amount;
+            int value = p.photonView.GetMana() + amount;
 
-            value = Mathf.Min(value, p.maxHealth);
+            value = Mathf.Min(value, p.MaxMana);
 
-            p.photonView.SetHealth(value);
+            p.photonView.SetMana(value);
 
             return true;
         }

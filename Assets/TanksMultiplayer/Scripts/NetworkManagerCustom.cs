@@ -119,7 +119,7 @@ namespace TanksMP
                 connectionFailedEvent();
 
             //do not switch scenes automatically when the game over screen is being shown already
-            if (GameManager.GetInstance() != null && GameManager.GetInstance().ui.gameOverMenu.activeInHierarchy)
+            if (GameManager.GetInstance() != null && GameManager.GetInstance().ui.GameOverMenu.activeInHierarchy)
                 return;
 
             //switch from the online to the offline scene after connection is closed
@@ -211,6 +211,7 @@ namespace TanksMP
             Hashtable roomProps = new Hashtable();
             roomProps.Add(RoomExtensions.size, new int[initialArrayLength]);
             roomProps.Add(RoomExtensions.score, new int[initialArrayLength]);
+            roomProps.Add(RoomExtensions.coins, new int[initialArrayLength]);
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
             //load the online scene randomly out of all available scenes for the selected game mode
@@ -414,61 +415,59 @@ namespace TanksMP
     /// Provides several methods for setting and getting variables out of them.
     /// </summary>
     public static class RoomExtensions
-    {       
-        /// <summary>
-        /// The key for accessing team fill per team out of the room properties.
-        /// </summary>
+    {
         public const string size = "size";
         
-        /// <summary>
-        /// The key for accessing player scores per team out of the room properties.
-        /// </summary>
         public const string score = "score";
 
-        /// <summary>
-        /// The key 
-        /// </summary>
-        public const string viewIds = "viewIds";
+        public const string coins = "coins";
         
-        /// <summary>
-        /// Returns the networked team fill for all teams out of properties.
-        /// </summary>
         public static int[] GetSize(this Room room)
         {
             return (int[])room.CustomProperties[size];
         }
-        
-        /// <summary>
-        /// Increases the team fill for a team by one when a new player joined the game.
-        /// This is also being used on player disconnect by using a negative value.
-        /// </summary>
-        public static int[] AddSize(this Room room, int teamIndex, int value)
-        {
-            int[] sizes = room.GetSize();
-            sizes[teamIndex] += value;
 
-            room.SetCustomProperties(new Hashtable() {{size, sizes}});
-            return sizes;
-        }
-        
-        /// <summary>
-        /// Returns the networked team scores for all teams out of properties.
-        /// </summary>
         public static int[] GetScore(this Room room)
         {
             return (int[])room.CustomProperties[score];
         }
+
+        public static int[] GetCoins(this Room room)
+        {
+            return (int[])room.CustomProperties[coins];
+        }
+
+        public static int[] AddSize(this Room room, int teamIndex, int value)
+        {
+            int[] sizes = room.GetSize();
+
+            sizes[teamIndex] += value;
+
+            room.SetCustomProperties(new Hashtable() { { size, sizes } });
+
+            return sizes;
+        }
         
-        /// <summary>
-        /// Increase the score for a team by one when a new player scored a point for his team.
-        /// </summary>
         public static int[] AddScore(this Room room, int teamIndex, int value)
         {
             int[] scores = room.GetScore();
+
             scores[teamIndex] += value;
             
-            room.SetCustomProperties(new Hashtable() {{score, scores}});
+            room.SetCustomProperties(new Hashtable() { { score, scores } });
+
             return scores;
+        }
+
+        public static int[] AddCoins(this Room room, int teamIndex, int value)
+        {
+            int[] coins = room.GetCoins();
+
+            coins[teamIndex] += value;
+
+            room.SetCustomProperties(new Hashtable() { { coins, coins } });
+
+            return coins;
         }
     }
 }

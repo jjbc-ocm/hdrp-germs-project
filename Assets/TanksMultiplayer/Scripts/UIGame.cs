@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using System.Linq;
+using TMPro;
 
 namespace TanksMP
 {
@@ -16,88 +17,62 @@ namespace TanksMP
     /// </summary>
     public class UIGame : MonoBehaviourPunCallbacks
     {
-        /// <summary>
-        /// Added by: Jilmer John Cariaso
-        /// This will spawn health bars for each player.
-        /// </summary>
-        public HealthBar prefabHealthBar;
+        [SerializeField]
+        private Image[] team1PlayerIndicators;
 
-        /// <summary>
-        /// Joystick components controlling player movement and actions on mobile devices.
-        /// </summary>
-        public UIJoystick[] controls;
+        [SerializeField]
+        private Image[] team2PlayerIndicators;
 
-        /// <summary>
-        /// UI sliders displaying team fill for each team using absolute values.
-        /// </summary>
-        public Slider[] teamSize;
+        [SerializeField]
+        private Image[] team1ChestIndicators;
 
-        public Image[] team1PlayerIndicators;
+        [SerializeField]
+        private Image[] team2ChestIndicators;
 
-        public Image[] team2PlayerIndicators;
+        [SerializeField]
+        private ShipHUD[] team1ShipHuds;
 
-        public Image[] team1ChestIndicators;
+        [SerializeField]
+        private ShipHUD[] team2ShipHuds;
 
-        public Image[] team2ChestIndicators;
+        [SerializeField]
+        private TMP_Text[] teamScore;
 
-        public HealthBar[] team1HealthBars;
+        [SerializeField]
+        private TMP_Text textMyTeamCoins;
 
-        public HealthBar[] team2HealthBars;
+        [SerializeField]
+        private TMP_Text deathText;
 
-        /// <summary>
-        /// UI texts displaying kill scores for each team.
-        /// </summary>
-        public Text[] teamScore;
+        [SerializeField]
+        private TMP_Text spawnDelayText;
 
-        /// <summary>
-        /// UI texts displaying kill scores for this local player.
-        /// [0] = Kill Count, [1] = Death Count
-        /// </summary>
-        public Text[] killCounter;
+        [SerializeField]
+        private TMP_Text gameOverText;
 
-        /// <summary>
-        /// Mobile crosshair aiming indicator for local player.
-        /// </summary>
-        public GameObject aimIndicator;
+        [SerializeField]
+        private GameObject gameOverMenu;
 
-        /// <summary>
-        /// UI text for indicating player death and who killed this player.
-        /// </summary>
-        public Text deathText;
-
-        /// <summary>
-        /// UI text displaying the time in seconds left until player respawn.
-        /// </summary>
-        public Text spawnDelayText;
-
-        /// <summary>
-        /// UI text for indicating game end and which team has won the round.
-        /// </summary>
-        public Text gameOverText;
-
-        /// <summary>
-        /// UI window gameobject activated on game end, offering sharing and restart buttons.
-        /// </summary>
-        public GameObject gameOverMenu;
+        public GameObject GameOverMenu { get => gameOverMenu; }
 
 
         //initialize variables
         void Start()
         {
             //on non-mobile devices hide joystick controls, except in editor
-            #if !UNITY_EDITOR && (UNITY_STANDALONE || UNITY_WEBGL)
+            /*#if !UNITY_EDITOR && (UNITY_STANDALONE || UNITY_WEBGL)
                 ToggleControls(false);
-            #endif
+            #endif*/
             
             //on mobile devices enable additional aiming indicator
-            #if !UNITY_EDITOR && !UNITY_STANDALONE && !UNITY_WEBGL
+            /*#if !UNITY_EDITOR && !UNITY_STANDALONE && !UNITY_WEBGL
             if (aimIndicator != null)
             {
                 Transform indicator = Instantiate(aimIndicator).transform;
                 indicator.SetParent(GameManager.GetInstance().localPlayer.shotPos);
                 indicator.localPosition = new Vector3(0f, 0f, 3f);
             }
-            #endif
+            #endif*/
 
             //play background music
             AudioManager.PlayMusic(1);
@@ -117,15 +92,19 @@ namespace TanksMP
                 {
                     if (i == 0)
                     {
-                        team1HealthBars[j].Player = j < team1.Count() ? team1[j] : null;
+                        team1ShipHuds[j].Player = j < team1.Count() ? team1[j] : null;
                     }
 
                     if (i == 1)
                     {
-                        team2HealthBars[j].Player = j < team2.Count() ? team2[j] : null;
+                        team2ShipHuds[j].Player = j < team2.Count() ? team2[j] : null;
                     }
                 }
             }
+
+            var coins = PhotonNetwork.CurrentRoom.GetCoins()[PhotonNetwork.LocalPlayer.GetTeam()];
+
+            textMyTeamCoins.text = coins.ToString();
         }
 
 
@@ -155,16 +134,14 @@ namespace TanksMP
 
                 team2PlayerIndicators[i].gameObject.SetActive(false);
 
-                team1HealthBars[i].Player = null;
+                team1ShipHuds[i].Player = null;
 
-                team2HealthBars[i].Player = null;
+                team2ShipHuds[i].Player = null;
             }
 
             //loop over sliders values and assign it
 			for(int i = 0; i < size.Length; i++)
             {
-                teamSize[i].value = size[i];
-
                 for (int j = 0; j < size[i]; j++)
                 {
                     if (i == 0)
@@ -225,11 +202,11 @@ namespace TanksMP
         /// <summary>
         /// Enables or disables visibility of joystick controls.
         /// </summary>
-        public void ToggleControls(bool state)
+        /*public void ToggleControls(bool state)
         {
             for (int i = 0; i < controls.Length; i++)
                 controls[i].gameObject.SetActive(state);
-        }
+        }*/
 
 
         /// <summary>
@@ -240,7 +217,7 @@ namespace TanksMP
         {
             //hide joystick controls while displaying death text
             #if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-                ToggleControls(false);
+                //ToggleControls(false);
             #endif
             
             //show killer name and colorize the name converting its team color to an HTML RGB hex value for UI markup
@@ -265,7 +242,7 @@ namespace TanksMP
         {
             //show joystick controls after disabling death text
             #if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-                ToggleControls(true);
+                //ToggleControls(true);
             #endif
             
             //clear text component values
@@ -281,7 +258,7 @@ namespace TanksMP
         {
             //hide joystick controls while displaying game end text
             #if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-                ToggleControls(false);
+                //ToggleControls(false);
             #endif
             
             //show winning team and colorize it by converting the team color to an HTML RGB hex value for UI markup
