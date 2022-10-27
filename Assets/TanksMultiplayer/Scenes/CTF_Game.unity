@@ -219,7 +219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
       propertyPath: m_LocalScale.x
@@ -290,19 +290,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
   m_PrefabInstance: {fileID: 4830670}
   m_PrefabAsset: {fileID: 0}
---- !u!135 &4830674
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4830672}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.27
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4830675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_maxHealth: 10
   m_currentHealth: 10
+  m_isDead: 0
   OnHealthChangedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -347,7 +335,74 @@ MonoBehaviour:
   m_minAttackTime: 1
   m_maxAttackTime: 3.5
   m_attackTriggerName: Bite Attack
+  m_dieTriggerName: Die
+  m_hurtTriggerName: Take damage
+  m_playersInRange: []
+  m_rotateSpeed: 3
+  m_detectionTrigger: {fileID: 2124755552}
   m_currTargetPlayer: {fileID: 0}
+--- !u!65 &4830677
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4830672}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 1.9942585, z: 0.8469278}
+  m_Center: {x: 0.0000000019814133, y: 0.49712932, z: 0.07653613}
+--- !u!114 &4830678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4830672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 1
+    Name: Die
+  - Type: 9
+    SynchronizeType: 2
+    Name: Projectile Attack
+  - Type: 9
+    SynchronizeType: 1
+    Name: Roar
+  - Type: 9
+    SynchronizeType: 1
+    Name: Take damage
+  - Type: 9
+    SynchronizeType: 2
+    Name: Bite Attack
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0
+--- !u!114 &4830679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4830672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &18076147
 GameObject:
   m_ObjectHideFlags: 0
@@ -7646,7 +7701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_LocalScale.x
@@ -9648,6 +9703,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2124755550}
   - {fileID: 4830671}
   - {fileID: 217619845}
   - {fileID: 781648763}
@@ -26156,7 +26212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_LocalScale.x
@@ -34425,6 +34481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_maxHealth: 10
   m_currentHealth: 10
+  m_isDead: 0
   OnHealthChangedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -34455,6 +34512,11 @@ MonoBehaviour:
   m_minAttackTime: 1
   m_maxAttackTime: 3.5
   m_attackTriggerName: Bite Attack
+  m_dieTriggerName: Die
+  m_hurtTriggerName: Take damage
+  m_playersInRange: []
+  m_rotateSpeed: 3
+  m_detectionTrigger: {fileID: 0}
   m_currTargetPlayer: {fileID: 0}
 --- !u!1001 &1034361967
 PrefabInstance:
@@ -48496,7 +48558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_LocalScale.x
@@ -60525,7 +60587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_LocalScale.x
@@ -67406,6 +67468,71 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122619722}
   m_Mesh: {fileID: 4300024, guid: 219cc1118860c8541bfd70b3d9605978, type: 3}
+--- !u!1 &2124755549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2124755550}
+  - component: {fileID: 2124755552}
+  - component: {fileID: 2124755551}
+  m_Layer: 0
+  m_Name: PlayerDetector
+  m_TagString: IgnoreBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2124755550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124755549}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.096824646, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 271218101}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2124755551
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124755549}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 15.71
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2124755552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124755549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b938b811b6f7b84478416b28f771d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_TagsToCheck: []
 --- !u!1 &2125055658
 GameObject:
   m_ObjectHideFlags: 0

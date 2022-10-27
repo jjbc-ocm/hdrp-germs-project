@@ -109,10 +109,16 @@ namespace TanksMP
         //not even accessing player variables or anything like that. The server side is separate below
         void OnTriggerEnter(Collider col)
         {
+            if (col.CompareTag("IgnoreBullet")) // ignore collision
+            {
+                return;
+            }
+
             //cache corresponding gameobject that was hit
             GameObject obj = col.gameObject;
             //try to get a player component out of the collided gameobject
             Player player = obj.GetComponent<Player>();
+            GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
 
             //we actually hit a player
             //do further checks
@@ -121,6 +127,12 @@ namespace TanksMP
                 //ignore ourselves & disable friendly fire (same team index)
                 if (IsFriendlyFire(owner.GetComponent<Player>(), player)) return;
 
+                //create clips and particles on hit
+                if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
+                if (hitClip) AudioManager.Play3D(hitClip, transform.position);
+            }
+            else if (monster != null)
+            {
                 //create clips and particles on hit
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
@@ -202,7 +214,14 @@ namespace TanksMP
 
             //apply bullet damage to the collided players
             for(int i = 0; i < targets.Count; i++)
+            {
                 targets[i].TakeDamage(this);
+            }
+
+            if (monster)
+            {
+                monster.DamageMonster(this);
+            }
         }
 
 
