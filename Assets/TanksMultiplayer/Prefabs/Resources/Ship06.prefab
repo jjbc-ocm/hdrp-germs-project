@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114000014033440060}
   - component: {fileID: -1594895182170962206}
   - component: {fileID: -1353080304172887663}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Ship06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,6 +89,8 @@ MonoBehaviour:
   renderers:
   - {fileID: 0}
   - {fileID: 2366430}
+  colliders:
+  - {fileID: -1353080304172887663}
   ship: {fileID: 125922}
   moveDir: {x: 0, y: 0}
   iconIndicator: {fileID: 1249857633476243996}
@@ -179,7 +181,7 @@ GameObject:
   - component: {fileID: 491912}
   - component: {fileID: 3306966}
   - component: {fileID: 2366430}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: TankTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 413990}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: TankRenderers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +300,7 @@ GameObject:
   - component: {fileID: 4000012146816170}
   - component: {fileID: 33000011211599952}
   - component: {fileID: 23000013904792584}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: TankCrown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000012569186762}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ShotPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +498,7 @@ GameObject:
   - component: {fileID: 3430758274554732425}
   - component: {fileID: 3595079991446693943}
   - component: {fileID: 3359601415263816866}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

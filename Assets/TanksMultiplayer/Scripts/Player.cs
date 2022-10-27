@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 namespace TanksMP
 {
@@ -84,6 +85,9 @@ namespace TanksMP
         /// </summary>
         public MeshRenderer[] renderers;
 
+        [SerializeField]
+        private Collider[] colliders;
+
         public GameObject ship;
 
         public Vector2 moveDir;
@@ -109,6 +113,8 @@ namespace TanksMP
         #pragma warning disable 0649
 		private Rigidbody rb;
 #pragma warning restore 0649
+
+        private bool isToggled;
 
         //public Text Label { get => label; }
 
@@ -290,30 +296,6 @@ namespace TanksMP
 
             Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
 
-            /* This will make the player avoid colliding with the terrain by observing distance */
-            // TODO: moving backward is bug
-            /* Moving forward against an obstacle */
-            /*if (Physics.Raycast(transform.position, transform.forward, 12, 1 << 6))
-            {
-                var directionY = Mathf.Min(0, direction.y);
-
-                moveForce = transform.forward * directionY * moveSpeed;
-            }
-
-            *//* Moving backward against an obstacle *//*
-            else if (Physics.Raycast(transform.position, transform.forward * -1, 12, 1 << 6))
-            {
-                var directionY = Mathf.Max(0, direction.y);
-
-                moveForce = transform.forward * directionY * moveSpeed;
-            }
-
-            *//* No obstacles *//*
-            else
-            {
-                moveForce = transform.forward * direction.y * moveSpeed;
-            }*/
-
             rb.AddForce(moveForce);
         }
 
@@ -380,7 +362,7 @@ namespace TanksMP
         
         //called on the server first but forwarded to all clients
         [PunRPC]
-        protected void CmdShoot(float[] position, short angle)
+        public void CmdShoot(float[] position, short angle)
         {
             //get current bullet type
             int currentBullet = 0; // photonView.GetBullet();
@@ -448,50 +430,37 @@ namespace TanksMP
         /// </summary>
         public void TakeDamage(Bullet bullet)
         {
-            //store network variables temporary
-            int health = photonView.GetHealth();
-            //int shield = photonView.GetShield();
+            var health = photonView.GetHealth();
 
-            //reduce shield on hit
-            /*if (shield > 0)
-            {
-                photonView.DecreaseShield(1);
-                return;
-            }*/
-
-            //substract health by damage
-            //locally for now, to only have one update later on
             health -= bullet.damage;
 
-            //bullet killed the player
             if (health <= 0)
             {
-                //the game is already over so don't do anything
-                if(GameManager.GetInstance().IsGameOver()) return;
+                if (GameManager.GetInstance().IsGameOver()) return;
 
-                //get killer and increase score for that enemy team
-                Player other = bullet.owner.GetComponent<Player>();
-                int otherTeam = other.photonView.GetTeam();
-                if(photonView.GetTeam() != otherTeam)
-                    GameManager.GetInstance().AddScore(ScoreType.Kill, otherTeam);
+                /* Add score to opponent */
+                var attcker = bullet.owner.GetComponent<Player>();
 
-                //the maximum score has been reached now
+                var attackerTeam = attcker.photonView.GetTeam();
+
+                if(photonView.GetTeam() != attackerTeam)
+                {
+                    GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
+                }
+
+                /* Set game over from conditions */
                 if(GameManager.GetInstance().IsGameOver())
                 {
-                    //close room for joining players
                     PhotonNetwork.CurrentRoom.IsOpen = false;
-                    //tell all clients the winning team
-                    this.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)otherTeam);
+
+                    photonView.RPC("RpcGameOver", RpcTarget.All, (byte)attackerTeam);
+
                     return;
                 }
 
-                //the game is not over yet, reset runtime values
-                //also tell all clients to despawn this player
-                photonView.SetHealth(maxHealth);
-                //photonView.SetBullet(0);
+                /* Handle collectible drops */
+                var collectibles = GetComponentsInChildren<Collectible>(true);
 
-                //clean up collectibles on this player by letting them drop down
-                Collectible[] collectibles = GetComponentsInChildren<Collectible>(true);
                 for (int i = 0; i < collectibles.Length; i++)
                 {
                     // TODO: need to handle dropping of chest here
@@ -499,25 +468,139 @@ namespace TanksMP
                     //collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, transform.position);
                 }
 
-                //tell the dead player who killed him (owner of the bullet)
-                short senderId = 0;
-                if (bullet.owner != null)
-                    senderId = (short)bullet.owner.GetComponent<PhotonView>().ViewID;
+                /* Reset health, prepare for their respawn */
+                photonView.SetHealth(maxHealth);
 
-                this.photonView.RPC("RpcRespawn", RpcTarget.All, senderId);
+                var attackerId = (short)bullet.owner.GetComponent<PhotonView>().ViewID;
+
+                photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
             }
             else
             {
-                //we didn't die, set health to new value
                 photonView.SetHealth(health);
             }
         }
 
+        [PunRPC]
+        public void RpcDestroy(short attackerId)
+        {
+            ToggleFunction(false);
+
+            var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
+
+            if (explosionFX)
+            {
+                PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
+            }
+
+            if (explosionClip)
+            {
+                AudioManager.Play3D(explosionClip, transform.position);
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //send player back to the team area, this will get overwritten by the exact position from the client itself later on
+                //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
+                //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
+                GetComponent<PhotonTransformView>().OnPhotonSerializeView(
+                    new PhotonStream(
+                        false, 
+                        new object[] 
+                        { 
+                            GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()), 
+                            Vector3.zero, 
+                            Quaternion.identity 
+                        }), 
+                    new PhotonMessageInfo());
+            }
+
+            if (photonView.IsMine)
+            {
+                Debug.Log("RpcDestroy A");
+
+                if (attackerView != null)
+                {
+                    camFollow.target = attackerView.transform;
+                }
+
+                Debug.Log("RpcDestroy B");
+
+                camFollow.HideMask(true);
+
+                Debug.Log("RpcDestroy C");
+
+                GameManager.GetInstance().ui.SetDeathText(
+                    attackerView.GetName(), 
+                    GameManager.GetInstance().teams[attackerView.GetTeam()]);
+
+                Debug.Log("RpcDestroy D");
+
+                //GameManager.GetInstance().SpawnPlayer(photonView);
+                StartCoroutine(SpawnRoutine());
+            }
+        }
+
+        private IEnumerator SpawnRoutine()
+        {
+            Debug.Log("SpawnRoutine A");
+
+            float targetTime = Time.time + 3;
+
+            while (targetTime - Time.time > 0)
+            {
+                GameManager.GetInstance().ui.SetSpawnDelay(targetTime - Time.time);
+
+                yield return null;
+            }
+
+            Debug.Log("SpawnRoutine B");
+
+            GameManager.GetInstance().ui.DisableDeath();
+
+            Debug.Log("SpawnRoutine C");
+
+            photonView.RPC("RpcRespawn", RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void RpcRespawn()
+        {
+            Debug.Log("RpcRespawn A");
+
+            ToggleFunction(true);
+
+            Debug.Log("RpcRespawn B");
+
+            if (photonView.IsMine)
+            {
+                Debug.Log("RpcRespawn C");
+
+                ResetPosition();
+
+                Debug.Log("RpcRespawn D");
+            }
+        }
+
+        private void ToggleFunction(bool toggle)
+        {
+            isToggled = toggle;
+
+            foreach (var renderer in renderers)
+            {
+                renderer.enabled = toggle;
+            }
+
+            foreach (var collider in colliders)
+            {
+                collider.enabled = toggle;
+            }
+        }
 
         //called on all clients on both player death and respawn
         //only difference is that on respawn, the client sends the request
-        [PunRPC]
-        protected virtual void RpcRespawn(short senderId)
+        /*[PunRPC]
+        protected virtual void RpcRespawnOld(short senderId)
         {
             //toggle visibility for player gameobject (on/off)
             gameObject.SetActive(!gameObject.activeInHierarchy);
@@ -576,17 +659,17 @@ namespace TanksMP
                 //display respawn window (only for local player)
                 GameManager.GetInstance().DisplayDeath();
             }
-        }
+        }*/
 
 
         /// <summary>
         /// Command telling the server and all others that this client is ready for respawn.
         /// This is when the respawn delay is over or a video ad has been watched.
         /// </summary>
-        public void CmdRespawn()
+        /*public void CmdRespawn()
         {
             this.photonView.RPC("RpcRespawn", RpcTarget.AllViaServer, (short)0);
-        }
+        }*/
 
 
         /// <summary>
@@ -614,7 +697,7 @@ namespace TanksMP
 
         //called on all clients on game end providing the winning team
         [PunRPC]
-        protected void RpcGameOver(byte teamIndex)
+        public void RpcGameOver(byte teamIndex)
         {
             //display game over window
             GameManager.GetInstance().DisplayGameOver(teamIndex);
