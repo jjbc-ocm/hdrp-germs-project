@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2902478152362553583}
   - component: {fileID: -6107409623894800482}
   - component: {fileID: -6261885226580003658}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: PowerupBulletStunt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,8 +84,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useClip: {fileID: 8300000, guid: 30cbc4f0e846df04d9c25940ff239106, type: 3}
   graphics: {fileID: 0}
-  spawner: {fileID: 0}
-  carrierId: -1
   amount: 3
   bulletIndex: 1
 --- !u!95 &95000013323926802
@@ -177,7 +175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012313981088}
   - component: {fileID: 212000011028990102}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: BlobShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +260,7 @@ GameObject:
   - component: {fileID: 4000010222924234}
   - component: {fileID: 33000013181904854}
   - component: {fileID: 23000013014674116}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: BulletPower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000011499832982}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000013363303594}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,7 +406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8325177778426879882}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Floater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,31 +493,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4789902906994068286, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4476341861233055936, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4015989568663610930, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -2756527447812258475, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -2263821900959729135, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -1127479904123707048, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 525615048717113714, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Name
@@ -527,11 +525,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3077545126646307343, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff0ce98bb3304bb45baa0c4348be0c8f, type: 3}

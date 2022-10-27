@@ -103,7 +103,7 @@ namespace TanksMP
                 {
                     var distance = Vector3.Distance(player.transform.position, localPlayer.transform.position);
 
-                    player.iconIndicator.SetActive(distance <= 150);
+                    player.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
                 }
             }
         }
@@ -290,19 +290,43 @@ namespace TanksMP
             return isOver;
         }
         
-        
+        /*public void SpawnPlayer(PhotonView photonView)
+        {
+            StartCoroutine(SpawnRoutine(photonView));
+        }
+
+        private IEnumerator SpawnRoutine(PhotonView photonView)
+        {
+            float targetTime = Time.time + 3;
+
+            while (targetTime - Time.time > 0)
+            {
+                ui.SetSpawnDelay(targetTime - Time.time);
+
+                yield return null;
+            }
+
+            ui.DisableDeath();
+
+            photonView.RPC("RpcRespawn", RpcTarget.All);
+        }*/
+
         /// <summary>
         /// Only for this player: sets the death text stating the killer on death.
         /// If Unity Ads is enabled, tries to show an ad during the respawn delay.
         /// By using the 'skipAd' parameter is it possible to force skipping ads.
         /// </summary>
-        public void DisplayDeath(bool skipAd = false)
+        /*public void DisplayDeath(bool skipAd = false) // TODO: Bug might be here
         {
+            Debug.Log("DisplayDeath A");
+
             //get the player component that killed us
             Player other = localPlayer;
             string killedByName = "YOURSELF";
             if(localPlayer.killedBy != null)
                 other = localPlayer.killedBy.GetComponent<Player>();
+
+            Debug.Log("DisplayDeath B");
 
             //suicide or regular kill?
             if (other != localPlayer)
@@ -311,27 +335,27 @@ namespace TanksMP
                 //increase local death counter for this game
                 //ui.killCounter[1].text = (int.Parse(ui.killCounter[1].text) + 1).ToString();
                 //ui.killCounter[1].GetComponent<Animator>().Play("Animation");
-            }
 
-            //calculate if we should show a video ad
-            #if UNITY_ADS
-            if (!skipAd && UnityAdsManager.ShowAd())
-                return;
-            #endif
+                Debug.Log("DisplayDeath C");
+            }
 
             //when no ad is being shown, set the death text
             //and start waiting for the respawn delay immediately
+            Debug.Log("DisplayDeath D");
             ui.SetDeathText(killedByName, teams[other.photonView.GetTeam()]);
+            Debug.Log("DisplayDeath E");
             StartCoroutine(SpawnRoutine());
-        }
+        }*/
 
 
         //coroutine spawning the player after a respawn delay
-        IEnumerator SpawnRoutine()
+        /*IEnumerator SpawnRoutine()
         {
+            Debug.Log("SpawnRoutine A");
             //calculate point in time for respawn
             float targetTime = Time.time + respawnTime;
 
+            Debug.Log("SpawnRoutine B");
             //wait for the respawn to be over,
             //while waiting update the respawn countdown
             while (targetTime - Time.time > 0)
@@ -340,10 +364,12 @@ namespace TanksMP
                 yield return null;
             }
 
+            Debug.Log("SpawnRoutine C");
             //respawn now: send request to the server
             ui.DisableDeath();
-            localPlayer.CmdRespawn();
-        }
+            Debug.Log("SpawnRoutine D");
+            //localPlayer.CmdRespawn();
+        }*/
 
 
         /// <summary>
@@ -358,7 +384,7 @@ namespace TanksMP
             ui.SetGameOverText(teams[teamIndex]);
 
             //starts coroutine for displaying the game over window
-            StopCoroutine(SpawnRoutine());
+            //StopCoroutine(SpawnRoutine(null));
             StartCoroutine(DisplayGameOver());
         }
 
