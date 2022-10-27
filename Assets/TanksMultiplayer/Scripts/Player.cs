@@ -560,11 +560,11 @@ namespace TanksMP
 
             Debug.Log("SpawnRoutine C");
 
-            photonView.RPC("RpcRespawn", RpcTarget.All);
+            photonView.RPC("RpcRevive", RpcTarget.All);
         }
 
         [PunRPC]
-        public void RpcRespawn()
+        public void RpcRevive()
         {
             Debug.Log("RpcRespawn A");
 

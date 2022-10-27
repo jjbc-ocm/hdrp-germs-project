@@ -429,7 +429,12 @@ namespace TanksMP
 
         public static int[] GetScore(this Room room)
         {
-            return (int[])room.CustomProperties[score];
+            if (room.CustomProperties.TryGetValue(score, out object value))
+            {
+                return (int[])value;
+            }
+
+            return new int[] { 0, 0 };
         }
 
         public static int[] GetCoins(this Room room)
