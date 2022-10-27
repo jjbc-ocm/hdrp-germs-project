@@ -32,11 +32,15 @@ public class ShipHUD : MonoBehaviour
 
     void Update()
     {
-        if (Player == null)
+        if (Player == null || !IsWithinForOfWar())
         {
-            mainContent.SetActive(Player != null);
+            mainContent.SetActive(false);
 
             return;
+        }
+        else
+        {
+            mainContent.SetActive(true);
         }
 
         transform.position = mainCamera.WorldToScreenPoint(Player.transform.position);
@@ -52,5 +56,14 @@ public class ShipHUD : MonoBehaviour
         imageMainMana.fillAmount = Player.photonView.GetMana() / (float)Player.MaxMana;
 
         imageSubMana.fillAmount += (imageMainMana.fillAmount - imageSubMana.fillAmount) / 10f;
+    }
+
+    private bool IsWithinForOfWar()
+    {
+        var selfPos = GameManager.GetInstance().localPlayer.transform.position;
+
+        var otherPos = Player.transform.position;
+
+        return Vector3.Distance(selfPos, otherPos) <= Constants.FOG_OF_WAR_DISTANCE;
     }
 }

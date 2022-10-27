@@ -13,9 +13,6 @@ namespace TanksMP
 {
     public class Player : MonoBehaviourPunCallbacks, IPunObservable
     {
-        //[SerializeField]
-        //private Text label;
-
         [Header("Stats")]
 
         [SerializeField]
@@ -42,94 +39,59 @@ namespace TanksMP
         [SerializeField]
         private int moveSpeed = 50;
 
+        [Header("Visual and Sound Effects")]
+
+        [SerializeField]
+        private AudioClip shotClip;
+
+        [SerializeField]
+        private AudioClip explosionClip;
+
+        [SerializeField]
+        private GameObject shotFX;
+
+        [SerializeField]
+        private GameObject explosionFX;
 
         [Header("Other Properties")]
 
-        /// <summary>
-        /// Clip to play when a shot has been fired.
-        /// </summary>
-        public AudioClip shotClip;
-
-        /// <summary>
-        /// Clip to play on player death.
-        /// </summary>
-        public AudioClip explosionClip;
-
-        /// <summary>
-        /// Object to spawn on shooting.
-        /// </summary>
-        public GameObject shotFX;
-
-        /// <summary>
-        /// Object to spawn on player death.
-        /// </summary>
-        public GameObject explosionFX;
-
-        /// <summary>
-        /// Turret to rotate with look direction.
-        /// </summary>
-        public Transform turret;
-
-        /// <summary>
-        /// Position to spawn new bullets at.
-        /// </summary>
-        public Transform shotPos;
-
-        /// <summary>
-        /// Array of available bullets for shooting.
-        /// </summary>
-        public GameObject[] bullets;
-
-        /// <summary>
-        /// MeshRenderers that should be highlighted in team color.
-        /// </summary>
-        public MeshRenderer[] renderers;
+        [SerializeField]
+        private GameObject[] bullets; // TODO: I think this will be removed in the future
 
         [SerializeField]
         private Collider[] colliders;
 
-        public GameObject ship;
+        [SerializeField]
+        private GameObject rendererAnchor;
 
-        public Vector2 moveDir;
+        [SerializeField]
+        private GameObject iconIndicator;
 
-        public GameObject iconIndicator;
-
-        /// <summary>
-        /// Last player gameobject that killed this one.
-        /// </summary>
-        [HideInInspector]
-        public GameObject killedBy;
-
-        /// <summary>
-        /// Reference to the camera following component.
-        /// </summary>
         [HideInInspector]
         public FollowTarget camFollow;
 
-        //timestamp when next shot should happen
+        private Rigidbody rigidBody;
+
         private float nextFire;
+
+        private Vector2 moveDir;
+
+        #region Network Sync
+
+        private Vector3 shipRotation;
+
+        #endregion
+
         
-        //reference to this rigidbody
-        #pragma warning disable 0649
-		private Rigidbody rb;
-#pragma warning restore 0649
-
-        private bool isToggled;
-
-        //public Text Label { get => label; }
 
         public int MaxHealth { get => maxHealth; }
 
         public int MaxMana { get => maxMana; }
 
+        public GameObject IconIndicator { get => iconIndicator; }
 
-        #region Network Sync
 
-        protected short turretRotation;
-
-        protected Vector3 shipRotation;
-
-        #endregion
+        
 
         #region Unity
 
@@ -144,18 +106,7 @@ namespace TanksMP
         }
 
         void Start()
-        {           
-			//get corresponding team and colorize renderers in team color
-            //Team team = GameManager.GetInstance().teams[photonView.GetTeam()];
-            //for(int i = 0; i < renderers.Length; i++)
-            //    renderers[i].material = team.material;
-
-            //set name in label
-            //label.text = photonView.GetName();
-            //call hooks manually to update
-            //OnHealthChange(photonView.GetHealth());
-            //OnShieldChange(photonView.GetShield());
-
+        {
             //called only for this client 
             if (!photonView.IsMine)
                 return;
@@ -163,24 +114,18 @@ namespace TanksMP
 			//set a global reference to the local player
             GameManager.GetInstance().localPlayer = this;
 
-			//get components and set camera target
-            rb = GetComponent<Rigidbody>();
-            camFollow = GameManager.GetInstance().mainCamera.GetComponent<FollowTarget>();//Camera.main.GetComponent<FollowTarget>();
+            //get components and set camera target
+            rigidBody = GetComponent<Rigidbody>();
+            camFollow = GameManager.GetInstance().mainCamera.GetComponent<FollowTarget>();
             camFollow.target = transform;
         }
 
         void FixedUpdate()
-        {
-            //skip further calls for remote clients    
+        { 
             if (!photonView.IsMine)
             {
-                //keep turret rotation updated for all clients
-                OnTurretRotation();
                 return;
             }
-
-            //movement variables
-            //moveDir = Vector2.zero;
 
             Vector2 turnDir;
 
@@ -213,18 +158,16 @@ namespace TanksMP
             turnDir = new Vector2(hitPos.x, hitPos.z);
 
             //rotate turret to look at the mouse direction
-            RotateTurret(new Vector2(hitPos.x, hitPos.z));
+            //RotateTurret(new Vector2(hitPos.x, hitPos.z));
 
-            //rotate ship based on turnDir
-            //TODO: must put this in 
             shipRotation = new Vector3(
-                moveDir.y * -10,//ship.transform.localEulerAngles.x, 
-                ship.transform.localEulerAngles.y,
+                moveDir.y * -10,
+                rendererAnchor.transform.localEulerAngles.y,
                 moveDir.x * -10);
-            ship.transform.localRotation = Quaternion.Euler(shipRotation);
-            //rb.AddTorque(new Vector3(0, 0, moveDir.x * 15f));
 
-            //shoot bullet on left mouse click
+            rendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
+            
+
             if (Input.GetButton("Fire1"))
                 Shoot();
 
@@ -242,6 +185,7 @@ namespace TanksMP
         /// <summary>
         /// This method gets called whenever player properties have been changed on the network.
         /// </summary>
+        /// TODO: this is might not needed because player HUD is always updated every frames
         public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player player, ExitGames.Client.Photon.Hashtable playerAndUpdatedProps)
         {
             //only react on property changes for this player
@@ -260,17 +204,17 @@ namespace TanksMP
             if (stream.IsWriting)
             {             
                 //here we send the turret rotation angle to other clients
-                stream.SendNext(turretRotation);
+                //stream.SendNext(turretRotation);
                 stream.SendNext(shipRotation);
             }
             else
             {   
                 //here we receive the turret rotation angle from others and apply it
-                turretRotation = (short)stream.ReceiveNext();
+                //turretRotation = (short)stream.ReceiveNext();
                 shipRotation = (Vector3)stream.ReceiveNext();
-                OnTurretRotation();
+                //OnTurretRotation();
 
-                ship.transform.localRotation = Quaternion.Euler(this.shipRotation);
+                //mainRenderer.transform.localRotation = Quaternion.Euler(this.shipRotation);
             }
         }
 
@@ -296,7 +240,7 @@ namespace TanksMP
 
             Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
 
-            rb.AddForce(moveForce);
+            rigidBody.AddForce(moveForce);
         }
 
 
@@ -304,24 +248,11 @@ namespace TanksMP
         void MoveEnd()
         {
             //reset rigidbody physics values
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
         }
 
-
-        //rotates turret to the direction passed in
-        // Commented by: Jilmer John Cariaso
         /*void RotateTurret(Vector2 direction = default(Vector2))
-        {
-            //don't rotate without values
-            if (direction == Vector2.zero)
-                return;
-
-            //get rotation value as angle out of the direction we received
-            turretRotation = (short)Quaternion.LookRotation(new Vector3(direction.x, 0, direction.y)).eulerAngles.y;
-            OnTurretRotation();
-        }*/
-        void RotateTurret(Vector2 direction = default(Vector2))
         {
             //don't rotate without values
             if (direction == Vector2.zero)
@@ -330,7 +261,7 @@ namespace TanksMP
             //get rotation value as angle out of the direction we received
             turretRotation = (short)Quaternion.LookRotation(transform.forward).eulerAngles.y;
             OnTurretRotation();
-        }
+        }*/
 
 
         //on shot drag start set small delay for first shot
@@ -353,9 +284,9 @@ namespace TanksMP
 
                 //send current client position and turret rotation along to sync the shot position
                 //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
-                float[] pos = new float[] { shotPos.position.x , shotPos.position.z };
+                float[] pos = new float[] { transform.position.x , transform.position.z };
                 //send shot request with origin to server
-                this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, turretRotation);
+                this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, (short)transform.eulerAngles.y);
             }
         }
         
@@ -369,8 +300,8 @@ namespace TanksMP
 
             //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
             //this is done to compensate network lag and smoothing it out between both client/server positions
-            Vector3 shotCenter = Vector3.Lerp(shotPos.position, new Vector3(position[0], shotPos.position.y, position[1]), 0.6f);
-            Quaternion syncedRot = turret.rotation = Quaternion.Euler(0, angle, 0);
+            Vector3 shotCenter = Vector3.Lerp(transform.position, new Vector3(position[0], transform.position.y, position[1]), 0.6f);
+            Quaternion syncedRot = transform.rotation = Quaternion.Euler(0, angle, 0);
 
             //spawn bullet using pooling
             GameObject obj = PoolManager.Spawn(bullets[currentBullet], shotCenter, syncedRot);
@@ -394,35 +325,18 @@ namespace TanksMP
         //spawn effects or sounds locally, if set
         protected void RpcOnShot()
         {
-            if (shotFX) PoolManager.Spawn(shotFX, shotPos.position, Quaternion.identity);
-            if (shotClip) AudioManager.Play3D(shotClip, shotPos.position, 0.1f);
+            if (shotFX) PoolManager.Spawn(shotFX, transform.position, Quaternion.identity);
+            if (shotClip) AudioManager.Play3D(shotClip, transform.position, 0.1f);
         }
 
 
         //hook for updating turret rotation locally
-        void OnTurretRotation()
+        /*void OnTurretRotation()
         {
             //we don't need to check for local ownership when setting the turretRotation,
             //because OnPhotonSerializeView PhotonStream.isWriting == true only applies to the owner
-            turret.rotation = Quaternion.Euler(0, turretRotation, 0);
-        }
-
-
-        //hook for updating health locally
-        //(the actual value updates via player properties)
-       /* protected void OnHealthChange(int value)
-        {
-            //healthSlider.value = (float)value / maxHealth;
+            transform.rotation = Quaternion.Euler(0, turretRotation, 0);
         }*/
-
-
-        //hook for updating shield locally
-        //(the actual value updates via player properties)
-        /*protected void OnShieldChange(int value)
-        {
-            //shieldSlider.value = value;
-        }*/
-
 
         /// <summary>
         /// Server only: calculate damage to be taken by the Player,
@@ -584,92 +498,13 @@ namespace TanksMP
 
         private void ToggleFunction(bool toggle)
         {
-            isToggled = toggle;
-
-            foreach (var renderer in renderers)
-            {
-                renderer.enabled = toggle;
-            }
+            rendererAnchor.SetActive(toggle);
 
             foreach (var collider in colliders)
             {
                 collider.enabled = toggle;
             }
         }
-
-        //called on all clients on both player death and respawn
-        //only difference is that on respawn, the client sends the request
-        /*[PunRPC]
-        protected virtual void RpcRespawnOld(short senderId)
-        {
-            //toggle visibility for player gameobject (on/off)
-            gameObject.SetActive(!gameObject.activeInHierarchy);
-            bool isActive = gameObject.activeInHierarchy;
-            killedBy = null;
-
-            //the player has been killed
-            if (!isActive)
-            {
-                //find original sender game object (killedBy)
-                PhotonView senderView = senderId > 0 ? PhotonView.Find(senderId) : null;
-                if (senderView != null && senderView.gameObject != null) killedBy = senderView.gameObject;
-
-                //detect whether the current user was responsible for the kill, but not for suicide
-                //yes, that's my kill: increase local kill counter
-                if (this != GameManager.GetInstance().localPlayer && killedBy == GameManager.GetInstance().localPlayer.gameObject)
-                {
-                    //GameManager.GetInstance().ui.killCounter[0].text = (int.Parse(GameManager.GetInstance().ui.killCounter[0].text) + 1).ToString();
-                    //GameManager.GetInstance().ui.killCounter[0].GetComponent<Animator>().Play("Animation");
-                }
-
-                if (explosionFX)
-                {
-                    //spawn death particles locally using pooling and colorize them in the player's team color
-                    GameObject particle = PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
-                    ParticleColor pColor = particle.GetComponent<ParticleColor>();
-                    if (pColor) pColor.SetColor(GameManager.GetInstance().teams[photonView.GetTeam()].material.color);
-                }
-
-                //play sound clip on player death
-                if (explosionClip) AudioManager.Play3D(explosionClip, transform.position);
-            }
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                //send player back to the team area, this will get overwritten by the exact position from the client itself later on
-                //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
-                //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
-                GetComponent<PhotonTransformView>().OnPhotonSerializeView(new PhotonStream(false, new object[] { GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
-                                                                                                                 Vector3.zero, Quaternion.identity }), new PhotonMessageInfo());
-            }
-
-            //further changes only affect the local client
-            if (!photonView.IsMine)
-                return;
-
-            //local player got respawned so reset states
-            if (isActive == true)
-                ResetPosition();
-            else
-            {
-                //local player was killed, set camera to follow the killer
-                if (killedBy != null) camFollow.target = killedBy.transform;
-                //hide input controls and other HUD elements
-                camFollow.HideMask(true);
-                //display respawn window (only for local player)
-                GameManager.GetInstance().DisplayDeath();
-            }
-        }*/
-
-
-        /// <summary>
-        /// Command telling the server and all others that this client is ready for respawn.
-        /// This is when the respawn delay is over or a video ad has been watched.
-        /// </summary>
-        /*public void CmdRespawn()
-        {
-            this.photonView.RPC("RpcRespawn", RpcTarget.AllViaServer, (short)0);
-        }*/
 
 
         /// <summary>
@@ -686,8 +521,8 @@ namespace TanksMP
             transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
 
             //reset forces modified by input
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
             transform.rotation = Quaternion.identity;
             //reset input left over
             //GameManager.GetInstance().ui.controls[0].OnEndDrag(null);
