@@ -36,6 +36,8 @@ Transform:
   m_Children:
   - {fileID: 1529718748051212266}
   - {fileID: 7362700670243089961}
+  - {fileID: 3451066744936879053}
+  - {fileID: 3445255713243680133}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -179,7 +181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1529718748051212266
 Transform:
   m_ObjectHideFlags: 0
@@ -506,6 +508,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 83ed9912ad7165c4ea08a253917f1890, type: 3}
       propertyPath: m_Name
       value: IndicatorBase - RedTeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 83ed9912ad7165c4ea08a253917f1890, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83ed9912ad7165c4ea08a253917f1890, type: 3}
