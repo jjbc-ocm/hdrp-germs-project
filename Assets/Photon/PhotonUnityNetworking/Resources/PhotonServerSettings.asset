@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: us
     Server: 
     Port: 0
     ProxyServer: 
@@ -50,6 +50,9 @@ MonoBehaviour:
   - RpcRespawn
   - SetRespawn
   - SpawnItem
+  - RpcRespawnOld
+  - RpcDestroy
+  - RpcRevive
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1
