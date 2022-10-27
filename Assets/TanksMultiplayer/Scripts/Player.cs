@@ -39,7 +39,6 @@ namespace TanksMP
         [SerializeField]
         private int moveSpeed = 50;
 
-
         [Header("Visual and Sound Effects")]
 
         [SerializeField]
@@ -56,12 +55,6 @@ namespace TanksMP
 
         [Header("Other Properties")]
 
-        //[SerializeField]
-        //private Transform turret; // TODO: do we really need this?
-
-        //[SerializeField]
-        //private Transform shotPos; // TODO: do we really need this?
-
         [SerializeField]
         private GameObject[] bullets; // TODO: I think this will be removed in the future
 
@@ -69,7 +62,7 @@ namespace TanksMP
         private Collider[] colliders;
 
         [SerializeField]
-        private GameObject mainRenderer;
+        private GameObject rendererAnchor;
 
         [SerializeField]
         private GameObject iconIndicator;
@@ -77,9 +70,11 @@ namespace TanksMP
         [HideInInspector]
         public FollowTarget camFollow;
 
+        private Rigidbody rigidBody;
+
         private float nextFire;
 
-        private Rigidbody rigidBody;
+        private Vector2 moveDir;
 
         #region Network Sync
 
@@ -126,19 +121,11 @@ namespace TanksMP
         }
 
         void FixedUpdate()
-        {
-            //skip further calls for remote clients    
+        { 
             if (!photonView.IsMine)
             {
-                //keep turret rotation updated for all clients
-                //OnTurretRotation();
                 return;
             }
-
-            //movement variables
-            //moveDir = Vector2.zero;
-
-            Vector2 moveDir = Vector2.zero;
 
             Vector2 turnDir;
 
@@ -175,9 +162,10 @@ namespace TanksMP
 
             shipRotation = new Vector3(
                 moveDir.y * -10,
-                mainRenderer.transform.localEulerAngles.y,
+                rendererAnchor.transform.localEulerAngles.y,
                 moveDir.x * -10);
-            mainRenderer.transform.localRotation = Quaternion.Euler(shipRotation);
+
+            rendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
             
 
             if (Input.GetButton("Fire1"))
@@ -226,7 +214,7 @@ namespace TanksMP
                 shipRotation = (Vector3)stream.ReceiveNext();
                 //OnTurretRotation();
 
-                mainRenderer.transform.localRotation = Quaternion.Euler(this.shipRotation);
+                //mainRenderer.transform.localRotation = Quaternion.Euler(this.shipRotation);
             }
         }
 
@@ -298,7 +286,7 @@ namespace TanksMP
                 //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
                 float[] pos = new float[] { transform.position.x , transform.position.z };
                 //send shot request with origin to server
-                this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, 0);
+                this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, (short)transform.eulerAngles.y);
             }
         }
         
@@ -510,7 +498,7 @@ namespace TanksMP
 
         private void ToggleFunction(bool toggle)
         {
-            mainRenderer.SetActive(toggle);
+            rendererAnchor.SetActive(toggle);
 
             foreach (var collider in colliders)
             {
