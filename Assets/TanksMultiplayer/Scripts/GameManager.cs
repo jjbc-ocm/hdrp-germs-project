@@ -231,14 +231,7 @@ namespace TanksMP
                                 PhotonNetwork.CurrentRoom.AddCoins(teamIndex, 500);
                                 PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
 
-                                foreach (var player in PhotonNetwork.PlayerList)
-                                {
-                                    if (player.GetTeam() == teamIndex)
-                                    {
-                                        player.AddGold(500);
-                                    }
-                                }
-
+                                GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
                                 break;
 
                             case ScoreType.Kill:

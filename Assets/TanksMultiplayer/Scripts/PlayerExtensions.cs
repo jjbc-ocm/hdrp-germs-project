@@ -145,6 +145,11 @@ namespace TanksMP
             return player.Owner.AddGold(value);
         }
 
+        public static int RemoveGold(this PhotonView player, int value)
+        {
+            return player.Owner.RemoveGold(value);
+        }
+
         public static void Clear(this PhotonView player)
         {
             player.Owner.Clear();
@@ -263,6 +268,18 @@ namespace TanksMP
         {
             int goldValue = player.GetGold();
             goldValue += value;
+            player.SetCustomProperties(new Hashtable() { { gold, goldValue } });
+            return goldValue;
+        }
+
+        public static int RemoveGold(this Photon.Realtime.Player player, int value)
+        {
+            int goldValue = player.GetGold();
+            goldValue -= value;
+            if (goldValue < 0)
+            {
+                goldValue = 0;
+            }
             player.SetCustomProperties(new Hashtable() { { gold, goldValue } });
             return goldValue;
         }

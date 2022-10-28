@@ -9,7 +9,6 @@ public class GPMonsterBase : MonoBehaviour
     [Header("Component references")]
     public GPHealth m_health;
     public GPGTriggerEvent m_detectionTrigger;
-    public GPRewardGiver m_rewardGiver;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -39,10 +38,21 @@ public class GPMonsterBase : MonoBehaviour
     public List<Player> m_playersWhoDamageIt = new List<Player>();
     [HideInInspector]
     public Player m_lastHitPlayer;
-    
+
+    [Header("Death settings")]
+    public float m_destroyTime = 1.0f;
+    public float m_sinkSpeed = 2.0f;
+
+    [Header("Gold settings")]
+    [Tooltip("This key should be defined on the reward system prefab.")]
+    public string m_rewardKey = "defaultMonster";
 
     public virtual void ChoosePlayerToAttack()
     {
+        if (m_playersInRange.Count == 0)
+        {
+            return;
+        }
         int playerIdx = Random.Range(0, m_playersInRange.Count);
         m_currTargetPlayer = m_playersInRange[playerIdx];
     }
@@ -56,6 +66,19 @@ public class GPMonsterBase : MonoBehaviour
     {
         m_animator.SetTrigger(m_dieTriggerName);
         GiveRewards();
+        StartCoroutine(Sink());
+    }
+
+    public IEnumerator Sink()
+    {
+        float timeCounter = 0.0f;
+        while (timeCounter <= m_destroyTime)
+        {
+            timeCounter += Time.fixedDeltaTime;
+            transform.position -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
+            yield return new WaitForFixedUpdate();
+        }
+        Destroy(gameObject);
     }
 
     public virtual void DamageMonster(Bullet bullet)
@@ -112,7 +135,7 @@ public class GPMonsterBase : MonoBehaviour
         {
             if (player.photonView.GetTeam() == team)
             {
-                m_rewardGiver.GiveReward(player);
+                GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
             }
         }
     }

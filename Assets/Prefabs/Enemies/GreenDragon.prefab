@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5696015177808293605}
   m_Layer: 0
-  m_Name: Ocean Dragon
+  m_Name: GreenDragon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_Name
       value: Tentacles-Pink
+      objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
@@ -433,7 +437,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_health: {fileID: 5696015177533419139}
   m_detectionTrigger: {fileID: 5696015179258554672}
-  m_rewardGiver: {fileID: 5696015177533419144}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 5696015177540705278}
@@ -449,6 +452,9 @@ MonoBehaviour:
   m_playersInRange: []
   m_playersWhoDamageIt: []
   m_lastHitPlayer: {fileID: 0}
+  m_destroyTime: 3
+  m_sinkSpeed: 4
+  m_rewardKey: DragonHead
 --- !u!114 &5696015177533419142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,19 +504,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &5696015177533419144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177533450300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53ad6451fcb74f842bee0936a347c4f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_reward: 400
 --- !u!114 &5696015177533419145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +544,10 @@ PrefabInstance:
     - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_Name
       value: Tentacles-Pink (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
@@ -626,6 +623,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tentacles-Pink (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -699,6 +700,10 @@ PrefabInstance:
     - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_Name
       value: Tentacles-Pink (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder

@@ -360,10 +360,11 @@ namespace TanksMP
                 if(photonView.GetTeam() != attackerTeam)
                 {
                     GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
+                    GPRewardSystem.m_instance.AddGoldToPlayer(attcker.photonView.Owner, "Kill");
                 }
 
                 /* Set game over from conditions */
-                if(GameManager.GetInstance().IsGameOver())
+                if (GameManager.GetInstance().IsGameOver())
                 {
                     PhotonNetwork.CurrentRoom.IsOpen = false;
 

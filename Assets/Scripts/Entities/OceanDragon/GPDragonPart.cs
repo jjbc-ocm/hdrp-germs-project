@@ -16,10 +16,13 @@ public class GPDragonPart : GPMonsterBase
     // Start is called before the first frame update
     void Start()
     {
-        m_health.OnDieEvent.AddListener(OnDie);
-        m_health.OnDamagedEvent.AddListener(OnDamage);
-        m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
-        m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            m_health.OnDieEvent.AddListener(OnDie);
+            m_health.OnDamagedEvent.AddListener(OnDamage);
+            m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
+            m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
+        }
     }
 
     // Update is called once per frame
@@ -76,8 +79,6 @@ public class GPDragonPart : GPMonsterBase
     {
         if (m_currentState == DRAGON_STATES.kIdle && newState == DRAGON_STATES.kAttacking)
         {
-
-
             //look at target
             /*
             Vector3 lookDir = m_currTargetPlayer.transform.position - transform.position;
@@ -99,5 +100,5 @@ public class GPDragonPart : GPMonsterBase
     {
         m_tweening = false;
     }
-    
+
 }

@@ -35,6 +35,8 @@ namespace TanksMP
 
             var player = col.GetComponent<Player>();
 
+            if (player == null) { return; }
+
             if (player != null && player.photonView.GetTeam() != teamIndex) return;
 
             var chestObject = GameObject.FindGameObjectWithTag("Chest");

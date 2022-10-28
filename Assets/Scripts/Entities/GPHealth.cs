@@ -78,6 +78,10 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
     public void SetHealth(float value)
     {
         m_currentHealth = value;
+        if (m_currentHealth <= 0)
+        {
+            Kill();
+        }
         OnHealthChanged();
     }
 
