@@ -5253,6 +5253,10 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 114000012352245564, guid: a32e604ef2b6ef44aba370e493eff18b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012352245564, guid: a32e604ef2b6ef44aba370e493eff18b, type: 3}
       propertyPath: onlineSceneIndex
       value: 0
       objectReference: {fileID: 0}
@@ -5262,6 +5266,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a32e604ef2b6ef44aba370e493eff18b, type: 3}
+--- !u!1 &798326666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000013459717394, guid: a32e604ef2b6ef44aba370e493eff18b, type: 3}
+  m_PrefabInstance: {fileID: 798326665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &798326667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798326666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1777e765d1cb84ebe34778d6a9a1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPlayers: 6
 --- !u!1 &800515012
 GameObject:
   m_ObjectHideFlags: 0
@@ -9421,8 +9443,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 96511438}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 798326667}
+        m_TargetAssemblyTypeName: MenuNetworkManager, Assembly-CSharp
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
