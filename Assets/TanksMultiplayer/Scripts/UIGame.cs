@@ -42,6 +42,9 @@ namespace TanksMP
         private TMP_Text textMyTeamCoins;
 
         [SerializeField]
+        private TMP_Text textPlayerGold;
+
+        [SerializeField]
         private TMP_Text deathText;
 
         [SerializeField]
@@ -103,8 +106,10 @@ namespace TanksMP
             }
 
             var coins = PhotonNetwork.CurrentRoom.GetCoins()[PhotonNetwork.LocalPlayer.GetTeam()];
-
             textMyTeamCoins.text = coins.ToString();
+
+            var gold = PhotonNetwork.LocalPlayer.GetGold();
+            textPlayerGold.text = gold.ToString();
         }
 
 

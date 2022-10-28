@@ -4,136 +4,141 @@
  * 	otherwise make available to any third party the Service or the Content. */
 
 using UnityEngine;
+using UnityEngine.Events;
 using Photon.Pun;
 
 namespace TanksMP
 {
+  /// <summary>
+  /// Custom Collectible implementation for scene owned (unassigned) or team owned items.
+  /// E.g. allowing for 'Rambo' pickups, Capture the Flag items etc.
+  /// </summary>
+  public class CollectibleTeam : Collectible
+  {
+    public UnityEvent<Player, GameObject> OnCollectedEvent;
+
     /// <summary>
-    /// Custom Collectible implementation for scene owned (unassigned) or team owned items.
-    /// E.g. allowing for 'Rambo' pickups, Capture the Flag items etc.
+    /// Server only: check for players colliding with the powerup.
+    /// Possible collision are defined in the Physics Matrix.
+    /// TODO: this is old implementation
     /// </summary>
-	public class CollectibleTeam : Collectible
+    /*public override void OnTriggerEnter(Collider col)
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
 
+        GameObject obj = col.gameObject;
+        Player player = obj.GetComponent<Player>();
 
-        /// <summary>
-        /// Server only: check for players colliding with the powerup.
-        /// Possible collision are defined in the Physics Matrix.
-        /// TODO: this is old implementation
-        /// </summary>
-        /*public override void OnTriggerEnter(Collider col)
+        //try to apply collectible to player, the result should be true
+        if (Apply(player))
         {
-            if (!PhotonNetwork.IsMasterClient)
-                return;
+            //clean up previous buffered RPCs so we only keep the most recent one
+            PhotonNetwork.RemoveRPCs(spawner.photonView);
 
-            GameObject obj = col.gameObject;
-            Player player = obj.GetComponent<Player>();
+            //player picked up item from other team, send out buffered RPC for it to be remembered
+            spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
+        }
+    }*/
 
-            //try to apply collectible to player, the result should be true
-            if (Apply(player))
-            {
-                //clean up previous buffered RPCs so we only keep the most recent one
-                PhotonNetwork.RemoveRPCs(spawner.photonView);
+    public override void OnTriggerEnter(Collider col)
+    {
+      if (!PhotonNetwork.IsMasterClient)
+        return;
 
-                //player picked up item from other team, send out buffered RPC for it to be remembered
-                spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
-            }
-        }*/
+      GameObject obj = col.gameObject;
+      Player player = obj.GetComponent<Player>();
 
-        public override void OnTriggerEnter(Collider col)
+      if (Apply(player))
+      {
+        //clean up previous buffered RPCs so we only keep the most recent one
+        //PhotonNetwork.RemoveRPCs(spawner.photonView);
+
+        //player picked up item from other team, send out buffered RPC for it to be remembered
+        //spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
+
+        var view = player.photonView;
+
+        carrierId = view.ViewID;
+
+        //GameManager.GetInstance().ui.OnChestPickup(view.GetComponent<Player>()); // TODO: return this later
+
+
+
+        if (view.IsMine)
         {
-            if (!PhotonNetwork.IsMasterClient)
-                return;
+          var destination = view.GetTeam() == 0
+              ? GameManager.GetInstance().zoneRed.transform.position
+              : GameManager.GetInstance().zoneBlue.transform.position;
 
-            GameObject obj = col.gameObject;
-            Player player = obj.GetComponent<Player>();
-
-            if (Apply(player))
-            {
-                //clean up previous buffered RPCs so we only keep the most recent one
-                //PhotonNetwork.RemoveRPCs(spawner.photonView);
-
-                //player picked up item from other team, send out buffered RPC for it to be remembered
-                //spawner.photonView.RPC("Pickup", RpcTarget.AllBuffered, (short)player.GetView().ViewID);
-
-                var view = player.photonView;
-
-                carrierId = view.ViewID;
-
-                //GameManager.GetInstance().ui.OnChestPickup(view.GetComponent<Player>()); // TODO: return this later
-
-                
-
-                if (view.IsMine)
-                {
-                    var destination = view.GetTeam() == 0
-                        ? GameManager.GetInstance().zoneRed.transform.position
-                        : GameManager.GetInstance().zoneBlue.transform.position;
-
-                    GPSManager.Instance.SetDestination(destination);
-                }
-
-                //OnPickup();
-            }
+          GPSManager.Instance.SetDestination(destination);
         }
 
-
-        /// <summary>
-        /// Overrides the default behavior with a custom implementation.
-        /// Check for the carrier and item position to decide valid pickup.
-        /// </summary>
-        public override bool Apply(Player p)
+        //OnPickup();
+        if (OnCollectedEvent != null)
         {
-            /* Cannot collect this item if collider is not a player or already carried by other player */
-            if (p == null ||  carrierId > 0)
-                return false;
-
-            //if a target renderer is set, assign team material
-            //Colorize(p.GetView().GetTeam());
-
-            //return successful collection
-            return true;
+          OnCollectedEvent.Invoke(player, obj);
         }
-
-        /// <summary>
-        /// Implemented by: Jilmer John Cariaso
-        /// </summary>
-        /*public override void OnPickup()
-        {
-            //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
-
-        }*/
-
-        /// <summary>
-        /// Overrides the default behavior with a custom implementation.
-        /// </summary>
-        public override void OnDrop()
-        {
-            //Colorize(this.teamIndex);
-
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
-
-
-        /// <summary>
-        /// Overrides the default behavior with a custom implementation.
-        /// </summary>
-        public override void OnReturn()
-        {
-            //Colorize(this.teamIndex);
-        }
-
-
-        //assign material based on team index passed in
-        /*void Colorize(int teamIndex)
-        {
-            if (targetRenderer != null)
-            {
-                if (teamIndex >= 0)
-                    targetRenderer.material = GameManager.GetInstance().teams[teamIndex].material;
-                else
-                    targetRenderer.material = baseMaterial;
-            }
-        }*/
+      }
     }
+
+
+    /// <summary>
+    /// Overrides the default behavior with a custom implementation.
+    /// Check for the carrier and item position to decide valid pickup.
+    /// </summary>
+    public override bool Apply(Player p)
+    {
+      /* Cannot collect this item if collider is not a player or already carried by other player */
+      if (p == null || carrierId > 0)
+        return false;
+
+      //if a target renderer is set, assign team material
+      //Colorize(p.GetView().GetTeam());
+
+      //return successful collection
+      return true;
+    }
+
+    /// <summary>
+    /// Implemented by: Jilmer John Cariaso
+    /// </summary>
+    /*public override void OnPickup()
+    {
+        //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+
+    }*/
+
+    /// <summary>
+    /// Overrides the default behavior with a custom implementation.
+    /// </summary>
+    public override void OnDrop()
+    {
+      //Colorize(this.teamIndex);
+
+      GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+    }
+
+
+    /// <summary>
+    /// Overrides the default behavior with a custom implementation.
+    /// </summary>
+    public override void OnReturn()
+    {
+      //Colorize(this.teamIndex);
+    }
+
+
+    //assign material based on team index passed in
+    /*void Colorize(int teamIndex)
+    {
+        if (targetRenderer != null)
+        {
+            if (teamIndex >= 0)
+                targetRenderer.material = GameManager.GetInstance().teams[teamIndex].material;
+            else
+                targetRenderer.material = baseMaterial;
+        }
+    }*/
+  }
 }
