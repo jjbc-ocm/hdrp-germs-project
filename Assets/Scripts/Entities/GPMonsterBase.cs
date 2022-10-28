@@ -9,6 +9,7 @@ public class GPMonsterBase : MonoBehaviour
     [Header("Component references")]
     public GPHealth m_health;
     public GPGTriggerEvent m_detectionTrigger;
+    public GPRewardGiver m_rewardGiver;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -29,12 +30,15 @@ public class GPMonsterBase : MonoBehaviour
     public float m_nextAttackTime = 0.0f;
     [HideInInspector]
     public float m_nextAttackTimeCounter = 0.0f;
+    [HideInInspector]
     public Player m_currTargetPlayer;
    
     [HideInInspector]
     public List<Player> m_playersInRange = new List<Player>();
     [HideInInspector]
     public List<Player> m_playersWhoDamageIt = new List<Player>();
+    [HideInInspector]
+    public Player m_lastHitPlayer;
     
 
     public virtual void ChoosePlayerToAttack()
@@ -51,6 +55,7 @@ public class GPMonsterBase : MonoBehaviour
     public virtual void OnDie()
     {
         m_animator.SetTrigger(m_dieTriggerName);
+        GiveRewards();
     }
 
     public virtual void DamageMonster(Bullet bullet)
@@ -60,6 +65,7 @@ public class GPMonsterBase : MonoBehaviour
         Player other = bullet.owner.GetComponent<Player>();
         if (other)
         {
+            m_lastHitPlayer = other;
             if (!m_playersWhoDamageIt.Contains(other))
             {
                 m_playersWhoDamageIt.Add(other);
@@ -95,6 +101,19 @@ public class GPMonsterBase : MonoBehaviour
         if (player == m_currTargetPlayer)
         {
             m_currTargetPlayer = null;
+        }
+    }
+
+    public void GiveRewards()
+    {
+        //get winning team
+        int team = m_lastHitPlayer.photonView.GetTeam();
+        foreach (Player player in m_playersWhoDamageIt)
+        {
+            if (player.photonView.GetTeam() == team)
+            {
+                m_rewardGiver.GiveReward(player);
+            }
         }
     }
 

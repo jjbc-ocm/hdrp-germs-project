@@ -230,6 +230,15 @@ namespace TanksMP
                             case ScoreType.Capture:
                                 PhotonNetwork.CurrentRoom.AddCoins(teamIndex, 500);
                                 PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
+
+                                foreach (var player in PhotonNetwork.PlayerList)
+                                {
+                                    if (player.GetTeam() == teamIndex)
+                                    {
+                                        player.AddGold(500);
+                                    }
+                                }
+
                                 break;
 
                             case ScoreType.Kill:
