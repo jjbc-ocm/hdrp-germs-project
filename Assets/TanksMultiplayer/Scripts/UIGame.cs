@@ -221,9 +221,11 @@ namespace TanksMP
         public void SetDeathText(string playerName, Team team)
         {
             //hide joystick controls while displaying death text
-            #if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-                //ToggleControls(false);
-            #endif
+            //#if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
+            //ToggleControls(false);
+            //#endif
+
+            Debug.Log((deathText == null) + " " + (playerName == null) + " " + (team == null));
             
             //show killer name and colorize the name converting its team color to an HTML RGB hex value for UI markup
             deathText.text = "KILLED BY\n<color=#" + ColorUtility.ToHtmlStringRGB(team.material.color) + ">" + playerName + "</color>";

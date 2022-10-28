@@ -116,18 +116,14 @@ namespace TanksMP
 
             //cache corresponding gameobject that was hit
             GameObject obj = col.gameObject;
-            //try to get a player component out of the collided gameobject
+
             Player player = obj.GetComponent<Player>();
             GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
 
-            //we actually hit a player
-            //do further checks
             if (player != null)
             {
-                //ignore ourselves & disable friendly fire (same team index)
                 if (IsFriendlyFire(owner.GetComponent<Player>(), player)) return;
 
-                //create clips and particles on hit
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
             }
@@ -242,12 +238,10 @@ namespace TanksMP
         //method to check for friendly fire (same team index).
         private bool IsFriendlyFire(Player origin, Player target)
         {
-            //do not trigger damage for colliding with our own bullet
             if (target.gameObject == owner || target.gameObject == null) return true;
-            //perform the actual friendly fire check on both team indices and see if they match
+
             else if (!GameManager.GetInstance().friendlyFire && origin.photonView.GetTeam() == target.photonView.GetTeam()) return true;
 
-            //friendly fire is off, this bullet should do damage
             return false;
         }
     }
