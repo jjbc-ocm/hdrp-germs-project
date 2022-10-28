@@ -230,6 +230,8 @@ namespace TanksMP
                             case ScoreType.Capture:
                                 PhotonNetwork.CurrentRoom.AddCoins(teamIndex, 500);
                                 PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
+
+                                GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
                                 break;
 
                             case ScoreType.Kill:
