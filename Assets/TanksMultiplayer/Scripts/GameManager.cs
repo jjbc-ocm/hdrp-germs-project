@@ -7,10 +7,6 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using System;
-#if UNITY_ADS
-using UnityEngine.Advertisements;
-#endif
-
 namespace TanksMP
 {
     /// <summary>
@@ -85,11 +81,6 @@ namespace TanksMP
         void Awake()
         {
             instance = this;
-
-            //if Unity Ads is enabled, hook up its result callback
-            #if UNITY_ADS
-                UnityAdsManager.adResultEvent += HandleAdResult;
-            #endif
         }
 
         void Update()
@@ -121,16 +112,16 @@ namespace TanksMP
         /// <summary>
         /// Global check whether this client is the match master or not.
         /// </summary>
-        public static bool isMaster()
+        /*public static bool isMaster()
         {
             return PhotonNetwork.IsMasterClient;
-        }
+        }*/
 
 
         /// <summary>
         /// Returns the next team index a player should be assigned to.
         /// </summary>
-        public int GetTeamFill()
+        /*public int GetTeamFill()
         {
             //init variables
             int[] size = PhotonNetwork.CurrentRoom.GetSize();
@@ -151,7 +142,7 @@ namespace TanksMP
 
             //return index of lowest team
             return teamNo;
-        }
+        }*/
 
 
         /// <summary>
@@ -185,30 +176,6 @@ namespace TanksMP
         }
 
 
-        //implements what to do when an ad view completes
-        #if UNITY_ADS
-        void HandleAdResult(ShowResult result)
-        {
-            switch (result)
-            {
-                //in case the player successfully watched an ad,
-                //it sends a request for it be respawned
-                case ShowResult.Finished:
-                case ShowResult.Skipped:
-                    localPlayer.CmdRespawn();
-                    break;
-                
-                //in case the ad can't be shown, just handle it
-                //like we wouldn't have tried showing a video ad
-                //with the regular death countdown (force ad skip)
-                case ShowResult.Failed:
-                    DisplayDeath(true);
-                    break;
-            }
-        }
-        #endif
-
-
         /// <summary>
         /// Adds points to the target team depending on matching game mode and score type.
         /// This allows us for granting different amount of points on different score actions.
@@ -228,7 +195,6 @@ namespace TanksMP
                         switch (scoreType)
                         {
                             case ScoreType.Capture:
-                                PhotonNetwork.CurrentRoom.AddCoins(teamIndex, 500);
                                 PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
 
                                 GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");

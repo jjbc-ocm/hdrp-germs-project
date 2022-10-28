@@ -1,11 +1,14 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuNetworkManager : MonoBehaviourPunCallbacks
 {
+    public static MenuNetworkManager Instance;
+
     #region Serializables
 
     [SerializeField]
@@ -16,6 +19,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private Variables
 
+    private Action<string> onStatusChange;
+
     private bool isConnecting;
 
     #endregion
@@ -25,6 +30,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        Instance = this;
+
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
@@ -34,7 +41,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("OnConnectedToMaster");
+        onStatusChange.Invoke("Attempting to join a room...");
 
         if (isConnecting)
         {
@@ -46,32 +53,34 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("OnDisconnected");
+        onStatusChange.Invoke("Error " + cause.ToString());
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("OnJoinRandomFailed");
+        onStatusChange.Invoke("Player created a room instead...");
 
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayers });
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoom");
+        onStatusChange.Invoke("Player joined a room...");
 
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
+        /*PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
         {
-            { "team", playerCount % 2 },
-            { "shipIndex", playerCount - 1 }
-        });
+            { Constants.KEY_TEAM, playerCount % 2 },
+            { Constants.KEY_SHIP_INDEX, playerCount - 1 }
+        });*/
+
+        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, playerCount - 1);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        Debug.Log("OnPlayerPropertiesUpdate");
+        onStatusChange.Invoke("Updating player info...");
 
         if (targetPlayer == PhotonNetwork.LocalPlayer)
         {
@@ -83,9 +92,11 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Public
 
-    public void Play()
+    public void Play(Action<string> onStatusChange)
     {
-        Debug.Log("Play");
+        this.onStatusChange = onStatusChange;
+
+        onStatusChange.Invoke("Attempting to join a room...");
 
         if (PhotonNetwork.IsConnected)
         {
@@ -105,7 +116,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private void TryLoadGame()
     {
-        Debug.Log("TryLoadGame");
+        onStatusChange.Invoke("Loading scene...");
 
         if (!PhotonNetwork.IsMasterClient) return;
 

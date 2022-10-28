@@ -39,9 +39,6 @@ namespace TanksMP
         private TMP_Text[] teamScore;
 
         [SerializeField]
-        private TMP_Text textMyTeamCoins;
-
-        [SerializeField]
         private TMP_Text textPlayerGold;
 
         [SerializeField]
@@ -104,10 +101,6 @@ namespace TanksMP
                     }
                 }
             }
-
-            var coins = PhotonNetwork.CurrentRoom.GetCoins()[PhotonNetwork.LocalPlayer.GetTeam()];
-            textMyTeamCoins.text = coins.ToString();
-
             var gold = PhotonNetwork.LocalPlayer.GetGold();
             textPlayerGold.text = gold.ToString();
         }
@@ -120,7 +113,7 @@ namespace TanksMP
         /// </summary>
         public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
 		{
-			OnTeamSizeChanged(PhotonNetwork.CurrentRoom.GetSize());
+			//OnTeamSizeChanged(PhotonNetwork.CurrentRoom.GetSize());
 			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore());
 		}
 
