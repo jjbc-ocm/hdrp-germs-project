@@ -11,11 +11,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Serializables
 
-    [SerializeField]
-    private byte maxPlayers = 6;
-
     #endregion
-
 
     #region Private Variables
 
@@ -60,7 +56,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         onStatusChange.Invoke("Player created a room instead...");
 
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayers });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = Constants.MAX_PLAYER_COUNT });
     }
 
     public override void OnJoinedRoom()
@@ -69,12 +65,6 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        /*PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
-        {
-            { Constants.KEY_TEAM, playerCount % 2 },
-            { Constants.KEY_SHIP_INDEX, playerCount - 1 }
-        });*/
-
         PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, playerCount - 1);
     }
 
@@ -82,7 +72,9 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         onStatusChange.Invoke("Updating player info...");
 
-        if (targetPlayer == PhotonNetwork.LocalPlayer)
+        if (targetPlayer == PhotonNetwork.LocalPlayer &&
+            changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) &&
+            changedProps.ContainsKey(Constants.KEY_TEAM))
         {
             TryLoadGame();
         }
@@ -97,6 +89,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         this.onStatusChange = onStatusChange;
 
         onStatusChange.Invoke("Attempting to join a room...");
+
+        PhotonNetwork.NickName = PlayerPrefs.GetString(TanksMP.PrefsKeys.playerName);
 
         if (PhotonNetwork.IsConnected)
         {

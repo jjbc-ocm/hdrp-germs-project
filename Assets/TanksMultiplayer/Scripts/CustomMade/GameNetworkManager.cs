@@ -1,9 +1,10 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameNetworkManager : MonoBehaviour
+public class GameNetworkManager : MonoBehaviourPunCallbacks
 {
     #region Serializable
 
@@ -25,12 +26,42 @@ public class GameNetworkManager : MonoBehaviour
 
     void Start()
     {
-        IntstantiatePlayer();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            IntstantiatePlayer();
+        }
     }
 
     void Update()
     {
         
+    }
+
+    #endregion
+
+    #region Photon
+
+    /* These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene */
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("OnJoinedRoom");
+
+        var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+
+        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, playerCount - 1);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        Debug.Log("OnPlayerPropertiesUpdate");
+
+        if (targetPlayer == PhotonNetwork.LocalPlayer && 
+            changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) && 
+            changedProps.ContainsKey(Constants.KEY_TEAM))
+        {
+            IntstantiatePlayer();
+        }
     }
 
     #endregion
