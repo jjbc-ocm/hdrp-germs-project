@@ -7,10 +7,6 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using System;
-#if UNITY_ADS
-using UnityEngine.Advertisements;
-#endif
-
 namespace TanksMP
 {
     /// <summary>
@@ -85,11 +81,6 @@ namespace TanksMP
         void Awake()
         {
             instance = this;
-
-            //if Unity Ads is enabled, hook up its result callback
-            #if UNITY_ADS
-                UnityAdsManager.adResultEvent += HandleAdResult;
-            #endif
         }
 
         void Update()
@@ -117,41 +108,6 @@ namespace TanksMP
             return instance;
         }
         
-        
-        /// <summary>
-        /// Global check whether this client is the match master or not.
-        /// </summary>
-        public static bool isMaster()
-        {
-            return PhotonNetwork.IsMasterClient;
-        }
-
-
-        /// <summary>
-        /// Returns the next team index a player should be assigned to.
-        /// </summary>
-        public int GetTeamFill()
-        {
-            //init variables
-            int[] size = PhotonNetwork.CurrentRoom.GetSize();
-            int teamNo = 0;
-
-            int min = size[0];
-            //loop over teams to find the lowest fill
-            for (int i = 0; i < teams.Length; i++)
-            {
-                //if fill is lower than the previous value
-                //store new fill and team for next iteration
-                if (size[i] < min)
-                {
-                    min = size[i];
-                    teamNo = i;
-                }
-            }
-
-            //return index of lowest team
-            return teamNo;
-        }
 
 
         /// <summary>
@@ -185,30 +141,6 @@ namespace TanksMP
         }
 
 
-        //implements what to do when an ad view completes
-        #if UNITY_ADS
-        void HandleAdResult(ShowResult result)
-        {
-            switch (result)
-            {
-                //in case the player successfully watched an ad,
-                //it sends a request for it be respawned
-                case ShowResult.Finished:
-                case ShowResult.Skipped:
-                    localPlayer.CmdRespawn();
-                    break;
-                
-                //in case the ad can't be shown, just handle it
-                //like we wouldn't have tried showing a video ad
-                //with the regular death countdown (force ad skip)
-                case ShowResult.Failed:
-                    DisplayDeath(true);
-                    break;
-            }
-        }
-        #endif
-
-
         /// <summary>
         /// Adds points to the target team depending on matching game mode and score type.
         /// This allows us for granting different amount of points on different score actions.
@@ -228,7 +160,6 @@ namespace TanksMP
                         switch (scoreType)
                         {
                             case ScoreType.Capture:
-                                PhotonNetwork.CurrentRoom.AddCoins(teamIndex, 500);
                                 PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
 
                                 GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
@@ -291,88 +222,6 @@ namespace TanksMP
             //return the result
             return isOver;
         }
-        
-        /*public void SpawnPlayer(PhotonView photonView)
-        {
-            StartCoroutine(SpawnRoutine(photonView));
-        }
-
-        private IEnumerator SpawnRoutine(PhotonView photonView)
-        {
-            float targetTime = Time.time + 3;
-
-            while (targetTime - Time.time > 0)
-            {
-                ui.SetSpawnDelay(targetTime - Time.time);
-
-                yield return null;
-            }
-
-            ui.DisableDeath();
-
-            photonView.RPC("RpcRespawn", RpcTarget.All);
-        }*/
-
-        /// <summary>
-        /// Only for this player: sets the death text stating the killer on death.
-        /// If Unity Ads is enabled, tries to show an ad during the respawn delay.
-        /// By using the 'skipAd' parameter is it possible to force skipping ads.
-        /// </summary>
-        /*public void DisplayDeath(bool skipAd = false) // TODO: Bug might be here
-        {
-            Debug.Log("DisplayDeath A");
-
-            //get the player component that killed us
-            Player other = localPlayer;
-            string killedByName = "YOURSELF";
-            if(localPlayer.killedBy != null)
-                other = localPlayer.killedBy.GetComponent<Player>();
-
-            Debug.Log("DisplayDeath B");
-
-            //suicide or regular kill?
-            if (other != localPlayer)
-            {
-                killedByName = other.photonView.GetName();
-                //increase local death counter for this game
-                //ui.killCounter[1].text = (int.Parse(ui.killCounter[1].text) + 1).ToString();
-                //ui.killCounter[1].GetComponent<Animator>().Play("Animation");
-
-                Debug.Log("DisplayDeath C");
-            }
-
-            //when no ad is being shown, set the death text
-            //and start waiting for the respawn delay immediately
-            Debug.Log("DisplayDeath D");
-            ui.SetDeathText(killedByName, teams[other.photonView.GetTeam()]);
-            Debug.Log("DisplayDeath E");
-            StartCoroutine(SpawnRoutine());
-        }*/
-
-
-        //coroutine spawning the player after a respawn delay
-        /*IEnumerator SpawnRoutine()
-        {
-            Debug.Log("SpawnRoutine A");
-            //calculate point in time for respawn
-            float targetTime = Time.time + respawnTime;
-
-            Debug.Log("SpawnRoutine B");
-            //wait for the respawn to be over,
-            //while waiting update the respawn countdown
-            while (targetTime - Time.time > 0)
-            {
-                ui.SetSpawnDelay(targetTime - Time.time);
-                yield return null;
-            }
-
-            Debug.Log("SpawnRoutine C");
-            //respawn now: send request to the server
-            ui.DisableDeath();
-            Debug.Log("SpawnRoutine D");
-            //localPlayer.CmdRespawn();
-        }*/
-
 
         /// <summary>
         /// Only for this player: sets game over text stating the winning team.
@@ -400,15 +249,6 @@ namespace TanksMP
 
             //show game over window (still connected at that point)
             ui.ShowGameOver();
-        }
-
-
-        //clean up callbacks on scene switches
-        void OnDestroy()
-        {
-            #if UNITY_ADS
-                UnityAdsManager.adResultEvent -= HandleAdResult;
-            #endif
         }
     }
 

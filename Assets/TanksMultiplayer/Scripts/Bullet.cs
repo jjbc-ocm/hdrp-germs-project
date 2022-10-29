@@ -12,7 +12,7 @@ namespace TanksMP
     /// <summary>
     /// Projectile script for player shots with collision/hit logic.
     /// </summary>
-    public class Bullet : MonoBehaviourPun
+    public class Bullet : MonoBehaviour
     {
         /// <summary>
         /// Projectile travel speed in units.

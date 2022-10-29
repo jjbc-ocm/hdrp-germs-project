@@ -42,6 +42,9 @@ namespace TanksMP
         [Header("Visual and Sound Effects")]
 
         [SerializeField]
+        private Sprite spriteIcon;
+
+        [SerializeField]
         private AudioClip shotClip;
 
         [SerializeField]
@@ -56,7 +59,7 @@ namespace TanksMP
         [Header("Other Properties")]
 
         [SerializeField]
-        private GameObject[] bullets; // TODO: I think this will be removed in the future
+        private GameObject bullet;
 
         [SerializeField]
         private Collider[] colliders;
@@ -87,6 +90,8 @@ namespace TanksMP
         public int MaxHealth { get => maxHealth; }
 
         public int MaxMana { get => maxMana; }
+
+        public Sprite SpriteIcon { get => spriteIcon; }
 
         public GameObject IconIndicator { get => iconIndicator; }
 
@@ -202,19 +207,12 @@ namespace TanksMP
         void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {        
             if (stream.IsWriting)
-            {             
-                //here we send the turret rotation angle to other clients
-                //stream.SendNext(turretRotation);
+            {
                 stream.SendNext(shipRotation);
             }
             else
-            {   
-                //here we receive the turret rotation angle from others and apply it
-                //turretRotation = (short)stream.ReceiveNext();
+            {
                 shipRotation = (Vector3)stream.ReceiveNext();
-                //OnTurretRotation();
-
-                //mainRenderer.transform.localRotation = Quaternion.Euler(this.shipRotation);
             }
         }
 
@@ -244,32 +242,7 @@ namespace TanksMP
         }
 
 
-        //on movement drag ended
-        void MoveEnd()
-        {
-            //reset rigidbody physics values
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.angularVelocity = Vector3.zero;
-        }
-
-        /*void RotateTurret(Vector2 direction = default(Vector2))
-        {
-            //don't rotate without values
-            if (direction == Vector2.zero)
-                return;
-
-            //get rotation value as angle out of the direction we received
-            turretRotation = (short)Quaternion.LookRotation(transform.forward).eulerAngles.y;
-            OnTurretRotation();
-        }*/
-
-
-        //on shot drag start set small delay for first shot
-        void ShootBegin()
-        {
-            nextFire = Time.time + 0.25f;
-        }
-
+        
 
         //shoots a bullet in the direction passed in
         //we do not rely on the current turret rotation here, because we send the direction
@@ -295,24 +268,20 @@ namespace TanksMP
         [PunRPC]
         public void CmdShoot(float[] position, short angle)
         {
-            //get current bullet type
-            int currentBullet = 0; // photonView.GetBullet();
-
             //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
             //this is done to compensate network lag and smoothing it out between both client/server positions
             Vector3 shotCenter = Vector3.Lerp(transform.position, new Vector3(position[0], transform.position.y, position[1]), 0.6f);
-            Quaternion syncedRot = transform.rotation = Quaternion.Euler(0, angle, 0);
+            Quaternion syncedRot = Quaternion.Euler(0, angle, 0);
 
             //spawn bullet using pooling
-            GameObject obj = PoolManager.Spawn(bullets[currentBullet], shotCenter, syncedRot);
+            GameObject obj = PoolManager.Spawn(bullet, shotCenter, syncedRot);
             obj.GetComponent<Bullet>().owner = gameObject;
 
-            //check for current ammunition
-            //let the server decrease special ammunition, if present
-            if (PhotonNetwork.IsMasterClient && currentBullet != 0)
+            var trails = obj.GetComponentsInChildren<TrailRenderer>();
+
+            foreach (var trail in trails)
             {
-                //if ran out of ammo: reset bullet automatically
-                //photonView.DecreaseAmmo(1);
+                trail.Clear();
             }
 
             //send event to all clients for spawning effects
@@ -328,15 +297,6 @@ namespace TanksMP
             if (shotFX) PoolManager.Spawn(shotFX, transform.position, Quaternion.identity);
             if (shotClip) AudioManager.Play3D(shotClip, transform.position, 0.1f);
         }
-
-
-        //hook for updating turret rotation locally
-        /*void OnTurretRotation()
-        {
-            //we don't need to check for local ownership when setting the turretRotation,
-            //because OnPhotonSerializeView PhotonStream.isWriting == true only applies to the owner
-            transform.rotation = Quaternion.Euler(0, turretRotation, 0);
-        }*/
 
         /// <summary>
         /// Server only: calculate damage to be taken by the Player,

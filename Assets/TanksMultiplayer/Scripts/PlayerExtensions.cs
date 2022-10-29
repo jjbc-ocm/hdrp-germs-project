@@ -90,11 +90,6 @@ namespace TanksMP
             return player.Owner.GetGold();
         }
 
-        public static void SetTeam(this PhotonView player, int teamIndex)
-        {
-            player.Owner.SetTeam(teamIndex);
-        }
-
         public static void SetHealth(this PhotonView player, int value)
         {
             player.Owner.SetHealth(value);
@@ -158,11 +153,6 @@ namespace TanksMP
         #endregion
 
         #region For Photon Player
-
-        public static int GetTeam(this Photon.Realtime.Player player)
-        {
-            return System.Convert.ToInt32(player.CustomProperties[team]);
-        }
 
         public static int GetHealth(this Photon.Realtime.Player player)
         {
