@@ -95,9 +95,90 @@ Transform:
   m_Children:
   - {fileID: 2394806842927333193}
   - {fileID: 6311103624143677133}
+  - {fileID: 8041008351962780782}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 111.676, z: 0}
+--- !u!1 &3376817754043978503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8041008351962780782}
+  - component: {fileID: 9136367021989650323}
+  - component: {fileID: 3979318475823431743}
+  - component: {fileID: 3337999100263957473}
+  m_Layer: 0
+  m_Name: BiteTrigger
+  m_TagString: IgnoreBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8041008351962780782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376817754043978503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 15.5, z: 3.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2394806843371485346}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9136367021989650323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376817754043978503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b938b811b6f7b84478416b28f771d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_TagsToCheck: []
+--- !u!135 &3979318475823431743
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376817754043978503}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.66
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3337999100263957473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376817754043978503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758ed59e3917bd74497186e798860f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 6311103624143677135}
+  m_setToOrigin: 1
 --- !u!1 &6311103623699198004
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +293,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
   m_PrefabInstance: {fileID: 6311103624143813711}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6311103624143677135 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
+  m_PrefabInstance: {fileID: 6311103624143813711}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6311103624143715053 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
@@ -293,12 +379,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_health: {fileID: 3005822997308683638}
   m_detectionTrigger: {fileID: 2394806842927333239}
+  m_meleeDamageTrigger: {fileID: 9136367021989650323}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 6311103624136444207}
   m_attackTriggerName: Bite Attack
   m_dieTriggerName: Die
   m_hurtTriggerName: Take damage
+  m_damagePoints: 100
   m_attackRadius: 3
   m_minAttackTime: 1
   m_maxAttackTime: 3.5

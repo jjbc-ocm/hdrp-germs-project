@@ -396,6 +396,31 @@ namespace TanksMP
             }
         }
 
+        /// <summary>
+        /// Server only: calculate damage to be taken by the Player from a monster,
+		/// triggers respawn workflow on death.
+        /// </summary>
+        public void TakeMonsterDamage(GPMonsterBase monster)
+        {
+            var health = photonView.GetHealth();
+
+            health -= monster.m_damagePoints;
+
+            if (health <= 0)
+            {
+                if (GameManager.GetInstance().IsGameOver()) return;
+
+                /* Reset health, prepare for their respawn */
+                photonView.SetHealth(maxHealth);
+
+                photonView.RPC("RpcDestroy", RpcTarget.All, (short)0);
+            }
+            else
+            {
+                photonView.SetHealth(health);
+            }
+        }
+
         [PunRPC]
         public void RpcDestroy(short attackerId)
         {
@@ -445,9 +470,12 @@ namespace TanksMP
 
                 Debug.Log("RpcDestroy C");
 
-                GameManager.GetInstance().ui.SetDeathText(
-                    attackerView.GetName(), 
+                if (attackerView != null)
+                {
+                    GameManager.GetInstance().ui.SetDeathText(
+                    attackerView.GetName(),
                     GameManager.GetInstance().teams[attackerView.GetTeam()]);
+                }
 
                 Debug.Log("RpcDestroy D");
 

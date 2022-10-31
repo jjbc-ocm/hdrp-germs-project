@@ -22,6 +22,7 @@ public class GPDragonPart : GPMonsterBase
             m_health.OnDamagedEvent.AddListener(OnDamage);
             m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
             m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
+            m_meleeDamageTrigger.m_OnEnterEvent.AddListener(BitePlayer);
         }
     }
 
@@ -96,9 +97,15 @@ public class GPDragonPart : GPMonsterBase
         m_currentState = newState;
     }
 
-    void OnTweenEnd()
+    public void BitePlayer(Collider collider)
     {
-        m_tweening = false;
+        Player player = collider.GetComponent<Player>();
+        if (player && player == m_currTargetPlayer)
+        {
+            player.TakeMonsterDamage(this);
+        }
+
+        TurnOffDamageCollider(); // deactivate attack collider
     }
 
 }

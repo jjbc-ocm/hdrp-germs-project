@@ -1,5 +1,85 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4722087867957649814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2443897196312335213}
+  - component: {fileID: 4396148897698546822}
+  - component: {fileID: 83390763238647366}
+  - component: {fileID: 4314234732576781928}
+  m_Layer: 0
+  m_Name: BiteTrigger
+  m_TagString: IgnoreBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2443897196312335213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722087867957649814}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 14.9, z: 4.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5696015177808293605}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4396148897698546822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722087867957649814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b938b811b6f7b84478416b28f771d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_TagsToCheck: []
+--- !u!135 &83390763238647366
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722087867957649814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.66
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4314234732576781928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722087867957649814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758ed59e3917bd74497186e798860f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 5696015177533289502}
+  m_setToOrigin: 1
 --- !u!1 &5696015177513001800
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +176,7 @@ Transform:
   - {fileID: 5696015177913483912}
   - {fileID: 5696015178760090290}
   - {fileID: 5696015179411414451}
+  - {fileID: 2443897196312335213}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -18.75, z: 0}
@@ -378,6 +459,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
   m_PrefabInstance: {fileID: 5696015177533419166}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5696015177533289502 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
+  m_PrefabInstance: {fileID: 5696015177533419166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5696015177533450300 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 455e6ce82738fcd409f587a88d9f9149, type: 3}
@@ -437,12 +523,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_health: {fileID: 5696015177533419139}
   m_detectionTrigger: {fileID: 5696015179258554672}
+  m_meleeDamageTrigger: {fileID: 4396148897698546822}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 5696015177540705278}
   m_attackTriggerName: Bite Attack
   m_dieTriggerName: Die
   m_hurtTriggerName: Take damage
+  m_damagePoints: 100
   m_attackRadius: 15.7
   m_minAttackTime: 1
   m_maxAttackTime: 3.5

@@ -9,6 +9,7 @@ public class GPMonsterBase : MonoBehaviour
     [Header("Component references")]
     public GPHealth m_health;
     public GPGTriggerEvent m_detectionTrigger;
+    public GPGTriggerEvent m_meleeDamageTrigger;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -22,6 +23,7 @@ public class GPMonsterBase : MonoBehaviour
     public string m_hurtTriggerName = "Take damage";
 
     [Header("Attack settings")]
+    public int m_damagePoints = 100;
     public float m_attackRadius = 3.0f;
     public float m_minAttackTime = 1.0f;
     public float m_maxAttackTime = 3.5f;
@@ -31,7 +33,7 @@ public class GPMonsterBase : MonoBehaviour
     public float m_nextAttackTimeCounter = 0.0f;
     [HideInInspector]
     public Player m_currTargetPlayer;
-   
+
     [HideInInspector]
     public List<Player> m_playersInRange = new List<Player>();
     [HideInInspector]
@@ -94,7 +96,12 @@ public class GPMonsterBase : MonoBehaviour
                 m_playersWhoDamageIt.Add(other);
             }
         }
-        
+
+    }
+
+    public virtual void DamagePlayer(Player player)
+    {
+        player.TakeMonsterDamage(this);
     }
 
     public virtual void OnPlayerEnter(Collider other)
@@ -133,11 +140,21 @@ public class GPMonsterBase : MonoBehaviour
         int team = m_lastHitPlayer.photonView.GetTeam();
         foreach (Player player in m_playersWhoDamageIt)
         {
-            if (player.photonView.GetTeam() == team)
+            if (player.photonView.GetTeam() == team && m_playersInRange.Contains(player))
             {
                 GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
             }
         }
+    }
+
+    public void TurnOnDamageCollider()
+    {
+        m_meleeDamageTrigger.SetEnabled(true);
+    }
+
+    public void TurnOffDamageCollider()
+    {
+        m_meleeDamageTrigger.SetEnabled(false);
     }
 
     public void OnDrawGizmos()
