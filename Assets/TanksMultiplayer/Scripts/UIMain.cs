@@ -14,10 +14,8 @@ namespace TanksMP
     /// </summary>
     public class UIMain : MonoBehaviour
     {
-        /// <summary>
-        /// Window object for loading screen between connecting and scene switch.
-        /// </summary>
-        public GameObject loadingWindow;
+        [SerializeField]
+        private LoadingUI uiLoading;
 
         /// <summary>
         /// Window object for displaying errors with the connection or timeouts.
@@ -109,14 +107,20 @@ namespace TanksMP
             //UnityAnalyticsManager.MainSceneClosed(shopOpened, settingsOpened, musicToggle.isOn,
             //                      Encryptor.Decrypt(PlayerPrefs.GetString(PrefsKeys.activeTank)));
 
-            loadingWindow.SetActive(true);
-            NetworkManagerCustom.StartMatch((NetworkMode)PlayerPrefs.GetInt(PrefsKeys.networkMode));
-            StartCoroutine(HandleTimeout());
+            uiLoading.gameObject.SetActive(true);
+
+            MenuNetworkManager.Instance.Play((text) =>
+            {
+                uiLoading.Text = text;
+            });
+
+            //NetworkManagerCustom.StartMatch((NetworkMode)PlayerPrefs.GetInt(PrefsKeys.networkMode));
+            //StartCoroutine(HandleTimeout());
         }
 
 
         //coroutine that waits 10 seconds before cancelling joining a match
-        IEnumerator HandleTimeout()
+        /*IEnumerator HandleTimeout()
         {
             yield return new WaitForSeconds(10);
 
@@ -124,7 +128,7 @@ namespace TanksMP
             Photon.Pun.PhotonNetwork.Disconnect();
             //display connection issue window
             OnConnectionError();
-        }
+        }*/
 
 
         //activates the connection error window to be visible
@@ -135,7 +139,9 @@ namespace TanksMP
                 return;
 
             StopAllCoroutines();
-            loadingWindow.SetActive(false);
+
+            uiLoading.gameObject.SetActive(false);
+
             connectionErrorWindow.SetActive(true);
         }
 

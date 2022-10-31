@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 99728397314152228}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5230986387422024370}
@@ -108,11 +108,11 @@ GameObject:
   - component: {fileID: 5230986387422024370}
   - component: {fileID: 1164618516304791539}
   - component: {fileID: 5889791965933788504}
-  - component: {fileID: 3307847041816862530}
   - component: {fileID: 1393218208396507066}
-  m_Layer: 6
+  - component: {fileID: 2396568642638463050}
+  m_Layer: 0
   m_Name: CollectibleZoneBlue
-  m_TagString: Untagged
+  m_TagString: IgnoreBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -124,9 +124,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7902734130337174434}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4293968508745975907}
@@ -183,19 +183,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3307847041816862530
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7902734130337174434}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1393218208396507066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,3 +197,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamIndex: 1
   scoreClip: {fileID: 8300000, guid: 30cbc4f0e846df04d9c25940ff239106, type: 3}
+--- !u!135 &2396568642638463050
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7902734130337174434}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.4
+  m_Center: {x: 0, y: 0, z: 0}

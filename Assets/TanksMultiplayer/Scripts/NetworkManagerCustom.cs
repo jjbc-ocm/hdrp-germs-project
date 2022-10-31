@@ -209,9 +209,9 @@ namespace TanksMP
             //we created a room so we have to set the initial room properties for this room,
             //such as populating the team fill and score arrays
             Hashtable roomProps = new Hashtable();
-            roomProps.Add(RoomExtensions.size, new int[initialArrayLength]);
+            //roomProps.Add(RoomExtensions.size, new int[initialArrayLength]);
             roomProps.Add(RoomExtensions.score, new int[initialArrayLength]);
-            roomProps.Add(RoomExtensions.coins, new int[initialArrayLength]);
+            //roomProps.Add(RoomExtensions.coins, new int[initialArrayLength]);
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
             //load the online scene randomly out of all available scenes for the selected game mode
@@ -302,9 +302,9 @@ namespace TanksMP
 
             //get the next team index which the player should belong to
             //assign it to the player and update player properties
-            int teamIndex = GameManager.GetInstance().GetTeamFill();
-            PhotonNetwork.CurrentRoom.AddSize(teamIndex, +1);
-            player.SetTeam(teamIndex);
+            //int teamIndex = GameManager.GetInstance().GetTeamFill();
+            //PhotonNetwork.CurrentRoom.AddSize(teamIndex, +1);
+            //player.SetTeam(teamIndex);
 
             //also player properties are not cleared when disconnecting and connecting
             //automatically, so we have to set all existing properties to null
@@ -365,7 +365,7 @@ namespace TanksMP
             //clean up instances after processing leaving player
             PhotonNetwork.DestroyPlayerObjects(player);
             //decrease the team fill for the team of the leaving player and update room properties
-            PhotonNetwork.CurrentRoom.AddSize(player.GetTeam(), -1);
+            //PhotonNetwork.CurrentRoom.AddSize(player.GetTeam(), -1);
         }
 
 
@@ -416,16 +416,16 @@ namespace TanksMP
     /// </summary>
     public static class RoomExtensions
     {
-        public const string size = "size";
+        //public const string size = "size";
         
         public const string score = "score";
 
-        public const string coins = "coins";
+        //public const string coins = "coins";
         
-        public static int[] GetSize(this Room room)
+        /*public static int[] GetSize(this Room room)
         {
             return (int[])room.CustomProperties[size];
-        }
+        }*/
 
         public static int[] GetScore(this Room room)
         {
@@ -437,12 +437,17 @@ namespace TanksMP
             return new int[] { 0, 0 };
         }
 
-        public static int[] GetCoins(this Room room)
+        /*public static int[] GetCoins(this Room room)
         {
-            return (int[])room.CustomProperties[coins];
-        }
+            if (room.CustomProperties.TryGetValue(coins, out object value))
+            {
+                return (int[])value;
+            }
 
-        public static int[] AddSize(this Room room, int teamIndex, int value)
+            return new int[] { 0, 0 };
+        }*/
+
+        /*public static int[] AddSize(this Room room, int teamIndex, int value)
         {
             int[] sizes = room.GetSize();
 
@@ -451,7 +456,7 @@ namespace TanksMP
             room.SetCustomProperties(new Hashtable() { { size, sizes } });
 
             return sizes;
-        }
+        }*/
         
         public static int[] AddScore(this Room room, int teamIndex, int value)
         {
@@ -464,7 +469,7 @@ namespace TanksMP
             return scores;
         }
 
-        public static int[] AddCoins(this Room room, int teamIndex, int value)
+        /*public static int[] AddCoins(this Room room, int teamIndex, int value)
         {
             int[] coins = room.GetCoins();
 
@@ -473,6 +478,6 @@ namespace TanksMP
             room.SetCustomProperties(new Hashtable() { { coins, coins } });
 
             return coins;
-        }
+        }*/
     }
 }

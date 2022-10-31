@@ -26,6 +26,7 @@ namespace TanksMP
         public const string resist = "resist";
         public const string attackSpeed = "attackSpeed";
         public const string moveSpeed = "moveSpeed";
+        public const string gold = "gold";
 
         #region For Photon View
 
@@ -84,9 +85,9 @@ namespace TanksMP
             return player.Owner.GetMoveSpeed();
         }
 
-        public static void SetTeam(this PhotonView player, int teamIndex)
+        public static int GetGold(this PhotonView player)
         {
-            player.Owner.SetTeam(teamIndex);
+            return player.Owner.GetGold();
         }
 
         public static void SetHealth(this PhotonView player, int value)
@@ -134,6 +135,16 @@ namespace TanksMP
             player.Owner.SetMoveSpeed(value);
         }
 
+        public static int AddGold(this PhotonView player, int value)
+        {
+            return player.Owner.AddGold(value);
+        }
+
+        public static int RemoveGold(this PhotonView player, int value)
+        {
+            return player.Owner.RemoveGold(value);
+        }
+
         public static void Clear(this PhotonView player)
         {
             player.Owner.Clear();
@@ -142,11 +153,6 @@ namespace TanksMP
         #endregion
 
         #region For Photon Player
-
-        public static int GetTeam(this Photon.Realtime.Player player)
-        {
-            return System.Convert.ToInt32(player.CustomProperties[team]);
-        }
 
         public static int GetHealth(this Photon.Realtime.Player player)
         {
@@ -191,6 +197,11 @@ namespace TanksMP
         public static int GetMoveSpeed(this Photon.Realtime.Player player)
         {
             return System.Convert.ToInt32(player.CustomProperties[moveSpeed]);
+        }
+
+        public static int GetGold(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToInt32(player.CustomProperties[gold]);
         }
 
         public static void SetTeam(this Photon.Realtime.Player player, int teamIndex)
@@ -243,6 +254,26 @@ namespace TanksMP
             player.SetCustomProperties(new Hashtable() { { moveSpeed, (byte)value } });
         }
 
+        public static int AddGold(this Photon.Realtime.Player player, int value)
+        {
+            int goldValue = player.GetGold();
+            goldValue += value;
+            player.SetCustomProperties(new Hashtable() { { gold, goldValue } });
+            return goldValue;
+        }
+
+        public static int RemoveGold(this Photon.Realtime.Player player, int value)
+        {
+            int goldValue = player.GetGold();
+            goldValue -= value;
+            if (goldValue < 0)
+            {
+                goldValue = 0;
+            }
+            player.SetCustomProperties(new Hashtable() { { gold, goldValue } });
+            return goldValue;
+        }
+
         public static void Clear(this Photon.Realtime.Player player)
         {
             player.SetCustomProperties(
@@ -255,7 +286,8 @@ namespace TanksMP
                     { armor, (byte)0 },
                     { resist, (byte)0 },
                     { attackSpeed, (byte)0 },
-                    { moveSpeed, (byte)0 }
+                    { moveSpeed, (byte)0 },
+                    { gold, (byte)0 }
                 });
 
         }

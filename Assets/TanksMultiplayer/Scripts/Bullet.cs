@@ -12,7 +12,7 @@ namespace TanksMP
     /// <summary>
     /// Projectile script for player shots with collision/hit logic.
     /// </summary>
-    public class Bullet : MonoBehaviourPun
+    public class Bullet : MonoBehaviour
     {
         /// <summary>
         /// Projectile travel speed in units.
@@ -109,14 +109,27 @@ namespace TanksMP
         //not even accessing player variables or anything like that. The server side is separate below
         void OnTriggerEnter(Collider col)
         {
+            if (col.CompareTag("IgnoreBullet")) // ignore collision
+            {
+                return;
+            }
+
+            //cache corresponding gameobject that was hit
             GameObject obj = col.gameObject;
 
             Player player = obj.GetComponent<Player>();
+            GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
 
             if (player != null)
             {
                 if (IsFriendlyFire(owner.GetComponent<Player>(), player)) return;
 
+                if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
+                if (hitClip) AudioManager.Play3D(hitClip, transform.position);
+            }
+            else if (monster != null)
+            {
+                //create clips and particles on hit
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
             }
@@ -197,7 +210,14 @@ namespace TanksMP
 
             //apply bullet damage to the collided players
             for(int i = 0; i < targets.Count; i++)
+            {
                 targets[i].TakeDamage(this);
+            }
+
+            if (monster)
+            {
+                monster.DamageMonster(this);
+            }
         }
 
 

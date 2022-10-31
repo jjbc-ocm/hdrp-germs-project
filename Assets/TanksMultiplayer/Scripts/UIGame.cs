@@ -39,7 +39,7 @@ namespace TanksMP
         private TMP_Text[] teamScore;
 
         [SerializeField]
-        private TMP_Text textMyTeamCoins;
+        private TMP_Text textPlayerGold;
 
         [SerializeField]
         private TMP_Text deathText;
@@ -59,52 +59,51 @@ namespace TanksMP
         //initialize variables
         void Start()
         {
-            //on non-mobile devices hide joystick controls, except in editor
-            /*#if !UNITY_EDITOR && (UNITY_STANDALONE || UNITY_WEBGL)
-                ToggleControls(false);
-            #endif*/
-            
-            //on mobile devices enable additional aiming indicator
-            /*#if !UNITY_EDITOR && !UNITY_STANDALONE && !UNITY_WEBGL
-            if (aimIndicator != null)
-            {
-                Transform indicator = Instantiate(aimIndicator).transform;
-                indicator.SetParent(GameManager.GetInstance().localPlayer.shotPos);
-                indicator.localPosition = new Vector3(0f, 0f, 3f);
-            }
-            #endif*/
-
             //play background music
             AudioManager.PlayMusic(1);
         }
 
         void Update()
         {
+            /* Update UI elements that is tied-up to each players */
             var players = FindObjectsOfType<Player>();
 
             var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
 
             var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
 
-            for (int i = 0; i < 2; i++)
+            for (int team = 0; team < Constants.MAX_TEAM; team++)
             {
-                for (int j = 0; j < (i == 0 ? team1.Count() : team2.Count()); j++)
+                for (int i = 0; i < Constants.MAX_PLAYER_COUNT_PER_TEAM; i++)
                 {
-                    if (i == 0)
+                    /* Handle for team 1 */
+                    if (team == 0)
                     {
-                        team1ShipHuds[j].Player = j < team1.Count() ? team1[j] : null;
+                        var player = i < team1.Count() ? team1[i] : null;
+
+                        team1PlayerIndicators[i].sprite = player?.SpriteIcon ?? null;
+
+                        team1PlayerIndicators[i].gameObject.SetActive(player != null);
+
+                        team1ShipHuds[i].Player = player;
                     }
 
-                    if (i == 1)
+                    /* Handle for team 2 */
+                    if (team == 1)
                     {
-                        team2ShipHuds[j].Player = j < team2.Count() ? team2[j] : null;
+                        var player = i < team2.Count() ? team2[i] : null;
+
+                        team2PlayerIndicators[i].sprite = player?.SpriteIcon ?? null;
+
+                        team2PlayerIndicators[i].gameObject.SetActive(player != null);
+
+                        team2ShipHuds[i].Player = player;
                     }
                 }
             }
 
-            var coins = PhotonNetwork.CurrentRoom.GetCoins()[PhotonNetwork.LocalPlayer.GetTeam()];
-
-            textMyTeamCoins.text = coins.ToString();
+            /* Update player current gold UI */
+            textPlayerGold.text = PhotonNetwork.LocalPlayer.GetGold().ToString();
         }
 
 
@@ -115,7 +114,7 @@ namespace TanksMP
         /// </summary>
         public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
 		{
-			OnTeamSizeChanged(PhotonNetwork.CurrentRoom.GetSize());
+			//OnTeamSizeChanged(PhotonNetwork.CurrentRoom.GetSize());
 			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore());
 		}
 
@@ -124,10 +123,8 @@ namespace TanksMP
         /// This is an implementation for changes to the team fill,
         /// updating the slider values (updates UI display of team fill).
         /// </summary>
-        public void OnTeamSizeChanged(int[] size)
+        /*public void OnTeamSizeChanged(int[] size)
         {
-            
-
             for (int i = 0; i < 3; i++)
             {
                 team1PlayerIndicators[i].gameObject.SetActive(false);
@@ -155,7 +152,7 @@ namespace TanksMP
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Added by: Jilmer John Cariaso
@@ -199,15 +196,6 @@ namespace TanksMP
         }
 
 
-        /// <summary>
-        /// Enables or disables visibility of joystick controls.
-        /// </summary>
-        /*public void ToggleControls(bool state)
-        {
-            for (int i = 0; i < controls.Length; i++)
-                controls[i].gameObject.SetActive(state);
-        }*/
-
 
         /// <summary>
         /// Sets death text showing who killed the player in its team color.
@@ -215,13 +203,6 @@ namespace TanksMP
         /// </summary>
         public void SetDeathText(string playerName, Team team)
         {
-            //hide joystick controls while displaying death text
-            //#if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-            //ToggleControls(false);
-            //#endif
-
-            Debug.Log((deathText == null) + " " + (playerName == null) + " " + (team == null));
-            
             //show killer name and colorize the name converting its team color to an HTML RGB hex value for UI markup
             deathText.text = "KILLED BY\n<color=#" + ColorUtility.ToHtmlStringRGB(team.material.color) + ">" + playerName + "</color>";
         }
@@ -242,11 +223,6 @@ namespace TanksMP
         /// </summary>
         public void DisableDeath()
         {
-            //show joystick controls after disabling death text
-            #if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-                //ToggleControls(true);
-            #endif
-            
             //clear text component values
             deathText.text = string.Empty;
             spawnDelayText.text = string.Empty;
@@ -258,11 +234,6 @@ namespace TanksMP
         /// </summary>
         public void SetGameOverText(Team team)
         {
-            //hide joystick controls while displaying game end text
-            #if UNITY_EDITOR || (!UNITY_STANDALONE && !UNITY_WEBGL)
-                //ToggleControls(false);
-            #endif
-            
             //show winning team and colorize it by converting the team color to an HTML RGB hex value for UI markup
             gameOverText.text = "TEAM <color=#" + ColorUtility.ToHtmlStringRGB(team.material.color) + ">" + team.name + "</color> WINS!";
         }
@@ -277,13 +248,6 @@ namespace TanksMP
             //hide text but enable game over window
             gameOverText.gameObject.SetActive(false);
             gameOverMenu.SetActive(true);
-            
-            //check whether an ad was shown during the game
-            //if no ad was shown during the whole round, we request one here
-            #if UNITY_ADS
-            if(!UnityAdsManager.didShowAd())
-                UnityAdsManager.ShowAd(true);
-            #endif
         }
 
 
@@ -318,7 +282,7 @@ namespace TanksMP
         /// </summary>
         public override void OnLeftRoom()
         {
-            SceneManager.LoadScene(NetworkManagerCustom.GetInstance().offlineSceneIndex);
+            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
         }
     }
 }
