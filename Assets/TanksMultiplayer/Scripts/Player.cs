@@ -87,6 +87,10 @@ namespace TanksMP
 
         private Vector2 prevMoveDir;
 
+        private bool isExecutingActionAim;
+
+        private bool isExecutingActionAttack;
+
         #region Network Sync
 
         private Vector3 shipRotation;
@@ -161,10 +165,22 @@ namespace TanksMP
 
             /* Update skills */
             if (Input.GetButton("Fire1"))
-                ExecuteAction(attack, true);
+            {
+                if (isExecutingActionAim)
+                {
+                    ExecuteActionAimSelection(isExecutingActionAttack);
+                }
+                else
+                {
+                    ExecuteAction(attack, true);
+                }
+            }
+                
 
             if(Input.GetButton("Fire2"))
+            {
                 ExecuteAction(skill, false);
+            }
 
             /* Cache it because, we need to accumulate the movement force */
             prevMoveDir = moveDir;
@@ -402,28 +418,22 @@ namespace TanksMP
 
             if (canExecute)
             {
-                if (isAttack)
+                nextFire = Time.time + attackSpeed / 100f;
+
+                var instantAim =
+                    action.Aim == AimType.None ? transform.position :
+                    action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
+                    Vector3.zero;
+
+                if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
                 {
-                    nextFire = Time.time + attackSpeed / 100f;
-
-                    var instantAim =
-                        action.Aim == AimType.None ? transform.position :
-                        action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
-                        Vector3.zero;
-
-                    if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
-                    {
-                        ExecuteActionInstantly(instantAim, isAttack);
-                    }
-                    else
-                    {
-                        ExecuteActionAimSelection(isAttack);
-                    }
-                    
+                    ExecuteActionInstantly(instantAim, isAttack);
                 }
                 else
                 {
+                    isExecutingActionAim = true;
 
+                    isExecutingActionAttack = isAttack;
                 }
             }
         }
@@ -431,6 +441,8 @@ namespace TanksMP
         private void ExecuteActionInstantly(Vector3 aimPosition, bool isAttack)
         {
             var action = isAttack ? attack : skill;
+
+            isExecutingActionAim = false;
 
             photonView.SetMana(photonView.GetMana() - action.MpCost);
 
@@ -444,7 +456,33 @@ namespace TanksMP
 
         private void ExecuteActionAimSelection(bool isAttack)
         {
+            var action = isAttack ? attack : skill;
 
+            /*
+             * Typical flow
+             * 1. Do a raycast from player ship to the screen point position
+             * 
+             */
+
+            switch (action.Aim)
+            {
+                case AimType.Ground: // Get position on the ground and make it aim
+                    ExecuteActionInstantly(Vector3.zero, isAttack);
+                    break;
+                case AimType.EnemyShip:
+                    ExecuteActionInstantly(Vector3.zero, isAttack);
+                    break;
+                case AimType.AllyShip:
+                    ExecuteActionInstantly(Vector3.zero, isAttack);
+                    break;
+                case AimType.AnyShip:
+                    ExecuteActionInstantly(Vector3.zero, isAttack);
+                    break;
+                default: 
+                    break;
+            }
+
+            // action.Aim == AimType.Ground ? must raycast to ground
         }
 
         private IEnumerator SpawnRoutine()
