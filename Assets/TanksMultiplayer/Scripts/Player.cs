@@ -59,7 +59,13 @@ namespace TanksMP
         [Header("Other Properties")]
 
         [SerializeField]
-        private GameObject bullet;
+        private SkillData attack;
+
+        [SerializeField]
+        private SkillData skill;
+
+        //[SerializeField]
+        //private GameObject bullet;
 
         [SerializeField]
         private Collider[] colliders;
@@ -78,6 +84,8 @@ namespace TanksMP
         private float nextFire;
 
         private Vector2 moveDir;
+
+        private Vector2 prevMoveDir;
 
         #region Network Sync
 
@@ -126,15 +134,11 @@ namespace TanksMP
         }
 
         void FixedUpdate()
-        { 
-            if (!photonView.IsMine)
-            {
-                return;
-            }
+        {
+            /* Make sure the only thing we can control is only our ship */
+            if (!photonView.IsMine) return;
 
-            Vector2 turnDir;
-
-            //reset moving input when no arrow keys are pressed down
+            /* Update movement */
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
             {
                 moveDir.x += (0 - prevMoveDir.x) * 0.1f;
@@ -142,70 +146,36 @@ namespace TanksMP
             }
             else
             {
-                //read out moving directions and calculate force
                 moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
                 moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
-                Move(moveDir);
+                ExecuteMove(moveDir);
             }
 
-            //cast a ray on a plane at the mouse position for detecting where to shoot 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Plane plane = new Plane(Vector3.up, Vector3.up);
-            float distance = 0f;
-            Vector3 hitPos = Vector3.zero;
-            //the hit position determines the mouse position in the scene
-            if (plane.Raycast(ray, out distance))
-            {
-                hitPos = ray.GetPoint(distance) - transform.position;
-            }
-
-            //we've converted the mouse position to a direction
-            turnDir = new Vector2(hitPos.x, hitPos.z);
-
-            //rotate turret to look at the mouse direction
-            //RotateTurret(new Vector2(hitPos.x, hitPos.z));
-
+            /* Update rotation */
             shipRotation = new Vector3(
                 moveDir.y * -10,
                 rendererAnchor.transform.localEulerAngles.y,
                 moveDir.x * -10);
 
             rendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
-            
 
+            /* Update skills */
             if (Input.GetButton("Fire1"))
-                Shoot();
+                ExecuteAction(attack, true);
 
+            if(Input.GetButton("Fire2"))
+                ExecuteAction(skill, false);
+
+            /* Cache it because, we need to accumulate the movement force */
             prevMoveDir = moveDir;
-
-            //replicate input to mobile controls for illustration purposes
-#if UNITY_EDITOR
-            //GameManager.GetInstance().ui.controls[0].position = moveDir;
-            //GameManager.GetInstance().ui.controls[1].position = turnDir;
-#endif
         }
 
         #endregion
 
-        /// <summary>
-        /// This method gets called whenever player properties have been changed on the network.
-        /// </summary>
-        /// TODO: this is might not needed because player HUD is always updated every frames
-        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player player, ExitGames.Client.Photon.Hashtable playerAndUpdatedProps)
-        {
-            //only react on property changes for this player
-            if(player != photonView.Owner)
-                return;
+        #region Photon
 
-            //update values that could change any time for visualization to stay up to date
-            //OnHealthChange(player.GetHealth());
-            //OnShieldChange(player.GetShield());
-        }
-
-        
-        //this method gets called multiple times per second, at least 10 times or more
         void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {        
+        {
             if (stream.IsWriting)
             {
                 stream.SendNext(shipRotation);
@@ -216,57 +186,8 @@ namespace TanksMP
             }
         }
 
-        private Vector2 prevMoveDir;
-
-        
-
-        void Move(Vector2 direction = default(Vector2))
-        {
-            //if direction is not zero, rotate player in the moving direction relative to camera
-            if (direction != Vector2.zero)
-            {
-                float x = direction.x * Time.deltaTime * 1.5f;// * (1 + direction.y * -0.5f) * Time.deltaTime;
-
-                float z = 1;
-
-                var forward = new Vector3(x, 0, z);
-
-                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
-            }
-
-            var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
-
-            Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
-
-            rigidBody.AddForce(moveForce);
-        }
-
-
-        
-
-        //shoots a bullet in the direction passed in
-        //we do not rely on the current turret rotation here, because we send the direction
-        //along with the shot request to the server to absolutely ensure a synced shot position
-        protected void Shoot(Vector2 direction = default(Vector2))
-        {
-            //if shot delay is over  
-            if (Time.time > nextFire)
-            {
-                //set next shot timestamp
-                nextFire = Time.time + attackSpeed / 100f;
-
-                //send current client position and turret rotation along to sync the shot position
-                //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
-                float[] pos = new float[] { transform.position.x , transform.position.z };
-                //send shot request with origin to server
-                this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, (short)transform.eulerAngles.y);
-            }
-        }
-        
-        
-        //called on the server first but forwarded to all clients
-        [PunRPC]
-        public void CmdShoot(float[] position, short angle)
+        /*[PunRPC] // TODO: not used, delete later
+        public void RpcAttack(float[] position, short angle)
         {
             //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
             //this is done to compensate network lag and smoothing it out between both client/server positions
@@ -274,8 +195,8 @@ namespace TanksMP
             Quaternion syncedRot = Quaternion.Euler(0, angle, 0);
 
             //spawn bullet using pooling
-            GameObject obj = PoolManager.Spawn(bullet, shotCenter, syncedRot);
-            obj.GetComponent<Bullet>().owner = gameObject;
+            GameObject obj = PoolManager.Spawn(attack.Effect, shotCenter, syncedRot);
+            obj.GetComponent<BulletManager>().owner = gameObject;
 
             var trails = obj.GetComponentsInChildren<TrailRenderer>();
 
@@ -284,40 +205,122 @@ namespace TanksMP
                 trail.Clear();
             }
 
-            //send event to all clients for spawning effects
-            if (shotFX || shotClip)
-                RpcOnShot();
-        }
-
-
-        //called on all clients after bullet spawn
-        //spawn effects or sounds locally, if set
-        protected void RpcOnShot()
-        {
             if (shotFX) PoolManager.Spawn(shotFX, transform.position, Quaternion.identity);
             if (shotClip) AudioManager.Play3D(shotClip, transform.position, 0.1f);
+        }*/
+
+        [PunRPC]
+        public void RpcAction(float[] position, float[] target, bool isAttack)
+        {
+            var action = isAttack ? attack : skill;
+
+            /* Steps
+             * 1. Calculate the rotation ased on position and target
+             * 2. Spawn action.Effect based on position, and rotation
+             * 3. pass the action (SkillData) as parameter to the spawned object
+             * 4. Any trail reset or sound effects should be done on the actual object spawned
+             */
+            var vPosition = new Vector3(position[0], position[1], position[2]);
+
+            var vTarget = new Vector3(target[0], target[1], target[2]);
+
+            var forward = vTarget - vPosition;
+
+            var rotation = Quaternion.LookRotation(forward);
+
+            var effect = Instantiate(action.Effect, vPosition, rotation);
+
+            effect.GetComponent<BulletManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
         }
 
-        /// <summary>
-        /// Server only: calculate damage to be taken by the Player,
-		/// triggers score increase and respawn workflow on death.
-        /// </summary>
-        public void TakeDamage(Bullet bullet)
+        [PunRPC]
+        public void RpcDestroy(short attackerId)
+        {
+            ToggleFunction(false);
+
+            var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
+
+            if (explosionFX)
+            {
+                PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
+            }
+
+            if (explosionClip)
+            {
+                AudioManager.Play3D(explosionClip, transform.position);
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //send player back to the team area, this will get overwritten by the exact position from the client itself later on
+                //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
+                //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
+                GetComponent<PhotonTransformView>().OnPhotonSerializeView(
+                    new PhotonStream(
+                        false,
+                        new object[]
+                        {
+                            GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            Vector3.zero,
+                            Quaternion.identity
+                        }),
+                    new PhotonMessageInfo());
+            }
+
+            if (photonView.IsMine)
+            {
+                if (attackerView != null)
+                {
+                    camFollow.target = attackerView.transform;
+                }
+
+                camFollow.HideMask(true);
+
+                GameManager.GetInstance().ui.SetDeathText(
+                    attackerView.GetName(),
+                    GameManager.GetInstance().teams[attackerView.GetTeam()]);
+
+                StartCoroutine(SpawnRoutine());
+            }
+        }
+
+        [PunRPC]
+        public void RpcRevive()
+        {
+            ToggleFunction(true);
+
+            if (photonView.IsMine)
+            {
+                ResetPosition();
+            }
+        }
+
+        [PunRPC]
+        public void RpcGameOver(byte teamIndex)
+        {
+            GameManager.GetInstance().DisplayGameOver(teamIndex);
+        }
+
+        #endregion
+
+        #region Public
+
+        public void TakeDamage(BulletManager bullet)
         {
             var health = photonView.GetHealth();
 
-            health -= bullet.damage;
+            health -= bullet.Damage;
 
             if (health <= 0)
             {
                 if (GameManager.GetInstance().IsGameOver()) return;
 
                 /* Add score to opponent */
-                var attcker = bullet.owner.GetComponent<Player>();
+                var attcker = bullet.Owner;
 
                 var attackerTeam = attcker.photonView.GetTeam();
 
-                if(photonView.GetTeam() != attackerTeam)
+                if (photonView.GetTeam() != attackerTeam)
                 {
                     GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
                     GPRewardSystem.m_instance.AddGoldToPlayer(attcker.photonView.Owner, "Kill");
@@ -346,7 +349,7 @@ namespace TanksMP
                 /* Reset health, prepare for their respawn */
                 photonView.SetHealth(maxHealth);
 
-                var attackerId = (short)bullet.owner.GetComponent<PhotonView>().ViewID;
+                var attackerId = (short)bullet.Owner.GetComponent<PhotonView>().ViewID;
 
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
             }
@@ -356,70 +359,96 @@ namespace TanksMP
             }
         }
 
-        [PunRPC]
-        public void RpcDestroy(short attackerId)
+        public void ResetPosition()
         {
-            ToggleFunction(false);
+            camFollow.target = transform;
+            camFollow.HideMask(false);
 
-            var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
+            transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
 
-            if (explosionFX)
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+        }
+
+        #endregion
+
+        #region Private
+
+        private void ExecuteMove(Vector2 direction)
+        {
+            //if direction is not zero, rotate player in the moving direction relative to camera
+            if (direction != Vector2.zero)
             {
-                PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
+                float x = direction.x * Time.deltaTime * 1.5f;// * (1 + direction.y * -0.5f) * Time.deltaTime;
+
+                float z = 1;
+
+                var forward = new Vector3(x, 0, z);
+
+                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
             }
 
-            if (explosionClip)
-            {
-                AudioManager.Play3D(explosionClip, transform.position);
-            }
+            var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                //send player back to the team area, this will get overwritten by the exact position from the client itself later on
-                //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
-                //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
-                GetComponent<PhotonTransformView>().OnPhotonSerializeView(
-                    new PhotonStream(
-                        false, 
-                        new object[] 
-                        { 
-                            GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()), 
-                            Vector3.zero, 
-                            Quaternion.identity 
-                        }), 
-                    new PhotonMessageInfo());
-            }
+            Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
 
-            if (photonView.IsMine)
-            {
-                Debug.Log("RpcDestroy A");
+            rigidBody.AddForce(moveForce);
+        }
 
-                if (attackerView != null)
+        private void ExecuteAction(SkillData action, bool isAttack)
+        {
+            var canExecute = Time.time > nextFire && photonView.GetMana() >= action.MpCost;
+
+            if (canExecute)
+            {
+                if (isAttack)
                 {
-                    camFollow.target = attackerView.transform;
+                    nextFire = Time.time + attackSpeed / 100f;
+
+                    var instantAim =
+                        action.Aim == AimType.None ? transform.position :
+                        action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
+                        Vector3.zero;
+
+                    if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
+                    {
+                        ExecuteActionInstantly(instantAim, isAttack);
+                    }
+                    else
+                    {
+                        ExecuteActionAimSelection(isAttack);
+                    }
+                    
                 }
+                else
+                {
 
-                Debug.Log("RpcDestroy B");
-
-                camFollow.HideMask(true);
-
-                Debug.Log("RpcDestroy C");
-
-                GameManager.GetInstance().ui.SetDeathText(
-                    attackerView.GetName(), 
-                    GameManager.GetInstance().teams[attackerView.GetTeam()]);
-
-                Debug.Log("RpcDestroy D");
-
-                //GameManager.GetInstance().SpawnPlayer(photonView);
-                StartCoroutine(SpawnRoutine());
+                }
             }
+        }
+
+        private void ExecuteActionInstantly(Vector3 aimPosition, bool isAttack)
+        {
+            var action = isAttack ? attack : skill;
+
+            photonView.SetMana(photonView.GetMana() - action.MpCost);
+
+            photonView.RPC(
+                "RpcAction",
+                RpcTarget.AllViaServer,
+                new float[] { transform.position.x, transform.position.y, transform.position.z },
+                new float[] { aimPosition.x, aimPosition.y, aimPosition.z },
+                isAttack);
+        }
+
+        private void ExecuteActionAimSelection(bool isAttack)
+        {
+
         }
 
         private IEnumerator SpawnRoutine()
         {
-            Debug.Log("SpawnRoutine A");
-
             float targetTime = Time.time + 3;
 
             while (targetTime - Time.time > 0)
@@ -429,32 +458,9 @@ namespace TanksMP
                 yield return null;
             }
 
-            Debug.Log("SpawnRoutine B");
-
             GameManager.GetInstance().ui.DisableDeath();
 
-            Debug.Log("SpawnRoutine C");
-
             photonView.RPC("RpcRevive", RpcTarget.All);
-        }
-
-        [PunRPC]
-        public void RpcRevive()
-        {
-            Debug.Log("RpcRespawn A");
-
-            ToggleFunction(true);
-
-            Debug.Log("RpcRespawn B");
-
-            if (photonView.IsMine)
-            {
-                Debug.Log("RpcRespawn C");
-
-                ResetPosition();
-
-                Debug.Log("RpcRespawn D");
-            }
         }
 
         private void ToggleFunction(bool toggle)
@@ -467,36 +473,6 @@ namespace TanksMP
             }
         }
 
-
-        /// <summary>
-        /// Repositions in team area and resets camera & input variables.
-        /// This should only be called for the local player.
-        /// </summary>
-        public void ResetPosition()
-        {
-            //start following the local player again
-            camFollow.target = transform;
-            camFollow.HideMask(false);
-
-            //get team area and reposition it there
-            transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
-
-            //reset forces modified by input
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.angularVelocity = Vector3.zero;
-            transform.rotation = Quaternion.identity;
-            //reset input left over
-            //GameManager.GetInstance().ui.controls[0].OnEndDrag(null);
-            //GameManager.GetInstance().ui.controls[1].OnEndDrag(null);
-        }
-
-
-        //called on all clients on game end providing the winning team
-        [PunRPC]
-        public void RpcGameOver(byte teamIndex)
-        {
-            //display game over window
-            GameManager.GetInstance().DisplayGameOver(teamIndex);
-        }
+        #endregion
     }
 }

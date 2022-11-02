@@ -81,11 +81,11 @@ public class GPMonsterBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public virtual void DamageMonster(Bullet bullet)
+    public virtual void DamageMonster(BulletManager bullet)
     {
-        m_health.Damage(bullet.damage);
+        m_health.Damage(bullet.Damage);
 
-        Player other = bullet.owner.GetComponent<Player>();
+        Player other = bullet.Owner;
         if (other)
         {
             m_lastHitPlayer = other;
