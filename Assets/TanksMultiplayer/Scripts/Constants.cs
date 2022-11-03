@@ -25,3 +25,19 @@ public class Constants
 
     public const int FOG_OF_WAR_DISTANCE = 150;
 }
+
+public enum AimType 
+{ 
+    None, /* For skills that target your own ship */
+    WhileExecute, /* For skills like normal attack */
+    Ground, /* For skills that has area of effect */
+    EnemyShip, /* For skills that always hit the enemy */
+    AllyShip, /* For skills that always hit the ally */
+    AnyShip /* For skills that always hit either enemy or ally */
+}
+
+public enum TargetType
+{
+    One,
+    Area
+}

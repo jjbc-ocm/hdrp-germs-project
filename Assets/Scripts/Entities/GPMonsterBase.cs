@@ -39,6 +39,10 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [Header("Attack settings")]
     public AttackPickType m_pickType;
     public DamageDetectionType m_damageDetectionType;
+    [SerializeField]
+    private SkillData attack;
+    [SerializeField]
+    private SkillData skill;
     int m_currAttkIdx = 0;
     public int m_damagePoints = 100;
     public float m_meleeRadius = 3.0f;
@@ -77,6 +81,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     private GameObject m_bullet;
     [SerializeField]
     private int m_attackSpeed = 50;
+    private bool isExecutingActionAim;
+    private bool isExecutingActionAttack;
 
     private void Start()
     {
@@ -120,11 +126,11 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         Destroy(gameObject);
     }
 
-    public virtual void DamageMonster(Bullet bullet)
+    public virtual void DamageMonster(BulletManager bullet)
     {
-        m_health.Damage(bullet.damage);
+        m_health.Damage(bullet.Damage);
 
-        Player other = bullet.owner.GetComponent<Player>();
+        Player other = bullet.Owner;
         if (other)
         {
             m_lastHitPlayer = other;
@@ -238,62 +244,73 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public void ShootAnimEvent()
     {
         Vector3 targetDir = m_currTargetPlayer.transform.position - m_bulletSpawnPoint.position;
-        Shoot(targetDir.normalized);
+        ExecuteAction(attack, true);
     }
 
-    //shoots a bullet in the direction passed in
-    //we do not rely on the current turret rotation here, because we send the direction
-    //along with the shot request to the server to absolutely ensure a synced shot position
-    protected void Shoot(Vector3 direction = default(Vector3))
+    private void ExecuteAction(SkillData action, bool isAttack)
     {
-        //if shot delay is over  
-        if (Time.time > m_nextFire)
+        var canExecute = Time.time > m_nextFire && photonView.GetMana() >= action.MpCost;
+
+        if (canExecute)
         {
-            //set next shot timestamp
             m_nextFire = Time.time + m_attackSpeed / 100f;
 
-            //send current client position and turret rotation along to sync the shot position
-            //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
-            float[] pos = new float[] { m_bulletSpawnPoint.position.x, m_bulletSpawnPoint.position.z };
-            //send shot request with origin to server
-            this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, direction);
+            var instantAim =
+                action.Aim == AimType.None ? transform.position :
+                action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
+                Vector3.zero;
+
+            if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
+            {
+                ExecuteActionInstantly(instantAim, isAttack);
+            }
+            else
+            {
+                isExecutingActionAim = true;
+
+                isExecutingActionAttack = isAttack;
+            }
         }
     }
 
+    private void ExecuteActionInstantly(Vector3 aimPosition, bool isAttack)
+    {
+        var action = isAttack ? attack : skill;
 
-    //called on the server first but forwarded to all clients
+        isExecutingActionAim = false;
+
+        photonView.SetMana(photonView.GetMana() - action.MpCost);
+
+        photonView.RPC(
+            "RpcAction",
+            RpcTarget.AllViaServer,
+            new float[] { transform.position.x, transform.position.y, transform.position.z },
+            new float[] { aimPosition.x, aimPosition.y, aimPosition.z },
+            isAttack);
+    }
+
     [PunRPC]
-    public void CmdShoot(float[] position, Vector3 forward)
+    public void RpcAction(float[] position, float[] target, bool isAttack)
     {
-        //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
-        //this is done to compensate network lag and smoothing it out between both client/server positions
-        Vector3 shotCenter = Vector3.Lerp(m_bulletSpawnPoint.position, new Vector3(position[0], m_bulletSpawnPoint.position.y, position[1]), 0.6f);
-        Quaternion syncedRot = Quaternion.LookRotation(forward);
+        var action = isAttack ? attack : skill;
 
-        //spawn bullet using pooling
-        GameObject obj = PoolManager.Spawn(m_bullet, shotCenter, syncedRot);
-        obj.GetComponent<Bullet>().owner = gameObject;
-        obj.GetComponent<Bullet>().ChangeDirection(forward);
+        /* Steps
+         * 1. Calculate the rotation ased on position and target
+         * 2. Spawn action.Effect based on position, and rotation
+         * 3. pass the action (SkillData) as parameter to the spawned object
+         * 4. Any trail reset or sound effects should be done on the actual object spawned
+         */
+        var vPosition = new Vector3(position[0], position[1], position[2]);
 
-        var trails = obj.GetComponentsInChildren<TrailRenderer>();
+        var vTarget = new Vector3(target[0], target[1], target[2]);
 
-        foreach (var trail in trails)
-        {
-            trail.Clear();
-        }
+        var forward = vTarget - vPosition;
 
-        //send event to all clients for spawning effects
-        if (m_shotFX || m_shotClip)
-            RpcOnShot();
-    }
+        var rotation = Quaternion.LookRotation(forward);
 
+        var effect = Instantiate(action.Effect, vPosition, rotation);
 
-    //called on all clients after bullet spawn
-    //spawn effects or sounds locally, if set
-    protected void RpcOnShot()
-    {
-        if (m_shotFX) PoolManager.Spawn(m_shotFX, m_bulletSpawnPoint.position, Quaternion.identity);
-        if (m_shotClip) AudioManager.Play3D(m_shotClip, m_bulletSpawnPoint.position, 0.1f);
+        effect.GetComponent<BulletManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
     }
 
     public void OnPlayerKilled(Player playerKilled)
