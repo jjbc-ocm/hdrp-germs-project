@@ -15,8 +15,6 @@ public class Constants
 
     public const string KEY_SHIP_INDEX = "shipIndex";
 
-    public const string KEY_PLAYER_INDEX = "playerIndex"; // TODO: Used where?
-
     public const int MAX_PLAYER_COUNT = 6;
 
     public const int MAX_TEAM = 2;
@@ -30,7 +28,7 @@ public enum AimType
 { 
     None, /* For skills that target your own ship */
     WhileExecute, /* For skills like normal attack */
-    Ground, /* For skills that has area of effect */
+    Water, /* For skills that has area of effect */
     EnemyShip, /* For skills that always hit the enemy */
     AllyShip, /* For skills that always hit the ally */
     AnyShip /* For skills that always hit either enemy or ally */
