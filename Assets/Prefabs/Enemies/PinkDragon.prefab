@@ -63,7 +63,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 15.71
+  m_Radius: 40
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2394806843371485347
 GameObject:
@@ -88,7 +88,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2394806843371485347}
-  m_LocalRotation: {x: 0, y: 0.8274532, z: 0, w: 0.5615347}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -96,9 +96,10 @@ Transform:
   - {fileID: 2394806842927333193}
   - {fileID: 6311103624143677133}
   - {fileID: 8041008351962780782}
+  - {fileID: 7952702034046102488}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 111.676, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3376817754043978503
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +211,52 @@ Transform:
   m_Father: {fileID: 6311103624143677133}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9221765542965976926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7952702034046102488}
+  - component: {fileID: 8239607921882955973}
+  m_Layer: 0
+  m_Name: BulletSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7952702034046102488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9221765542965976926}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 15.00206, z: 4.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2394806843371485346}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8239607921882955973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9221765542965976926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758ed59e3917bd74497186e798860f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_parent: {fileID: 6311103624143677135}
+  m_setToOrigin: 0
 --- !u!1001 &6311103624143813711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -377,17 +424,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3f4a86d9bdf7a4abb32153a3d774ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_photonView: {fileID: 5648178179494944767}
   m_health: {fileID: 3005822997308683638}
   m_detectionTrigger: {fileID: 2394806842927333239}
   m_meleeDamageTrigger: {fileID: 9136367021989650323}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 6311103624136444207}
-  m_attackTriggerName: Bite Attack
+  m_meleeAtkTriggerNames:
+  - Bite Attack
+  m_projectileAtkTriggerNames:
+  - Projectile Attack
   m_dieTriggerName: Die
   m_hurtTriggerName: Take damage
+  m_pickType: 0
+  m_damageDetectionType: 0
   m_damagePoints: 100
-  m_attackRadius: 3
+  m_meleeRadius: 20
   m_minAttackTime: 1
   m_maxAttackTime: 3.5
   m_nextAttackTime: 0
@@ -399,6 +452,11 @@ MonoBehaviour:
   m_destroyTime: 3
   m_sinkSpeed: 4
   m_rewardKey: DragonHead
+  m_bulletSpawnPoint: {fileID: 7952702034046102488}
+  m_shotFX: {fileID: 1000011513120438, guid: f70d27f5cf28c8941bbfd6febd74797f, type: 3}
+  m_shotClip: {fileID: 8300000, guid: 9d685be7bcccd974bb6312c9965ff4e5, type: 3}
+  m_bullet: {fileID: 1000010310479910, guid: 32d2be628b3372e4db7a1d8bed12b991, type: 3}
+  m_attackSpeed: 50
 --- !u!114 &3005822997308683638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33de202fbbd053e44a9a4ea9a5be2d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxHealth: 10
+  m_maxHealth: 250
   m_currentHealth: 10
   m_isDead: 0
   OnHealthChangedEvent:

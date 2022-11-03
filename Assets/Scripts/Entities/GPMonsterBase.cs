@@ -4,9 +4,22 @@ using UnityEngine;
 using TanksMP;
 using Photon.Pun;
 
-public class GPMonsterBase : MonoBehaviour
+public class GPMonsterBase : MonoBehaviourPunCallbacks
 {
+    public enum AttackPickType
+    {
+        kSecuence, // iterate teh attacks in order
+        kRandom, // pick a random attack from the list
+    }
+
+    public enum DamageDetectionType
+    {
+        kAlwaysDamageTarget, // always damage targeted player
+        kDamageOnCollision, // damage only if the targeted player was inside the melee trigger
+    }
+
     [Header("Component references")]
+    public PhotonView m_photonView;
     public GPHealth m_health;
     public GPGTriggerEvent m_detectionTrigger;
     public GPGTriggerEvent m_meleeDamageTrigger;
@@ -18,13 +31,17 @@ public class GPMonsterBase : MonoBehaviour
 
     [Header("Animation settings")]
     public Animator m_animator;
-    public string m_attackTriggerName = "Bite Attack";
+    public List<string> m_meleeAtkTriggerNames;
+    public List<string> m_projectileAtkTriggerNames;
     public string m_dieTriggerName = "Die";
     public string m_hurtTriggerName = "Take damage";
 
     [Header("Attack settings")]
+    public AttackPickType m_pickType;
+    public DamageDetectionType m_damageDetectionType;
+    int m_currAttkIdx = 0;
     public int m_damagePoints = 100;
-    public float m_attackRadius = 3.0f;
+    public float m_meleeRadius = 3.0f;
     public float m_minAttackTime = 1.0f;
     public float m_maxAttackTime = 3.5f;
     [HideInInspector]
@@ -48,6 +65,26 @@ public class GPMonsterBase : MonoBehaviour
     [Header("Gold settings")]
     [Tooltip("This key should be defined on the reward system prefab.")]
     public string m_rewardKey = "defaultMonster";
+
+    [Header("Shot settings")]
+    public Transform m_bulletSpawnPoint;
+    [SerializeField]
+    private GameObject m_shotFX;
+    [SerializeField]
+    private AudioClip m_shotClip;
+    private float m_nextFire;
+    [SerializeField]
+    private GameObject m_bullet;
+    [SerializeField]
+    private int m_attackSpeed = 50;
+
+    private void Start()
+    {
+        if (m_photonView == null)
+        {
+            m_photonView = GetComponent<PhotonView>();
+        }
+    }
 
     public virtual void ChoosePlayerToAttack()
     {
@@ -147,18 +184,137 @@ public class GPMonsterBase : MonoBehaviour
         }
     }
 
-    public void TurnOnDamageCollider()
+    public void StartAttack()
     {
-        m_meleeDamageTrigger.SetEnabled(true);
+        if (m_damageDetectionType == DamageDetectionType.kAlwaysDamageTarget)
+        {
+            m_currTargetPlayer.TakeMonsterDamage(this);
+        }
+        else if (m_damageDetectionType == DamageDetectionType.kDamageOnCollision)
+        {
+            m_meleeDamageTrigger.SetEnabled(true);
+        }
     }
 
-    public void TurnOffDamageCollider()
+    public void EndAttack()
     {
         m_meleeDamageTrigger.SetEnabled(false);
     }
 
+    public string PickAttack(List<string> atkList)
+    {
+        int attackIndex = 0;
+        if (m_pickType == AttackPickType.kRandom)
+        {
+            attackIndex = Random.Range(0, atkList.Count);
+        }
+        else if (m_pickType == AttackPickType.kSecuence)
+        {
+            attackIndex = m_currAttkIdx;
+            m_currAttkIdx++;
+            if (m_currAttkIdx >= atkList.Count) // loop the attacks
+            {
+                m_currAttkIdx = 0;
+            }
+        }
+        return atkList[attackIndex];
+
+    }
+
+    public virtual void LookAtTarget(Transform target)
+    {
+        Vector3 lookDir = target.transform.position - transform.position;
+        lookDir.y = 0.0f;
+        transform.forward = Vector3.Lerp(transform.forward, lookDir, Time.deltaTime * m_rotateSpeed);
+    }
+
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, m_attackRadius);
+        Gizmos.DrawWireSphere(transform.position, m_meleeRadius);
+    }
+
+    //Shooting
+
+    public void ShootAnimEvent()
+    {
+        Vector3 targetDir = m_currTargetPlayer.transform.position - m_bulletSpawnPoint.position;
+        Shoot(targetDir.normalized);
+    }
+
+    //shoots a bullet in the direction passed in
+    //we do not rely on the current turret rotation here, because we send the direction
+    //along with the shot request to the server to absolutely ensure a synced shot position
+    protected void Shoot(Vector3 direction = default(Vector3))
+    {
+        //if shot delay is over  
+        if (Time.time > m_nextFire)
+        {
+            //set next shot timestamp
+            m_nextFire = Time.time + m_attackSpeed / 100f;
+
+            //send current client position and turret rotation along to sync the shot position
+            //also we are sending it as a short array (only x,z - skip y) to save additional bandwidth
+            float[] pos = new float[] { m_bulletSpawnPoint.position.x, m_bulletSpawnPoint.position.z };
+            //send shot request with origin to server
+            this.photonView.RPC("CmdShoot", RpcTarget.AllViaServer, pos, direction);
+        }
+    }
+
+
+    //called on the server first but forwarded to all clients
+    [PunRPC]
+    public void CmdShoot(float[] position, Vector3 forward)
+    {
+        //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
+        //this is done to compensate network lag and smoothing it out between both client/server positions
+        Vector3 shotCenter = Vector3.Lerp(m_bulletSpawnPoint.position, new Vector3(position[0], m_bulletSpawnPoint.position.y, position[1]), 0.6f);
+        Quaternion syncedRot = Quaternion.LookRotation(forward);
+
+        //spawn bullet using pooling
+        GameObject obj = PoolManager.Spawn(m_bullet, shotCenter, syncedRot);
+        obj.GetComponent<Bullet>().owner = gameObject;
+        obj.GetComponent<Bullet>().ChangeDirection(forward);
+
+        var trails = obj.GetComponentsInChildren<TrailRenderer>();
+
+        foreach (var trail in trails)
+        {
+            trail.Clear();
+        }
+
+        //send event to all clients for spawning effects
+        if (m_shotFX || m_shotClip)
+            RpcOnShot();
+    }
+
+
+    //called on all clients after bullet spawn
+    //spawn effects or sounds locally, if set
+    protected void RpcOnShot()
+    {
+        if (m_shotFX) PoolManager.Spawn(m_shotFX, m_bulletSpawnPoint.position, Quaternion.identity);
+        if (m_shotClip) AudioManager.Play3D(m_shotClip, m_bulletSpawnPoint.position, 0.1f);
+    }
+
+    public void OnPlayerKilled(Player playerKilled)
+    {
+        m_photonView.RPC("RPCOnPlayerKilled", RpcTarget.All, playerKilled.photonView.ViewID);
+    }
+
+    [PunRPC]
+    public void RPCOnPlayerKilled(int playerId)
+    {
+        PhotonView playerView = playerId > 0 ? PhotonView.Find(playerId) : null;
+        Player playerKilled = playerView.GetComponent<Player>();
+
+        if (m_currTargetPlayer == playerKilled)
+        {
+            m_currTargetPlayer = null;
+        }
+
+        if (m_playersInRange.Contains(playerKilled))
+        {
+            m_playersInRange.Remove(playerKilled);
+        }
     }
 }

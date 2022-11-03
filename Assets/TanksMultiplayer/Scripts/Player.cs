@@ -312,25 +312,28 @@ namespace TanksMP
             {
                 if (GameManager.GetInstance().IsGameOver()) return;
 
-                /* Add score to opponent */
-                var attcker = bullet.owner.GetComponent<Player>();
-
-                var attackerTeam = attcker.photonView.GetTeam();
-
-                if(photonView.GetTeam() != attackerTeam)
+                if (!bullet.formMonster)
                 {
-                    GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
-                    GPRewardSystem.m_instance.AddGoldToPlayer(attcker.photonView.Owner, "Kill");
-                }
+                    /* Add score to opponent */
+                    var attcker = bullet.owner.GetComponent<Player>();
 
-                /* Set game over from conditions */
-                if (GameManager.GetInstance().IsGameOver())
-                {
-                    PhotonNetwork.CurrentRoom.IsOpen = false;
+                    var attackerTeam = attcker.photonView.GetTeam();
 
-                    photonView.RPC("RpcGameOver", RpcTarget.All, (byte)attackerTeam);
+                    if (photonView.GetTeam() != attackerTeam)
+                    {
+                        GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
+                        GPRewardSystem.m_instance.AddGoldToPlayer(attcker.photonView.Owner, "Kill");
+                    }
 
-                    return;
+                    /* Set game over from conditions */
+                    if (GameManager.GetInstance().IsGameOver())
+                    {
+                        PhotonNetwork.CurrentRoom.IsOpen = false;
+
+                        photonView.RPC("RpcGameOver", RpcTarget.All, (byte)attackerTeam);
+
+                        return;
+                    }
                 }
 
                 /* Handle collectible drops */
@@ -347,6 +350,17 @@ namespace TanksMP
                 photonView.SetHealth(maxHealth);
 
                 var attackerId = (short)bullet.owner.GetComponent<PhotonView>().ViewID;
+
+                if (bullet.formMonster)
+                {
+                    attackerId = (short)-1;
+
+                    GPMonsterBase monster = bullet.owner.GetComponent<GPMonsterBase>();
+                    if (monster)
+                    {
+                        monster.OnPlayerKilled(this);
+                    }
+                }
 
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
             }
@@ -373,7 +387,8 @@ namespace TanksMP
                 /* Reset health, prepare for their respawn */
                 photonView.SetHealth(maxHealth);
 
-                photonView.RPC("RpcDestroy", RpcTarget.All, (short)0);
+                photonView.RPC("RpcDestroy", RpcTarget.All, (short)-1);
+                monster.OnPlayerKilled(this);
             }
             else
             {

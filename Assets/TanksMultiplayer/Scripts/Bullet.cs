@@ -82,7 +82,16 @@ namespace TanksMP
         [HideInInspector]
         public GameObject owner;
 
-    
+        /// <summary>
+        /// True if the bullet belongs to a monster.
+        /// </summary>
+        public bool formMonster = false;
+
+        /// <summary>
+        /// Should the bullet ignore collisions with monsters?
+        /// </summary>
+        public bool ignoreMonsters = false;
+
         //get component references
         void Awake()
         {
@@ -109,6 +118,7 @@ namespace TanksMP
         //not even accessing player variables or anything like that. The server side is separate below
         void OnTriggerEnter(Collider col)
         {
+            Debug.Log("Bullet collsion: " + col.name);
             if (col.CompareTag("IgnoreBullet")) // ignore collision
             {
                 return;
@@ -119,16 +129,24 @@ namespace TanksMP
 
             Player player = obj.GetComponent<Player>();
             GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
+            Player otherPlayer = owner.GetComponent<Player>();
 
             if (player != null)
             {
-                if (IsFriendlyFire(owner.GetComponent<Player>(), player)) return;
+                if (otherPlayer != null) // could be by a monster.
+                {
+                    if (IsFriendlyFire(otherPlayer, player)) return;
+                }
 
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
             }
             else if (monster != null)
             {
+                if (ignoreMonsters)
+                {
+                    return;
+                }
                 //create clips and particles on hit
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
@@ -243,6 +261,12 @@ namespace TanksMP
             else if (!GameManager.GetInstance().friendlyFire && origin.photonView.GetTeam() == target.photonView.GetTeam()) return true;
 
             return false;
+        }
+
+        public void ChangeDirection(Vector3 direction)
+        {
+            transform.forward = direction;
+            myRigidbody.velocity = speed * direction;
         }
     }
 }
