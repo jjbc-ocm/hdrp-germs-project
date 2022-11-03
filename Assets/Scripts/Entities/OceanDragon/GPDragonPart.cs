@@ -22,6 +22,7 @@ public class GPDragonPart : GPMonsterBase
             m_health.OnDamagedEvent.AddListener(OnDamage);
             m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
             m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
+            m_meleeDamageTrigger.m_OnEnterEvent.AddListener(BitePlayer);
         }
     }
 
@@ -61,9 +62,7 @@ public class GPDragonPart : GPMonsterBase
 
             if (!m_tweening)
             {
-                Vector3 lookDir = m_currTargetPlayer.transform.position - transform.position;
-                lookDir.y = 0.0f;
-                transform.forward = Vector3.Lerp(transform.forward, lookDir, Time.deltaTime * m_rotateSpeed);
+                LookAtTarget(m_currTargetPlayer.transform);
             }
 
         }
@@ -71,7 +70,20 @@ public class GPDragonPart : GPMonsterBase
 
     void OnAttacking()
     {
-        m_animator.SetTrigger(m_attackTriggerName);
+        string triggerToActivate;
+
+        Vector3 targetDir = m_currTargetPlayer.transform.position - transform.position;
+        targetDir.y = 0.0f;
+        if (targetDir.magnitude <= m_meleeRadius) // pick melee attack
+        {
+            triggerToActivate = PickAttack(m_meleeAtkTriggerNames);
+        }
+        else //pick range attack
+        {
+            triggerToActivate = PickAttack(m_projectileAtkTriggerNames);
+        }
+
+        m_animator.SetTrigger(triggerToActivate);
         ChangeState(DRAGON_STATES.kIdle);
     }
 
@@ -96,9 +108,15 @@ public class GPDragonPart : GPMonsterBase
         m_currentState = newState;
     }
 
-    void OnTweenEnd()
+    public void BitePlayer(Collider collider)
     {
-        m_tweening = false;
+        Player player = collider.GetComponent<Player>();
+        if (player && player == m_currTargetPlayer)
+        {
+            player.TakeMonsterDamage(this);
+        }
+
+        EndAttack();
     }
 
 }
