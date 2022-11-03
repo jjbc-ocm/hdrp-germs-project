@@ -64,8 +64,8 @@ namespace TanksMP
         [SerializeField]
         private SkillData skill;
 
-        //[SerializeField]
-        //private GameObject bullet;
+        [SerializeField]
+        private GameObject aimIndicator;
 
         [SerializeField]
         private Collider[] colliders;
@@ -135,6 +135,30 @@ namespace TanksMP
             rigidBody = GetComponent<Rigidbody>();
             camFollow = GameManager.GetInstance().mainCamera.GetComponent<FollowTarget>();
             camFollow.target = transform;
+        }
+
+        void Update()
+        {
+            if (isExecutingActionAim)
+            {
+                var action = isExecutingActionAttack ? attack : skill;
+
+                if (action.Aim == AimType.Water)
+                {
+                    aimIndicator.SetActive(true);
+
+                    var ray = GameManager.GetInstance().mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                    if (Physics.Raycast(ray, out RaycastHit hit, action.Range, LayerMask.GetMask("Water")))
+                    {
+                        aimIndicator.transform.position = hit.point;
+                    }
+                }
+            }
+            else
+            {
+                aimIndicator.SetActive(false);
+            }
         }
 
         void FixedUpdate()
@@ -244,9 +268,11 @@ namespace TanksMP
 
             var rotation = Quaternion.LookRotation(forward);
 
-            var effect = Instantiate(action.Effect, vPosition, rotation);
+            var effect = action.IsSpawnOnAim
+                ? Instantiate(action.Effect, vTarget, rotation)
+                : Instantiate(action.Effect, vPosition, rotation);
 
-            effect.GetComponent<BulletManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
+            effect.Initialize(this); // TODO: 3 and 4
         }
 
         [PunRPC]
@@ -321,7 +347,7 @@ namespace TanksMP
 
         #region Public
 
-        public void TakeDamage(BulletManager bullet)
+        public void TakeDamage(SkillBaseManager bullet)
         {
             var health = photonView.GetHealth();
 
@@ -446,11 +472,13 @@ namespace TanksMP
 
             photonView.SetMana(photonView.GetMana() - action.MpCost);
 
+            var offset = 2;
+
             photonView.RPC(
                 "RpcAction",
                 RpcTarget.AllViaServer,
-                new float[] { transform.position.x, transform.position.y, transform.position.z },
-                new float[] { aimPosition.x, aimPosition.y, aimPosition.z },
+                new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
+                new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
                 isAttack);
         }
 
@@ -458,31 +486,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            /*
-             * Typical flow
-             * 1. Do a raycast from player ship to the screen point position
-             * 
-             */
-
-            switch (action.Aim)
-            {
-                case AimType.Ground: // Get position on the ground and make it aim
-                    ExecuteActionInstantly(Vector3.zero, isAttack);
-                    break;
-                case AimType.EnemyShip:
-                    ExecuteActionInstantly(Vector3.zero, isAttack);
-                    break;
-                case AimType.AllyShip:
-                    ExecuteActionInstantly(Vector3.zero, isAttack);
-                    break;
-                case AimType.AnyShip:
-                    ExecuteActionInstantly(Vector3.zero, isAttack);
-                    break;
-                default: 
-                    break;
-            }
-
-            // action.Aim == AimType.Ground ? must raycast to ground
+            ExecuteActionInstantly(aimIndicator.transform.position, isAttack);
         }
 
         private IEnumerator SpawnRoutine()

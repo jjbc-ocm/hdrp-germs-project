@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcfbc2d616984145ba9ea3318a6a146, type: 3}
   m_Name: Trails of Frost
   m_EditorClassIdentifier: 
-  name: 
-  desc: 
-  aim: 0
-  target: 0
-  mpCost: 0
+  name: Trails of Frost
+  desc: They create a trail of ice in the direction of their enemy.
+  aim: 2
+  target: 1
+  range: 150
+  mpCost: 40
+  isSpawnOnAim: 0
+  effect: {fileID: 821231162903042443, guid: 2d995b6cfee2ba243927ac5740ea2bc4, type: 3}

@@ -19,10 +19,16 @@ public class SkillData : ScriptableObject
     private TargetType target;
 
     [SerializeField]
+    private float range;
+
+    [SerializeField]
     private int mpCost;
 
     [SerializeField]
-    private GameObject effect;
+    private bool isSpawnOnAim;
+
+    [SerializeField]
+    private SkillBaseManager effect;
 
     public string Name { get => name; }
 
@@ -32,7 +38,11 @@ public class SkillData : ScriptableObject
 
     public TargetType Target { get => target; }
 
+    public float Range { get => range; }
+
     public int MpCost { get => mpCost; }
 
-    public GameObject Effect { get => effect; }
+    public bool IsSpawnOnAim { get => isSpawnOnAim; }
+
+    public SkillBaseManager Effect { get => effect; }
 }

@@ -9,25 +9,10 @@ using Photon.Pun;
 
 namespace TanksMP
 {
-    public class BulletManager : MonoBehaviour
+    public class BulletManager : SkillBaseManager
     {
         [SerializeField]
         private float speed = 10;
-
-        [SerializeField]
-        private int damage = 3;
-
-        [SerializeField]
-        private float despawnDelay = 1f;
-
-        //[SerializeField]
-        //private int bounce = 0;
-
-        //[SerializeField]
-        //private int maxTargets = 1;
-
-        //[SerializeField]
-        //private float explosionRange = 1;
 
         [SerializeField]
         private AudioClip hitClip;
@@ -40,28 +25,9 @@ namespace TanksMP
 
         [SerializeField]
         private GameObject explosionFX;
-
-        private Rigidbody rigidBody;
-
-        //private SphereCollider sphereCol;
-
-        //private int maxBounce;
-
-        //private Vector3 lastBouncePos;
-
-        private Player owner;
-
-        public int Damage { get => damage; }
-
-        public Player Owner { get => owner; }
-
+        
 
         #region Unity
-
-        void Awake()
-        {
-            rigidBody = GetComponent<Rigidbody>();
-        }
 
         void OnTriggerEnter(Collider col)
         {
@@ -122,28 +88,9 @@ namespace TanksMP
 
         #endregion
 
-        #region Public
-
-        public void Initialize(Player owner)
+        protected override void OnInitialize()
         {
-            this.owner = owner;
-
             rigidBody.velocity = transform.forward * speed;
         }
-
-        #endregion
-
-        #region Private
-
-        private bool IsHit(Player origin, Player target)
-        {
-            if (target == owner || target == null) return false;
-
-            else if (origin.photonView.GetTeam() == target.photonView.GetTeam()) return false;
-
-            return true;
-        }
-
-        #endregion
     }
 }

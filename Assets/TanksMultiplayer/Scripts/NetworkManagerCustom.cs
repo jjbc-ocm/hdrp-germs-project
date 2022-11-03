@@ -21,7 +21,7 @@ namespace TanksMP
 	public class NetworkManagerCustom : MonoBehaviourPunCallbacks
     {
         //reference to this script instance
-        private static NetworkManagerCustom instance;
+        //private static NetworkManagerCustom instance;
 
         /// <summary>
         /// Scene index that gets loaded when disconnecting from a game.
@@ -53,7 +53,7 @@ namespace TanksMP
         //initialize network view
         void Awake()
         {
-            if (instance == null)
+           /* if (instance == null)
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
@@ -62,7 +62,7 @@ namespace TanksMP
             {
                 Destroy(gameObject);
                 return;
-            }
+            }*/
 
             //adding a view to this gameobject with a unique viewID
             //this is to avoid having the same ID in a scene
@@ -74,10 +74,10 @@ namespace TanksMP
         /// <summary>
         /// Returns a reference to this script instance.
         /// </summary>
-        public static NetworkManagerCustom GetInstance()
+        /*public static NetworkManagerCustom GetInstance()
         {
             return instance;
-        }
+        }*/
 
 
         /// <summary>
@@ -325,14 +325,14 @@ namespace TanksMP
 
             //get our selected player prefab index
             //int prefabId = int.Parse(Encryptor.Decrypt(PlayerPrefs.GetString(PrefsKeys.activeTank)));
-            int prefabId = Mathf.Max(0, PhotonNetwork.CountOfPlayers - 1);//((int)PhotonNetwork.LocalPlayer.CustomProperties[Constants.KEY_PLAYER_INDEX]) - 1;
+            //int prefabId = Mathf.Max(0, PhotonNetwork.CountOfPlayers - 1);//((int)PhotonNetwork.LocalPlayer.CustomProperties[Constants.KEY_PLAYER_INDEX]) - 1;
 
 
             //get the spawn position where our player prefab should be instantiated at, depending on the team assigned
             //if we cannot get a position, spawn it in the center of that team area - otherwise use the calculated position
             Transform startPos = GameManager.GetInstance().teams[PhotonNetwork.LocalPlayer.GetTeam()].spawn;
-			if (startPos != null) PhotonNetwork.Instantiate(playerPrefabs[prefabId].name, startPos.position, startPos.rotation, 0);
-			else PhotonNetwork.Instantiate(playerPrefabs[prefabId].name, Vector3.zero, Quaternion.identity, 0);
+			//if (startPos != null) PhotonNetwork.Instantiate(playerPrefabs[prefabId].name, startPos.position, startPos.rotation, 0);
+			//else PhotonNetwork.Instantiate(playerPrefabs[prefabId].name, Vector3.zero, Quaternion.identity, 0);
 		}
 
 
