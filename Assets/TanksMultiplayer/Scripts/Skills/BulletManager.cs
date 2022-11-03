@@ -25,7 +25,21 @@ namespace TanksMP
 
         [SerializeField]
         private GameObject explosionFX;
-        
+
+        private GPMonsterBase monsterOwner;
+
+        public GPMonsterBase MonsterOwner { get => monsterOwner; } // TODO: make base class that the mosnters and players share
+
+        /// <summary>
+        /// True if the bullet belongs to a monster.
+        /// </summary>
+        public bool formMonster = false;
+
+        /// <summary>
+        /// Should the bullet ignore collisions with monsters?
+        /// </summary>
+        public bool ignoreMonsters = false;
+
 
         #region Unity
 
@@ -44,13 +58,20 @@ namespace TanksMP
 
             if (player != null)
             {
-                if (!IsHit(owner, player)) return;
+                if (owner != null) // could be by a monster.
+                {
+                    if (!IsHit(owner, player)) return;
+                }
 
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
             }
             else if (monster != null)
             {
+                if (ignoreMonsters)
+                {
+                    return;
+                }
                 //create clips and particles on hit
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
@@ -91,6 +112,19 @@ namespace TanksMP
         protected override void OnInitialize()
         {
             rigidBody.velocity = transform.forward * speed;
+        }
+
+        public void Initialize(GPMonsterBase owner)
+        {
+            this.monsterOwner = owner;
+
+            rigidBody.velocity = transform.forward * speed;
+        }
+
+        public void ChangeDirection(Vector3 direction)
+        {
+            transform.forward = direction;
+            rigidBody.velocity = speed * direction;
         }
     }
 }
