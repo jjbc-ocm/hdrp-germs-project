@@ -663,36 +663,6 @@ MonoBehaviour:
   OnDamagedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1903686633767230735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177341485078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 9
-    SynchronizeType: 2
-    Name: Whip Attack
-  - Type: 9
-    SynchronizeType: 1
-    Name: Take Damage
-  - Type: 9
-    SynchronizeType: 1
-    Name: Die
-  - Type: 9
-    SynchronizeType: 2
-    Name: Slap Attack
-  m_SynchronizeLayers:
-  - SynchronizeType: 2
-    LayerIndex: 0
 --- !u!114 &3010476152433290096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,6 +690,8 @@ MonoBehaviour:
   m_hurtTriggerName: Take Damage
   m_pickType: 0
   m_damageDetectionType: 1
+  attack: {fileID: 0}
+  skill: {fileID: 0}
   m_damagePoints: 100
   m_meleeRadius: 10.69
   m_minAttackTime: 1
@@ -759,7 +731,37 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 647564620397211475}
   - {fileID: 940362860459258618}
-  - {fileID: 1903686633767230735}
+  - {fileID: 6950017328402674799}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6950017328402674799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177341485078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 2
+    Name: Whip Attack
+  - Type: 9
+    SynchronizeType: 2
+    Name: Take Damage
+  - Type: 9
+    SynchronizeType: 2
+    Name: Die
+  - Type: 9
+    SynchronizeType: 2
+    Name: Slap Attack
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0

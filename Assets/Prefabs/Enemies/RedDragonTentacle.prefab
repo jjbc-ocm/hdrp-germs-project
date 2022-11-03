@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5696015177808293605}
   m_Layer: 0
-  m_Name: GreenDragonTentacle
+  m_Name: RedDragonTentacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,6 +581,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -5.4079514
       objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1baaa209877ae6d41815d840d46b20c8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
 --- !u!95 &5696015177334207412 stripped
@@ -727,11 +731,11 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 647564620397211475}
   - {fileID: 940362860459258618}
-  - {fileID: 8691387958236950056}
+  - {fileID: 294084593616759982}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8691387958236950056
+--- !u!114 &294084593616759982
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

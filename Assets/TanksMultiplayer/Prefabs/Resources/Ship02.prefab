@@ -83,12 +83,14 @@ MonoBehaviour:
   explosionFX: {fileID: 1000010321467122, guid: 0e7cc58b84350174d86594375300513b, type: 3}
   attack: {fileID: 11400000, guid: f734caff2cd679248b25bad6aaad93f5, type: 2}
   skill: {fileID: 11400000, guid: 9eeae887a2abda94a90f2c69a7d85e49, type: 2}
-  bullet: {fileID: 1000010310479910, guid: cbe79c6a75d78d044a2a5d2211529fdf, type: 3}
   colliders:
   - {fileID: 5606283660667125614}
   rendererAnchor: {fileID: 3796559787098306659}
   iconIndicator: {fileID: 6924509017883009963}
   camFollow: {fileID: 0}
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114000013291451648
 MonoBehaviour:
   m_ObjectHideFlags: 0

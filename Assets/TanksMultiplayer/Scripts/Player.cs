@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -90,6 +91,9 @@ namespace TanksMP
         private bool isExecutingActionAim;
 
         private bool isExecutingActionAttack;
+
+        [Header("Events")]
+        public UnityEvent<int> onDieEvent;
 
         #region Network Sync
 
@@ -288,15 +292,20 @@ namespace TanksMP
                 if (attackerView != null)
                 {
                     camFollow.target = attackerView.transform;
+
+                    camFollow.HideMask(true);
+
+                    GameManager.GetInstance().ui.SetDeathText(
+                        attackerView.GetName(),
+                        GameManager.GetInstance().teams[attackerView.GetTeam()]);
                 }
 
-                camFollow.HideMask(true);
-
-                GameManager.GetInstance().ui.SetDeathText(
-                    attackerView.GetName(),
-                    GameManager.GetInstance().teams[attackerView.GetTeam()]);
-
                 StartCoroutine(SpawnRoutine());
+            }
+
+            if (onDieEvent != null)
+            {
+                onDieEvent.Invoke(photonView.ViewID);
             }
         }
 
@@ -367,7 +376,7 @@ namespace TanksMP
                 /* Reset health, prepare for their respawn */
                 photonView.SetHealth(maxHealth);
 
-                var attackerId = 0;
+                short attackerId = 0;
 
                 if (bullet.Owner)
                 {
@@ -377,14 +386,9 @@ namespace TanksMP
                 if (bullet.formMonster)
                 {
                     attackerId = (short)-1;
-
-                    if (bullet.MonsterOwner)
-                    {
-                        bullet.MonsterOwner.OnPlayerKilled(this);
-                    }
                 }
 
-                photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
+                photonView.RPC("RpcDestroy", RpcTarget.All, (short)attackerId);
             }
             else
             {
@@ -410,7 +414,6 @@ namespace TanksMP
                 photonView.SetHealth(maxHealth);
 
                 photonView.RPC("RpcDestroy", RpcTarget.All, (short)-1);
-                monster.OnPlayerKilled(this);
             }
             else
             {

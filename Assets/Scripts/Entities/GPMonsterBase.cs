@@ -155,6 +155,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             if (!m_playersInRange.Contains(player))
             {
                 m_playersInRange.Add(player);
+                player.onDieEvent.AddListener(OnPlayerKilled);
             }
             m_currTargetPlayer = player;
         }
@@ -243,7 +244,10 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public void ShootAnimEvent()
     {
-        Vector3 targetDir = m_currTargetPlayer.transform.position - m_bulletSpawnPoint.position;
+        if (m_currTargetPlayer == null)
+        {
+            return;
+        }
         ExecuteAction(attack, true);
     }
 
@@ -256,8 +260,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             m_nextFire = Time.time + m_attackSpeed / 100f;
 
             var instantAim =
-                action.Aim == AimType.None ? transform.position :
-                action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
+                action.Aim == AimType.None ? m_currTargetPlayer.transform.position :
+                action.Aim == AimType.WhileExecute ? m_currTargetPlayer.transform.position :
                 Vector3.zero;
 
             if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
@@ -284,7 +288,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         photonView.RPC(
             "RpcAction",
             RpcTarget.AllViaServer,
-            new float[] { transform.position.x, transform.position.y, transform.position.z },
+            new float[] { m_bulletSpawnPoint.position.x, m_bulletSpawnPoint.position.y, m_bulletSpawnPoint.position.z },
             new float[] { aimPosition.x, aimPosition.y, aimPosition.z },
             isAttack);
     }
@@ -313,13 +317,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         effect.GetComponent<BulletManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
     }
 
-    public void OnPlayerKilled(Player playerKilled)
-    {
-        m_photonView.RPC("RPCOnPlayerKilled", RpcTarget.All, playerKilled.photonView.ViewID);
-    }
-
-    [PunRPC]
-    public void RPCOnPlayerKilled(int playerId)
+    public void OnPlayerKilled(int playerId)
     {
         PhotonView playerView = playerId > 0 ? PhotonView.Find(playerId) : null;
         Player playerKilled = playerView.GetComponent<Player>();
@@ -333,5 +331,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         {
             m_playersInRange.Remove(playerKilled);
         }
+
+        playerKilled.onDieEvent.RemoveListener(OnPlayerKilled);
     }
 }

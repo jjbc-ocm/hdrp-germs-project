@@ -383,8 +383,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1854809525121454410}
-  - {fileID: 2222889648070681227}
   - {fileID: 8147957064538335481}
+  - {fileID: 5490136831514490295}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -415,39 +415,6 @@ MonoBehaviour:
   OnDamagedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2222889648070681227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360388980397296511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 9
-    SynchronizeType: 1
-    Name: Die
-  - Type: 9
-    SynchronizeType: 2
-    Name: Projectile Attack
-  - Type: 9
-    SynchronizeType: 1
-    Name: Roar
-  - Type: 9
-    SynchronizeType: 1
-    Name: Take damage
-  - Type: 9
-    SynchronizeType: 2
-    Name: Bite Attack
-  m_SynchronizeLayers:
-  - SynchronizeType: 2
-    LayerIndex: 0
 --- !u!114 &5311467099062452910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +442,8 @@ MonoBehaviour:
   m_hurtTriggerName: Take damage
   m_pickType: 0
   m_damageDetectionType: 0
+  attack: {fileID: 11400000, guid: e8a28c0ccab0e964e8d7ef9d4f5590b7, type: 2}
+  skill: {fileID: 11400000, guid: e8a28c0ccab0e964e8d7ef9d4f5590b7, type: 2}
   m_damagePoints: 100
   m_meleeRadius: 35
   m_minAttackTime: 1
@@ -509,3 +478,36 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &5490136831514490295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360388980397296511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 2
+    Name: Die
+  - Type: 9
+    SynchronizeType: 2
+    Name: Projectile Attack
+  - Type: 9
+    SynchronizeType: 2
+    Name: Roar
+  - Type: 9
+    SynchronizeType: 2
+    Name: Take damage
+  - Type: 9
+    SynchronizeType: 2
+    Name: Bite Attack
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0
