@@ -93,7 +93,6 @@ namespace TanksMP
             OnVolumeChanged(volumeSlider.value);
 
             //listen to network connection and IAP billing errors
-            NetworkManagerCustom.connectionFailedEvent += OnConnectionError;
             UnityIAPManager.purchaseFailedEvent += OnBillingError;
         }
 
