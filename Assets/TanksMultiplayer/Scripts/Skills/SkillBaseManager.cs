@@ -6,12 +6,13 @@ using UnityEngine;
 public abstract class SkillBaseManager : MonoBehaviour
 {
     [SerializeField]
-    private int damage;
+    protected SkillData data;
+
+    [SerializeField]
+    protected int damage;
 
     [SerializeField]
     protected float lifeSpan;
-
-    protected Rigidbody rigidBody;
 
     protected Player owner;
 
@@ -21,8 +22,6 @@ public abstract class SkillBaseManager : MonoBehaviour
 
     void Awake()
     {
-        rigidBody = GetComponent<Rigidbody>();
-
         Destroy(gameObject, lifeSpan);
     }
 

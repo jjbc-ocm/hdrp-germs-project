@@ -135,13 +135,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd273be5de0c024da7ef86707f5d826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: f734caff2cd679248b25bad6aaad93f5, type: 2}
+  damage: 3
   lifeSpan: 1
   speed: 100
-  damage: 3
   hitClip: {fileID: 8300000, guid: 85833de67e4b4594cb581db26e13b7bc, type: 3}
   explosionClip: {fileID: 8300000, guid: 303e0e5faf2dfc048a798daeea5e6d7d, type: 3}
   hitFX: {fileID: 1000010321467122, guid: 3ccf1b30bb4058f4499a550a8b569bc9, type: 3}
   explosionFX: {fileID: 1000010321467122, guid: 0b39af0d39f5fe443807a910bd327abe, type: 3}
+  formMonster: 0
+  ignoreMonsters: 0
 --- !u!1 &1358884162737081520
 GameObject:
   m_ObjectHideFlags: 0

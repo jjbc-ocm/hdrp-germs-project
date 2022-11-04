@@ -90,8 +90,6 @@ namespace TanksMP
 
         private bool isExecutingActionAim;
 
-        private bool isExecutingActionAttack;
-
         [Header("Events")]
         public UnityEvent<int> onDieEvent;
 
@@ -143,9 +141,28 @@ namespace TanksMP
 
         void Update()
         {
+            /* Update skills */
+            if (Input.GetMouseButton(0))
+            {
+                if (!isExecutingActionAim)
+                {
+                    ExecuteAction(attack, true);
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                ExecuteAction(skill, false);
+            }
+
+            if (Input.GetMouseButtonUp(1) && isExecutingActionAim)
+            {
+                ExecuteActionInstantly(aimIndicator.transform.position, false);
+            }
+
             if (isExecutingActionAim)
             {
-                var action = isExecutingActionAttack ? attack : skill;
+                var action = skill;
 
                 if (action.Aim == AimType.Water)
                 {
@@ -191,25 +208,6 @@ namespace TanksMP
 
             rendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
 
-            /* Update skills */
-            if (Input.GetButton("Fire1"))
-            {
-                if (isExecutingActionAim)
-                {
-                    ExecuteActionAimSelection(isExecutingActionAttack);
-                }
-                else
-                {
-                    ExecuteAction(attack, true);
-                }
-            }
-                
-
-            if(Input.GetButton("Fire2"))
-            {
-                ExecuteAction(skill, false);
-            }
-
             /* Cache it because, we need to accumulate the movement force */
             prevMoveDir = moveDir;
         }
@@ -230,29 +228,6 @@ namespace TanksMP
             }
         }
 
-        /*[PunRPC] // TODO: not used, delete later
-        public void RpcAttack(float[] position, short angle)
-        {
-            //calculate center between shot position sent and current server position (factor 0.6f = 40% client, 60% server)
-            //this is done to compensate network lag and smoothing it out between both client/server positions
-            Vector3 shotCenter = Vector3.Lerp(transform.position, new Vector3(position[0], transform.position.y, position[1]), 0.6f);
-            Quaternion syncedRot = Quaternion.Euler(0, angle, 0);
-
-            //spawn bullet using pooling
-            GameObject obj = PoolManager.Spawn(attack.Effect, shotCenter, syncedRot);
-            obj.GetComponent<BulletManager>().owner = gameObject;
-
-            var trails = obj.GetComponentsInChildren<TrailRenderer>();
-
-            foreach (var trail in trails)
-            {
-                trail.Clear();
-            }
-
-            if (shotFX) PoolManager.Spawn(shotFX, transform.position, Quaternion.identity);
-            if (shotClip) AudioManager.Play3D(shotClip, transform.position, 0.1f);
-        }*/
-
         [PunRPC]
         public void RpcAction(float[] position, float[] target, bool isAttack)
         {
@@ -261,8 +236,7 @@ namespace TanksMP
             /* Steps
              * 1. Calculate the rotation ased on position and target
              * 2. Spawn action.Effect based on position, and rotation
-             * 3. pass the action (SkillData) as parameter to the spawned object
-             * 4. Any trail reset or sound effects should be done on the actual object spawned
+             * 3. Any trail reset or sound effects should be done on the actual object spawned
              */
             var vPosition = new Vector3(position[0], position[1], position[2]);
 
@@ -276,7 +250,7 @@ namespace TanksMP
                 ? Instantiate(action.Effect, vTarget, rotation)
                 : Instantiate(action.Effect, vPosition, rotation);
 
-            effect.Initialize(this); // TODO: 3 and 4
+            effect.Initialize(this); // TODO: 3
         }
 
         [PunRPC]
@@ -488,7 +462,7 @@ namespace TanksMP
 
         private void ExecuteAction(SkillData action, bool isAttack)
         {
-            var canExecute = Time.time > nextFire && photonView.GetMana() >= action.MpCost;
+            var canExecute = (!isAttack || Time.time > nextFire) && photonView.GetMana() >= action.MpCost;
 
             if (canExecute)
             {
@@ -506,8 +480,6 @@ namespace TanksMP
                 else
                 {
                     isExecutingActionAim = true;
-
-                    isExecutingActionAttack = isAttack;
                 }
             }
         }
@@ -528,13 +500,6 @@ namespace TanksMP
                 new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
                 new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
                 isAttack);
-        }
-
-        private void ExecuteActionAimSelection(bool isAttack)
-        {
-            var action = isAttack ? attack : skill;
-
-            ExecuteActionInstantly(aimIndicator.transform.position, isAttack);
         }
 
         private IEnumerator SpawnRoutine()
