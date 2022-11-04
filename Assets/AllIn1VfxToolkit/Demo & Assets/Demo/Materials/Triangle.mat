@@ -13,13 +13,13 @@ Material:
   - ADDITIVECONFIG_ON
   - ALPHAFADEINPUTSTREAM_ON
   - OFFSETSTREAM_ON
-  - PREMULTIPLYCOLOR_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -124,7 +124,7 @@ Material:
     - _DistortionPower: 5
     - _DistortionScrollXSpeed: 0
     - _DistortionScrollYSpeed: 0
-    - _DstMode: 10
+    - _DstMode: 1
     - _EditorDrawers: 53
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 5
@@ -153,7 +153,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 3
+    - _RenderingMode: 1
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
