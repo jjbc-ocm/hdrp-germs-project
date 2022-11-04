@@ -89,6 +89,9 @@ MonoBehaviour:
   rendererAnchor: {fileID: 5067338322404580456}
   iconIndicator: {fileID: 6097096151781405437}
   camFollow: {fileID: 0}
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114000013231430384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +152,7 @@ MonoBehaviour:
   airDrag: 0
   airAngularDrag: 0.05
   floatingPower: 10
-  offsetY: -0.5
+  offsetY: -1
 --- !u!65 &4803802976623517953
 BoxCollider:
   m_ObjectHideFlags: 0
