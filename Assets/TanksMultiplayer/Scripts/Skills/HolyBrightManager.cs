@@ -5,7 +5,7 @@ using TanksMP;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class TrailOfFrostManager : SkillBaseManager
+public class HolyBrightManager : SkillBaseManager
 {
     [SerializeField]
     private float trailSpeed;

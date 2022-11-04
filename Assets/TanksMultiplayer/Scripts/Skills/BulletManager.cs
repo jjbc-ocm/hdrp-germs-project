@@ -12,7 +12,7 @@ namespace TanksMP
     public class BulletManager : SkillBaseManager
     {
         [SerializeField]
-        private float speed = 10;
+        private float speed;
 
         [SerializeField]
         private AudioClip hitClip;
@@ -25,6 +25,8 @@ namespace TanksMP
 
         [SerializeField]
         private GameObject explosionFX;
+
+        private Rigidbody rigidBody;
 
         private GPMonsterBase monsterOwner;
 
@@ -111,20 +113,24 @@ namespace TanksMP
 
         protected override void OnInitialize()
         {
+            rigidBody = GetComponent<Rigidbody>();
+
             rigidBody.velocity = transform.forward * speed;
         }
 
         public void Initialize(GPMonsterBase owner)
         {
+            rigidBody = GetComponent<Rigidbody>();
+
             this.monsterOwner = owner;
 
             rigidBody.velocity = transform.forward * speed;
         }
 
-        public void ChangeDirection(Vector3 direction)
+        /*public void ChangeDirection(Vector3 direction)
         {
             transform.forward = direction;
             rigidBody.velocity = speed * direction;
-        }
+        }*/
     }
 }
