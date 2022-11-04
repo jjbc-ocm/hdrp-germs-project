@@ -383,8 +383,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1854809525121454410}
-  - {fileID: 8147957064538335481}
   - {fileID: 5490136831514490295}
+  - {fileID: 8147957064538335481}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_damageDetectionType: 0
   attack: {fileID: 11400000, guid: e8a28c0ccab0e964e8d7ef9d4f5590b7, type: 2}
   skill: {fileID: 11400000, guid: e8a28c0ccab0e964e8d7ef9d4f5590b7, type: 2}
-  m_damagePoints: 100
+  m_damagePoints: 150
   m_meleeRadius: 35
   m_minAttackTime: 1
   m_maxAttackTime: 3.5
@@ -458,26 +458,10 @@ MonoBehaviour:
   m_sinkSpeed: 4
   m_rewardKey: DragonHead
   m_bulletSpawnPoint: {fileID: 609719028449125573}
-  m_shotFX: {fileID: 1000011513120438, guid: f70d27f5cf28c8941bbfd6febd74797f, type: 3}
+  m_shotFX: {fileID: 3010895046562501561, guid: 448557424384db047b0bd5d8e2536618, type: 3}
   m_shotClip: {fileID: 8300000, guid: 9d685be7bcccd974bb6312c9965ff4e5, type: 3}
-  m_bullet: {fileID: 1000010310479910, guid: 32d2be628b3372e4db7a1d8bed12b991, type: 3}
+  m_bullet: {fileID: 1000010310479910, guid: 1ff7c28cbf25cc348b0123719841c44b, type: 3}
   m_attackSpeed: 50
---- !u!114 &8147957064538335481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360388980397296511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &5490136831514490295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,3 +495,19 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
+--- !u!114 &8147957064538335481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360388980397296511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
