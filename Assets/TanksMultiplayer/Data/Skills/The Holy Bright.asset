@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcfbc2d616984145ba9ea3318a6a146, type: 3}
   m_Name: The Holy Bright
   m_EditorClassIdentifier: 
-  name: 
-  desc: 
-  aim: 0
-  target: 0
-  mpCost: 0
+  name: The Holy Bright
+  desc: They create a deadly light beam in the direction of their enemy.
+  aim: 2
+  target: 1
+  range: 125
+  mpCost: 60
+  isSpawnOnAim: 0
+  effect: {fileID: 2771556123462503611, guid: 6b882a63aecbdeb4fb4b1fee4779b453, type: 3}

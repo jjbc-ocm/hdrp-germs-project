@@ -11,7 +11,7 @@ public static class PlayerExtension
         player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
         {
             { Constants.KEY_TEAM, team },
-            { Constants.KEY_SHIP_INDEX, 1 } // TODO: this is just for testing, restore real value later
+            { Constants.KEY_SHIP_INDEX, shipIndex }
         });
     }
 
