@@ -79,6 +79,7 @@ namespace TanksMP
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
             }
 
+            Debug.Log("Bullet collsion: " + col.name);
 
             //despawn gameobject
             //PoolManager.Despawn(gameObject);// TODO: handle object pooling in the future

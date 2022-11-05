@@ -57,6 +57,10 @@ public class BuoyancyObject : MonoBehaviour
 
         for (int i = 0; i < floaters.Length; i++)
         {
+            if (floaters[i] == null)
+            {
+                continue;
+            }
             float difference = floaters[i].position.y - waterHeight + offsetY;
 
             if (difference < 0)
