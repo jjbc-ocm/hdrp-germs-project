@@ -73,12 +73,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [Header("Shot settings")]
     public Transform m_bulletSpawnPoint;
     [SerializeField]
-    private GameObject m_shotFX;
-    [SerializeField]
-    private AudioClip m_shotClip;
     private float m_nextFire;
-    [SerializeField]
-    private GameObject m_bullet;
     [SerializeField]
     private int m_attackSpeed = 50;
     private bool isExecutingActionAim;
