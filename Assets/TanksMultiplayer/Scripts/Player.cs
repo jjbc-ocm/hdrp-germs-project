@@ -90,6 +90,8 @@ namespace TanksMP
 
         private bool isExecutingActionAim;
 
+        private Player aimAutoTarget;
+
         [Header("Events")]
         public UnityEvent<int> onDieEvent;
 
@@ -146,33 +148,45 @@ namespace TanksMP
             {
                 if (!isExecutingActionAim)
                 {
-                    ExecuteAction(attack, true);
+                    ExecuteActionAim(attack, true);
                 }
             }
 
             if (Input.GetMouseButtonDown(1))
             {
-                ExecuteAction(skill, false);
+                ExecuteActionAim(skill, false);
             }
 
             if (Input.GetMouseButtonUp(1) && isExecutingActionAim)
             {
-                ExecuteActionInstantly(aimIndicator.transform.position, false);
+                ExecuteActionInstantly(aimIndicator.transform.position, aimAutoTarget, false);
             }
 
             if (isExecutingActionAim)
             {
                 var action = skill;
 
-                if (action.Aim == AimType.Water)
+                aimIndicator.SetActive(true);
+
+                var ray = GameManager.GetInstance().mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                var layerName = action.Aim == AimType.Water ? "Water" : "Ship";
+
+                if (Physics.Raycast(ray, out RaycastHit hit, action.Range, LayerMask.GetMask(layerName)))
                 {
-                    aimIndicator.SetActive(true);
-
-                    var ray = GameManager.GetInstance().mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                    if (Physics.Raycast(ray, out RaycastHit hit, action.Range, LayerMask.GetMask("Water")))
+                    if (action.Aim == AimType.Water ||
+                        action.Aim == AimType.AnyShip ||
+                        (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
+                        (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
                     {
                         aimIndicator.transform.position = hit.point;
+
+                        if (action.Aim == AimType.EnemyShip || 
+                            action.Aim == AimType.AllyShip ||
+                            action.Aim == AimType.AnyShip)
+                        {
+                            aimAutoTarget = hit.transform.GetComponent<Player>();
+                        }
                     }
                 }
             }
@@ -229,7 +243,7 @@ namespace TanksMP
         }
 
         [PunRPC]
-        public void RpcAction(float[] position, float[] target, bool isAttack)
+        public void RpcAction(float[] position, float[] target, int autoTargetPhotonID, bool isAttack)
         {
             var action = isAttack ? attack : skill;
 
@@ -250,7 +264,7 @@ namespace TanksMP
                 ? Instantiate(action.Effect, vTarget, rotation)
                 : Instantiate(action.Effect, vPosition, rotation);
 
-            effect.Initialize(this); // TODO: 3
+            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID).GetComponent<Player>()); // TODO: 3
         }
 
         [PunRPC]
@@ -460,7 +474,7 @@ namespace TanksMP
             rigidBody.AddForce(moveForce);
         }
 
-        private void ExecuteAction(SkillData action, bool isAttack)
+        private void ExecuteActionAim(SkillData action, bool isAttack)
         {
             var canExecute = (!isAttack || Time.time > nextFire) && photonView.GetMana() >= action.MpCost;
 
@@ -475,7 +489,7 @@ namespace TanksMP
 
                 if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
                 {
-                    ExecuteActionInstantly(instantAim, isAttack);
+                    ExecuteActionInstantly(instantAim, null, isAttack);
                 }
                 else
                 {
@@ -484,7 +498,7 @@ namespace TanksMP
             }
         }
 
-        private void ExecuteActionInstantly(Vector3 aimPosition, bool isAttack)
+        private void ExecuteActionInstantly(Vector3 aimPosition, Player autoTarget, bool isAttack)
         {
             var action = isAttack ? attack : skill;
 
@@ -499,6 +513,7 @@ namespace TanksMP
                 RpcTarget.AllViaServer,
                 new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
                 new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
+                autoTarget.photonView.ViewID,
                 isAttack);
         }
 
@@ -526,6 +541,13 @@ namespace TanksMP
             {
                 collider.enabled = toggle;
             }
+        }
+
+        private bool IsEnemyShip(RaycastHit hit)
+        {
+            var player = hit.transform.GetComponent<Player>();
+
+            return !player || (player && player.photonView.GetTeam() != photonView.GetTeam());
         }
 
         #endregion
