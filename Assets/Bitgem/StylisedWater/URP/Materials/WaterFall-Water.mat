@@ -10,14 +10,11 @@ Material:
   m_Name: WaterFall-Water
   m_Shader: {fileID: -6465566751694194690, guid: 4ad8c1bd17d226e4baa3fded96867f24, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _DISABLE_SSR_TRANSPARENT
-  - _ENABLE_FOG_ON_TRANSPARENT
-  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
@@ -31,6 +28,14 @@ Material:
     m_TexEnvs:
     - Texture2D_6490A223:
         m_Texture: {fileID: 2800000, guid: f87d53fcaf34530488b706ee35d9b519, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_75234e64d8d74583bd442975e49b1b99:
+        m_Texture: {fileID: 2800000, guid: 2ed3d41b7c655bf4daa77f71b994f6ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_f5cde98bb612489cb401448024b3d077:
+        m_Texture: {fileID: 2800000, guid: 11154d936b05e66498f68fa178c5cfbb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -57,6 +62,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7fd4da11d9e44fe29a1feff327f298f5_Texture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_8be6625426a343f09fa1a27e16ec1d13_Texture_1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,47 +89,53 @@ Material:
     m_Ints: []
     m_Floats:
     - Foam_Amount: 10
-    - Foam_Cutoff: 0.27
-    - Foam_Evolution_Speed: 2
-    - Foam_Scale: 2
-    - Global_Fading: 5000
-    - Light_Probe_Contribution: 2.5
+    - Foam_Cutoff: 4.57
+    - Foam_Evolution_Speed: 3
+    - Foam_Scale: 2.29
+    - Global_Fading: 1000
+    - Light_Probe_Contribution: 5
     - Refaction_Scale: 1.03
     - Refraction_Evolution_Speed: 3
     - Refraction_Height: 1
+    - Vector1_07c93c7e34df4237b5dd57255d7f857a: 0.029
     - Vector1_17E53C12: 0.02
-    - Vector1_244B0600: 7.32
+    - Vector1_244B0600: 0.01
     - Vector1_25aa78d5cd65435697c3191e93a6343a: 10
     - Vector1_2B58F275: 1
     - Vector1_2FBE3DFA: 2
     - Vector1_34CF798A: 1.75
-    - Vector1_36E8227: 0
+    - Vector1_36E8227: 0.26
+    - Vector1_3849afd7c2eb484893a68ec694cc75b3: 0.2
     - Vector1_3D886DA1: 0.343
-    - Vector1_46E42935: 0.725
+    - Vector1_46E42935: 0
     - Vector1_47683D42: 0.277
     - Vector1_65DAC18D: 2
+    - Vector1_6f56a0970372485390c6587863c2374e: -0.6
     - Vector1_707bdef874cb42eb8b6d49e6e1b05c44: 2
-    - Vector1_77A997E: 0.5
+    - Vector1_77A997E: 1
     - Vector1_7A056A02: 0.5
+    - Vector1_7ab1e13367ff4c17b0a4403edd3d9450: 0.877
     - Vector1_8CEB4E60: 1
     - Vector1_A0EAD698: 0
     - Vector1_A6A0BC26: 1.65
     - Vector1_B9F56378: 2.1
-    - Vector1_C360A163: 0
+    - Vector1_C360A163: -13.64
     - Vector1_DF445019: 1.5
     - Vector1_E03AB928: 0.05
     - Vector1_E5C51606: 2.59
     - Vector1_EA2D80AD: 10
-    - Vector1_F38B44AA: 2.09
+    - Vector1_F38B44AA: 5.96
     - Vector1_F591A23A: 0
+    - Vector1_c0da6a80189144e5a45df6c62b281d57: 0.471
+    - Vector1_d70d07d7ef17405a961168abe8e24a3a: 20
     - Vector1_e447c4cc8b7d4aa1bb50df149727dbaf: 1
     - Vector1_e9c25d97b3c945c396e5f78c4ad28a04: 0.5
     - Water_Depth: 20.8
-    - Wave_Height: 0.008
+    - Wave_Height: 0.004
     - Wave_Scale: 50
     - Wave_Speed: 0.72
     - _AddPrecomputedVelocity: 0
-    - _Alpha: 0.628
+    - _Alpha: 0.48
     - _AlphaClip: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 1
@@ -131,16 +146,21 @@ Material:
     - _BlendMode: 1
     - _BumpScale: 1
     - _BumpStrength: 0.5
+    - _CastShadows: 1
     - _ConservativeDepthOffsetEnable: 0
     - _Cull: 2
     - _CullMode: 1
     - _CullModeForward: 1
     - _Cutoff: 0.5
+    - _DecalMeshBiasType: 0
+    - _DecalMeshDepthBias: 0
+    - _DecalMeshViewBias: 0
     - _DepthOffsetEnable: 0
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
-    - _DstBlend: 1
+    - _DrawOrder: 0
+    - _DstBlend: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _EnvironmentReflections: 1
@@ -150,7 +170,7 @@ Material:
     - _Metallic: 0.604
     - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
-    - _QueueControl: 1
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceiveShadows: 1
@@ -184,21 +204,26 @@ Material:
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
-    - _WaveFrequency: 47.69
-    - _WaveScale: 0.012
-    - _WaveSpeed: 8.69
+    - _WaveFrequency: 0
+    - _WaveScale: 0
+    - _WaveSpeed: 0
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
+    - Color_6a9a916e2c84442984edc20c082efe79: {r: 0.03921569, g: 0.5490196, b: 0.5490196, a: 1}
     - Color_7D9A58EC: {r: 0.1254895, g: 0.25564453, b: 0.5660378, a: 1}
     - Color_F01C36BF: {r: 0.04705883, g: 0.4784314, b: 0.75294125, a: 1}
-    - Foam_Color: {r: 1, g: 1, b: 1, a: 0.5450981}
+    - Color_c9a840f2115c4802ba54d713194f761d: {r: 0.03921569, g: 0.09803922, b: 0.2745098, a: 1}
+    - Foam_Color: {r: 1, g: 1, b: 1, a: 1}
     - Shallow_Water_Color: {r: 1, g: 0.504717, b: 0.80795157, a: 0.68235296}
     - Trough_Color: {r: 0.4433962, g: 0.010457456, b: 0.21159732, a: 0.6745098}
-    - Vector2_37B21477: {r: 2.73, g: 0.56, b: 0, a: 0}
+    - Vector2_130994fa54a3486dacf33287c0070f7f: {r: 90, g: 90, b: 0, a: 0}
+    - Vector2_37B21477: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
