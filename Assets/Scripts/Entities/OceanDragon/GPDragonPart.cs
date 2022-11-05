@@ -70,7 +70,7 @@ public class GPDragonPart : GPMonsterBase
 
     void OnAttacking()
     {
-        string triggerToActivate;
+        string triggerToActivate = "";
 
         Vector3 targetDir = m_currTargetPlayer.transform.position - transform.position;
         targetDir.y = 0.0f;
@@ -78,7 +78,7 @@ public class GPDragonPart : GPMonsterBase
         {
             triggerToActivate = PickAttack(m_meleeAtkTriggerNames);
         }
-        else //pick range attack
+        else if (m_projectileAtkTriggerNames.Count > 0)//pick range attack
         {
             triggerToActivate = PickAttack(m_projectileAtkTriggerNames);
         }
