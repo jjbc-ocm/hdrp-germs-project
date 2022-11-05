@@ -16,18 +16,24 @@ public abstract class SkillBaseManager : MonoBehaviour
 
     protected Player owner;
 
+    protected Player autoTarget;
+
     public int Damage { get => damage; }
 
     public Player Owner { get => owner; }
+
+    public Player AutoTarget { get => autoTarget; }
 
     void Awake()
     {
         Destroy(gameObject, lifeSpan);
     }
 
-    public void Initialize(Player owner)
+    public void Initialize(Player owner, Player autoTarget = null)
     {
         this.owner = owner;
+
+        this.autoTarget = autoTarget;
 
         OnInitialize();
     }
