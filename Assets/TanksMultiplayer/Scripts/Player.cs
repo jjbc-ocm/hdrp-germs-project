@@ -124,6 +124,8 @@ namespace TanksMP
             photonView.SetHealth(maxHealth);
 
             photonView.SetMana(maxMana);
+
+            StartCoroutine(YieldManaAutoRegen(1));
         }
 
         void Start()
@@ -264,7 +266,7 @@ namespace TanksMP
                 ? Instantiate(action.Effect, vTarget, rotation)
                 : Instantiate(action.Effect, vPosition, rotation);
 
-            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID).GetComponent<Player>()); // TODO: 3
+            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<Player>() ?? null); // TODO: 3
         }
 
         [PunRPC]
@@ -513,7 +515,7 @@ namespace TanksMP
                 RpcTarget.AllViaServer,
                 new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
                 new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
-                autoTarget.photonView.ViewID,
+                autoTarget?.photonView.ViewID ?? -1,
                 isAttack);
         }
 
@@ -548,6 +550,16 @@ namespace TanksMP
             var player = hit.transform.GetComponent<Player>();
 
             return !player || (player && player.photonView.GetTeam() != photonView.GetTeam());
+        }
+
+        private IEnumerator YieldManaAutoRegen(float delay)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(delay);
+
+                photonView.SetMana(Mathf.Min(photonView.GetMana() + MaxMana / 10, MaxMana));
+            }
         }
 
         #endregion
