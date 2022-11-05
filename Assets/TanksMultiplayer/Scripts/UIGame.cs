@@ -53,6 +53,19 @@ namespace TanksMP
         [SerializeField]
         private GameObject gameOverMenu;
 
+        [Header("Self HUD")]
+        [SerializeField]
+        private Slider sliderHealth;
+
+        [SerializeField]
+        private Slider sliderMana;
+
+        [SerializeField]
+        private TMP_Text textHealth;
+
+        [SerializeField]
+        private TMP_Text textMana;
+
         public GameObject GameOverMenu { get => gameOverMenu; }
 
 
@@ -65,9 +78,20 @@ namespace TanksMP
 
         void Update()
         {
-            /* Update UI elements that is tied-up to each players */
             var players = FindObjectsOfType<Player>();
 
+            var myPlayer = players.FirstOrDefault(i => i.photonView.IsMine);
+
+            /* Update UI elements for myself first */
+            sliderHealth.value = myPlayer.photonView.GetHealth() / (float)myPlayer.MaxHealth;
+
+            sliderMana.value = myPlayer.photonView.GetMana() / (float)myPlayer.MaxMana;
+
+            textHealth.text = $"{myPlayer.photonView.GetHealth()}/{myPlayer.MaxHealth}";
+
+            textMana.text = $"{myPlayer.photonView.GetMana()}/{myPlayer.MaxMana}";
+
+            /* Update UI elements that is tied-up to other players */
             var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
 
             var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
