@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcfbc2d616984145ba9ea3318a6a146, type: 3}
   m_Name: Heat Wave
   m_EditorClassIdentifier: 
-  name: 
-  desc: 
-  aim: 0
+  name: Heat Wave
+  desc: They create a heat wave around the selected enemy causing great damage.
+  aim: 3
   target: 0
-  mpCost: 0
+  range: 125
+  mpCost: 30
+  isSpawnOnAim: 1
+  effect: {fileID: 1155533743644792178, guid: 64a3a1393cf945f4dab3ad77d9e373a5, type: 3}

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcfbc2d616984145ba9ea3318a6a146, type: 3}
   m_Name: Smells Like Death
   m_EditorClassIdentifier: 
-  name: 
-  desc: 
-  aim: 0
+  name: Smells Like Death
+  desc: They create a black mistic fog around the selected enemy cuasing great damage.
+  aim: 3
   target: 0
-  mpCost: 0
+  range: 100
+  mpCost: 50
+  isSpawnOnAim: 1
+  effect: {fileID: 1155533743644792178, guid: 64a3a1393cf945f4dab3ad77d9e373a5, type: 3}

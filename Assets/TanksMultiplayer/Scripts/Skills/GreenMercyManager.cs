@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
 
-public class RadialSustainedManager : SkillBaseManager
+public class GreenMercyManager : SkillBaseManager
 {
     [SerializeField]
     private float sustainDelay;
