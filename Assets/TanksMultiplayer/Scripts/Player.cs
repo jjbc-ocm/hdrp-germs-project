@@ -145,6 +145,8 @@ namespace TanksMP
 
         void Update()
         {
+            if (!photonView.IsMine) return;
+
             /* Update skills */
             if (Input.GetMouseButton(0))
             {
