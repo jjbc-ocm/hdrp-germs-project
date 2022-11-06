@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BurningColdManager : SkillBaseManager
+public class SmellsLikeDeathManager : SkillBaseManager
 {
     [SerializeField]
     private GameObject prefabDebugBox; // TODO: delete once there's a VFX
