@@ -6,11 +6,11 @@ using UnityEngine;
 public class SmellsLikeDeathManager : SkillBaseManager
 {
     [SerializeField]
-    private GameObject prefabDebugBox; // TODO: delete once there's a VFX
+    private GameObject vfx;
 
     void Update()
     {
-        prefabDebugBox.transform.position = autoTarget.transform.position;
+        //vfx.transform.position = autoTarget.transform.position;
     }
 
     protected override void OnInitialize()
