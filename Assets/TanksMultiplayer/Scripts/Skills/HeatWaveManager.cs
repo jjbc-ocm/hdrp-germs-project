@@ -1,22 +1,35 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using UnityEngine;
 
 public class HeatWaveManager : SkillBaseManager
 {
+    //[SerializeField]
+    //private GameObject vfx;
+
     [SerializeField]
-    private GameObject prefabDebugBox; // TODO: delete once there's a VFX
+    private float radius;
 
     void Update()
     {
-        prefabDebugBox.transform.position = autoTarget.transform.position;
+        //vfx.transform.position = autoTarget.transform.position;
     }
 
     protected override void OnInitialize()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        autoTarget.TakeDamage(this);
+        var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, LayerMask.GetMask("Ship"));
+
+        foreach (var collider in colliders)
+        {
+            var player = collider.GetComponent<Player>();
+
+            if (!IsHit(owner, player)) continue;
+
+            player.TakeDamage(this);
+        }
     }
 }

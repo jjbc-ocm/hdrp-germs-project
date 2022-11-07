@@ -38,7 +38,7 @@ public class TrailOfFrostManager : SkillBaseManager
 
     private IEnumerator YieldSpawnDebugBox()
     {
-        var spawnDelay = 0.1f;
+        var spawnDelay = 0.025f;
 
         var trailSize = 0f;
 
@@ -58,10 +58,10 @@ public class TrailOfFrostManager : SkillBaseManager
             // TODO: delete these part once there's a VFX
             var position = transform.position + transform.forward * trailSize;
 
-            var rotation = Quaternion.Euler(
+            var rotation = Quaternion.identity; /*Quaternion.Euler(
                 Random.Range(0, 360),
                 Random.Range(0, 360),
-                Random.Range(0, 360));
+                Random.Range(0, 360));*/
 
             Instantiate(prefabDebugBox, position, rotation, transform);
         }
