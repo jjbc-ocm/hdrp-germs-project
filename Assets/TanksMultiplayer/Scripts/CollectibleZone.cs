@@ -25,9 +25,25 @@ namespace TanksMP
         /// </summary>
         public AudioClip scoreClip;
 
+        public void OnDropChest()
+        {
+            if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
+
+            GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
+
+            if (GameManager.GetInstance().IsGameOver())
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+
+                GameManager.GetInstance().localPlayer.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
+
+                return;
+            }
+        }
+
         // TODO: need to revise implementation
         // Why? It will only work if there's only 1 chest instance on the screen
-        public void OnTriggerEnter(Collider col)
+        /*public void OnTriggerEnter(Collider col)
         {
             if (!PhotonNetwork.IsMasterClient) return;
 
@@ -35,21 +51,20 @@ namespace TanksMP
 
             var player = col.GetComponent<Player>();
 
-            if (player == null) { return; }
+            if (player == null) return;
 
             if (player != null && player.photonView.GetTeam() != teamIndex) return;
 
-            var chestObject = GameObject.FindGameObjectWithTag("Chest");
-
-            if (chestObject == null) return;
-
-            var chest = chestObject.GetComponent<CollectibleTeam>();
-
-            if (chest.CarrierId != player.photonView.ViewID) return;
+            if (!player.HasChest) return;
 
             if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
 
             GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
+
+            if (player.photonView.IsMine)
+            {
+                player.HasChest = false;
+            }
 
             if (GameManager.GetInstance().IsGameOver())
             {
@@ -60,7 +75,7 @@ namespace TanksMP
                 return;
             }
 
-            PhotonNetwork.Destroy(chest.photonView);
-        }
+            //PhotonNetwork.Destroy(chest.photonView);
+        }*/
     }
 }

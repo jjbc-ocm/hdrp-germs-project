@@ -109,6 +109,8 @@ namespace TanksMP
 
                         team1PlayerIndicators[i].gameObject.SetActive(player != null);
 
+                        team1ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
+
                         team1ShipHuds[i].Player = player;
                     }
 
@@ -120,6 +122,8 @@ namespace TanksMP
                         team2PlayerIndicators[i].sprite = player?.SpriteIcon ?? null;
 
                         team2PlayerIndicators[i].gameObject.SetActive(player != null);
+
+                        team2ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
 
                         team2ShipHuds[i].Player = player;
                     }
@@ -143,62 +147,7 @@ namespace TanksMP
 		}
 
 
-        /// <summary>
-        /// This is an implementation for changes to the team fill,
-        /// updating the slider values (updates UI display of team fill).
-        /// </summary>
-        /*public void OnTeamSizeChanged(int[] size)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                team1PlayerIndicators[i].gameObject.SetActive(false);
-
-                team2PlayerIndicators[i].gameObject.SetActive(false);
-
-                team1ShipHuds[i].Player = null;
-
-                team2ShipHuds[i].Player = null;
-            }
-
-            //loop over sliders values and assign it
-			for(int i = 0; i < size.Length; i++)
-            {
-                for (int j = 0; j < size[i]; j++)
-                {
-                    if (i == 0)
-                    {
-                        team1PlayerIndicators[j].gameObject.SetActive(true);
-                    }
-
-                    if (i == 1)
-                    {
-                        team2PlayerIndicators[j].gameObject.SetActive(true);
-                    }
-                }
-            }
-        }*/
-
-        /// <summary>
-        /// Added by: Jilmer John Cariaso
-        /// </summary>
-        public void OnChestPickup(Player obj)
-        {
-            var players = FindObjectsOfType<Player>();
-
-            var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
-
-            var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
-
-            for (int i = 0; i < team1ChestIndicators.Length; i++)
-            {
-                team1ChestIndicators[i].gameObject.SetActive(obj != null && team1.Count() > i && team1[i] == obj);
-            }
-
-            for (int i = 0; i < team2ChestIndicators.Length; i++)
-            {
-                team2ChestIndicators[i].gameObject.SetActive(obj != null && team2.Count() > i && team2[i] == obj);
-            }
-        }
+        
 
 
         /// <summary>

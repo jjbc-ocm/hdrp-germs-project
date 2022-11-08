@@ -16,137 +16,37 @@ namespace TanksMP
 
     [RequireComponent(typeof(PhotonView))]
 	public class Collectible : MonoBehaviourPun, IPunObservable
-    {	    
-        /// <summary>
-        /// Clip to play when this Collectible is consumed by a player.
-        /// </summary>
+    {
         public AudioClip useClip;
-
-        /// <summary>
-        /// Reference to the local object (script) that spawned this Collectible.
-        /// </summary>
-        //[HideInInspector]
-        //public ObjectSpawner spawner;
 
         [SerializeField]
         private GameObject graphics;
 
-        #region Network Synced
-
-        protected int carrierId = -1;
-
-        public int CarrierId { get => carrierId; set => carrierId = value; }
-
-        #endregion
-
-        void Update()
-        {
-            var carrier = PhotonNetwork.GetPhotonView(carrierId);
-
-            if (carrier != null)
-            {
-                var player = carrier.GetComponent<Player>();
-
-                if (player.IsRespawning)
-                {
-                    carrierId = -1;
-                }
-                else
-                {
-                    transform.position = carrier.transform.position;
-                }
-                
-            }
-
-            if (graphics != null)
-            {
-                graphics.SetActive(carrier == null);
-            }
-        }
-
-
-        /// <summary>
-        /// Server only: check for players colliding with this item.
-        /// Possible collision are defined in the Physics Matrix.
-        /// </summary>
         public virtual void OnTriggerEnter(Collider col)
 		{
-            if (!PhotonNetwork.IsMasterClient)
-                return;
+            if (!PhotonNetwork.IsMasterClient) return;
             
     		GameObject obj = col.gameObject;
+
 			Player player = obj.GetComponent<Player>();
 
-            //try to apply collectible to player, the result should be true
             if (Apply(player))
             {
-                //destroy after use
-                //spawner.photonView.RPC("Destroy", RpcTarget.All);
                 PhotonNetwork.Destroy(photonView);
             }
 		}
 
-
-        /// <summary>
-        /// Tries to apply the Collectible to a colliding player. Returns 'true' if consumed.
-        /// Override this method in your own Collectible script to implement custom behavior.
-        /// </summary>
         public virtual bool Apply(Player p)
 		{
-            //do something to the player
-            if (p == null)
-                return false;
-            else
-                return true;
-		}
+            return p != null;
+        }
 
 
-        /// <summary>
-        /// Virtual implementation called when this Collectible gets picked up.
-        /// This is called for CollectionType = Pickup items only.
-        /// </summary>
-        /*public virtual void OnPickup()
-        {
-        }*/
-
-
-        /// <summary>
-        /// Virtual implementation called when this Collectible gets dropped on player death.
-        /// This is called for CollectionType = Pickup items only.
-        /// </summary>
-        /*public virtual void OnDrop()
-        {
-        }*/
-
-
-        /// <summary>
-        /// Virtual implementation called when this Collectible gets returned.
-        /// This is called for CollectionType = Pickup items only.
-        /// </summary>
-        /*public virtual void OnReturn()
-        {
-        }*/
-
-
-        //if consumed, play audio clip. Now with the Collectible despawned,
-        //set the next spawn time on the managing ObjectSpawner script
-        /*void OnDespawn()
-        {
-            if (useClip) AudioManager.Play3D(useClip, transform.position);
-            carrierId = -1;
-            //spawner.SetRespawn();
-        }*/
+        
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (stream.IsWriting)
-            {
-                stream.SendNext(carrierId);
-            }
-            else
-            {
-                carrierId = (int)stream.ReceiveNext();
-            }
+
         }
     }
 }
