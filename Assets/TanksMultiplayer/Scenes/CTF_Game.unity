@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1418001178}
-  m_IndirectSpecularColor: {r: 0.85402375, g: 0.51799643, b: 0.97037596, a: 1}
+  m_IndirectSpecularColor: {r: 0.85414726, g: 0.5179868, b: 0.9704632, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9891,7 +9891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.2344, y: 6.5621}
+  m_AnchoredPosition: {x: 6.8, y: 6.5621}
   m_SizeDelta: {x: 171.2355, y: 44.6554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186264199
@@ -9911,10 +9911,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 37, y: 37}
+  m_CellSize: {x: 35, y: 35}
   m_Spacing: {x: 28.4, y: 12}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -16833,6 +16833,10 @@ PrefabInstance:
       propertyPath: mainContent
       value: 
       objectReference: {fileID: 266688087}
+    - target: {fileID: 2090048765, guid: d0c802f41ec262242925e8e44affa6c7, type: 3}
+      propertyPath: spawners.Array.data[0].isChest
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1000013481812936, guid: d0c802f41ec262242925e8e44affa6c7, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -23965,8 +23969,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151.01775, y: -22.3277}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.3277}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &431549121
 CanvasRenderer:
@@ -34111,8 +34115,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151.33965, y: -22.6908}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 144.3, y: -22.6908}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &632907085
 CanvasRenderer:
@@ -69570,8 +69574,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85.93965, y: -22.6908}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 80.9, y: -22.6908}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1287028781
 CanvasRenderer:
@@ -79386,8 +79390,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20.21775, y: -22.3277}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.3277}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1456699054
 CanvasRenderer:
@@ -88646,8 +88650,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85.61775, y: -22.3277}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.3277}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1643615869
 CanvasRenderer:
@@ -98681,8 +98685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20.53965, y: -22.6908}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.6908}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1835749144
 CanvasRenderer:
@@ -107682,7 +107686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.5809, y: 6.5908}
+  m_AnchoredPosition: {x: 6.8, y: 6.5908}
   m_SizeDelta: {x: 171.8793, y: 45.3816}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009418291
@@ -107702,10 +107706,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 37, y: 37}
+  m_CellSize: {x: 35, y: 35}
   m_Spacing: {x: 28.4, y: 12}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -111034,12 +111038,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPrefabs:
+  - {fileID: 112386, guid: f30ad63695c27504b8c2aa87564a6ccc, type: 3}
+  - {fileID: 112386, guid: c514d17be449d9d41b4be00bf058808f, type: 3}
+  - {fileID: 112386, guid: ca0d3e14cb38bae49acdad33ebcf4570, type: 3}
   - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
-  - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
-  - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
-  - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
-  - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
-  - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
+  - {fileID: 112386, guid: 2b031e5cf5181bb48aa8d5d99666b54b, type: 3}
+  - {fileID: 112386, guid: 76c4f3e4e3f79904ba5a9a2e5b2010e9, type: 3}
   spawnPoints:
   - {fileID: 4000013051301900}
   - {fileID: 4000013640562496}

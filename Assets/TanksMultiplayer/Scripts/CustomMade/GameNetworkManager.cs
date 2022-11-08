@@ -45,8 +45,6 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoom");
-
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
         PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, playerCount - 1);
@@ -54,8 +52,6 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        Debug.Log("OnPlayerPropertiesUpdate");
-
         if (targetPlayer == PhotonNetwork.LocalPlayer && 
             changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) && 
             changedProps.ContainsKey(Constants.KEY_TEAM))

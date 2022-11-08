@@ -11,20 +11,25 @@ namespace TanksMP
 {
     public class CollectibleTeam : Collectible
     {
-        public UnityEvent<Player, GameObject> OnCollectedEvent;
-
-        public override void OnTriggerEnter(Collider col)
+        [PunRPC]
+        public void RpcCollect()
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            PhotonNetwork.Destroy(photonView);
+        }
+
+        /*public override void OnTriggerEnter(Collider col)
+        {
+            
 
             GameObject obj = col.gameObject;
+
             Player player = obj.GetComponent<Player>();
 
             if (Apply(player))
             {
                 var view = player.photonView;
 
-                carrierId = view.ViewID;
+                player.photonView.RPC("RpcHasChest", RpcTarget.All, true);
 
                 if (view.IsMine)
                 {
@@ -35,30 +40,12 @@ namespace TanksMP
                     GPSManager.Instance.SetDestination(destination);
                 }
 
-                //OnPickup();
-                if (OnCollectedEvent != null)
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    OnCollectedEvent.Invoke(player, obj);
+                    PhotonNetwork.Destroy(photonView);
                 }
+                
             }
-        }
-
-        public override bool Apply(Player p)
-        {
-            /* Cannot collect this item if collider is not a player or already carried by other player */
-            if (p == null || carrierId > 0) return false;
-            
-            return true;
-        }
-
-        /*public override void OnDrop()
-        {
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
-
-        public override void OnReturn()
-        {
-
         }*/
     }
 }
