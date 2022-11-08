@@ -79,6 +79,11 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     private bool isExecutingActionAim;
     private bool isExecutingActionAttack;
 
+    [Header("Sound settings")]
+    public AudioClip m_hurtSFX;
+    public AudioClip m_deathSFX;
+    public AudioClip m_meleeAtkHitSFX;
+
     private void Start()
     {
         if (m_photonView == null)
@@ -99,12 +104,14 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void OnDamage()
     {
-        m_animator.SetTrigger(m_hurtTriggerName);
+        m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_hurtTriggerName);
+        m_photonView.RPC("RPCOnHurt", RpcTarget.All);
     }
 
     public virtual void OnDie()
     {
-        m_animator.SetTrigger(m_dieTriggerName);
+        m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_dieTriggerName);
+        m_photonView.RPC("RPCOnDie", RpcTarget.All);
         GiveRewards();
         StartCoroutine(Sink());
     }
@@ -235,6 +242,18 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         Gizmos.DrawWireSphere(transform.position, m_meleeRadius);
     }
 
+    public virtual void BitePlayer(Collider collider)
+    {
+        Player player = collider.GetComponent<Player>();
+        if (player && player == m_currTargetPlayer)
+        {
+            m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
+            player.TakeMonsterDamage(this);
+        }
+
+        EndAttack();
+    }
+
     //Shooting
 
     public void ShootAnimEvent()
@@ -328,5 +347,29 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         }
 
         playerKilled.onDieEvent.RemoveListener(OnPlayerKilled);
+    }
+
+    [PunRPC]
+    public void RPCPlayAnimationTrigger(string triggerName)
+    {
+        m_animator.SetTrigger(triggerName);
+    }
+
+    [PunRPC]
+    public void RPCOnHurt()
+    {
+        AudioManager.Play3D(m_hurtSFX, transform.position, 0.1f);
+    }
+
+    [PunRPC]
+    public void RPCOnDie()
+    {
+        AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
+    }
+
+    [PunRPC]
+    public void RPCOnMeleeHit()
+    {
+        AudioManager.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
     }
 }
