@@ -34,7 +34,7 @@ RenderSettings:
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 512
-  m_ReflectionBounces: 2
+  m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1418001178}
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: bfe9eeef563de27418b976d6d38fd36b, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: b4dca75ea71a48742918c739647835aa, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -8946,7 +8946,7 @@ GameObject:
   - component: {fileID: 170157962}
   m_Layer: 0
   m_Name: Post-process Volume
-  m_TagString: IgnoreBullet
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8964,9 +8964,9 @@ ReflectionProbe:
   m_Mode: 1
   m_RefreshMode: 2
   m_TimeSlicingMode: 0
-  m_Resolution: 128
+  m_Resolution: 512
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 10, y: 10, z: 10}
+  m_BoxSize: {x: 1000, y: 1000, z: 1000}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.1
   m_FarClip: 100000
@@ -8991,7 +8991,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170157961}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
@@ -9000,7 +9000,7 @@ MonoBehaviour:
   isGlobal: 1
   blendDistance: 0
   weight: 1
-  priority: 0
+  priority: 1
 --- !u!65 &170157964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9010,7 +9010,7 @@ BoxCollider:
   m_GameObject: {fileID: 170157961}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -9023,7 +9023,7 @@ Transform:
   m_GameObject: {fileID: 170157961}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2288.8, y: 93.135, z: 12936.1}
-  m_LocalScale: {x: 1590.4905, y: 1590.4905, z: 1590.4905}
+  m_LocalScale: {x: 1270, y: 1270, z: 1270}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -11594,7 +11594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &211617647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11638,7 +11638,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.14629725, g: 0.8867924, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -11659,16 +11659,16 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
+  m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!4 &211617650
@@ -11679,7 +11679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211617646}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -30, y: 1000, z: 0}
+  m_LocalPosition: {x: -189, y: 1000, z: 70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15316,7 +15316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &273897649
 Transform:
   m_ObjectHideFlags: 0
@@ -45008,7 +45008,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 609eaefcdba5eae42b580908c105f72d, type: 2}
     - target: {fileID: 5986448977431246836, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_SplatMapDistance
-      value: 1000
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 5986448977431246836, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_ShadowCastingMode
@@ -45024,7 +45024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5986448977431246836, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_DrawTreesAndFoliage
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5986448977431246836, guid: 1e67666a055f54143b544ec36b8f8712, type: 3}
       propertyPath: m_TreeCrossFadeLength
@@ -61954,15 +61954,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166590111}
-  m_LocalRotation: {x: -0, y: 0.48835576, z: -0, w: -0.87264466}
-  m_LocalPosition: {x: -2507, y: 122.1, z: 13032}
+  m_LocalRotation: {x: -0, y: 0.6190097, z: -0, w: -0.78538334}
+  m_LocalPosition: {x: -2476.2, y: 99.6, z: 13082.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 729047809}
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 301.535, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 283.512, z: 0}
 --- !u!114 &1166590117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64077,7 +64077,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 59.52, y: 291.11798, z: 217.633}
 --- !u!1 &1218691205
 GameObject:
@@ -83060,7 +83060,7 @@ PrefabInstance:
     - target: {fileID: 7028400960067018614, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 31bceca6b766d42498e1b88343dbddf0, type: 2}
+      objectReference: {fileID: 2100000, guid: 181dc27a4ee4fe44eadc70a35187e796, type: 2}
     - target: {fileID: 7028400960068787604, guid: a05f79dbee864be43a782fe46d892e5a, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -112030,7 +112030,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4557924242678262166, guid: f348d7ea80b28804ebde66ddfd995514, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4557924242678262166, guid: f348d7ea80b28804ebde66ddfd995514, type: 3}
       propertyPath: m_LocalPosition.x
