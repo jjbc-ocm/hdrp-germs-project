@@ -99,6 +99,8 @@ namespace TanksMP
 
         private Vector3 shipRotation;
 
+        private bool isRespawning;
+
         #endregion
 
         
@@ -111,8 +113,10 @@ namespace TanksMP
 
         public GameObject IconIndicator { get => iconIndicator; }
 
+        public bool IsRespawning { get => isRespawning; }
 
-        
+
+
 
         #region Unity
 
@@ -239,10 +243,12 @@ namespace TanksMP
             if (stream.IsWriting)
             {
                 stream.SendNext(shipRotation);
+                stream.SendNext(isRespawning);
             }
             else
             {
                 shipRotation = (Vector3)stream.ReceiveNext();
+                isRespawning = (bool)stream.ReceiveNext();
             }
         }
 
@@ -330,6 +336,8 @@ namespace TanksMP
         [PunRPC]
         public void RpcRevive()
         {
+            isRespawning = false;
+
             ToggleFunction(true);
 
             if (photonView.IsMine)
@@ -523,6 +531,8 @@ namespace TanksMP
 
         private IEnumerator SpawnRoutine()
         {
+            isRespawning = true;
+
             float targetTime = Time.time + 3;
 
             while (targetTime - Time.time > 0)

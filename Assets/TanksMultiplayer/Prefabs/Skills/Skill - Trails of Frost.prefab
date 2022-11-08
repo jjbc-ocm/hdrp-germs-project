@@ -49,9 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b957389eafd645141b5f04d7b8a0dafd, type: 2}
   damage: 30
-  lifeSpan: 5
-  trailSpeed: 100
-  prefabDebugBox: {fileID: 1773652319260237928}
+  lifeSpan: 4
+  trailSpeed: 200
+  prefabDebugBox: {fileID: 5289786657155151200}
 --- !u!65 &2473134198470058499
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63,8 +63,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 13, y: 10, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 5, y: 5, z: 5}
+  m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!1 &1773652319260237928
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +220,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198359558336585572, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198359558336585572, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.0001
       objectReference: {fileID: 0}
@@ -228,12 +232,20 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 198377156209513194, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198377156209513194, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198377156209513194, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 198523914007505512, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198523914007505512, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: RotationModule.enabled
@@ -252,6 +264,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198538722244800198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198538722244800198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 2.11
       objectReference: {fileID: 0}
@@ -262,6 +278,10 @@ PrefabInstance:
     - target: {fileID: 198538722244800198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.scalar
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 198829113665399866, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198829113665399866, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: ShapeModule.angle
@@ -284,12 +304,20 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 198863157188609108, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198863157188609108, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 198863157188609108, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198988914567652326, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: looping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198988914567652326, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: ShapeModule.m_Scale.x
@@ -304,5 +332,10 @@ PrefabInstance:
 --- !u!4 &5288047467684874688 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+  m_PrefabInstance: {fileID: 5290907902606932990}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5289786657155151200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
   m_PrefabInstance: {fileID: 5290907902606932990}
   m_PrefabAsset: {fileID: 0}
