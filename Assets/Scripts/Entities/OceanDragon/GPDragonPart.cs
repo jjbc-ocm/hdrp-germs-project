@@ -83,7 +83,7 @@ public class GPDragonPart : GPMonsterBase
             triggerToActivate = PickAttack(m_projectileAtkTriggerNames);
         }
 
-        m_animator.SetTrigger(triggerToActivate);
+        m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, triggerToActivate);
         ChangeState(DRAGON_STATES.kIdle);
     }
 
@@ -106,17 +106,6 @@ public class GPDragonPart : GPMonsterBase
         }
 
         m_currentState = newState;
-    }
-
-    public void BitePlayer(Collider collider)
-    {
-        Player player = collider.GetComponent<Player>();
-        if (player && player == m_currTargetPlayer)
-        {
-            player.TakeMonsterDamage(this);
-        }
-
-        EndAttack();
     }
 
 }

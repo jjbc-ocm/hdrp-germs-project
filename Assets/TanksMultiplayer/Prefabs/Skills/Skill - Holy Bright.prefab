@@ -30,8 +30,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3213975989610528032}
   - {fileID: 2333827479296517757}
+  - {fileID: 3213975989610528032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61,10 +61,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a5bd678097ef7684299ae2159e361523, type: 2}
-  damage: 30
+  damage: 3
   lifeSpan: 5
-  trailSpeed: 100
-  prefabDebugBox: {fileID: 1773652319260237928}
+  sustainDelay: 0.5
+  trailSpeed: 10000
 --- !u!1 &1773652319260237928
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3213975989610528032
 Transform:
   m_ObjectHideFlags: 0
@@ -96,7 +96,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4000012126426226}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3101378394679899294
 MeshFilter:
@@ -169,11 +169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2452431822119802724, guid: e7c59611687a9b5488ef64b81974b83b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2452431822119802727, guid: e7c59611687a9b5488ef64b81974b83b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2452431822119802727, guid: e7c59611687a9b5488ef64b81974b83b, type: 3}
       propertyPath: m_LocalPosition.x

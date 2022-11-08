@@ -9,57 +9,56 @@ using Photon.Pun;
 
 namespace TanksMP
 {
-  public class CollectibleTeam : Collectible
-  {
-    public UnityEvent<Player, GameObject> OnCollectedEvent;
-
-    public override void OnTriggerEnter(Collider col)
+    public class CollectibleTeam : Collectible
     {
-      if (!PhotonNetwork.IsMasterClient)
-        return;
+        public UnityEvent<Player, GameObject> OnCollectedEvent;
 
-      GameObject obj = col.gameObject;
-      Player player = obj.GetComponent<Player>();
-
-      if (Apply(player))
-      {
-        var view = player.photonView;
-
-        carrierId = view.ViewID;
-
-        if (view.IsMine)
+        public override void OnTriggerEnter(Collider col)
         {
-          var destination = view.GetTeam() == 0
-              ? GameManager.GetInstance().zoneRed.transform.position
-              : GameManager.GetInstance().zoneBlue.transform.position;
+            if (!PhotonNetwork.IsMasterClient) return;
 
-          GPSManager.Instance.SetDestination(destination);
+            GameObject obj = col.gameObject;
+            Player player = obj.GetComponent<Player>();
+
+            if (Apply(player))
+            {
+                var view = player.photonView;
+
+                carrierId = view.ViewID;
+
+                if (view.IsMine)
+                {
+                    var destination = view.GetTeam() == 0
+                        ? GameManager.GetInstance().zoneRed.transform.position
+                        : GameManager.GetInstance().zoneBlue.transform.position;
+
+                    GPSManager.Instance.SetDestination(destination);
+                }
+
+                //OnPickup();
+                if (OnCollectedEvent != null)
+                {
+                    OnCollectedEvent.Invoke(player, obj);
+                }
+            }
         }
 
-        //OnPickup();
-        if (OnCollectedEvent != null)
+        public override bool Apply(Player p)
         {
-          OnCollectedEvent.Invoke(player, obj);
+            /* Cannot collect this item if collider is not a player or already carried by other player */
+            if (p == null || carrierId > 0) return false;
+            
+            return true;
         }
-      }
-    }
 
-    public override bool Apply(Player p)
-    {
-      /* Cannot collect this item if collider is not a player or already carried by other player */
-      if (p == null || carrierId > 0)
-        return false;
+        /*public override void OnDrop()
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
 
-      return true;
-    }
-    public override void OnDrop()
-    {
-      GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-    }
+        public override void OnReturn()
+        {
 
-    public override void OnReturn()
-    {
-
+        }*/
     }
-  }
 }

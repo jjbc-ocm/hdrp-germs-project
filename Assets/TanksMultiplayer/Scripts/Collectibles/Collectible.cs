@@ -41,19 +41,26 @@ namespace TanksMP
 
         void Update()
         {
-            if (carrierId > 0)
-            {
-                var target = PhotonNetwork.GetPhotonView(carrierId);
+            var carrier = PhotonNetwork.GetPhotonView(carrierId);
 
-                if (target != null)
+            if (carrier != null)
+            {
+                var player = carrier.GetComponent<Player>();
+
+                if (player.IsRespawning)
                 {
-                    transform.position = target.transform.position;
+                    carrierId = -1;
                 }
+                else
+                {
+                    transform.position = carrier.transform.position;
+                }
+                
             }
 
             if (graphics != null)
             {
-                graphics.SetActive(carrierId <= 0);
+                graphics.SetActive(carrier == null);
             }
         }
 
@@ -98,37 +105,37 @@ namespace TanksMP
         /// Virtual implementation called when this Collectible gets picked up.
         /// This is called for CollectionType = Pickup items only.
         /// </summary>
-        public virtual void OnPickup()
+        /*public virtual void OnPickup()
         {
-        }
+        }*/
 
 
         /// <summary>
         /// Virtual implementation called when this Collectible gets dropped on player death.
         /// This is called for CollectionType = Pickup items only.
         /// </summary>
-        public virtual void OnDrop()
+        /*public virtual void OnDrop()
         {
-        }
+        }*/
 
 
         /// <summary>
         /// Virtual implementation called when this Collectible gets returned.
         /// This is called for CollectionType = Pickup items only.
         /// </summary>
-        public virtual void OnReturn()
+        /*public virtual void OnReturn()
         {
-        }
+        }*/
 
 
         //if consumed, play audio clip. Now with the Collectible despawned,
         //set the next spawn time on the managing ObjectSpawner script
-        void OnDespawn()
+        /*void OnDespawn()
         {
             if (useClip) AudioManager.Play3D(useClip, transform.position);
             carrierId = -1;
             //spawner.SetRespawn();
-        }
+        }*/
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
