@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+using System.Linq;
 
 namespace TanksMP
 {
@@ -97,13 +98,19 @@ namespace TanksMP
 
         #region Network Sync
 
+        //private int health;
+
+        //private int mana;
+
         private Vector3 shipRotation;
 
-        private bool isRespawning;
+        //private bool hasChest;
 
         #endregion
 
-        
+        //public int Health { get => health; }
+
+        //public int Mana { get => mana; }
 
         public int MaxHealth { get => maxHealth; }
 
@@ -113,7 +120,7 @@ namespace TanksMP
 
         public GameObject IconIndicator { get => iconIndicator; }
 
-        public bool IsRespawning { get => isRespawning; }
+        //public bool HasChest { get => hasChest; }
 
 
 
@@ -234,6 +241,43 @@ namespace TanksMP
             prevMoveDir = moveDir;
         }
 
+        void OnTriggerEnter(Collider col)
+        {
+            if (!photonView.IsMine) return;
+
+            var collectibleZone = col.GetComponent<CollectibleZone>();
+
+            var collectibleTeam = col.GetComponent<CollectibleTeam>();
+
+            var collectible = col.GetComponent<Collectible>();
+
+            /* Handle collision to the collectible zone */
+            if (collectibleZone != null && 
+                photonView.GetTeam() == collectibleZone.teamIndex && 
+                photonView.HasChest())
+            {
+                photonView.HasChest(false);
+
+                collectibleZone.OnDropChest();
+            }
+
+            /* Handle collision to chest */
+            else if (collectibleTeam != null)
+            {
+                photonView.HasChest(true);
+
+                collectibleTeam.photonView.RPC("RpcCollect", RpcTarget.MasterClient);
+            }
+
+            /* Handle collision to normal item */
+            else if (collectible != null)
+            {
+
+            }
+
+            // TODO: bullet collision should be handled here actually
+        }
+
         #endregion
 
         #region Photon
@@ -242,13 +286,17 @@ namespace TanksMP
         {
             if (stream.IsWriting)
             {
+                //stream.SendNext(health);
+                //stream.SendNext(mana);
                 stream.SendNext(shipRotation);
-                stream.SendNext(isRespawning);
+                //stream.SendNext(hasChest);
             }
             else
             {
+                //health = (int)stream.ReceiveNext();
+                //mana = (int)stream.ReceiveNext();
                 shipRotation = (Vector3)stream.ReceiveNext();
-                isRespawning = (bool)stream.ReceiveNext();
+                //hasChest = (bool)stream.ReceiveNext();
             }
         }
 
@@ -336,8 +384,6 @@ namespace TanksMP
         [PunRPC]
         public void RpcRevive()
         {
-            isRespawning = false;
-
             ToggleFunction(true);
 
             if (photonView.IsMine)
@@ -391,15 +437,12 @@ namespace TanksMP
                     }
                 }
 
-                /* Handle collectible drops */
-                var collectibles = GetComponentsInChildren<Collectible>(true);
+                /* Handle collected chest */
+                photonView.HasChest(false);
 
-                for (int i = 0; i < collectibles.Length; i++)
-                {
-                    // TODO: need to handle dropping of chest here
-                    //PhotonNetwork.RemoveRPCs(collectibles[i].spawner.photonView);
-                    //collectibles[i].spawner.photonView.RPC("Drop", RpcTarget.AllBuffered, transform.position);
-                }
+                var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
+
+                PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
                 /* Reset health, prepare for their respawn */
                 photonView.SetHealth(maxHealth);
@@ -531,9 +574,7 @@ namespace TanksMP
 
         private IEnumerator SpawnRoutine()
         {
-            isRespawning = true;
-
-            float targetTime = Time.time + 3;
+            float targetTime = Time.time + 10;
 
             while (targetTime - Time.time > 0)
             {

@@ -147,7 +147,20 @@ namespace TanksMP
         /// </summary>
         public void AddScore(ScoreType scoreType, int teamIndex)
         {
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
+            switch (scoreType)
+            {
+                case ScoreType.Capture:
+                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
+
+                    GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
+                    break;
+
+                case ScoreType.Kill:
+                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
+                    break;
+            }
+
+            /*if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
             {
                 var intMode = Convert.ToInt32(mode);
 
@@ -180,8 +193,8 @@ namespace TanksMP
                         }
                         break;
                 }
-            }
-            
+            }*/
+
         }
         
 

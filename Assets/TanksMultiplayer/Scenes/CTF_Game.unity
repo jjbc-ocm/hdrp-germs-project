@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1418001178}
-  m_IndirectSpecularColor: {r: 0.85402375, g: 0.51799643, b: 0.97037596, a: 1}
+  m_IndirectSpecularColor: {r: 0.85414726, g: 0.5179868, b: 0.9704632, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9891,7 +9891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.2344, y: 6.5621}
+  m_AnchoredPosition: {x: 6.8, y: 6.5621}
   m_SizeDelta: {x: 171.2355, y: 44.6554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186264199
@@ -9911,10 +9911,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 37, y: 37}
+  m_CellSize: {x: 35, y: 35}
   m_Spacing: {x: 28.4, y: 12}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -16833,6 +16833,10 @@ PrefabInstance:
       propertyPath: mainContent
       value: 
       objectReference: {fileID: 266688087}
+    - target: {fileID: 2090048765, guid: d0c802f41ec262242925e8e44affa6c7, type: 3}
+      propertyPath: spawners.Array.data[0].isChest
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1000013481812936, guid: d0c802f41ec262242925e8e44affa6c7, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -23965,8 +23969,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151.01775, y: -22.3277}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.3277}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &431549121
 CanvasRenderer:
@@ -34111,8 +34115,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151.33965, y: -22.6908}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 144.3, y: -22.6908}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &632907085
 CanvasRenderer:
@@ -36254,7 +36258,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 80
+    m_Bits: 128
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 2220edfd43517604a9e7a1d57a46ea7b, type: 2}
   m_TargetDisplay: 0
@@ -69570,8 +69574,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85.93965, y: -22.6908}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 80.9, y: -22.6908}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1287028781
 CanvasRenderer:
@@ -79386,8 +79390,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20.21775, y: -22.3277}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.3277}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1456699054
 CanvasRenderer:
@@ -88646,8 +88650,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85.61775, y: -22.3277}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.3277}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1643615869
 CanvasRenderer:
@@ -98681,8 +98685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20.53965, y: -22.6908}
-  m_SizeDelta: {x: 37, y: 37}
+  m_AnchoredPosition: {x: 17.5, y: -22.6908}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1835749144
 CanvasRenderer:
@@ -107682,7 +107686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.5809, y: 6.5908}
+  m_AnchoredPosition: {x: 6.8, y: 6.5908}
   m_SizeDelta: {x: 171.8793, y: 45.3816}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009418291
@@ -107702,10 +107706,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 37, y: 37}
+  m_CellSize: {x: 35, y: 35}
   m_Spacing: {x: 28.4, y: 12}
   m_Constraint: 0
   m_ConstraintCount: 2
