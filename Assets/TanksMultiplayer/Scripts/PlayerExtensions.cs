@@ -16,7 +16,7 @@ namespace TanksMP
     {
         public const string team = "team";
 
-
+        public const string hasChest = "hasChest";
         public const string health = "health";
         public const string mana = "mana";
         public const string regen = "regen";
@@ -38,6 +38,11 @@ namespace TanksMP
         public static int GetTeam(this PhotonView player)
         {
             return player.Owner.GetTeam();
+        }
+
+        public static bool HasChest(this PhotonView player)
+        {
+            return player.Owner.HasChest();
         }
 
         public static int GetHealth(this PhotonView player)
@@ -88,6 +93,11 @@ namespace TanksMP
         public static int GetGold(this PhotonView player)
         {
             return player.Owner.GetGold();
+        }
+
+        public static void HasChest(this PhotonView player, bool value)
+        {
+            player.Owner.HasChest(value);
         }
 
         public static void SetHealth(this PhotonView player, int value)
@@ -154,6 +164,11 @@ namespace TanksMP
 
         #region For Photon Player
 
+        public static bool HasChest(this Photon.Realtime.Player player)
+        {
+            return System.Convert.ToBoolean(player.CustomProperties[hasChest]);
+        }
+
         public static int GetHealth(this Photon.Realtime.Player player)
         {
             return System.Convert.ToInt32(player.CustomProperties[health]);
@@ -207,6 +222,11 @@ namespace TanksMP
         public static void SetTeam(this Photon.Realtime.Player player, int teamIndex)
         {
             player.SetCustomProperties(new Hashtable() { { team, (byte)teamIndex } });
+        }
+
+        public static void HasChest(this Photon.Realtime.Player player, bool value)
+        {
+            player.SetCustomProperties(new Hashtable() { { hasChest, value } });
         }
 
         public static void SetHealth(this Photon.Realtime.Player player, int value)

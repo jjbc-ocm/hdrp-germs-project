@@ -18,5 +18,7 @@ public class BurningColdManager : SkillBaseManager
         if (!PhotonNetwork.IsMasterClient) return;
 
         autoTarget.TakeDamage(this);
+
+        //autoTarget.photonView.RPC("RpcHpDamage", RpcTarget.All, damage, owner.photonView.ViewID);
     }
 }
