@@ -32,12 +32,6 @@ namespace TanksMP
 
         /// <summary>
         /// Added by: Jilmer John
-        /// Use this as reference for mainCamera
-        /// </summary>
-        public Camera mainCamera;
-
-        /// <summary>
-        /// Added by: Jilmer John
         /// </summary>
         public CollectibleZone zoneRed;
 
@@ -45,11 +39,6 @@ namespace TanksMP
         /// Added by: Jilmer John
         /// </summary>
         public CollectibleZone zoneBlue;
-
-        /// <summary>
-        /// Active game mode played in the current scene.
-        /// </summary>
-        //public GameMode gameMode = GameMode.CaptureTheChest;
 
         /// <summary>
         /// Reference to the UI script displaying game stats.
@@ -70,11 +59,6 @@ namespace TanksMP
         /// The delay in seconds before respawning a player after it got killed.
         /// </summary>
         public int respawnTime = 5;
-
-        /// <summary>
-        /// Enable or disable friendly fire. This is verified in the Bullet script on collision.
-        /// </summary>
-        public bool friendlyFire = false;
 
 
         //initialize variables
@@ -159,42 +143,6 @@ namespace TanksMP
                     PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
                     break;
             }
-
-            /*if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
-            {
-                var intMode = Convert.ToInt32(mode);
-
-                var enumMode = (GameMode)intMode;
-
-                switch (enumMode)
-                {
-                    case GameMode.CaptureTheChest:
-
-                        switch (scoreType)
-                        {
-                            case ScoreType.Capture:
-                                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
-
-                                GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
-                                break;
-
-                            case ScoreType.Kill:
-                                // If killed an enemy, give score of coins?
-                                break;
-                        }
-                        break;
-
-                    case GameMode.DeathMatch:
-                        switch (scoreType)
-                        {
-                            case ScoreType.Kill:
-                                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
-                                break;
-                        }
-                        break;
-                }
-            }*/
-
         }
         
 
