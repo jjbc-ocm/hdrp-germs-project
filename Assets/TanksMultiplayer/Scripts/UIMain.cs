@@ -96,25 +96,28 @@ namespace TanksMP
             UnityIAPManager.purchaseFailedEvent += OnBillingError;
         }
 
+        public void DebugPlay()
+        {
+            uiLoading.gameObject.SetActive(true);
 
-        /// <summary>
-        /// Tries to enter the game scene. Sets the loading screen active while connecting to the
-        /// Matchmaker and starts the timeout coroutine at the same time.
-        /// </summary>
+            MenuNetworkManager.Instance.enabled = false;
+
+            DebugMenuNetworkManager.Instance.Play((text) =>
+            {
+                uiLoading.Text = text;
+            });
+        }
+
         public void Play()
         {
-            //UnityAnalyticsManager.MainSceneClosed(shopOpened, settingsOpened, musicToggle.isOn,
-            //                      Encryptor.Decrypt(PlayerPrefs.GetString(PrefsKeys.activeTank)));
-
             uiLoading.gameObject.SetActive(true);
+
+            DebugMenuNetworkManager.Instance.enabled = false;
 
             MenuNetworkManager.Instance.Play((text) =>
             {
                 uiLoading.Text = text;
             });
-
-            //NetworkManagerCustom.StartMatch((NetworkMode)PlayerPrefs.GetInt(PrefsKeys.networkMode));
-            //StartCoroutine(HandleTimeout());
         }
 
 
