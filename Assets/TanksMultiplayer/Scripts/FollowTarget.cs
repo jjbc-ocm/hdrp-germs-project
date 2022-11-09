@@ -44,17 +44,13 @@ namespace TanksMP
         /// </summary>
         public float height = 5.0f;
 
-        /// <summary>
-        /// Reference to the Camera component.
-        /// </summary>
-        [HideInInspector]
-        public Camera cam;
+        private Camera cam;
         
-        /// <summary>
-        /// Reference to the camera Transform.
-        /// </summary>
-        [HideInInspector]
-        public Transform camTransform;
+        private Transform camTransform;
+
+        public Camera Cam { get => cam; }
+
+        public Transform CamTransform { get => camTransform; }
         
         
         //initialize variables

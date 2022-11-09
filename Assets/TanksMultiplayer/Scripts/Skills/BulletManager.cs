@@ -47,10 +47,10 @@ namespace TanksMP
 
         void OnTriggerEnter(Collider col)
         {
-            if (col.CompareTag("IgnoreBullet")) // ignore collision
+            /*if (col.CompareTag("IgnoreBullet")) // ignore collision
             {
                 return;
-            }
+            }*/
 
             //cache corresponding gameobject that was hit
             GameObject obj = col.gameObject;

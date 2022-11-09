@@ -98,19 +98,9 @@ namespace TanksMP
 
         #region Network Sync
 
-        //private int health;
-
-        //private int mana;
-
         private Vector3 shipRotation;
 
-        //private bool hasChest;
-
         #endregion
-
-        //public int Health { get => health; }
-
-        //public int Mana { get => mana; }
 
         public int MaxHealth { get => maxHealth; }
 
@@ -119,8 +109,6 @@ namespace TanksMP
         public Sprite SpriteIcon { get => spriteIcon; }
 
         public GameObject IconIndicator { get => iconIndicator; }
-
-        //public bool HasChest { get => hasChest; }
 
 
 
@@ -146,11 +134,16 @@ namespace TanksMP
                 return;
 
 			//set a global reference to the local player
-            GameManager.GetInstance().localPlayer = this;
-
+            if (GameManager.GetInstance() != null)
+            {
+                GameManager.GetInstance().localPlayer = this;
+            }
+            
             //get components and set camera target
             rigidBody = GetComponent<Rigidbody>();
-            camFollow = GameManager.GetInstance().mainCamera.GetComponent<FollowTarget>();
+
+            camFollow = FindObjectOfType<FollowTarget>();
+
             camFollow.target = transform;
         }
 
@@ -183,7 +176,7 @@ namespace TanksMP
 
                 aimIndicator.SetActive(true);
 
-                var ray = GameManager.GetInstance().mainCamera.ScreenPointToRay(Input.mousePosition);
+                var ray = camFollow.Cam.ScreenPointToRay(Input.mousePosition);
 
                 var layerName = action.Aim == AimType.Water ? "Water" : "Ship";
 
@@ -286,17 +279,11 @@ namespace TanksMP
         {
             if (stream.IsWriting)
             {
-                //stream.SendNext(health);
-                //stream.SendNext(mana);
                 stream.SendNext(shipRotation);
-                //stream.SendNext(hasChest);
             }
             else
             {
-                //health = (int)stream.ReceiveNext();
-                //mana = (int)stream.ReceiveNext();
                 shipRotation = (Vector3)stream.ReceiveNext();
-                //hasChest = (bool)stream.ReceiveNext();
             }
         }
 
@@ -519,7 +506,7 @@ namespace TanksMP
 
                 var forward = new Vector3(x, 0, z);
 
-                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.camTransform.eulerAngles.y, 0);
+                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.CamTransform.eulerAngles.y, 0);
             }
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
