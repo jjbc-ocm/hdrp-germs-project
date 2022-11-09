@@ -4,20 +4,47 @@ using UnityEngine;
 using TanksMP;
 using Photon.Pun;
 
+public enum AttackPickType
+{
+    kSecuence, // iterate teh attacks in order
+    kRandom, // pick a random attack from the list
+}
+
+public enum DamageDetectionType
+{
+    kAlwaysDamageTarget, // always damage targeted player
+    kDamageOnCollision, // damage only if the targeted player was inside the melee trigger
+}
+
+public enum MONSTER_STATES
+{
+    kIdle,
+    kAttacking,
+}
+
+[System.Serializable]
+public class MonsterAttackDesc
+{
+    public string m_triggerName;
+    public float m_duration = 1.0f;
+}
+
+[System.Serializable]
+public class MonsterMeleeAttackDesc : MonsterAttackDesc
+{
+  public DamageDetectionType m_damageType;
+  public int m_damage = 10;
+}
+
+[System.Serializable]
+public class MonsterProjectileAttackDesc : MonsterAttackDesc
+{
+  [SerializeField]
+  public SkillData attack;
+}
+
 public class GPMonsterBase : MonoBehaviourPunCallbacks
 {
-    public enum AttackPickType
-    {
-        kSecuence, // iterate teh attacks in order
-        kRandom, // pick a random attack from the list
-    }
-
-    public enum DamageDetectionType
-    {
-        kAlwaysDamageTarget, // always damage targeted player
-        kDamageOnCollision, // damage only if the targeted player was inside the melee trigger
-    }
-
     [Header("Component references")]
     public PhotonView m_photonView;
     public GPHealth m_health;
@@ -31,19 +58,17 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     [Header("Animation settings")]
     public Animator m_animator;
-    public List<string> m_meleeAtkTriggerNames;
-    public List<string> m_projectileAtkTriggerNames;
+    public List<MonsterMeleeAttackDesc> m_meleeAtks;
+    public List<MonsterProjectileAttackDesc> m_projectileAtks;
     public string m_dieTriggerName = "Die";
     public string m_hurtTriggerName = "Take damage";
 
     [Header("Attack settings")]
     public AttackPickType m_pickType;
-    public DamageDetectionType m_damageDetectionType;
-    [SerializeField]
-    private SkillData attack;
     [SerializeField]
     private SkillData skill;
-    int m_currAttkIdx = 0;
+    int m_currMeleeAttkIdx = 0;
+    int m_currProjectileAttkIdx = 0;
     public int m_damagePoints = 100;
     public float m_meleeRadius = 3.0f;
     public float m_minAttackTime = 1.0f;
@@ -54,6 +79,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public float m_nextAttackTimeCounter = 0.0f;
     [HideInInspector]
     public Player m_currTargetPlayer;
+    public MonsterAttackDesc m_currAtk;
 
     [HideInInspector]
     public List<Player> m_playersInRange = new List<Player>();
@@ -65,6 +91,13 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [Header("Death settings")]
     public float m_destroyTime = 1.0f;
     public float m_sinkSpeed = 2.0f;
+
+    [Header("Respawn settings")]
+    [Tooltip("Time until monster is respawned. In Seconds.")]
+    public float m_respawnTime = 120.0f;
+    float m_respawnTimeCounter = 0.0f;
+    [HideInInspector]
+    public Vector3 m_respawnPosition;
 
     [Header("Gold settings")]
     [Tooltip("This key should be defined on the reward system prefab.")]
@@ -84,11 +117,41 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public AudioClip m_deathSFX;
     public AudioClip m_meleeAtkHitSFX;
 
-    private void Start()
+    public void BaseStart()
     {
         if (m_photonView == null)
         {
             m_photonView = GetComponent<PhotonView>();
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            m_health.OnDieEvent.AddListener(OnDie);
+            m_health.OnDamagedEvent.AddListener(OnDamage);
+            m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
+            m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
+            m_meleeDamageTrigger.m_OnEnterEvent.AddListener(BitePlayer);
+        }
+
+        m_respawnPosition = transform.position;
+    }
+
+    public void LiveUpdate()
+    {
+        
+    }
+
+    public void DeathUpdate()
+    {
+        if (m_health.m_isDead)
+        {
+            m_respawnTimeCounter += Time.deltaTime;
+            if (m_respawnTimeCounter >= m_respawnTime)
+            {
+                m_respawnTimeCounter = 0.0f;
+                m_health.Resurrect();
+                StartCoroutine(Emerge());
+            }
         }
     }
 
@@ -104,6 +167,10 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void OnDamage()
     {
+        if (true)
+        {
+
+        }
         m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_hurtTriggerName);
         m_photonView.RPC("RPCOnHurt", RpcTarget.All);
     }
@@ -125,7 +192,14 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             transform.position -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
             yield return new WaitForFixedUpdate();
         }
-        Destroy(gameObject);
+        //Destroy(gameObject);
+    }
+
+    public IEnumerator Emerge()
+    {
+        transform.position = m_respawnPosition;
+        yield return 0;
+        //TODO: Play emerge animation
     }
 
     public virtual void DamageMonster(BulletManager bullet)
@@ -146,7 +220,9 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void DamagePlayer(Player player)
     {
-        player.TakeMonsterDamage(this);
+        MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
+        if (meleeAtk == null) { return; }
+        player.TakeMonsterDamage(meleeAtk);
     }
 
     public virtual void OnPlayerEnter(Collider other)
@@ -193,13 +269,21 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         }
     }
 
+    //For melee attacks, if I rename teh method animation events will be lost
     public void StartAttack()
     {
-        if (m_damageDetectionType == DamageDetectionType.kAlwaysDamageTarget)
+        MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
+        if (m_currTargetPlayer == null || meleeAtk == null)
         {
-            m_currTargetPlayer.TakeMonsterDamage(this);
+            EndAttack();
+            return;
         }
-        else if (m_damageDetectionType == DamageDetectionType.kDamageOnCollision)
+
+        if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
+        {
+            m_currTargetPlayer.TakeMonsterDamage(meleeAtk);
+        }
+        else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
             m_meleeDamageTrigger.SetEnabled(true);
         }
@@ -210,24 +294,48 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         m_meleeDamageTrigger.SetEnabled(false);
     }
 
-    public string PickAttack(List<string> atkList)
+    public MonsterAttackDesc PickMeleeAttack()
     {
         int attackIndex = 0;
         if (m_pickType == AttackPickType.kRandom)
         {
-            attackIndex = Random.Range(0, atkList.Count);
+            attackIndex = Random.Range(0, m_meleeAtks.Count);
         }
         else if (m_pickType == AttackPickType.kSecuence)
         {
-            attackIndex = m_currAttkIdx;
-            m_currAttkIdx++;
-            if (m_currAttkIdx >= atkList.Count) // loop the attacks
+            attackIndex = m_currMeleeAttkIdx;
+            m_currMeleeAttkIdx++;
+            if (m_currMeleeAttkIdx >= m_meleeAtks.Count) // loop the attacks
             {
-                m_currAttkIdx = 0;
+                m_currMeleeAttkIdx = 0;
             }
         }
-        return atkList[attackIndex];
 
+        m_currAtk = m_meleeAtks[attackIndex];
+
+        return m_meleeAtks[attackIndex];
+    }
+
+    public MonsterAttackDesc PickProjectileAttack()
+    {
+        int attackIndex = 0;
+        if (m_pickType == AttackPickType.kRandom)
+        {
+            attackIndex = Random.Range(0, m_projectileAtks.Count);
+        }
+        else if (m_pickType == AttackPickType.kSecuence)
+        {
+            attackIndex = m_currProjectileAttkIdx;
+            m_currProjectileAttkIdx++;
+            if (m_currProjectileAttkIdx >= m_projectileAtks.Count) // loop the attacks
+            {
+                m_currProjectileAttkIdx = 0;
+            }
+        }
+
+        m_currAtk = m_projectileAtks[attackIndex];
+
+        return m_projectileAtks[attackIndex];
     }
 
     public virtual void LookAtTarget(Transform target)
@@ -245,10 +353,13 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public virtual void BitePlayer(Collider collider)
     {
         Player player = collider.GetComponent<Player>();
+        MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
+        if (meleeAtk == null) { return; }
+
         if (player && player == m_currTargetPlayer)
         {
             m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
-            player.TakeMonsterDamage(this);
+            player.TakeMonsterDamage(meleeAtk);
         }
 
         EndAttack();
@@ -258,11 +369,13 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public void ShootAnimEvent()
     {
-        if (m_currTargetPlayer == null)
+        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
+        if (m_currTargetPlayer == null || projAtk == null)
         {
             return;
         }
-        ExecuteAction(attack, true);
+
+        ExecuteAction(projAtk.attack, true);
     }
 
     private void ExecuteAction(SkillData action, bool isAttack)
@@ -293,7 +406,9 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     private void ExecuteActionInstantly(Vector3 aimPosition, bool isAttack)
     {
-        var action = isAttack ? attack : skill;
+        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
+        if (projAtk == null) { return; }
+        var action = isAttack ? projAtk.attack : skill;
 
         isExecutingActionAim = false;
 
@@ -310,7 +425,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RpcAction(float[] position, float[] target, bool isAttack)
     {
-        var action = isAttack ? attack : skill;
+        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
+        var action = isAttack ? projAtk.attack : skill;
 
         /* Steps
          * 1. Calculate the rotation ased on position and target

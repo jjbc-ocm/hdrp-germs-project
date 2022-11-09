@@ -19,6 +19,7 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Events")]
     public UnityEvent OnHealthChangedEvent;
     public UnityEvent OnDieEvent;
+    public UnityEvent OnResurrectEvent;
     public UnityEvent OnHealEvent;
     public UnityEvent OnDamagedEvent;
 
@@ -60,6 +61,17 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         {
             m_isDead = true;
             if (OnDieEvent != null) { OnDieEvent.Invoke(); }
+        }
+    }
+
+    public void Resurrect()
+    {
+        m_currentHealth = m_maxHealth;
+        OnHealthChanged();
+        if (m_isDead)
+        {
+            m_isDead = false;
+            if (OnResurrectEvent != null) { OnResurrectEvent.Invoke(); }
         }
     }
 
