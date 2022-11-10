@@ -142,6 +142,7 @@ Transform:
   - {fileID: 5696015179258554638}
   - {fileID: 2443897196312335213}
   - {fileID: 5696015177341459574}
+  - {fileID: 5032767747279182381}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,6 +211,79 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 10.64
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &2143042650209915135
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5696015177808293605}
+    m_Modifications:
+    - target: {fileID: 5611335073301261854, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_Name
+      value: GoldTriggerRadius
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.096824646
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+--- !u!114 &3227107438956989802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3563861270606863765, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+  m_PrefabInstance: {fileID: 2143042650209915135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b938b811b6f7b84478416b28f771d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &5032767747279182381 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+  m_PrefabInstance: {fileID: 2143042650209915135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5696015177341585108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -657,6 +731,9 @@ MonoBehaviour:
   OnDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  OnResurrectEvent:
+    m_PersistentCalls:
+      m_Calls: []
   OnHealEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -679,31 +756,43 @@ MonoBehaviour:
   m_health: {fileID: 940362860459258618}
   m_detectionTrigger: {fileID: 5696015179258554672}
   m_meleeDamageTrigger: {fileID: 4396148897698546822}
+  m_goldTrigger: {fileID: 3227107438956989802}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 5696015177334207412}
-  m_meleeAtkTriggerNames:
-  - Whip Attack
-  - Slap Attack
-  m_projectileAtkTriggerNames: []
+  m_meleeAtks:
+  - m_triggerName: Whip Attack
+    m_duration: 1
+    m_damageType: 0
+    m_damage: 10
+  - m_triggerName: Slap Attack
+    m_duration: 1
+    m_damageType: 0
+    m_damage: 10
+  m_projectileAtks: []
   m_dieTriggerName: Die
   m_hurtTriggerName: Take Damage
   m_pickType: 0
-  m_damageDetectionType: 1
-  attack: {fileID: 0}
   skill: {fileID: 0}
   m_damagePoints: 60
   m_meleeRadius: 10.69
-  m_minAttackTime: 1
-  m_maxAttackTime: 3.5
+  m_minAttackInterval: 3
+  m_maxAttackInterval: 6
   m_nextAttackTime: 0
   m_nextAttackTimeCounter: 0
   m_currTargetPlayer: {fileID: 0}
+  m_currAtk:
+    m_triggerName: 
+    m_duration: 1
   m_playersInRange: []
+  m_playersInGoldRange: []
   m_playersWhoDamageIt: []
   m_lastHitPlayer: {fileID: 0}
   m_destroyTime: 1
   m_sinkSpeed: 2
+  m_respawnTimee: 20
+  m_respawnPosition: {x: 0, y: 0, z: 0}
+  m_emergeTime: 1
   m_rewardKey: GreenTentacle
   m_bulletSpawnPoint: {fileID: 0}
   m_nextFire: 0
