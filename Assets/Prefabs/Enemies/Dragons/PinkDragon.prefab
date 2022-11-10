@@ -97,6 +97,7 @@ Transform:
   - {fileID: 6311103624143677133}
   - {fileID: 8041008351962780782}
   - {fileID: 7952702034046102488}
+  - {fileID: 3651569663937598821}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -395,31 +396,42 @@ MonoBehaviour:
   m_health: {fileID: 3005822997308683638}
   m_detectionTrigger: {fileID: 2394806842927333239}
   m_meleeDamageTrigger: {fileID: 9136367021989650323}
+  m_goldTrigger: {fileID: 6607904100313252386}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 6311103624136444207}
-  m_meleeAtkTriggerNames:
-  - Bite Attack
-  m_projectileAtkTriggerNames:
-  - Projectile Attack
+  m_meleeAtks:
+  - m_triggerName: Bite Attack
+    m_duration: 1
+    m_damageType: 0
+    m_damage: 20
+  m_projectileAtks:
+  - m_triggerName: Projectile Attack
+    m_duration: 1
+    attack: {fileID: 11400000, guid: 30b2120986d35574788c17a6d9dd7066, type: 2}
   m_dieTriggerName: Die
   m_hurtTriggerName: Take damage
   m_pickType: 0
-  m_damageDetectionType: 0
-  attack: {fileID: 11400000, guid: e8a28c0ccab0e964e8d7ef9d4f5590b7, type: 2}
   skill: {fileID: 11400000, guid: e8a28c0ccab0e964e8d7ef9d4f5590b7, type: 2}
   m_damagePoints: 75
   m_meleeRadius: 20
-  m_minAttackTime: 1
-  m_maxAttackTime: 3.5
+  m_minAttackInterval: 3
+  m_maxAttackInterval: 6
   m_nextAttackTime: 0
   m_nextAttackTimeCounter: 0
   m_currTargetPlayer: {fileID: 0}
+  m_currAtk:
+    m_triggerName: 
+    m_duration: 1
   m_playersInRange: []
+  m_playersInGoldRange: []
   m_playersWhoDamageIt: []
   m_lastHitPlayer: {fileID: 0}
   m_destroyTime: 3
   m_sinkSpeed: 4
+  m_respawnTimee: 20
+  m_respawnPosition: {x: 0, y: 0, z: 0}
+  m_emergeTime: 1
   m_rewardKey: DragonHead
   m_bulletSpawnPoint: {fileID: 7952702034046102488}
   m_nextFire: 0
@@ -446,6 +458,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResurrectEvent:
     m_PersistentCalls:
       m_Calls: []
   OnHealEvent:
@@ -512,3 +527,78 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
+--- !u!1001 &7694009866084392887
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2394806843371485346}
+    m_Modifications:
+    - target: {fileID: 5611335073301261854, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_Name
+      value: GoldTriggerRadius
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.096824646
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+--- !u!4 &3651569663937598821 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+  m_PrefabInstance: {fileID: 7694009866084392887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6607904100313252386 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3563861270606863765, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
+  m_PrefabInstance: {fileID: 7694009866084392887}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b938b811b6f7b84478416b28f771d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
