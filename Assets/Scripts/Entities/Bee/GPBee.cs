@@ -75,6 +75,12 @@ public class GPBee : GPMonsterBase
     {
         MonsterAttackDesc attackDesc = null;
 
+        if (m_currTargetPlayer == null)
+        {
+            ChangeState(BEE_STATES.kIdle);
+            return;
+        }
+
         Vector3 targetDir = m_currTargetPlayer.transform.position - transform.position;
         targetDir.y = 0.0f;
         if (targetDir.magnitude <= m_meleeRadius && m_meleeAtks.Count > 0) // pick melee attack
@@ -98,6 +104,7 @@ public class GPBee : GPMonsterBase
     {
         if (m_currentState == BEE_STATES.kIdle && newState == BEE_STATES.kAttacking)
         {
+            m_attacking = true;
             //look at target
             /*
             Vector3 lookDir = m_currTargetPlayer.transform.position - transform.position;
@@ -110,6 +117,7 @@ public class GPBee : GPMonsterBase
         {
             //choose new target
             ChoosePlayerToAttack();
+            m_attacking = false;
         }
 
         m_timeInState = 0.0f;

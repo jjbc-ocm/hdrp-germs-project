@@ -107,6 +107,7 @@ public class GPDragonPart : GPMonsterBase
     {
         if (m_currentState == DRAGON_STATES.kIdle && newState == DRAGON_STATES.kAttacking)
         {
+            m_attacking = true;
             //look at target
             /*
             Vector3 lookDir = m_currTargetPlayer.transform.position - transform.position;
@@ -119,6 +120,7 @@ public class GPDragonPart : GPMonsterBase
         {
             //choose new target
             ChoosePlayerToAttack();
+            m_attacking = false;
         }
 
         m_timeInState = 0.0f;

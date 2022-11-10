@@ -13,9 +13,6 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
     [HideInInspector]
     public bool m_isDead =false;
 
-    [Header("Photon settings")]
-
-
     [Header("Events")]
     public UnityEvent OnHealthChangedEvent;
     public UnityEvent OnDieEvent;

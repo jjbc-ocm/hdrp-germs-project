@@ -50,6 +50,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public GPHealth m_health;
     public GPGTriggerEvent m_detectionTrigger;
     public GPGTriggerEvent m_meleeDamageTrigger;
+    public GPGTriggerEvent m_goldTrigger;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -69,10 +70,9 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     private SkillData skill;
     int m_currMeleeAttkIdx = 0;
     int m_currProjectileAttkIdx = 0;
-    public int m_damagePoints = 100;
     public float m_meleeRadius = 3.0f;
-    public float m_minAttackTime = 1.0f;
-    public float m_maxAttackTime = 3.5f;
+    public float m_minAttackTime = 3.5f;
+    public float m_maxAttackTime = 4.0f;
     [HideInInspector]
     public float m_nextAttackTime = 0.0f;
     [HideInInspector]
@@ -80,9 +80,13 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [HideInInspector]
     public Player m_currTargetPlayer;
     public MonsterAttackDesc m_currAtk;
+    [HideInInspector]
+    public bool m_attacking = false;
 
     [HideInInspector]
     public List<Player> m_playersInRange = new List<Player>();
+    [HideInInspector]
+    public List<Player> m_playersInGoldRange = new List<Player>();
     [HideInInspector]
     public List<Player> m_playersWhoDamageIt = new List<Player>();
     [HideInInspector]
@@ -98,6 +102,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     float m_respawnTimeCounter = 0.0f;
     [HideInInspector]
     public Vector3 m_respawnPosition;
+    public float m_emergeTime = 1.0f;
 
     [Header("Gold settings")]
     [Tooltip("This key should be defined on the reward system prefab.")]
@@ -128,9 +133,11 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         {
             m_health.OnDieEvent.AddListener(OnDie);
             m_health.OnDamagedEvent.AddListener(OnDamage);
-            m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
-            m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
+            //m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
+            //m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
             m_meleeDamageTrigger.m_OnEnterEvent.AddListener(BitePlayer);
+            m_goldTrigger.m_OnEnterEvent.AddListener(OnPlayerGoldTriggerEnter);
+            m_goldTrigger.m_OnExitEvent.AddListener(OnPlayerGoldTriggerExit);
         }
 
         m_respawnPosition = transform.position;
@@ -151,6 +158,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
                 m_respawnTimeCounter = 0.0f;
                 m_health.Resurrect();
                 StartCoroutine(Emerge());
+                m_animator.Play("Idle");
             }
         }
     }
@@ -167,11 +175,10 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void OnDamage()
     {
-        if (true)
+        if (!m_attacking)
         {
-
+            m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_hurtTriggerName);
         }
-        m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_hurtTriggerName);
         m_photonView.RPC("RPCOnHurt", RpcTarget.All);
     }
 
@@ -197,9 +204,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public IEnumerator Emerge()
     {
-        transform.position = m_respawnPosition;
+        LeanTween.move(gameObject, m_respawnPosition, m_emergeTime).setEaseSpring();
         yield return 0;
-        //TODO: Play emerge animation
     }
 
     public virtual void DamageMonster(BulletManager bullet)
@@ -256,13 +262,37 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         }
     }
 
+    public virtual void OnPlayerGoldTriggerEnter(Collider other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player)
+        {
+            if (!m_playersInGoldRange.Contains(player))
+            {
+                m_playersInGoldRange.Add(player);
+            }
+        }
+    }
+
+    public virtual void OnPlayerGoldTriggerExit(Collider other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player)
+        {
+            if (m_playersInGoldRange.Contains(player))
+            {
+                m_playersInGoldRange.Remove(player);
+            }
+        }
+    }
+
     public void GiveRewards()
     {
         //get winning team
         int team = m_lastHitPlayer.photonView.GetTeam();
         foreach (Player player in m_playersWhoDamageIt)
         {
-            if (player.photonView.GetTeam() == team && m_playersInRange.Contains(player))
+            if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player))
             {
                 GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
             }
@@ -353,7 +383,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public virtual void BitePlayer(Collider collider)
     {
         Player player = collider.GetComponent<Player>();
-        MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
+        MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (meleeAtk == null) { return; }
 
         if (player && player == m_currTargetPlayer)
@@ -460,6 +490,11 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         if (m_playersInRange.Contains(playerKilled))
         {
             m_playersInRange.Remove(playerKilled);
+        }
+
+        if (m_playersInGoldRange.Contains(playerKilled))
+        {
+            m_playersInGoldRange.Remove(playerKilled);
         }
 
         playerKilled.onDieEvent.RemoveListener(OnPlayerKilled);
