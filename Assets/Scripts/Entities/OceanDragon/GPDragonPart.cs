@@ -7,6 +7,8 @@ using Photon.Pun;
 public class GPDragonPart : GPMonsterBase
 {
     DRAGON_STATES m_currentState = DRAGON_STATES.kIdle;
+    float m_timeInState = 0.0f;
+
     public enum DRAGON_STATES
     {
         kIdle,
@@ -16,25 +18,26 @@ public class GPDragonPart : GPMonsterBase
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            m_health.OnDieEvent.AddListener(OnDie);
-            m_health.OnDamagedEvent.AddListener(OnDamage);
-            m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
-            m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
-            m_meleeDamageTrigger.m_OnEnterEvent.AddListener(BitePlayer);
-        }
+        BaseStart();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_health.m_isDead)
+        {
+            DeathUpdate();
+        }
+
         //Only master client will execute enemy logic and share the data to other players
         if (!PhotonNetwork.IsMasterClient || m_health.m_isDead)
         {
             return;
         }
 
+        LiveUpdate();
+
+        m_timeInState += Time.deltaTime;
         switch (m_currentState)
         {
             case DRAGON_STATES.kIdle:
@@ -70,27 +73,41 @@ public class GPDragonPart : GPMonsterBase
 
     void OnAttacking()
     {
-        string triggerToActivate = "";
+        MonsterAttackDesc attackDesc = null;
+
+        if (m_currTargetPlayer == null)
+        {
+            ChangeState(DRAGON_STATES.kIdle);
+            return;
+        }
 
         Vector3 targetDir = m_currTargetPlayer.transform.position - transform.position;
         targetDir.y = 0.0f;
-        if (targetDir.magnitude <= m_meleeRadius) // pick melee attack
+        if (targetDir.magnitude <= m_meleeRadius && m_meleeAtks.Count > 0) // pick melee attack
         {
-            triggerToActivate = PickAttack(m_meleeAtkTriggerNames);
+            attackDesc = PickMeleeAttack();
         }
-        else if (m_projectileAtkTriggerNames.Count > 0)//pick range attack
+        else if (m_projectileAtks.Count > 0)//pick range attack
         {
-            triggerToActivate = PickAttack(m_projectileAtkTriggerNames);
+            attackDesc = PickProjectileAttack();
         }
 
-        m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, triggerToActivate);
-        ChangeState(DRAGON_STATES.kIdle);
+        if (attackDesc != null)
+        {
+            m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, attackDesc.m_triggerName);
+        }
+
+        if (m_timeInState > m_currAtk.m_duration)
+        {
+            ChangeState(DRAGON_STATES.kIdle);
+        }
     }
 
     void ChangeState(DRAGON_STATES newState)
     {
         if (m_currentState == DRAGON_STATES.kIdle && newState == DRAGON_STATES.kAttacking)
         {
+            m_attacking = true;
             //look at target
             /*
             Vector3 lookDir = m_currTargetPlayer.transform.position - transform.position;
@@ -103,8 +120,10 @@ public class GPDragonPart : GPMonsterBase
         {
             //choose new target
             ChoosePlayerToAttack();
+            m_attacking = false;
         }
 
+        m_timeInState = 0.0f;
         m_currentState = newState;
     }
 

@@ -458,11 +458,11 @@ namespace TanksMP
         /// Server only: calculate damage to be taken by the Player from a monster,
 		/// triggers respawn workflow on death.
         /// </summary>
-        public void TakeMonsterDamage(GPMonsterBase monster)
+        public void TakeMonsterDamage(MonsterMeleeAttackDesc monsterMeleeAtk)
         {
             var health = photonView.GetHealth();
 
-            health -= monster.m_damagePoints;
+            health -= monsterMeleeAtk.m_damage;
 
             if (health <= 0)
             {
