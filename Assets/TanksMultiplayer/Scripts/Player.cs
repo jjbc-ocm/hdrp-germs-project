@@ -67,9 +67,6 @@ namespace TanksMP
         private SkillData skill;
 
         [SerializeField]
-        private GameObject aimIndicator;
-
-        [SerializeField]
         private Collider[] colliders;
 
         [SerializeField]
@@ -78,20 +75,17 @@ namespace TanksMP
         [SerializeField]
         private GameObject iconIndicator;
 
-        [HideInInspector]
-        public FollowTarget camFollow;
+        private FollowTarget camFollow;
 
         private Rigidbody rigidBody;
+
+        private AimManager aim;
 
         private float nextFire;
 
         private Vector2 moveDir;
 
         private Vector2 prevMoveDir;
-
-        private bool isExecutingActionAim;
-
-        private Player aimAutoTarget;
 
         [Header("Events")]
         public UnityEvent<int> onDieEvent;
@@ -108,7 +102,11 @@ namespace TanksMP
 
         public Sprite SpriteIcon { get => spriteIcon; }
 
+        public SkillData Skill { get => skill; }
+
         public GameObject IconIndicator { get => iconIndicator; }
+
+        public FollowTarget CamFollow { get => camFollow; }
 
 
 
@@ -138,70 +136,29 @@ namespace TanksMP
             {
                 GameManager.GetInstance().localPlayer = this;
             }
-            
+
             //get components and set camera target
+            aim = GetComponent<AimManager>();
+
             rigidBody = GetComponent<Rigidbody>();
 
             camFollow = FindObjectOfType<FollowTarget>();
 
-            camFollow.target = transform;
-        }
-
-        void Update()
-        {
-            if (!photonView.IsMine) return;
-
-            /* Update skills */
-            if (Input.GetMouseButton(0))
-            {
-                if (!isExecutingActionAim)
+            aim.Initialize(
+                () =>
                 {
                     ExecuteActionAim(attack, true);
-                }
-            }
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                ExecuteActionAim(skill, false);
-            }
-
-            if (Input.GetMouseButtonUp(1) && isExecutingActionAim)
-            {
-                ExecuteActionInstantly(aimIndicator.transform.position, aimAutoTarget, false);
-            }
-
-            if (isExecutingActionAim)
-            {
-                var action = skill;
-
-                aimIndicator.SetActive(true);
-
-                var ray = camFollow.Cam.ScreenPointToRay(Input.mousePosition);
-
-                var layerName = action.Aim == AimType.Water ? "Water" : "Ship";
-
-                if (Physics.Raycast(ray, out RaycastHit hit, action.Range, LayerMask.GetMask(layerName)))
+                },
+                () =>
                 {
-                    if (action.Aim == AimType.Water ||
-                        action.Aim == AimType.AnyShip ||
-                        (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
-                        (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
-                    {
-                        aimIndicator.transform.position = hit.point;
+                    ExecuteActionAim(skill, false);
+                },
+                (aimPosition, autoTarget) =>
+                {
+                    ExecuteActionInstantly(aimPosition, autoTarget, false);
+                });
 
-                        if (action.Aim == AimType.EnemyShip || 
-                            action.Aim == AimType.AllyShip ||
-                            action.Aim == AimType.AnyShip)
-                        {
-                            aimAutoTarget = hit.transform.GetComponent<Player>();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                aimIndicator.SetActive(false);
-            }
+            camFollow.target = transform;
         }
 
         void FixedUpdate()
@@ -535,7 +492,7 @@ namespace TanksMP
                 }
                 else
                 {
-                    isExecutingActionAim = true;
+                    aim.IsAiming = true;
                 }
             }
         }
@@ -544,7 +501,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            isExecutingActionAim = false;
+            aim.IsAiming = false;
 
             photonView.SetMana(photonView.GetMana() - action.MpCost);
 
@@ -585,12 +542,7 @@ namespace TanksMP
             }
         }
 
-        private bool IsEnemyShip(RaycastHit hit)
-        {
-            var player = hit.transform.GetComponent<Player>();
-
-            return !player || (player && player.photonView.GetTeam() != photonView.GetTeam());
-        }
+        
 
         private IEnumerator YieldManaAutoRegen(float delay)
         {
