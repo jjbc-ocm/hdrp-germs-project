@@ -27,7 +27,7 @@ public class HolyBrightManager : SkillBaseManager
     {
         transform.position = owner.transform.position;
 
-        transform.eulerAngles = new Vector3(0, owner.transform.eulerAngles.y, 0);
+        //transform.eulerAngles = new Vector3(0, owner.transform.eulerAngles.y, 0);
 
         if (!PhotonNetwork.IsMasterClient) return;
 
@@ -49,7 +49,9 @@ public class HolyBrightManager : SkillBaseManager
 
                 if (!IsHit(owner, player)) continue;
 
-                player.TakeDamage(this);
+                //player.TakeDamage(this);
+
+                player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
             }
         }
     }

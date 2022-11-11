@@ -192,7 +192,7 @@ namespace TanksMP
         {
             //PhotonNetwork.isMessageQueueRunning = false;
             localPlayer.enabled = false;
-            localPlayer.camFollow.HideMask(true);
+            localPlayer.CamFollow.HideMask(true);
             ui.SetGameOverText(teams[teamIndex]);
 
             //starts coroutine for displaying the game over window

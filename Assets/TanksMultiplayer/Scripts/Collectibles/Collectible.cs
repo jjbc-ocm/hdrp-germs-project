@@ -15,12 +15,13 @@ namespace TanksMP
     /// 
 
     [RequireComponent(typeof(PhotonView))]
-	public class Collectible : MonoBehaviourPun, IPunObservable
+	public abstract class Collectible : MonoBehaviourPun, IPunObservable
     {
         public AudioClip useClip;
 
         [SerializeField]
         private GameObject graphics;
+
 
         public virtual void OnTriggerEnter(Collider col)
 		{
@@ -42,11 +43,30 @@ namespace TanksMP
         }
 
 
-        
+
+
+
+
+        [PunRPC]
+        public void Destroy()
+        {
+            if (!PhotonNetwork.IsMasterClient) return;
+
+            PhotonNetwork.Destroy(photonView);
+        }
+
+        public void Obtain(Player player)
+        {
+            OnObtain(player);
+
+            photonView.RPC("Destroy", RpcTarget.MasterClient);
+        }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
 
         }
+
+        protected abstract void OnObtain(Player player);
     }
 }
