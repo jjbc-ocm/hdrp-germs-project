@@ -57,24 +57,22 @@ Material:
   m_Name: Black Smoke
   m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
   m_ValidKeywords:
-  - ALPHAFADETRANSPARENCYTOO_ON
   - CAMDISTFADE_ON
   - COLORRAMPGRAD_ON
   - DISTORTONLYBACK_ON
   - DISTORTUSECOL_ON
-  - FADEBURN_ON
   - FADE_ON
   - GLOW_ON
   - MASK_ON
   - POSTERIZE_ON
+  - PREMULTIPLYCOLOR_ON
   - SCREENDISTORTION_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -100,7 +98,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FadeTex:
-        m_Texture: {fileID: 2800000, guid: 0dc644c1a5f630147a264ebb6fcf25c3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a748330fd1f90e448ec7b4fb53ed8af, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _GlowTex:
@@ -108,11 +106,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 2dc6ec0a0ddb8114e8f4b25344937a66, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6d7a29633b5f4ca4790770ba66492211, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
-        m_Texture: {fileID: 2800000, guid: f8690109736988242b210237e766323c, type: 3}
+        m_Texture: {fileID: 2800000, guid: e1e79dcc7d08c8545ada46d75689a0e3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Shape1MaskTex:
@@ -181,16 +179,16 @@ Material:
     - _DistortionScrollYSpeed: 0
     - _DstMode: 10
     - _EditorDrawers: 61
-    - _FadeAmount: -0.076
+    - _FadeAmount: -0.1
     - _FadeBurnGlow: 7
     - _FadeBurnWidth: 0.2
-    - _FadePower: 4.45
+    - _FadePower: 10
     - _FadeScrollXSpeed: 0
     - _FadeScrollYSpeed: 0
-    - _FadeTransition: 0.346
+    - _FadeTransition: 0.194
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
-    - _GlowGlobal: 0.8
+    - _GlowGlobal: 0
     - _HandDrawnAmount: 0
     - _HandDrawnSpeed: 5
     - _HsvBright: 1
@@ -208,7 +206,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 0
+    - _RenderingMode: 5
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
@@ -265,7 +263,7 @@ Material:
     - _ShapeXSpeed: 0
     - _ShapeYSpeed: 0
     - _SoftFactor: 3
-    - _SrcMode: 5
+    - _SrcMode: 3
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
     - _TimingSeed: 0
