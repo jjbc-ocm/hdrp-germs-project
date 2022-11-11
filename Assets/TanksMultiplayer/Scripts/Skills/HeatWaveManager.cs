@@ -6,16 +6,8 @@ using UnityEngine;
 
 public class HeatWaveManager : SkillBaseManager
 {
-    //[SerializeField]
-    //private GameObject vfx;
-
     [SerializeField]
     private float radius;
-
-    void Update()
-    {
-        //vfx.transform.position = autoTarget.transform.position;
-    }
 
     protected override void OnInitialize()
     {
@@ -28,8 +20,6 @@ public class HeatWaveManager : SkillBaseManager
             var player = collider.GetComponent<Player>();
 
             if (!IsHit(owner, player)) continue;
-
-            //player.TakeDamage(this);
 
             player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
         }

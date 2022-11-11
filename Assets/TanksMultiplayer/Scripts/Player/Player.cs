@@ -129,24 +129,9 @@ namespace TanksMP
 
         #region Unity
 
-        void Awake()
-        {
-            if(!PhotonNetwork.IsMasterClient)
-                return;
-
-            //photonView.SetHealth(maxHealth);
-
-            //photonView.SetMana(maxMana);
-            
-
-            //StartCoroutine(YieldManaAutoRegen(1));
-        }
-
         void Start()
         {
-            //called only for this client 
-            if (!photonView.IsMine)
-                return;
+            if (!photonView.IsMine) return;
 
             health = maxHealth;
 
@@ -154,13 +139,11 @@ namespace TanksMP
 
             StartCoroutine(YieldManaAutoRegen(1));
 
-            //set a global reference to the local player
             if (GameManager.GetInstance() != null)
             {
                 GameManager.GetInstance().localPlayer = this;
             }
 
-            //get components and set camera target
             aim = GetComponent<AimManager>();
 
             rigidBody = GetComponent<Rigidbody>();
@@ -186,7 +169,6 @@ namespace TanksMP
 
         void FixedUpdate()
         {
-            /* Make sure the only thing we can control is only our ship */
             if (!photonView.IsMine) return;
 
             /* Update movement */
@@ -220,8 +202,6 @@ namespace TanksMP
 
             var collectibleZone = col.GetComponent<CollectibleZone>();
 
-            //var collectibleTeam = col.GetComponent<CollectibleTeam>();
-
             var collectible = col.GetComponent<Collectible>();
 
             /* Handle collision to the collectible zone */
@@ -234,21 +214,11 @@ namespace TanksMP
                 collectibleZone.OnDropChest();
             }
 
-            /* Handle collision to chest */
-            /*else if (collectibleTeam != null)
-            {
-                photonView.HasChest(true);
-
-                collectibleTeam.photonView.RPC("RpcCollect", RpcTarget.MasterClient);
-            }*/
-
             /* Handle collision to normal item */
             else if (collectible != null)
             {
                 collectible.Obtain(this);
             }
-
-            // TODO: bullet collision should be handled here actually
         }
 
         #endregion
@@ -406,73 +376,6 @@ namespace TanksMP
 
         #region Public
 
-        /*public void TakeDamage(SkillBaseManager action)
-        {
-            var bullet = action as BulletManager;
-
-            //var health = photonView.GetHealth();
-
-            //health -= action.Damage;
-
-            AddHealth(-action.Damage);
-
-            if (health <= 0)
-            {
-                if (GameManager.GetInstance().IsGameOver()) return;
-
-                if (bullet == null || !bullet.formMonster)
-                {
-                    *//* Add score to opponent *//*
-                    var attcker = action.Owner;
-                    var attackerTeam = attcker.photonView.GetTeam();
-
-                    if (photonView.GetTeam() != attackerTeam)
-                    {
-                        GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
-                        GPRewardSystem.m_instance.AddGoldToPlayer(attcker.photonView.Owner, "Kill");
-                    }
-
-                    *//* Set game over from conditions *//*
-                    if (GameManager.GetInstance().IsGameOver())
-                    {
-                        PhotonNetwork.CurrentRoom.IsOpen = false;
-
-                        photonView.RPC("RpcGameOver", RpcTarget.All, (byte)attackerTeam);
-
-                        return;
-                    }
-                }
-
-                *//* Handle collected chest *//*
-                photonView.HasChest(false);
-
-                var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
-
-                PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
-
-                *//* Reset health, prepare for their respawn *//*
-                //photonView.SetHealth(maxHealth);
-
-                short attackerId = 0;
-
-                if (action.Owner)
-                {
-                    attackerId = (short)action.Owner.GetComponent<PhotonView>().ViewID;
-                }
-
-                if (bullet != null && bullet.formMonster)
-                {
-                    attackerId = -1;
-                }
-
-                photonView.RPC("RpcDestroy", RpcTarget.All, (short)attackerId);
-            }
-            else
-            {
-                //photonView.SetHealth(health);
-            }
-        }*/
-
         /// <summary>
         /// Server only: calculate damage to be taken by the Player from a monster,
 		/// triggers respawn workflow on death.
@@ -554,10 +457,6 @@ namespace TanksMP
                 {
                     ExecuteActionInstantly(instantAim, null, isAttack);
                 }
-                else
-                {
-                    aim.IsAiming = true;
-                }
             }
         }
 
@@ -565,10 +464,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            aim.IsAiming = false;
-
             AddMana(-action.MpCost);
-            //photonView.SetMana(photonView.GetMana() - action.MpCost);
 
             var offset = 2;
 
@@ -614,8 +510,6 @@ namespace TanksMP
             while (true)
             {
                 yield return new WaitForSeconds(delay);
-
-                //photonView.SetMana(Mathf.Min(photonView.GetMana() + MaxMana / 10, MaxMana));
 
                 AddMana(MaxMana / 10);
             }
