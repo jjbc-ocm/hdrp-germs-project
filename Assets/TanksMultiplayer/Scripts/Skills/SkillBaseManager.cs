@@ -14,22 +14,22 @@ public abstract class SkillBaseManager : MonoBehaviour
     [SerializeField]
     protected float lifeSpan;
 
-    protected Player owner;
+    protected ActorManager owner;
 
-    protected Player autoTarget;
+    protected ActorManager autoTarget;
 
     public int Damage { get => damage; }
 
-    public Player Owner { get => owner; }
+    public ActorManager Owner { get => owner; }
 
-    public Player AutoTarget { get => autoTarget; }
+    public ActorManager AutoTarget { get => autoTarget; }
 
     void Awake()
     {
         Destroy(gameObject, lifeSpan);
     }
 
-    public void Initialize(Player owner, Player autoTarget = null)
+    public void Initialize(ActorManager owner, ActorManager autoTarget = null)
     {
         this.owner = owner;
 
@@ -38,9 +38,11 @@ public abstract class SkillBaseManager : MonoBehaviour
         OnInitialize();
     }
 
-    protected bool IsHit(Player origin, Player target)
+    protected bool IsHit(ActorManager origin, ActorManager target)
     {
         if (target == owner || target == null) return false;
+
+        if ((origin.IsMonster && !target.IsMonster) || (!origin.IsMonster && target.IsMonster)) return true;
 
         else if (origin.photonView.GetTeam() == target.photonView.GetTeam()) return false;
 

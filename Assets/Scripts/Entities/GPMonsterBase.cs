@@ -43,7 +43,7 @@ public class MonsterProjectileAttackDesc : MonsterAttackDesc
   public SkillData attack;
 }
 
-public class GPMonsterBase : MonoBehaviourPunCallbacks
+public class GPMonsterBase : ActorManager
 {
     [Header("Component references")]
     public PhotonView m_photonView;
@@ -78,19 +78,19 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [HideInInspector]
     public float m_nextAttackTimeCounter = 0.0f;
     [HideInInspector]
-    public Player m_currTargetPlayer;
+    public ActorManager m_currTargetPlayer;
     public MonsterAttackDesc m_currAtk;
     [HideInInspector]
     public bool m_attacking = false;
 
     [HideInInspector]
-    public List<Player> m_playersInRange = new List<Player>();
+    public List<ActorManager> m_playersInRange = new List<ActorManager>();
     [HideInInspector]
-    public List<Player> m_playersInGoldRange = new List<Player>();
+    public List<ActorManager> m_playersInGoldRange = new List<ActorManager>();
     [HideInInspector]
-    public List<Player> m_playersWhoDamageIt = new List<Player>();
+    public List<ActorManager> m_playersWhoDamageIt = new List<ActorManager>();
     [HideInInspector]
-    public Player m_lastHitPlayer;
+    public ActorManager m_lastHitPlayer;
 
     [Header("Death settings")]
     public float m_destroyTime = 1.0f;
@@ -208,11 +208,31 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         yield return 0;
     }
 
-    public virtual void DamageMonster(BulletManager bullet)
+    [PunRPC]
+    public override void RpcDamageHealth(int amount, int attackerId)
+    {
+        Debug.Log("RpcDamageHealth");
+
+        m_health.Damage(amount);
+
+        var other = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;//bullet.Owner;
+
+        if (other)
+        {
+            m_lastHitPlayer = other;
+            if (!m_playersWhoDamageIt.Contains(other))
+            {
+                m_playersWhoDamageIt.Add(other);
+            }
+        }
+    }
+
+    /*public virtual void DamageMonster(BulletManager bullet)
     {
         m_health.Damage(bullet.Damage);
 
-        Player other = bullet.Owner;
+        var other = bullet.Owner;
+
         if (other)
         {
             m_lastHitPlayer = other;
@@ -222,18 +242,19 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             }
         }
 
-    }
+    }*/
 
-    public virtual void DamagePlayer(Player player)
+    public virtual void DamagePlayer(ActorManager player)
     {
         MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
         if (meleeAtk == null) { return; }
-        player.TakeMonsterDamage(meleeAtk);
+        //player.TakeMonsterDamage(meleeAtk);
+        player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk, photonView.ViewID);
     }
 
     public virtual void OnPlayerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        ActorManager player = other.GetComponent<ActorManager>();
         if (player)
         {
             if (!m_playersInRange.Contains(player))
@@ -247,7 +268,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void OnPlayerExit(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        ActorManager player = other.GetComponent<ActorManager>();
         if (player)
         {
             if (m_playersInRange.Contains(player))
@@ -264,7 +285,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void OnPlayerGoldTriggerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        ActorManager player = other.GetComponent<ActorManager>();
         if (player)
         {
             if (!m_playersInGoldRange.Contains(player))
@@ -276,7 +297,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public virtual void OnPlayerGoldTriggerExit(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        ActorManager player = other.GetComponent<ActorManager>();
         if (player)
         {
             if (m_playersInGoldRange.Contains(player))
@@ -290,7 +311,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     {
         //get winning team
         int team = m_lastHitPlayer.photonView.GetTeam();
-        foreach (Player player in m_playersWhoDamageIt)
+        foreach (ActorManager player in m_playersWhoDamageIt)
         {
             if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player))
             {
@@ -311,7 +332,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
         if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
         {
-            m_currTargetPlayer.TakeMonsterDamage(meleeAtk);
+            //m_currTargetPlayer.TakeMonsterDamage(meleeAtk);
+            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk, photonView.ViewID);
         }
         else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
@@ -474,13 +496,13 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
         var effect = Instantiate(action.Effect, vPosition, rotation);
 
-        effect.GetComponent<BulletManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
+        effect.GetComponent<SkillBaseManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
     }
 
     public void OnPlayerKilled(int playerId)
     {
         PhotonView playerView = playerId > 0 ? PhotonView.Find(playerId) : null;
-        Player playerKilled = playerView.GetComponent<Player>();
+        ActorManager playerKilled = playerView.GetComponent<ActorManager>();
 
         if (m_currTargetPlayer == playerKilled)
         {

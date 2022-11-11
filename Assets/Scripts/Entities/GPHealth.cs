@@ -8,7 +8,7 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("Health settings")]
     public float m_maxHealth = 10.0f;
-    [HideInInspector]
+    //[HideInInspector]
     public float m_currentHealth = 10.0f;
     [HideInInspector]
     public bool m_isDead =false;
