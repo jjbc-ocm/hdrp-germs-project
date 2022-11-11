@@ -12,7 +12,12 @@ namespace TanksMP
         [SerializeField]
         private int amount = 5;
 
-        public override bool Apply(Player p)
+        protected override void OnObtain(Player player)
+        {
+            player.AddHealth(amount);
+        }
+
+        /*public override bool Apply(Player p)
         {
             if (p == null)
                 return false;
@@ -24,6 +29,6 @@ namespace TanksMP
             p.photonView.SetHealth(value);
 
             return true;
-        }
+        }*/
     }
 }

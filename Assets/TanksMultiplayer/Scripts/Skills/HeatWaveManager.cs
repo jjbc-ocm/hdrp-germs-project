@@ -29,7 +29,9 @@ public class HeatWaveManager : SkillBaseManager
 
             if (!IsHit(owner, player)) continue;
 
-            player.TakeDamage(this);
+            //player.TakeDamage(this);
+
+            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
         }
     }
 }

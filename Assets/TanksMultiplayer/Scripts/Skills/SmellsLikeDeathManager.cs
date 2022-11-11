@@ -17,6 +17,8 @@ public class SmellsLikeDeathManager : SkillBaseManager
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        autoTarget.TakeDamage(this);
+        //autoTarget.TakeDamage(this);
+
+        autoTarget.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
     }
 }

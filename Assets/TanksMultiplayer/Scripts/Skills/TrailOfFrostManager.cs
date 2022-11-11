@@ -23,7 +23,9 @@ public class TrailOfFrostManager : SkillBaseManager
 
         if (!IsHit(owner, player)) return;
 
-        player.TakeDamage(this);
+        //player.TakeDamage(this);
+
+        player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
     }
 
     protected override void OnInitialize()

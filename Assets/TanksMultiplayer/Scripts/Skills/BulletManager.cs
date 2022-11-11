@@ -101,7 +101,9 @@ namespace TanksMP
             //apply bullet damage to the collided players
             for(int i = 0; i < targets.Count; i++)
             {
-                targets[i].TakeDamage(this);
+                //targets[i].TakeDamage(this);
+
+                targets[i].photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
             }
 
             if (monster)
