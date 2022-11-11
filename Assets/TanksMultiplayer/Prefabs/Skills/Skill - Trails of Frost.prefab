@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1000010310479910}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3213975989610528032}
@@ -51,7 +51,7 @@ MonoBehaviour:
   damage: 30
   lifeSpan: 4
   trailSpeed: 200
-  prefabDebugBox: {fileID: 5289786657155151200}
+  prefabIcicle: {fileID: 5289786657155151200}
 --- !u!65 &2473134198470058499
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_Name
-      value: Ice wall Style 2
+      value: Icicle
       objectReference: {fileID: 0}
     - target: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_IsActive
@@ -169,15 +169,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.8807343
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.8807343
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.8807343
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_LocalPosition.x
@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_LocalRotation.w

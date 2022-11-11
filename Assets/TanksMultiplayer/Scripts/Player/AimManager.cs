@@ -24,7 +24,7 @@ public class AimManager : MonoBehaviour
 
     private Player player;
 
-    public bool IsAiming { get => isAiming; set => isAiming = value; }
+    //public bool IsAiming { get => isAiming; }
 
     void Awake()
     {
@@ -33,12 +33,7 @@ public class AimManager : MonoBehaviour
 
     void Start()
     {
-        aimIndicator.SetActive(false);
-
-        if (aimTrailIndicator != null)
-        {
-            aimTrailIndicator.SetActive(false);
-        }
+        IndicatorSetActive(false);
     }
 
     public void Initialize(Action onAttackPress, Action onAimSkillPress, Action<Vector3, Player> onAimSkillRelease)
@@ -64,12 +59,19 @@ public class AimManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            isAiming = true;
+
             onAimSkillPress.Invoke();
         }
 
         if (Input.GetMouseButtonUp(1) && isAiming)
         {
-            onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+            isAiming = false;
+
+            if (aimIndicator.activeSelf)
+            {
+                onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+            }
         }
 
         if (isAiming)
@@ -87,15 +89,13 @@ public class AimManager : MonoBehaviour
                     (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
                     (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
                 {
-                    aimIndicator.SetActive(true);
+                    IndicatorSetActive(true);
 
                     aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
                     if (aimTrailIndicator != null)
                     {
                         var targetEuler = Quaternion.LookRotation(hit.point - transform.position).eulerAngles;
-
-                        aimTrailIndicator.SetActive(true);
 
                         aimTrailIndicator.transform.eulerAngles = new Vector3(0, targetEuler.y, 0);
                     }
@@ -110,22 +110,12 @@ public class AimManager : MonoBehaviour
             }
             else
             {
-                aimIndicator.SetActive(false);
-
-                if (aimTrailIndicator != null)
-                {
-                    aimTrailIndicator.SetActive(false);
-                }
+                IndicatorSetActive(false);
             }
         }
         else
         {
-            aimIndicator.SetActive(false);
-
-            if (aimTrailIndicator != null)
-            {
-                aimTrailIndicator.SetActive(false);
-            }
+            IndicatorSetActive(false);
         }
     }
 
@@ -134,5 +124,15 @@ public class AimManager : MonoBehaviour
         var hitPlayer = hit.transform.GetComponent<Player>();
 
         return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam());
+    }
+
+    private void IndicatorSetActive(bool value)
+    {
+        aimIndicator.SetActive(value);
+
+        if (aimTrailIndicator != null)
+        {
+            aimTrailIndicator.SetActive(value);
+        }
     }
 }

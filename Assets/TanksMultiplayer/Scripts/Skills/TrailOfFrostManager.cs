@@ -11,7 +11,7 @@ public class TrailOfFrostManager : SkillBaseManager
     private float trailSpeed;
 
     [SerializeField]
-    private GameObject prefabDebugBox; // TODO: delete once there's a VFX
+    private GameObject prefabIcicle;
 
     private BoxCollider boxCollider;
 
@@ -22,8 +22,6 @@ public class TrailOfFrostManager : SkillBaseManager
         if (!PhotonNetwork.IsMasterClient) return;
 
         if (!IsHit(owner, player)) return;
-
-        //player.TakeDamage(this);
 
         player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
     }
@@ -56,16 +54,11 @@ public class TrailOfFrostManager : SkillBaseManager
 
             boxCollider.center = boxCollider.size / 2f;
 
-
-            // TODO: delete these part once there's a VFX
             var position = transform.position + transform.forward * trailSize;
 
-            var rotation = Quaternion.identity; /*Quaternion.Euler(
-                Random.Range(0, 360),
-                Random.Range(0, 360),
-                Random.Range(0, 360));*/
+            var rotation = Quaternion.identity;
 
-            Instantiate(prefabDebugBox, position, rotation, transform);
+            Instantiate(prefabIcicle, position, rotation, transform);
         }
     }
 }
