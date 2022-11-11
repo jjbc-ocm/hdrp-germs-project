@@ -71,6 +71,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     int m_currMeleeAttkIdx = 0;
     int m_currProjectileAttkIdx = 0;
     public float m_meleeRadius = 3.0f;
+    public float m_projectileRadius = 100.0f;
     public float m_minAttackTime = 3.5f;
     public float m_maxAttackTime = 4.0f;
     [HideInInspector]
@@ -101,7 +102,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public float m_respawnTime = 120.0f;
     float m_respawnTimeCounter = 0.0f;
     [HideInInspector]
-    public Vector3 m_respawnPosition;
+    public Vector3 m_respawnWorldPosition;
+    public Vector3 m_respawnLocalPosition;
     public float m_emergeTime = 1.0f;
 
     [Header("Gold settings")]
@@ -122,12 +124,16 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public AudioClip m_deathSFX;
     public AudioClip m_meleeAtkHitSFX;
 
+    Collider m_mainCollider;
+
     public void BaseStart()
     {
         if (m_photonView == null)
         {
             m_photonView = GetComponent<PhotonView>();
         }
+
+        m_mainCollider = GetComponent<Collider>();
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -140,7 +146,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             m_goldTrigger.m_OnExitEvent.AddListener(OnPlayerGoldTriggerExit);
         }
 
-        m_respawnPosition = transform.position;
+        m_respawnWorldPosition = transform.position;
+        m_respawnLocalPosition = transform.localPosition;
     }
 
     public void LiveUpdate()
@@ -155,10 +162,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             m_respawnTimeCounter += Time.deltaTime;
             if (m_respawnTimeCounter >= m_respawnTime)
             {
-                m_respawnTimeCounter = 0.0f;
-                m_health.Resurrect();
                 StartCoroutine(Emerge());
-                m_animator.Play("Idle");
+                m_photonView.RPC("RPCOnRespawn", RpcTarget.All);
             }
         }
     }
@@ -196,7 +201,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         while (timeCounter <= m_destroyTime)
         {
             timeCounter += Time.fixedDeltaTime;
-            transform.position -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
+            transform.localPosition -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
             yield return new WaitForFixedUpdate();
         }
         //Destroy(gameObject);
@@ -204,7 +209,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public IEnumerator Emerge()
     {
-        LeanTween.move(gameObject, m_respawnPosition, m_emergeTime).setEaseSpring();
+        transform.parent.position = m_respawnWorldPosition - Vector3.up * 10.0f;
+        LeanTween.moveLocal(gameObject, m_respawnLocalPosition, m_emergeTime).setEaseSpring();
         yield return 0;
     }
 
@@ -378,6 +384,8 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, m_meleeRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, m_projectileRadius);
     }
 
     public virtual void BitePlayer(Collider collider)
@@ -399,7 +407,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public void ShootAnimEvent()
     {
-        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
+        MonsterProjectileAttackDesc projAtk = m_currAtk as MonsterProjectileAttackDesc;
         if (m_currTargetPlayer == null || projAtk == null)
         {
             return;
@@ -515,6 +523,17 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPCOnDie()
     {
+        m_mainCollider.enabled = false;
+        AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
+    }
+
+    [PunRPC]
+    public void RPCOnRespawn()
+    {
+        m_mainCollider.enabled = true;
+        m_respawnTimeCounter = 0.0f;
+        m_health.Resurrect();
+        m_animator.Play("Idle");
         AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
     }
 

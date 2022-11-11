@@ -37,5 +37,16 @@ public class GPMonstersPack : MonoBehaviour
                 monster.OnPlayerExit(other);
             }
         }
+
+        //If a bee exit his nest zone.
+        GPBee bee = other.GetComponent<GPBee>();
+        if (bee)
+        {
+            if (m_monsters.Contains(bee)) // if that bee is fomr this nest
+            {
+                bee.ReturnToNest();
+            }
+        }
+
     }
 }

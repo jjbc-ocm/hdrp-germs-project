@@ -55,6 +55,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4278535845620728659}
+  - component: {fileID: 3171364355920887854}
+  - component: {fileID: 8396821099862085489}
+  - component: {fileID: 8698429331878094801}
   m_Layer: 0
   m_Name: PinkBee
   m_TagString: Untagged
@@ -82,6 +85,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &3171364355920887854
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171174882080906241}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 2.71
+  m_Speed: 15
+  m_Acceleration: 16
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 10.37
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8396821099862085489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171174882080906241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 8698429331878094801}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &8698429331878094801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171174882080906241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!1 &5637237375038978256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,31 +1522,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.61, y: 1.6095942, z: 0.68}
   m_Center: {x: 0, y: 0.78391314, z: 0}
---- !u!114 &5224877956986746273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4956315408033327986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 6150452329794760647}
-  - {fileID: 7983891807507222665}
-  - {fileID: 8488404862498292969}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &6045876192503353285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1495,7 +1534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac67cd7f98f5c1409f46dd383bc6242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_photonView: {fileID: 5224877956986746273}
+  m_photonView: {fileID: 8396821099862085489}
   m_health: {fileID: 8488404862498292969}
   m_detectionTrigger: {fileID: 8090298057409078493}
   m_meleeDamageTrigger: {fileID: 7809142716715751118}
@@ -1516,8 +1555,8 @@ MonoBehaviour:
   m_hurtTriggerName: Take Damage
   m_pickType: 0
   skill: {fileID: 11400000, guid: 30b2120986d35574788c17a6d9dd7066, type: 2}
-  m_damagePoints: 10
-  m_meleeRadius: 10.89
+  m_meleeRadius: 10
+  m_projectileRadius: 20
   m_minAttackTime: 3
   m_maxAttackTime: 5
   m_nextAttackTime: 0
@@ -1526,14 +1565,16 @@ MonoBehaviour:
   m_currAtk:
     m_triggerName: 
     m_duration: 1
+  m_attacking: 0
   m_playersInRange: []
   m_playersInGoldRange: []
   m_playersWhoDamageIt: []
   m_lastHitPlayer: {fileID: 0}
   m_destroyTime: 1
   m_sinkSpeed: 2
-  m_respawnTimee: 20
-  m_respawnPosition: {x: 0, y: 0, z: 0}
+  m_respawnTime: 120
+  m_respawnWorldPosition: {x: 0, y: 0, z: 0}
+  m_respawnLocalPosition: {x: 0, y: 0, z: 0}
   m_emergeTime: 1
   m_rewardKey: Bee
   m_bulletSpawnPoint: {fileID: 2861593263645463057}
@@ -1542,6 +1583,7 @@ MonoBehaviour:
   m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
   m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
   m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
+  m_agent: {fileID: 3171364355920887854}
 --- !u!114 &6150452329794760647
 MonoBehaviour:
   m_ObjectHideFlags: 0
