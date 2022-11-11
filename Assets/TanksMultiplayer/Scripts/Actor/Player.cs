@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace TanksMP
 {
-    public class Player : MonoBehaviourPunCallbacks, IPunObservable
+    public class Player : ActorManager, IPunObservable
     {
         [Header("Stats")]
 
@@ -87,8 +87,7 @@ namespace TanksMP
 
         private Vector2 prevMoveDir;
 
-        [Header("Events")]
-        public UnityEvent<int> onDieEvent;
+        
 
         #region Network Sync
 
@@ -340,7 +339,7 @@ namespace TanksMP
         }
 
         [PunRPC]
-        public void RpcDamageHealth(int amount, int attackerId)
+        public override void RpcDamageHealth(int amount, int attackerId)
         {
             AddHealth(-amount);
 

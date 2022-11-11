@@ -22,7 +22,7 @@ public static class PlayerExtension
             return System.Convert.ToInt32(value);
         }
 
-        return 0;
+        return -1;
     }
 
     public static int GetShipIndex(this Player player)
