@@ -11,10 +11,15 @@ namespace TanksMP
 {
     public class CollectibleTeam : Collectible
     {
-        [PunRPC]
+        /*[PunRPC]
         public void RpcCollect()
         {
             PhotonNetwork.Destroy(photonView);
+        }*/
+
+        protected override void OnObtain(Player player)
+        {
+            player.photonView.HasChest(true);
         }
 
         /*public override void OnTriggerEnter(Collider col)

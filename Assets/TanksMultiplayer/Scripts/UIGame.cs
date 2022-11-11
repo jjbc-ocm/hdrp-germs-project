@@ -83,13 +83,13 @@ namespace TanksMP
             var myPlayer = players.FirstOrDefault(i => i.photonView.IsMine);
 
             /* Update UI elements for myself first */
-            sliderHealth.value = myPlayer.photonView.GetHealth() / (float)myPlayer.MaxHealth;
+            sliderHealth.value = myPlayer.Health / (float)myPlayer.MaxHealth;
 
-            sliderMana.value = myPlayer.photonView.GetMana() / (float)myPlayer.MaxMana;
+            sliderMana.value = myPlayer.Mana / (float)myPlayer.MaxMana;
 
-            textHealth.text = $"{myPlayer.photonView.GetHealth()}/{myPlayer.MaxHealth}";
+            textHealth.text = $"{myPlayer.Health}/{myPlayer.MaxHealth}";
 
-            textMana.text = $"{myPlayer.photonView.GetMana()}/{myPlayer.MaxMana}";
+            textMana.text = $"{myPlayer.Mana}/{myPlayer.MaxMana}";
 
             /* Update UI elements that is tied-up to other players */
             var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
