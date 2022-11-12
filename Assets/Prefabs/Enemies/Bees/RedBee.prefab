@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4274285279787912948}
   m_LocalRotation: {x: -0, y: -0.00000011920926, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 14.95, z: 3.24}
+  m_LocalPosition: {x: 0, y: 11.2, z: 3.24}
   m_LocalScale: {x: 1.7930977, y: 1.7930977, z: 1.7930977}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58,6 +58,9 @@ GameObject:
   - component: {fileID: 6546989710165056690}
   - component: {fileID: 7686235577446728851}
   - component: {fileID: 3829025269998933117}
+  - component: {fileID: 2778135314661836043}
+  - component: {fileID: 4661479390799278373}
+  - component: {fileID: 4142145433324538410}
   m_Layer: 0
   m_Name: RedBee
   m_TagString: Untagged
@@ -94,12 +97,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 5171174882080906241}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 2.71
+  m_Radius: 7
   m_Speed: 15
   m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 5
+  m_StoppingDistance: 8
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -127,6 +130,9 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3829025269998933117}
+  - {fileID: 4661479390799278373}
+  - {fileID: 6150452329794760647}
+  - {fileID: 7983891807507222665}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -146,6 +152,113 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 1
   m_UseLocal: 1
+--- !u!114 &2778135314661836043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171174882080906241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac67cd7f98f5c1409f46dd383bc6242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_photonView: {fileID: 7686235577446728851}
+  m_health: {fileID: 4661479390799278373}
+  m_detectionTrigger: {fileID: 8090298057409078493}
+  m_meleeDamageTrigger: {fileID: 7809142716715751118}
+  m_goldTrigger: {fileID: 4477788693655685899}
+  m_model: {fileID: 4956315408033327986}
+  m_rotateSpeed: 3
+  m_tweening: 0
+  m_animator: {fileID: 4956315408023836860}
+  m_meleeAtks:
+  - m_triggerName: Bite Attack
+    m_duration: 1
+    m_damageType: 0
+    m_damage: 15
+  m_projectileAtks:
+  - m_triggerName: Breath Attack
+    m_duration: 1
+    attack: {fileID: 11400000, guid: 87620d58fad72f64cb8ff2f8c3853bb7, type: 2}
+  m_dieTriggerName: Die
+  m_hurtTriggerName: Take Damage
+  m_pickType: 0
+  skill: {fileID: 11400000, guid: 30b2120986d35574788c17a6d9dd7066, type: 2}
+  m_meleeRadius: 12
+  m_projectileRadius: 22
+  m_minAttackTime: 3.5
+  m_maxAttackTime: 4
+  m_nextAttackTime: 0
+  m_nextAttackTimeCounter: 0
+  m_currTargetPlayer: {fileID: 0}
+  m_currAtk:
+    m_triggerName: 
+    m_duration: 1
+  m_attacking: 0
+  m_playersInRange: []
+  m_playersInGoldRange: []
+  m_playersWhoDamageIt: []
+  m_lastHitPlayer: {fileID: 0}
+  m_destroyTime: 1
+  m_sinkSpeed: 2
+  m_respawnTime: 120
+  m_respawnWorldPosition: {x: 0, y: 0, z: 0}
+  m_respawnModelLocalPosition: {x: 0, y: 0, z: 0}
+  m_emergeTime: 1
+  m_rewardKey: RedBee
+  m_bulletSpawnPoint: {fileID: 2861593263645463057}
+  m_nextFire: 0
+  m_attackSpeed: 50
+  m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
+  m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
+  m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
+  m_agent: {fileID: 6546989710165056690}
+--- !u!114 &4661479390799278373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171174882080906241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33de202fbbd053e44a9a4ea9a5be2d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxHealth: 25
+  m_currentHealth: 10
+  m_isDead: 0
+  OnHealthChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResurrectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!136 &4142145433324538410
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5171174882080906241}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.91
+  m_Height: 19.17
+  m_Direction: 1
+  m_Center: {x: 0, y: 6.4, z: 0}
 --- !u!1 &5637237375038978256
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5637237375038978256}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.04, z: 1.85}
+  m_LocalPosition: {x: 0, y: 4.29, z: 1.85}
   m_LocalScale: {x: 1.7930977, y: 1.7930977, z: 1.7930977}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -481,7 +594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 146eb1ac89092d84f834ba42bae6904a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -3.75
       objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 146eb1ac89092d84f834ba42bae6904a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1517,20 +1630,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100014, guid: 146eb1ac89092d84f834ba42bae6904a, type: 3}
   m_PrefabInstance: {fileID: 4956315408033295836}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1989757005417913020
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4956315408033327986}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.61, y: 1.5817039, z: 0.68}
-  m_Center: {x: 0, y: 0.7978588, z: 0}
---- !u!114 &6045876192503353285
+--- !u!114 &2166743072822802342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1539,59 +1639,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4956315408033327986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ac67cd7f98f5c1409f46dd383bc6242, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a29e8c8a4084494bb378a26bf8b9968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_photonView: {fileID: 7686235577446728851}
-  m_health: {fileID: 8488404862498292969}
-  m_detectionTrigger: {fileID: 8090298057409078493}
-  m_meleeDamageTrigger: {fileID: 7809142716715751118}
-  m_goldTrigger: {fileID: 4477788693655685899}
-  m_rotateSpeed: 3
-  m_tweening: 0
-  m_animator: {fileID: 4956315408023836860}
-  m_meleeAtks:
-  - m_triggerName: Bite Attack
-    m_duration: 1
-    m_damageType: 0
-    m_damage: 15
-  m_projectileAtks:
-  - m_triggerName: Breath Attack
-    m_duration: 1
-    attack: {fileID: 11400000, guid: 87620d58fad72f64cb8ff2f8c3853bb7, type: 2}
-  m_dieTriggerName: Die
-  m_hurtTriggerName: Take Damage
-  m_pickType: 0
-  skill: {fileID: 11400000, guid: 30b2120986d35574788c17a6d9dd7066, type: 2}
-  m_meleeRadius: 10
-  m_projectileRadius: 20
-  m_minAttackTime: 3.5
-  m_maxAttackTime: 4
-  m_nextAttackTime: 0
-  m_nextAttackTimeCounter: 0
-  m_currTargetPlayer: {fileID: 0}
-  m_currAtk:
-    m_triggerName: 
-    m_duration: 1
-  m_attacking: 0
-  m_playersInRange: []
-  m_playersInGoldRange: []
-  m_playersWhoDamageIt: []
-  m_lastHitPlayer: {fileID: 0}
-  m_destroyTime: 1
-  m_sinkSpeed: 2
-  m_respawnTime: 120
-  m_respawnWorldPosition: {x: 0, y: 0, z: 0}
-  m_respawnLocalPosition: {x: 0, y: 0, z: 0}
-  m_emergeTime: 1
-  m_rewardKey: Bee
-  m_bulletSpawnPoint: {fileID: 2861593263645463057}
-  m_nextFire: 0
-  m_attackSpeed: 50
-  m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
-  m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
-  m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
-  m_agent: {fileID: 6546989710165056690}
+  m_monsterOwner: {fileID: 2778135314661836043}
 --- !u!114 &6150452329794760647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1662,33 +1713,3 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
---- !u!114 &8488404862498292969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4956315408033327986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33de202fbbd053e44a9a4ea9a5be2d18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_maxHealth: 25
-  m_currentHealth: 10
-  m_isDead: 0
-  OnHealthChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDieEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResurrectEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamagedEvent:
-    m_PersistentCalls:
-      m_Calls: []

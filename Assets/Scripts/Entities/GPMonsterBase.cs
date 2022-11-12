@@ -51,6 +51,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     public GPGTriggerEvent m_detectionTrigger;
     public GPGTriggerEvent m_meleeDamageTrigger;
     public GPGTriggerEvent m_goldTrigger;
+    public GameObject m_model;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -103,7 +104,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     float m_respawnTimeCounter = 0.0f;
     [HideInInspector]
     public Vector3 m_respawnWorldPosition;
-    public Vector3 m_respawnLocalPosition;
+    public Vector3 m_respawnModelLocalPosition;
     public float m_emergeTime = 1.0f;
 
     [Header("Gold settings")]
@@ -147,7 +148,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         }
 
         m_respawnWorldPosition = transform.position;
-        m_respawnLocalPosition = transform.localPosition;
+        m_respawnModelLocalPosition = m_model.transform.localPosition;
     }
 
     public void LiveUpdate()
@@ -201,7 +202,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         while (timeCounter <= m_destroyTime)
         {
             timeCounter += Time.fixedDeltaTime;
-            transform.localPosition -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
+            m_model.transform.localPosition -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
             yield return new WaitForFixedUpdate();
         }
         //Destroy(gameObject);
@@ -209,8 +210,9 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
 
     public IEnumerator Emerge()
     {
-        transform.parent.position = m_respawnWorldPosition - Vector3.up * 10.0f;
-        LeanTween.moveLocal(gameObject, m_respawnLocalPosition, m_emergeTime).setEaseSpring();
+        transform.position = m_respawnWorldPosition;
+        m_model.transform.localPosition = m_respawnModelLocalPosition - (Vector3.up * 10.0f);
+        LeanTween.moveLocalY(m_model, m_respawnModelLocalPosition.y, m_emergeTime).setEaseSpring();
         yield return 0;
     }
 
@@ -306,12 +308,12 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
     }
 
     //For melee attacks, if I rename teh method animation events will be lost
-    public void StartAttack()
+    public void StartMeleeAttack()
     {
         MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
         if (m_currTargetPlayer == null || meleeAtk == null)
         {
-            EndAttack();
+            EndMeleeAttack();
             return;
         }
 
@@ -325,7 +327,7 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
         }
     }
 
-    public void EndAttack()
+    public void EndMeleeAttack()
     {
         m_meleeDamageTrigger.SetEnabled(false);
     }
@@ -400,13 +402,18 @@ public class GPMonsterBase : MonoBehaviourPunCallbacks
             player.TakeMonsterDamage(meleeAtk);
         }
 
-        EndAttack();
+        EndMeleeAttack();
     }
 
     //Shooting
 
-    public void ShootAnimEvent()
+    public void ShootProjectile()
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
         MonsterProjectileAttackDesc projAtk = m_currAtk as MonsterProjectileAttackDesc;
         if (m_currTargetPlayer == null || projAtk == null)
         {
