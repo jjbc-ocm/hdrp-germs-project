@@ -28,14 +28,14 @@ namespace TanksMP
 
         private Rigidbody rigidBody;
 
-        private GPMonsterBase monsterOwner;
+        //private GPMonsterBase monsterOwner;
 
-        public GPMonsterBase MonsterOwner { get => monsterOwner; } // TODO: make base class that the mosnters and players share
+        //public GPMonsterBase MonsterOwner { get => monsterOwner; } // TODO: make base class that the mosnters and players share // Done this one
 
         /// <summary>
         /// True if the bullet belongs to a monster.
         /// </summary>
-        public bool formMonster = false;
+        //public bool formMonster = false;
 
         /// <summary>
         /// Should the bullet ignore collisions with monsters?
@@ -55,15 +55,13 @@ namespace TanksMP
             //cache corresponding gameobject that was hit
             GameObject obj = col.gameObject;
 
-            Player player = obj.GetComponent<Player>();
-            GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
+            var target = obj.GetComponent<ActorManager>();
 
-            if (player != null)
+            //GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
+
+            /*if (target != null)
             {
-                if (owner != null) // could be by a monster.
-                {
-                    if (!IsHit(owner, player)) return;
-                }
+                if (!IsHit(owner, target)) return;
 
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
@@ -77,9 +75,12 @@ namespace TanksMP
                 //create clips and particles on hit
                 if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
                 if (hitClip) AudioManager.Play3D(hitClip, transform.position);
-            }
+            }*/
 
-            Debug.Log("Bullet collsion: " + col.name);
+            if (!IsHit(owner, target)) return;
+
+            if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
+            if (hitClip) AudioManager.Play3D(hitClip, transform.position);
 
             //despawn gameobject
             //PoolManager.Despawn(gameObject);// TODO: handle object pooling in the future
@@ -93,21 +94,21 @@ namespace TanksMP
 
             //create list for affected players by this bullet and add the collided player immediately,
             //we have done validation & friendly fire checks above already
-            List<Player> targets = new List<Player>();
-            if(player != null) targets.Add(player);
-
-            
+            List<ActorManager> targets = new List<ActorManager>();
+            if(target != null) targets.Add(target);
 
             //apply bullet damage to the collided players
-            for(int i = 0; i < targets.Count; i++)
+            for (int i = 0; i < targets.Count; i++)
             {
-                targets[i].TakeDamage(this);
+                //targets[i].TakeDamage(this);
+
+                targets[i].photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
             }
 
-            if (monster)
+            /*if (monster)
             {
                 monster.DamageMonster(this);
-            }
+            }*/
         }
 
         #endregion
@@ -119,14 +120,14 @@ namespace TanksMP
             rigidBody.velocity = transform.forward * speed;
         }
 
-        public void Initialize(GPMonsterBase owner)
+        /*public void Initialize(GPMonsterBase owner)
         {
             rigidBody = GetComponent<Rigidbody>();
 
-            this.monsterOwner = owner;
+            //this.monsterOwner = owner;
 
             rigidBody.velocity = transform.forward * speed;
-        }
+        }*/
 
         /*public void ChangeDirection(Vector3 direction)
         {

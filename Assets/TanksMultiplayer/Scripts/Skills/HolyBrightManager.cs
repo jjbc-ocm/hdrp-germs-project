@@ -10,24 +10,11 @@ public class HolyBrightManager : SkillBaseManager
     [SerializeField]
     private float sustainDelay;
 
-    //[SerializeField]
-    //private float trailSpeed;
-
-    //[SerializeField]
-    //private GameObject vfx;
-
-    //[SerializeField]
-    //private GameObject prefabDebugBox; // TODO: delete once there's a VFX
-
     private float lastAttackTime;
-
-    //private BoxCollider boxCollider;
 
     void Update()
     {
         transform.position = owner.transform.position;
-
-        transform.eulerAngles = new Vector3(0, owner.transform.eulerAngles.y, 0);
 
         if (!PhotonNetwork.IsMasterClient) return;
 
@@ -48,61 +35,16 @@ public class HolyBrightManager : SkillBaseManager
                 var player = collider.GetComponent<Player>();
 
                 if (!IsHit(owner, player)) continue;
-
-                player.TakeDamage(this);
+                
+                player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
             }
         }
     }
 
-    /*void OnTriggerEnter(Collider col)
-    {
-        Player player = col.GetComponent<Player>();
-        
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        if (!IsHit(owner, player)) return;
-
-        player.TakeDamage(this);
-    }*/
-
     protected override void OnInitialize()
     {
-        //boxCollider = GetComponent<BoxCollider>();
 
-        
-        //StartCoroutine(YieldSpawnDebugBox());
     }
 
-    private int spawnBoxCounter;
-
-    /*private IEnumerator YieldSpawnDebugBox()
-    {
-        var spawnDelay = 0.1f;
-
-        var trailSize = 0f;
-
-        while (data.Range > trailSize)
-        {
-            yield return new WaitForSeconds(spawnDelay);
-
-            trailSize = spawnBoxCounter * trailSpeed * spawnDelay;
-
-            spawnBoxCounter++;
-
-            boxCollider.size = new Vector3(5, 5, trailSize);
-
-            boxCollider.center = boxCollider.size / 2f;
-
-
-            // TODO: delete these part once there's a VFX
-            //var position = transform.position + transform.forward * trailSize;
-
-            *//*var rotation = Quaternion.Euler(
-                Random.Range(0, 360),
-                Random.Range(0, 360),
-                Random.Range(0, 360));*//*
-
-            //Instantiate(prefabDebugBox, position, rotation, transform);
-        }
-    }*/
+    
 }
