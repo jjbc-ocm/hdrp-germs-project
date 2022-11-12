@@ -189,6 +189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3f4a86d9bdf7a4abb32153a3d774ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMonster: 1
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_photonView: {fileID: 1159545308250745073}
   m_health: {fileID: 4991730944466095777}
   m_detectionTrigger: {fileID: 5696015179258554672}
@@ -774,6 +778,19 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &5395376566131780253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177341485078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a29e8c8a4084494bb378a26bf8b9968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_monsterOwner: {fileID: 1972882938450108599}
 --- !u!114 &8691387958236950056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,19 +821,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
---- !u!114 &5395376566131780253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177341485078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a29e8c8a4084494bb378a26bf8b9968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_monsterOwner: {fileID: 1972882938450108599}
 --- !u!1001 &8100110896987105354
 PrefabInstance:
   m_ObjectHideFlags: 0
