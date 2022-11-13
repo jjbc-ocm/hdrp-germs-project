@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 114000011365822250}
   - component: {fileID: 2090048764}
   - component: {fileID: 2090048765}
-  - component: {fileID: 1850325520531058462}
   - component: {fileID: 421975384264738389}
+  - component: {fileID: 4060860543542374174}
+  - component: {fileID: 65653937090360438}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -53,7 +54,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localPlayer: {fileID: 0}
   gameTimer: 600
-  mainCamera: {fileID: 0}
   zoneRed: {fileID: 0}
   zoneBlue: {fileID: 0}
   ui: {fileID: 0}
@@ -66,7 +66,6 @@ MonoBehaviour:
     spawn: {fileID: 0}
   maxScore: 30
   respawnTime: 8
-  friendlyFire: 0
 --- !u!114 &2090048764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,29 +96,18 @@ MonoBehaviour:
   - agent: {fileID: 1221975569823433274}
     prefab: {fileID: 5815488680999885027, guid: c78bbfed9dd9b64479ce0a5a2e568594, type: 3}
     delay: 5
+    isChest: 1
     maxLimit: 1
   - agent: {fileID: 5559357820936836870}
     prefab: {fileID: 1000010293127126, guid: 486e220194a367948b74e739f09e5794, type: 3}
     delay: 5
+    isChest: 0
     maxLimit: 3
   - agent: {fileID: 7160535283030873192}
     prefab: {fileID: 1000010293127126, guid: a840b081a356d524ba13cbec9608f82a, type: 3}
     delay: 5
+    isChest: 0
     maxLimit: 2
---- !u!114 &1850325520531058462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013481812936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870636a279c2d614f92a522d512b3db6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainContent: {fileID: 0}
-  text: {fileID: 0}
 --- !u!114 &421975384264738389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +128,41 @@ MonoBehaviour:
     height: 100
   WindowId: 101
   Visible: 1
+--- !u!114 &4060860543542374174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013481812936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c44999b855a80a44a8f250a39b503ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipPrefabs:
+  - {fileID: 112386, guid: f30ad63695c27504b8c2aa87564a6ccc, type: 3}
+  - {fileID: 112386, guid: c514d17be449d9d41b4be00bf058808f, type: 3}
+  - {fileID: 112386, guid: ca0d3e14cb38bae49acdad33ebcf4570, type: 3}
+  - {fileID: 112386, guid: 60876bb6e717eb747a3374ffcf723409, type: 3}
+  - {fileID: 112386, guid: 2b031e5cf5181bb48aa8d5d99666b54b, type: 3}
+  - {fileID: 112386, guid: 76c4f3e4e3f79904ba5a9a2e5b2010e9, type: 3}
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &65653937090360438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013481812936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efe95bca2ba9334f980971ba7e2c83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: []
 --- !u!1 &2050945310018176571
 GameObject:
   m_ObjectHideFlags: 0

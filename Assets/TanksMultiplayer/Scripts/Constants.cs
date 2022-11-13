@@ -41,3 +41,8 @@ public enum TargetType
     One,
     Area
 }
+
+public enum CategoryType
+{
+    Consumables,
+}
