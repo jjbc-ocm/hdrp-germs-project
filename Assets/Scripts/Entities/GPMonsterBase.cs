@@ -219,8 +219,6 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public override void RpcDamageHealth(int amount, int attackerId)
     {
-        Debug.Log("RpcDamageHealth");
-
         m_health.Damage(amount);
 
         var other = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;//bullet.Owner;
@@ -340,8 +338,7 @@ public class GPMonsterBase : ActorManager
 
         if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
         {
-            //m_currTargetPlayer.TakeMonsterDamage(meleeAtk);
-            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk, photonView.ViewID);
+            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk, -1);
         }
         else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
@@ -421,7 +418,8 @@ public class GPMonsterBase : ActorManager
         if (player && player == m_currTargetPlayer)
         {
             m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
-            player.TakeMonsterDamage(meleeAtk);
+            //player.TakeMonsterDamage(meleeAtk);
+            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk, -1);
         }
 
         EndMeleeAttack();
