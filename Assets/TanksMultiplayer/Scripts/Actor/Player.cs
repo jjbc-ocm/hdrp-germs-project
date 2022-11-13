@@ -266,7 +266,7 @@ namespace TanksMP
         }
 
         [PunRPC]
-        public void RpcDestroy(short attackerId)
+        public void RpcDestroy(int attackerId)
         {
             ToggleFunction(false);
 
@@ -367,6 +367,11 @@ namespace TanksMP
 
                 PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
+                /* Reset stats */
+                health = maxHealth;
+
+                mana = MaxMana;
+
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
             }
         }
@@ -375,33 +380,6 @@ namespace TanksMP
 
         #region Public
 
-        /// <summary>
-        /// Server only: calculate damage to be taken by the Player from a monster,
-		/// triggers respawn workflow on death.
-        /// </summary>
-        public void TakeMonsterDamage(MonsterMeleeAttackDesc monsterMeleeAtk)
-        {
-            //var health = photonView.GetHealth();
-
-            //health -= monsterMeleeAtk.m_damage;
-
-            AddHealth(-monsterMeleeAtk.m_damage);
-
-            if (health <= 0)
-            {
-                if (GameManager.GetInstance().IsGameOver()) return;
-
-                /* Reset health, prepare for their respawn */
-                //photonView.SetHealth(maxHealth);
-
-                photonView.RPC("RpcDestroy", RpcTarget.All, (short)-1);
-            }
-            else
-            {
-                //photonView.SetHealth(health);
-            }
-        }
-        
         public void ResetPosition()
         {
             camFollow.target = transform;
