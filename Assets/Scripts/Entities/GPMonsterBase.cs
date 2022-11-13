@@ -51,6 +51,7 @@ public class GPMonsterBase : ActorManager
     public GPGTriggerEvent m_detectionTrigger;
     public GPGTriggerEvent m_meleeDamageTrigger;
     public GPGTriggerEvent m_goldTrigger;
+    public GameObject m_model;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -71,6 +72,7 @@ public class GPMonsterBase : ActorManager
     int m_currMeleeAttkIdx = 0;
     int m_currProjectileAttkIdx = 0;
     public float m_meleeRadius = 3.0f;
+    public float m_projectileRadius = 100.0f;
     public float m_minAttackTime = 3.5f;
     public float m_maxAttackTime = 4.0f;
     [HideInInspector]
@@ -101,7 +103,8 @@ public class GPMonsterBase : ActorManager
     public float m_respawnTime = 120.0f;
     float m_respawnTimeCounter = 0.0f;
     [HideInInspector]
-    public Vector3 m_respawnPosition;
+    public Vector3 m_respawnWorldPosition;
+    public Vector3 m_respawnModelLocalPosition;
     public float m_emergeTime = 1.0f;
 
     [Header("Gold settings")]
@@ -122,12 +125,16 @@ public class GPMonsterBase : ActorManager
     public AudioClip m_deathSFX;
     public AudioClip m_meleeAtkHitSFX;
 
+    Collider m_mainCollider;
+
     public void BaseStart()
     {
         if (m_photonView == null)
         {
             m_photonView = GetComponent<PhotonView>();
         }
+
+        m_mainCollider = GetComponent<Collider>();
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -140,7 +147,8 @@ public class GPMonsterBase : ActorManager
             m_goldTrigger.m_OnExitEvent.AddListener(OnPlayerGoldTriggerExit);
         }
 
-        m_respawnPosition = transform.position;
+        m_respawnWorldPosition = transform.position;
+        m_respawnModelLocalPosition = m_model.transform.localPosition;
     }
 
     public void LiveUpdate()
@@ -155,10 +163,8 @@ public class GPMonsterBase : ActorManager
             m_respawnTimeCounter += Time.deltaTime;
             if (m_respawnTimeCounter >= m_respawnTime)
             {
-                m_respawnTimeCounter = 0.0f;
-                m_health.Resurrect();
                 StartCoroutine(Emerge());
-                m_animator.Play("Idle");
+                m_photonView.RPC("RPCOnRespawn", RpcTarget.All);
             }
         }
     }
@@ -196,7 +202,7 @@ public class GPMonsterBase : ActorManager
         while (timeCounter <= m_destroyTime)
         {
             timeCounter += Time.fixedDeltaTime;
-            transform.position -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
+            m_model.transform.localPosition -= Vector3.up * Time.fixedDeltaTime * m_sinkSpeed;
             yield return new WaitForFixedUpdate();
         }
         //Destroy(gameObject);
@@ -204,7 +210,9 @@ public class GPMonsterBase : ActorManager
 
     public IEnumerator Emerge()
     {
-        LeanTween.move(gameObject, m_respawnPosition, m_emergeTime).setEaseSpring();
+        transform.position = m_respawnWorldPosition;
+        m_model.transform.localPosition = m_respawnModelLocalPosition - (Vector3.up * 10.0f);
+        LeanTween.moveLocalY(m_model, m_respawnModelLocalPosition.y, m_emergeTime).setEaseSpring();
         yield return 0;
     }
 
@@ -321,12 +329,12 @@ public class GPMonsterBase : ActorManager
     }
 
     //For melee attacks, if I rename teh method animation events will be lost
-    public void StartAttack()
+    public void StartMeleeAttack()
     {
         MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
         if (m_currTargetPlayer == null || meleeAtk == null)
         {
-            EndAttack();
+            EndMeleeAttack();
             return;
         }
 
@@ -341,7 +349,7 @@ public class GPMonsterBase : ActorManager
         }
     }
 
-    public void EndAttack()
+    public void EndMeleeAttack()
     {
         m_meleeDamageTrigger.SetEnabled(false);
     }
@@ -400,6 +408,8 @@ public class GPMonsterBase : ActorManager
     public void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, m_meleeRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, m_projectileRadius);
     }
 
     public virtual void BitePlayer(Collider collider)
@@ -414,14 +424,19 @@ public class GPMonsterBase : ActorManager
             player.TakeMonsterDamage(meleeAtk);
         }
 
-        EndAttack();
+        EndMeleeAttack();
     }
 
     //Shooting
 
-    public void ShootAnimEvent()
+    public void ShootProjectile()
     {
-        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
+        MonsterProjectileAttackDesc projAtk = m_currAtk as MonsterProjectileAttackDesc;
         if (m_currTargetPlayer == null || projAtk == null)
         {
             return;
@@ -537,6 +552,17 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public void RPCOnDie()
     {
+        m_mainCollider.enabled = false;
+        AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
+    }
+
+    [PunRPC]
+    public void RPCOnRespawn()
+    {
+        m_mainCollider.enabled = true;
+        m_respawnTimeCounter = 0.0f;
+        m_health.Resurrect();
+        m_animator.Play("Idle");
         AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
     }
 

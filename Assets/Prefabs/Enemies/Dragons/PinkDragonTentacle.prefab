@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5696015177808293605}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4396148897698546822
 MonoBehaviour:
@@ -120,6 +120,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5696015177808293605}
+  - component: {fileID: 7653580903217112025}
+  - component: {fileID: 3152177784086692953}
+  - component: {fileID: 4390068412021779801}
+  - component: {fileID: 6024810629971203134}
+  - component: {fileID: 568732363664501970}
   m_Layer: 0
   m_Name: PinkDragonTentacle
   m_TagString: Untagged
@@ -139,13 +144,166 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5696015177341459574}
   - {fileID: 5696015179258554638}
   - {fileID: 2443897196312335213}
-  - {fileID: 5696015177341459574}
   - {fileID: 5032767747279182381}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7653580903217112025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177808293604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 4390068412021779801}
+  - {fileID: 6024810629971203134}
+  - {fileID: 647564620397211475}
+  - {fileID: 6950017328402674799}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3152177784086692953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177808293604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3f4a86d9bdf7a4abb32153a3d774ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMonster: 1
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_photonView: {fileID: 7653580903217112025}
+  m_health: {fileID: 4390068412021779801}
+  m_detectionTrigger: {fileID: 5696015179258554672}
+  m_meleeDamageTrigger: {fileID: 4396148897698546822}
+  m_goldTrigger: {fileID: 3227107438956989802}
+  m_model: {fileID: 5696015177341485078}
+  m_rotateSpeed: 3
+  m_tweening: 0
+  m_animator: {fileID: 5696015177334207412}
+  m_meleeAtks:
+  - m_triggerName: Whip Attack
+    m_duration: 1
+    m_damageType: 0
+    m_damage: 10
+  - m_triggerName: Slap Attack
+    m_duration: 1
+    m_damageType: 0
+    m_damage: 10
+  m_projectileAtks: []
+  m_dieTriggerName: Die
+  m_hurtTriggerName: Take Damage
+  m_pickType: 0
+  skill: {fileID: 0}
+  m_meleeRadius: 10.69
+  m_projectileRadius: 100
+  m_minAttackTime: 3.5
+  m_maxAttackTime: 4
+  m_nextAttackTime: 0
+  m_nextAttackTimeCounter: 0
+  m_currTargetPlayer: {fileID: 0}
+  m_currAtk:
+    m_triggerName: 
+    m_duration: 1
+  m_attacking: 0
+  m_playersInRange: []
+  m_playersInGoldRange: []
+  m_playersWhoDamageIt: []
+  m_lastHitPlayer: {fileID: 0}
+  m_destroyTime: 1
+  m_sinkSpeed: 2
+  m_respawnTime: 120
+  m_respawnWorldPosition: {x: 0, y: 0, z: 0}
+  m_respawnModelLocalPosition: {x: 0, y: 0, z: 0}
+  m_emergeTime: 1
+  m_rewardKey: PinkTentacle
+  m_bulletSpawnPoint: {fileID: 0}
+  m_nextFire: 0
+  m_attackSpeed: 50
+  m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
+  m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
+  m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
+--- !u!114 &4390068412021779801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177808293604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33de202fbbd053e44a9a4ea9a5be2d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxHealth: 25
+  m_currentHealth: 10
+  m_isDead: 0
+  OnHealthChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResurrectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6024810629971203134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177808293604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!136 &568732363664501970
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177808293604}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.55
+  m_Height: 18.12
+  m_Direction: 1
+  m_Center: {x: 0, y: 6.8, z: 0}
 --- !u!1 &5696015179258554637
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +335,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5696015177808293605}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5696015179258554672
 MonoBehaviour:
@@ -481,7 +639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
       propertyPath: m_LocalScale.x
@@ -681,19 +839,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100034, guid: 3e2ec86bff739014abc7b016d39d79cf, type: 3}
   m_PrefabInstance: {fileID: 5696015177341585108}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &731377152213039244
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177341485078}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2.64263, z: 1}
-  m_Center: {x: 0, y: 1.3066016, z: 0}
 --- !u!114 &647564620397211475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,121 +855,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &940362860459258618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177341485078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33de202fbbd053e44a9a4ea9a5be2d18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_maxHealth: 25
-  m_currentHealth: 10
-  m_isDead: 0
-  OnHealthChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDieEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResurrectEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamagedEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3010476152433290096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177341485078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3f4a86d9bdf7a4abb32153a3d774ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_photonView: {fileID: 3264283099420689502}
-  m_health: {fileID: 940362860459258618}
-  m_detectionTrigger: {fileID: 5696015179258554672}
-  m_meleeDamageTrigger: {fileID: 4396148897698546822}
-  m_goldTrigger: {fileID: 3227107438956989802}
-  m_rotateSpeed: 3
-  m_tweening: 0
-  m_animator: {fileID: 5696015177334207412}
-  m_meleeAtks:
-  - m_triggerName: Whip Attack
-    m_duration: 1
-    m_damageType: 0
-    m_damage: 10
-  - m_triggerName: Slap Attack
-    m_duration: 1
-    m_damageType: 0
-    m_damage: 10
-  m_projectileAtks: []
-  m_dieTriggerName: Die
-  m_hurtTriggerName: Take Damage
-  m_pickType: 0
-  skill: {fileID: 0}
-  m_damagePoints: 60
-  m_meleeRadius: 10.69
-  m_minAttackInterval: 3
-  m_maxAttackInterval: 6
-  m_nextAttackTime: 0
-  m_nextAttackTimeCounter: 0
-  m_currTargetPlayer: {fileID: 0}
-  m_currAtk:
-    m_triggerName: 
-    m_duration: 1
-  m_playersInRange: []
-  m_playersInGoldRange: []
-  m_playersWhoDamageIt: []
-  m_lastHitPlayer: {fileID: 0}
-  m_destroyTime: 1
-  m_sinkSpeed: 2
-  m_respawnTimee: 20
-  m_respawnPosition: {x: 0, y: 0, z: 0}
-  m_emergeTime: 1
-  m_rewardKey: GreenTentacle
-  m_bulletSpawnPoint: {fileID: 0}
-  m_nextFire: 0
-  m_attackSpeed: 50
-  m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
-  m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
-  m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
---- !u!114 &3264283099420689502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696015177341485078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 647564620397211475}
-  - {fileID: 940362860459258618}
-  - {fileID: 6950017328402674799}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &6950017328402674799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,3 +885,16 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
+--- !u!114 &8952028683184933557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696015177341485078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a29e8c8a4084494bb378a26bf8b9968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_monsterOwner: {fileID: 3152177784086692953}

@@ -24,13 +24,18 @@ public class GPDragonPart : GPMonsterBase
     // Update is called once per frame
     void Update()
     {
+        //Only master client will execute enemy logic and share the data to other players
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
         if (m_health.m_isDead)
         {
             DeathUpdate();
         }
 
-        //Only master client will execute enemy logic and share the data to other players
-        if (!PhotonNetwork.IsMasterClient || m_health.m_isDead)
+        if (m_health.m_isDead)
         {
             return;
         }
