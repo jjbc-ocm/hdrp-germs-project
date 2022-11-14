@@ -105,6 +105,8 @@ namespace TanksMP
 
         public Sprite SpriteIcon { get => spriteIcon; }
 
+        public SkillData Attack { get => attack; }
+
         public SkillData Skill { get => skill; }
 
         public GameObject IconIndicator { get => iconIndicator; }
@@ -135,6 +137,13 @@ namespace TanksMP
             health = maxHealth;
 
             mana = maxMana;
+
+            photonView.SetAttackDamage(attackDamage);
+            photonView.SetAbilityPower(abilityPower);
+            photonView.SetAttackSpeed(attackSpeed);
+            photonView.SetMoveSpeed(moveSpeed);
+            photonView.SetArmor(armor);
+            photonView.SetResist(resist);
 
             StartCoroutine(YieldManaAutoRegen(1));
 
