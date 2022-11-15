@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class ItemData : ScriptableObject
 {
     [SerializeField]
@@ -10,6 +11,9 @@ public class ItemData : ScriptableObject
     [SerializeField]
     [TextArea]
     private string desc;
+
+    [SerializeField]
+    private Sprite icon;
 
     [SerializeField]
     private CategoryType category;
@@ -23,6 +27,8 @@ public class ItemData : ScriptableObject
     public string Name { get => name; }
 
     public string Desc { get => desc; }
+
+    public Sprite Icon { get => icon; }
 
     public CategoryType Category { get => category; }
 
