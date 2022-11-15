@@ -13,6 +13,9 @@ public class SkillData : ScriptableObject
     private string desc;
 
     [SerializeField]
+    private Sprite icon;
+
+    [SerializeField]
     private AimType aim;
 
     [SerializeField]
@@ -33,6 +36,8 @@ public class SkillData : ScriptableObject
     public string Name { get => name; }
 
     public string Desc { get => desc; }
+
+    public Sprite Icon { get => icon; }
 
     public AimType Aim { get => aim; }
 
