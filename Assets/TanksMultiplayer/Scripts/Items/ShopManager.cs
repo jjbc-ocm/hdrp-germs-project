@@ -9,11 +9,27 @@ public class ShopManager : MonoBehaviour
     public static ShopManager Instance;
 
     [SerializeField]
-    public ItemData[] data;
+    private ShopUI ui;
+
+    [SerializeField]
+    private List<ItemData> data;
 
     void Awake()
     {
         Instance = this;
+    }
+
+    public void OpenShop()
+    {
+        ui.Open((self) =>
+        {
+            self.Data = data;
+        });
+    }
+
+    public void CloseShop()
+    {
+        ui.Close();
     }
 
     public void Buy(ItemData item)

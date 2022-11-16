@@ -8,6 +8,8 @@ public class ShopUI : ListViewUI<ShopItemUI, ShopUI>
 
     protected override void OnRefreshUI()
     {
+        DeleteItems();
+
         RefreshItems(Data, (item, data) =>
         {
             item.Data = data;
