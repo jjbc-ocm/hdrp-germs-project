@@ -82,7 +82,9 @@ public class AimManager : MonoBehaviour
 
             var layerName = action.Aim == AimType.Water ? "Water" : "Ship";
 
-            if (Physics.Raycast(ray, out RaycastHit hit, action.Range, LayerMask.GetMask(layerName)))
+            var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, LayerMask.GetMask(layerName)))
             {
                 if (action.Aim == AimType.Water ||
                     action.Aim == AimType.AnyShip ||
