@@ -117,6 +117,19 @@ namespace TanksMP
 
         public int Mana { get => mana; }
 
+        public int AbilityPower { get => abilityPower; }
+
+        public int AttackDamage { get => attackDamage; }
+
+        public int AttackSpeed { get => attackSpeed; }
+
+        public int MoveSpeed { get => moveSpeed; }
+
+        public int Armor { get => armor; }
+
+        public int Resist { get => resist; }
+
+
         public void AddHealth(int amount)
         {
             health = Mathf.Clamp(health + amount, 0, maxHealth);
@@ -173,6 +186,16 @@ namespace TanksMP
                 });
 
             camFollow.target = transform;
+        }
+
+        void Update()
+        {
+            if (!photonView.IsMine) return;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ShopManager.Instance.OpenShop();
+            }
         }
 
         void FixedUpdate()

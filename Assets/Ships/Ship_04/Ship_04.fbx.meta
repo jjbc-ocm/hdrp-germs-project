@@ -1,9 +1,14 @@
 fileFormatVersion: 2
 guid: 8038bb542a2d918469eae284c6979906
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ship_01
+    second: {fileID: 2100000, guid: a11e5e81c66a08f409a32d9e7587723c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -99,6 +104,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

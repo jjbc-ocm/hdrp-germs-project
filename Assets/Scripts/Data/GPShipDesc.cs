@@ -5,7 +5,7 @@ using TanksMP;
 
 public enum GP_SHIP_TYPE
 {
-    kDark,
+    kDark = 0,
     kMagical,
     kNatural,
     kLight,
@@ -17,6 +17,8 @@ public class GPShipDesc : ScriptableObject
     public string m_name;
     [TextArea(2, 10)]
     public string m_desc;
+    [TextArea(2, 10)]
+    public string m_ability;
     public GameObject m_model;
     public Player m_playerPrefab;
     public Sprite m_cardImage;
