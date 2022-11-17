@@ -14,6 +14,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField]
     private List<ItemData> data;
 
+    public ShopUI UI { get => ui; }
+
     void Awake()
     {
         Instance = this;
