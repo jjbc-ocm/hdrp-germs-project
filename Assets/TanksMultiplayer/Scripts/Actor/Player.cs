@@ -188,6 +188,16 @@ namespace TanksMP
             camFollow.target = transform;
         }
 
+        void Update()
+        {
+            if (!photonView.IsMine) return;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ShopManager.Instance.OpenShop();
+            }
+        }
+
         void FixedUpdate()
         {
             if (!photonView.IsMine) return;
