@@ -6,7 +6,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: _ColorRampTexGradientTex{"mode":0,"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.5000076293945313},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.1441214680671692},{"alpha":0.0,"time":1.0}]}
+  m_Name: _ColorRampTexGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.6839622259140015,"g":0.9938733577728272,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":0.6839622259140015,"g":0.9938733577728272,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.1441214680671692},{"alpha":0.0,"time":1.0}]}
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -41,7 +41,7 @@ Texture2D:
   m_ColorSpace: 0
   m_PlatformBlob: 
   image data: 256
-  _typelessdata: ffffff00ffffff1cffffff38ffffff54ffffff70ffffff8cffffffa9ffffffc5ffffffe1fffffffdfffffffbfffffff6fffffff1ffffffecffffffe8ffffffe3ffffffdeffffffdaffffffd5ffffffd0ffffffcbffffffc7ffffffc2ffffffbdffffffb8ffffffb4ffffffafffffffaaffffffa6ffffffa1ffffff9cffffff97ffffff93ffffff8effffff89ffffff84ffffff80ffffff7bffffff76ffffff72ffffff6dffffff68ffffff63ffffff5fffffff5affffff55ffffff50ffffff4cffffff47ffffff42ffffff3dffffff39ffffff34ffffff2fffffff2bffffff26ffffff21ffffff1cffffff18ffffff13ffffff0effffff09ffffff05ffffff00
+  _typelessdata: aefdff00aefdff1caefdff38aefdff54aefdff70aefdff8caefdffa9aefdffc5aefdffe1aefdfffdaefdfffbaefdfff6aefdfff1aefdffecaefdffe8aefdffe3aefdffdeaefdffdaaefdffd5aefdffd0aefdffcbaefdffc7aefdffc2aefdffbdaefdffb8aefdffb4aefdffafaefdffaaaefdffa6aefdffa1aefdff9caefdff97aefdff93aefdff8eaefdff89aefdff84aefdff80aefdff7baefdff76aefdff72aefdff6daefdff68aefdff63aefdff5faefdff5aaefdff55aefdff50aefdff4caefdff47aefdff42aefdff3daefdff39aefdff34aefdff2faefdff2baefdff26aefdff21aefdff1caefdff18aefdff13aefdff0eaefdff09aefdff05aefdff00
   m_StreamData:
     serializedVersion: 2
     offset: 0
@@ -54,12 +54,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: frame_linetextframe_05_White2
+  m_Name: frame_linetextframe_05_White
   m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
   m_ValidKeywords:
   - ADDITIVECONFIG_ON
   - COLORRAMPGRAD_ON
   - COLORRAMP_ON
+  - HSV_ON
   - SHAPE1CONTRAST_ON
   - SHAPE1ROTATE_ON
   - SHAPE2_ON
@@ -156,7 +157,7 @@ Material:
     - _ColorGradingMidPoint: 0.5
     - _ColorMask: 15
     - _ColorRampBlend: 1
-    - _ColorRampLuminosity: 0
+    - _ColorRampLuminosity: 0.01
     - _CullingOption: 0
     - _DebugShape: 1
     - _DepthGlow: 1
@@ -183,9 +184,9 @@ Material:
     - _GlowGlobal: 1
     - _HandDrawnAmount: 10
     - _HandDrawnSpeed: 5
-    - _HsvBright: 1
-    - _HsvSaturation: 1
-    - _HsvShift: 180
+    - _HsvBright: 1.38
+    - _HsvSaturation: 0.31
+    - _HsvShift: 0
     - _LightAmount: 0
     - _MaskPow: 1
     - _OffsetSh1: 1

@@ -58,7 +58,6 @@ Material:
   m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
   m_ValidKeywords:
   - ALPHAFADE_ON
-  - CAMDISTFADE_ON
   - COLORRAMPGRAD_ON
   - COLORRAMP_ON
   - GLOW_ON
@@ -155,9 +154,9 @@ Material:
     - _AlphaBrightness: 0
     - _AlphaContrast: 1
     - _AlphaCutoffValue: 0.25
-    - _AlphaFadeAmount: 0.432
-    - _AlphaFadePow: 8.09
-    - _AlphaFadeSmooth: 1.084
+    - _AlphaFadeAmount: 0.546
+    - _AlphaFadePow: 1.84
+    - _AlphaFadeSmooth: 0.979
     - _AlphaStepMax: 0.075
     - _AlphaStepMin: 0
     - _BlurIntensity: 4.5
@@ -166,8 +165,8 @@ Material:
     - _CamDistProximityFade: 10
     - _ColorGradingMidPoint: 0.5
     - _ColorMask: 15
-    - _ColorRampBlend: 0.554
-    - _ColorRampLuminosity: 0.038
+    - _ColorRampBlend: 0.995
+    - _ColorRampLuminosity: 0.658
     - _CullingOption: 0
     - _DebugShape: 1
     - _DepthGlow: 0
@@ -191,15 +190,15 @@ Material:
     - _FadeScrollYSpeed: 0
     - _FadeTransition: 0.075
     - _FishEyeUvAmount: 0.35
-    - _Glow: 0
-    - _GlowGlobal: 2.6
+    - _Glow: 1
+    - _GlowGlobal: 4
     - _HandDrawnAmount: 10
     - _HandDrawnSpeed: 5
-    - _HsvBright: 2
-    - _HsvSaturation: 1.122
-    - _HsvShift: 303
+    - _HsvBright: 0.553
+    - _HsvSaturation: 0
+    - _HsvShift: 225
     - _LightAmount: 0
-    - _MaskPow: 1.43
+    - _MaskPow: 2.13
     - _OffsetSh1: 1
     - _OffsetSh2: 1
     - _OffsetSh3: 1
@@ -290,7 +289,7 @@ Material:
     - _ZoomAmount: 1.5
     m_Colors:
     - _BackFaceTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Color: {r: 1, g: 0.8160377, b: 0.9041799, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradingDark: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradingLight: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradingMiddle: {r: 1, g: 1, b: 1, a: 1}
