@@ -11,6 +11,15 @@ public class TrailOfFrostManager : SkillBaseManager
     private float trailSpeed;
 
     [SerializeField]
+    private float spawnDelay;
+
+    [SerializeField]
+    private float spawnOffsetDown;
+
+    [SerializeField]
+    private float spawnOffsetForward;
+
+    [SerializeField]
     private GameObject prefabIcicle;
 
     private BoxCollider boxCollider;
@@ -38,8 +47,6 @@ public class TrailOfFrostManager : SkillBaseManager
 
     private IEnumerator YieldSpawnDebugBox()
     {
-        var spawnDelay = 0.025f;
-
         var trailSize = 0f;
 
         while (data.Range > trailSize)
@@ -56,9 +63,14 @@ public class TrailOfFrostManager : SkillBaseManager
 
             var position = transform.position + transform.forward * trailSize;
 
+            var offset = new Vector3(
+                spawnOffsetForward * transform.forward.x,
+                -spawnOffsetDown,
+                spawnOffsetForward * transform.forward.z);
+
             var rotation = Quaternion.identity;
 
-            Instantiate(prefabIcicle, position, rotation, transform);
+            Instantiate(prefabIcicle, position + offset, rotation, transform);
         }
     }
 }

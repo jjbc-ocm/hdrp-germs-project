@@ -10,11 +10,22 @@ public class HolyBrightManager : SkillBaseManager
     [SerializeField]
     private float sustainDelay;
 
+    [SerializeField]
+    private float spawnOffsetDown;
+
+    [SerializeField]
+    private float spawnOffsetForward;
+
     private float lastAttackTime;
 
     void Update()
     {
-        transform.position = owner.transform.position;
+        var offset = new Vector3(
+            spawnOffsetForward * transform.forward.x,
+            -spawnOffsetDown,
+            spawnOffsetForward * transform.forward.z);
+
+        transform.position = owner.transform.position + offset;
 
         if (!PhotonNetwork.IsMasterClient) return;
 
