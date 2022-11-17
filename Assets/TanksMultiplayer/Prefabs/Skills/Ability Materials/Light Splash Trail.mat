@@ -10,8 +10,8 @@ Material:
   m_Name: Light Splash Trail
   m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
   m_ValidKeywords:
-  - ADDITIVECONFIG_ON
   - GLOW_ON
+  - PREMULTIPLYALPHA_ON
   - SHAPE1DISTORT_ON
   - SHAPE1MASK_ON
   - SHAPE2_ON
@@ -68,7 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Shape1MaskTex:
-        m_Texture: {fileID: 2800000, guid: 9982d10d2ff48f843858dd0463aa7a7f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6859e9b4bb5bcba4682854f0c618a222, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Shape2DistortTex:
@@ -141,8 +141,8 @@ Material:
     - _FadeScrollXSpeed: 0
     - _FadeScrollYSpeed: 0
     - _FadeTransition: 0.075
-    - _Glow: 2.96
-    - _GlowGlobal: -0.22
+    - _Glow: 1.6
+    - _GlowGlobal: 3.38
     - _HandDrawnAmount: 17.4
     - _HandDrawnSpeed: 21.4
     - _HsvBright: 1
@@ -159,7 +159,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 3
+    - _RenderingMode: 5
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
@@ -181,10 +181,10 @@ Material:
     - _ShakeUvSpeed: 2.5
     - _ShakeUvX: 1.5
     - _ShakeUvY: 1
-    - _Shape1MaskPow: 0.5
-    - _Shape2AlphaWeight: 2.32
+    - _Shape1MaskPow: 2.99
+    - _Shape2AlphaWeight: 4.01
     - _Shape2Brightness: 0
-    - _Shape2ColorWeight: 2.32
+    - _Shape2ColorWeight: 4.01
     - _Shape2Contrast: 1.27
     - _Shape2DistortAmount: 2.31
     - _Shape2DistortXSpeed: -0.5
@@ -193,34 +193,34 @@ Material:
     - _Shape2RotationSpeed: 0
     - _Shape2XSpeed: -1.6
     - _Shape2YSpeed: -0.01
-    - _Shape3AlphaWeight: 2
+    - _Shape3AlphaWeight: 5
     - _Shape3Brightness: 0
-    - _Shape3ColorWeight: 2
+    - _Shape3ColorWeight: 5
     - _Shape3Contrast: 1
     - _Shape3DistortAmount: 0.5
     - _Shape3DistortXSpeed: 0.1
     - _Shape3DistortYSpeed: 0.1
     - _Shape3RotationOffset: 0
     - _Shape3RotationSpeed: 0
-    - _Shape3XSpeed: -2
+    - _Shape3XSpeed: -5
     - _Shape3YSpeed: 0
-    - _ShapeAlphaWeight: 1
+    - _ShapeAlphaWeight: 0.23
     - _ShapeBrightness: 0
-    - _ShapeColorWeight: 1
+    - _ShapeColorWeight: 0.23
     - _ShapeContrast: 1
     - _ShapeDistortAmount: 0.52
     - _ShapeDistortXSpeed: 0.44
     - _ShapeDistortYSpeed: 0.1
     - _ShapeRotationOffset: 0
     - _ShapeRotationSpeed: 0
-    - _ShapeXSpeed: -3.5
+    - _ShapeXSpeed: -13.48
     - _ShapeYSpeed: 0
     - _SoftFactor: 0.5
-    - _SrcMode: 1
+    - _SrcMode: 5
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
     - _TimingSeed: 0
-    - _TrailWidthPower: 0.8
+    - _TrailWidthPower: 1.11
     - _TwistUvAmount: 1
     - _TwistUvPosX: 0.5
     - _TwistUvPosY: 0.5
@@ -235,7 +235,7 @@ Material:
     - _WaveX: 0
     - _WaveY: 0.811
     - _ZTestMode: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _BackFaceTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -258,7 +258,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: _TrailWidthGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.5943396091461182,"g":0.5943396091461182,"b":0.5943396091461182,"a":1.0},"time":0.4249942898750305},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.7924925684928894}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
+  m_Name: _TrailWidthGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.14150941371917725,"g":0.14150941371917725,"b":0.14150941371917725,"a":1.0},"time":0.0},{"color":{"r":0.7264150977134705,"g":0.7264150977134705,"b":0.7264150977134705,"a":1.0},"time":0.1911802887916565},{"color":{"r":0.5418727993965149,"g":0.5418727993965149,"b":0.5418727993965149,"a":1.0},"time":0.4470588266849518},{"color":{"r":0.18867921829223634,"g":0.18867921829223634,"b":0.18867921829223634,"a":1.0},"time":0.852948784828186},{"color":{"r":0.10377359390258789,"g":0.10377359390258789,"b":0.10377359390258789,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -293,7 +293,7 @@ Texture2D:
   m_ColorSpace: 1
   m_PlatformBlob: 
   image data: 256
-  _typelessdata: 000000ff060606ff0b0b0bff111111ff171717ff1c1c1cff222222ff282828ff2d2d2dff333333ff393939ff3e3e3eff444444ff4a4a4aff4f4f4fff555555ff5b5b5bff606060ff666666ff6c6c6cff717171ff777777ff7d7d7dff828282ff888888ff8e8e8eff939393ff999999ff9d9d9dffa1a1a1ffa6a6a6ffaaaaaaffafafafffb3b3b3ffb8b8b8ffbcbcbcffc1c1c1ffc5c5c5ffcacacaffcececeffd3d3d3ffd7d7d7ffdcdcdcffe0e0e0ffe5e5e5ffe9e9e9ffedededfff2f2f2fff6f6f6fffbfbfbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  _typelessdata: 242424ff303030ff3d3d3dff494949ff565656ff626262ff6e6e6eff7b7b7bff878787ff949494ffa0a0a0ffacacacffb9b9b9ffb6b6b6ffb4b4b4ffb1b1b1ffaeaeaeffabababffa8a8a8ffa5a5a5ffa2a2a2ff9f9f9fff9c9c9cff999999ff969696ff939393ff909090ff8e8e8eff8b8b8bff878787ff848484ff808080ff7d7d7dff797979ff767676ff727272ff6f6f6fff6b6b6bff686868ff646464ff606060ff5d5d5dff595959ff565656ff525252ff4f4f4fff4b4b4bff484848ff444444ff414141ff3d3d3dff3a3a3aff363636ff333333ff2f2f2fff2d2d2dff2b2b2bff282828ff262626ff242424ff212121ff1f1f1fff1d1d1dff1a1a1aff
   m_StreamData:
     serializedVersion: 2
     offset: 0
