@@ -23,6 +23,8 @@ public static class PlayerExtension
     public const string gold = "gold";
     public const string itemPrefix = "item_";
 
+    public static int m_selectedShipIdx = 0;
+
     #region For Photon View
 
     public static string GetName(this PhotonView view)
@@ -183,6 +185,11 @@ public static class PlayerExtension
         });
     }
 
+    public static void SetSelectedShipIdx(this Player player, int shipIndex)
+    {
+        m_selectedShipIdx = shipIndex; // not saved on custom properties yet because he set it outside of room.
+    }
+
     public static int GetTeam(this Player player)
     {
         if (player.CustomProperties.TryGetValue(team, out object value))
@@ -201,6 +208,11 @@ public static class PlayerExtension
         }
 
         return 0;
+    }
+
+    public static int GetSelectedShipIdx(this Player player)
+    {
+        return m_selectedShipIdx;
     }
 
     public static bool HasChest(this Player player)

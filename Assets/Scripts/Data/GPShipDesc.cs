@@ -14,6 +14,8 @@ public enum GP_SHIP_TYPE
 [CreateAssetMenu(fileName = "GPShipDesc", menuName = "ScriptableObjects/GPShipDesc")]
 public class GPShipDesc : ScriptableObject
 {
+    [Tooltip("Must match the one on the GameNetworkManager shipPrefabs list")]
+    public int m_prefabListIndex = 0;
     public string m_name;
     [TextArea(2, 10)]
     public string m_desc;
