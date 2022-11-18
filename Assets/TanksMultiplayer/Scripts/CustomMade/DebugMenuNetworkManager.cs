@@ -65,7 +65,7 @@ public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
 
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, playerCount - 1);
+        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, PhotonNetwork.LocalPlayer.GetSelectedShipIdx());
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
