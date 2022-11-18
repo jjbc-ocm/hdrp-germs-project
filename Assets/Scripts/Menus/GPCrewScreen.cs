@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class GPCrewScreen : GPGUIScreen
 {
@@ -38,12 +39,21 @@ public class GPCrewScreen : GPGUIScreen
     public Transform m_crewCameraPos;
     public float m_transitionTime = 0.7f;
 
+    [Header("Tab Settings")]
+    public Transform m_tabFocusImage;
+
     [HideInInspector]
     public GPShipDesc m_viewedShip = null;
-    public GPShipDesc m_selectedShip = null;
+    [HideInInspector]
+    public static GPShipDesc m_selectedShip = null;
     GameObject m_viewedShipModelInstance = null;
     int m_currShipIdx = 0;
+    GPShipCard m_prevViewedCard = null;
 
+    [Header("Audio Settings")]
+    public AudioClip m_shipChangedSFX;
+    public AudioClip m_shipSelectedSFX;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +98,7 @@ public class GPCrewScreen : GPGUIScreen
             m_shipsCards.Add(card);
         }
 
+        m_currShipIdx = 0;
         ViewShip(m_shipsCards[0]);
     }
 
@@ -112,11 +123,14 @@ public class GPCrewScreen : GPGUIScreen
             }
         }
 
+        m_currShipIdx = 0;
         ViewShip(m_shipsCards[0]);
     }
 
     public void OnNextShip()
     {
+        m_prevViewedCard = m_shipsCards[m_currShipIdx];
+
         m_currShipIdx++;
 
         OnCurrentShipChanged();
@@ -124,6 +138,8 @@ public class GPCrewScreen : GPGUIScreen
 
     public void OnPrevShip()
     {
+        m_prevViewedCard = m_shipsCards[m_currShipIdx];
+
         m_currShipIdx--;
 
         OnCurrentShipChanged();
@@ -131,6 +147,8 @@ public class GPCrewScreen : GPGUIScreen
 
     public void ViewShip(GPShipCard card)
     {
+        m_prevViewedCard = m_shipsCards[m_currShipIdx];
+
         for (int i = 0; i < m_shipsCards.Count; i++)
         {
             if (m_shipsCards[i].m_ShipDesc == card.m_ShipDesc)
@@ -144,6 +162,11 @@ public class GPCrewScreen : GPGUIScreen
 
     public void OnCurrentShipChanged()
     {
+        if (m_visible)
+        {
+            TanksMP.AudioManager.Play2D(m_shipChangedSFX);
+        }
+
         m_currShipIdx = Mathf.Clamp(m_currShipIdx, 0, m_shipsCards.Count - 1);
         m_viewedShip = m_shipsCards[m_currShipIdx].m_ShipDesc;
         
@@ -160,11 +183,22 @@ public class GPCrewScreen : GPGUIScreen
         m_armor.text = m_viewedShip.m_playerPrefab.Armor.ToString();
         m_magicResist.text = m_viewedShip.m_playerPrefab.Armor.ToString();
 
+        if (m_prevViewedCard)
+        {
+            LeanTween.scale(m_prevViewedCard.gameObject, m_cardPrefab.transform.localScale, 0.3f).setEaseSpring();
+        }
+        LeanTween.scale(m_shipsCards[m_currShipIdx].gameObject, m_cardPrefab.transform.localScale * 1.05f, 0.3f).setEaseSpring();
+
         ChangeShipModel(m_viewedShip);
     }
 
     void ChangeShipModel(GPShipDesc desc)
     {
+        string oldName = "";
+        if (m_viewedShipModelInstance)
+        {
+            oldName = m_viewedShipModelInstance.name;
+        }
         Destroy(m_viewedShipModelInstance);
 
         m_viewedShipModelInstance = Instantiate(desc.m_model, m_shipModelContainer);
@@ -172,13 +206,31 @@ public class GPCrewScreen : GPGUIScreen
         m_viewedShipModelInstance.transform.localPosition = Vector3.zero;
         m_viewedShipModelInstance.transform.localEulerAngles = Vector3.zero;
 
-        LeanTween.move(m_viewedShipModelInstance, m_viewedShipModelInstance.transform.position + Vector3.down * 10, 0.4f).setEasePunch();
+        if (m_visible)
+        {
+            if (oldName == m_viewedShipModelInstance.name) // if old viewed ship is the same ias teh new one then play another animation (end of list)
+            {
+                LeanTween.move(m_viewedShipModelInstance, m_viewedShipModelInstance.transform.position + Vector3.right * 10, 0.4f).setEasePunch();
+            }
+            else
+            {
+                LeanTween.move(m_viewedShipModelInstance, m_viewedShipModelInstance.transform.position + Vector3.down * 10, 0.4f).setEasePunch();
+            }
+        }
     }
 
     public void SelectShip()
     {
         m_selectedShip = m_viewedShip;
-        LeanTween.scale(m_viewedShipModelInstance, m_viewedShipModelInstance.transform.localScale + (Vector3.one*0.2f), 0.4f).setEasePunch();
+        LeanTween.scale(m_viewedShipModelInstance, m_viewedShipModelInstance.transform.localScale - (Vector3.one*0.2f), 0.4f).setEasePunch();
+        PhotonNetwork.LocalPlayer.SetSelectedShipIdx(m_selectedShip.m_prefabListIndex);
+
+        TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+    }
+
+    public void MoveTapFocus(Transform targetTransform)
+    {
+        LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
     }
 
 }
