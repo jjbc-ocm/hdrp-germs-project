@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 4803802976623517953}
   - component: {fileID: 5204821033038578185}
   - component: {fileID: -1767002791520794882}
+  - component: {fileID: -7661193168183373770}
+  - component: {fileID: 5688178942024797729}
   m_Layer: 8
   m_Name: Ship04
   m_TagString: Untagged
@@ -79,25 +81,10 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxHealth: 175
-  maxMana: 100
-  attackDamage: 35
-  abilityPower: 55
-  armor: 35
-  resist: 30
-  attackSpeed: 30
-  moveSpeed: 40
-  spriteIcon: {fileID: 21300000, guid: 192fb683c4fc4b34d8a27146c2f55e83, type: 3}
-  shotClip: {fileID: 8300000, guid: 9d685be7bcccd974bb6312c9965ff4e5, type: 3}
-  explosionClip: {fileID: 8300000, guid: a27cf15a13b4c284c91fe441c44acd3b, type: 3}
-  shotFX: {fileID: 1000011513120438, guid: f70d27f5cf28c8941bbfd6febd74797f, type: 3}
-  explosionFX: {fileID: 1000010321467122, guid: 0e7cc58b84350174d86594375300513b, type: 3}
   attack: {fileID: 11400000, guid: 8b16e2421d169a4458f67d6d84b179cc, type: 2}
   skill: {fileID: 11400000, guid: a5bd678097ef7684299ae2159e361523, type: 2}
   colliders:
   - {fileID: 4803802976623517953}
-  rendererAnchor: {fileID: 5067338322404580456}
-  iconIndicator: {fileID: 6097096151781405437}
 --- !u!114 &114000013231430384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +188,45 @@ MonoBehaviour:
   teamIndicators:
   - {fileID: 8371150568449162386}
   - {fileID: 174182742017435897}
+--- !u!114 &-7661193168183373770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f82184171bc854f84248eecd78f290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteIcon: {fileID: 21300000, guid: 192fb683c4fc4b34d8a27146c2f55e83, type: 3}
+  shotClip: {fileID: 0}
+  explosionClip: {fileID: 0}
+  shotFX: {fileID: 0}
+  explosionFX: {fileID: 0}
+  rendererAnchor: {fileID: 5067338322404580456}
+  iconIndicator: {fileID: 6097096151781405437}
+--- !u!114 &5688178942024797729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bdebf06e9c9f484a9f067b5cd7c39ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 175
+  maxMana: 100
+  attackDamage: 50
+  abilityPower: 50
+  armor: 50
+  resist: 50
+  attackSpeed: 50
+  moveSpeed: 50
 --- !u!1 &387411267257426236
 GameObject:
   m_ObjectHideFlags: 0

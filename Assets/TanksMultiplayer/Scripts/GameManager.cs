@@ -78,7 +78,7 @@ namespace TanksMP
                 {
                     var distance = Vector3.Distance(player.transform.position, localPlayer.transform.position);
 
-                    player.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
+                    player.SoundVisuals.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
                 }
             }
         }
