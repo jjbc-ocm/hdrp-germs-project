@@ -15,9 +15,11 @@ namespace TanksMP
 {
     public class Player : ActorManager, IPunObservable
     {
-        [Header("Stats")]
+        #region Network Sync
 
-        [SerializeField]
+        //[Header("Stats")]
+
+        /*[SerializeField]
         private int maxHealth = 175;
 
         [SerializeField]
@@ -41,22 +43,15 @@ namespace TanksMP
         [SerializeField]
         private int moveSpeed = 50;
 
-        [Header("Visual and Sound Effects")]
+        private int health;
 
-        [SerializeField]
-        private Sprite spriteIcon;
+        private int mana;
 
-        [SerializeField]
-        private AudioClip shotClip;
+        private bool isInvisible;*/
 
-        [SerializeField]
-        private AudioClip explosionClip;
+        private Vector3 shipRotation;
 
-        [SerializeField]
-        private GameObject shotFX;
-
-        [SerializeField]
-        private GameObject explosionFX;
+        #endregion
 
         [Header("Other Properties")]
 
@@ -69,17 +64,15 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
-        [SerializeField]
-        private GameObject rendererAnchor;
-
-        [SerializeField]
-        private GameObject iconIndicator;
-
         private FollowTarget camFollow;
 
         private Rigidbody rigidBody;
 
         private AimManager aim;
+
+        private PlayerSoundVisualManager soundVisuals;
+
+        private PlayerStatManager stat;
 
         private float nextFire;
 
@@ -89,33 +82,22 @@ namespace TanksMP
 
         
 
-        #region Network Sync
+        
 
-        private int health;
+        
 
-        private int mana;
 
-        private Vector3 shipRotation;
 
-        #endregion
 
-        public int MaxHealth { get => maxHealth; }
+        /*public int MaxHealth { get => maxHealth; }
 
         public int MaxMana { get => maxMana; }
-
-        public Sprite SpriteIcon { get => spriteIcon; }
-
-        public SkillData Attack { get => attack; }
-
-        public SkillData Skill { get => skill; }
-
-        public GameObject IconIndicator { get => iconIndicator; }
-
-        public FollowTarget CamFollow { get => camFollow; }
 
         public int Health { get => health; }
 
         public int Mana { get => mana; }
+
+        public bool IsInvisible { get => isInvisible; set => isInvisible = value; }
 
         public int AbilityPower { get => abilityPower; }
 
@@ -127,10 +109,23 @@ namespace TanksMP
 
         public int Armor { get => armor; }
 
-        public int Resist { get => resist; }
+        public int Resist { get => resist; }*/
 
 
-        public void AddHealth(int amount)
+
+        public SkillData Attack { get => attack; }
+
+        public SkillData Skill { get => skill; }
+
+        public FollowTarget CamFollow { get => camFollow; }
+
+        public PlayerSoundVisualManager SoundVisuals { get => soundVisuals; }
+
+        public PlayerStatManager Stat { get => stat; }
+        
+
+
+        /*public void AddHealth(int amount)
         {
             health = Mathf.Clamp(health + amount, 0, maxHealth);
         }
@@ -138,7 +133,7 @@ namespace TanksMP
         public void AddMana(int amount)
         {
             mana = Mathf.Clamp(mana + amount, 0, maxMana);
-        }
+        }*/
 
 
         #region Unity
@@ -147,18 +142,18 @@ namespace TanksMP
         {
             if (!photonView.IsMine) return;
 
-            health = maxHealth;
+            /*health = maxHealth;
 
-            mana = maxMana;
+            mana = maxMana;*/
 
-            photonView.SetAttackDamage(attackDamage);
+            /*photonView.SetAttackDamage(attackDamage);
             photonView.SetAbilityPower(abilityPower);
             photonView.SetAttackSpeed(attackSpeed);
             photonView.SetMoveSpeed(moveSpeed);
             photonView.SetArmor(armor);
-            photonView.SetResist(resist);
+            photonView.SetResist(resist);*/
 
-            StartCoroutine(YieldManaAutoRegen(1));
+            //StartCoroutine(YieldManaAutoRegen(1));
 
             if (GameManager.GetInstance() != null)
             {
@@ -170,6 +165,10 @@ namespace TanksMP
             rigidBody = GetComponent<Rigidbody>();
 
             camFollow = FindObjectOfType<FollowTarget>();
+
+            stat = GetComponent<PlayerStatManager>();
+
+            soundVisuals = GetComponent<PlayerSoundVisualManager>();
 
             aim.Initialize(
                 () =>
@@ -218,10 +217,10 @@ namespace TanksMP
             /* Update rotation */
             shipRotation = new Vector3(
                 moveDir.y * -10,
-                rendererAnchor.transform.localEulerAngles.y,
+                soundVisuals.RendererAnchor.transform.localEulerAngles.y,
                 moveDir.x * -10);
 
-            rendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
+            soundVisuals.RendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
 
             /* Cache it because, we need to accumulate the movement force */
             prevMoveDir = moveDir;
@@ -260,14 +259,28 @@ namespace TanksMP
         {
             if (stream.IsWriting)
             {
-                stream.SendNext(health);
+                /*stream.SendNext(health);
                 stream.SendNext(mana);
+                stream.SendNext(attackDamage);
+                stream.SendNext(abilityPower);
+                stream.SendNext(armor);
+                stream.SendNext(resist);
+                stream.SendNext(attackSpeed);
+                stream.SendNext(moveSpeed);
+                stream.SendNext(isInvisible);*/
                 stream.SendNext(shipRotation);
             }
             else
             {
-                health = (int)stream.ReceiveNext();
+                /*health = (int)stream.ReceiveNext();
                 mana = (int)stream.ReceiveNext();
+                attackDamage = (int)stream.ReceiveNext();
+                abilityPower = (int)stream.ReceiveNext();
+                armor = (int)stream.ReceiveNext();
+                resist = (int)stream.ReceiveNext();
+                attackSpeed = (int)stream.ReceiveNext();
+                moveSpeed = (int)stream.ReceiveNext();
+                isInvisible = (bool)stream.ReceiveNext();*/
                 shipRotation = (Vector3)stream.ReceiveNext();
             }
         }
@@ -304,7 +317,7 @@ namespace TanksMP
 
             var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
 
-            if (explosionFX)
+            /*if (explosionFX)
             {
                 PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
             }
@@ -312,7 +325,7 @@ namespace TanksMP
             if (explosionClip)
             {
                 AudioManager.Play3D(explosionClip, transform.position);
-            }
+            }*/
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -373,9 +386,9 @@ namespace TanksMP
         [PunRPC]
         public override void RpcDamageHealth(int amount, int attackerId)
         {
-            AddHealth(-amount);
+            stat.AddHealth(-amount);
 
-            if (health <= 0)
+            if (stat.Health <= 0)
             {
                 /* Add score to opponent */
                 var attacker = PhotonView.Find(attackerId);
@@ -400,9 +413,9 @@ namespace TanksMP
                 PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
                 /* Reset stats */
-                health = maxHealth;
+                stat.AddHealth(stat.MaxHealth);
 
-                mana = MaxMana;
+                stat.AddMana(stat.MaxMana);
 
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
             }
@@ -444,18 +457,18 @@ namespace TanksMP
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
+            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
 
             rigidBody.AddForce(moveForce);
         }
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {
-            var canExecute = (!isAttack || Time.time > nextFire) && /*photonView.GetMana()*/mana >= action.MpCost;
+            var canExecute = (!isAttack || Time.time > nextFire) && stat.Mana >= action.MpCost;
 
             if (canExecute)
             {
-                nextFire = Time.time + attackSpeed / 100f;
+                nextFire = Time.time + stat.AttackSpeed / 100f;
 
                 var instantAim =
                     action.Aim == AimType.None ? transform.position :
@@ -473,7 +486,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            AddMana(-action.MpCost);
+            stat.AddMana(-action.MpCost);
 
             var offset = 2;
 
@@ -504,7 +517,7 @@ namespace TanksMP
 
         private void ToggleFunction(bool toggle)
         {
-            rendererAnchor.SetActive(toggle);
+            soundVisuals.RendererAnchor.SetActive(toggle);
 
             foreach (var collider in colliders)
             {
@@ -514,15 +527,7 @@ namespace TanksMP
 
         
 
-        private IEnumerator YieldManaAutoRegen(float delay)
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(delay);
-
-                AddMana(MaxMana / 10);
-            }
-        }
+        
 
         #endregion
     }

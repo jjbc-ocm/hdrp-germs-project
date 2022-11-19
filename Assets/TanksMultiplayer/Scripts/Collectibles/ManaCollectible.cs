@@ -14,7 +14,7 @@ namespace TanksMP
 
         protected override void OnObtain(Player player)
         {
-            player.AddMana(amount);
+            player.Stat.AddMana(amount);
         }
 
         /*public override bool Apply(Player p)

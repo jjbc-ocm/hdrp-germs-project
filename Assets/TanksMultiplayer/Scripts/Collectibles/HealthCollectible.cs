@@ -14,7 +14,7 @@ namespace TanksMP
 
         protected override void OnObtain(Player player)
         {
-            player.AddHealth(amount);
+            player.Stat.AddHealth(amount);
         }
 
         /*public override bool Apply(Player p)
