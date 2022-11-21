@@ -17,38 +17,6 @@ namespace TanksMP
     {
         #region Network Sync
 
-        //[Header("Stats")]
-
-        /*[SerializeField]
-        private int maxHealth = 175;
-
-        [SerializeField]
-        private int maxMana = 100;
-
-        [SerializeField]
-        private int attackDamage = 50;
-
-        [SerializeField]
-        private int abilityPower = 50;
-
-        [SerializeField]
-        private int armor = 50;
-
-        [SerializeField]
-        private int resist = 50;
-
-        [SerializeField]
-        private int attackSpeed = 50;
-
-        [SerializeField]
-        private int moveSpeed = 50;
-
-        private int health;
-
-        private int mana;
-
-        private bool isInvisible;*/
-
         private Vector3 shipRotation;
 
         #endregion
@@ -80,36 +48,15 @@ namespace TanksMP
 
         private Vector2 prevMoveDir;
 
-        
+        private bool isRespawning;
 
         
 
         
 
+        
 
 
-
-        /*public int MaxHealth { get => maxHealth; }
-
-        public int MaxMana { get => maxMana; }
-
-        public int Health { get => health; }
-
-        public int Mana { get => mana; }
-
-        public bool IsInvisible { get => isInvisible; set => isInvisible = value; }
-
-        public int AbilityPower { get => abilityPower; }
-
-        public int AttackDamage { get => attackDamage; }
-
-        public int AttackSpeed { get => attackSpeed; }
-
-        public int MoveSpeed { get => moveSpeed; }
-
-        public int Armor { get => armor; }
-
-        public int Resist { get => resist; }*/
 
 
 
@@ -121,19 +68,21 @@ namespace TanksMP
 
         public PlayerSoundVisualManager SoundVisuals { get => soundVisuals; }
 
-        public PlayerStatManager Stat { get => stat; }
-        
-
-
-        /*public void AddHealth(int amount)
+        public PlayerStatManager Stat 
         {
-            health = Mathf.Clamp(health + amount, 0, maxHealth);
+            get
+            {
+                if (stat == null)
+                {
+                    stat = GetComponent<PlayerStatManager>();
+                }
+
+                return stat;
+            }
         }
 
-        public void AddMana(int amount)
-        {
-            mana = Mathf.Clamp(mana + amount, 0, maxMana);
-        }*/
+        public bool IsRespawning { get => isRespawning; }
+        
 
 
         #region Unity
@@ -141,19 +90,6 @@ namespace TanksMP
         void Start()
         {
             if (!photonView.IsMine) return;
-
-            /*health = maxHealth;
-
-            mana = maxMana;*/
-
-            /*photonView.SetAttackDamage(attackDamage);
-            photonView.SetAbilityPower(abilityPower);
-            photonView.SetAttackSpeed(attackSpeed);
-            photonView.SetMoveSpeed(moveSpeed);
-            photonView.SetArmor(armor);
-            photonView.SetResist(resist);*/
-
-            //StartCoroutine(YieldManaAutoRegen(1));
 
             if (GameManager.GetInstance() != null)
             {
@@ -199,7 +135,7 @@ namespace TanksMP
 
         void FixedUpdate()
         {
-            if (!photonView.IsMine) return;
+            if (!photonView.IsMine && !isRespawning) return;
 
             /* Update movement */
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
@@ -259,28 +195,10 @@ namespace TanksMP
         {
             if (stream.IsWriting)
             {
-                /*stream.SendNext(health);
-                stream.SendNext(mana);
-                stream.SendNext(attackDamage);
-                stream.SendNext(abilityPower);
-                stream.SendNext(armor);
-                stream.SendNext(resist);
-                stream.SendNext(attackSpeed);
-                stream.SendNext(moveSpeed);
-                stream.SendNext(isInvisible);*/
                 stream.SendNext(shipRotation);
             }
             else
             {
-                /*health = (int)stream.ReceiveNext();
-                mana = (int)stream.ReceiveNext();
-                attackDamage = (int)stream.ReceiveNext();
-                abilityPower = (int)stream.ReceiveNext();
-                armor = (int)stream.ReceiveNext();
-                resist = (int)stream.ReceiveNext();
-                attackSpeed = (int)stream.ReceiveNext();
-                moveSpeed = (int)stream.ReceiveNext();
-                isInvisible = (bool)stream.ReceiveNext();*/
                 shipRotation = (Vector3)stream.ReceiveNext();
             }
         }
@@ -501,6 +419,8 @@ namespace TanksMP
 
         private IEnumerator SpawnRoutine()
         {
+            isRespawning = true;
+
             float targetTime = Time.time + 10;
 
             while (targetTime - Time.time > 0)
@@ -511,6 +431,8 @@ namespace TanksMP
             }
 
             GameManager.GetInstance().ui.DisableDeath();
+
+            isRespawning = false;
 
             photonView.RPC("RpcRevive", RpcTarget.All);
         }

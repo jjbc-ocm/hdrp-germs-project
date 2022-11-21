@@ -47,7 +47,7 @@ public class AimManager : MonoBehaviour
 
     void Update()
     {
-        if (!player.photonView.IsMine) return;
+        if (!player.photonView.IsMine && !player.IsRespawning) return;
 
         if (Input.GetMouseButton(0))
         {
