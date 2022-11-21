@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -7077308490900042938}
   - component: {fileID: 4255402752328578287}
   - component: {fileID: 806182921213133375}
+  - component: {fileID: -3898388585158951413}
   m_Layer: 8
   m_Name: Ship03
   m_TagString: Untagged
@@ -205,6 +206,7 @@ MonoBehaviour:
   shotFX: {fileID: 0}
   explosionFX: {fileID: 0}
   rendererAnchor: {fileID: 8812583146518009489}
+  rendererShip: {fileID: 9136713644618027173}
   iconIndicator: {fileID: 2729456571670957873}
 --- !u!114 &806182921213133375
 MonoBehaviour:
@@ -226,6 +228,20 @@ MonoBehaviour:
   resist: 50
   attackSpeed: 50
   moveSpeed: 50
+--- !u!114 &-3898388585158951413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436d0ee19f62577439458a0b79434051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialNormal: {fileID: 2100000, guid: af913c7e2022629468407613866705dc, type: 2}
+  materialInvisible: {fileID: 2100000, guid: 5dd453357a50edc4d8a1c77461001ede, type: 2}
 --- !u!1 &611705325635327063
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +741,7 @@ SpriteRenderer:
   m_Size: {x: 0.6, y: 0.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6595974723839622607

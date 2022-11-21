@@ -22,6 +22,6 @@ public class ItemSlotUI : UI<ItemSlotUI>
 
         var effect = (ItemEffectManager)Activator.CreateInstance(Type.GetType(Data.ClassName));
 
-        effect.Execute(myPlayer, myPlayer);
+        effect.Execute(Data, myPlayer, myPlayer);
     }
 }

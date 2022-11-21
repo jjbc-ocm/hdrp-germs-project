@@ -29,6 +29,9 @@ public class MyPlayerUI : UI<MyPlayerUI>
     [SerializeField]
     private TMP_Text textStats;
 
+    [SerializeField]
+    private ItemSlotUI[] itemSlots;
+
     private Player myPlayer;
 
     void Update()
@@ -75,5 +78,32 @@ public class MyPlayerUI : UI<MyPlayerUI>
         textMana.text = $"{myPlayer.Stat.Mana}/{myPlayer.Stat.MaxMana}";
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
+
+        var items = photonView.GetItems(ShopManager.Instance.Data.ToArray());
+
+        /* For item slots */
+        var slotId = 0;
+
+        for (var i = 0; i < itemSlots.Length; i++)
+        {
+            itemSlots[i].gameObject.SetActive(false);
+        }
+
+        foreach (var item in items)
+        {
+            for (var i = 0; i < item.Count; i++)
+            {
+                if (slotId == itemSlots.Length) break;
+
+                itemSlots[slotId].gameObject.SetActive(true);
+
+                itemSlots[slotId].RefreshUI((self) =>
+                {
+                    self.Data = item.Item;
+                });
+
+                slotId++;
+            }
+        }
     }
 }

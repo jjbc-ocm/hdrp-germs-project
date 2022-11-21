@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6240919184148084518}
   - component: {fileID: 3091576256048947225}
   - component: {fileID: -2538237491888908775}
+  - component: {fileID: -3672285830231611676}
   m_Layer: 8
   m_Name: Ship01
   m_TagString: Untagged
@@ -105,6 +106,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114000011901014096}
   - {fileID: 114000013810182620}
+  - {fileID: -2538237491888908775}
+  - {fileID: -3672285830231611676}
   sceneViewId: 0
   InstantiationId: -1
   isRuntimeInstantiated: 0
@@ -205,6 +208,7 @@ MonoBehaviour:
   shotFX: {fileID: 0}
   explosionFX: {fileID: 0}
   rendererAnchor: {fileID: 7109978724447499946}
+  rendererShip: {fileID: 1787178749164205389}
   iconIndicator: {fileID: 5089858825032350233}
 --- !u!114 &-2538237491888908775
 MonoBehaviour:
@@ -226,6 +230,20 @@ MonoBehaviour:
   resist: 50
   attackSpeed: 50
   moveSpeed: 50
+--- !u!114 &-3672285830231611676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436d0ee19f62577439458a0b79434051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialNormal: {fileID: 2100000, guid: 3382716555c0f0a42b617621ced35933, type: 2}
+  materialInvisible: {fileID: 2100000, guid: 5dd453357a50edc4d8a1c77461001ede, type: 2}
 --- !u!1 &252083241193757322
 GameObject:
   m_ObjectHideFlags: 0
