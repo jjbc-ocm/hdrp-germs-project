@@ -81,7 +81,7 @@ namespace TanksMP
                     {
                         var player = i < team1.Count() ? team1[i] : null;
 
-                        team1PlayerIndicators[i].sprite = player?.SpriteIcon ?? null;
+                        team1PlayerIndicators[i].sprite = player?.SoundVisuals.SpriteIcon ?? null;
 
                         team1PlayerIndicators[i].gameObject.SetActive(player != null);
 
@@ -95,7 +95,7 @@ namespace TanksMP
                     {
                         var player = i < team2.Count() ? team2[i] : null;
 
-                        team2PlayerIndicators[i].sprite = player?.SpriteIcon ?? null;
+                        team2PlayerIndicators[i].sprite = player?.SoundVisuals.SpriteIcon ?? null;
 
                         team2PlayerIndicators[i].gameObject.SetActive(player != null);
 

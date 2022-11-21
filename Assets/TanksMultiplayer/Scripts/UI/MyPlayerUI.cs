@@ -66,13 +66,13 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         imageSkill.sprite = myPlayer.Skill.Icon;
 
-        sliderHealth.value = myPlayer.Health / (float)myPlayer.MaxHealth;
+        sliderHealth.value = myPlayer.Stat.Health / (float)myPlayer.Stat.MaxHealth;
 
-        sliderMana.value = myPlayer.Mana / (float)myPlayer.MaxMana;
+        sliderMana.value = myPlayer.Stat.Mana / (float)myPlayer.Stat.MaxMana;
 
-        textHealth.text = $"{myPlayer.Health}/{myPlayer.MaxHealth}";
+        textHealth.text = $"{myPlayer.Stat.Health}/{myPlayer.Stat.MaxHealth}";
 
-        textMana.text = $"{myPlayer.Mana}/{myPlayer.MaxMana}";
+        textMana.text = $"{myPlayer.Stat.Mana}/{myPlayer.Stat.MaxMana}";
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
     }
