@@ -49,11 +49,11 @@ public class ShipHUD : MonoBehaviour
 
         textName.text = Player.photonView.GetName();
 
-        imageMainHealth.fillAmount = Player.Health / (float)Player.MaxHealth;
+        imageMainHealth.fillAmount = Player.Stat.Health / (float)Player.Stat.MaxHealth;
 
         imageSubHealth.fillAmount += (imageMainHealth.fillAmount - imageSubHealth.fillAmount) / 10f;
 
-        imageMainMana.fillAmount = Player.Mana / (float)Player.MaxMana;
+        imageMainMana.fillAmount = Player.Stat.Mana / (float)Player.Stat.MaxMana;
 
         imageSubMana.fillAmount += (imageMainMana.fillAmount - imageSubMana.fillAmount) / 10f;
     }

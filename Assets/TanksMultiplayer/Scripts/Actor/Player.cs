@@ -15,48 +15,11 @@ namespace TanksMP
 {
     public class Player : ActorManager, IPunObservable
     {
-        [Header("Stats")]
+        #region Network Sync
 
-        [SerializeField]
-        private int maxHealth = 175;
+        private Vector3 shipRotation;
 
-        [SerializeField]
-        private int maxMana = 100;
-
-        [SerializeField]
-        private int attackDamage = 50;
-
-        [SerializeField]
-        private int abilityPower = 50;
-
-        [SerializeField]
-        private int armor = 50;
-
-        [SerializeField]
-        private int resist = 50;
-
-        [SerializeField]
-        private int attackSpeed = 50;
-
-        [SerializeField]
-        private int moveSpeed = 50;
-
-        [Header("Visual and Sound Effects")]
-
-        [SerializeField]
-        private Sprite spriteIcon;
-
-        [SerializeField]
-        private AudioClip shotClip;
-
-        [SerializeField]
-        private AudioClip explosionClip;
-
-        [SerializeField]
-        private GameObject shotFX;
-
-        [SerializeField]
-        private GameObject explosionFX;
+        #endregion
 
         [Header("Other Properties")]
 
@@ -69,17 +32,15 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
-        [SerializeField]
-        private GameObject rendererAnchor;
-
-        [SerializeField]
-        private GameObject iconIndicator;
-
         private FollowTarget camFollow;
 
         private Rigidbody rigidBody;
 
         private AimManager aim;
+
+        private PlayerSoundVisualManager soundVisuals;
+
+        private PlayerStatManager stat;
 
         private float nextFire;
 
@@ -87,58 +48,41 @@ namespace TanksMP
 
         private Vector2 prevMoveDir;
 
+        private bool isRespawning;
+
         
 
-        #region Network Sync
+        
 
-        private int health;
+        
 
-        private int mana;
 
-        private Vector3 shipRotation;
 
-        #endregion
 
-        public int MaxHealth { get => maxHealth; }
-
-        public int MaxMana { get => maxMana; }
-
-        public Sprite SpriteIcon { get => spriteIcon; }
 
         public SkillData Attack { get => attack; }
 
         public SkillData Skill { get => skill; }
 
-        public GameObject IconIndicator { get => iconIndicator; }
-
         public FollowTarget CamFollow { get => camFollow; }
 
-        public int Health { get => health; }
+        public PlayerSoundVisualManager SoundVisuals { get => soundVisuals; }
 
-        public int Mana { get => mana; }
-
-        public int AbilityPower { get => abilityPower; }
-
-        public int AttackDamage { get => attackDamage; }
-
-        public int AttackSpeed { get => attackSpeed; }
-
-        public int MoveSpeed { get => moveSpeed; }
-
-        public int Armor { get => armor; }
-
-        public int Resist { get => resist; }
-
-
-        public void AddHealth(int amount)
+        public PlayerStatManager Stat 
         {
-            health = Mathf.Clamp(health + amount, 0, maxHealth);
+            get
+            {
+                if (stat == null)
+                {
+                    stat = GetComponent<PlayerStatManager>();
+                }
+
+                return stat;
+            }
         }
 
-        public void AddMana(int amount)
-        {
-            mana = Mathf.Clamp(mana + amount, 0, maxMana);
-        }
+        public bool IsRespawning { get => isRespawning; }
+        
 
 
         #region Unity
@@ -146,19 +90,6 @@ namespace TanksMP
         void Start()
         {
             if (!photonView.IsMine) return;
-
-            health = maxHealth;
-
-            mana = maxMana;
-
-            photonView.SetAttackDamage(attackDamage);
-            photonView.SetAbilityPower(abilityPower);
-            photonView.SetAttackSpeed(attackSpeed);
-            photonView.SetMoveSpeed(moveSpeed);
-            photonView.SetArmor(armor);
-            photonView.SetResist(resist);
-
-            StartCoroutine(YieldManaAutoRegen(1));
 
             if (GameManager.GetInstance() != null)
             {
@@ -170,6 +101,10 @@ namespace TanksMP
             rigidBody = GetComponent<Rigidbody>();
 
             camFollow = FindObjectOfType<FollowTarget>();
+
+            stat = GetComponent<PlayerStatManager>();
+
+            soundVisuals = GetComponent<PlayerSoundVisualManager>();
 
             aim.Initialize(
                 () =>
@@ -200,7 +135,7 @@ namespace TanksMP
 
         void FixedUpdate()
         {
-            if (!photonView.IsMine) return;
+            if (!photonView.IsMine && !isRespawning) return;
 
             /* Update movement */
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
@@ -218,10 +153,10 @@ namespace TanksMP
             /* Update rotation */
             shipRotation = new Vector3(
                 moveDir.y * -10,
-                rendererAnchor.transform.localEulerAngles.y,
+                soundVisuals.RendererAnchor.transform.localEulerAngles.y,
                 moveDir.x * -10);
 
-            rendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
+            soundVisuals.RendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
 
             /* Cache it because, we need to accumulate the movement force */
             prevMoveDir = moveDir;
@@ -260,14 +195,10 @@ namespace TanksMP
         {
             if (stream.IsWriting)
             {
-                stream.SendNext(health);
-                stream.SendNext(mana);
                 stream.SendNext(shipRotation);
             }
             else
             {
-                health = (int)stream.ReceiveNext();
-                mana = (int)stream.ReceiveNext();
                 shipRotation = (Vector3)stream.ReceiveNext();
             }
         }
@@ -304,7 +235,7 @@ namespace TanksMP
 
             var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
 
-            if (explosionFX)
+            /*if (explosionFX)
             {
                 PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
             }
@@ -312,7 +243,7 @@ namespace TanksMP
             if (explosionClip)
             {
                 AudioManager.Play3D(explosionClip, transform.position);
-            }
+            }*/
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -373,9 +304,9 @@ namespace TanksMP
         [PunRPC]
         public override void RpcDamageHealth(int amount, int attackerId)
         {
-            AddHealth(-amount);
+            stat.AddHealth(-amount);
 
-            if (health <= 0)
+            if (stat.Health <= 0)
             {
                 /* Add score to opponent */
                 var attacker = PhotonView.Find(attackerId);
@@ -400,9 +331,9 @@ namespace TanksMP
                 PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
                 /* Reset stats */
-                health = maxHealth;
+                stat.AddHealth(stat.MaxHealth);
 
-                mana = MaxMana;
+                stat.AddMana(stat.MaxMana);
 
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
             }
@@ -444,18 +375,18 @@ namespace TanksMP
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * moveSpeed * acceleration;
+            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
 
             rigidBody.AddForce(moveForce);
         }
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {
-            var canExecute = (!isAttack || Time.time > nextFire) && /*photonView.GetMana()*/mana >= action.MpCost;
+            var canExecute = (!isAttack || Time.time > nextFire) && stat.Mana >= action.MpCost;
 
             if (canExecute)
             {
-                nextFire = Time.time + attackSpeed / 100f;
+                nextFire = Time.time + stat.AttackSpeed / 100f;
 
                 var instantAim =
                     action.Aim == AimType.None ? transform.position :
@@ -473,7 +404,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            AddMana(-action.MpCost);
+            stat.AddMana(-action.MpCost);
 
             var offset = 2;
 
@@ -488,6 +419,8 @@ namespace TanksMP
 
         private IEnumerator SpawnRoutine()
         {
+            isRespawning = true;
+
             float targetTime = Time.time + 10;
 
             while (targetTime - Time.time > 0)
@@ -499,12 +432,14 @@ namespace TanksMP
 
             GameManager.GetInstance().ui.DisableDeath();
 
+            isRespawning = false;
+
             photonView.RPC("RpcRevive", RpcTarget.All);
         }
 
         private void ToggleFunction(bool toggle)
         {
-            rendererAnchor.SetActive(toggle);
+            soundVisuals.RendererAnchor.SetActive(toggle);
 
             foreach (var collider in colliders)
             {
@@ -514,15 +449,7 @@ namespace TanksMP
 
         
 
-        private IEnumerator YieldManaAutoRegen(float delay)
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(delay);
-
-                AddMana(MaxMana / 10);
-            }
-        }
+        
 
         #endregion
     }
