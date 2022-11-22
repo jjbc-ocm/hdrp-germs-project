@@ -16,6 +16,8 @@ public class ShopManager : MonoBehaviour
 
     public ShopUI UI { get => ui; }
 
+    public List<ItemData> Data { get => data; }
+
     void Awake()
     {
         Instance = this;

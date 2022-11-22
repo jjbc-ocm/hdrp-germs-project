@@ -27,6 +27,9 @@ public class ItemData : ScriptableObject
     [SerializeField]
     private string className;
 
+    [SerializeField]
+    private StatusGroupData statusGroup;
+
     public string Name { get => name; }
 
     public string Desc { get => desc; }
@@ -40,4 +43,6 @@ public class ItemData : ScriptableObject
     public int CostSell { get => costSell; }
 
     public string ClassName { get => className; }
+
+    public StatusGroupData StatusGroup { get => statusGroup; }
 }
