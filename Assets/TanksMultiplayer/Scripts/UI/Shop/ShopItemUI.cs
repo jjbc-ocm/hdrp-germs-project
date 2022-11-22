@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,23 @@ public class ShopItemUI : UI<ShopItemUI>
     private Image imageSprite;
 
     [SerializeField]
-    private GameObject selectedIndicator;
+    private TMP_Text textName;
 
-    public ItemData Data { get; set; }
+    [SerializeField]
+    private TMP_Text textCost;
+
+    [SerializeField]
+    private ItemData data;
+
+    public ItemData Data { get => data; set => data = value; }
 
     protected override void OnRefreshUI()
     {
         imageSprite.sprite = Data.Icon;
 
-        selectedIndicator.SetActive(ShopManager.Instance.UI.Selected == Data);
+        textName.text = Data.Name;
+
+        textCost.text = Data.CostBuy.ToString();
     }
 
     public void OnClick()
