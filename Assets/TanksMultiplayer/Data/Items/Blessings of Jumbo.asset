@@ -14,8 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Blessings of Jumbo
   desc: This consumables deals 100 true damage to the monsters around you.
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6760144cc53af8a448f3d425fbfb76bb, type: 3}
   category: 0
-  costBuy: 100
-  costSell: 50
+  costBuy: 300
+  costSell: 100
   className: BlessingsOfJumbo
+  statusGroup:
+    id: 0
+    isInvisible: 0
+    buffMaxHealth: 0
+    buffMaxMana: 0
+    buffAttackDamage: 0
+    buffAbilityPower: 0
+    buffArmor: 0
+    buffResist: 0
+    buffAttackSpeed: 0
+    buffMoveSpeed: 0
+    duration: 0

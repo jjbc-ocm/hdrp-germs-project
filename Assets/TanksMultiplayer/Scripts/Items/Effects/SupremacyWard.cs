@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using UnityEngine;
 
-public class SupremacyWard : MonoBehaviour
+public class SupremacyWard : ItemEffectManager
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Execute(ItemData item, Player user, Vector3 targetLocation)
     {
-        
-    }
+        // TODO: place an invisible ward in targetLocation
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

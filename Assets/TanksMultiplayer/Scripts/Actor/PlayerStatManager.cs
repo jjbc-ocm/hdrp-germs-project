@@ -33,8 +33,6 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private int mana;
 
-    private bool isInvisible;
-
     public int MaxHealth { get => maxHealth; }
 
     public int MaxMana { get => maxMana; }
@@ -55,7 +53,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int Mana { get => mana; }
 
-    public bool IsInvisible { get => isInvisible; set => isInvisible = value; }
+    
 
     public void AddHealth(int amount)
     {
@@ -89,7 +87,6 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(resist);
             stream.SendNext(attackSpeed);
             stream.SendNext(moveSpeed);
-            stream.SendNext(isInvisible);
         }
         else
         {
@@ -101,7 +98,6 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
             resist = (int)stream.ReceiveNext();
             attackSpeed = (int)stream.ReceiveNext();
             moveSpeed = (int)stream.ReceiveNext();
-            isInvisible = (bool)stream.ReceiveNext();
         }
     }
 

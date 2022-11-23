@@ -16,17 +16,26 @@ public class ShopManager : MonoBehaviour
 
     public ShopUI UI { get => ui; }
 
+    public List<ItemData> Data { get => data; }
+
     void Awake()
     {
         Instance = this;
     }
 
-    public void OpenShop()
+    public void ToggleShop()
     {
-        ui.Open((self) =>
+        if (ui.gameObject.activeSelf)
         {
-            self.Data = data;
-        });
+            ui.Close();
+        }
+        else
+        {
+            ui.Open((self) =>
+            {
+                self.Data = data;
+            });
+        }
     }
 
     public void CloseShop()

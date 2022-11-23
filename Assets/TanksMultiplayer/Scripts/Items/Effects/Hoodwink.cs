@@ -5,13 +5,10 @@ using UnityEngine;
 
 public class Hoodwink : ItemEffectManager
 {
-    public override void Execute(Player user, Player target)
+    public override void Execute(ItemData item, Player user, Vector3 targetLocation)
     {
-        // Apply invisibility
-        user.Stat.IsInvisible = true;
+        user.Status.AddStatusGroup(item.StatusGroup.CreateInstance());
 
-        // apply movement speed
-
-        // TODO: apply timer
+        user.photonView.ConsumeItem(item);
     }
 }

@@ -42,6 +42,8 @@ namespace TanksMP
 
         private PlayerStatManager stat;
 
+        private PlayerStatusManager status;
+
         private float nextFire;
 
         private Vector2 moveDir;
@@ -81,6 +83,8 @@ namespace TanksMP
             }
         }
 
+        public PlayerStatusManager Status { get => status; }
+
         public bool IsRespawning { get => isRespawning; }
         
 
@@ -103,6 +107,8 @@ namespace TanksMP
             camFollow = FindObjectOfType<FollowTarget>();
 
             stat = GetComponent<PlayerStatManager>();
+
+            status = GetComponent<PlayerStatusManager>();
 
             soundVisuals = GetComponent<PlayerSoundVisualManager>();
 
@@ -129,7 +135,7 @@ namespace TanksMP
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ShopManager.Instance.OpenShop();
+                ShopManager.Instance.ToggleShop();
             }
         }
 
@@ -364,7 +370,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f;// * (1 + direction.y * -0.5f) * Time.deltaTime;
+                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;// * (1 + direction.y * -0.5f) * Time.deltaTime;
 
                 float z = 1;
 
@@ -375,7 +381,7 @@ namespace TanksMP
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
+            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * status.BuffMoveSpeed * acceleration;
 
             rigidBody.AddForce(moveForce);
         }

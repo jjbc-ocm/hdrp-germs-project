@@ -23,11 +23,16 @@ public class PlayerSoundVisualManager : MonoBehaviour
     private GameObject rendererAnchor;
 
     [SerializeField]
+    private MeshRenderer rendererShip;
+
+    [SerializeField]
     private GameObject iconIndicator;
 
     public Sprite SpriteIcon { get => spriteIcon; }
 
     public GameObject RendererAnchor { get => rendererAnchor; }
+
+    public MeshRenderer RendererShip { get => rendererShip; }
 
     public GameObject IconIndicator { get => iconIndicator; }
 }

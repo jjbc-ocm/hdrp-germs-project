@@ -14,8 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Hoodwink
   desc: This consumables grants invisibilty and 15% movement speed for 35 seconds
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2720d835c7e598e4a8a9f8004603ecbf, type: 3}
   category: 0
-  costBuy: 100
-  costSell: 50
+  costBuy: 300
+  costSell: 100
   className: Hoodwink
+  statusGroup:
+    id: 0
+    isInvisible: 1
+    buffMaxHealth: 0
+    buffMaxMana: 0
+    buffAttackDamage: 0
+    buffAbilityPower: 0
+    buffArmor: 0
+    buffResist: 0
+    buffAttackSpeed: 0
+    buffMoveSpeed: 0.15
+    duration: 35

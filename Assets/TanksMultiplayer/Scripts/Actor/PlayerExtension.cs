@@ -167,6 +167,11 @@ public static class PlayerExtension
         view.Owner.PurchaseItem(item, quantity);
     }
 
+    public static void ConsumeItem(this PhotonView view, ItemData item)
+    {
+        view.Owner.ConsumeItem(item);
+    }
+
     public static void Clear(this PhotonView view)
     {
         view.Owner.Clear();
@@ -410,6 +415,16 @@ public static class PlayerExtension
                     { itemPrefix + item.Name, itemCount.Count - 1 }
                 });
         }
+    }
+
+    public static void ConsumeItem(this Player player, ItemData item)
+    {
+        var itemCount = player.GetItem(item);
+
+        player.SetCustomProperties(new Hashtable
+        {
+            { itemPrefix + item.Name, itemCount.Count - 1 }
+        });
     }
 
     public static void Clear(this Player player)
