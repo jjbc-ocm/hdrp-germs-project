@@ -14,6 +14,9 @@ public class GPUITab
 
 public class GPDummyCustomizationScreen : GPGUIScreen
 {
+  [Header("Model Settings")]
+  public Transform m_dummyModelRef;
+
   [Header("Tab Settings")]
   public Transform m_tabFocusImage;
   public Color m_selectedTabColor;
@@ -69,4 +72,5 @@ public class GPDummyCustomizationScreen : GPGUIScreen
   {
     LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
   }
+
 }
