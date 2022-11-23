@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using TanksMP;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemSlotUI : UI<ItemSlotUI>
 {
+    [SerializeField]
+    private Image imageSprite;
+
     public ItemData Data { get; set; }
 
     protected override void OnRefreshUI()
     {
-
+        imageSprite.sprite = Data.Icon;
     }
 
     public void OnClick()

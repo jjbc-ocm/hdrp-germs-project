@@ -15,6 +15,15 @@ public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
     [SerializeField]
     private Button buttonBuy;
 
+    [SerializeField]
+    private Button buttonSell;
+
+    [SerializeField]
+    private TMP_Text textBuyCost;
+
+    [SerializeField]
+    private TMP_Text textSellCost;
+
     [Header("Selected Item Info")]
 
     [SerializeField]
@@ -25,6 +34,9 @@ public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
 
     [SerializeField]
     private TMP_Text textDesc;
+
+    [SerializeField]
+    private TMP_Text textCost;
 
     [SerializeField]
     private Image imageSprite;
@@ -58,6 +70,10 @@ public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
             textName.text = Selected.Name;
 
             textDesc.text = Selected.Desc;
+
+            textBuyCost.text = Selected.CostBuy.ToString();
+
+            textSellCost.text = Selected.CostSell.ToString();
 
             imageSprite.sprite = Selected.Icon;
         }
@@ -97,5 +113,10 @@ public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
     {
         // TODO: need to handle cost validation
         ShopManager.Instance.Buy(Selected);
+    }
+
+    public void OnSellButtonClick()
+    {
+
     }
 }
