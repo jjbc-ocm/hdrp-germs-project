@@ -135,7 +135,7 @@ namespace TanksMP
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ShopManager.Instance.OpenShop();
+                ShopManager.Instance.ToggleShop();
             }
         }
 
@@ -370,7 +370,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f;// * (1 + direction.y * -0.5f) * Time.deltaTime;
+                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;// * (1 + direction.y * -0.5f) * Time.deltaTime;
 
                 float z = 1;
 
