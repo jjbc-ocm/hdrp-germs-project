@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Constants
 {
+    public const string ENV_NAME = "dev"; // "production" or "dev"
+
     public const string NETWORK_VERSION = "1";
 
     public const string DEBUG_SCENE_NAME = "Debug";

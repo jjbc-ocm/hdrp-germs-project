@@ -10,7 +10,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
   public GPDummyPartBlock m_blockPrefab;
   [HideInInspector]
   public List<GPDummyPartBlock> m_partBlocks = new List<GPDummyPartBlock>();
-  GPDummyPartBlock m_selectedBlock = null;
+  [HideInInspector]
+  public GPDummyPartBlock m_selectedBlock = null;
 
   // Start is called before the first frame update
   void Start()
@@ -34,12 +35,17 @@ public class GPCustomizationTabScreen : GPGUIScreen
     if (m_selectedBlock)
     {
       m_selectedBlock.TogglePin(false);
-      RecursiveFindChild(m_customization.m_dummyModelRef, m_selectedBlock.m_partDesc.m_gameObjectName).gameObject.SetActive(false);
+      RecursiveFindChild(m_customization.m_customizationSlot.m_dummyModelRef, m_selectedBlock.m_partDesc.m_gameObjectName).gameObject.SetActive(false);
     }
     m_selectedBlock = block;
     m_selectedBlock.TogglePin(true);
 
-    RecursiveFindChild(m_customization.m_dummyModelRef, block.m_partDesc.m_gameObjectName).gameObject.SetActive(true);
+    Transform part = RecursiveFindChild(m_customization.m_customizationSlot.m_dummyModelRef, block.m_partDesc.m_gameObjectName);
+    part.gameObject.SetActive(true);
+    if (block.m_partDesc.m_material != null)
+    {
+      part.GetComponent<Renderer>().material = block.m_partDesc.m_material;
+    }
   }
 
   Transform RecursiveFindChild(Transform parent, string childName)
