@@ -68,7 +68,18 @@ namespace TanksMP
 
         public FollowTarget CamFollow { get => camFollow; }
 
-        public PlayerSoundVisualManager SoundVisuals { get => soundVisuals; }
+        public PlayerSoundVisualManager SoundVisuals
+        {
+            get
+            {
+                if (soundVisuals == null)
+                {
+                    soundVisuals = GetComponent<PlayerSoundVisualManager>();
+                }
+
+                return soundVisuals;
+            }
+        }
 
         public PlayerStatManager Stat 
         {

@@ -67,11 +67,11 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(statusGroupIds);
+            //stream.SendNext(statusGroupIds);
         }
         else
         {
-            statusGroupIds = (List<int>)stream.ReceiveNext();
+            //statusGroupIds = (List<int>)stream.ReceiveNext();
         }
     }
 }
