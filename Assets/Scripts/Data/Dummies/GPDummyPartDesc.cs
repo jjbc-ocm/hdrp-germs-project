@@ -7,4 +7,5 @@ public class GPDummyPartDesc : ScriptableObject
 {
   public string m_gameObjectName;
   public Sprite m_displayIcon;
+  public Material m_material;
 }

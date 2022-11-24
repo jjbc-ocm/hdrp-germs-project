@@ -8,14 +8,14 @@ using TMPro;
 public class GPUITab
 {
   public Button m_tabButton;
-  public GPGUIScreen m_screen;
+  public GPCustomizationTabScreen m_screen;
   public int idx = 0;
 }
 
 public class GPDummyCustomizationScreen : GPGUIScreen
 {
   [Header("Model Settings")]
-  public Transform m_dummyModelRef;
+  public GPDummySlotCard m_customizationSlot;
 
   [Header("Tab Settings")]
   public Transform m_tabFocusImage;
