@@ -62,7 +62,7 @@ public class Timer : MonoBehaviour
             //close room for joining players
             PhotonNetwork.CurrentRoom.IsOpen = false;
             //tell all clients the winning team
-            GameManager.GetInstance().localPlayer.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)(score[0] > score[1] ? 0 : 1));
+            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)(score[0] > score[1] ? 0 : 1));
             return;
         }
 
