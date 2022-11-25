@@ -12388,7 +12388,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8422749490396675240}
         m_TargetAssemblyTypeName: GPDummySlotCard, Assembly-CSharp
-        m_MethodName: OnSelected
+        m_MethodName: OnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12588,7 +12588,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dummyModelRef: {fileID: 8707485276751162529}
-  OnSelectedEvent:
+  OnClickedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnToggledEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8692614985796416939
@@ -12868,7 +12871,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8422749490396675240}
+        m_TargetAssemblyTypeName: GPDummySlotCard, Assembly-CSharp
+        m_MethodName: OnToggled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &8692614986581373162
 GameObject:

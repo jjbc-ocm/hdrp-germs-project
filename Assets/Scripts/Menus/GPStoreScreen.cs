@@ -6,11 +6,13 @@ using TMPro;
 
 public class GPStoreScreen : GPGUIScreen
 {
+    [Header("Tab buttons")]
     public Button m_chestButton;
     public Button m_ticketsButton;
     public Button m_rollButton;
     Button m_currentTabButton = null;
 
+    [Header("Screen references")]
     public GPChestScreen m_chestScreen;
     public GPTicketScreen m_ticketsScreen;
     public GPRollScreen m_rollScreen;
@@ -27,6 +29,7 @@ public class GPStoreScreen : GPGUIScreen
     // Start is called before the first frame update
     void Start()
     {
+        //Suscribe to tab button events
         m_chestButton.onClick.AddListener(ShowChestScreen);
         m_ticketsButton.onClick.AddListener(ShowTicketScreen);
         m_rollButton.onClick.AddListener(ShowRollScreen);
@@ -46,6 +49,9 @@ public class GPStoreScreen : GPGUIScreen
         ShowChestScreen(); // so it's the one selected when the user opens the store again.
     }
 
+    /// <summary>
+    /// Displays the chest screen.
+    /// </summary>
     public void ShowChestScreen()
     {
         m_currentScreen.Hide();
@@ -60,6 +66,9 @@ public class GPStoreScreen : GPGUIScreen
         OnNewTabShown();
     }
 
+    /// <summary>
+    /// Displays the tickets screen.
+    /// </summary>
     public void ShowTicketScreen()
     {
         m_currentScreen.Hide();
@@ -76,6 +85,9 @@ public class GPStoreScreen : GPGUIScreen
         OnNewTabShown();
     }
 
+    /// <summary>
+    /// Displays the Spin wheel screen.
+    /// </summary>
     public void ShowRollScreen()
     {
         m_currentScreen.Hide();
@@ -91,11 +103,18 @@ public class GPStoreScreen : GPGUIScreen
         OnNewTabShown();
     }
 
+    /// <summary>
+    /// Logic to do when a new tab is shown.
+    /// </summary>
     void OnNewTabShown()
     {
         TanksMP.AudioManager.Play2D(m_changeTabSFX);
     }
 
+    /// <summary>
+    /// Animates selection tab sprite.
+    /// </summary>
+    /// <param name="targetTransform"></param>
     public void MoveTapFocus(Transform targetTransform)
     {
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();

@@ -25,6 +25,9 @@ public static class PlayerExtension
 
     public static int m_selectedShipIdx = 0;
 
+    public static List<GPDummyData> m_dummySlots = new List<GPDummyData>();
+    public static int m_selectedDummySlot = 0;
+
     #region For Photon View
 
     public static string GetName(this PhotonView view)
@@ -425,6 +428,11 @@ public static class PlayerExtension
         {
             { itemPrefix + item.Name, itemCount.Count - 1 }
         });
+    }
+
+    public static void SetSelectedDummySlot(this Player player, int slotIndex)
+    {
+        m_selectedDummySlot = slotIndex; // not saved on custom properties yet because he set it outside of room.
     }
 
     public static void Clear(this Player player)
