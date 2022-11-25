@@ -9,6 +9,6 @@ public class Hoodwink : ItemEffectManager
     {
         user.Status.AddStatusGroup(item.StatusGroup.CreateInstance());
 
-        user.photonView.ConsumeItem(item);
+        //user.photonView.ConsumeItem(item);
     }
 }

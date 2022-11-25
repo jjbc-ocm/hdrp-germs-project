@@ -7,6 +7,8 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using System.Collections.Generic;
+
 namespace TanksMP
 {
     /// <summary>
@@ -21,8 +23,8 @@ namespace TanksMP
         /// <summary>
         /// The local player instance spawned for this client.
         /// </summary>
-        [HideInInspector]
-        public Player localPlayer;
+       /* [HideInInspector]
+        public Player localPlayer;*/
 
         /// <summary>
         /// This is just temporary, because timer should be decided by the team first. Just use this for now for testing
@@ -60,6 +62,10 @@ namespace TanksMP
         /// </summary>
         public int respawnTime = 5;
 
+        private Player[] ships;
+
+        public Player[] Ships { get => ships; }
+
 
         //initialize variables
         void Awake()
@@ -69,16 +75,15 @@ namespace TanksMP
 
         void Update()
         {
-            // Update fog-of-war for the local player
-            var players = FindObjectsOfType<Player>();
+            ships = FindObjectsOfType<Player>();
 
-            foreach (var player in players)
+            foreach (var ship in ships)
             {
-                if (player.photonView.GetTeam() != localPlayer.photonView.GetTeam())
+                if (ship.photonView.GetTeam() != Player.Mine.photonView.GetTeam())
                 {
-                    var distance = Vector3.Distance(player.transform.position, localPlayer.transform.position);
+                    var distance = Vector3.Distance(ship.transform.position, Player.Mine.transform.position);
 
-                    player.SoundVisuals.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
+                    ship.SoundVisuals.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
                 }
             }
         }
@@ -191,8 +196,8 @@ namespace TanksMP
         public void DisplayGameOver(int teamIndex)
         {
             //PhotonNetwork.isMessageQueueRunning = false;
-            localPlayer.enabled = false;
-            localPlayer.CamFollow.HideMask(true);
+            Player.Mine.enabled = false;
+            Player.Mine.CamFollow.HideMask(true);
             ui.SetGameOverText(teams[teamIndex]);
 
             //starts coroutine for displaying the game over window

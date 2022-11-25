@@ -47,4 +47,8 @@ public enum TargetType
 public enum CategoryType
 {
     Consumables,
+    Offensive,
+    Defensive,
+    Utility,
+
 }

@@ -21,7 +21,7 @@ public class BlessingsOfJumbo : ItemEffectManager
             player.photonView.RPC("RpcDamageHealth", RpcTarget.All, 100, user.photonView.ViewID); 
         }
 
-        user.photonView.ConsumeItem(item);
+        //user.photonView.ConsumeItem(item);
     }
 
     private bool IsHit(ActorManager origin, ActorManager target)

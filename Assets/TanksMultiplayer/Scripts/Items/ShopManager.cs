@@ -1,4 +1,4 @@
-using Photon.Pun;
+
 using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
@@ -45,11 +45,21 @@ public class ShopManager : MonoBehaviour
 
     public void Buy(ItemData item)
     {
-        PhotonNetwork.LocalPlayer.PurchaseItem(item, 1);
+        //PhotonNetwork.LocalPlayer.PurchaseItem(item, 1);
+
+        if (Player.Mine.Inventory.TryAddItem(item))
+        {
+            // TODO: reduce the gold
+        }
     }
 
     public void Sell(ItemData item)
     {
-        PhotonNetwork.LocalPlayer.PurchaseItem(item, -1);
+        //PhotonNetwork.LocalPlayer.PurchaseItem(item, -1);
+
+        if (Player.Mine.Inventory.TryRemoveItem(item))
+        {
+            // TODO: increase gold
+        }
     }
 }
