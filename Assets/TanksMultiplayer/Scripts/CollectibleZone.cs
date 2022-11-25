@@ -35,7 +35,7 @@ namespace TanksMP
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
 
-                GameManager.GetInstance().localPlayer.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
+                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
 
                 return;
             }

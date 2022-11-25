@@ -15,6 +15,8 @@ namespace TanksMP
 {
     public class Player : ActorManager, IPunObservable
     {
+        public static Player Mine;
+
         #region Network Sync
 
         private Vector3 shipRotation;
@@ -43,6 +45,8 @@ namespace TanksMP
         private PlayerStatManager stat;
 
         private PlayerStatusManager status;
+
+        private PlayerInventoryManager inventory;
 
         private float nextFire;
 
@@ -96,6 +100,19 @@ namespace TanksMP
 
         public PlayerStatusManager Status { get => status; }
 
+        public PlayerInventoryManager Inventory
+        {
+            get
+            {
+                if (inventory == null)
+                {
+                    inventory = GetComponent<PlayerInventoryManager>();
+                }
+
+                return inventory;
+            }
+        }
+
         public bool IsRespawning { get => isRespawning; }
         
 
@@ -106,10 +123,7 @@ namespace TanksMP
         {
             if (!photonView.IsMine) return;
 
-            if (GameManager.GetInstance() != null)
-            {
-                GameManager.GetInstance().localPlayer = this;
-            }
+            Mine = this;
 
             aim = GetComponent<AimManager>();
 
