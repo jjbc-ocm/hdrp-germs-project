@@ -26,7 +26,7 @@ public class GPSManager : MonoBehaviour
 
     void Update()
     {
-        var player = GameManager.GetInstance().localPlayer;
+        var player = Player.Mine;
 
         if (player != null)
         {

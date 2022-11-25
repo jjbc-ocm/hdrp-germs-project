@@ -20,8 +20,8 @@ public static class PlayerExtension
     public const string resist = "resist";
     public const string attackSpeed = "attackSpeed";
     public const string moveSpeed = "moveSpeed";
-    public const string gold = "gold";
-    public const string itemPrefix = "item_";
+    //public const string gold = "gold";
+    //public const string itemPrefix = "item_";
 
     public static int m_selectedShipIdx = 0;
 
@@ -87,20 +87,20 @@ public static class PlayerExtension
         return view.Owner.GetMoveSpeed();
     }
 
-    public static int GetGold(this PhotonView view)
+    /*public static int GetGold(this PhotonView view)
     {
         return view.Owner.GetGold();
-    }
+    }*/
 
-    public static List<ItemCountData> GetItems(this PhotonView view, ItemData[] data)
+    /*public static List<ItemCountData> GetItems(this PhotonView view, ItemData[] data)
     {
         return view.Owner.GetItems(data);
-    }
+    }*/
 
-    public static ItemCountData GetItem(this PhotonView view, ItemData data)
+    /*public static ItemCountData GetItem(this PhotonView view, ItemData data)
     {
         return view.Owner.GetItem(data);
-    }
+    }*/
 
     public static void HasChest(this PhotonView view, bool value)
     {
@@ -152,7 +152,7 @@ public static class PlayerExtension
         view.Owner.SetMoveSpeed(value);
     }
 
-    public static int AddGold(this PhotonView view, int value)
+    /*public static int AddGold(this PhotonView view, int value)
     {
         return view.Owner.AddGold(value);
     }
@@ -160,17 +160,17 @@ public static class PlayerExtension
     public static int RemoveGold(this PhotonView view, int value)
     {
         return view.Owner.RemoveGold(value);
-    }
+    }*/
 
-    public static void PurchaseItem(this PhotonView view, ItemData item, int quantity)
+    /*public static void PurchaseItem(this PhotonView view, ItemData item, int quantity)
     {
         view.Owner.PurchaseItem(item, quantity);
-    }
+    }*/
 
-    public static void ConsumeItem(this PhotonView view, ItemData item)
+    /*public static void ConsumeItem(this PhotonView view, ItemData item)
     {
         view.Owner.ConsumeItem(item);
-    }
+    }*/
 
     public static void Clear(this PhotonView view)
     {
@@ -270,12 +270,12 @@ public static class PlayerExtension
         return System.Convert.ToInt32(player.CustomProperties[moveSpeed]);
     }
 
-    public static int GetGold(this Player player)
+    /*public static int GetGold(this Player player)
     {
         return System.Convert.ToInt32(player.CustomProperties[gold]);
-    }
+    }*/
 
-    public static List<ItemCountData> GetItems(this Player player, ItemData[] data)
+    /*public static List<ItemCountData> GetItems(this Player player, ItemData[] data)
     {
         var itemCounts = new List<ItemCountData>();
 
@@ -293,9 +293,9 @@ public static class PlayerExtension
         }
 
         return itemCounts;
-    }
+    }*/
 
-    public static ItemCountData GetItem(this Player player, ItemData data)
+    /*public static ItemCountData GetItem(this Player player, ItemData data)
     {
         if (player.CustomProperties.TryGetValue(itemPrefix + data.Name, out object value))
         {
@@ -313,7 +313,7 @@ public static class PlayerExtension
 
             Count = 0
         };
-    }
+    }*/
 
     public static void SetTeam(this Player player, int teamIndex)
     {
@@ -370,15 +370,15 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable() { { moveSpeed, (byte)value } });
     }
 
-    public static int AddGold(this Player player, int value)
+    /*public static int AddGold(this Player player, int value)
     {
         int goldValue = player.GetGold();
         goldValue += value;
         player.SetCustomProperties(new Hashtable() { { gold, goldValue } });
         return goldValue;
-    }
+    }*/
 
-    public static int RemoveGold(this Player player, int value)
+    /*public static int RemoveGold(this Player player, int value)
     {
         int goldValue = player.GetGold();
         goldValue -= value;
@@ -388,15 +388,15 @@ public static class PlayerExtension
         }
         player.SetCustomProperties(new Hashtable() { { gold, goldValue } });
         return goldValue;
-    }
+    }*/
 
-    public static void PurchaseItem(this Player player, ItemData item, int quantity)
+    /*public static void PurchaseItem(this Player player, ItemData item, int quantity)
     {
         var goldValue = player.GetGold();
 
         var itemCount = player.GetItem(item);
 
-        /* Buy */
+        *//* Buy *//*
         if (quantity > 0)
         {
             player.SetCustomProperties(new Hashtable
@@ -406,7 +406,7 @@ public static class PlayerExtension
                 });
         }
 
-        /* Sell */
+        *//* Sell *//*
         if (quantity < 0)
         {
             player.SetCustomProperties(new Hashtable
@@ -415,9 +415,9 @@ public static class PlayerExtension
                     { itemPrefix + item.Name, itemCount.Count - 1 }
                 });
         }
-    }
+    }*/
 
-    public static void ConsumeItem(this Player player, ItemData item)
+   /* public static void ConsumeItem(this Player player, ItemData item)
     {
         var itemCount = player.GetItem(item);
 
@@ -425,7 +425,7 @@ public static class PlayerExtension
         {
             { itemPrefix + item.Name, itemCount.Count - 1 }
         });
-    }
+    }*/
 
     public static void Clear(this Player player)
     {
@@ -440,7 +440,7 @@ public static class PlayerExtension
                     { resist, (byte)0 },
                     { attackSpeed, (byte)0 },
                     { moveSpeed, (byte)0 },
-                    { gold, (byte)0 }
+                    //{ gold, (byte)0 }
             });
 
     }

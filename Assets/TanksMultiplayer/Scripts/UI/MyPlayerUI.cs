@@ -32,26 +32,14 @@ public class MyPlayerUI : UI<MyPlayerUI>
     [SerializeField]
     private ItemSlotUI[] itemSlots;
 
-    private Player myPlayer;
-
     void Update()
     {
-        RefreshUI((self) =>
-        {
-            if (myPlayer == null)
-            {
-                var players = FindObjectsOfType<Player>();
-
-                myPlayer = players.FirstOrDefault(i => i.photonView.IsMine);
-            }
-        });
+        RefreshUI();
     }
 
     protected override void OnRefreshUI()
     {
-        if (myPlayer == null) return;
-
-        var photonView = myPlayer.photonView;
+        var photonView = Player.Mine.photonView;
 
         var ad = photonView.GetAttackDamage();
 
@@ -65,45 +53,38 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         var mr = photonView.GetResist();
 
-        imageAttack.sprite = myPlayer.Attack.Icon;
+        imageAttack.sprite = Player.Mine.Attack.Icon;
 
-        imageSkill.sprite = myPlayer.Skill.Icon;
+        imageSkill.sprite = Player.Mine.Skill.Icon;
 
-        sliderHealth.value = myPlayer.Stat.Health / (float)myPlayer.Stat.MaxHealth;
+        sliderHealth.value = Player.Mine.Stat.Health / (float)Player.Mine.Stat.MaxHealth;
 
-        sliderMana.value = myPlayer.Stat.Mana / (float)myPlayer.Stat.MaxMana;
+        sliderMana.value = Player.Mine.Stat.Mana / (float)Player.Mine.Stat.MaxMana;
 
-        textHealth.text = $"{myPlayer.Stat.Health}/{myPlayer.Stat.MaxHealth}";
+        textHealth.text = $"{Player.Mine.Stat.Health}/{Player.Mine.Stat.MaxHealth}";
 
-        textMana.text = $"{myPlayer.Stat.Mana}/{myPlayer.Stat.MaxMana}";
+        textMana.text = $"{Player.Mine.Stat.Mana}/{Player.Mine.Stat.MaxMana}";
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
 
-        var items = photonView.GetItems(ShopManager.Instance.Data.ToArray());
+        var items = Player.Mine.Inventory.GetAllItems();
 
         /* For item slots */
-        var slotId = 0;
 
         for (var i = 0; i < itemSlots.Length; i++)
         {
-            itemSlots[i].gameObject.SetActive(false);
-        }
+            var item = items[i];
 
-        foreach (var item in items)
-        {
-            for (var i = 0; i < item.Count; i++)
+            itemSlots[i].gameObject.SetActive(item != null);
+
+            if (item != null)
             {
-                if (slotId == itemSlots.Length) break;
-
-                itemSlots[slotId].gameObject.SetActive(true);
-
-                itemSlots[slotId].RefreshUI((self) =>
+                itemSlots[i].RefreshUI((self) =>
                 {
-                    self.Data = item.Item;
+                    self.Data = item;
                 });
-
-                slotId++;
             }
+            
         }
     }
 }

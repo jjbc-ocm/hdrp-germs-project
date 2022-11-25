@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TanksMP;
+using System.Linq;
 
 public class GPRewardSystem : MonoBehaviour
 {
@@ -43,7 +44,11 @@ public class GPRewardSystem : MonoBehaviour
     /// <param name="amount"></param>
     public void AddGoldToPlayer(Photon.Realtime.Player player, int amount)
     {
-        player.AddGold(amount);
+        var ship = GameManager.GetInstance().Ships.FirstOrDefault(i => i.photonView.Owner == player);
+
+        ship.photonView.RPC("AddGold", RpcTarget.All, amount);
+
+        //player.AddGold(amount);
     }
 
     /// <summary>
@@ -55,7 +60,11 @@ public class GPRewardSystem : MonoBehaviour
     {
         if (m_rewardsMap.ContainsKey(key))
         {
-            player.AddGold(m_rewardsMap[key]);
+            var ship = GameManager.GetInstance().Ships.FirstOrDefault(i => i.photonView.Owner == player);
+
+            ship.photonView.RPC("AddGold", RpcTarget.All, m_rewardsMap[key]);
+
+            //player.AddGold(m_rewardsMap[key]);
         }
         else
         {

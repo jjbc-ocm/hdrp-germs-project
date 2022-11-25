@@ -107,7 +107,7 @@ namespace TanksMP
             }
 
             /* Update player current gold UI */
-            textPlayerGold.text = PhotonNetwork.LocalPlayer.GetGold().ToString();
+            textPlayerGold.text = Player.Mine.Inventory.Gold.ToString();
         }
 
 
