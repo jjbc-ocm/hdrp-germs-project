@@ -10,11 +10,18 @@ public class GPDummySlotCard : MonoBehaviour
     public Transform m_dummyModelRef;
     public UnityEvent<GPDummySlotCard> OnClickedEvent;
     public UnityEvent<GPDummySlotCard> OnToggledEvent;
+    public Button m_toggle;
+    public Image m_selectedSprite;
+    public bool m_selected = false;
     Vector3 m_originalScale;
+    Vector3 m_originalLocalEuler;
 
     void Awake()
     {
         m_originalScale = m_dummyModelRef.localScale;
+        m_originalLocalEuler = m_dummyModelRef.localEulerAngles;
+
+        ToggleSelected(m_selected);
     }
 
     /// <summary>
@@ -33,10 +40,19 @@ public class GPDummySlotCard : MonoBehaviour
     /// </summary>
     public void OnToggled()
     {
+        m_selected = !m_selected;
+        m_selectedSprite.enabled = m_selected;
+
         if (OnToggledEvent != null)
         {
             OnToggledEvent.Invoke(this);
         }
+    }
+
+    public void ToggleSelected(bool selected)
+    {
+        m_selected = selected;
+        m_selectedSprite.enabled = m_selected;
     }
 
     /// <summary>
@@ -85,6 +101,12 @@ public class GPDummySlotCard : MonoBehaviour
         newInstance.localScale = m_dummyModelRef.localScale;
         Destroy(m_dummyModelRef.gameObject);
         m_dummyModelRef = newInstance;
+    }
+
+    public void Rotate(Vector3 newRotation)
+    {
+        //m_dummyModelRef.localEulerAngles = m_originalLocalEuler;
+        LeanTween.rotateLocal(m_dummyModelRef.gameObject, newRotation, 0.4f).setEaseSpring();
     }
 
     /// <summary>

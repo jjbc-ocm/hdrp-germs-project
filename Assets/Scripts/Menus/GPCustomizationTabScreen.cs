@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class GPCustomizationTabScreen : GPGUIScreen
 {
+    public enum GP_CSTOMIZATION_TYPE
+    {
+        kSkin,
+        kEyes,
+        kMouth,
+        kHair,
+        kHorns,
+        kWear,
+        kGloves,
+        kTail
+    }
+
+    public GP_CSTOMIZATION_TYPE m_type;
+
     [Header("Screen references")]
     public GPDummyCustomizationScreen m_customization;
 
@@ -24,6 +38,9 @@ public class GPCustomizationTabScreen : GPGUIScreen
     [Header("Sound settings")]
     public AudioClip m_equipSFX;
     public AudioClip m_unEquipSFX;
+
+    [Header("Dummy transform settings")]
+    public Vector3 m_dummyRotation = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +67,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
             m_selectedBlock.TogglePin(true);
             m_customization.m_customizationSlot.EquipCustomPart(m_partBlocks[m_defaultPartIdx].m_partDesc, false);
         }
+
+        m_customization.m_customizationSlot.Rotate(m_dummyRotation);
     }
 
     /// <summary>
