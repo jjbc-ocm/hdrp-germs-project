@@ -59,15 +59,19 @@ public class GPDummyScreen : GPGUIScreen
     {
         m_selectedSlot = card;
 
-        //find idx
+        //find idx adn turn off/on the other toggles
+        int selectedIdx = 0;
         for (int i = 0; i < m_dummySlots.Count; i++)
         {
+            m_dummySlots[i].ToggleSelected(m_dummySlots[i] == m_selectedSlot);
             if (m_dummySlots[i] == m_selectedSlot)
             {
-                PhotonNetwork.LocalPlayer.SetSelectedShipIdx(i);
-                break;
+                selectedIdx = i;
             }
         }
+
+        PhotonNetwork.LocalPlayer.SetSelectedShipIdx(selectedIdx);
+
     }
 
     /// <summary>
