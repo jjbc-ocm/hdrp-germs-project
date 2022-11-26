@@ -10,25 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Offensive 2
+  m_Name: T1 Defensive 4
   m_EditorClassIdentifier: 
-  id: 38449eaa-d499-4706-87c1-7dec3f951108
-  name: 'Animosity '
-  desc: +8% Attack Damage
+  id: 9d92039d-d38a-41f9-95ce-5168a7f502ba
+  name: Undead Green Ward
+  desc: '+80 Health
+
+    +8% Movement Speed'
   icon: {fileID: 0}
-  category: 1
-  costBuy: 450
-  costSell: 200
+  category: 2
+  costBuy: 1300
+  costSell: 1000
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
-    buffMaxHealth: 0
+    lifeSteal: 0
+    buffMaxHealth: 80
     buffMaxMana: 0
     buffAttackDamage: 0
     buffAbilityPower: 0
     buffArmor: 0
     buffResist: 0
     buffAttackSpeed: 0
-    buffMoveSpeed: 0
+    buffMoveSpeed: 0.08
+    buffCooldown: 0
     duration: 0

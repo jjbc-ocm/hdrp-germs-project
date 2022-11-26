@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Utility 5
+  m_Name: T1 Defensive 2
   m_EditorClassIdentifier: 
-  id: 29621085-b22e-4ccd-b70f-04ed1bd1c3ab
-  name: 
-  desc: +15% Attack Speed
+  id: 77ef63b1-4afe-4950-98c7-ec7d50cbcc0b
+  name: Glimmer
+  desc: +8% Magic Resist
   icon: {fileID: 0}
-  category: 3
-  costBuy: 1200
-  costSell: 1000
+  category: 2
+  costBuy: 450
+  costSell: 200
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
+    lifeSteal: 0
     buffMaxHealth: 0
     buffMaxMana: 0
     buffAttackDamage: 0
     buffAbilityPower: 0
     buffArmor: 0
-    buffResist: 0
+    buffResist: 0.08
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0

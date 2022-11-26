@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Utility 4
+  m_Name: T1 Offensive 3
   m_EditorClassIdentifier: 
-  id: 0770476f-d154-496b-ac7b-0423ae0f66ca
-  name: 
-  desc: +8% Attack Speed
+  id: c704fe8b-2dbb-4a8e-8f84-30d586b44aea
+  name: Blood Blade
+  desc: '+8% Life Steal
+
+    +10% Attack Damage'
   icon: {fileID: 0}
-  category: 3
-  costBuy: 450
-  costSell: 450
+  category: 1
+  costBuy: 900
+  costSell: 600
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
+    lifeSteal: 0
     buffMaxHealth: 0
     buffMaxMana: 0
     buffAttackDamage: 0
@@ -31,4 +34,5 @@ MonoBehaviour:
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0

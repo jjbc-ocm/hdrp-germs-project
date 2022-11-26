@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Offensive 6
+  m_Name: T1 Defensive 1
   m_EditorClassIdentifier: 
-  id: ec68413e-a1e6-4098-b228-4b9d985ba1b1
-  name: Blue Sapphire
-  desc: '+15% Ability Power
-
-    +10% Cooldown'
+  id: ffb9a699-aa77-4812-a811-aba8d8f39e9b
+  name: Peace Maker
+  desc: +50 Health
   icon: {fileID: 0}
-  category: 1
-  costBuy: 1200
-  costSell: 850
+  category: 2
+  costBuy: 450
+  costSell: 200
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
-    buffMaxHealth: 0
+    lifeSteal: 0
+    buffMaxHealth: 50
     buffMaxMana: 0
     buffAttackDamage: 0
     buffAbilityPower: 0
@@ -33,4 +32,5 @@ MonoBehaviour:
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0

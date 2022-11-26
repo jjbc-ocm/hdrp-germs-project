@@ -67,7 +67,7 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
 
-        var items = Player.Mine.Inventory.GetAllItems();
+        var items = Player.Mine.Inventory.Items;
 
         /* For item slots */
 

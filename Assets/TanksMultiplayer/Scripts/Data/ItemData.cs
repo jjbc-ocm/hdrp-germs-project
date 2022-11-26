@@ -53,7 +53,7 @@ public class ItemData : ScriptableObject
     private string className;
 
     [SerializeField]
-    private StatusGroupData statusGroup;
+    private StatModifierData statModifier;
 
     public string ID { get => id; }
 
@@ -71,5 +71,5 @@ public class ItemData : ScriptableObject
 
     public string ClassName { get => className; }
 
-    public StatusGroupData StatusGroup { get => statusGroup; }
+    public StatModifierData StatModifier { get => statModifier; }
 }

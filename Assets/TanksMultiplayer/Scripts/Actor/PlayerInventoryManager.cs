@@ -7,24 +7,32 @@ using UnityEngine;
 public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     private int gold;
+
     private string itemId0;
+
     private string itemId1;
+
     private string itemId2;
+
     private string itemId3;
+
     private string itemId4;
+
     private string itemId5;
+
+    private List<ItemData> items;
+
+    private StatModifier statModifier;
 
     public int Gold { get => gold; }
 
-    [PunRPC]
-    public void AddGold(int amount)
-    {
-        gold += amount;
-    }
+    public List<ItemData> Items { get => items; }
 
-    public List<ItemData> GetAllItems()
+    public StatModifier StatModifier { get => statModifier; }
+
+    void Update()
     {
-        return new List<ItemData>
+        items = new List<ItemData>
         {
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId0),
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId1),
@@ -33,6 +41,17 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId4),
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId5)
         };
+
+        statModifier = items
+            .Where(i => i.Category != CategoryType.Consumables)
+            .Select(i => i.StatModifier.CreateInstance())
+            .Aggregate((a, b) => a + b);
+    }
+
+    [PunRPC]
+    public void AddGold(int amount)
+    {
+        gold += amount;
     }
 
     public bool TryAddItem(ItemData data)

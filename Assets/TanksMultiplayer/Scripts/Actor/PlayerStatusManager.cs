@@ -5,6 +5,7 @@ using System.Linq;
 using TanksMP;
 using UnityEngine;
 
+// TODO: this code is buggy as hell, fix later
 public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField]
@@ -15,7 +16,7 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private List<int> statusGroupIds;
 
-    private List<StatusGroup> statusGroups;
+    private List<StatModifier> statusGroups;
 
     private PlayerSoundVisualManager visuals;
 
@@ -37,7 +38,7 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public float BuffMoveSpeed { get => 1 + statusGroups.Select(i => i.BuffMoveSpeed).Sum(); }
 
-    public void AddStatusGroup(StatusGroup statusGroup)
+    public void AddStatusGroup(StatModifier statusGroup)
     {
         statusGroupIds.Add(statusGroup.Id);
 
@@ -50,15 +51,15 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 
         statusGroupIds = new List<int>();
 
-        statusGroups = new List<StatusGroup>();
+        statusGroups = new List<StatModifier>();
     }
 
     void Update()
     {
-        foreach (var statusGroup in statusGroups) // TODO: add check, if photon view is mine
+        /*foreach (var statusGroup in statusGroups) // TODO: add check, if photon view is mine
         {
             statusGroup.Duration -= Time.deltaTime;
-        }
+        }*/
 
         visuals.RendererShip.material = IsInvisible ? materialInvisible : materialNormal;
     }

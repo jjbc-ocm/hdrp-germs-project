@@ -29,25 +29,43 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private int moveSpeed = 50;
 
+    private PlayerInventoryManager inventory;
+
     private int health;
 
     private int mana;
 
-    public int MaxHealth { get => maxHealth; }
+    public int BaseMaxHealth { get => maxHealth; }
 
-    public int MaxMana { get => maxMana; }
+    public int BaseMaxMana { get => maxMana; }
 
-    public int AbilityPower { get => abilityPower; }
+    public int BaseAbilityPower { get => abilityPower; }
 
-    public int AttackDamage { get => attackDamage; }
+    public int BaseAttackDamage { get => attackDamage; }
 
-    public int AttackSpeed { get => attackSpeed; }
+    public int BaseAttackSpeed { get => attackSpeed; }
 
-    public int MoveSpeed { get => moveSpeed; }
+    public int BaseMoveSpeed { get => moveSpeed; }
 
-    public int Armor { get => armor; }
+    public int BaseArmor { get => armor; }
 
-    public int Resist { get => resist; }
+    public int BaseResist { get => resist; }
+
+    public int MaxHealth { get => (int)(maxHealth + inventory.StatModifier.BuffMaxHealth); }
+
+    public int MaxMana { get => (int)(maxMana * (1 + inventory.StatModifier.BuffMaxMana)); }
+
+    public int AbilityPower { get => (int)(abilityPower * (1 + inventory.StatModifier.BuffAbilityPower)); }
+
+    public int AttackDamage { get => (int)(attackDamage * (1 + inventory.StatModifier.BuffAttackDamage)); }
+
+    public int AttackSpeed { get => (int)(attackSpeed * (1 + inventory.StatModifier.BuffAttackSpeed)); }
+
+    public int MoveSpeed { get => (int)(moveSpeed * (1 + inventory.StatModifier.BuffMoveSpeed)); }
+
+    public int Armor { get => (int)(armor * (1 + inventory.StatModifier.BuffArmor)); }
+
+    public int Resist { get => (int)(resist * (1 + inventory.StatModifier.BuffResist)); }
 
     public int Health { get => health; }
 
@@ -64,6 +82,12 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         mana = Mathf.Clamp(mana + amount, 0, maxMana);
     }
+
+    void Awake()
+    {
+        inventory = GetComponent<PlayerInventoryManager>();
+    }
+
     void Start()
     {
         if (!photonView.IsMine) return;

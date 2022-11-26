@@ -10,25 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Defensive 1
+  m_Name: T1 Defensive 5
   m_EditorClassIdentifier: 
-  id: ffb9a699-aa77-4812-a811-aba8d8f39e9b
-  name: Peace Maker
-  desc: +50 Health
+  id: 358d45e1-3097-4645-8b94-3af0e5aa5dbb
+  name: Tranquility
+  desc: '+80 Health
+
+    +15% Armor'
   icon: {fileID: 0}
   category: 2
-  costBuy: 450
-  costSell: 200
+  costBuy: 1250
+  costSell: 850
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
-    buffMaxHealth: 0
+    lifeSteal: 0
+    buffMaxHealth: 80
     buffMaxMana: 0
     buffAttackDamage: 0
     buffAbilityPower: 0
-    buffArmor: 0
+    buffArmor: 0.15
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0

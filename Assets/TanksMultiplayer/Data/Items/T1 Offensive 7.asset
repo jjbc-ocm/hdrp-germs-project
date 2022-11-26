@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Offensive 1
+  m_Name: T1 Offensive 7
   m_EditorClassIdentifier: 
-  id: 5ec63318-0220-4292-b4a6-2008001eb22c
-  name: Cosmic Fire
-  desc: +8% Ability Power
+  id: 4a68f96d-80c9-43cc-8e41-f30e86b4dc00
+  name: Enchanted Eight
+  desc: '+20% Attack Damage
+
+    +40 Health'
   icon: {fileID: 0}
   category: 1
-  costBuy: 450
-  costSell: 200
+  costBuy: 1200
+  costSell: 850
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
+    lifeSteal: 0
     buffMaxHealth: 0
     buffMaxMana: 0
     buffAttackDamage: 0
@@ -31,4 +34,5 @@ MonoBehaviour:
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0

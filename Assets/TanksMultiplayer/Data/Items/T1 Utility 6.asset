@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Offensive 4
+  m_Name: T1 Utility 6
   m_EditorClassIdentifier: 
-  id: f700530f-a82b-436e-b788-228fd91dfbeb
-  name: Grimoire
-  desc: "+20% Ability Power\r\n +8% Attack Damage"
+  id: 25ab4896-d0a4-415f-af34-9e4f2978a1bb
+  name: 
+  desc: '+12% Cooldown
+
+    +12% Movement Speed'
   icon: {fileID: 0}
-  category: 1
-  costBuy: 950
+  category: 3
+  costBuy: 1100
   costSell: 750
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
+    lifeSteal: 0
     buffMaxHealth: 0
     buffMaxMana: 0
     buffAttackDamage: 0
@@ -31,4 +34,5 @@ MonoBehaviour:
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0

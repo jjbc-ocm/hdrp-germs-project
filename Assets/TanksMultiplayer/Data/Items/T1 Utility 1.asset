@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: Sub Offensive 5
+  m_Name: T1 Utility 1
   m_EditorClassIdentifier: 
-  id: a5120e09-5437-4da5-9469-2466ddd92e32
-  name: Kyanite
-  desc: '+15% Ability Power
-
-    +20% Mana'
+  id: d8c9fac2-3429-499d-874c-5e3ad05be668
+  name: 
+  desc: +10% Mana
   icon: {fileID: 0}
-  category: 1
-  costBuy: 1300
-  costSell: 900
+  category: 3
+  costBuy: 450
+  costSell: 200
   className: BaseItemEffect
-  statusGroup:
+  statModifier:
     id: 0
     isInvisible: 0
+    lifeSteal: 0
     buffMaxHealth: 0
     buffMaxMana: 0
     buffAttackDamage: 0
@@ -33,4 +32,5 @@ MonoBehaviour:
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
+    buffCooldown: 0
     duration: 0
