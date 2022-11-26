@@ -26,6 +26,8 @@ public class Constants
     public const int MAX_PLAYER_COUNT_PER_TEAM = MAX_PLAYER_COUNT / MAX_TEAM;
 
     public const int FOG_OF_WAR_DISTANCE = 150;
+
+    public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
 }
 
 public enum AimType 

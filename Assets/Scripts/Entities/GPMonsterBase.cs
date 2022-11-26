@@ -446,7 +446,7 @@ public class GPMonsterBase : ActorManager
 
     private void ExecuteAction(SkillData action, bool isAttack)
     {
-        var canExecute = Time.time > m_nextFire && photonView.GetMana() >= action.MpCost;
+        var canExecute = Time.time > m_nextFire;// && photonView.GetMana() >= action.MpCost;
 
         if (canExecute)
         {
@@ -478,7 +478,7 @@ public class GPMonsterBase : ActorManager
 
         isExecutingActionAim = false;
 
-        photonView.SetMana(photonView.GetMana() - action.MpCost);
+        //photonView.SetMana(photonView.GetMana() - action.MpCost);
 
         photonView.RPC(
             "RpcAction",
