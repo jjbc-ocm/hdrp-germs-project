@@ -60,7 +60,6 @@ Material:
   - ADDITIVECONFIG_ON
   - ALPHAFADETRANSPARENCYTOO_ON
   - COLORRAMPGRAD_ON
-  - COLORRAMP_ON
   - FADE_ON
   - HSV_ON
   m_InvalidKeywords: []
@@ -143,7 +142,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.56
+    - _Alpha: 0.396
     - _AlphaBrightness: 0
     - _AlphaContrast: 1
     - _AlphaCutoffValue: 0.25
@@ -178,18 +177,18 @@ Material:
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 2
     - _FadeBurnWidth: 0.025
-    - _FadePower: 1
+    - _FadePower: 0.68
     - _FadeScrollXSpeed: 0
     - _FadeScrollYSpeed: 0
-    - _FadeTransition: 0.5
+    - _FadeTransition: 0.483
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
     - _GlowGlobal: 1
     - _HandDrawnAmount: 10
     - _HandDrawnSpeed: 5
-    - _HsvBright: 2
-    - _HsvSaturation: 0.027
-    - _HsvShift: 206
+    - _HsvBright: 0.779
+    - _HsvSaturation: 1.082
+    - _HsvShift: 0
     - _LightAmount: 0
     - _MaskPow: 1
     - _OffsetSh1: -0.34
@@ -282,7 +281,7 @@ Material:
     - _ZoomAmount: 1.5
     m_Colors:
     - _BackFaceTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _ColorGradingDark: {r: 0, g: 0.025249315, b: 0.7830189, a: 1}
     - _ColorGradingLight: {r: 0, g: 0.8794338, b: 2.1079786, a: 1}
     - _ColorGradingMiddle: {r: 0.19431452, g: 0, b: 1.9215688, a: 1}
