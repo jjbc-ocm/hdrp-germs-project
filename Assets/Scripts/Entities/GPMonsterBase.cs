@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TanksMP;
 using Photon.Pun;
 
@@ -541,10 +542,15 @@ public class GPMonsterBase : ActorManager
         m_animator.SetTrigger(triggerName);
     }
 
+    public UnityEvent OnRPCHurtEvent;
     [PunRPC]
     public void RPCOnHurt()
     {
         AudioManager.Play3D(m_hurtSFX, transform.position, 0.1f);
+        if (OnRPCHurtEvent != null)
+        {
+            OnRPCHurtEvent.Invoke();
+        }
     }
 
     [PunRPC]
