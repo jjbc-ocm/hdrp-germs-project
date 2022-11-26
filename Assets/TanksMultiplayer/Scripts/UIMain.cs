@@ -186,7 +186,7 @@ namespace TanksMP
         /// </summary>
         public void OnNetworkChanged(int value)
         {
-            serverField.gameObject.SetActive((NetworkMode)value == NetworkMode.LAN ? true : false);
+            //serverField.gameObject.SetActive((NetworkMode)value == NetworkMode.LAN ? true : false);
         }
 
 

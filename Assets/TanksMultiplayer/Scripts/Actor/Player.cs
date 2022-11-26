@@ -395,7 +395,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;// * (1 + direction.y * -0.5f) * Time.deltaTime;
+                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;
 
                 float z = 1;
 
@@ -406,7 +406,7 @@ namespace TanksMP
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * status.BuffMoveSpeed * acceleration;
+            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
 
             rigidBody.AddForce(moveForce);
         }
@@ -417,7 +417,7 @@ namespace TanksMP
 
             if (canExecute)
             {
-                nextFire = Time.time + stat.AttackSpeed / 100f;
+                nextFire = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / stat.AttackSpeed;
 
                 var instantAim =
                     action.Aim == AimType.None ? transform.position :

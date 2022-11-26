@@ -51,27 +51,40 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int BaseResist { get => resist; }
 
-    public int MaxHealth { get => (int)(maxHealth + inventory.StatModifier.BuffMaxHealth); }
+    public int MaxHealth { get => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth); }
 
-    public int MaxMana { get => (int)(maxMana * (1 + inventory.StatModifier.BuffMaxMana)); }
+    public int MaxMana { get => (int)(maxMana * (1 + Inventory.StatModifier.BuffMaxMana)); }
 
-    public int AbilityPower { get => (int)(abilityPower * (1 + inventory.StatModifier.BuffAbilityPower)); }
+    public int AbilityPower { get => (int)(abilityPower * (1 + Inventory.StatModifier.BuffAbilityPower)); }
 
-    public int AttackDamage { get => (int)(attackDamage * (1 + inventory.StatModifier.BuffAttackDamage)); }
+    public int AttackDamage { get => (int)(attackDamage * (1 + Inventory.StatModifier.BuffAttackDamage)); }
 
-    public int AttackSpeed { get => (int)(attackSpeed * (1 + inventory.StatModifier.BuffAttackSpeed)); }
+    public int AttackSpeed { get => (int)(attackSpeed * (1 + Inventory.StatModifier.BuffAttackSpeed)); }
 
-    public int MoveSpeed { get => (int)(moveSpeed * (1 + inventory.StatModifier.BuffMoveSpeed)); }
+    public int MoveSpeed { get => (int)(moveSpeed * (1 + Inventory.StatModifier.BuffMoveSpeed)); }
 
-    public int Armor { get => (int)(armor * (1 + inventory.StatModifier.BuffArmor)); }
+    public int Armor { get => (int)(armor * (1 + Inventory.StatModifier.BuffArmor)); }
 
-    public int Resist { get => (int)(resist * (1 + inventory.StatModifier.BuffResist)); }
+    public int Resist { get => (int)(resist * (1 + Inventory.StatModifier.BuffResist)); }
 
     public int Health { get => health; }
 
     public int Mana { get => mana; }
 
-    
+    public PlayerInventoryManager Inventory
+    {
+        get
+        {
+            if (inventory == null)
+            {
+                inventory = GetComponent<PlayerInventoryManager>();
+            }
+
+            return inventory;
+        }
+    }
+
+
 
     public void AddHealth(int amount)
     {
@@ -81,11 +94,6 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     public void AddMana(int amount)
     {
         mana = Mathf.Clamp(mana + amount, 0, maxMana);
-    }
-
-    void Awake()
-    {
-        inventory = GetComponent<PlayerInventoryManager>();
     }
 
     void Start()

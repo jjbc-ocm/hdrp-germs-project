@@ -43,9 +43,9 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
         };
 
         statModifier = items
-            .Where(i => i.Category != CategoryType.Consumables)
+            .Where(i => i != null && i.Category != CategoryType.Consumables)
             .Select(i => i.StatModifier.CreateInstance())
-            .Aggregate((a, b) => a + b);
+            .Aggregate(new StatModifier(), (a, b) => a + b);
     }
 
     [PunRPC]

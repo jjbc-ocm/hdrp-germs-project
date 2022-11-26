@@ -39,19 +39,17 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
     protected override void OnRefreshUI()
     {
-        var photonView = Player.Mine.photonView;
+        var ad = Player.Mine.Stat.AttackDamage;
 
-        var ad = photonView.GetAttackDamage();
+        var ap = Player.Mine.Stat.AbilityPower;
 
-        var ap = photonView.GetAbilityPower();
+        var @as = Player.Mine.Stat.AttackSpeed;
 
-        var @as = photonView.GetAttackSpeed();
+        var ms = Player.Mine.Stat.MoveSpeed;
 
-        var ms = photonView.GetMoveSpeed();
+        var ar = Player.Mine.Stat.Armor;
 
-        var ar = photonView.GetArmor();
-
-        var mr = photonView.GetResist();
+        var mr = Player.Mine.Stat.Resist;
 
         imageAttack.sprite = Player.Mine.Attack.Icon;
 
