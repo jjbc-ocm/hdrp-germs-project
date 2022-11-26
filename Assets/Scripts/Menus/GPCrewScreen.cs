@@ -54,7 +54,6 @@ public class GPCrewScreen : GPGUIScreen
     public AudioClip m_shipChangedSFX;
     public AudioClip m_shipSelectedSFX;
     
-    // Start is called before the first frame update
     void Start()
     {
         Destroy(m_shipModelContainer.GetChild(0).gameObject);
@@ -80,6 +79,9 @@ public class GPCrewScreen : GPGUIScreen
         ChangeShipModel(m_selectedShip);
     }
 
+    /// <summary>
+    /// Displays on the ship list all ships of all kinds
+    /// </summary>
     public void ShowAllShipsTypes()
     {
         // Clear old cards
@@ -102,6 +104,10 @@ public class GPCrewScreen : GPGUIScreen
         ViewShip(m_shipsCards[0]);
     }
 
+    /// <summary>
+    /// Displays on the ship list only the ships of a certain type
+    /// </summary>
+    /// <param name="type"></param>
     public void ShowShipsOfType(int type)
     {
         // Clear old cards
@@ -127,6 +133,9 @@ public class GPCrewScreen : GPGUIScreen
         ViewShip(m_shipsCards[0]);
     }
 
+    /// <summary>
+    /// View next ship model and stats.
+    /// </summary>
     public void OnNextShip()
     {
         m_prevViewedCard = m_shipsCards[m_currShipIdx];
@@ -136,6 +145,10 @@ public class GPCrewScreen : GPGUIScreen
         OnCurrentShipChanged();
     }
 
+
+    /// <summary>
+    /// View previus ship model and stats.
+    /// </summary>
     public void OnPrevShip()
     {
         m_prevViewedCard = m_shipsCards[m_currShipIdx];
@@ -145,6 +158,10 @@ public class GPCrewScreen : GPGUIScreen
         OnCurrentShipChanged();
     }
 
+    /// <summary>
+    /// View a clicked ship model and stats.
+    /// </summary>
+    /// <param name="card"></param>
     public void ViewShip(GPShipCard card)
     {
         m_prevViewedCard = m_shipsCards[m_currShipIdx];
@@ -160,7 +177,10 @@ public class GPCrewScreen : GPGUIScreen
         OnCurrentShipChanged();
     }
 
-    public void OnCurrentShipChanged()
+    /// <summary>
+    /// Things that need to be updated when the previewed ship cahnges.
+    /// </summary>
+    void OnCurrentShipChanged()
     {
         if (m_visible)
         {
@@ -192,6 +212,10 @@ public class GPCrewScreen : GPGUIScreen
         ChangeShipModel(m_viewedShip);
     }
 
+    /// <summary>
+    /// Changes the preview ship model with the one of the scritpable object given as parameter.
+    /// </summary>
+    /// <param name="desc"></param>
     void ChangeShipModel(GPShipDesc desc)
     {
         string oldName = "";
@@ -219,6 +243,10 @@ public class GPCrewScreen : GPGUIScreen
         }
     }
 
+    /// <summary>
+    /// Confirm ship to use.
+    /// Will use the currently previewd one.
+    /// </summary>
     public void SelectShip()
     {
         m_selectedShip = m_viewedShip;
@@ -228,6 +256,10 @@ public class GPCrewScreen : GPGUIScreen
         TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
     }
 
+    /// <summary>
+    /// Animates selection tab sprite.
+    /// </summary>
+    /// <param name="targetTransform"></param>
     public void MoveTapFocus(Transform targetTransform)
     {
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();

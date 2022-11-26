@@ -7,60 +7,109 @@ using TMPro;
 
 public class GPDummySlotCard : MonoBehaviour
 {
-  public Transform m_dummyModelRef;
-  public UnityEvent<GPDummySlotCard> OnSelectedEvent;
+    public Transform m_dummyModelRef;
+    public UnityEvent<GPDummySlotCard> OnClickedEvent;
+    public UnityEvent<GPDummySlotCard> OnToggledEvent;
+    Vector3 m_originalScale;
 
-  // Start is called before the first frame update
-  void Start()
-  {
-
-  }
-
-  public void OnSelected()
-  {
-    if (OnSelectedEvent != null)
+    void Awake()
     {
-      OnSelectedEvent.Invoke(this);
+        m_originalScale = m_dummyModelRef.localScale;
     }
-  }
 
-  public void EquipCustomPart(GPDummyPartDesc desc)
-  {
-    Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
-    part.gameObject.SetActive(true);
-    if (desc.m_material != null)
+    /// <summary>
+    /// Called whe the dummy image is clicked.
+    /// </summary>
+    public void OnClicked()
     {
-      part.GetComponent<Renderer>().material = desc.m_material;
-    }
-  }
-
-  public void ReplaceModelObject(Transform newModelObject)
-  {
-    Transform newInstance = Instantiate(newModelObject, m_dummyModelRef.parent);
-    newInstance.localPosition = m_dummyModelRef.localPosition;
-    newInstance.localRotation = m_dummyModelRef.localRotation;
-    newInstance.localScale = m_dummyModelRef.localScale;
-    Destroy(m_dummyModelRef.gameObject);
-    m_dummyModelRef = newInstance;
-  }
-
-  Transform RecursiveFindChild(Transform parent, string childName)
-  {
-    foreach (Transform child in parent)
-    {
-      if (child.name == childName)
-      {
-        return child;
-      }
-      else
-      {
-        Transform found = RecursiveFindChild(child, childName);
-        if (found != null)
+        if (OnClickedEvent != null)
         {
-          return found;
+            OnClickedEvent.Invoke(this);
         }
-      }
     }
-    return null;
-  }
+
+    /// <summary>
+    /// Called whe the toggle is clicked.
+    /// </summary>
+    public void OnToggled()
+    {
+        if (OnToggledEvent != null)
+        {
+            OnToggledEvent.Invoke(this);
+        }
+    }
+
+    /// <summary>
+    /// Activates a dummy part on the dummy model.
+    /// </summary>
+    /// <param name="desc"></param>
+    /// <param name="animate"></param>
+    public void EquipCustomPart(GPDummyPartDesc desc, bool animate = true)
+    {
+        Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
+        part.gameObject.SetActive(true);
+        if (desc.m_material != null)
+        {
+            part.GetComponent<Renderer>().material = desc.m_material;
+        }
+
+        if (animate)
+        {
+            LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch();
+        }
+    }
+
+    /// <summary>
+    /// Deactivates a dummy part on the dummy model
+    /// </summary>
+    /// <param name="desc"></param>
+    public void UnequipCustomPart(GPDummyPartDesc desc)
+    {
+        Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
+        part.gameObject.SetActive(false);
+
+        m_dummyModelRef.gameObject.transform.localScale = m_originalScale;
+        LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch();
+    }
+
+    /// <summary>
+    /// Replaces the dummy model with a completly new one.
+    /// Usefoll to replace the model with the one crated on the chustomization menu o the set a default model.
+    /// </summary>
+    /// <param name="newModelObject"></param>
+    public void ReplaceModelObject(Transform newModelObject)
+    {
+        Transform newInstance = Instantiate(newModelObject, m_dummyModelRef.parent);
+        newInstance.localPosition = m_dummyModelRef.localPosition;
+        newInstance.localRotation = m_dummyModelRef.localRotation;
+        newInstance.localScale = m_dummyModelRef.localScale;
+        Destroy(m_dummyModelRef.gameObject);
+        m_dummyModelRef = newInstance;
+    }
+
+    /// <summary>
+    /// Find a nested child of a transform that matchs the given child name.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="childName"></param>
+    /// <returns></returns>
+    Transform RecursiveFindChild(Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName)
+            {
+                return child;
+            }
+            else
+            {
+                Transform found = RecursiveFindChild(child, childName);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
 }
