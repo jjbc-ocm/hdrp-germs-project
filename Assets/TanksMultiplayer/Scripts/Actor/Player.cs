@@ -433,7 +433,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;
+                float x = direction.x * Time.deltaTime * 3f * status.BuffMoveSpeed;
 
                 float z = 1;
 

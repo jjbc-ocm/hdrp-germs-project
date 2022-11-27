@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2090048765}
   - component: {fileID: 421975384264738389}
   - component: {fileID: 4060860543542374174}
+  - component: {fileID: 223792564164533355}
   - component: {fileID: 65653937090360438}
   m_Layer: 0
   m_Name: GameManager
@@ -59,10 +60,8 @@ MonoBehaviour:
   teams:
   - name: RED
     material: {fileID: 2100000, guid: bd77ec7e7c2bcec498601902e4b6e28d, type: 2}
-    spawn: {fileID: 0}
   - name: BLUE
     material: {fileID: 2100000, guid: c97449f961d124745bc2d7c5972ddd91, type: 2}
-    spawn: {fileID: 0}
   maxScore: 30
   respawnTime: 8
 --- !u!114 &2090048764
@@ -149,6 +148,25 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &223792564164533355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013481812936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57a3c8a477ab19479e9e3c898647cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapCamera: {fileID: 0}
+  positions:
+  - {x: -1437.7, y: 1000, z: 14186.6}
+  - {x: -3255, y: 1000, z: 11629}
+  rotations:
+  - {x: 90, y: 90, z: 0}
+  - {x: 90, y: -90, z: 0}
 --- !u!114 &65653937090360438
 MonoBehaviour:
   m_ObjectHideFlags: 0
