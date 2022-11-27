@@ -9,15 +9,10 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
     private int gold;
 
     private string itemId0;
-
     private string itemId1;
-
     private string itemId2;
-
     private string itemId3;
-
     private string itemId4;
-
     private string itemId5;
 
     private List<ItemData> items;

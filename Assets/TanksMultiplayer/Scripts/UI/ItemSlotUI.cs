@@ -25,12 +25,12 @@ public class ItemSlotUI : UI<ItemSlotUI>
 
     public void OnClick()
     {
-        var players = FindObjectsOfType<Player>();
+        //var players = FindObjectsOfType<Player>();
 
-        var myPlayer = players.FirstOrDefault(i => i.photonView.IsMine);
+        //var myPlayer = players.FirstOrDefault(i => i.photonView.IsMine);
 
         var effect = (ItemEffectManager)Activator.CreateInstance(Type.GetType(Data.ClassName));
 
-        effect.Execute(Data, myPlayer, myPlayer.transform.position);
+        effect.Execute(Data, Player.Mine, Player.Mine.transform.position);
     }
 }

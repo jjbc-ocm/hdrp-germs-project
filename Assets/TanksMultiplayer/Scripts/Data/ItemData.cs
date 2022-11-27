@@ -55,6 +55,9 @@ public class ItemData : ScriptableObject
     [SerializeField]
     private StatModifierData statModifier;
 
+    [SerializeField]
+    private float duration;
+
     public string ID { get => id; }
 
     public string Name { get => name; }
@@ -72,4 +75,6 @@ public class ItemData : ScriptableObject
     public string ClassName { get => className; }
 
     public StatModifierData StatModifier { get => statModifier; }
+
+    public float Duration { get => duration; }
 }
