@@ -30,6 +30,12 @@ public class MyPlayerUI : UI<MyPlayerUI>
     private TMP_Text textStats;
 
     [SerializeField]
+    private TMP_Text textAttackCooldown;
+
+    [SerializeField]
+    private TMP_Text textSkillCooldown;
+
+    [SerializeField]
     private ItemSlotUI[] itemSlots;
 
     void Update()
@@ -51,6 +57,10 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         var mr = Player.Mine.Stat.Resist;
 
+        var attackCooldown = Mathf.Max(0, Player.Mine.NextAttackTime - Time.time);
+
+        var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
+
         imageAttack.sprite = Player.Mine.Attack.Icon;
 
         imageSkill.sprite = Player.Mine.Skill.Icon;
@@ -65,6 +75,14 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
 
+        textAttackCooldown.text = attackCooldown.ToString("F1");
+
+        textSkillCooldown.text = skillCooldown.ToString("F1");
+
+        textAttackCooldown.gameObject.SetActive(attackCooldown > 0);
+
+        textSkillCooldown.gameObject.SetActive(skillCooldown > 0);
+
         var items = Player.Mine.Inventory.Items;
 
         /* For item slots */
@@ -73,16 +91,10 @@ public class MyPlayerUI : UI<MyPlayerUI>
         {
             var item = items[i];
 
-            itemSlots[i].gameObject.SetActive(item != null);
-
-            if (item != null)
+            itemSlots[i].RefreshUI((self) =>
             {
-                itemSlots[i].RefreshUI((self) =>
-                {
-                    self.Data = item;
-                });
-            }
-            
+                self.Data = item;
+            });
         }
     }
 }

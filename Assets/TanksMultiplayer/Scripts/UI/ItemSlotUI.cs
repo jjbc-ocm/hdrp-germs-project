@@ -15,7 +15,12 @@ public class ItemSlotUI : UI<ItemSlotUI>
 
     protected override void OnRefreshUI()
     {
-        imageSprite.sprite = Data.Icon;
+        imageSprite.gameObject.SetActive(Data != null);
+
+        if (Data != null)
+        {
+            imageSprite.sprite = Data.Icon;
+        }
     }
 
     public void OnClick()

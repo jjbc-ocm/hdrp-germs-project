@@ -7,9 +7,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Timer : MonoBehaviour
+public class TimerManager : MonoBehaviour
 {
-    public static Timer Instance;
+    public static TimerManager Instance;
 
     [SerializeField]
     private GameObject mainContent;
@@ -67,14 +67,14 @@ public class Timer : MonoBehaviour
         }
 
         /* Update UI */
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
+        /*if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
         {
             var intMode = Convert.ToInt32(mode);
 
             var enumMode = (GameMode)intMode;
 
             mainContent.SetActive(enumMode == GameMode.Survival);
-        }
+        }*/
 
         var timeSpan = TimeSpan.FromSeconds(ReverseTimeLapse);
 

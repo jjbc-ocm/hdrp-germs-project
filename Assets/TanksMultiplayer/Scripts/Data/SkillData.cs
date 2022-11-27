@@ -25,6 +25,9 @@ public class SkillData : ScriptableObject
     private float range;
 
     [SerializeField]
+    private float cooldown;
+
+    [SerializeField]
     private int mpCost;
 
     [SerializeField]
@@ -44,6 +47,8 @@ public class SkillData : ScriptableObject
     public TargetType Target { get => target; }
 
     public float Range { get => range; }
+
+    public float Cooldown { get => cooldown; }
 
     public int MpCost { get => mpCost; }
 
