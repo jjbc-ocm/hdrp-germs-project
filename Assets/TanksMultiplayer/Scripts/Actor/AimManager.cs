@@ -18,13 +18,15 @@ public class AimManager : MonoBehaviour
 
     private Action<Vector3, Player> onAimSkillRelease;
 
+    private Func<bool> onCanExecuteAttack;
+
+    private Func<bool> onCanExecuteSkill;
+
     private bool isAiming;
 
     private Player aimAutoTarget;
 
     private Player player;
-
-    //public bool IsAiming { get => isAiming; }
 
     void Awake()
     {
@@ -36,20 +38,24 @@ public class AimManager : MonoBehaviour
         IndicatorSetActive(false);
     }
 
-    public void Initialize(Action onAttackPress, Action onAimSkillPress, Action<Vector3, Player> onAimSkillRelease)
+    public void Initialize(Action onAttackPress, Action onAimSkillPress, Action<Vector3, Player> onAimSkillRelease, Func<bool> onCanExecuteAttack, Func<bool> onCanExecuteSkill)
     {
         this.onAttackPress = onAttackPress;
 
         this.onAimSkillPress = onAimSkillPress;
 
         this.onAimSkillRelease = onAimSkillRelease;
+
+        this.onCanExecuteAttack = onCanExecuteAttack;
+
+        this.onCanExecuteSkill = onCanExecuteSkill;
     }
 
     void Update()
     {
         if (!player.photonView.IsMine && !player.IsRespawning) return;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && onCanExecuteAttack.Invoke())
         {
             if (!isAiming)
             {
@@ -57,7 +63,7 @@ public class AimManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && onCanExecuteSkill.Invoke())
         {
             isAiming = true;
 

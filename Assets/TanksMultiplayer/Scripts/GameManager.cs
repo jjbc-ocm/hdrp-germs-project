@@ -173,18 +173,22 @@ namespace TanksMP
             }
 
             // if maximum time is reached
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
+            /*if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
             {
                 var intMode = Convert.ToInt32(mode);
 
                 var enumMode = (GameMode)intMode;
 
-                if (enumMode == GameMode.Survival && Timer.Instance.TimeLapse >= gameTimer)
+                if (enumMode == GameMode.Survival && TimerManager.Instance.TimeLapse >= gameTimer)
                 {
                     isOver = true;
                 }
+            }*/
+            if (TimerManager.Instance.TimeLapse >= gameTimer)
+            {
+                isOver = true;
             }
-            
+
             //return the result
             return isOver;
         }
@@ -258,12 +262,12 @@ namespace TanksMP
     /// Available game modes selected per scene.
     /// Used in the AddScore() method for filtering.
     /// </summary>
-    public enum GameMode
+    /*public enum GameMode
     {
         CaptureTheChest,
 
         DeathMatch,
 
         Survival
-    }
+    }*/
 }
