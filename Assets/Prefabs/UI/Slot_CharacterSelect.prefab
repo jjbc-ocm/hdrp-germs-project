@@ -12594,6 +12594,9 @@ MonoBehaviour:
   OnToggledEvent:
     m_PersistentCalls:
       m_Calls: []
+  m_toggle: {fileID: 2267973081315716147}
+  m_selectedSprite: {fileID: 8692614986609296333}
+  m_selected: 0
 --- !u!1 &8692614985796416939
 GameObject:
   m_ObjectHideFlags: 0
@@ -12794,7 +12797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8692614986319254893}
-  - component: {fileID: 8692614986319254892}
+  - component: {fileID: 2267973081315716147}
   m_Layer: 5
   m_Name: Select Dummy
   m_TagString: Untagged
@@ -12825,7 +12828,7 @@ RectTransform:
   m_AnchoredPosition: {x: -176, y: 327}
   m_SizeDelta: {x: 247.73027, y: 132.20001}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8692614986319254892
+--- !u!114 &2267973081315716147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12834,7 +12837,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8692614986319254882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -12866,10 +12869,7 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 8692614986581373076}
-  toggleTransition: 1
-  graphic: {fileID: 8692614986609296333}
-  m_Group: {fileID: 0}
-  onValueChanged:
+  m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8422749490396675240}
@@ -12884,7 +12884,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
 --- !u!1 &8692614986581373162
 GameObject:
   m_ObjectHideFlags: 0
@@ -12989,7 +12988,7 @@ RectTransform:
   m_GameObject: {fileID: 8692614986609296320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7772942, y: 0.7865477, z: 0.7402802}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8692614986319254893}
@@ -12997,7 +12996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -109, y: -4}
+  m_AnchoredPosition: {x: -121.6, y: -14.5}
   m_SizeDelta: {x: 113.8605, y: 103.4795}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &8692614986609296332

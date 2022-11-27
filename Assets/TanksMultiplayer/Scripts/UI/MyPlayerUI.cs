@@ -30,6 +30,12 @@ public class MyPlayerUI : UI<MyPlayerUI>
     private TMP_Text textStats;
 
     [SerializeField]
+    private TMP_Text textAttackCooldown;
+
+    [SerializeField]
+    private TMP_Text textSkillCooldown;
+
+    [SerializeField]
     private ItemSlotUI[] itemSlots;
 
     void Update()
@@ -39,19 +45,21 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
     protected override void OnRefreshUI()
     {
-        var photonView = Player.Mine.photonView;
+        var ad = Player.Mine.Stat.AttackDamage;
 
-        var ad = photonView.GetAttackDamage();
+        var ap = Player.Mine.Stat.AbilityPower;
 
-        var ap = photonView.GetAbilityPower();
+        var @as = Player.Mine.Stat.AttackSpeed;
 
-        var @as = photonView.GetAttackSpeed();
+        var ms = Player.Mine.Stat.MoveSpeed;
 
-        var ms = photonView.GetMoveSpeed();
+        var ar = Player.Mine.Stat.Armor;
 
-        var ar = photonView.GetArmor();
+        var mr = Player.Mine.Stat.Resist;
 
-        var mr = photonView.GetResist();
+        var attackCooldown = Mathf.Max(0, Player.Mine.NextAttackTime - Time.time);
+
+        var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
 
         imageAttack.sprite = Player.Mine.Attack.Icon;
 
@@ -67,7 +75,15 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
 
-        var items = Player.Mine.Inventory.GetAllItems();
+        textAttackCooldown.text = attackCooldown.ToString("F1");
+
+        textSkillCooldown.text = skillCooldown.ToString("F1");
+
+        textAttackCooldown.gameObject.SetActive(attackCooldown > 0);
+
+        textSkillCooldown.gameObject.SetActive(skillCooldown > 0);
+
+        var items = Player.Mine.Inventory.Items;
 
         /* For item slots */
 
@@ -75,16 +91,10 @@ public class MyPlayerUI : UI<MyPlayerUI>
         {
             var item = items[i];
 
-            itemSlots[i].gameObject.SetActive(item != null);
-
-            if (item != null)
+            itemSlots[i].RefreshUI((self) =>
             {
-                itemSlots[i].RefreshUI((self) =>
-                {
-                    self.Data = item;
-                });
-            }
-            
+                self.Data = item;
+            });
         }
     }
 }

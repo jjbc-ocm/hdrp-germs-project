@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TanksMP;
 using Photon.Pun;
 
@@ -445,7 +446,7 @@ public class GPMonsterBase : ActorManager
 
     private void ExecuteAction(SkillData action, bool isAttack)
     {
-        var canExecute = Time.time > m_nextFire && photonView.GetMana() >= action.MpCost;
+        var canExecute = Time.time > m_nextFire;// && photonView.GetMana() >= action.MpCost;
 
         if (canExecute)
         {
@@ -477,7 +478,7 @@ public class GPMonsterBase : ActorManager
 
         isExecutingActionAim = false;
 
-        photonView.SetMana(photonView.GetMana() - action.MpCost);
+        //photonView.SetMana(photonView.GetMana() - action.MpCost);
 
         photonView.RPC(
             "RpcAction",
@@ -541,10 +542,15 @@ public class GPMonsterBase : ActorManager
         m_animator.SetTrigger(triggerName);
     }
 
+    public UnityEvent OnRPCHurtEvent;
     [PunRPC]
     public void RPCOnHurt()
     {
         AudioManager.Play3D(m_hurtSFX, transform.position, 0.1f);
+        if (OnRPCHurtEvent != null)
+        {
+            OnRPCHurtEvent.Invoke();
+        }
     }
 
     [PunRPC]

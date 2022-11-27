@@ -48,7 +48,9 @@ namespace TanksMP
 
         private PlayerInventoryManager inventory;
 
-        private float nextFire;
+        private float nextAttackTime;
+
+        private float nextSkillTime;
 
         private Vector2 moveDir;
 
@@ -98,7 +100,18 @@ namespace TanksMP
             }
         }
 
-        public PlayerStatusManager Status { get => status; }
+        public PlayerStatusManager Status
+        {
+            get
+            {
+                if (status == null)
+                {
+                    status = GetComponent<PlayerStatusManager>();
+                }
+
+                return status;
+            }
+        }
 
         public PlayerInventoryManager Inventory
         {
@@ -112,6 +125,10 @@ namespace TanksMP
                 return inventory;
             }
         }
+
+        public float NextAttackTime { get => nextAttackTime; }
+
+        public float NextSkillTime { get => nextSkillTime; }
 
         public bool IsRespawning { get => isRespawning; }
         
@@ -149,6 +166,14 @@ namespace TanksMP
                 (aimPosition, autoTarget) =>
                 {
                     ExecuteActionInstantly(aimPosition, autoTarget, false);
+                },
+                () =>
+                {
+                    return stat.Mana >= attack.MpCost && Time.time > nextAttackTime;
+                },
+                () =>
+                {
+                    return stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
                 });
 
             camFollow.target = transform;
@@ -209,12 +234,20 @@ namespace TanksMP
                 photonView.HasChest(false);
 
                 collectibleZone.OnDropChest();
+
+                GPSManager.Instance.ClearDestination();
             }
 
             /* Handle collision to normal item */
             else if (collectible != null)
             {
                 collectible.Obtain(this);
+
+                var destination = photonView.GetTeam() == 0
+                    ? GameManager.GetInstance().zoneRed.transform.position
+                    : GameManager.GetInstance().zoneBlue.transform.position;
+
+                GPSManager.Instance.SetDestination(destination);
             }
         }
 
@@ -361,6 +394,8 @@ namespace TanksMP
 
                 PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
+                GPSManager.Instance.ClearDestination();
+
                 /* Reset stats */
                 stat.AddHealth(stat.MaxHealth);
 
@@ -395,7 +430,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;// * (1 + direction.y * -0.5f) * Time.deltaTime;
+                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;
 
                 float z = 1;
 
@@ -406,34 +441,36 @@ namespace TanksMP
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * status.BuffMoveSpeed * acceleration;
+            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
 
             rigidBody.AddForce(moveForce);
         }
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {
-            var canExecute = (!isAttack || Time.time > nextFire) && stat.Mana >= action.MpCost;
+            var instantAim =
+                action.Aim == AimType.None ? transform.position :
+                action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
+                Vector3.zero;
 
-            if (canExecute)
+            if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
             {
-                nextFire = Time.time + stat.AttackSpeed / 100f;
-
-                var instantAim =
-                    action.Aim == AimType.None ? transform.position :
-                    action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
-                    Vector3.zero;
-
-                if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
-                {
-                    ExecuteActionInstantly(instantAim, null, isAttack);
-                }
+                ExecuteActionInstantly(instantAim, null, isAttack);
             }
         }
 
         private void ExecuteActionInstantly(Vector3 aimPosition, Player autoTarget, bool isAttack)
         {
             var action = isAttack ? attack : skill;
+
+            if (isAttack)
+            {
+                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / stat.AttackSpeed;
+            }
+            else
+            {
+                nextSkillTime = Time.time + action.Cooldown * (1 - inventory.StatModifier.BuffCooldown);
+            }
 
             stat.AddMana(-action.MpCost);
 

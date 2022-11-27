@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AllItemsUI : UI<AllItemsUI>
+public class AllItemsUI : ListViewUI<ShopItemUI, AllItemsUI>
 {
     [SerializeField]
     private GameObject buttonSelectedIndicator;
@@ -12,5 +12,12 @@ public class AllItemsUI : UI<AllItemsUI>
     protected override void OnRefreshUI()
     {
         buttonSelectedIndicator.SetActive(IsSelected);
+
+        DeleteItems();
+
+        RefreshItems(ShopManager.Instance.Data, (item, data) =>
+        {
+            item.Data = data;
+        });
     }
 }
