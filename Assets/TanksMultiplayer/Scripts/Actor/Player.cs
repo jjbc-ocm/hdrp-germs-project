@@ -319,7 +319,8 @@ namespace TanksMP
                         false,
                         new object[]
                         {
-                            GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            //GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position,
                             Vector3.zero,
                             Quaternion.identity
                         }),
@@ -414,7 +415,9 @@ namespace TanksMP
             camFollow.target = transform;
             camFollow.HideMask(false);
 
-            transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
+            //transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
+            transform.position = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position;
+            transform.rotation = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].rotation;
 
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
@@ -430,7 +433,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;
+                float x = direction.x * Time.deltaTime * 3f * status.BuffMoveSpeed;
 
                 float z = 1;
 
