@@ -102,7 +102,7 @@ namespace TanksMP
         /// <summary>
         /// Returns a random spawn position within the team's spawn area.
         /// </summary>
-        public Vector3 GetSpawnPosition(int teamIndex)
+        /*public Vector3 GetSpawnPosition(int teamIndex)
         {
             //init variables
             Vector3 pos = teams[teamIndex].spawn.position;
@@ -127,7 +127,7 @@ namespace TanksMP
             }
             
             return pos;
-        }
+        }*/
 
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace TanksMP
         /// The spawn point of a team in the scene. In case it has a BoxCollider
         /// component attached, a point within the collider bounds will be used.
         /// </summary>
-        public Transform spawn;
+        //public Transform spawn;
     }
 
 
