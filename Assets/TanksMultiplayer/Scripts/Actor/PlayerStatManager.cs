@@ -31,6 +31,8 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private PlayerInventoryManager inventory;
 
+    private PlayerStatusManager status;
+
     private int health;
 
     private int mana;
@@ -51,21 +53,21 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int BaseResist { get => resist; }
 
-    public int MaxHealth { get => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth); }
+    public int MaxHealth { get => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth + Status.StatModifier.BuffMaxHealth); }
 
-    public int MaxMana { get => (int)(maxMana * (1 + Inventory.StatModifier.BuffMaxMana)); }
+    public int MaxMana { get => (int)(maxMana * (1 + Inventory.StatModifier.BuffMaxMana + Status.StatModifier.BuffMaxMana)); }
 
-    public int AbilityPower { get => (int)(abilityPower * (1 + Inventory.StatModifier.BuffAbilityPower)); }
+    public int AbilityPower { get => (int)(abilityPower * (1 + Inventory.StatModifier.BuffAbilityPower + Status.StatModifier.BuffAbilityPower)); }
 
-    public int AttackDamage { get => (int)(attackDamage * (1 + Inventory.StatModifier.BuffAttackDamage)); }
+    public int AttackDamage { get => (int)(attackDamage * (1 + Inventory.StatModifier.BuffAttackDamage + Status.StatModifier.BuffAttackDamage)); }
 
-    public int AttackSpeed { get => (int)(attackSpeed * (1 + Inventory.StatModifier.BuffAttackSpeed)); }
+    public int AttackSpeed { get => (int)(attackSpeed * (1 + Inventory.StatModifier.BuffAttackSpeed + Status.StatModifier.BuffAttackSpeed)); }
 
-    public int MoveSpeed { get => (int)(moveSpeed * (1 + Inventory.StatModifier.BuffMoveSpeed)); }
+    public int MoveSpeed { get => (int)(moveSpeed * (1 + Inventory.StatModifier.BuffMoveSpeed + Status.StatModifier.BuffMoveSpeed)); }
 
-    public int Armor { get => (int)(armor * (1 + Inventory.StatModifier.BuffArmor)); }
+    public int Armor { get => (int)(armor * (1 + Inventory.StatModifier.BuffArmor + Status.StatModifier.BuffArmor)); }
 
-    public int Resist { get => (int)(resist * (1 + Inventory.StatModifier.BuffResist)); }
+    public int Resist { get => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist)); }
 
     public int Health { get => health; }
 
@@ -84,6 +86,18 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public PlayerStatusManager Status
+    {
+        get
+        {
+            if (status == null)
+            {
+                status = GetComponent<PlayerStatusManager>();
+            }
+
+            return status;
+        }
+    }
 
 
     public void AddHealth(int amount)

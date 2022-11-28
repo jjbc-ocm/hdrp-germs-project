@@ -433,7 +433,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 3f * status.BuffMoveSpeed;
+                float x = direction.x * Time.deltaTime * 3f * (1 + inventory.StatModifier.BuffMoveSpeed + status.StatModifier.BuffMoveSpeed);
 
                 float z = 1;
 
@@ -472,7 +472,7 @@ namespace TanksMP
             }
             else
             {
-                nextSkillTime = Time.time + action.Cooldown * (1 - inventory.StatModifier.BuffCooldown);
+                nextSkillTime = Time.time + action.Cooldown * (1 - inventory.StatModifier.BuffCooldown - status.StatModifier.BuffCooldown);
             }
 
             stat.AddMana(-action.MpCost);

@@ -35,12 +35,20 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
     //private float duration8;
     //private float duration9;
 
-    private PlayerSoundVisualManager visuals;
+    private List<ItemData> items;
+
+    private StatModifier statModifier;
+
+    //private PlayerSoundVisualManager visuals;
+
+    public List<ItemData> Items { get => items; }
+
+    public StatModifier StatModifier { get => statModifier; }
 
 
     void Awake()
     {
-        visuals = GetComponent<PlayerSoundVisualManager>();
+        //visuals = GetComponent<PlayerSoundVisualManager>();
     }
 
     void Update()
@@ -68,6 +76,25 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
         //if (duration7 <= 0) itemId7 = "";
         //if (duration8 <= 0) itemId8 = "";
         //if (duration9 <= 0) itemId9 = "";
+
+        items = new List<ItemData>
+        {
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId0),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId1),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId2),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId3),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId4),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId5),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId6),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId7),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId8),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId9)
+        };
+
+        statModifier = items
+            .Where(i => i != null && i.Category != CategoryType.Consumables)
+            .Select(i => i.StatModifier.CreateInstance())
+            .Aggregate(new StatModifier(), (a, b) => a + b);
     }
 
     public bool TryApplyItem(ItemData data)
