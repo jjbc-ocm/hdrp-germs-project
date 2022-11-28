@@ -191,7 +191,7 @@ namespace TanksMP
 
         void FixedUpdate()
         {
-            if (!photonView.IsMine && !isRespawning) return;
+            if (!photonView.IsMine || isRespawning) return;
 
             /* Update movement */
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
@@ -289,7 +289,7 @@ namespace TanksMP
                 ? Instantiate(action.Effect, vTarget, rotation)
                 : Instantiate(action.Effect, vPosition, rotation);
 
-            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<Player>() ?? null); // TODO: 3
+            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<ActorManager>() ?? null); // TODO: 3
         }
 
         [PunRPC]
@@ -319,7 +319,8 @@ namespace TanksMP
                         false,
                         new object[]
                         {
-                            GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            //GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position,
                             Vector3.zero,
                             Quaternion.identity
                         }),
@@ -414,7 +415,9 @@ namespace TanksMP
             camFollow.target = transform;
             camFollow.HideMask(false);
 
-            transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
+            //transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
+            transform.position = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position;
+            transform.rotation = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].rotation;
 
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
@@ -430,7 +433,7 @@ namespace TanksMP
             //if direction is not zero, rotate player in the moving direction relative to camera
             if (direction != Vector2.zero)
             {
-                float x = direction.x * Time.deltaTime * 1.5f * status.BuffMoveSpeed;
+                float x = direction.x * Time.deltaTime * 3f * (1 + inventory.StatModifier.BuffMoveSpeed + status.StatModifier.BuffMoveSpeed);
 
                 float z = 1;
 
@@ -459,7 +462,7 @@ namespace TanksMP
             }
         }
 
-        private void ExecuteActionInstantly(Vector3 aimPosition, Player autoTarget, bool isAttack)
+        private void ExecuteActionInstantly(Vector3 aimPosition, ActorManager autoTarget, bool isAttack)
         {
             var action = isAttack ? attack : skill;
 
@@ -469,7 +472,7 @@ namespace TanksMP
             }
             else
             {
-                nextSkillTime = Time.time + action.Cooldown * (1 - inventory.StatModifier.BuffCooldown);
+                nextSkillTime = Time.time + action.Cooldown * (1 - inventory.StatModifier.BuffCooldown - status.StatModifier.BuffCooldown);
             }
 
             stat.AddMana(-action.MpCost);

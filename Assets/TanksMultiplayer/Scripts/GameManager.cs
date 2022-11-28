@@ -21,12 +21,6 @@ namespace TanksMP
         private static GameManager instance;
 
         /// <summary>
-        /// The local player instance spawned for this client.
-        /// </summary>
-       /* [HideInInspector]
-        public Player localPlayer;*/
-
-        /// <summary>
         /// This is just temporary, because timer should be decided by the team first. Just use this for now for testing
         /// Default is 10 min only for testing
         /// </summary>
@@ -100,37 +94,6 @@ namespace TanksMP
 
 
         /// <summary>
-        /// Returns a random spawn position within the team's spawn area.
-        /// </summary>
-        public Vector3 GetSpawnPosition(int teamIndex)
-        {
-            //init variables
-            Vector3 pos = teams[teamIndex].spawn.position;
-            BoxCollider col = teams[teamIndex].spawn.GetComponent<BoxCollider>();
-
-            if(col != null)
-            {
-                //find a position within the box collider range, first set fixed y position
-                //the counter determines how often we are calculating a new position if out of range
-                pos.y = col.transform.position.y;
-                int counter = 10;
-                
-                //try to get random position within collider bounds
-                //if it's not within bounds, do another iteration
-                do
-                {
-                    pos.x = UnityEngine.Random.Range(col.bounds.min.x, col.bounds.max.x);
-                    pos.z = UnityEngine.Random.Range(col.bounds.min.z, col.bounds.max.z);
-                    counter--;
-                }
-                while(!col.bounds.Contains(pos) && counter > 0);
-            }
-            
-            return pos;
-        }
-
-
-        /// <summary>
         /// Adds points to the target team depending on matching game mode and score type.
         /// This allows us for granting different amount of points on different score actions.
         /// </summary>
@@ -173,17 +136,6 @@ namespace TanksMP
             }
 
             // if maximum time is reached
-            /*if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
-            {
-                var intMode = Convert.ToInt32(mode);
-
-                var enumMode = (GameMode)intMode;
-
-                if (enumMode == GameMode.Survival && TimerManager.Instance.TimeLapse >= gameTimer)
-                {
-                    isOver = true;
-                }
-            }*/
             if (TimerManager.Instance.TimeLapse >= gameTimer)
             {
                 isOver = true;
@@ -243,7 +195,7 @@ namespace TanksMP
         /// The spawn point of a team in the scene. In case it has a BoxCollider
         /// component attached, a point within the collider bounds will be used.
         /// </summary>
-        public Transform spawn;
+        //public Transform spawn;
     }
 
 
@@ -256,18 +208,4 @@ namespace TanksMP
         Kill,
         Capture
     }
-
-
-    /// <summary>
-    /// Available game modes selected per scene.
-    /// Used in the AddScore() method for filtering.
-    /// </summary>
-    /*public enum GameMode
-    {
-        CaptureTheChest,
-
-        DeathMatch,
-
-        Survival
-    }*/
 }

@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: -1524254377348769529}
   - component: {fileID: -8983053965202403093}
   - component: {fileID: 3893311843720578731}
-  - component: {fileID: 6240919184148084518}
   - component: {fileID: 3091576256048947225}
   - component: {fileID: -2538237491888908775}
   - component: {fileID: -3672285830231611676}
@@ -175,23 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7448970a5e431438a6489e90284513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimIndicator: {fileID: 1417729505010508711}
+  aimIndicator: {fileID: 6733513863606523971}
   aimTrailIndicator: {fileID: 0}
---- !u!114 &6240919184148084518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6d1a79e6f0685418e5bfd12a8debc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamIndicators:
-  - {fileID: 2643461554117282167}
-  - {fileID: 2637932345297344319}
 --- !u!114 &3091576256048947225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +188,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f82184171bc854f84248eecd78f290, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamIndicators:
+  - {fileID: 2643461554117282167}
+  - {fileID: 2637932345297344319}
+  waterIndicators:
+  - {fileID: 4880053398655902718}
+  - {fileID: 252083241193757322}
   spriteIcon: {fileID: 21300000, guid: b85116584e46ac24293960a0521085fa, type: 3}
   shotClip: {fileID: 0}
   explosionClip: {fileID: 0}
@@ -212,6 +202,8 @@ MonoBehaviour:
   rendererAnchor: {fileID: 7109978724447499946}
   rendererShip: {fileID: 1787178749164205389}
   iconIndicator: {fileID: 5089858825032350233}
+  materialNormal: {fileID: 2100000, guid: 3382716555c0f0a42b617621ced35933, type: 2}
+  materialInvisible: {fileID: 2100000, guid: 5dd453357a50edc4d8a1c77461001ede, type: 2}
 --- !u!114 &-2538237491888908775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,8 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436d0ee19f62577439458a0b79434051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialNormal: {fileID: 2100000, guid: 3382716555c0f0a42b617621ced35933, type: 2}
-  materialInvisible: {fileID: 2100000, guid: 5dd453357a50edc4d8a1c77461001ede, type: 2}
 --- !u!114 &-623901395192438064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6119,6 +6109,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ability Indicator - Burning Cold
       objectReference: {fileID: 0}
+    - target: {fileID: 1000010310479910, guid: 31e5e7aaa9a6b2243beb94b569b14608, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012126426226, guid: 31e5e7aaa9a6b2243beb94b569b14608, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -6193,6 +6187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31e5e7aaa9a6b2243beb94b569b14608, type: 3}
+--- !u!1 &6733513863606523971 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000010310479910, guid: 31e5e7aaa9a6b2243beb94b569b14608, type: 3}
+  m_PrefabInstance: {fileID: 6733359386363471973}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6737252356055383063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000012126426226, guid: 31e5e7aaa9a6b2243beb94b569b14608, type: 3}

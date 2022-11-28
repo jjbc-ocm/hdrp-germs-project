@@ -39,15 +39,15 @@ public class HolyBrightManager : SkillBaseManager
 
             var orientation = Quaternion.Euler(transform.eulerAngles);
 
-            var colliders = Physics.OverlapBox(center, halfExtents, orientation, LayerMask.GetMask("Ship"));
+            var colliders = Physics.OverlapBox(center, halfExtents, orientation, LayerMask.GetMask("Ship", "Monster"));
 
             foreach (var collider in colliders)
             {
-                var player = collider.GetComponent<Player>();
+                var actor = collider.GetComponent<ActorManager>();
 
-                if (!IsHit(owner, player)) continue;
-                
-                player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
+                if (!IsHit(owner, actor)) continue;
+
+                actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
             }
         }
     }

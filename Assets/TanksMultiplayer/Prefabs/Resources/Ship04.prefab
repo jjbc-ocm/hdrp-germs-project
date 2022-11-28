@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: -2083049068852066385}
   - component: {fileID: 4803802976623517953}
   - component: {fileID: 5204821033038578185}
-  - component: {fileID: -1767002791520794882}
   - component: {fileID: -7661193168183373770}
   - component: {fileID: 5688178942024797729}
   - component: {fileID: 7855133318347526463}
@@ -175,21 +174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimIndicator: {fileID: 387411267257426236}
   aimTrailIndicator: {fileID: 4243025282207990145}
---- !u!114 &-1767002791520794882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6d1a79e6f0685418e5bfd12a8debc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamIndicators:
-  - {fileID: 8371150568449162386}
-  - {fileID: 174182742017435897}
 --- !u!114 &-7661193168183373770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f82184171bc854f84248eecd78f290, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamIndicators:
+  - {fileID: 8371150568449162386}
+  - {fileID: 174182742017435897}
+  waterIndicators:
+  - {fileID: 4970763180432415386}
+  - {fileID: 4307670462230693116}
   spriteIcon: {fileID: 21300000, guid: 192fb683c4fc4b34d8a27146c2f55e83, type: 3}
   shotClip: {fileID: 0}
   explosionClip: {fileID: 0}
@@ -210,6 +200,8 @@ MonoBehaviour:
   rendererAnchor: {fileID: 5067338322404580456}
   rendererShip: {fileID: 143294564359289877}
   iconIndicator: {fileID: 6097096151781405437}
+  materialNormal: {fileID: 2100000, guid: a11e5e81c66a08f409a32d9e7587723c, type: 2}
+  materialInvisible: {fileID: 2100000, guid: 5dd453357a50edc4d8a1c77461001ede, type: 2}
 --- !u!114 &5688178942024797729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,8 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436d0ee19f62577439458a0b79434051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialNormal: {fileID: 2100000, guid: a11e5e81c66a08f409a32d9e7587723c, type: 2}
-  materialInvisible: {fileID: 2100000, guid: 5dd453357a50edc4d8a1c77461001ede, type: 2}
 --- !u!114 &-8481546414012307119
 MonoBehaviour:
   m_ObjectHideFlags: 0

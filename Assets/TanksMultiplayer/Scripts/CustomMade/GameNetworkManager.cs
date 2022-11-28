@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameNetworkManager : MonoBehaviourPunCallbacks
 {
+    public static GameNetworkManager Instance;
+
     #region Serializable
 
     [SerializeField]
@@ -13,6 +15,8 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private Transform[] spawnPoints;
+
+    public Transform[] SpawnPoints { get => spawnPoints; }
 
     #endregion
 
@@ -24,17 +28,17 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Unity
 
+    void Awake()
+    {
+        Instance = this;
+    }
+
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             IntstantiatePlayer();
         }
-    }
-
-    void Update()
-    {
-        
     }
 
     #endregion

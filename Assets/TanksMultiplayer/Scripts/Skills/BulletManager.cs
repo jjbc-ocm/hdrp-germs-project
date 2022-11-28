@@ -52,38 +52,15 @@ namespace TanksMP
                 return;
             }
 
-            //cache corresponding gameobject that was hit
             GameObject obj = col.gameObject;
 
             var target = obj.GetComponent<ActorManager>();
-
-            //GPMonsterBase monster = obj.GetComponent<GPMonsterBase>();
-
-            /*if (target != null)
-            {
-                if (!IsHit(owner, target)) return;
-
-                if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
-                if (hitClip) AudioManager.Play3D(hitClip, transform.position);
-            }
-            else if (monster != null)
-            {
-                if (ignoreMonsters)
-                {
-                    return;
-                }
-                //create clips and particles on hit
-                if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
-                if (hitClip) AudioManager.Play3D(hitClip, transform.position);
-            }*/
 
             if (!IsHit(owner, target)) return;
 
             if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
             if (hitClip) AudioManager.Play3D(hitClip, transform.position);
 
-            //despawn gameobject
-            //PoolManager.Despawn(gameObject);// TODO: handle object pooling in the future
             Destroy(gameObject);
 
 
@@ -109,11 +86,6 @@ namespace TanksMP
                     owner.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
                 }
             }
-
-            /*if (monster)
-            {
-                monster.DamageMonster(this);
-            }*/
         }
 
         #endregion
