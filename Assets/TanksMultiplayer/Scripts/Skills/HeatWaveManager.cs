@@ -13,15 +13,15 @@ public class HeatWaveManager : SkillBaseManager
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, LayerMask.GetMask("Ship"));
+        var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, LayerMask.GetMask("Ship", "Monster"));
 
         foreach (var collider in colliders)
         {
-            var player = collider.GetComponent<Player>();
+            var actor = collider.GetComponent<ActorManager>();
 
-            if (!IsHit(owner, player)) continue;
+            if (!IsHit(owner, actor)) continue;
 
-            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
+            actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
         }
     }
 }

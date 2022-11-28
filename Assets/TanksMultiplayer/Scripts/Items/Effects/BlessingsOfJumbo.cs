@@ -8,20 +8,19 @@ public class BlessingsOfJumbo : ItemEffectManager
 {
     public override void Execute(ItemData item, Player user, Vector3 targetLocation)
     {
-        // TODO: radius need to be modifieable
-        var colliders = Physics.OverlapSphere(user.transform.position, 25, LayerMask.GetMask("Ship"));
+        var colliders = Physics.OverlapSphere(user.transform.position, 25, LayerMask.GetMask("Ship", "Monster"));
 
         foreach (var collider in colliders)
         {
-            var player = collider.GetComponent<Player>();
+            var actor = collider.GetComponent<ActorManager>();
 
-            if (!IsHit(user, player)) continue;
-
-            // TODO: damage should not be hard coded
-            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, 100, user.photonView.ViewID); 
+            if (IsHit(user, actor))
+            {
+                actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, 100, user.photonView.ViewID);
+            }
         }
 
-        //user.photonView.ConsumeItem(item);
+        user.Inventory.TryRemoveItem(item);
     }
 
     private bool IsHit(ActorManager origin, ActorManager target)

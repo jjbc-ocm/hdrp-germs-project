@@ -16,7 +16,7 @@ public class AimManager : MonoBehaviour
 
     private Action onAimSkillPress;
 
-    private Action<Vector3, Player> onAimSkillRelease;
+    private Action<Vector3, ActorManager> onAimSkillRelease;
 
     private Func<bool> onCanExecuteAttack;
 
@@ -24,7 +24,7 @@ public class AimManager : MonoBehaviour
 
     private bool isAiming;
 
-    private Player aimAutoTarget;
+    private ActorManager aimAutoTarget;
 
     private Player player;
 
@@ -38,7 +38,7 @@ public class AimManager : MonoBehaviour
         IndicatorSetActive(false);
     }
 
-    public void Initialize(Action onAttackPress, Action onAimSkillPress, Action<Vector3, Player> onAimSkillRelease, Func<bool> onCanExecuteAttack, Func<bool> onCanExecuteSkill)
+    public void Initialize(Action onAttackPress, Action onAimSkillPress, Action<Vector3, ActorManager> onAimSkillRelease, Func<bool> onCanExecuteAttack, Func<bool> onCanExecuteSkill)
     {
         this.onAttackPress = onAttackPress;
 
@@ -53,7 +53,7 @@ public class AimManager : MonoBehaviour
 
     void Update()
     {
-        if (!player.photonView.IsMine && !player.IsRespawning) return;
+        if (!player.photonView.IsMine || player.IsRespawning) return;
 
         if (Input.GetMouseButton(0) && onCanExecuteAttack.Invoke())
         {
@@ -86,11 +86,11 @@ public class AimManager : MonoBehaviour
 
             var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
 
-            var layerName = action.Aim == AimType.Water ? "Water" : "Ship";
+            var layerNames = action.Aim == AimType.Water ? new string[] { "Water" } : new string[] { "Ship", "Monster" };
 
             var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, LayerMask.GetMask(layerName)))
+            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, LayerMask.GetMask(layerNames)))
             {
                 if (action.Aim == AimType.Water ||
                     action.Aim == AimType.AnyShip ||
@@ -112,7 +112,7 @@ public class AimManager : MonoBehaviour
                         action.Aim == AimType.AllyShip ||
                         action.Aim == AimType.AnyShip)
                     {
-                        aimAutoTarget = hit.transform.GetComponent<Player>();
+                        aimAutoTarget = hit.transform.GetComponent<ActorManager>();
                     }
                 }
             }
@@ -129,7 +129,7 @@ public class AimManager : MonoBehaviour
 
     private bool IsEnemyShip(RaycastHit hit)
     {
-        var hitPlayer = hit.transform.GetComponent<Player>();
+        var hitPlayer = hit.transform.GetComponent<ActorManager>();
 
         return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam());
     }
