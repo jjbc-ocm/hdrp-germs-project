@@ -1,9 +1,16 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSoundVisualManager : MonoBehaviour
+public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField]
+    private GameObject[] teamIndicators;
+
+    [SerializeField]
+    private GameObject[] waterIndicators;
+
     [SerializeField]
     private Sprite spriteIcon;
 
@@ -28,6 +35,16 @@ public class PlayerSoundVisualManager : MonoBehaviour
     [SerializeField]
     private GameObject iconIndicator;
 
+    [SerializeField]
+    private Material materialNormal;
+
+    [SerializeField]
+    private Material materialInvisible;
+
+    private PlayerInventoryManager inventory;
+
+    private PlayerStatusManager status;
+
     public Sprite SpriteIcon { get => spriteIcon; }
 
     public GameObject RendererAnchor { get => rendererAnchor; }
@@ -35,4 +52,38 @@ public class PlayerSoundVisualManager : MonoBehaviour
     public MeshRenderer RendererShip { get => rendererShip; }
 
     public GameObject IconIndicator { get => iconIndicator; }
+
+    void Awake()
+    {
+        inventory = GetComponent<PlayerInventoryManager>();
+
+        status = GetComponent<PlayerStatusManager>();
+    }
+
+    void Start()
+    {
+        teamIndicators[photonView.GetTeam()].SetActive(true);
+    }
+
+    void Update()
+    {
+        var isInvisible = inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible;
+
+        if (photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
+        {
+            rendererShip.material = isInvisible ? materialInvisible : materialNormal;
+        }
+        else
+        {
+            rendererShip.gameObject.SetActive(!isInvisible);
+
+            teamIndicators[photonView.GetTeam()].SetActive(!isInvisible);
+
+            foreach (var waterIndicator in waterIndicators)
+            {
+                waterIndicator.SetActive(!isInvisible);
+            }
+        }
+        
+    }
 }

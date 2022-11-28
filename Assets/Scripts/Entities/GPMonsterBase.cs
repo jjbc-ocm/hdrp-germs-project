@@ -220,36 +220,19 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public override void RpcDamageHealth(int amount, int attackerId)
     {
+        var other = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
+
+        if (other)
+        {
+            m_lastHitPlayer = other;
+            if (!m_playersWhoDamageIt.Contains(other))
+            {
+                m_playersWhoDamageIt.Add(other);
+            }
+        }
+
         m_health.Damage(amount);
-
-        var other = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;//bullet.Owner;
-
-        if (other)
-        {
-            m_lastHitPlayer = other;
-            if (!m_playersWhoDamageIt.Contains(other))
-            {
-                m_playersWhoDamageIt.Add(other);
-            }
-        }
     }
-
-    /*public virtual void DamageMonster(BulletManager bullet)
-    {
-        m_health.Damage(bullet.Damage);
-
-        var other = bullet.Owner;
-
-        if (other)
-        {
-            m_lastHitPlayer = other;
-            if (!m_playersWhoDamageIt.Contains(other))
-            {
-                m_playersWhoDamageIt.Add(other);
-            }
-        }
-
-    }*/
 
     public virtual void DamagePlayer(ActorManager player)
     {

@@ -26,13 +26,19 @@ public class TrailOfFrostManager : SkillBaseManager
 
     void OnTriggerEnter(Collider col)
     {
-        Player player = col.GetComponent<Player>();
+        var actor = col.GetComponent<ActorManager>();
+
+        Debug.Log("SDFGSFDFG A");
         
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (!IsHit(owner, player)) return;
+        Debug.Log("SDFGSFDFG B");
 
-        player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
+        if (!IsHit(owner, actor)) return;
+
+        Debug.Log("SDFGSFDFG C");
+
+        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
     }
 
     protected override void OnInitialize()
@@ -57,7 +63,7 @@ public class TrailOfFrostManager : SkillBaseManager
 
             spawnBoxCounter++;
 
-            boxCollider.size = new Vector3(5, 5, trailSize);
+            boxCollider.size = new Vector3(5, 50, trailSize);
 
             boxCollider.center = boxCollider.size / 2f;
 
