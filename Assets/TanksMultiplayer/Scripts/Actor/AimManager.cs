@@ -131,7 +131,7 @@ public class AimManager : MonoBehaviour
     {
         var hitPlayer = hit.transform.GetComponent<ActorManager>();
 
-        return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam());
+        return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam()) || hitPlayer.IsMonster;
     }
 
     private void IndicatorSetActive(bool value)
