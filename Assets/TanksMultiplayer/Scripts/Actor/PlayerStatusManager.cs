@@ -7,12 +7,6 @@ using UnityEngine;
 
 public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 {
-    [SerializeField]
-    private Material materialNormal;
-
-    [SerializeField]
-    private Material materialInvisible;
-
     private string itemId0;
     private string itemId1;
     private string itemId2;
@@ -53,6 +47,25 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
+        items = new List<ItemData>
+        {
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId0),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId1),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId2),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId3),
+            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId4),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId5),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId6),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId7),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId8),
+            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId9)
+        };
+
+        statModifier = items
+            .Where(i => i != null)
+            .Select(i => i.StatModifier.CreateInstance())
+            .Aggregate(new StatModifier(), (a, b) => a + b);
+
         if (!photonView.IsMine) return;
 
         duration0 = Mathf.Max(0, duration0 - Time.deltaTime);
@@ -77,24 +90,7 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
         //if (duration8 <= 0) itemId8 = "";
         //if (duration9 <= 0) itemId9 = "";
 
-        items = new List<ItemData>
-        {
-            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId0),
-            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId1),
-            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId2),
-            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId3),
-            ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId4),
-            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId5),
-            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId6),
-            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId7),
-            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId8),
-            //ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId9)
-        };
-
-        statModifier = items
-            .Where(i => i != null && i.Category != CategoryType.Consumables)
-            .Select(i => i.StatModifier.CreateInstance())
-            .Aggregate(new StatModifier(), (a, b) => a + b);
+        
     }
 
     public bool TryApplyItem(ItemData data)

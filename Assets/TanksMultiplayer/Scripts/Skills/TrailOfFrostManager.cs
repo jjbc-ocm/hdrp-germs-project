@@ -26,19 +26,18 @@ public class TrailOfFrostManager : SkillBaseManager
 
     void OnTriggerEnter(Collider col)
     {
-        Player player = col.GetComponent<Player>();
+        var actor = col.GetComponent<ActorManager>();
         
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (!IsHit(owner, player)) return;
+        if (!IsHit(owner, actor)) return;
 
-        player.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
+        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
     }
 
     protected override void OnInitialize()
     {
         boxCollider = GetComponent<BoxCollider>();
-
         
         StartCoroutine(YieldSpawnDebugBox());
     }

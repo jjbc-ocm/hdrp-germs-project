@@ -9,6 +9,8 @@ public class Hoodwink : ItemEffectManager
     {
         user.Status.TryApplyItem(item);
 
+        user.Inventory.TryRemoveItem(item);
+
         //user.Status.AddStatusGroup(item.StatModifier.CreateInstance());
 
         //user.photonView.ConsumeItem(item);

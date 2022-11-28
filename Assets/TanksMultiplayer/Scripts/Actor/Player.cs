@@ -191,7 +191,7 @@ namespace TanksMP
 
         void FixedUpdate()
         {
-            if (!photonView.IsMine && !isRespawning) return;
+            if (!photonView.IsMine || isRespawning) return;
 
             /* Update movement */
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
@@ -289,7 +289,7 @@ namespace TanksMP
                 ? Instantiate(action.Effect, vTarget, rotation)
                 : Instantiate(action.Effect, vPosition, rotation);
 
-            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<Player>() ?? null); // TODO: 3
+            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<ActorManager>() ?? null); // TODO: 3
         }
 
         [PunRPC]
@@ -462,7 +462,7 @@ namespace TanksMP
             }
         }
 
-        private void ExecuteActionInstantly(Vector3 aimPosition, Player autoTarget, bool isAttack)
+        private void ExecuteActionInstantly(Vector3 aimPosition, ActorManager autoTarget, bool isAttack)
         {
             var action = isAttack ? attack : skill;
 

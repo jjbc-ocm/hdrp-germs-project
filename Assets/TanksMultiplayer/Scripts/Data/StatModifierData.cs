@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class StatModifierData
 {
-    [SerializeField]
-    private int id;
+    /*[SerializeField]
+    private int id;*/
 
     [SerializeField]
     private bool isInvisible;
@@ -41,10 +41,7 @@ public class StatModifierData
     [SerializeField]
     private float buffCooldown;
 
-    [SerializeField]
-    private float duration;
-
-    public int Id { get => id; }
+    //public int Id { get => id; }
 
     public bool IsInvisible { get => isInvisible; }
 
@@ -68,13 +65,11 @@ public class StatModifierData
 
     public float BuffCooldown { get => buffCooldown; }
 
-    public float Duration { get => duration; }
-
     public StatModifier CreateInstance()
     {
         return new StatModifier
         {
-            Id = Id,
+            //Id = Id,
             IsInvisible = IsInvisible,
             LifeSteal = LifeSteal,
             BuffMaxHealth = BuffMaxHealth,
@@ -85,15 +80,14 @@ public class StatModifierData
             BuffResist = BuffResist,
             BuffAttackSpeed = BuffAttackSpeed,
             BuffMoveSpeed = BuffMoveSpeed,
-            BuffCooldown = BuffCooldown,
-            Duration = Duration
+            BuffCooldown = BuffCooldown
         };
     }
 }
 
 public struct StatModifier
 {
-    public int Id { get; set; }
+    //public int Id { get; set; }
 
     public bool IsInvisible { get; set; }
 
@@ -117,14 +111,12 @@ public struct StatModifier
 
     public float BuffCooldown { get; set; }
 
-    public float Duration { get; set; }
-
     public static StatModifier operator +(StatModifier a, StatModifier b)
     {
         return new StatModifier
         {
-            Id = a.Id,
-            IsInvisible = a.IsInvisible,
+            //Id = a.Id,
+            IsInvisible = a.IsInvisible || b.IsInvisible,
             LifeSteal = a.LifeSteal + b.LifeSteal,
             BuffMaxHealth = a.BuffMaxHealth + b.BuffMaxHealth,
             BuffMaxMana = a.BuffMaxMana + b.BuffMaxMana,
@@ -134,8 +126,7 @@ public struct StatModifier
             BuffResist = a.BuffResist + b.BuffResist,
             BuffAttackSpeed = a.BuffAttackSpeed + b.BuffAttackSpeed,
             BuffMoveSpeed = a.BuffMoveSpeed + b.BuffMoveSpeed,
-            BuffCooldown = a.BuffCooldown + b.BuffCooldown,
-            Duration = a.Duration
+            BuffCooldown = a.BuffCooldown + b.BuffCooldown
         };
     }
 }
