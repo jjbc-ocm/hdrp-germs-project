@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
+public class ShopUI : UI<ShopUI>
 {
     [SerializeField]
     private RecoItemsUI uiRecoItems;
@@ -54,14 +55,9 @@ public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
     {
         var hasSelected = Selected != null;
 
-        /*DeleteItems();
-
-        RefreshItems(Data, (item, data) =>
-        {
-            item.Data = data;
-        });*/
-
         buttonBuy.gameObject.SetActive(hasSelected);
+
+        buttonSell.gameObject.SetActive(Player.Mine.Inventory.HasItem(Selected));
 
         uiSelectedInfo.SetActive(hasSelected);
 
@@ -117,6 +113,6 @@ public class ShopUI : UI<ShopUI>//ListViewUI<ShopItemUI, ShopUI>
 
     public void OnSellButtonClick()
     {
-
+        ShopManager.Instance.Sell(Selected);
     }
 }

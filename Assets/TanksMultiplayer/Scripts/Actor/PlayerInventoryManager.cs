@@ -73,6 +73,11 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
         return false;
     }
 
+    public bool HasItem(ItemData data)
+    {
+        return items.Any(i => i != null && data != null && i.ID == data.ID);
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
