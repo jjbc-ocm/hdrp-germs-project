@@ -6,7 +6,7 @@ using UnityEngine;
 public class MinimapManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject minimapCamera;
+    private Camera minimapCamera;
 
     [SerializeField]
     private Vector3[] positions;
@@ -14,12 +14,20 @@ public class MinimapManager : MonoBehaviour
     [SerializeField]
     private Vector3[] rotations;
 
-    void Start()
+    void Update()
     {
         var index = PhotonNetwork.LocalPlayer.GetTeam();
 
-        minimapCamera.transform.position = positions[index];
+        var offset = positions[index];
 
         minimapCamera.transform.eulerAngles = rotations[index];
+
+        minimapCamera.transform.position = Vector3.zero;
+
+        var targetPos = minimapCamera.ViewportToWorldPoint(new Vector3(0, 1, minimapCamera.nearClipPlane));
+
+        minimapCamera.transform.localPosition = new Vector3(targetPos.x + offset.x, offset.y, targetPos.z + offset.z);
+
+        
     }
 }
