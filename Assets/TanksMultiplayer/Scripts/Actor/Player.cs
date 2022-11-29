@@ -136,12 +136,8 @@ namespace TanksMP
 
         #region Unity
 
-        void Start()
+        void Awake()
         {
-            if (!photonView.IsMine) return;
-
-            Mine = this;
-
             aim = GetComponent<AimManager>();
 
             rigidBody = GetComponent<Rigidbody>();
@@ -153,6 +149,13 @@ namespace TanksMP
             status = GetComponent<PlayerStatusManager>();
 
             soundVisuals = GetComponent<PlayerSoundVisualManager>();
+        }
+
+        void Start()
+        {
+            if (!photonView.IsMine) return;
+
+            Mine = this;
 
             aim.Initialize(
                 () =>

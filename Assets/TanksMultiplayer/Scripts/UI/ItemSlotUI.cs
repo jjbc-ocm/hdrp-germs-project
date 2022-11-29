@@ -25,9 +25,7 @@ public class ItemSlotUI : UI<ItemSlotUI>
 
     public void OnClick()
     {
-        //var players = FindObjectsOfType<Player>();
-
-        //var myPlayer = players.FirstOrDefault(i => i.photonView.IsMine);
+        if (string.IsNullOrEmpty(Data.ClassName)) return;
 
         var effect = (ItemEffectManager)Activator.CreateInstance(Type.GetType(Data.ClassName));
 
