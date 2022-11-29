@@ -45,21 +45,17 @@ public class ShopManager : MonoBehaviour
 
     public void Buy(ItemData item)
     {
-        //PhotonNetwork.LocalPlayer.PurchaseItem(item, 1);
-
         if (Player.Mine.Inventory.TryAddItem(item))
         {
-            // TODO: reduce the gold
+            Player.Mine.Inventory.AddGold(-item.CostBuy);
         }
     }
 
     public void Sell(ItemData item)
     {
-        //PhotonNetwork.LocalPlayer.PurchaseItem(item, -1);
-
         if (Player.Mine.Inventory.TryRemoveItem(item))
         {
-            // TODO: increase gold
+            Player.Mine.Inventory.AddGold(item.CostSell);
         }
     }
 }

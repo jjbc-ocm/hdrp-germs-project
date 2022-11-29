@@ -7,7 +7,8 @@ public class SupremacyWard : ItemEffectManager
 {
     public override void Execute(ItemData item, Player user, Vector3 targetLocation)
     {
-        // TODO: place an invisible ward in targetLocation
-
+        user.ItemAim.Aim(() =>
+        {
+        });
     }
 }
