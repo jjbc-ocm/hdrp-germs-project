@@ -9,6 +9,10 @@ public class GPTicketScreen : GPGUIScreen
     public List<GPStoreGemsSO> m_gemPacksData;
     List<GPGemPackCard> m_instancedCards = new List<GPGemPackCard>();
 
+    [Header("Audio Settings")]
+    public AudioClip m_buySuccedSFX;
+    public AudioClip m_buyErrorSFX;
+
     void Start()
     {
         for (int i = 0; i < m_gemPacksData.Count; i++)
@@ -22,8 +26,16 @@ public class GPTicketScreen : GPGUIScreen
 
     public void OnBuyUsingUSD(GPStoreGemsSO gemPackDesc)
     {
-        //Do API call here
+        bool buySucceed = true;
+        //TODO: Do API call here and modify buySucceed variable
         //You can get the usd price from the gemPackDesc parameter
-        Debug.Log("Buy " + gemPackDesc.m_packName + gemPackDesc.m_usdPrice.ToString());
+        if (buySucceed)
+        {
+            TanksMP.AudioManager.Play2D(m_buySuccedSFX);
+        }
+        else
+        {
+            TanksMP.AudioManager.Play2D(m_buyErrorSFX);
+        }
     }
 }
