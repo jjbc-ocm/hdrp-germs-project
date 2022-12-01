@@ -26,9 +26,9 @@ public class ScriptableObjectIdDrawer : PropertyDrawer
 [CreateAssetMenu]
 public class ItemData : ScriptableObject
 {
-    //[SerializeField]
-    //[ScriptableObjectId]
-    //private string id;
+    [SerializeField]
+    [ScriptableObjectId]
+    private string id;
 
     [SerializeField]
     private new string name;
@@ -58,7 +58,7 @@ public class ItemData : ScriptableObject
     [SerializeField]
     private float duration;
 
-    public string ID { get => "id"; }
+    public string ID { get => id; }
 
     public string Name { get => name; }
 
