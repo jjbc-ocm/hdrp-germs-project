@@ -11,6 +11,7 @@ public class GPGemPackCard : MonoBehaviour
     public TextMeshProUGUI m_packName;
     public Button m_buyButton;
     public TextMeshProUGUI m_usdPriceText;
+    public string m_currencyName = "USD";
     public TextMeshProUGUI m_gemAmountText;
     public GameObject m_bestTag;
     public GameObject m_popularTag;
@@ -34,7 +35,7 @@ public class GPGemPackCard : MonoBehaviour
         m_gemPackDesc = gemPackDesc;
         m_iconImage.sprite = gemPackDesc.m_gemIcon;
         m_packName.text = gemPackDesc.m_packName;
-        m_usdPriceText.text = gemPackDesc.m_usdPrice.ToString();
+        m_usdPriceText.text = gemPackDesc.m_usdPrice.ToString() + " " + m_currencyName;
         m_gemAmountText.text = gemPackDesc.m_gemAmount.ToString();
         m_bestTag.SetActive(gemPackDesc.m_specialTag == GP_GEM_PACK_TAG.kBest);
         m_popularTag.SetActive(gemPackDesc.m_specialTag == GP_GEM_PACK_TAG.kPopular);

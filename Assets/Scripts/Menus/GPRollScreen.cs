@@ -49,9 +49,7 @@ public class GPRollScreen : GPGUIScreen
     public AudioClip m_spinEndedSFX;
 
     [Header("Energy Settings")]
-    public float m_currEnergy = 0;
-    public float m_maxEnergy = 10;
-    public float m_spinWheelCost = 10;
+    public int m_spinWheelCost = 10;
     public Image m_energyFill;
     public float m_fillAnimSpeed = 7.0f;
     float m_fillTargetValue = 0.0f;
@@ -66,7 +64,9 @@ public class GPRollScreen : GPGUIScreen
 
         m_angleOnePrize = m_circleAngles / m_prizes.Count;
         m_spinButton.onClick.AddListener(Spin);
-        UpdateEnergy();
+        OnEnergyUpdated();
+
+        GPPlayerProfile.m_instance.OnEnergyModifiedEvent.AddListener(OnEnergyUpdated);
     }
 
     private void Update()
@@ -77,14 +77,13 @@ public class GPRollScreen : GPGUIScreen
     public override void Show()
     {
         base.Show();
-        UpdateEnergy();
+        OnEnergyUpdated();
     }
 
     public void Spin()
     {
-        if (!m_spinning && m_currEnergy >= m_spinWheelCost)
+        if (!m_spinning && GPPlayerProfile.m_instance.TrySpendEnergy(m_spinWheelCost))
         {
-            SpendEnergy(m_spinWheelCost);
             m_spinning = true;
             m_spinButton.interactable = false;
             TanksMP.AudioManager.Play2D(m_spinStartedSFX);
@@ -115,21 +114,38 @@ public class GPRollScreen : GPGUIScreen
 
         TanksMP.AudioManager.Play2D(m_spinEndedSFX);
         m_endSpinTween.PunchEffect();
-        UpdateEnergy();
+        OnEnergyUpdated();
         m_spinning = false;
+
+        GivePrize(m_prizes[prizeIDX]);
     }
 
-    public void SpendEnergy(float amount)
+    public void GivePrize(GPWheelPrize prize)
     {
-        m_currEnergy -= amount;
-        UpdateEnergy();
+        switch (prize.m_prizeType)
+        {
+            case GP_PRIZE_TYPE.kGold:
+                GPPlayerProfile.m_instance.AddGold(prize.m_prizeAmount);
+                break;
+            case GP_PRIZE_TYPE.kGems:
+                GPPlayerProfile.m_instance.AddGems(prize.m_prizeAmount);
+                break;
+            case GP_PRIZE_TYPE.kEnergy:
+                GPPlayerProfile.m_instance.AddEnergy(prize.m_prizeAmount);
+                break;
+            case GP_PRIZE_TYPE.kWoodenChest:
+                break;
+            case GP_PRIZE_TYPE.kGoldenChest:
+                break;
+            default:
+                break;
+        }
     }
 
-    void UpdateEnergy()
+    void OnEnergyUpdated()
     {
-        m_currEnergy = Mathf.Clamp(m_currEnergy, 0.0f, m_maxEnergy);
-        m_fillTargetValue = m_currEnergy / m_maxEnergy;
-        if (m_currEnergy < m_spinWheelCost)
+        m_fillTargetValue = (float)GPPlayerProfile.m_instance.m_energy / (float)GPPlayerProfile.m_instance.m_maxEnergy;
+        if (GPPlayerProfile.m_instance.m_energy < m_spinWheelCost)
         {
             m_spinButton.interactable = false;
         }
