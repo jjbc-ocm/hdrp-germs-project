@@ -42,6 +42,13 @@ public class ShopUI : UI<ShopUI>
     [SerializeField]
     private Image imageSprite;
 
+    [Header("Recipe Item Info")]
+    [SerializeField]
+    private RecipeItemUI prefabRecipeItem;
+
+    [SerializeField]
+    private Transform[] transformRecipeLayers;
+
     public List<ItemData> Data { get; set; }
 
     public ItemData Selected { get; set; }
@@ -72,6 +79,16 @@ public class ShopUI : UI<ShopUI>
             textSellCost.text = Selected.CostSell.ToString();
 
             imageSprite.sprite = Selected.Icon;
+
+            foreach (var transform in transformRecipeLayers)
+            {
+                foreach (Transform child in transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
+            CreateRecipeTree(Selected, 0);
         }
     }
 
@@ -114,5 +131,20 @@ public class ShopUI : UI<ShopUI>
     public void OnSellButtonClick()
     {
         ShopManager.Instance.Sell(Selected);
+    }
+
+    private void CreateRecipeTree(ItemData item, int recipeLayer)
+    {
+        var recipeItem = Instantiate(prefabRecipeItem, transformRecipeLayers[recipeLayer]);
+
+        recipeItem.RefreshUI((self) =>
+        {
+            self.Data = item;
+        });
+
+        foreach (var recipe in item.Recipes)
+        {
+            CreateRecipeTree(recipe, recipeLayer + 1);
+        }
     }
 }
