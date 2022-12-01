@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class SupremacyWardEffectManager : MonoBehaviourPunCallbacks
 {
+    private int team;
+
+    public int Team { get => team; set => team = value; }
+
     void Start()
     {
         StartCoroutine(YieldDestroy());

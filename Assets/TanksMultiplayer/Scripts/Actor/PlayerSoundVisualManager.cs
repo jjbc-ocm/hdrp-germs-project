@@ -45,6 +45,8 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
 
     private PlayerStatusManager status;
 
+    private bool isNullifyInvisibilityEffect;
+
     public Sprite SpriteIcon { get => spriteIcon; }
 
     public GameObject RendererAnchor { get => rendererAnchor; }
@@ -67,7 +69,7 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        var isInvisible = inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible;
+        var isInvisible = (inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible) && !isNullifyInvisibilityEffect;
 
         if (photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
@@ -84,6 +86,25 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
                 waterIndicator.SetActive(!isInvisible);
             }
         }
-        
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
+
+        if (supremacyWard != null && supremacyWard.Team != photonView.GetTeam())
+        {
+            isNullifyInvisibilityEffect = true;
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
+
+        if (supremacyWard != null)
+        {
+            isNullifyInvisibilityEffect = false;
+        }
     }
 }
