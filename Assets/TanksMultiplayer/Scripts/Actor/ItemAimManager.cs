@@ -13,7 +13,7 @@ public class ItemAimManager : MonoBehaviour
 
     private Player player;
 
-    private Action onRelease;
+    private Action<Vector3> onRelease;
 
     void Awake()
     {
@@ -50,7 +50,7 @@ public class ItemAimManager : MonoBehaviour
 
             if (aimIndicator.activeSelf)
             {
-                onRelease.Invoke();
+                onRelease.Invoke(aimIndicator.transform.position);
                 //onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
             }
         }
@@ -95,7 +95,7 @@ public class ItemAimManager : MonoBehaviour
         }
     }
 
-    public void Aim(Action onRelease)
+    public void Aim(Action<Vector3> onRelease)
     {
         isAiming = true;
 
