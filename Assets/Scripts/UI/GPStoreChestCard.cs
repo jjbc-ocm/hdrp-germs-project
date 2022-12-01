@@ -16,9 +16,11 @@ public class GPStoreChestCard : MonoBehaviour
     public GameObject m_bestTag;
     public GameObject m_popularTag;
     public GPStoreChestSO m_chestDesc;
+    public GPPunchTween m_punchTween;
 
-    public UnityEvent<GPStoreChestSO> OnClickedBuyUsingGoldEvent;
-    public UnityEvent<GPStoreChestSO> OnClickedBuyUsingGemsEvent;
+    public UnityEvent<GPStoreChestCard> OnClickedBuyUsingGoldEvent;
+    public UnityEvent<GPStoreChestCard> OnClickedBuyUsingGemsEvent;
+    public UnityEvent<GPStoreChestCard> OnSuccesfullBuyEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +51,7 @@ public class GPStoreChestCard : MonoBehaviour
     {
         if (OnClickedBuyUsingGoldEvent != null)
         {
-            OnClickedBuyUsingGoldEvent.Invoke(m_chestDesc);
+            OnClickedBuyUsingGoldEvent.Invoke(this);
         }
     }
 
@@ -57,7 +59,18 @@ public class GPStoreChestCard : MonoBehaviour
     {
         if (OnClickedBuyUsingGemsEvent != null)
         {
-            OnClickedBuyUsingGemsEvent.Invoke(m_chestDesc);
+            OnClickedBuyUsingGemsEvent.Invoke(this);
+        }
+    }
+
+    /// <summary>
+    /// Called from the store.
+    /// </summary>
+    public void OnSuccesfullBuy()
+    {
+        if (OnSuccesfullBuyEvent != null)
+        {
+            OnSuccesfullBuyEvent.Invoke(this);
         }
     }
 }

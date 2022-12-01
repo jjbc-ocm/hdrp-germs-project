@@ -25,13 +25,16 @@ public class GPChestScreen : GPGUIScreen
         }
     }
 
-    public void OnBuyUsingGold(GPStoreChestSO chestDesc)
+    public void OnBuyUsingGold(GPStoreChestCard chestCard)
     {
-        bool buySucceed = true;
+        bool buySucceed = false;
         //TODO: Do API call here and modify buySucceed variable
         //You can get the gold price from the chestDesc parameter
+        buySucceed = GPPlayerProfile.m_instance.TrySpendGold(chestCard.m_chestDesc.m_goldPrice);
+
         if (buySucceed)
         {
+            chestCard.OnSuccesfullBuy();
             TanksMP.AudioManager.Play2D(m_buySuccedSFX);
         }
         else
@@ -40,13 +43,17 @@ public class GPChestScreen : GPGUIScreen
         }
     }
 
-    public void OnBuyUsingGems(GPStoreChestSO chestDesc)
+    public void OnBuyUsingGems(GPStoreChestCard chestCard)
     {
-        bool buySucceed = true;
+        bool buySucceed = false;
         //TODO: Do API call here and modify buySucceed variable
         //You can get the gem price from the chestDesc parameter
+
+        buySucceed = GPPlayerProfile.m_instance.TrySpendGems(chestCard.m_chestDesc.m_gemPrice);
+
         if (buySucceed)
         {
+            chestCard.OnSuccesfullBuy();
             TanksMP.AudioManager.Play2D(m_buySuccedSFX);
         }
         else
