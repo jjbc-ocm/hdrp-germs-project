@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
-  m_Name: T1 Defensive 3
+  m_Name: T2 Offensive 8
   m_EditorClassIdentifier: 
-  name: Spiteful Wall
-  desc: +10% Armor
-  icon: {fileID: 21300000, guid: 8b4d9cedaec6c5848bd3625630cb6423, type: 3}
-  category: 2
-  costBuy: 450
-  costSell: 200
+  name: Bloodlust
+  desc: "+40% Attack Damage\n+20% Life Steal \n+30% Attack Speed"
+  icon: {fileID: 21300000, guid: cf14fea2c72a90f4e8af0b9717a5c953, type: 3}
+  category: 1
+  costBuy: 3100
+  costSell: 2300
   className: BaseItemEffect
   statModifier:
     isInvisible: 0
-    lifeSteal: 0
+    lifeSteal: 0.2
     buffMaxHealth: 0
     buffMaxMana: 0
-    buffAttackDamage: 0
+    buffAttackDamage: 0.4
     buffAbilityPower: 0
-    buffArmor: 0.1
+    buffArmor: 0
     buffResist: 0
-    buffAttackSpeed: 0
+    buffAttackSpeed: 0.3
     buffMoveSpeed: 0
     buffCooldown: 0
   duration: 0

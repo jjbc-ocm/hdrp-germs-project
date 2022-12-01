@@ -34,7 +34,7 @@ public class ItemData : ScriptableObject
     private new string name;
 
     [SerializeField]
-    [TextArea]
+    [TextArea(5, 99)]
     private string desc;
 
     [SerializeField]
