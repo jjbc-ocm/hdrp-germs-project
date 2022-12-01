@@ -10,7 +10,9 @@ public class SupremacyWard : ItemEffectManager
     {
         user.ItemAim.Aim((targetPosition) =>
         {
-            PhotonNetwork.InstantiateRoomObject("Supremacy Ward", targetPosition, Quaternion.identity);
+            var supremacyWard = PhotonNetwork.InstantiateRoomObject("Supremacy Ward", targetPosition, Quaternion.identity);
+
+            supremacyWard.GetComponent<SupremacyWardEffectManager>().Team = user.photonView.GetTeam();
 
             user.Inventory.TryRemoveItem(item);
         });
