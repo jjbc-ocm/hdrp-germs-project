@@ -61,7 +61,7 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
         return false;
     }
 
-    public bool TryRemoveItem(ItemData data)
+    /*public bool TryRemoveItem(ItemData data)
     {
         if (itemId0 == data.ID) { itemId0 = ""; return true; }
         if (itemId1 == data.ID) { itemId1 = ""; return true; }
@@ -71,12 +71,24 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
         if (itemId5 == data.ID) { itemId5 = ""; return true; }
 
         return false;
+    }*/
+
+    public bool TryRemoveItem(int slotIndex)
+    {
+        if (slotIndex == 0) { itemId0 = ""; return true; }
+        if (slotIndex == 1) { itemId1 = ""; return true; }
+        if (slotIndex == 2) { itemId2 = ""; return true; }
+        if (slotIndex == 3) { itemId3 = ""; return true; }
+        if (slotIndex == 4) { itemId4 = ""; return true; }
+        if (slotIndex == 5) { itemId5 = ""; return true; }
+
+        return false;
     }
 
-    public bool HasItem(ItemData data)
+    /*public bool HasItem(ItemData data)
     {
         return items.Any(i => i != null && data != null && i.ID == data.ID);
-    }
+    }*/
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
