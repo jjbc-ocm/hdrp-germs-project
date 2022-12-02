@@ -45,9 +45,25 @@ public class ShopManager : MonoBehaviour
 
     public void Buy(ItemData item)
     {
+        var usedSlotIndexes = new List<int>();
+
+        var totalCost = GetTotalCost(item, usedSlotIndexes);
+
+        foreach (var usedSlotIndex in usedSlotIndexes)
+        {
+            Player.Mine.Inventory.TryRemoveItem(usedSlotIndex);
+        }
+
         if (Player.Mine.Inventory.TryAddItem(item))
         {
-            Player.Mine.Inventory.AddGold(-item.CostBuy);
+            Player.Mine.Inventory.AddGold(-totalCost);
+
+            ui.RefreshUI((self) =>
+            {
+                self.SelectedData = null;
+
+                self.SelectedSlotIndex = -1;
+            });
         }
     }
 
@@ -66,5 +82,40 @@ public class ShopManager : MonoBehaviour
                 self.SelectedSlotIndex = -1;
             });
         }
+    }
+
+    public int GetTotalCost(ItemData item, List<int> invSlotCheckedIndexes = null)// TODO: need to exclude if it is in slot already
+    {
+        if (invSlotCheckedIndexes == null) invSlotCheckedIndexes = new List<int>();
+
+        var cost = item.CostBuy;
+
+        foreach (var recipe in item.Recipes)
+        {
+            if (!IsInInventory(recipe, invSlotCheckedIndexes))
+            {
+                cost += GetTotalCost(recipe, invSlotCheckedIndexes);
+            }
+            
+        }
+
+        return cost;
+    }
+
+    private bool IsInInventory(ItemData item, List<int> invSlotCheckedIndexes)
+    {
+        for (var i = 0; i < Player.Mine.Inventory.Items.Count; i++)
+        {
+            var slotItem = Player.Mine.Inventory.Items[i];
+
+            if (!invSlotCheckedIndexes.Contains(i) && slotItem != null && item.ID == slotItem.ID)
+            {
+                invSlotCheckedIndexes.Add(i);
+
+                return true;
+            } 
+        }
+
+        return false;
     }
 }

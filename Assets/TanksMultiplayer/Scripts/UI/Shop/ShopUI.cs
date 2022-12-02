@@ -75,11 +75,15 @@ public class ShopUI : UI<ShopUI>
 
         if (data != null)
         {
+            var totalCost = ShopManager.Instance.GetTotalCost(data);
+
             textName.text = data.Name;
 
             textDesc.text = data.Desc;
 
-            textBuyCost.text = data.CostBuy.ToString();
+            textCost.text = totalCost.ToString();
+
+            textBuyCost.text = totalCost.ToString();
 
             textSellCost.text = data.CostSell.ToString();
 

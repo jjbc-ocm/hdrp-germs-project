@@ -18,6 +18,6 @@ public class RecipeItemUI : UI<RecipeItemUI>
     {
         imageSprite.sprite = Data.Icon;
 
-        textCost.text = Data.CostBuy.ToString();
+        textCost.text = ShopManager.Instance.GetTotalCost(Data).ToString();
     }
 }
