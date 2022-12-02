@@ -51,11 +51,20 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void Sell(ItemData item)
+    public void Sell(int slotIndex)
     {
-        if (Player.Mine.Inventory.TryRemoveItem(item))
+        if (Player.Mine.Inventory.TryRemoveItem(slotIndex))
         {
+            var item = Player.Mine.Inventory.Items[slotIndex];
+
             Player.Mine.Inventory.AddGold(item.CostSell);
+
+            ui.RefreshUI((self) =>
+            {
+                self.SelectedData = null;
+
+                self.SelectedSlotIndex = -1;
+            });
         }
     }
 }

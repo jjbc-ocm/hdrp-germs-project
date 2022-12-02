@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlessingsOfJumbo : ItemEffectManager
 {
-    public override void Execute(ItemData item, Player user)
+    public override void Execute(int slotIndex, Player user)
     {
         var colliders = Physics.OverlapSphere(user.transform.position, 25, LayerMask.GetMask("Ship", "Monster"));
 
@@ -20,7 +20,7 @@ public class BlessingsOfJumbo : ItemEffectManager
             }
         }
 
-        user.Inventory.TryRemoveItem(item);
+        user.Inventory.TryRemoveItem(slotIndex);
     }
 
     private bool IsHit(ActorManager origin, ActorManager target)

@@ -93,6 +93,8 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
             itemSlots[i].RefreshUI((self) =>
             {
+                self.Index = i;
+
                 self.Data = item;
             });
         }

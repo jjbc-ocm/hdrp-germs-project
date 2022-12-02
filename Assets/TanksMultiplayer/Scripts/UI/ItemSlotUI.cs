@@ -11,6 +11,8 @@ public class ItemSlotUI : UI<ItemSlotUI>
     [SerializeField]
     private Image imageSprite;
 
+    public int Index { get; set; }
+
     public ItemData Data { get; set; }
 
     protected override void OnRefreshUI()
@@ -29,16 +31,18 @@ public class ItemSlotUI : UI<ItemSlotUI>
         {
             ShopManager.Instance.UI.RefreshUI((ui) =>
             {
-                ui.Selected = Data;
+                ui.SelectedData = null;
+
+                ui.SelectedSlotIndex = Index;
             });
         }
         else
         {
-            if (string.IsNullOrEmpty(Data.ClassName)) return;
+            if (Data == null || string.IsNullOrEmpty(Data.ClassName)) return;
 
             var effect = (ItemEffectManager)Activator.CreateInstance(Type.GetType(Data.ClassName));
 
-            effect.Execute(Data, Player.Mine);
+            effect.Execute(Index, Player.Mine);
         }
     }
 }

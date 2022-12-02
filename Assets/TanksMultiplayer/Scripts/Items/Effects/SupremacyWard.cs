@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SupremacyWard : ItemEffectManager
 {
-    public override void Execute(ItemData item, Player user)
+    public override void Execute(int slotIndex, Player user)
     {
         user.ItemAim.Aim((targetPosition) =>
         {
@@ -14,7 +14,7 @@ public class SupremacyWard : ItemEffectManager
 
             supremacyWard.GetComponent<SupremacyWardEffectManager>().Team = user.photonView.GetTeam();
 
-            user.Inventory.TryRemoveItem(item);
+            user.Inventory.TryRemoveItem(slotIndex);
         });
     }
 }

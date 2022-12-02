@@ -33,7 +33,9 @@ public class ShopItemUI : UI<ShopItemUI>
     {
         ShopManager.Instance.UI.RefreshUI((ui) =>
         {
-            ui.Selected = Data;
+            ui.SelectedData = Data;
+
+            ui.SelectedSlotIndex = -1;
         });
     }
 }

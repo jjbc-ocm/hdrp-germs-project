@@ -5,14 +5,10 @@ using UnityEngine;
 
 public class Hoodwink : ItemEffectManager
 {
-    public override void Execute(ItemData item, Player user)
+    public override void Execute(int slotIndex, Player user)
     {
-        user.Status.TryApplyItem(item);
+        user.Status.TryApplyItem(Player.Mine.Inventory.Items[slotIndex]);
 
-        user.Inventory.TryRemoveItem(item);
-
-        //user.Status.AddStatusGroup(item.StatModifier.CreateInstance());
-
-        //user.photonView.ConsumeItem(item);
+        user.Inventory.TryRemoveItem(slotIndex);
     }
 }

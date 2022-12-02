@@ -51,7 +51,9 @@ public class ShopUI : UI<ShopUI>
 
     public List<ItemData> Data { get; set; }
 
-    public ItemData Selected { get; set; }
+    public ItemData SelectedData { get; set; }
+
+    public int SelectedSlotIndex { get; set; }
 
     void OnEnable()
     {
@@ -60,25 +62,28 @@ public class ShopUI : UI<ShopUI>
 
     protected override void OnRefreshUI()
     {
-        var hasSelected = Selected != null;
+        var data = 
+            SelectedData != null ? SelectedData :
+            SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] : 
+            null;
 
-        buttonBuy.gameObject.SetActive(hasSelected);
+        buttonBuy.gameObject.SetActive(data != null);
 
-        buttonSell.gameObject.SetActive(Player.Mine.Inventory.HasItem(Selected));
+        buttonSell.gameObject.SetActive(SelectedSlotIndex > -1 && Player.Mine.Inventory.Items[SelectedSlotIndex] != null);
 
-        uiSelectedInfo.SetActive(hasSelected);
+        uiSelectedInfo.SetActive(data != null);
 
-        if (hasSelected)
+        if (data != null)
         {
-            textName.text = Selected.Name;
+            textName.text = data.Name;
 
-            textDesc.text = Selected.Desc;
+            textDesc.text = data.Desc;
 
-            textBuyCost.text = Selected.CostBuy.ToString();
+            textBuyCost.text = data.CostBuy.ToString();
 
-            textSellCost.text = Selected.CostSell.ToString();
+            textSellCost.text = data.CostSell.ToString();
 
-            imageSprite.sprite = Selected.Icon;
+            imageSprite.sprite = data.Icon;
 
             foreach (var transform in transformRecipeLayers)
             {
@@ -88,7 +93,7 @@ public class ShopUI : UI<ShopUI>
                 }
             }
 
-            CreateRecipeTree(Selected, 0);
+            CreateRecipeTree(data, 0);
         }
     }
 
@@ -125,12 +130,12 @@ public class ShopUI : UI<ShopUI>
     public void OnBuyButtonClick()
     {
         // TODO: need to handle cost validation
-        ShopManager.Instance.Buy(Selected);
+        ShopManager.Instance.Buy(SelectedData);
     }
 
     public void OnSellButtonClick()
     {
-        ShopManager.Instance.Sell(Selected);
+        ShopManager.Instance.Sell(SelectedSlotIndex);
     }
 
     private void CreateRecipeTree(ItemData item, int recipeLayer)

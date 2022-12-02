@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class BaseItemEffect : ItemEffectManager
 {
-    public override void Execute(ItemData item, Player user)
+    public override void Execute(int slotIndex, Player user)
     {
-        //user.Status.AddStatusGroup(item.StatModifier.CreateInstance());
-        user.Status.TryApplyItem(item);
+        user.Status.TryApplyItem(Player.Mine.Inventory.Items[slotIndex]);
     }
 }
