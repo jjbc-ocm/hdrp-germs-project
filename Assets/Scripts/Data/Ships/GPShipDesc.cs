@@ -14,6 +14,10 @@ public enum GP_SHIP_TYPE
 [CreateAssetMenu(fileName = "GPShipDesc", menuName = "ScriptableObjects/GPShipDesc")]
 public class GPShipDesc : ScriptableObject
 {
+    [SerializeField]
+    [ScriptableObjectId]
+    private string id;
+
     [Tooltip("Must match the one on the GameNetworkManager shipPrefabs list")]
     public int m_prefabListIndex = 0;
     public string m_name;
@@ -25,4 +29,6 @@ public class GPShipDesc : ScriptableObject
     public Player m_playerPrefab;
     public Sprite m_cardImage;
     public GP_SHIP_TYPE m_type;
+
+    public string ID { get => id; }
 }
