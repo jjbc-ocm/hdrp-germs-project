@@ -15,6 +15,7 @@ public class GPDummySlotCard : MonoBehaviour
     public bool m_selected = false;
     Vector3 m_originalScale;
     Vector3 m_originalLocalEuler;
+    public GPDummyData m_savedData;
 
     void Awake()
     {

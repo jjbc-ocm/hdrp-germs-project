@@ -4,26 +4,14 @@ using UnityEngine;
 
 public class GPCustomizationTabScreen : GPGUIScreen
 {
-    public enum GP_CSTOMIZATION_TYPE
-    {
-        kSkin,
-        kEyes,
-        kMouth,
-        kHair,
-        kHorns,
-        kWear,
-        kGloves,
-        kTail
-    }
-
-    public GP_CSTOMIZATION_TYPE m_type;
+    public GP_DUMMY_PART_TYPE m_type;
 
     [Header("Screen references")]
     public GPDummyCustomizationScreen m_customization;
 
     [Header("Customization menu references")]
     public Transform m_container; // where parts buttons will be parented
-    public List<GPDummyPartDesc> m_parts;
+    private List<GPDummyPartDesc> m_parts;
     public GPDummyPartBlock m_blockPrefab; // part button prefab
     [HideInInspector]
     public List<GPDummyPartBlock> m_partBlocks = new List<GPDummyPartBlock>(); // store the instanced part buttons
@@ -45,6 +33,36 @@ public class GPCustomizationTabScreen : GPGUIScreen
     // Start is called before the first frame update
     void Start()
     {
+        switch (m_type)
+        {
+            case GP_DUMMY_PART_TYPE.kSkin:
+                m_parts = GPPlayerProfile.m_instance.m_dummySkins;
+                break;
+            case GP_DUMMY_PART_TYPE.kEye:
+                m_parts = GPPlayerProfile.m_instance.m_dummyEyes;
+                break;
+            case GP_DUMMY_PART_TYPE.kMouth:
+                m_parts = GPPlayerProfile.m_instance.m_dummyMouths;
+                break;
+            case GP_DUMMY_PART_TYPE.kHair:
+                m_parts = GPPlayerProfile.m_instance.m_dummyHairs;
+                break;
+            case GP_DUMMY_PART_TYPE.kHorn:
+                m_parts = GPPlayerProfile.m_instance.m_dummyHorns;
+                break;
+            case GP_DUMMY_PART_TYPE.kWear:
+                m_parts = GPPlayerProfile.m_instance.m_dummyWears;
+                break;
+            case GP_DUMMY_PART_TYPE.kGlove:
+                m_parts = GPPlayerProfile.m_instance.m_dummyGloves;
+                break;
+            case GP_DUMMY_PART_TYPE.kTail:
+                m_parts = GPPlayerProfile.m_instance.m_dummyTails;
+                break;
+            default:
+                break;
+        }
+
         for (int i = 0; i < m_parts.Count; i++)
         {
             GPDummyPartBlock newBlock = Instantiate(m_blockPrefab, m_container);
@@ -69,6 +87,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
         }
 
         m_customization.m_customizationSlot.Rotate(m_dummyRotation);
+
+        UpdatePins();
     }
 
     /// <summary>
@@ -91,6 +111,36 @@ public class GPCustomizationTabScreen : GPGUIScreen
             m_selectedBlock.TogglePin(true);
 
             m_customization.m_customizationSlot.EquipCustomPart(block.m_partDesc);
+
+            switch (block.m_partDesc.m_type)
+            {
+                case GP_DUMMY_PART_TYPE.kSkin:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_skin = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kEye:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_eye = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kMouth:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_mouth = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHair:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_hair = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHorn:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_horns = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kWear:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_wear = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kGlove:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_gloves = block.m_partDesc;
+                    break;
+                case GP_DUMMY_PART_TYPE.kTail:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_tail = block.m_partDesc;
+                    break;
+                default:
+                    break;
+            }
 
             TanksMP.AudioManager.Play2D(m_equipSFX);
         }
@@ -126,5 +176,87 @@ public class GPCustomizationTabScreen : GPGUIScreen
             }
         }
         return null;
+    }
+
+    public GPDummyPartBlock FindBlockOfPartDesc(GPDummyPartDesc desc)
+    {
+        for (int i = 0; i < m_partBlocks.Count; i++)
+        {
+            if (m_partBlocks[i].m_partDesc == desc)
+            {
+                return m_partBlocks[i];
+            }
+        }
+
+        return null;
+    }
+
+    void UpdatePins()
+    {
+        //disable other pins
+        foreach (var blockPart in m_partBlocks)
+        {
+            blockPart.TogglePin(false);
+        }
+
+        //activate the pin of the equipped part
+        GPDummyPartBlock block = null;
+        switch (m_type)
+        {
+            case GP_DUMMY_PART_TYPE.kSkin:
+                {
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_skin);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kEye:
+                {
+
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_eye);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kMouth:
+                {
+
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_mouth);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kHair:
+                {
+
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_hair);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kHorn:
+                {
+
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_horns);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kWear:
+                {
+
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_wear);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kGlove:
+                {
+
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_gloves);
+                    break;
+                }
+            case GP_DUMMY_PART_TYPE.kTail:
+                {
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_tail);
+                    break;
+                }
+            default:
+                break;
+        }
+
+        if (block)
+        {
+            m_selectedBlock = block;
+            block.TogglePin(true);
+        }
     }
 }

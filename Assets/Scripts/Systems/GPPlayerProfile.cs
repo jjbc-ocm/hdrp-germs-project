@@ -19,7 +19,17 @@ public class GPPlayerProfile : MonoBehaviour
     [Header("Owned items settings")]
     public List<GPStoreChestSO> m_chests;
     public List<GPShipDesc> m_ships;
-    public List<GPDummyPartDesc> m_dummyParts;
+    public List<GPDummyPartDesc> m_dummySkins;
+    public List<GPDummyPartDesc> m_dummyEyes;
+    public List<GPDummyPartDesc> m_dummyMouths;
+    public List<GPDummyPartDesc> m_dummyHairs;
+    public List<GPDummyPartDesc> m_dummyHorns;
+    public List<GPDummyPartDesc> m_dummyWears;
+    public List<GPDummyPartDesc> m_dummyGloves;
+    public List<GPDummyPartDesc> m_dummyTails;
+
+    public List<GPDummyData> m_dummySlots = new List<GPDummyData>();
+    public int m_currDummySlotIdx = 0;
 
     public static GPPlayerProfile m_instance;
 

@@ -11,7 +11,8 @@ public class GPDummyScreen : GPGUIScreen
 
     [Header("Dummy slots references")]
     public List<GPDummySlotCard> m_dummySlots;
-    GPDummySlotCard m_selectedSlot;
+    [HideInInspector]
+    public GPDummySlotCard m_selectedSlot;
 
     // Start is called before the first frame update
     void Start()
@@ -95,6 +96,8 @@ public class GPDummyScreen : GPGUIScreen
         if (m_selectedSlot)
         {
             m_selectedSlot.ReplaceModelObject(m_dummyCustomizingScreen.m_customizationSlot.m_dummyModelRef);
+            int slotIdx = m_dummySlots.IndexOf(m_selectedSlot);
+            GPPlayerProfile.m_instance.m_dummySlots[slotIdx] = m_selectedSlot.m_savedData;
         }
     }
 }
