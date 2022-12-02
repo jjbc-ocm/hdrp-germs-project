@@ -133,8 +133,13 @@ public class ShopUI : UI<ShopUI>
 
     public void OnBuyButtonClick()
     {
+        var data =
+            SelectedData != null ? SelectedData :
+            SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] :
+            null;
+
         // TODO: need to handle cost validation
-        ShopManager.Instance.Buy(SelectedData);
+        ShopManager.Instance.Buy(data);
     }
 
     public void OnSellButtonClick()
