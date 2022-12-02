@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlessingsOfJumbo : ItemEffectManager
 {
-    public override void Execute(ItemData item, Player user, Vector3 targetLocation)
+    public override void Execute(ItemData item, Player user)
     {
         var colliders = Physics.OverlapSphere(user.transform.position, 25, LayerMask.GetMask("Ship", "Monster"));
 

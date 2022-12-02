@@ -40,6 +40,8 @@ namespace TanksMP
 
         private AimManager aim;
 
+        private ItemAimManager itemAim;
+
         private PlayerSoundVisualManager soundVisuals;
 
         private PlayerStatManager stat;
@@ -73,6 +75,32 @@ namespace TanksMP
         public SkillData Skill { get => skill; }
 
         public FollowTarget CamFollow { get => camFollow; }
+
+        public AimManager Aim
+        {
+            get
+            {
+                if (aim == null)
+                {
+                    aim = GetComponent<AimManager>();
+                }
+
+                return aim;
+            }
+        }
+
+        public ItemAimManager ItemAim
+        {
+            get
+            {
+                if (itemAim == null)
+                {
+                    itemAim = GetComponent<ItemAimManager>();
+                }
+
+                return itemAim;
+            }
+        }
 
         public PlayerSoundVisualManager SoundVisuals
         {
@@ -136,12 +164,8 @@ namespace TanksMP
 
         #region Unity
 
-        void Start()
+        void Awake()
         {
-            if (!photonView.IsMine) return;
-
-            Mine = this;
-
             aim = GetComponent<AimManager>();
 
             rigidBody = GetComponent<Rigidbody>();
@@ -153,6 +177,13 @@ namespace TanksMP
             status = GetComponent<PlayerStatusManager>();
 
             soundVisuals = GetComponent<PlayerSoundVisualManager>();
+        }
+
+        void Start()
+        {
+            if (!photonView.IsMine) return;
+
+            Mine = this;
 
             aim.Initialize(
                 () =>

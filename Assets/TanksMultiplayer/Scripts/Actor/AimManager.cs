@@ -38,7 +38,12 @@ public class AimManager : MonoBehaviour
         IndicatorSetActive(false);
     }
 
-    public void Initialize(Action onAttackPress, Action onAimSkillPress, Action<Vector3, ActorManager> onAimSkillRelease, Func<bool> onCanExecuteAttack, Func<bool> onCanExecuteSkill)
+    public void Initialize(
+        Action onAttackPress, 
+        Action onAimSkillPress, 
+        Action<Vector3, ActorManager> onAimSkillRelease, 
+        Func<bool> onCanExecuteAttack, 
+        Func<bool> onCanExecuteSkill)
     {
         this.onAttackPress = onAttackPress;
 
@@ -63,14 +68,14 @@ public class AimManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && onCanExecuteSkill.Invoke())
+        if (Input.GetKeyDown(KeyCode.Q) && onCanExecuteSkill.Invoke())
         {
             isAiming = true;
 
             onAimSkillPress.Invoke();
         }
 
-        if (Input.GetMouseButtonUp(1) && isAiming)
+        if (Input.GetKeyUp(KeyCode.Q) && isAiming)
         {
             isAiming = false;
 

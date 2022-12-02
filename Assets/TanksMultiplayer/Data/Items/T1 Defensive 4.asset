@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
   m_Name: T1 Defensive 4
   m_EditorClassIdentifier: 
-  id: 9d92039d-d38a-41f9-95ce-5168a7f502ba
+  id: 2260d301-949c-4061-bc6b-ee87031f2eca
   name: Undead Green Ward
   desc: '+80 Health
 
@@ -23,7 +23,6 @@ MonoBehaviour:
   costSell: 1000
   className: BaseItemEffect
   statModifier:
-    id: 0
     isInvisible: 0
     lifeSteal: 0
     buffMaxHealth: 80
@@ -35,4 +34,7 @@ MonoBehaviour:
     buffAttackSpeed: 0
     buffMoveSpeed: 0.08
     buffCooldown: 0
-    duration: 0
+  duration: 0
+  recipes:
+  - {fileID: 11400000, guid: cb07227d41c2ac644aed07e2b8b83d17, type: 2}
+  - {fileID: 11400000, guid: 77ce7aad499501340817dd6275dc3a63, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
   m_Name: T1 Defensive 7
   m_EditorClassIdentifier: 
-  id: 30ff6463-882b-41d3-a208-3cc64312e7e8
+  id: 6f518a84-33c9-4a2b-b6be-daf05ce807cb
   name: Last Hope of Oracle
   desc: '+15% Armor
 
@@ -23,7 +23,6 @@ MonoBehaviour:
   costSell: 900
   className: BaseItemEffect
   statModifier:
-    id: 0
     isInvisible: 0
     lifeSteal: 0
     buffMaxHealth: 0
@@ -35,4 +34,7 @@ MonoBehaviour:
     buffAttackSpeed: 0
     buffMoveSpeed: 0
     buffCooldown: 0
-    duration: 0
+  duration: 0
+  recipes:
+  - {fileID: 11400000, guid: 507d392f74d959f4cb3b98005d66f6bc, type: 2}
+  - {fileID: 11400000, guid: 2057b3b44663f344ab8ba4a3dde414b5, type: 2}

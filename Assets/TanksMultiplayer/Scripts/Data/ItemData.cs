@@ -34,7 +34,7 @@ public class ItemData : ScriptableObject
     private new string name;
 
     [SerializeField]
-    [TextArea]
+    [TextArea(5, 99)]
     private string desc;
 
     [SerializeField]
@@ -58,6 +58,9 @@ public class ItemData : ScriptableObject
     [SerializeField]
     private float duration;
 
+    [SerializeField]
+    private ItemData[] recipes;
+
     public string ID { get => id; }
 
     public string Name { get => name; }
@@ -77,4 +80,6 @@ public class ItemData : ScriptableObject
     public StatModifierData StatModifier { get => statModifier; }
 
     public float Duration { get => duration; }
+
+    public ItemData[] Recipes { get => recipes; }
 }
