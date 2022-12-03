@@ -63,6 +63,10 @@ public class GPDummySlotCard : MonoBehaviour
     /// <param name="animate"></param>
     public void EquipCustomPart(GPDummyPartDesc desc, bool animate = true)
     {
+        if (desc == null)
+        {
+            return;
+        }
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
         part.gameObject.SetActive(true);
         if (desc.m_material != null)
@@ -102,6 +106,22 @@ public class GPDummySlotCard : MonoBehaviour
         newInstance.localScale = m_dummyModelRef.localScale;
         Destroy(m_dummyModelRef.gameObject);
         m_dummyModelRef = newInstance;
+    }
+
+    public void ChangeAppearance(GPDummyData data)
+    {
+        if (data == null)
+        {
+            return;
+        }
+        EquipCustomPart(data.m_skin);
+        EquipCustomPart(data.m_eye);
+        EquipCustomPart(data.m_mouth);
+        EquipCustomPart(data.m_hair);
+        EquipCustomPart(data.m_horns);
+        EquipCustomPart(data.m_wear);
+        EquipCustomPart(data.m_gloves);
+        EquipCustomPart(data.m_tail);
     }
 
     public void Rotate(Vector3 newRotation)

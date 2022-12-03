@@ -1,17 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GPDummyLoader : MonoBehaviour
 {
     public Transform m_dummyModelRef;
-    Vector3 m_originalScale;
-    Vector3 m_originalLocalEuler;
+    public PhotonView m_view;
 
     // Start is called before the first frame update
     void Start()
     {
-        ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
+        List<string> dummyKeys = m_view.Owner.GetDummyKeys();
+        GPDummyData loadedData = new GPDummyData();
+        foreach (var key in dummyKeys)
+        {
+            if (key == null)
+            {
+                continue;
+            }
+
+            if (!GPItemsDB.m_instance.m_dummyPartsMap.ContainsKey(key))
+            {
+                continue;
+            }
+
+            GPDummyPartDesc part = GPItemsDB.m_instance.m_dummyPartsMap[key];
+            switch (part.m_type)
+            {
+                case GP_DUMMY_PART_TYPE.kSkin:
+                    loadedData.m_skin = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kEye:
+                    loadedData.m_eye = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kMouth:
+                    loadedData.m_mouth = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHair:
+                    loadedData.m_hair = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHorn:
+                    loadedData.m_horns = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kWear:
+                    loadedData.m_wear = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kGlove:
+                    loadedData.m_gloves = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kTail:
+                    loadedData.m_tail = part;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        ChangeAppearance(loadedData);
+        //ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
     }
 
     public void ChangeAppearance(GPDummyData data)
@@ -31,8 +78,12 @@ public class GPDummyLoader : MonoBehaviour
     /// </summary>
     /// <param name="desc"></param>
     /// <param name="animate"></param>
-    public void EquipCustomPart(GPDummyPartDesc desc, bool animate = true)
+    public void EquipCustomPart(GPDummyPartDesc desc)
     {
+        if (!desc)
+        {
+            return;
+        }
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
         part.gameObject.SetActive(true);
         if (desc.m_material != null)
@@ -40,10 +91,6 @@ public class GPDummyLoader : MonoBehaviour
             part.GetComponent<Renderer>().material = desc.m_material;
         }
 
-        if (animate)
-        {
-            LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch();
-        }
     }
 
     /// <summary>
@@ -54,9 +101,6 @@ public class GPDummyLoader : MonoBehaviour
     {
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
         part.gameObject.SetActive(false);
-
-        m_dummyModelRef.gameObject.transform.localScale = m_originalScale;
-        LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch();
     }
 
     /// <summary>
