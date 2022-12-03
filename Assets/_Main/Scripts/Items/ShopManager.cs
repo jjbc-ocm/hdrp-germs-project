@@ -84,7 +84,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public int GetTotalCost(ItemData item, List<int> invSlotCheckedIndexes = null)// TODO: need to exclude if it is in slot already
+    public int GetTotalCost(ItemData item, List<int> invSlotCheckedIndexes = null)
     {
         if (invSlotCheckedIndexes == null) invSlotCheckedIndexes = new List<int>();
 
