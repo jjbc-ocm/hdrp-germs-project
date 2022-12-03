@@ -14,9 +14,6 @@ public static class PlayerExtension
 
     public static int m_selectedShipIdx = 0;
 
-    public static List<GPDummyData> m_dummySlots = new List<GPDummyData>();
-    public static int m_selectedDummySlot = 0;
-
     #region For Photon View
 
     public static string GetName(this PhotonView view)
@@ -97,9 +94,57 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable() { { hasChest, value } });
     }
 
-    public static void SetSelectedDummySlot(this Player player, int slotIndex)
+    public static void WriteDummyKeys(this Player player, GPDummyData data)
     {
-        m_selectedDummySlot = slotIndex; // not saved on custom properties yet because he set it outside of room.
+        player.SetCustomProperties(new Hashtable
+        {
+            {"skin", data.m_skin?.name },
+            {"eyes", data.m_eye?.name },
+            {"mouth", data.m_mouth?.name },
+            {"hair", data.m_hair?.name },
+            {"horns", data.m_horns?.name},
+            {"wear", data.m_wear?.name },
+            {"gloves", data.m_gloves?.name },
+            {"tail", data.m_tail?.name }
+        });
+    }
+
+    public static List<string> GetDummyKeys(this Player player)
+    {
+        List<string> dummyKeys = new List<string>();
+        if (player.CustomProperties.TryGetValue("skin", out object skin))
+        {
+            dummyKeys.Add((string)skin);
+        }
+        if (player.CustomProperties.TryGetValue("eyes", out object eyes))
+        {
+            dummyKeys.Add((string)eyes);
+        }
+        if (player.CustomProperties.TryGetValue("mouth", out object mouth))
+        {
+            dummyKeys.Add((string)mouth);
+        }
+        if (player.CustomProperties.TryGetValue("hair", out object hair))
+        {
+            dummyKeys.Add((string)hair);
+        }
+        if (player.CustomProperties.TryGetValue("horns", out object horns))
+        {
+            dummyKeys.Add((string)horns);
+        }
+        if (player.CustomProperties.TryGetValue("wear", out object wear))
+        {
+            dummyKeys.Add((string)wear);
+        }
+        if (player.CustomProperties.TryGetValue("gloves", out object gloves))
+        {
+            dummyKeys.Add((string)gloves);
+        }
+        if (player.CustomProperties.TryGetValue("tail", out object tail))
+        {
+            dummyKeys.Add((string)tail);
+        }
+        return dummyKeys;
     }
 
     #endregion
