@@ -54,6 +54,11 @@ public class GPRollScreen : GPGUIScreen
     public float m_fillAnimSpeed = 7.0f;
     float m_fillTargetValue = 0.0f;
 
+    [Header("Misc.")]
+
+    [SerializeField]
+    private GameObject m_LoadIndicator;
+
     void Start()
     {
         for (int i = 0; i < m_prizes.Count; i++)
@@ -120,15 +125,21 @@ public class GPRollScreen : GPGUIScreen
         GivePrize(m_prizes[prizeIDX]);
     }
 
-    public void GivePrize(GPWheelPrize prize)
+    public async void GivePrize(GPWheelPrize prize)
     {
         switch (prize.m_prizeType)
         {
             case GP_PRIZE_TYPE.kGold:
-                GPPlayerProfile.m_instance.AddGold(prize.m_prizeAmount);
+                //GPPlayerProfile.m_instance.AddGold(prize.m_prizeAmount);
+                m_LoadIndicator.SetActive(true);
+                await APIManager.Instance.PlayerData.AddCoins(prize.m_prizeAmount);
+                m_LoadIndicator.SetActive(false);
                 break;
             case GP_PRIZE_TYPE.kGems:
-                GPPlayerProfile.m_instance.AddGems(prize.m_prizeAmount);
+                //GPPlayerProfile.m_instance.AddGems(prize.m_prizeAmount);
+                m_LoadIndicator.SetActive(true);
+                await APIManager.Instance.PlayerData.AddGems(prize.m_prizeAmount);
+                m_LoadIndicator.SetActive(false);
                 break;
             case GP_PRIZE_TYPE.kEnergy:
                 GPPlayerProfile.m_instance.AddEnergy(prize.m_prizeAmount);

@@ -6,6 +6,7 @@ using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
+using Unity.Services.Economy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,13 +14,23 @@ public class APIManager : MonoBehaviour
 {
     public static APIManager Instance;
 
+    [SerializeField]
+    private GPShipDesc startingShip;
+
+    private PlayerData playerData;
+
+    public PlayerData PlayerData { get => playerData; }
+
     void Awake()
     {
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
 
-        //Initialize();
+        Initialize((text, value) =>
+        {
+
+        });
     }
 
 
@@ -43,22 +54,36 @@ public class APIManager : MonoBehaviour
         /* Get player data */
         onProgress.Invoke("Fetching player data...", 0.5f);
 
-        var data = await new PlayerData().Get();
+        playerData = await new PlayerData().Get();
 
-        if (!data.IsInitialized)
+        if (!playerData.IsInitialized)
         {
-            data.SetLevel(1).SetExp(0).SetInitialized(true);
+            playerData.SetLevel(1).SetExp(0).SetInitialized(true).SetSelectedShipID(startingShip.ID);
 
-            await data.Put();
+            await playerData.Put();
 
-            await data.Get();
+            await playerData.Get();
         }
-
-        Debug.Log(data.Level + " " + data.Exp);
 
         /* Load next scene */
         onProgress.Invoke("Loading game...", 0.9f);
 
         SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+    }
+
+    public async Task<bool> TryVirtualPurchase(string id)
+    {
+        try
+        {
+            var result = await EconomyService.Instance.Purchases.MakeVirtualPurchaseAsync(id);
+
+            await playerData.Get();
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

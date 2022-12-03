@@ -23,6 +23,9 @@ namespace TanksMP
 
         #endregion
 
+        [SerializeField]
+        private GPShipDesc data;
+
         [Header("Other Properties")]
 
         [SerializeField]
