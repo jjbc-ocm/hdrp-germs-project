@@ -62,6 +62,10 @@ public class PlayerData
             : "";
     }
 
+    public DummyData Dummy(int index) => getData.TryGetValue($"dummy{index}", out string strValue)
+        ? JsonUtility.FromJson<DummyData>(strValue)
+        : new DummyData();
+
     public long Coins
     {
         get => getBalances.FirstOrDefault(i => i.CurrencyId == "COINS")?.Balance ?? 0;
@@ -100,6 +104,13 @@ public class PlayerData
         return this;
     }
 
+    public PlayerData SetDummy(DummyData value, int index)
+    {
+        putData[$"dummy{index}"] = value;
+
+        return this;
+    }
+
     public async Task<PlayerData> AddCoins(int value)
     {
         var result = await EconomyService.Instance.PlayerBalances.IncrementBalanceAsync("COINS", value);
@@ -121,6 +132,41 @@ public class PlayerData
 
         return this;
     }
+}
 
+public class DummyData
+{
+    public string SkinID;
+    public string EyeID;
+    public string MouthID;
+    public string HairID;
+    public string HornID;
+    public string WearID;
+    public string GloveID;
+    public string TailID;
 
+    public GPDummyData ToGPDummyData(
+        List<GPDummyPartDesc> skins, 
+        List<GPDummyPartDesc> eyes, 
+        List<GPDummyPartDesc> mouths,
+        List<GPDummyPartDesc> hairs,
+        List<GPDummyPartDesc> horns,
+        List<GPDummyPartDesc> wears,
+        List<GPDummyPartDesc> gloves,
+        List<GPDummyPartDesc> tails)
+    {
+        Debug.LogError(skins.Where(i => i.ID == "").Count());
+
+        return new GPDummyData
+        {
+            m_skin = skins.FirstOrDefault(i => i.ID == SkinID),
+            m_eye = eyes.FirstOrDefault(i => i.ID == EyeID),
+            m_mouth = mouths.FirstOrDefault(i => i.ID == MouthID),
+            m_hair = hairs.FirstOrDefault(i => i.ID == HairID),
+            m_horns = horns.FirstOrDefault(i => i.ID == HornID),
+            m_wear = wears.FirstOrDefault(i => i.ID == WearID),
+            m_gloves = gloves.FirstOrDefault(i => i.ID == GloveID),
+            m_tail = tails.FirstOrDefault(i => i.ID == TailID)
+        };
+    }
 }

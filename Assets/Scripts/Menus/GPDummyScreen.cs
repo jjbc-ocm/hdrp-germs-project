@@ -14,6 +14,11 @@ public class GPDummyScreen : GPGUIScreen
     [HideInInspector]
     public GPDummySlotCard m_selectedSlot;
 
+    [Header("Misc.")]
+
+    [SerializeField]
+    private GameObject m_LoadIndicator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +32,23 @@ public class GPDummyScreen : GPGUIScreen
 
     public override void Show()
     {
+        var profile = GPPlayerProfile.m_instance;
+
         base.Show();
         for (int i = 0; i < m_dummySlots.Count; i++)
         {
-            m_dummySlots[i].ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[i]);
+            var data = APIManager.Instance.PlayerData.Dummy(i).ToGPDummyData(
+                profile.m_dummySkins,
+                profile.m_dummyEyes,
+                profile.m_dummyMouths,
+                profile.m_dummyHairs,
+                profile.m_dummyHorns,
+                profile.m_dummyWears,
+                profile.m_dummyGloves,
+                profile.m_dummyTails);
+
+            //m_dummySlots[i].ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[i]);
+            m_dummySlots[i].ChangeAppearance(data);
         }
         m_dummySelectScreen.Show();
     }
@@ -94,21 +112,29 @@ public class GPDummyScreen : GPGUIScreen
     /// Save the dummy changes made in customization mode and 
     /// applies it to the dummy displayed on the slot
     /// </summary>
-    public void SaveDummyChanges()
+    public async void SaveDummyChanges()
     {
         if (m_selectedSlot)
         {
             m_selectedSlot.ReplaceModelObject(m_dummyCustomizingScreen.m_customizationSlot.m_dummyModelRef);
             int slotIdx = m_dummySlots.IndexOf(m_selectedSlot);
-            GPPlayerProfile.m_instance.m_dummySlots[slotIdx] = m_selectedSlot.m_savedData;
+            //GPPlayerProfile.m_instance.m_dummySlots[slotIdx] = m_selectedSlot.m_savedData;
+
+            m_LoadIndicator.SetActive(true);
+
+            await APIManager.Instance.PlayerData.SetDummy(m_selectedSlot.m_savedData.ToDummyData(), slotIdx).Put(); // TODO: fix this, m_savedData is none on first open
+
+            m_LoadIndicator.SetActive(false);
         }
 
-        PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
+        //PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
+
+        //TODO save them in playerdata
     }
 
     void ChooseDummy(int selectedIdx)
     {
-        GPPlayerProfile.m_instance.m_currDummySlotIdx = selectedIdx;
-        PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
+        //GPPlayerProfile.m_instance.m_currDummySlotIdx = selectedIdx;
+        //PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
     }
 }

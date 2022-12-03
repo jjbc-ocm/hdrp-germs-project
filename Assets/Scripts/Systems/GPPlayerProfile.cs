@@ -28,8 +28,8 @@ public class GPPlayerProfile : MonoBehaviour
     public List<GPDummyPartDesc> m_dummyGloves;
     public List<GPDummyPartDesc> m_dummyTails;
 
-    public List<GPDummyData> m_dummySlots = new List<GPDummyData>();
-    public int m_currDummySlotIdx = 0;
+    //public List<GPDummyData> m_dummySlots = new List<GPDummyData>();
+    //public int m_currDummySlotIdx = 0;
 
     public static GPPlayerProfile m_instance;
 

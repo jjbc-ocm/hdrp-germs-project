@@ -67,6 +67,7 @@ public class GPDummySlotCard : MonoBehaviour
         {
             return;
         }
+
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
         part.gameObject.SetActive(true);
         if (desc.m_material != null)
