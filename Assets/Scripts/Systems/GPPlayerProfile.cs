@@ -5,11 +5,11 @@ using UnityEngine.Events;
 
 public class GPPlayerProfile : MonoBehaviour
 {
-    [Header("Currency settings")]
+    /*[Header("Currency settings")]
     public int m_gems;
     public UnityEvent OnGemsModifiedEvent;
     public int m_gold;
-    public UnityEvent OnGoldModifiedEvent;
+    public UnityEvent OnGoldModifiedEvent;*/
 
     [Header("Energy settings")]
     public int m_energy;
@@ -86,12 +86,12 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
-    public void AddGold(int amount)
+    /*public void AddGold(int amount)
     {
         //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
         m_gold += amount;
         OnGoldModified();
-    }
+    }*/
 
     /// <summary>
     /// Tries to spend gold if it has enough.
@@ -99,7 +99,7 @@ public class GPPlayerProfile : MonoBehaviour
     /// </summary>
     /// <param name="amount"></param>
     /// <returns></returns>
-    public bool TrySpendGold(int amount)
+    /*public bool TrySpendGold(int amount)
     {
         if (m_gold < amount)
         {
@@ -109,9 +109,9 @@ public class GPPlayerProfile : MonoBehaviour
         m_gold -= amount;
         OnGoldModified();
         return true;
-    }
+    }*/
 
-    void OnGoldModified()
+    /*void OnGoldModified()
     {
         m_gold = Mathf.Clamp(m_gold, 0, int.MaxValue);
 
@@ -119,14 +119,14 @@ public class GPPlayerProfile : MonoBehaviour
         {
             OnGoldModifiedEvent.Invoke();
         }
-    }
+    }*/
 
-    public void AddGems(int amount)
+    /*public void AddGems(int amount)
     {
         //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
         m_gems += amount;
         OnGemsModified();
-    }
+    }*/
 
     /// <summary>
     /// Tries to spend gems if it has enough.
@@ -134,7 +134,7 @@ public class GPPlayerProfile : MonoBehaviour
     /// </summary>
     /// <param name="amount"></param>
     /// <returns></returns>
-    public bool TrySpendGems(int amount)
+    /*public bool TrySpendGems(int amount)
     {
         //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
         if (m_gems < amount)
@@ -155,5 +155,5 @@ public class GPPlayerProfile : MonoBehaviour
         {
             OnGemsModifiedEvent.Invoke();
         }
-    }
+    }*/
 }

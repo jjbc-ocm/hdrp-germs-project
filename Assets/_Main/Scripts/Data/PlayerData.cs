@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.CloudSave;
+using Unity.Services.Economy;
+using Unity.Services.Economy.Model;
 using UnityEngine;
 
 public class PlayerData
@@ -9,6 +12,8 @@ public class PlayerData
     private Dictionary<string, string> getData;
 
     private Dictionary<string, object> putData;
+
+    private List<PlayerBalance> getBalances;
 
     public PlayerData()
     {
@@ -18,6 +23,8 @@ public class PlayerData
     public async Task<PlayerData> Get()
     {
         getData = await CloudSaveService.Instance.Data.LoadAllAsync();
+
+        getBalances = (await EconomyService.Instance.PlayerBalances.GetBalancesAsync()).Balances;
 
         return this;
     }
@@ -55,6 +62,16 @@ public class PlayerData
             : "";
     }
 
+    public long Coins
+    {
+        get => getBalances.FirstOrDefault(i => i.CurrencyId == "COINS")?.Balance ?? 0;
+    }
+
+    public long Gems
+    {
+        get => getBalances.FirstOrDefault(i => i.CurrencyId == "GEMS")?.Balance ?? 0;
+    }
+
     public PlayerData SetInitialized(bool value)
     {
         putData["isInitialized"] = value;
@@ -82,4 +99,28 @@ public class PlayerData
 
         return this;
     }
+
+    public async Task<PlayerData> AddCoins(int value)
+    {
+        var result = await EconomyService.Instance.PlayerBalances.IncrementBalanceAsync("COINS", value);
+
+        var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "COINS");
+
+        getBalances[targetIndex] = result;
+
+        return this;
+    }
+
+    public async Task<PlayerData> AddGems(int value)
+    {
+        var result = await EconomyService.Instance.PlayerBalances.IncrementBalanceAsync("GEMS", value);
+
+        var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "GEMS");
+
+        getBalances[targetIndex] = result;
+
+        return this;
+    }
+
+
 }

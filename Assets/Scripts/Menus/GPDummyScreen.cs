@@ -71,7 +71,7 @@ public class GPDummyScreen : GPGUIScreen
             }
         }
 
-        PhotonNetwork.LocalPlayer.SetSelectedShipIdx(selectedIdx);
+        //PhotonNetwork.LocalPlayer.SetSelectedShipIdx(selectedIdx);
 
     }
 

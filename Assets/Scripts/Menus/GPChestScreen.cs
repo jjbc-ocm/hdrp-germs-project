@@ -13,6 +13,11 @@ public class GPChestScreen : GPGUIScreen
     public AudioClip m_buySuccedSFX;
     public AudioClip m_buyErrorSFX;
 
+    [Header("Misc.")]
+
+    [SerializeField]
+    private GameObject m_LoadIndicator;
+
     void Start()
     {
         for (int i = 0; i < m_chestsData.Count; i++)
@@ -25,12 +30,18 @@ public class GPChestScreen : GPGUIScreen
         }
     }
 
-    public void OnBuyUsingGold(GPStoreChestCard chestCard)
+    public async void OnBuyUsingGold(GPStoreChestCard chestCard)
     {
-        bool buySucceed = false;
+        //bool buySucceed = false;
         //TODO: Do API call here and modify buySucceed variable
         //You can get the gold price from the chestDesc parameter
-        buySucceed = GPPlayerProfile.m_instance.TrySpendGold(chestCard.m_chestDesc.m_goldPrice);
+        //buySucceed = GPPlayerProfile.m_instance.TrySpendGold(chestCard.m_chestDesc.m_goldPrice);
+
+        m_LoadIndicator.SetActive(true);
+
+        var buySucceed = await APIManager.Instance.TryVirtualPurchase(chestCard.m_chestDesc.GoldID);
+
+        m_LoadIndicator.SetActive(false);
 
         if (buySucceed)
         {
@@ -43,13 +54,19 @@ public class GPChestScreen : GPGUIScreen
         }
     }
 
-    public void OnBuyUsingGems(GPStoreChestCard chestCard)
+    public async void OnBuyUsingGems(GPStoreChestCard chestCard)
     {
-        bool buySucceed = false;
+        //bool buySucceed = false;
         //TODO: Do API call here and modify buySucceed variable
         //You can get the gem price from the chestDesc parameter
 
-        buySucceed = GPPlayerProfile.m_instance.TrySpendGems(chestCard.m_chestDesc.m_gemPrice);
+        //buySucceed = GPPlayerProfile.m_instance.TrySpendGems(chestCard.m_chestDesc.m_gemPrice);
+
+        m_LoadIndicator.SetActive(true);
+
+        var buySucceed = await APIManager.Instance.TryVirtualPurchase(chestCard.m_chestDesc.GemID);
+
+        m_LoadIndicator.SetActive(false);
 
         if (buySucceed)
         {

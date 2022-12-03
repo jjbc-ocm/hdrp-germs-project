@@ -12,6 +12,12 @@ public enum GP_CHEST_TAG
 [CreateAssetMenu(fileName = "GPStoreChestSO", menuName = "ScriptableObjects/GPStoreChestSO")]
 public class GPStoreChestSO : ScriptableObject
 {
+    [SerializeField]
+    private string goldId;
+
+    [SerializeField]
+    private string gemId;
+
     public string m_chestName;
     public bool m_canBuyUsingGold = true;
     public int m_goldPrice;
@@ -19,4 +25,8 @@ public class GPStoreChestSO : ScriptableObject
     public int m_gemPrice;
     public GP_CHEST_TAG m_specialTag;
     public Sprite m_chestIcon;
+
+    public string GoldID { get => goldId; }
+
+    public string GemID { get => gemId; }
 }

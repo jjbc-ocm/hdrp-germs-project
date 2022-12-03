@@ -6,6 +6,7 @@ using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
+using Unity.Services.Economy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -68,5 +69,21 @@ public class APIManager : MonoBehaviour
         onProgress.Invoke("Loading game...", 0.9f);
 
         SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+    }
+
+    public async Task<bool> TryVirtualPurchase(string id)
+    {
+        try
+        {
+            var result = await EconomyService.Instance.Purchases.MakeVirtualPurchaseAsync(id);
+
+            await playerData.Get();
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

@@ -52,10 +52,10 @@ public static class PlayerExtension
         });
     }
 
-    public static void SetSelectedShipIdx(this Player player, int shipIndex)
+    /*public static void SetSelectedShipIdx(this Player player, int shipIndex)
     {
         m_selectedShipIdx = shipIndex; // not saved on custom properties yet because he set it outside of room.
-    }
+    }*/
 
     public static int GetTeam(this Player player)
     {
