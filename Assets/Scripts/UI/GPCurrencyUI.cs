@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GPCurrencyUI : MonoBehaviour
+public class GPCurrencyUI : UI<GPCurrencyUI>
 {
+    public static GPCurrencyUI Instance;
+
     public TextMeshProUGUI m_goldAmountText;
     public TextMeshProUGUI m_gemAmountText;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        GPPlayerProfile.m_instance.OnGoldModifiedEvent.AddListener(UpdateGoldUI);
-        GPPlayerProfile.m_instance.OnGemsModifiedEvent.AddListener(UpdateGemsUI);
-
-        UpdateGoldUI();
-        UpdateGemsUI();
+        Instance = this;
     }
 
-    public void UpdateGoldUI()
+    void Update()
     {
-        m_goldAmountText.text = GPPlayerProfile.m_instance.m_gold.ToString();
+        RefreshUI();
     }
 
-    public void UpdateGemsUI()
+    protected override void OnRefreshUI()
     {
-        m_gemAmountText.text = GPPlayerProfile.m_instance.m_gems.ToString();
+        var data = APIManager.Instance.PlayerData;
+
+        m_goldAmountText.text = data.Coins.ToString();
+
+        m_gemAmountText.text = data.Gems.ToString();
     }
 }

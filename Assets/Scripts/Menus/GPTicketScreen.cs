@@ -13,6 +13,11 @@ public class GPTicketScreen : GPGUIScreen
     public AudioClip m_buySuccedSFX;
     public AudioClip m_buyErrorSFX;
 
+    [Header("Misc.")]
+
+    [SerializeField]
+    private GameObject m_LoadIndicator;
+
     void Start()
     {
         for (int i = 0; i < m_gemPacksData.Count; i++)
@@ -24,7 +29,7 @@ public class GPTicketScreen : GPGUIScreen
         }
     }
 
-    public void OnBuyUsingUSD(GPStoreGemsSO gemPackDesc)
+    public async void OnBuyUsingUSD(GPStoreGemsSO gemPackDesc)
     {
         bool buySucceed = false;
         //TODO: Do API call here and modify buySucceed variable
@@ -35,7 +40,9 @@ public class GPTicketScreen : GPGUIScreen
 
         if (buySucceed)
         {
-            GPPlayerProfile.m_instance.AddGems(gemPackDesc.m_gemAmount);
+            m_LoadIndicator.SetActive(true);
+            await APIManager.Instance.PlayerData.AddGems(gemPackDesc.m_gemAmount);
+            m_LoadIndicator.SetActive(false);
             TanksMP.AudioManager.Play2D(m_buySuccedSFX);
         }
         else

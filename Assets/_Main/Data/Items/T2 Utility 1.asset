@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
+  m_Name: T2 Utility 1
+  m_EditorClassIdentifier: 
+  id: e9804071-9d9c-45d9-ba44-5a4e7b66b089
+  name: Flameguard
+  desc: '+15% Ability Power
+
+    +15% Cooldown
+
+    +20% Movement Speed'
+  icon: {fileID: 21300000, guid: 97bef2f88b2c90b48805978320e812fb, type: 3}
+  category: 3
+  costBuy: 2500
+  costSell: 1700
+  className: BaseItemEffect
+  statModifier:
+    isInvisible: 0
+    lifeSteal: 0
+    buffMaxHealth: 0
+    buffMaxMana: 0
+    buffAttackDamage: 0
+    buffAbilityPower: 0.15
+    buffArmor: 0
+    buffResist: 0
+    buffAttackSpeed: 0
+    buffMoveSpeed: 0.2
+    buffCooldown: 0.15
+  duration: 0
+  recipes:
+  - {fileID: 11400000, guid: 73d06cc0179bb9248b6a77d39089c877, type: 2}
+  - {fileID: 11400000, guid: 48024da7c74ccf94da16019b06a70d51, type: 2}
