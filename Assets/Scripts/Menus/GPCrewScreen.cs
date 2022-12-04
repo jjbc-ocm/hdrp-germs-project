@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using System.Linq;
 
 public class GPCrewScreen : GPGUIScreen
 {
+    public static GPCrewScreen Instance;
+
     [Header("Data")]
     public List<GPShipDesc> m_shipsData;
     List<GPShipCard> m_shipsCards = new List<GPShipCard>();
@@ -42,23 +45,40 @@ public class GPCrewScreen : GPGUIScreen
     [Header("Tab Settings")]
     public Transform m_tabFocusImage;
 
-    [HideInInspector]
-    public GPShipDesc m_viewedShip = null;
-    [HideInInspector]
-    public static GPShipDesc m_selectedShip = null;
-    GameObject m_viewedShipModelInstance = null;
-    int m_currShipIdx = 0;
-    GPShipCard m_prevViewedCard = null;
+    private GPShipDesc m_viewedShip;
+
+    private GPShipDesc m_selectedShip;
+
+    private GameObject m_viewedShipModelInstance;
+
+    private int m_currShipIdx;
+
+    private GPShipCard m_prevViewedCard;
 
     [Header("Audio Settings")]
     public AudioClip m_shipChangedSFX;
     public AudioClip m_shipSelectedSFX;
+
+    [Header("Misc.")]
     
+    [SerializeField]
+    private GameObject m_LoadIndicator;
+
+    public GPShipDesc SelectedShip { get => m_selectedShip; }
+    
+    void Awake()
+    {
+        Instance = this;
+    }
+
     void Start()
     {
         Destroy(m_shipModelContainer.GetChild(0).gameObject);
         ShowAllShipsTypes();
-        m_selectedShip = m_shipsData[0]; // start with default selected.
+
+        m_selectedShip = m_shipsData.FirstOrDefault(i => i.ID == APIManager.Instance.PlayerData.SelectedShipID);
+
+        ChangeShipModel(m_selectedShip);
     }
 
     public override void Show()
@@ -247,11 +267,19 @@ public class GPCrewScreen : GPGUIScreen
     /// Confirm ship to use.
     /// Will use the currently previewd one.
     /// </summary>
-    public void SelectShip()
+    public async void SelectShip()
     {
+        m_LoadIndicator.SetActive(true);
+
         m_selectedShip = m_viewedShip;
         LeanTween.scale(m_viewedShipModelInstance, m_viewedShipModelInstance.transform.localScale - (Vector3.one*0.2f), 0.4f).setEasePunch();
-        PhotonNetwork.LocalPlayer.SetSelectedShipIdx(m_selectedShip.m_prefabListIndex);
+        //PhotonNetwork.LocalPlayer.SetSelectedShipIdx(m_selectedShip.m_prefabListIndex);
+
+        APIManager.Instance.PlayerData.SetSelectedShipID(m_selectedShip.ID);
+
+        await APIManager.Instance.PlayerData.Put();
+
+        m_LoadIndicator.SetActive(false);
 
         TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
     }
