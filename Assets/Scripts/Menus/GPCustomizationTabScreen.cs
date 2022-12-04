@@ -21,7 +21,7 @@ public class GPCustomizationTabScreen : GPGUIScreen
     [Header("Equip settings")]
     public bool m_allowUnequip = true;
     public bool m_equipDefaultOnStart = false;
-    public int m_defaultPartIdx = 0;
+    //public int m_defaultPartIdx = 0;
 
     [Header("Sound settings")]
     public AudioClip m_equipSFX;
@@ -78,13 +78,13 @@ public class GPCustomizationTabScreen : GPGUIScreen
         base.Show();
 
         //Equip default parts
-        if (m_equipDefaultOnStart && m_selectedBlock == null)
+        /*if (m_equipDefaultOnStart && m_selectedBlock == null)
         {
             m_selectedBlock = m_partBlocks[m_defaultPartIdx];
-            Debug.Log(m_selectedBlock.gameObject);
+            Debug.LogError("m_defaultPartIdx: " + m_defaultPartIdx);
             m_selectedBlock.TogglePin(true);
             m_customization.m_customizationSlot.EquipCustomPart(m_partBlocks[m_defaultPartIdx].m_partDesc, false);
-        }
+        }*/
 
         m_customization.m_customizationSlot.Rotate(m_dummyRotation);
 
@@ -102,6 +102,36 @@ public class GPCustomizationTabScreen : GPGUIScreen
         {
             m_selectedBlock.TogglePin(false);
             m_customization.m_customizationSlot.UnequipCustomPart(m_selectedBlock.m_partDesc);
+
+            switch (m_selectedBlock.m_partDesc.m_type)
+            {
+                case GP_DUMMY_PART_TYPE.kSkin:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_skin = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kEye:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_eye = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kMouth:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_mouth = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHair:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_hair = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHorn:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_horns = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kWear:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_wear = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kGlove:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_gloves = null;
+                    break;
+                case GP_DUMMY_PART_TYPE.kTail:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_tail = null;
+                    break;
+                default:
+                    break;
+            }
         }
 
         // if its the same part then do not activate it again (click equip, click again to unequip)

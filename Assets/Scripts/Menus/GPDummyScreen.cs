@@ -49,6 +49,7 @@ public class GPDummyScreen : GPGUIScreen
 
             //m_dummySlots[i].ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[i]);
             m_dummySlots[i].ChangeAppearance(data);
+            m_dummySlots[i].m_savedData = data;
         }
         m_dummySelectScreen.Show();
     }
@@ -122,14 +123,13 @@ public class GPDummyScreen : GPGUIScreen
 
             m_LoadIndicator.SetActive(true);
 
-            await APIManager.Instance.PlayerData.SetDummy(m_selectedSlot.m_savedData.ToDummyData(), slotIdx).Put(); // TODO: fix this, m_savedData is none on first open
+            await APIManager.Instance.PlayerData.SetDummy(m_selectedSlot.m_savedData.ToDummyData(), slotIdx).Put();
 
             m_LoadIndicator.SetActive(false);
         }
 
         //PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
-
-        //TODO save them in playerdata
+        
     }
 
     void ChooseDummy(int selectedIdx)

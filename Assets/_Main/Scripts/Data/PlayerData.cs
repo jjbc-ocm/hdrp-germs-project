@@ -155,8 +155,6 @@ public class DummyData
         List<GPDummyPartDesc> gloves,
         List<GPDummyPartDesc> tails)
     {
-        Debug.LogError(skins.Where(i => i.ID == "").Count());
-
         return new GPDummyData
         {
             m_skin = skins.FirstOrDefault(i => i.ID == SkinID),
