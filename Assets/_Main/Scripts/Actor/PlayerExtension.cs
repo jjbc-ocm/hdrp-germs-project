@@ -42,10 +42,32 @@ public static class PlayerExtension
 
     public static void Initialize(this Player player, int team, int shipIndex)
     {
+        var profile = GPPlayerProfile.m_instance;
+
+        var playerData = APIManager.Instance.PlayerData;
+
+        var dummyData = playerData.Dummy(playerData.SelectedDummyIndex).ToGPDummyData(
+            profile.m_dummySkins,
+            profile.m_dummyEyes,
+            profile.m_dummyMouths,
+            profile.m_dummyHairs,
+            profile.m_dummyHorns,
+            profile.m_dummyWears,
+            profile.m_dummyGloves,
+            profile.m_dummyTails);
+
         player.SetCustomProperties(new Hashtable
         {
             { PlayerExtension.team, team },
-            { PlayerExtension.shipIndex, shipIndex }
+            { PlayerExtension.shipIndex, shipIndex },
+            {"skin", dummyData.m_skin?.name },
+            {"eyes", dummyData.m_eye?.name },
+            {"mouth", dummyData.m_mouth?.name },
+            {"hair", dummyData.m_hair?.name },
+            {"horns", dummyData.m_horns?.name},
+            {"wear", dummyData.m_wear?.name },
+            {"gloves", dummyData.m_gloves?.name },
+            {"tail", dummyData.m_tail?.name }
         });
     }
 
@@ -94,7 +116,7 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable() { { hasChest, value } });
     }
 
-    public static void WriteDummyKeys(this Player player, GPDummyData data)
+    /*public static void WriteDummyKeys(this Player player, GPDummyData data)
     {
         player.SetCustomProperties(new Hashtable
         {
@@ -107,7 +129,7 @@ public static class PlayerExtension
             {"gloves", data.m_gloves?.name },
             {"tail", data.m_tail?.name }
         });
-    }
+    }*/
 
     public static List<string> GetDummyKeys(this Player player)
     {

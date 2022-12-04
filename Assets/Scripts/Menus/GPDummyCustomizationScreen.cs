@@ -23,6 +23,21 @@ public class GPDummyData
     public GPDummyPartDesc m_wear;
     public GPDummyPartDesc m_gloves;
     public GPDummyPartDesc m_tail;
+
+    public DummyData ToDummyData()
+    {
+        return new DummyData
+        {
+            SkinID = m_skin?.ID ?? "",
+            EyeID = m_eye?.ID ?? "",
+            MouthID = m_mouth?.ID ?? "",
+            HairID = m_hair?.ID ?? "",
+            HornID = m_horns?.ID ?? "",
+            WearID = m_wear?.ID ?? "",
+            GloveID = m_gloves?.ID ?? "",
+            TailID = m_tail?.ID ?? ""
+        };
+    }
 }
 
 public class GPDummyCustomizationScreen : GPGUIScreen
