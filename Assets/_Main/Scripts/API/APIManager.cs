@@ -61,8 +61,6 @@ public class APIManager : MonoBehaviour
             playerData.SetLevel(1).SetExp(0).SetInitialized(true).SetSelectedShipID(startingShip.ID);
 
             await playerData.Put();
-
-            await playerData.Get();
         }
 
         /* Load next scene */

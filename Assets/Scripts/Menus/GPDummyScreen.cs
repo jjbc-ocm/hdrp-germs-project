@@ -52,6 +52,8 @@ public class GPDummyScreen : GPGUIScreen
             m_dummySlots[i].m_savedData = data;
         }
         m_dummySelectScreen.Show();
+
+        OnDummyToggled(m_dummySlots[APIManager.Instance.PlayerData.SelectedDummyIndex]);
     }
 
     public override void Hide()
@@ -132,9 +134,14 @@ public class GPDummyScreen : GPGUIScreen
         
     }
 
-    void ChooseDummy(int selectedIdx)
+    async void ChooseDummy(int selectedIdx)
     {
         //GPPlayerProfile.m_instance.m_currDummySlotIdx = selectedIdx;
         //PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
+        m_LoadIndicator.SetActive(true);
+
+        await APIManager.Instance.PlayerData.SetSelectedDummyIndex(selectedIdx).Put();
+
+        m_LoadIndicator.SetActive(false);
     }
 }

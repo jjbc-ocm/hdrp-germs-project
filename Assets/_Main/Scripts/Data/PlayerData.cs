@@ -32,6 +32,15 @@ public class PlayerData
     public async Task Put()
     {
         await CloudSaveService.Instance.Data.ForceSaveAsync(putData);
+
+        var updatedValues = await CloudSaveService.Instance.Data.LoadAsync(putData.Keys.ToHashSet());
+
+        foreach (var updatedValue in updatedValues)
+        {
+            getData[updatedValue.Key] = updatedValue.Value;
+        }
+
+        putData.Clear();
     }
 
     public bool IsInitialized
@@ -60,6 +69,13 @@ public class PlayerData
         get => getData.TryGetValue("selectedShipId", out string strValue)
             ? strValue
             : "";
+    }
+
+    public int SelectedDummyIndex
+    {
+        get => getData.TryGetValue("selectedDummyIndex", out string strValue)
+            ? int.TryParse(strValue, out int value) ? value : 0
+            : 0;
     }
 
     public DummyData Dummy(int index) => getData.TryGetValue($"dummy{index}", out string strValue)
@@ -110,6 +126,13 @@ public class PlayerData
 
         return this;
     }
+
+    public PlayerData SetSelectedDummyIndex(int value)
+    {
+        putData["selectedDummyIndex"] = value;
+
+        return this;
+    } 
 
     public async Task<PlayerData> AddCoins(int value)
     {
