@@ -114,9 +114,11 @@ namespace TanksMP
 
             DebugMenuNetworkManager.Instance.enabled = false;
 
-            MenuNetworkManager.Instance.Play((text) =>
+            MenuNetworkManager.Instance.Play((text, progress) =>
             {
                 uiLoading.Text = text;
+
+                uiLoading.Progress = progress;
             });
         }
 

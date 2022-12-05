@@ -15,7 +15,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private Variables
 
-    private Action<string> onStatusChange;
+    private Action<string, float> onStatusChange;
 
     private bool isConnecting;
 
@@ -37,7 +37,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        onStatusChange.Invoke("Attempting to join a room...");
+        onStatusChange.Invoke("Attempting to join a room...", 0.2f);
 
         if (isConnecting)
         {
@@ -49,19 +49,19 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        onStatusChange.Invoke("Error " + cause.ToString());
+        onStatusChange.Invoke("Error " + cause.ToString(), 0f);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        onStatusChange.Invoke("Player created a room instead...");
+        onStatusChange.Invoke("Player created a room instead...", 0.4f);
 
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = Constants.MAX_PLAYER_COUNT });
     }
 
     public override void OnJoinedRoom()
     {
-        onStatusChange.Invoke("Player joined a room...");
+        onStatusChange.Invoke("Player joined a room...", 0.6f);
 
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
@@ -70,7 +70,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        onStatusChange.Invoke("Updating player info...");
+        onStatusChange.Invoke("Updating player info...", 0.8f);
 
         if (targetPlayer == PhotonNetwork.LocalPlayer &&
             changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) &&
@@ -84,11 +84,11 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Public
 
-    public void Play(Action<string> onStatusChange)
+    public void Play(Action<string, float> onStatusChange)
     {
         this.onStatusChange = onStatusChange;
 
-        onStatusChange.Invoke("Attempting to join a room...");
+        onStatusChange.Invoke("Attempting to join a room...", 0.2f);
 
         PhotonNetwork.NickName = PlayerPrefs.GetString(TanksMP.PrefsKeys.playerName);
 
@@ -110,7 +110,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private void TryLoadGame()
     {
-        onStatusChange.Invoke("Loading scene...");
+        onStatusChange.Invoke("Loading scene...", 0.9f);
 
         if (!PhotonNetwork.IsMasterClient) return;
 
