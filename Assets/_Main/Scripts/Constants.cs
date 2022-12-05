@@ -52,5 +52,19 @@ public enum CategoryType
     Offensive,
     Defensive,
     Utility,
+}
 
+public enum StatFilterType
+{
+    All,
+    AttackDamage,
+    AbilityPower,
+    AttackSpeed,
+    Armor,
+    Resist,
+    MovementSpeed,
+    Health,
+    Mana,
+    Cooldown,
+    LifeSteal
 }
