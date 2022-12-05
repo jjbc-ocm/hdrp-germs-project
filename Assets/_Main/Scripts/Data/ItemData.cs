@@ -59,7 +59,7 @@ public class ItemData : ScriptableObject
     private float duration;
 
     [SerializeField]
-    private ItemData[] recipes;
+    private List<ItemData> recipes;
 
     public string ID { get => id; }
 
@@ -81,5 +81,5 @@ public class ItemData : ScriptableObject
 
     public float Duration { get => duration; }
 
-    public ItemData[] Recipes { get => recipes; }
+    public List<ItemData> Recipes { get => recipes; }
 }

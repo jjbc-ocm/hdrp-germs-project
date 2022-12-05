@@ -30,5 +30,25 @@ public class GPShipDesc : ScriptableObject
     public Sprite m_cardImage;
     public GP_SHIP_TYPE m_type;
 
+    [SerializeField]
+    private List<ItemData> idealStarterItems;
+
+    [SerializeField]
+    private List<ItemData> idealOffensiveItems;
+
+    [SerializeField]
+    private List<ItemData> idealDefensiveItems;
+
+    [SerializeField]
+    private List<ItemData> idealUtilityItems;
+
     public string ID { get => id; }
+
+    public List<ItemData> IdealStarterItems { get => idealStarterItems; }
+
+    public List<ItemData> IdealOffensiveItems { get => idealOffensiveItems; }
+
+    public List<ItemData> IdealDefensiveItems { get => idealDefensiveItems; }
+
+    public List<ItemData> IdealUtilityItems { get => idealUtilityItems; }
 }
