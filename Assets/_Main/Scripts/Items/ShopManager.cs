@@ -90,8 +90,6 @@ public class ShopManager : MonoBehaviour
 
         var cost = item.CostBuy;
 
-        Debug.LogError(item.Name + " " + (item.Recipes == null));
-
         foreach (var recipe in item.Recipes)
         {
             if (!IsInInventory(recipe, invSlotCheckedIndexes))

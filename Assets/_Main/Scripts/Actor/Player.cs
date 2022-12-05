@@ -72,6 +72,7 @@ namespace TanksMP
 
 
 
+        public GPShipDesc Data { get => data; }
 
         public SkillData Attack { get => attack; }
 
