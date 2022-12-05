@@ -72,6 +72,7 @@ namespace TanksMP
 
 
 
+        public GPShipDesc Data { get => data; }
 
         public SkillData Attack { get => attack; }
 
@@ -258,6 +259,8 @@ namespace TanksMP
 
             var collectibleZone = col.GetComponent<CollectibleZone>();
 
+            var collectibleTeam = col.GetComponent<CollectibleTeam>();
+
             var collectible = col.GetComponent<Collectible>();
 
             /* Handle collision to the collectible zone */
@@ -272,16 +275,22 @@ namespace TanksMP
                 GPSManager.Instance.ClearDestination();
             }
 
-            /* Handle collision to normal item */
-            else if (collectible != null)
+            /* Handle collision with chests */
+            else if (collectibleTeam != null)
             {
-                collectible.Obtain(this);
+                collectibleTeam.Obtain(this);
 
                 var destination = photonView.GetTeam() == 0
                     ? GameManager.GetInstance().zoneRed.transform.position
                     : GameManager.GetInstance().zoneBlue.transform.position;
 
                 GPSManager.Instance.SetDestination(destination);
+            }
+
+            /* Handle collision to normal item */
+            else if (collectible != null)
+            {
+                collectible.Obtain(this);
             }
         }
 
