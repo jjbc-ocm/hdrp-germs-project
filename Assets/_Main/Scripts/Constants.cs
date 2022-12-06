@@ -25,7 +25,7 @@ public class Constants
 
     public const int MAX_PLAYER_COUNT_PER_TEAM = MAX_PLAYER_COUNT / MAX_TEAM;
 
-    public const float GAME_MAX_TIMER = 10;
+    public const float GAME_MAX_TIMER = 600;
 
     public const int FOG_OF_WAR_DISTANCE = 150;
 

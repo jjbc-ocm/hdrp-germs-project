@@ -36,6 +36,18 @@ namespace TanksMP
         private ShipHUD[] team2ShipHuds;
 
         [SerializeField]
+        private Slider[] team1HealthSliders;
+
+        [SerializeField]
+        private Slider[] team2HealthSliders;
+
+        [SerializeField]
+        private Slider[] team1ManaSliders;
+
+        [SerializeField]
+        private Slider[] team2ManaSliders;
+
+        [SerializeField]
         private TMP_Text[] teamScore;
 
         [SerializeField]
@@ -85,6 +97,17 @@ namespace TanksMP
 
                         team1ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
 
+                        team1HealthSliders[i].gameObject.SetActive(player != null);
+
+                        team1ManaSliders[i].gameObject.SetActive(player != null);
+
+                        if (player != null)
+                        {
+                            team1HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+                            team1ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
+                        }
+
                         team1ShipHuds[i].Player = player;
                     }
 
@@ -98,6 +121,17 @@ namespace TanksMP
                         team2PlayerIndicators[i].gameObject.SetActive(player != null);
 
                         team2ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
+
+                        team2HealthSliders[i].gameObject.SetActive(player != null);
+
+                        team2ManaSliders[i].gameObject.SetActive(player != null);
+
+                        if (player != null)
+                        {
+                            team2HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+                            team2ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
+                        }
 
                         team2ShipHuds[i].Player = player;
                     }
