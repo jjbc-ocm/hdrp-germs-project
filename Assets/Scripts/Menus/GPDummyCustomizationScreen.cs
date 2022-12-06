@@ -23,6 +23,7 @@ public class GPDummyData
     public GPDummyPartDesc m_wear;
     public GPDummyPartDesc m_gloves;
     public GPDummyPartDesc m_tail;
+    public string m_dummyName;
 
     public DummyData ToDummyData()
     {
@@ -35,7 +36,8 @@ public class GPDummyData
             HornID = m_horns?.ID ?? "",
             WearID = m_wear?.ID ?? "",
             GloveID = m_gloves?.ID ?? "",
-            TailID = m_tail?.ID ?? ""
+            TailID = m_tail?.ID ?? "",
+            DummyName = m_dummyName ?? "",
         };
     }
 }
@@ -79,7 +81,8 @@ public class GPDummyCustomizationScreen : GPGUIScreen
     {
         base.Hide();
         ShowTab(0); // so it's the one selected when the user opens the customization again.
-        m_dummyScreen.SaveDummyChanges();
+        //m_dummyScreen.m_selectedSlot.ReplaceModelObject(m_dummyScreen.m_dummyCustomizingScreen.m_customizationSlot.m_dummyModelRef);
+        m_dummyScreen.SaveDummyChanges(m_dummyScreen.GetIdxOFSlot(m_dummyScreen.m_selectedSlot));
     }
 
     /// <summary>
