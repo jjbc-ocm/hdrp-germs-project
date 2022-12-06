@@ -51,9 +51,7 @@ namespace TanksMP
         private TMP_Text gameOverText;
 
         [SerializeField]
-        private GameObject gameOverMenu;
-
-        public GameObject GameOverMenu { get => gameOverMenu; }
+        private AftermathUI uiAftermath;
 
 
         //initialize variables
@@ -192,11 +190,15 @@ namespace TanksMP
         /// Displays the game's end screen. Called by GameManager after few seconds delay.
         /// Tries to display a video ad, if not shown already.
         /// </summary>
-        public void ShowGameOver()
+        public void ShowGameOver(int teamIndex)
         {       
             //hide text but enable game over window
             gameOverText.gameObject.SetActive(false);
-            gameOverMenu.SetActive(true);
+
+            uiAftermath.Open((self) =>
+            {
+                self.IsVictory = PhotonNetwork.LocalPlayer.GetTeam() == teamIndex;
+            });
         }
 
 
