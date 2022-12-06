@@ -24,7 +24,7 @@ namespace TanksMP
         /// This is just temporary, because timer should be decided by the team first. Just use this for now for testing
         /// Default is 10 min only for testing
         /// </summary>
-        public double gameTimer = 600;
+        //public double gameTimer = 600;
 
         /// <summary>
         /// Added by: Jilmer John
@@ -136,7 +136,7 @@ namespace TanksMP
             }
 
             // if maximum time is reached
-            if (TimerManager.Instance.TimeLapse >= gameTimer)
+            if (TimerManager.Instance.TimeLapse >= Constants.GAME_MAX_TIMER)
             {
                 isOver = true;
             }
@@ -158,19 +158,19 @@ namespace TanksMP
 
             //starts coroutine for displaying the game over window
             //StopCoroutine(SpawnRoutine(null));
-            StartCoroutine(DisplayGameOver());
+            StartCoroutine(YieldDisplayGameOver(teamIndex));
         }
 
 
         //displays game over window after short delay
-        IEnumerator DisplayGameOver()
+        IEnumerator YieldDisplayGameOver(int teamIndex)
         {
             //give the user a chance to read which team won the game
             //before enabling the game over screen
             yield return new WaitForSeconds(3);
 
             //show game over window (still connected at that point)
-            ui.ShowGameOver();
+            ui.ShowGameOver(teamIndex);
         }
     }
 
