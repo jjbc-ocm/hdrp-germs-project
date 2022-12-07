@@ -47,6 +47,7 @@ public class GPChestScreen : GPGUIScreen
         {
             chestCard.OnSuccesfullBuy();
             TanksMP.AudioManager.Play2D(m_buySuccedSFX);
+            OpenChest(chestCard);
         }
         else
         {
@@ -72,11 +73,17 @@ public class GPChestScreen : GPGUIScreen
         {
             chestCard.OnSuccesfullBuy();
             TanksMP.AudioManager.Play2D(m_buySuccedSFX);
+            OpenChest(chestCard);
         }
         else
         {
             TanksMP.AudioManager.Play2D(m_buyErrorSFX);
         }
+    }
+
+    public void OpenChest(GPStoreChestCard chestCard)
+    {
+        chestCard.m_chestDesc.OpenChest();
     }
 
 }

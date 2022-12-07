@@ -246,6 +246,9 @@ MonoBehaviour:
   m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
   m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
   m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
+  m_renderers:
+  - {fileID: 5696015177341485078}
+  - {fileID: 7063403318941529060}
   OnRPCHurtEvent:
     m_PersistentCalls:
       m_Calls:
@@ -502,6 +505,11 @@ PrefabInstance:
       objectReference: {fileID: 8077344881504957668}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4ff22ee674b404f96246fdeb834739, type: 3}
+--- !u!1 &7063403318941529060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3195173319206093674, guid: df4ff22ee674b404f96246fdeb834739, type: 3}
+  m_PrefabInstance: {fileID: 5643492818409681038}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8535404074115942852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4044916469821913418, guid: df4ff22ee674b404f96246fdeb834739, type: 3}
