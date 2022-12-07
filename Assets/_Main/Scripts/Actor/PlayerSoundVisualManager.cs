@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using UnityEngine;
 
 public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
@@ -77,13 +78,15 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            rendererShip.gameObject.SetActive(!isInvisible);
+            var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-            teamIndicators[photonView.GetTeam()].SetActive(!isInvisible);
+            rendererShip.gameObject.SetActive(!isInvisible && isInPlayerRange);
+
+            teamIndicators[photonView.GetTeam()].SetActive(!isInvisible && isInPlayerRange);
 
             foreach (var waterIndicator in waterIndicators)
             {
-                waterIndicator.SetActive(!isInvisible);
+                waterIndicator.SetActive(!isInvisible && isInPlayerRange);
             }
         }
     }
