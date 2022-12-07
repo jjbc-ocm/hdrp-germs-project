@@ -55,6 +55,11 @@ public class ItemAimManager : MonoBehaviour
             }
         }
 
+        if (Input.GetMouseButton(1))
+        {
+            isAiming = false;
+        }
+
         if (isAiming)
         {
             var action = player.Skill;

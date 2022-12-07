@@ -20,4 +20,14 @@ public class RecipeItemUI : UI<RecipeItemUI>
 
         textCost.text = ShopManager.Instance.GetTotalCost(Data).ToString();
     }
+
+    public void OnClick()
+    {
+        ShopManager.Instance.UI.RefreshUI((ui) =>
+        {
+            ui.SelectedData = Data;
+
+            ui.SelectedSlotIndex = -1;
+        });
+    }
 }

@@ -68,6 +68,11 @@ public class AimManager : MonoBehaviour
             }
         }
 
+        if (Input.GetMouseButton(1))
+        {
+            isAiming = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.Q) && onCanExecuteSkill.Invoke())
         {
             isAiming = true;

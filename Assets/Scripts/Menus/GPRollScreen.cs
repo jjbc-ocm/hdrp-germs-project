@@ -33,6 +33,10 @@ public class GPRollScreen : GPGUIScreen
     public List<GPWheelPrize> m_prizes;
     WeightedList<string> m_weightedList = new();
 
+    [Header("Prize chest refrences")]
+    public GPStoreChestSO m_woodChest;
+    public GPStoreChestSO m_goldenChest;
+
     [Header("Animation settings")]
     public int m_numberCirclestoRotate = 5;
     public float m_rotateTime = 3.0f;
@@ -145,8 +149,16 @@ public class GPRollScreen : GPGUIScreen
                 GPPlayerProfile.m_instance.AddEnergy(prize.m_prizeAmount);
                 break;
             case GP_PRIZE_TYPE.kWoodenChest:
+                for (int i = 0; i < prize.m_prizeAmount; i++)
+                {
+                    m_woodChest.OpenChest();
+                }
                 break;
             case GP_PRIZE_TYPE.kGoldenChest:
+                for (int i = 0; i < prize.m_prizeAmount; i++)
+                {
+                    m_goldenChest.OpenChest();
+                }
                 break;
             default:
                 break;

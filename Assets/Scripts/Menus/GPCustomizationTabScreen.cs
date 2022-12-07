@@ -11,7 +11,7 @@ public class GPCustomizationTabScreen : GPGUIScreen
 
     [Header("Customization menu references")]
     public Transform m_container; // where parts buttons will be parented
-    private List<GPDummyPartDesc> m_parts;
+    private List<GPDummyPartDesc> m_parts = new List<GPDummyPartDesc>();
     public GPDummyPartBlock m_blockPrefab; // part button prefab
     [HideInInspector]
     public List<GPDummyPartBlock> m_partBlocks = new List<GPDummyPartBlock>(); // store the instanced part buttons
@@ -33,44 +33,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
     // Start is called before the first frame update
     void Start()
     {
-        switch (m_type)
-        {
-            case GP_DUMMY_PART_TYPE.kSkin:
-                m_parts = GPPlayerProfile.m_instance.m_dummySkins;
-                break;
-            case GP_DUMMY_PART_TYPE.kEye:
-                m_parts = GPPlayerProfile.m_instance.m_dummyEyes;
-                break;
-            case GP_DUMMY_PART_TYPE.kMouth:
-                m_parts = GPPlayerProfile.m_instance.m_dummyMouths;
-                break;
-            case GP_DUMMY_PART_TYPE.kHair:
-                m_parts = GPPlayerProfile.m_instance.m_dummyHairs;
-                break;
-            case GP_DUMMY_PART_TYPE.kHorn:
-                m_parts = GPPlayerProfile.m_instance.m_dummyHorns;
-                break;
-            case GP_DUMMY_PART_TYPE.kWear:
-                m_parts = GPPlayerProfile.m_instance.m_dummyWears;
-                break;
-            case GP_DUMMY_PART_TYPE.kGlove:
-                m_parts = GPPlayerProfile.m_instance.m_dummyGloves;
-                break;
-            case GP_DUMMY_PART_TYPE.kTail:
-                m_parts = GPPlayerProfile.m_instance.m_dummyTails;
-                break;
-            default:
-                break;
-        }
-
-        for (int i = 0; i < m_parts.Count; i++)
-        {
-            GPDummyPartBlock newBlock = Instantiate(m_blockPrefab, m_container);
-            newBlock.DisplayPart(m_parts[i]);
-            newBlock.OnSelectedEvent.AddListener(OnBlockSelected);
-            m_partBlocks.Add(newBlock);
-        }
-
+        GPPlayerProfile.m_instance.OnDummyPartsModifiedEvent.AddListener(UpdateAvailableParts);
+        UpdateAvailableParts();
     }
 
     public override void Show()
@@ -287,6 +251,55 @@ public class GPCustomizationTabScreen : GPGUIScreen
         {
             m_selectedBlock = block;
             block.TogglePin(true);
+        }
+    }
+
+    void UpdateAvailableParts()
+    {
+        //m_parts.Clear();
+        switch (m_type)
+        {
+            case GP_DUMMY_PART_TYPE.kSkin:
+                m_parts = GPPlayerProfile.m_instance.m_dummySkins;
+                break;
+            case GP_DUMMY_PART_TYPE.kEye:
+                m_parts = GPPlayerProfile.m_instance.m_dummyEyes;
+                break;
+            case GP_DUMMY_PART_TYPE.kMouth:
+                m_parts = GPPlayerProfile.m_instance.m_dummyMouths;
+                break;
+            case GP_DUMMY_PART_TYPE.kHair:
+                m_parts = GPPlayerProfile.m_instance.m_dummyHairs;
+                break;
+            case GP_DUMMY_PART_TYPE.kHorn:
+                m_parts = GPPlayerProfile.m_instance.m_dummyHorns;
+                break;
+            case GP_DUMMY_PART_TYPE.kWear:
+                m_parts = GPPlayerProfile.m_instance.m_dummyWears;
+                break;
+            case GP_DUMMY_PART_TYPE.kGlove:
+                m_parts = GPPlayerProfile.m_instance.m_dummyGloves;
+                break;
+            case GP_DUMMY_PART_TYPE.kTail:
+                m_parts = GPPlayerProfile.m_instance.m_dummyTails;
+                break;
+            default:
+                break;
+        }
+
+        //clear old blocks
+        foreach (var item in m_partBlocks)
+        {
+            Destroy(item.gameObject);
+        }
+
+        m_partBlocks.Clear();
+        for (int i = 0; i < m_parts.Count; i++)
+        {
+            GPDummyPartBlock newBlock = Instantiate(m_blockPrefab, m_container);
+            newBlock.DisplayPart(m_parts[i]);
+            newBlock.OnSelectedEvent.AddListener(OnBlockSelected);
+            m_partBlocks.Add(newBlock);
         }
     }
 }

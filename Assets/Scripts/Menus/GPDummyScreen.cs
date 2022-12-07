@@ -27,6 +27,7 @@ public class GPDummyScreen : GPGUIScreen
         {
             slot.OnClickedEvent.AddListener(OnDummyClicked);
             slot.OnToggledEvent.AddListener(OnDummyToggled);
+            slot.OnNameChangedEvent.AddListener(OnDummyNameChanged);
         }
     }
 
@@ -49,6 +50,7 @@ public class GPDummyScreen : GPGUIScreen
 
             //m_dummySlots[i].ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[i]);
             m_dummySlots[i].ChangeAppearance(data);
+            m_dummySlots[i].SetDummyName(data.m_dummyName);
             m_dummySlots[i].m_savedData = data;
         }
         m_dummySelectScreen.Show();
@@ -99,6 +101,11 @@ public class GPDummyScreen : GPGUIScreen
         ChooseDummy(selectedIdx);
     }
 
+    void OnDummyNameChanged(GPDummySlotCard card)
+    {
+        SaveDummyChanges(GetIdxOFSlot(card));
+    }
+
     /// <summary>
     /// Returns to dummy slot selection screen.
     /// </summary>
@@ -108,30 +115,32 @@ public class GPDummyScreen : GPGUIScreen
         m_dummySelectScreen.Show();
         m_dummyCustomizingScreen.Hide();
 
-        SaveDummyChanges();
+        m_selectedSlot.ReplaceModelObject(m_dummyCustomizingScreen.m_customizationSlot.m_dummyModelRef);
+        SaveDummyChanges(GetIdxOFSlot(m_selectedSlot));
+    }
+
+    public int GetIdxOFSlot(GPDummySlotCard slot)
+    {
+        return m_dummySlots.IndexOf(slot);
     }
 
     /// <summary>
     /// Save the dummy changes made in customization mode and 
     /// applies it to the dummy displayed on the slot
     /// </summary>
-    public async void SaveDummyChanges()
+    public async void SaveDummyChanges(int slotIdx)
     {
-        if (m_selectedSlot)
-        {
-            m_selectedSlot.ReplaceModelObject(m_dummyCustomizingScreen.m_customizationSlot.m_dummyModelRef);
-            int slotIdx = m_dummySlots.IndexOf(m_selectedSlot);
-            //GPPlayerProfile.m_instance.m_dummySlots[slotIdx] = m_selectedSlot.m_savedData;
 
-            m_LoadIndicator.SetActive(true);
+        //GPPlayerProfile.m_instance.m_dummySlots[slotIdx] = m_selectedSlot.m_savedData;
 
-            await APIManager.Instance.PlayerData.SetDummy(m_selectedSlot.m_savedData.ToDummyData(), slotIdx).Put();
+        m_LoadIndicator.SetActive(true);
 
-            m_LoadIndicator.SetActive(false);
-        }
+        await APIManager.Instance.PlayerData.SetDummy(m_dummySlots[slotIdx].m_savedData.ToDummyData(), slotIdx).Put();
+
+        m_LoadIndicator.SetActive(false);
 
         //PhotonNetwork.LocalPlayer.WriteDummyKeys(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
-        
+
     }
 
     async void ChooseDummy(int selectedIdx)
