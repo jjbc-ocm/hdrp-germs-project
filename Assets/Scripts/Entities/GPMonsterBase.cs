@@ -126,6 +126,9 @@ public class GPMonsterBase : ActorManager
     public AudioClip m_deathSFX;
     public AudioClip m_meleeAtkHitSFX;
 
+    [Header("Visuals settings")]
+    public GameObject[] m_renderers;
+
     Collider m_mainCollider;
 
     public void BaseStart()
