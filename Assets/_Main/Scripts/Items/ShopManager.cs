@@ -92,11 +92,11 @@ public class ShopManager : MonoBehaviour
 
         foreach (var recipe in item.Recipes)
         {
-            if (!IsInInventory(recipe, invSlotCheckedIndexes))
+            if (IsInInventory(recipe, invSlotCheckedIndexes))
             {
-                cost += GetTotalCost(recipe, invSlotCheckedIndexes);
+                cost -= GetTotalCost(recipe, invSlotCheckedIndexes);
             }
-            
+
         }
 
         return cost;

@@ -121,6 +121,8 @@ public class ShopUI : UI<ShopUI>
         uiAllItems.Open((self) =>
         {
             self.IsSelected = true;
+
+            self.StatFilter = StatFilterType.All;
         });
 
         uiRecoItems.RefreshUI((self) =>

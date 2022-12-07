@@ -10,12 +10,16 @@ public class GPDummySlotCard : MonoBehaviour
     public Transform m_dummyModelRef;
     public UnityEvent<GPDummySlotCard> OnClickedEvent;
     public UnityEvent<GPDummySlotCard> OnToggledEvent;
+    public UnityEvent<GPDummySlotCard> OnNameChangedEvent;
     public Button m_toggle;
+    public TMP_InputField m_nameInputField;
     public Image m_selectedSprite;
     public bool m_selected = false;
     Vector3 m_originalScale;
     Vector3 m_originalLocalEuler;
     public GPDummyData m_savedData;
+    public GPDummyPartDesc m_defaultEyes;
+    bool m_equipDefault = true;
 
     void Awake()
     {
@@ -23,6 +27,31 @@ public class GPDummySlotCard : MonoBehaviour
         m_originalLocalEuler = m_dummyModelRef.localEulerAngles;
 
         ToggleSelected(m_selected);
+        if (m_equipDefault)
+        {
+            EquipCustomPart(m_defaultEyes, false);
+        }
+
+        m_nameInputField.onEndEdit.AddListener(OnNameChanged);
+    }
+
+    /// <summary>
+    /// Called when name input field is modified
+    /// </summary>
+    public void OnNameChanged(string newText)
+    {
+        SetDummyName(newText);
+
+        if (OnNameChangedEvent != null)
+        {
+            OnNameChangedEvent.Invoke(this);
+        }
+    }
+
+    public void SetDummyName(string name)
+    {
+        m_nameInputField.text = name; // update UI
+        m_savedData.m_dummyName = name; // save it
     }
 
     /// <summary>
@@ -77,7 +106,7 @@ public class GPDummySlotCard : MonoBehaviour
 
         if (animate)
         {
-            LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch();
+            LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch().setOnComplete(ResetScale);
         }
     }
 
@@ -85,13 +114,21 @@ public class GPDummySlotCard : MonoBehaviour
     /// Deactivates a dummy part on the dummy model
     /// </summary>
     /// <param name="desc"></param>
-    public void UnequipCustomPart(GPDummyPartDesc desc)
+    public void UnequipCustomPart(GPDummyPartDesc desc, bool animate = true)
     {
+        if (desc == null)
+        {
+            return;
+        }
+
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
         part.gameObject.SetActive(false);
 
-        m_dummyModelRef.gameObject.transform.localScale = m_originalScale;
-        LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch();
+        if (animate)
+        {
+            m_dummyModelRef.gameObject.transform.localScale = m_originalScale;
+            LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch().setOnComplete(ResetScale);
+        }
     }
 
     /// <summary>
@@ -101,6 +138,7 @@ public class GPDummySlotCard : MonoBehaviour
     /// <param name="newModelObject"></param>
     public void ReplaceModelObject(Transform newModelObject)
     {
+        m_equipDefault = false;
         Transform newInstance = Instantiate(newModelObject, m_dummyModelRef.parent);
         newInstance.localPosition = m_dummyModelRef.localPosition;
         newInstance.localRotation = m_dummyModelRef.localRotation;
@@ -115,20 +153,32 @@ public class GPDummySlotCard : MonoBehaviour
         {
             return;
         }
-        EquipCustomPart(data.m_skin);
-        EquipCustomPart(data.m_eye);
-        EquipCustomPart(data.m_mouth);
-        EquipCustomPart(data.m_hair);
-        EquipCustomPart(data.m_horns);
-        EquipCustomPart(data.m_wear);
-        EquipCustomPart(data.m_gloves);
-        EquipCustomPart(data.m_tail);
+
+        if (data.m_eye != null && data.m_eye != m_defaultEyes)
+        {
+            UnequipCustomPart(m_defaultEyes, false);
+            m_equipDefault = false;
+        }
+
+        EquipCustomPart(data.m_skin, false);
+        EquipCustomPart(data.m_eye, false);
+        EquipCustomPart(data.m_mouth, false);
+        EquipCustomPart(data.m_hair, false);
+        EquipCustomPart(data.m_horns, false);
+        EquipCustomPart(data.m_wear, false);
+        EquipCustomPart(data.m_gloves, false);
+        EquipCustomPart(data.m_tail, false);
     }
 
     public void Rotate(Vector3 newRotation)
     {
         //m_dummyModelRef.localEulerAngles = m_originalLocalEuler;
         LeanTween.rotateLocal(m_dummyModelRef.gameObject, newRotation, 0.4f).setEaseSpring();
+    }
+
+    void ResetScale()
+    {
+        m_dummyModelRef.localScale = m_originalScale;
     }
 
     /// <summary>

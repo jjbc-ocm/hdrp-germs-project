@@ -167,6 +167,7 @@ public class DummyData
     public string WearID;
     public string GloveID;
     public string TailID;
+    public string DummyName;
 
     public GPDummyData ToGPDummyData(
         List<GPDummyPartDesc> skins, 
@@ -187,7 +188,8 @@ public class DummyData
             m_horns = horns.FirstOrDefault(i => i.ID == HornID),
             m_wear = wears.FirstOrDefault(i => i.ID == WearID),
             m_gloves = gloves.FirstOrDefault(i => i.ID == GloveID),
-            m_tail = tails.FirstOrDefault(i => i.ID == TailID)
+            m_tail = tails.FirstOrDefault(i => i.ID == TailID),
+            m_dummyName = DummyName,
         };
     }
 }

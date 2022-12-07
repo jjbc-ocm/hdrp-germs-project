@@ -23,7 +23,7 @@ public class TimerManager : MonoBehaviour
 
     public double TimeLapse { get => hasStartTime ? PhotonNetwork.Time - startTime : 0; }
 
-    public double ReverseTimeLapse { get => GameManager.GetInstance().gameTimer - TimeLapse; }
+    public double ReverseTimeLapse { get => Constants.GAME_MAX_TIMER - TimeLapse; }
 
     void Awake()
     {
