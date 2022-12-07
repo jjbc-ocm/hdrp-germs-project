@@ -91,4 +91,17 @@ public class GPItemsDB : MonoBehaviour
         }
         return parts;
     }
+
+    public List<GPDummyPartDesc> GetPartsOfType(GP_DUMMY_PART_TYPE type)
+    {
+        List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
+        foreach (KeyValuePair<string, GPDummyPartDesc> entry in m_dummyPartsMap)
+        {
+            if (entry.Value.m_type == type)
+            {
+                parts.Add(entry.Value);
+            }
+        }
+        return parts;
+    }
 }

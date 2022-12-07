@@ -27,6 +27,7 @@ public class GPPlayerProfile : MonoBehaviour
     public List<GPDummyPartDesc> m_dummyWears;
     public List<GPDummyPartDesc> m_dummyGloves;
     public List<GPDummyPartDesc> m_dummyTails;
+    public UnityEvent OnDummyPartsModifiedEvent; // called when player gets new dummy part
 
     //public List<GPDummyData> m_dummySlots = new List<GPDummyData>();
     //public int m_currDummySlotIdx = 0;
@@ -83,6 +84,68 @@ public class GPPlayerProfile : MonoBehaviour
         if (OnEnergyModifiedEvent != null)
         {
             OnEnergyModifiedEvent.Invoke();
+        }
+    }
+
+    public void AddDummyPart(GPDummyPartDesc dummyPart)
+    {
+        switch (dummyPart.m_type)
+        {
+            case GP_DUMMY_PART_TYPE.kSkin:
+                if (!m_dummySkins.Contains(dummyPart))
+                {
+                    m_dummySkins.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kEye:
+                if (!m_dummyEyes.Contains(dummyPart))
+                {
+                    m_dummyEyes.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kMouth:
+                if (!m_dummyMouths.Contains(dummyPart))
+                {
+                    m_dummyMouths.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kHair:
+                if (!m_dummyHairs.Contains(dummyPart))
+                {
+                    m_dummyHairs.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kHorn:
+                if (!m_dummyHorns.Contains(dummyPart))
+                {
+                    m_dummyHorns.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kWear:
+                if (!m_dummyWears.Contains(dummyPart))
+                {
+                    m_dummyWears.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kGlove:
+                if (!m_dummyGloves.Contains(dummyPart))
+                {
+                    m_dummyGloves.Add(dummyPart);
+                }
+                break;
+            case GP_DUMMY_PART_TYPE.kTail:
+                if (!m_dummyTails.Contains(dummyPart))
+                {
+                    m_dummyTails.Add(dummyPart);
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (OnDummyPartsModifiedEvent != null)
+        {
+            OnDummyPartsModifiedEvent.Invoke();
         }
     }
 
