@@ -34,6 +34,14 @@ public class GPBee : GPMonsterBase
     // Update is called once per frame
     void Update()
     {
+        // Update visuals
+        var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
+
+        foreach (var m_renderer in m_renderers)
+        {
+            m_renderer.SetActive(isInPlayerRange);
+        }
+
         //Only master client will execute enemy logic and share the data to other players
         if (!PhotonNetwork.IsMasterClient)
         {
