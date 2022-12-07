@@ -28,22 +28,13 @@ namespace TanksMP
 
         private Rigidbody rigidBody;
 
-        //private GPMonsterBase monsterOwner;
-
-        //public GPMonsterBase MonsterOwner { get => monsterOwner; } // TODO: make base class that the mosnters and players share // Done this one
-
-        /// <summary>
-        /// True if the bullet belongs to a monster.
-        /// </summary>
-        //public bool formMonster = false;
-
-        /// <summary>
-        /// Should the bullet ignore collisions with monsters?
-        /// </summary>
-        public bool ignoreMonsters = false;
-
 
         #region Unity
+
+        void Start()
+        {
+            Destroy(gameObject, Constants.FOG_OF_WAR_DISTANCE / speed * 0.9f);
+        }
 
         void OnTriggerEnter(Collider col)
         {
@@ -96,20 +87,5 @@ namespace TanksMP
 
             rigidBody.velocity = transform.forward * speed;
         }
-
-        /*public void Initialize(GPMonsterBase owner)
-        {
-            rigidBody = GetComponent<Rigidbody>();
-
-            //this.monsterOwner = owner;
-
-            rigidBody.velocity = transform.forward * speed;
-        }*/
-
-        /*public void ChangeDirection(Vector3 direction)
-        {
-            transform.forward = direction;
-            rigidBody.velocity = speed * direction;
-        }*/
     }
 }
