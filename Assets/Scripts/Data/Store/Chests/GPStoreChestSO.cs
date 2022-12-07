@@ -38,6 +38,11 @@ public class GPStoreChestSO : ScriptableObject
 
     public void OpenChest()
     {
+        GiveDummyRewards();
+    }
+
+    void GiveDummyRewards()
+    {
         //Suffle part types so they are randombly picked.
         //We'll pick in order so if whe shuffle the lsit they will be random
         //so if the user gets 3 parts they can be of random types (hair, ayes, mouths, wear, gloves, horns, etc)
@@ -47,20 +52,36 @@ public class GPStoreChestSO : ScriptableObject
 
         //Pick random dummy parts
         List<GPDummyPartDesc> dummyRewards = new List<GPDummyPartDesc>();
+        int typeIdx = 0;
         for (int i = 0; i < m_dummyPartAmount; i++)
         {
-            //Pick parts from minimum random rarity to maximum random rairty
-            int randomRarity = Random.Range((int)m_dummyPartMinRarity, (int)m_dummyPartMaxRarity+1);
+            typeIdx = i;
+            if (typeIdx >= randomTypes.Count)
+            {
+                typeIdx = 0;
+            }
+
+            //Pick parts from minimum random rarity to maximum random rarity
+            int randomRarity = Random.Range((int)m_dummyPartMinRarity, (int)m_dummyPartMaxRarity + 1);
 
             //Get list of possible parts that match the random rarity and type.
-            var posibleParts = GPItemsDB.m_instance.GetPartsOfTypeAndRarity(randomTypes[i], (GP_DUMMY_PART_RARITY)randomRarity);
+            var posibleParts = GPItemsDB.m_instance.GetPartsOfTypeAndRarity(randomTypes[typeIdx], (GP_DUMMY_PART_RARITY)randomRarity);
+
+            //if no posible parts found then give any part of any rairty.
+            if (posibleParts.Count == 0)
+            {
+                posibleParts = GPItemsDB.m_instance.GetPartsOfType(randomTypes[typeIdx]);
+            }
 
             //Pick random part from the posible parts.
             int randomPartIdx = Random.Range(0, posibleParts.Count);
             dummyRewards.Add(posibleParts[randomPartIdx]);
         }
 
-        //TODO: Add rewards to player
-
+        foreach (var dummyPart in dummyRewards)
+        {
+            GPPlayerProfile.m_instance.AddDummyPart(dummyPart);
+            Debug.Log("DummyPart Added: " + dummyPart.name);
+        }
     }
 }
