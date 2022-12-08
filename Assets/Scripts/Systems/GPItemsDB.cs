@@ -23,6 +23,10 @@ public class GPItemsDB : MonoBehaviour
 
     public Dictionary<string, GPDummyPartDesc> m_dummyPartsMap = new Dictionary<string, GPDummyPartDesc>();
 
+    [SerializeField]
+    public List<GPShipDesc> m_crews = new List<GPShipDesc>();
+    public Dictionary<string, GPShipDesc> m_crewsMap = new Dictionary<string, GPShipDesc>();
+
     public static GPItemsDB m_instance;
 
     private void Awake()
@@ -76,6 +80,11 @@ public class GPItemsDB : MonoBehaviour
         for (int i = 0; i < m_dummyTails.Count; i++)
         {
             m_dummyPartsMap.Add(m_dummyTails[i].name, m_dummyTails[i]);
+        }
+
+        for (int i = 0; i < m_crews.Count; i++)
+        {
+            m_crewsMap.Add(m_crews[i].name, m_crews[i]);
         }
     }
 

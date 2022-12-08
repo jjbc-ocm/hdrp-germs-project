@@ -149,6 +149,14 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
+    public void AddShip(GPShipDesc shipDesc)
+    {
+        if (!m_ships.Contains(shipDesc))
+        {
+            m_ships.Add(shipDesc);
+        }
+    }    
+
     /*public void AddGold(int amount)
     {
         //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.

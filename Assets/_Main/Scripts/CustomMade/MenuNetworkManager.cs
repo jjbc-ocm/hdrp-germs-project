@@ -114,7 +114,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+        PhotonNetwork.LoadLevel(Constants.WAITING_ROOM_SCENE_NAME);
     }
 
     #endregion
