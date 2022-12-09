@@ -56,7 +56,16 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         onStatusChange.Invoke("Player created a room instead...", 0.4f);
 
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = Constants.MAX_PLAYER_COUNT });
+        var roomOptions = new RoomOptions
+        {
+            MaxPlayers = Constants.MAX_PLAYER_COUNT,
+
+            PlayerTtl = int.MaxValue,
+
+            EmptyRoomTtl = 10000
+        };
+
+        PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
     public override void OnJoinedRoom()

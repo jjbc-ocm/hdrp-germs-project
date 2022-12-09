@@ -34,6 +34,11 @@ public class Constants
     public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
 }
 
+public class Globals
+{
+    public static string ROOM_NAME;
+}
+
 public enum AimType 
 { 
     None, /* For skills that target your own ship */

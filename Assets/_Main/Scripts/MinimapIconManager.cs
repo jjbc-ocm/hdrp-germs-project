@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class MinimapIconManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        transform.eulerAngles = new Vector3(90, 0, -90);
+        transform.eulerAngles = new Vector3(90, 0, 90);
     }
 }

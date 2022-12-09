@@ -257,6 +257,8 @@ namespace TanksMP
         /// </summary>
         public void Disconnect()
         {
+            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+
             if (PhotonNetwork.IsConnected)
                 PhotonNetwork.Disconnect();
         }
@@ -267,7 +269,10 @@ namespace TanksMP
         /// </summary>
         public override void OnLeftRoom()
         {
-            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+            //SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+            //var reconnectResult = PhotonNetwork.ReconnectAndRejoin();
+
+            //Debug.Log("OnLeftRoom reconnectResult " + reconnectResult);
         }
     }
 }
