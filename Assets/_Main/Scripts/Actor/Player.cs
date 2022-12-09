@@ -189,6 +189,8 @@ namespace TanksMP
 
             Mine = this;
 
+            Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
+
             aim.Initialize(
                 () =>
                 {
@@ -221,6 +223,11 @@ namespace TanksMP
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 ShopManager.Instance.ToggleShop();
+            }
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                PhotonNetwork.Disconnect();
             }
         }
 
