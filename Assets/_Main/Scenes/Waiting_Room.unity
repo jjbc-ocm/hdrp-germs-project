@@ -13461,6 +13461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1491192048}
   - component: {fileID: 1491192047}
+  - component: {fileID: 1491192049}
   m_Layer: 0
   m_Name: WaitingRoomLogic
   m_TagString: Untagged
@@ -13480,23 +13481,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa67ea71eb5dbc4991f8286305e0d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_photonView: {fileID: 1491192049}
   m_maxTeamPlayerCount: 3
   m_teamBlueButton: {fileID: 56275016}
   m_teamRedButton: {fileID: 1116248870}
   m_blueTeamPanels:
-  - m_shipImage: {fileID: 1049960253}
-    m_userNameText: {fileID: 209869986}
-  - m_shipImage: {fileID: 1844082194}
-    m_userNameText: {fileID: 1016165488}
-  - m_shipImage: {fileID: 2131229860}
-    m_userNameText: {fileID: 1697858517}
-  m_redTeamPanels:
   - m_shipImage: {fileID: 736786590}
     m_userNameText: {fileID: 1395898472}
   - m_shipImage: {fileID: 709743346}
     m_userNameText: {fileID: 995030957}
   - m_shipImage: {fileID: 844545755}
     m_userNameText: {fileID: 1464032558}
+  m_redTeamPanels:
+  - m_shipImage: {fileID: 1049960253}
+    m_userNameText: {fileID: 209869986}
+  - m_shipImage: {fileID: 1844082194}
+    m_userNameText: {fileID: 1016165488}
+  - m_shipImage: {fileID: 2131229860}
+    m_userNameText: {fileID: 1697858517}
   m_preWaitingScreen: {fileID: 1683749609}
   m_waitingScreen: {fileID: 673040023}
   m_cardContainer: {fileID: 1146222863}
@@ -13504,6 +13506,9 @@ MonoBehaviour:
   m_shipChangedSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
   m_shipSelectedSFX: {fileID: 8300000, guid: a037aff17c8abc842be8ca6c566592fa, type: 3}
   m_LoadIndicator: {fileID: 1603765579}
+  m_timersText:
+  - {fileID: 397835791}
+  - {fileID: 891353810}
 --- !u!4 &1491192048
 Transform:
   m_ObjectHideFlags: 0
@@ -13521,6 +13526,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1491192049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491192046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1491192047}
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1494169329
 GameObject:
   m_ObjectHideFlags: 0

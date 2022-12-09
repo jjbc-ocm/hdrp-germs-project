@@ -7,7 +7,7 @@ using Photon.Realtime;
 using TMPro;
 using System.Linq;
 
-public class GPWaitingRoom : MonoBehaviourPunCallbacks
+public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 {
     [System.Serializable]
     public class GPPlayerPanel
@@ -15,6 +15,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
         public Image m_shipImage;
         public TextMeshProUGUI m_userNameText;
     }
+
+    public PhotonView m_photonView;
 
     public int m_maxTeamPlayerCount = 3;
     public Button m_teamBlueButton;
@@ -45,6 +47,12 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
 
     public GPShipDesc SelectedShip { get => m_selectedShip; }
 
+    [Header("Timer")]
+    public List<TextMeshProUGUI> m_timersText;
+    float m_readyWaitCountDown = 60.0f;
+    float m_readyWaitStartTime = 0.0f;
+    bool m_levelLoadedCalled = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +74,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
 
         m_currShipIdx = 0;
         ViewShip(m_shipsCards[0]);
+
+        m_readyWaitStartTime = Time.realtimeSinceStartup;
     }
 
     // Update is called once per frame
@@ -73,6 +83,26 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
     {
         m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(0) < m_maxTeamPlayerCount;
         m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(1) < m_maxTeamPlayerCount;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            m_readyWaitCountDown = 30 - (Time.realtimeSinceStartup - m_readyWaitStartTime);
+            if (m_readyWaitCountDown < 0)
+            {
+                m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
+
+                if (!m_levelLoadedCalled)
+                {
+                    m_levelLoadedCalled = true;
+                    PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                }
+            }
+        }
+
+        foreach (var timer in m_timersText)
+        {
+            timer.text = Mathf.RoundToInt(m_readyWaitCountDown).ToString();
+        }
     }
 
     public void ChooseTeam(int teamIdx)
@@ -91,25 +121,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
             //play error sound probably
         }
 
-        //Show in UI
-        int blueidx = 0;
-        int redidx = 0;
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            if (PhotonNetwork.PlayerList[i].GetTeam() == 0)
-            {
-                blueidx++;
-                m_blueTeamPanels[blueidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
-            }
-            else if (PhotonNetwork.PlayerList[i].GetTeam() == 1)
-            {
-                redidx++;
-                m_redTeamPanels[redidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
-            }
-        }
-
         m_preWaitingScreen.Hide();
         m_waitingScreen.Show();
+
+        m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }
 
     int GetNumberOfPlayersInTeam(int teamIdx)
@@ -142,6 +157,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
             }
         }
         OnCurrentShipChanged();
+        SelectShip();
     }
 
     /// <summary>
@@ -167,14 +183,73 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks
     {
         m_LoadIndicator.SetActive(true);
 
-        //m_selectedShip = m_viewedShip;
+        m_selectedShip = m_viewedShip;
 
         APIManager.Instance.PlayerData.SetSelectedShipID(m_selectedShip.ID);
+        PhotonNetwork.LocalPlayer.SetShipIdx(SelectedShip.m_prefabListIndex);
 
         await APIManager.Instance.PlayerData.Put();
 
         m_LoadIndicator.SetActive(false);
 
         TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+
+        m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void UpdatePlayerPanelsUI()
+    {
+        //Clear old data.
+        for (int i = 0; i < m_blueTeamPanels.Count; i++)
+        {
+            m_blueTeamPanels[i].m_userNameText.text = "";
+            m_blueTeamPanels[i].m_shipImage.enabled = false;
+        }
+        for (int i = 0; i < m_redTeamPanels.Count; i++)
+        {
+            m_redTeamPanels[i].m_userNameText.text = "";
+            m_redTeamPanels[i].m_shipImage.enabled = false;
+        }
+
+        //Update with new data.
+        int blueidx = 0;
+        int redidx = 0;
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            if (PhotonNetwork.PlayerList[i].GetTeam() == 0)
+            {
+                m_blueTeamPanels[blueidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
+                m_blueTeamPanels[blueidx].m_shipImage.enabled = true;
+                m_blueTeamPanels[blueidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].m_shipIconImage;
+                blueidx++;
+            }
+            else if (PhotonNetwork.PlayerList[i].GetTeam() == 1)
+            {
+                m_redTeamPanels[redidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
+                m_redTeamPanels[blueidx].m_shipImage.enabled = true;
+                m_redTeamPanels[redidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].m_shipIconImage;
+                redidx++;
+            }
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (PhotonNetwork.NetworkClientState == ClientState.Leaving)
+        {
+            return;
+        }
+
+        if (stream.IsWriting)
+        {
+            stream.SendNext(this.m_readyWaitCountDown);
+            stream.SendNext(this.m_readyWaitStartTime);
+        }
+        else
+        {
+            this.m_readyWaitCountDown = (float)stream.ReceiveNext();
+            this.m_readyWaitStartTime = (float)stream.ReceiveNext();
+        }
     }
 }
