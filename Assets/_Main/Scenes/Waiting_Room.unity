@@ -13488,17 +13488,32 @@ MonoBehaviour:
   m_blueTeamPanels:
   - m_shipImage: {fileID: 736786590}
     m_userNameText: {fileID: 1395898472}
+    m_movableHolder: {fileID: 500728452}
+    m_assignedUserID: 
   - m_shipImage: {fileID: 709743346}
     m_userNameText: {fileID: 995030957}
+    m_movableHolder: {fileID: 1527932248}
+    m_assignedUserID: 
   - m_shipImage: {fileID: 844545755}
     m_userNameText: {fileID: 1464032558}
+    m_movableHolder: {fileID: 1896787898}
+    m_assignedUserID: 
   m_redTeamPanels:
   - m_shipImage: {fileID: 1049960253}
     m_userNameText: {fileID: 209869986}
+    m_movableHolder: {fileID: 548972821}
+    m_assignedUserID: 
   - m_shipImage: {fileID: 1844082194}
     m_userNameText: {fileID: 1016165488}
+    m_movableHolder: {fileID: 98812109}
+    m_assignedUserID: 
   - m_shipImage: {fileID: 2131229860}
     m_userNameText: {fileID: 1697858517}
+    m_movableHolder: {fileID: 65110979}
+    m_assignedUserID: 
+  m_blueTeamReadyXOffset: -50
+  m_redTeamReadyXOffset: 50
+  m_slideAnimationDuration: 0.2
   m_preWaitingScreen: {fileID: 1683749609}
   m_waitingScreen: {fileID: 673040023}
   m_cardContainer: {fileID: 1146222863}
@@ -13509,6 +13524,7 @@ MonoBehaviour:
   m_timersText:
   - {fileID: 397835791}
   - {fileID: 891353810}
+  m_crewSelectionWindow: {fileID: 664104688}
 --- !u!4 &1491192048
 Transform:
   m_ObjectHideFlags: 0
@@ -19709,7 +19725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -19823,6 +19839,7 @@ GameObject:
   - component: {fileID: 1659599171691007781}
   - component: {fileID: 1659599171691007783}
   - component: {fileID: 1659599171691007780}
+  - component: {fileID: 1659599171691007784}
   m_Layer: 5
   m_Name: Icon_Focus
   m_TagString: Untagged
@@ -19888,6 +19905,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659599171691007778}
   m_CullTransparentMesh: 0
+--- !u!114 &1659599171691007784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659599171691007778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1659599171691007780}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1491192047}
+        m_TargetAssemblyTypeName: GPWaitingRoom, Assembly-CSharp
+        m_MethodName: OnWeighAnchorButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &3018401994596106302
 RectTransform:
   m_ObjectHideFlags: 0

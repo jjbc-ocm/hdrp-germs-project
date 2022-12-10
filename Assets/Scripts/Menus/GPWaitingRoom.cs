@@ -14,6 +14,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     {
         public Image m_shipImage;
         public TextMeshProUGUI m_userNameText;
+        public Transform m_movableHolder;
+        public string m_assignedUserID = "";
     }
 
     public PhotonView m_photonView;
@@ -24,6 +26,9 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
     public List<GPPlayerPanel> m_blueTeamPanels;
     public List<GPPlayerPanel> m_redTeamPanels;
+    public float m_blueTeamReadyXOffset = -50.0f;
+    public float m_redTeamReadyXOffset = 50.0f;
+    public float m_slideAnimationDuration = 0.5f;
 
     public GPGUIScreen m_preWaitingScreen;
     public GPGUIScreen m_waitingScreen;
@@ -54,6 +59,15 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     bool m_levelLoadedCalled = false;
 
 
+    [Header("Ready")]
+    List<string> m_playersReady = new List<string>();
+    bool m_weighAnchorAlreadyPressed = false;
+
+
+    [Header("Other References")]
+    public GameObject m_crewSelectionWindow;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +75,6 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_waitingScreen.Hide();
 
         m_selectedShip = GPPlayerProfile.m_instance.m_ships.FirstOrDefault(i => i.ID == APIManager.Instance.PlayerData.SelectedShipID);
-
 
         // Spawn new cards of all type
         for (int i = 0; i < GPPlayerProfile.m_instance.m_ships.Count; i++)
@@ -114,7 +127,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         if (playersInSelectedTeam < m_maxTeamPlayerCount)
         {
             //join the team
-            PhotonNetwork.LocalPlayer.Initialize(teamIdx, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+            PhotonNetwork.LocalPlayer.SetTeam(teamIdx);
         }
         else
         {
@@ -124,7 +137,6 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_preWaitingScreen.Hide();
         m_waitingScreen.Show();
 
-        m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }
 
     int GetNumberOfPlayersInTeam(int teamIdx)
@@ -138,6 +150,17 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         return playersInTeam;
+    }
+
+    public void OnWeighAnchorButtonPressed()
+    {
+        if (m_weighAnchorAlreadyPressed)
+        {
+            return;
+        }
+        m_weighAnchorAlreadyPressed = true;
+        m_crewSelectionWindow.SetActive(false);
+        m_photonView.RPC("RPCSetReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.UserId);
     }
 
     /// <summary>
@@ -204,11 +227,13 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         for (int i = 0; i < m_blueTeamPanels.Count; i++)
         {
             m_blueTeamPanels[i].m_userNameText.text = "";
+            m_blueTeamPanels[i].m_assignedUserID = "";
             m_blueTeamPanels[i].m_shipImage.enabled = false;
         }
         for (int i = 0; i < m_redTeamPanels.Count; i++)
         {
             m_redTeamPanels[i].m_userNameText.text = "";
+            m_redTeamPanels[i].m_assignedUserID = "";
             m_redTeamPanels[i].m_shipImage.enabled = false;
         }
 
@@ -220,6 +245,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             if (PhotonNetwork.PlayerList[i].GetTeam() == 0)
             {
                 m_blueTeamPanels[blueidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
+                m_blueTeamPanels[blueidx].m_assignedUserID = PhotonNetwork.PlayerList[i].UserId;
                 m_blueTeamPanels[blueidx].m_shipImage.enabled = true;
                 m_blueTeamPanels[blueidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].m_shipIconImage;
                 blueidx++;
@@ -227,7 +253,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             else if (PhotonNetwork.PlayerList[i].GetTeam() == 1)
             {
                 m_redTeamPanels[redidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
-                m_redTeamPanels[blueidx].m_shipImage.enabled = true;
+                m_redTeamPanels[redidx].m_assignedUserID = PhotonNetwork.PlayerList[i].UserId;
+                m_redTeamPanels[redidx].m_shipImage.enabled = true;
                 m_redTeamPanels[redidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].m_shipIconImage;
                 redidx++;
             }
@@ -250,6 +277,53 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         {
             this.m_readyWaitCountDown = (float)stream.ReceiveNext();
             this.m_readyWaitStartTime = (float)stream.ReceiveNext();
+        }
+    }
+
+    public int GetNumberOfPlayersReady()
+    {
+        int readyCount = 0;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (m_playersReady.Contains(player.UserId))
+            {
+                readyCount++;
+            }
+        }
+        return readyCount;
+    }
+
+    [PunRPC]
+    public void RPCSetReady(string UserId)
+    {
+        if (!m_playersReady.Contains(UserId))
+        {
+            m_playersReady.Add(UserId);
+        }
+
+        foreach (var panels in m_blueTeamPanels)
+        {
+            if (panels.m_assignedUserID == UserId)
+            {
+                LeanTween.moveX(panels.m_movableHolder.gameObject, panels.m_movableHolder.position.x + m_blueTeamReadyXOffset, m_slideAnimationDuration).setEaseSpring();
+            }
+        }
+
+        foreach (var panels in m_redTeamPanels)
+        {
+            if (panels.m_assignedUserID == UserId)
+            {
+                LeanTween.moveX(panels.m_movableHolder.gameObject, panels.m_movableHolder.position.x  + m_redTeamReadyXOffset, m_slideAnimationDuration).setEaseSpring();
+            }
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        if (changedProps.ContainsKey(PlayerExtension.team) || changedProps.ContainsKey(PlayerExtension.shipIndex))
+        {
+            m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
         }
     }
 }
