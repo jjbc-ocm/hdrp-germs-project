@@ -56,7 +56,16 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         onStatusChange.Invoke("Player created a room instead...", 0.4f);
 
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = Constants.MAX_PLAYER_COUNT });
+        var roomOptions = new RoomOptions
+        {
+            MaxPlayers = Constants.MAX_PLAYER_COUNT,
+
+            PlayerTtl = int.MaxValue,
+
+            EmptyRoomTtl = 10000
+        };
+
+        PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
     public override void OnJoinedRoom()
@@ -65,7 +74,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+        //PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+        PhotonNetwork.LocalPlayer.Initialize(-1, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
@@ -114,7 +124,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+        PhotonNetwork.LoadLevel(Constants.WAITING_ROOM_SCENE_NAME);
     }
 
     #endregion

@@ -13,6 +13,8 @@ public class Constants
 
     public const string MENU_SCENE_NAME = "Intro";
 
+    public const string WAITING_ROOM_SCENE_NAME = "Waiting_Room";
+
     public const string GAME_SCENE_NAME = "CTF_Game";
 
     public const string KEY_TEAM = "team";
@@ -30,6 +32,11 @@ public class Constants
     public const int FOG_OF_WAR_DISTANCE = 150;
 
     public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
+}
+
+public class Globals
+{
+    public static string ROOM_NAME;
 }
 
 public enum AimType 

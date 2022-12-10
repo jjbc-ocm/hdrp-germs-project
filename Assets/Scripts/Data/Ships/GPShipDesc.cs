@@ -28,6 +28,7 @@ public class GPShipDesc : ScriptableObject
     public GameObject m_model;
     public Player m_playerPrefab;
     public Sprite m_cardImage;
+    public Sprite m_shipIconImage;
     public GP_SHIP_TYPE m_type;
 
     [SerializeField]

@@ -22,7 +22,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private
 
-
+    private bool hasBeenDisconnected;
 
     #endregion
 
@@ -35,25 +35,61 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        /*
         if (PhotonNetwork.IsMasterClient)
         {
             IntstantiatePlayer();
         }
+        */
+        IntstantiatePlayer();
     }
 
     #endregion
 
     #region Photon
 
-    /* These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene */
-
-    public override void OnJoinedRoom()
+    /*public override void OnDisconnected(DisconnectCause cause)
     {
-        var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        PhotonNetwork.ReconnectAndRejoin();
+    }*/
 
-        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // must spawn a decoy ship on position where player got disconnected
+        }
     }
 
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        hasBeenDisconnected = true;
+
+        PhotonNetwork.Reconnect();
+    }
+
+    // It is called when reconnecting the game when the player got disconnected
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.RejoinRoom(Globals.ROOM_NAME);
+    }
+
+    // These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene
+    // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
+    public override void OnJoinedRoom()
+    {
+        if (!hasBeenDisconnected)
+        {
+            var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+
+            PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+        }
+
+        // TODO: need to handle if it is a first join or just a rejoin
+    }
+
+    // These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene
+    // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (targetPlayer == PhotonNetwork.LocalPlayer && 
@@ -79,6 +115,16 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         var spawnPoint = spawnPoints[team];
 
         PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+    }
+
+    private bool IsAllowedToReconnect(DisconnectCause cause)
+    {
+        return 
+            cause == DisconnectCause.Exception ||
+            cause == DisconnectCause.ServerTimeout ||
+            cause == DisconnectCause.ClientTimeout ||
+            cause == DisconnectCause.DisconnectByServerLogic ||
+            cause == DisconnectCause.DisconnectByServerReasonUnknown;
     }
 
     #endregion
