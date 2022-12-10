@@ -78,15 +78,18 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
-
-            rendererShip.gameObject.SetActive(!isInvisible && isInPlayerRange);
-
-            teamIndicators[photonView.GetTeam()].SetActive(!isInvisible && isInPlayerRange);
-
-            foreach (var waterIndicator in waterIndicators)
+            if (Player.Mine != null)
             {
-                waterIndicator.SetActive(!isInvisible && isInPlayerRange);
+                var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
+
+                rendererShip.gameObject.SetActive(!isInvisible && isInPlayerRange);
+
+                teamIndicators[photonView.GetTeam()].SetActive(!isInvisible && isInPlayerRange);
+
+                foreach (var waterIndicator in waterIndicators)
+                {
+                    waterIndicator.SetActive(!isInvisible && isInPlayerRange);
+                }
             }
         }
     }

@@ -185,6 +185,8 @@ namespace TanksMP
 
         void Start()
         {
+            GameManager.GetInstance().CreateOrUpdateOfflineSaveState(this);
+
             if (!photonView.IsMine) return;
 
             Mine = this;

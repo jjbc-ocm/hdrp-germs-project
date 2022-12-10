@@ -2,6 +2,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TanksMP;
 using UnityEngine;
 
 public class GameNetworkManager : MonoBehaviourPunCallbacks
@@ -45,18 +47,13 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Photon
 
-    /*public override void OnDisconnected(DisconnectCause cause)
-    {
-        PhotonNetwork.ReconnectAndRejoin();
-    }*/
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    /*public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // must spawn a decoy ship on position where player got disconnected
+            InstantiateDecoyPlayer(otherPlayer.UserId);
         }
-    }
+    }*/
 
     public override void OnDisconnected(DisconnectCause cause)
     {
@@ -75,19 +72,19 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
     public override void OnJoinedRoom()
     {
+        // Only initialize if the player has initially joined the game
+        // It will not be executed when player got disconnected, then reconnected
         if (!hasBeenDisconnected)
         {
             var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
             PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
         }
-
-        // TODO: need to handle if it is a first join or just a rejoin
     }
 
     // These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene
     // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (targetPlayer == PhotonNetwork.LocalPlayer && 
             changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) && 
@@ -95,6 +92,12 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         {
             IntstantiatePlayer();
         }
+    }
+
+    // This method is only called when player rejoined the room
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+
     }
 
     #endregion
@@ -112,6 +115,22 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         var spawnPoint = spawnPoints[team];
 
         PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+    }
+
+    private void InstantiateDecoyPlayer(string userId)
+    {
+        var offlineSaveState = GameManager.GetInstance().OfflineSaveStates.FirstOrDefault(i => i.UserId == userId);
+
+        var shipIndex = offlineSaveState.ShipIndex;
+
+        var prefabName = shipPrefabs[shipIndex].name;
+
+        PhotonNetwork.InstantiateRoomObject(prefabName, offlineSaveState.TransformPosition, offlineSaveState.TransformRotation);
+    }
+
+    private void DestroyDecoyPlayer(string userId)
+    {
+
     }
 
     private bool IsAllowedToReconnect(DisconnectCause cause)

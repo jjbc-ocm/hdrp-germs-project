@@ -24,7 +24,10 @@ namespace TanksMP
 
         void Update()
         {
-            graphics.SetActive(Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE);
+            if (Player.Mine != null)
+            {
+                graphics.SetActive(Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE);
+            }
         }
 
         public virtual void OnTriggerEnter(Collider col)

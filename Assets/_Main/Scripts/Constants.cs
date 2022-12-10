@@ -30,6 +30,8 @@ public class Constants
     public const int FOG_OF_WAR_DISTANCE = 150;
 
     public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
+
+    public const int SCORE_REQUIRED = 30;
 }
 
 public class Globals

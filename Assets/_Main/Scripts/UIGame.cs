@@ -139,7 +139,10 @@ namespace TanksMP
             }
 
             /* Update player current gold UI */
-            textPlayerGold.text = Player.Mine.Inventory.Gold.ToString();
+            if (Player.Mine != null)
+            {
+                textPlayerGold.text = Player.Mine.Inventory.Gold.ToString();
+            }
         }
 
 
