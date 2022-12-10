@@ -116,6 +116,11 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable() { { hasChest, value } });
     }
 
+    public static void SetShipIdx(this Player player, int shipIndex)
+    {
+        player.SetCustomProperties(new Hashtable() { { PlayerExtension.shipIndex, (byte)shipIndex } });
+    }
+
     /*public static void WriteDummyKeys(this Player player, GPDummyData data)
     {
         player.SetCustomProperties(new Hashtable

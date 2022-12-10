@@ -35,10 +35,13 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        /*
         if (PhotonNetwork.IsMasterClient)
         {
             IntstantiatePlayer();
         }
+        */
+        IntstantiatePlayer();
     }
 
     #endregion
