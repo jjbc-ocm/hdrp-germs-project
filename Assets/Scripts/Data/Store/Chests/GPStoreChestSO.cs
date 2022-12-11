@@ -27,10 +27,13 @@ public class GPStoreChestSO : ScriptableObject
     public GP_CHEST_TAG m_specialTag;
     public Sprite m_chestIcon;
 
-    [Header("Reward settings")]
+    [Header("Dummy Reward settings")]
     public int m_dummyPartAmount;
     public GP_DUMMY_PART_RARITY m_dummyPartMinRarity;
     public GP_DUMMY_PART_RARITY m_dummyPartMaxRarity;
+
+    [Header("Crew Reward settings")]
+    public int m_crewAmount = 1;
 
     public string GoldID { get => goldId; }
 
@@ -39,6 +42,7 @@ public class GPStoreChestSO : ScriptableObject
     public void OpenChest()
     {
         GiveDummyRewards();
+        GiveRandomCrew();
     }
 
     void GiveDummyRewards()
@@ -82,6 +86,16 @@ public class GPStoreChestSO : ScriptableObject
         {
             GPPlayerProfile.m_instance.AddDummyPart(dummyPart);
             Debug.Log("DummyPart Added: " + dummyPart.name);
+        }
+    }
+
+    void GiveRandomCrew()
+    {
+        for (int i = 0; i < m_crewAmount; i++)
+        {
+            GPShipDesc randomCrew = GPItemsDB.m_instance.m_crews[Random.Range(0, GPItemsDB.m_instance.m_crews.Count)];
+            GPPlayerProfile.m_instance.AddShip(randomCrew);
+            Debug.Log("DummyPart Added: " + randomCrew.name);
         }
     }
 }
