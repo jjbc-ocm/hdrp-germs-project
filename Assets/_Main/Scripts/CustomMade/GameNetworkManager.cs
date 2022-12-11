@@ -117,7 +117,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
     }
 
-    private void InstantiateDecoyPlayer(string userId)
+    /*private void InstantiateDecoyPlayer(string userId)
     {
         var offlineSaveState = GameManager.GetInstance().OfflineSaveStates.FirstOrDefault(i => i.UserId == userId);
 
@@ -131,7 +131,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     private void DestroyDecoyPlayer(string userId)
     {
 
-    }
+    }*/
 
     private bool IsAllowedToReconnect(DisconnectCause cause)
     {

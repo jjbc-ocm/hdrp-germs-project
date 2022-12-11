@@ -85,21 +85,28 @@ namespace TanksMP
             return instance;
         }
         
-        public void CreateOrUpdateOfflineSaveState(Player player)
+        public void CreateOrUpdateOfflineSaveState(Player player, out bool isReconnection)
         {
             var currentOfflineSaveState = offlineSaveStates != null && offlineSaveStates.Length > 0
                     ? offlineSaveStates.FirstOrDefault(i => i.UserId == player.photonView.Owner.UserId)
                     : null;
 
+            // This will happen when player joins the game
             if (currentOfflineSaveState == null)
             {
                 var offlineSaveState = Instantiate(prefabPlayerOfflineSaveState);
 
                 offlineSaveState.Initialize(player, false);
+
+                isReconnection = false;
             }
+
+            // This will happen when player reconnects to the game after being disconnected
             else
             {
                 currentOfflineSaveState.Initialize(player, true);
+
+                isReconnection = true;
             }
         }
 

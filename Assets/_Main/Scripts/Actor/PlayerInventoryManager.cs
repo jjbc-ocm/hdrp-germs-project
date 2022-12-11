@@ -19,7 +19,19 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private StatModifier statModifier;
 
-    public int Gold { get => gold; }
+    public int Gold { get => gold; set => gold = value; }
+
+    public string ItemId0 { get => itemId0; set => itemId0 = value; }
+
+    public string ItemId1 { get => itemId1; set => itemId1 = value; }
+
+    public string ItemId2 { get => itemId2; set => itemId2 = value; }
+
+    public string ItemId3 { get => itemId3; set => itemId3 = value; }
+
+    public string ItemId4 { get => itemId4; set => itemId4 = value; }
+
+    public string ItemId5 { get => itemId5; set => itemId5 = value; }
 
     public List<ItemData> Items { get => items; }
 
