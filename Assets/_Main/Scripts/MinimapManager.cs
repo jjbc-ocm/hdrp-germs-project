@@ -18,6 +18,8 @@ public class MinimapManager : MonoBehaviour
     {
         var index = PhotonNetwork.LocalPlayer.GetTeam();
 
+        if (index < 0) return;
+
         var offset = positions[index];
 
         minimapCamera.transform.eulerAngles = rotations[index];

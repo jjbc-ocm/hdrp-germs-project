@@ -45,6 +45,8 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
     protected override void OnRefreshUI()
     {
+        if (Player.Mine == null) return;
+
         var ad = Player.Mine.Stat.AttackDamage;
 
         var ap = Player.Mine.Stat.AbilityPower;

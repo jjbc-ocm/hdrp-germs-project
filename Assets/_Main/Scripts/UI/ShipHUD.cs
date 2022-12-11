@@ -60,6 +60,8 @@ public class ShipHUD : MonoBehaviour
 
     private bool IsWithinForOfWar()
     {
+        if (!Player.Mine) return false;
+
         var selfPos = Player.Mine.transform.position;
 
         var otherPos = Player.transform.position;

@@ -185,6 +185,8 @@ namespace TanksMP
 
         void Start()
         {
+            GameManager.GetInstance().CreateOrUpdateOfflineSaveState(this, out var isReconnection);
+
             if (!photonView.IsMine) return;
 
             Mine = this;
@@ -214,6 +216,11 @@ namespace TanksMP
                 });
 
             camFollow.target = transform;
+
+            if (!isReconnection)
+            {
+                stat.Initialize();
+            }
         }
 
         void Update()

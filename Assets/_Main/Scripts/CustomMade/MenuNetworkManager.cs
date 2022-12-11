@@ -54,7 +54,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        onStatusChange.Invoke("Player created a room instead...", 0.4f);
+        onStatusChange.Invoke("Player will create a room instead...", 0.4f);
 
         var roomOptions = new RoomOptions
         {

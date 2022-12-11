@@ -102,23 +102,36 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void AddHealth(int amount)
     {
-        health = Mathf.Clamp(health + amount, 0, maxHealth);
+        health = Mathf.Clamp(health + amount, 0, MaxHealth);
     }
 
     public void AddMana(int amount)
     {
-        mana = Mathf.Clamp(mana + amount, 0, maxMana);
+        mana = Mathf.Clamp(mana + amount, 0, MaxMana);
+    }
+
+    public void SetHealth(int amount)
+    {
+        health = Mathf.Clamp(amount, 0, MaxHealth);
+    }
+
+    public void SetMana(int amount)
+    {
+        mana = Mathf.Clamp(amount, 0, MaxMana);
     }
 
     void Start()
     {
         if (!photonView.IsMine) return;
 
+        StartCoroutine(YieldManaAutoRegen(1)); // TODO: it actually more efficient if it was placed in update method
+    }
+
+    public void Initialize()
+    {
         health = maxHealth;
 
         mana = maxMana;
-
-        StartCoroutine(YieldManaAutoRegen(1));
     }
     
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -127,23 +140,11 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(health);
             stream.SendNext(mana);
-            stream.SendNext(attackDamage);
-            stream.SendNext(abilityPower);
-            stream.SendNext(armor);
-            stream.SendNext(resist);
-            stream.SendNext(attackSpeed);
-            stream.SendNext(moveSpeed);
         }
         else
         {
             health = (int)stream.ReceiveNext();
             mana = (int)stream.ReceiveNext();
-            attackDamage = (int)stream.ReceiveNext();
-            abilityPower = (int)stream.ReceiveNext();
-            armor = (int)stream.ReceiveNext();
-            resist = (int)stream.ReceiveNext();
-            attackSpeed = (int)stream.ReceiveNext();
-            moveSpeed = (int)stream.ReceiveNext();
         }
     }
 

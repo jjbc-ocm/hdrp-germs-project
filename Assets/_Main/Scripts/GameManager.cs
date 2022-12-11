@@ -8,6 +8,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TanksMP
 {
@@ -20,11 +21,8 @@ namespace TanksMP
         //reference to this script instance
         private static GameManager instance;
 
-        /// <summary>
-        /// This is just temporary, because timer should be decided by the team first. Just use this for now for testing
-        /// Default is 10 min only for testing
-        /// </summary>
-        //public double gameTimer = 600;
+        [SerializeField]
+        private PlayerOfflineSaveState prefabPlayerOfflineSaveState;
 
         /// <summary>
         /// Added by: Jilmer John
@@ -46,19 +44,13 @@ namespace TanksMP
         /// </summary>
         public Team[] teams;
 
-        /// <summary>
-        /// The maximum amount of kills to reach before ending the game.
-        /// </summary>
-        public int maxScore = 30;
-
-        /// <summary>
-        /// The delay in seconds before respawning a player after it got killed.
-        /// </summary>
-        public int respawnTime = 5;
-
         private Player[] ships;
 
+        private PlayerOfflineSaveState[] offlineSaveStates;
+
         public Player[] Ships { get => ships; }
+
+        public PlayerOfflineSaveState[] OfflineSaveStates { get => offlineSaveStates; }
 
 
         //initialize variables
@@ -71,9 +63,11 @@ namespace TanksMP
         {
             ships = FindObjectsOfType<Player>();
 
+            offlineSaveStates = FindObjectsOfType<PlayerOfflineSaveState>();
+
             foreach (var ship in ships)
             {
-                if (ship.photonView.GetTeam() != Player.Mine.photonView.GetTeam())
+                if (Player.Mine != null && ship.photonView.GetTeam() != Player.Mine.photonView.GetTeam())
                 {
                     var distance = Vector3.Distance(ship.transform.position, Player.Mine.transform.position);
 
@@ -91,6 +85,30 @@ namespace TanksMP
             return instance;
         }
         
+        public void CreateOrUpdateOfflineSaveState(Player player, out bool isReconnection)
+        {
+            var currentOfflineSaveState = offlineSaveStates != null && offlineSaveStates.Length > 0
+                    ? offlineSaveStates.FirstOrDefault(i => i.UserId == player.photonView.Owner.UserId)
+                    : null;
+
+            // This will happen when player joins the game
+            if (currentOfflineSaveState == null)
+            {
+                var offlineSaveState = Instantiate(prefabPlayerOfflineSaveState);
+
+                offlineSaveState.Initialize(player, false);
+
+                isReconnection = false;
+            }
+
+            // This will happen when player reconnects to the game after being disconnected
+            else
+            {
+                currentOfflineSaveState.Initialize(player, true);
+
+                isReconnection = true;
+            }
+        }
 
 
         /// <summary>
@@ -128,7 +146,7 @@ namespace TanksMP
             {
                 //score is greater or equal to max score,
                 //which means the game is finished
-                if(score[i] >= maxScore)
+                if(score[i] >= Constants.SCORE_REQUIRED)
                 {
                     isOver = true;
                     break;
