@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8413F9D0-B13D-A9A9-C5C7-E26E160B49CB}</ProjectGuid>
+    <ProjectGuid>{8DD513E6-33BC-589A-6281-06F83134E9D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
@@ -369,6 +369,15 @@
     </Reference>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>Assets\Plugins\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\PlaybackEngines\AppleTVSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
@@ -742,6 +751,9 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Recorder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -759,6 +771,9 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Services.CloudSave.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.CloudSave.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
@@ -781,29 +796,53 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Services.CloudSave">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.CloudSave.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Services.Authentication">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Toolchain.Win-x86_64-Linux-x86_64">
       <HintPath>Library\ScriptAssemblies\Unity.Toolchain.Win-x86_64-Linux-x86_64.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    <Reference Include="Unity.Services.Economy">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Economy.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder.Base">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="PPv2URPConverters">
       <HintPath>Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Services.RemoteConfig">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.RemoteConfig.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
@@ -868,6 +907,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Services.Economy.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Economy.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
@@ -886,43 +928,59 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonChat.csproj">
-      <Project>{CA5C7AAC-90A6-CB0E-41A7-49C2BA2ADC91}</Project>
+      <Project>{BFC858F3-6D01-0145-2FA8-97EB66A9CF94}</Project>
       <Name>PhotonChat</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{91C2EFC8-2E1E-B123-4DF8-8CC8C36C7D50}</Project>
+      <Project>{E4EC61AC-43F9-E364-3CE1-7E94DAC3297E}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
-      <Project>{01D6EDE5-2F52-A2A2-70C4-C50050CFB977}</Project>
+      <Project>{08DDC914-725D-16C7-D541-C19B4BB3E3F9}</Project>
       <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoHubEditor.csproj">
-      <Project>{0BB13372-4812-0224-32D3-CC66E5C7A9D7}</Project>
+      <Project>{F8DC7482-360F-DA89-626C-0073FDF4BC7D}</Project>
       <Name>PunDemos.DemoHubEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="sc.utilities.screenshot.editor.csproj">
+      <Project>{E8685119-A1AA-13E4-9D0C-C7DBC6B55972}</Project>
+      <Name>sc.utilities.screenshot.editor</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{17B7368B-82CA-51D2-EA29-5E60F99090AE}</Project>
+      <Project>{7AA533EE-5CF3-886B-8177-12494A60A17D}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
+    <ProjectReference Include="AllIn1VfxAssmebly.csproj">
+      <Project>{A299386B-B8C6-AEE8-19A9-FD56414E1040}</Project>
+      <Name>AllIn1VfxAssmebly</Name>
+    </ProjectReference>
+    <ProjectReference Include="AllIn1VfxTexDemoAssembly.csproj">
+      <Project>{96C4C479-63BE-9F93-357B-2608FE456C75}</Project>
+      <Name>AllIn1VfxTexDemoAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="PunDemos.DemoSlotcarEditor.csproj">
-      <Project>{69CD5B0E-3E3A-A97A-EA98-56B02A037C3A}</Project>
+      <Project>{E5E89704-805C-FF71-7178-5067FA255FF1}</Project>
       <Name>PunDemos.DemoSlotcarEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
-      <Project>{2BBBED62-1CC9-EE5E-6E56-770D3E83C11C}</Project>
+      <Project>{7D12AA49-8ACB-A2DB-91C0-8ED32216BBC0}</Project>
       <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="AllIn1VfxDemoScriptAssemblies.csproj">
+      <Project>{E228288C-975B-AFCA-815F-0E0FF3FF7D8C}</Project>
+      <Name>AllIn1VfxDemoScriptAssemblies</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{50010639-6F26-C255-62FD-57B4F5F49729}</Project>
+      <Project>{92C5A4BD-4480-98FF-8E40-177DB16FC60A}</Project>
       <Name>PhotonRealtime</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
-      <Project>{837D1577-83F2-DF3A-38F4-44CDF5A4A20E}</Project>
+      <Project>{AC8983D3-0126-1F9A-9527-70FC61D248B6}</Project>
       <Name>PhotonUnityNetworking.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Demos.csproj">
-      <Project>{A8E4DF80-A009-051A-72B1-1A42514968B4}</Project>
+      <Project>{B8E3E771-1A6C-FEEA-E6B4-F7562E71EE2D}</Project>
       <Name>PhotonUnityNetworking.Demos</Name>
     </ProjectReference>
   </ItemGroup>
