@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -71,6 +72,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
+        ClearPanels();
+
         m_preWaitingScreen.Show();
         m_waitingScreen.Hide();
 
@@ -94,28 +97,44 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(0) < m_maxTeamPlayerCount;
-        m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(1) < m_maxTeamPlayerCount;
-
-        if (PhotonNetwork.IsMasterClient)
+        Debug.Log(PhotonNetwork.NetworkClientState);
+        if (PhotonNetwork.InRoom)
         {
-            m_readyWaitCountDown = 30 - (Time.realtimeSinceStartup - m_readyWaitStartTime);
-            if (m_readyWaitCountDown < 0)
-            {
-                m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
+            m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(0) < m_maxTeamPlayerCount;
+            m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(1) < m_maxTeamPlayerCount;
 
-                if (!m_levelLoadedCalled)
+            if (PhotonNetwork.IsMasterClient)
+            {
+                m_readyWaitCountDown = 30 - (Time.realtimeSinceStartup - m_readyWaitStartTime);
+                if (m_readyWaitCountDown < 0)
                 {
-                    m_levelLoadedCalled = true;
-                    PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                    m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
+
+                    if (!m_levelLoadedCalled)
+                    {
+                        m_levelLoadedCalled = true;
+                        PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                    }
                 }
             }
-        }
 
-        foreach (var timer in m_timersText)
-        {
-            timer.text = Mathf.RoundToInt(m_readyWaitCountDown).ToString();
+            foreach (var timer in m_timersText)
+            {
+                var ts = TimeSpan.FromSeconds(m_readyWaitCountDown);
+                timer.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
+            }
         }
+        else
+        {
+
+        }
+       
+    }
+
+    public void JoinGamePressed()
+    {
+        GPWaitingRoomNetworkManager.Instance.JoinRoom();
+        PhotonNetwork.JoinRandomRoom();
     }
 
     public void ChooseTeam(int teamIdx)
@@ -220,8 +239,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }
 
-    [PunRPC]
-    public void UpdatePlayerPanelsUI()
+    void ClearPanels()
     {
         //Clear old data.
         for (int i = 0; i < m_blueTeamPanels.Count; i++)
@@ -236,6 +254,13 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_redTeamPanels[i].m_assignedUserID = "";
             m_redTeamPanels[i].m_shipImage.enabled = false;
         }
+    }
+
+    [PunRPC]
+    public void UpdatePlayerPanelsUI()
+    {
+        //Clear old data.
+        ClearPanels();
 
         //Update with new data.
         int blueidx = 0;
@@ -313,7 +338,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (panels.m_assignedUserID == UserId)
             {
-                LeanTween.moveX(panels.m_movableHolder.gameObject, panels.m_movableHolder.position.x  + m_redTeamReadyXOffset, m_slideAnimationDuration).setEaseSpring();
+                LeanTween.moveX(panels.m_movableHolder.gameObject, panels.m_movableHolder.position.x + m_redTeamReadyXOffset, m_slideAnimationDuration).setEaseSpring();
             }
         }
     }

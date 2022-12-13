@@ -38,13 +38,21 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         onStatusChange.Invoke("Attempting to join a room...", 0.2f);
-
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        /*
         if (isConnecting)
         {
             PhotonNetwork.JoinRandomRoom();
 
             isConnecting = false;
         }
+        */
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+        TryLoadGame();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -52,6 +60,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         onStatusChange.Invoke("Error " + cause.ToString(), 0f);
     }
 
+    /*
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         onStatusChange.Invoke("Player will create a room instead...", 0.4f);
@@ -67,7 +76,9 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CreateRoom(null, roomOptions);
     }
+    */
 
+    /*
     public override void OnJoinedRoom()
     {
         onStatusChange.Invoke("Player joined a room...", 0.6f);
@@ -77,7 +88,9 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
         PhotonNetwork.LocalPlayer.Initialize(-1, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
     }
+    */
 
+    /*
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         onStatusChange.Invoke("Updating player info...", 0.8f);
@@ -89,6 +102,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
             TryLoadGame();
         }
     }
+    */
 
     #endregion
 
@@ -104,7 +118,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.JoinRandomRoom();
+            //PhotonNetwork.JoinRandomRoom();
+            TryLoadGame();
         }
         else
         {
@@ -122,7 +137,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         onStatusChange.Invoke("Loading scene...", 0.9f);
 
-        if (!PhotonNetwork.IsMasterClient) return;
+        //if (!PhotonNetwork.IsMasterClient) return;
 
         PhotonNetwork.LoadLevel(Constants.WAITING_ROOM_SCENE_NAME);
     }
