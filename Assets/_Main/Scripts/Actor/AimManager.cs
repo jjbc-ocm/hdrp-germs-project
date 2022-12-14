@@ -12,6 +12,9 @@ public class AimManager : MonoBehaviour
     [SerializeField]
     private GameObject aimTrailIndicator;
 
+    [SerializeField]
+    private GameObject aimRangeIndicator;
+
     private Action onAttackPress;
 
     private Action onAimSkillPress;
@@ -147,6 +150,8 @@ public class AimManager : MonoBehaviour
     private void IndicatorSetActive(bool value)
     {
         aimIndicator.SetActive(value);
+
+        aimRangeIndicator.SetActive(value);
 
         if (aimTrailIndicator != null)
         {
