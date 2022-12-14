@@ -72,10 +72,12 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     public string m_matchFoundText = "Match Found";
     public TextMeshProUGUI m_searchingTimerText;
     bool m_matchFound = false;
+    bool m_skippedPlayerSearch = false;
     int m_choosedTeam = 0;
     public GameObject m_joinBattleButton;
     public GameObject m_blueTeamButtonHolder;
     public GameObject m_redTeamButtonHolder;
+    public GameObject m_skipSearchButtonHolder;
 
     void Awake()
     {
@@ -124,7 +126,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
 
-                    if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT || m_skippedPlayerSearch)
                     {
                         if (!m_levelLoadedCalled)
                         {
@@ -157,6 +159,20 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         }
        
+    }
+
+    /// <summary>
+    /// Binded to a UI button only for development purposes. Disable the button for release.
+    /// Will let you enter the battle without waiting for other players.
+    /// </summary>
+    public void SkipPlayerSearchDevCheat()
+    {
+        m_photonView.RPC("OnMatchFound", RpcTarget.AllBuffered);
+        if (m_skipSearchButtonHolder)
+        {
+            m_skipSearchButtonHolder.SetActive(false);
+        }
+        m_skippedPlayerSearch = true;
     }
 
     public void JoinGamePressed()
@@ -196,11 +212,19 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_redTeamButtonHolder.SetActive(false);
     }
 
-    int GetNumberOfPlayersInTeam(int teamIdx)
+    int GetNumberOfPlayersInTeam(int teamIdx, bool ignoreLocalPlayer = false)
     {
         int playersInTeam = 0;
         foreach (var player in PhotonNetwork.PlayerList)
         {
+            if (ignoreLocalPlayer)
+            {
+                if (player == PhotonNetwork.LocalPlayer)
+                {
+                    continue;
+                }
+            }
+
             if (player.GetTeam() == teamIdx)
             {
                 playersInTeam++;
@@ -430,10 +454,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         //count the players in taht team
-        int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam);
+        int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam, true);
 
         //check if player can still join the team.
-        if (playersInSelectedTeam < m_maxTeamPlayerCount)
+        if (playersInSelectedTeam < Constants.MAX_PLAYER_COUNT_PER_TEAM)
         {
             //join the team
             PhotonNetwork.LocalPlayer.SetTeam(m_choosedTeam);

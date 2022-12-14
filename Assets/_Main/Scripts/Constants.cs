@@ -23,7 +23,7 @@ public class Constants
 
     public const int MAX_PLAYER_COUNT = 6;
 
-    public const int MIN_PLAYER_COUNT = 2;
+    public const int MIN_PLAYER_COUNT = 6;
 
     public const int MAX_TEAM = 2;
 
