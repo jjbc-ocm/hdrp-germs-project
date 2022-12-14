@@ -42,6 +42,12 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private Material materialInvisible;
 
+    [SerializeField]
+    private GameObject dummyNormal;
+
+    [SerializeField]
+    private GameObject dummyInvisible;
+
     private PlayerInventoryManager inventory;
 
     private PlayerStatusManager status;
@@ -75,6 +81,10 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
         if (photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
             rendererShip.material = isInvisible ? materialInvisible : materialNormal;
+
+            dummyNormal.SetActive(!isInvisible);
+
+            dummyInvisible.SetActive(isInvisible);
         }
         else
         {
@@ -83,6 +93,10 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
                 var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
                 rendererShip.gameObject.SetActive(!isInvisible && isInPlayerRange);
+
+                dummyNormal.SetActive(!isInvisible && isInPlayerRange);
+
+                dummyInvisible.SetActive(!dummyNormal.activeSelf);
 
                 teamIndicators[photonView.GetTeam()].SetActive(!isInvisible && isInPlayerRange);
 

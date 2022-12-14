@@ -17,6 +17,9 @@ namespace TanksMP
         [SerializeField]
         private LoadingUI uiLoading;
 
+        [SerializeField]
+        private SettingsUI uiSettings;
+
         /// <summary>
         /// Window object for displaying errors with the connection or timeouts.
         /// </summary>
@@ -30,12 +33,12 @@ namespace TanksMP
         /// <summary>
 		/// Settings: input field for the player name.
 		/// </summary>
-		public InputField nameField;
+		//public InputField nameField;
 
         /// <summary>
         /// Settings: dropdown selection for network mode.
         /// </summary>
-        public Dropdown networkDrop;
+        //public Dropdown networkDrop;
 
         /// <summary>
         /// Dropdown selection for preferred game mode.
@@ -46,27 +49,18 @@ namespace TanksMP
 		/// Settings: input field for manual server address,
         /// hosting a server in a private network (Photon only).
 		/// </summary>
-		public InputField serverField;
+		//public InputField serverField;
 
         /// <summary>
         /// Settings: checkbox for playing background music.
         /// </summary>
-        public Toggle musicToggle;
+        //public Toggle musicToggle;
 
         /// <summary>
         /// Settings: slider for adjusting game sound volume.
         /// </summary>
-        public Slider volumeSlider;
+        //public Slider volumeSlider;
 
-        //how many times the shop has been opened
-        //private int shopOpened = 0;
-
-        //how many times the settings have been opened
-        //private int settingsOpened = 0;
-
-
-        //initialize player selection in Settings window
-        //if this is the first time launching the game, set initial values
         void Start()
         {
             //set initial values for all settings
@@ -81,16 +75,16 @@ namespace TanksMP
             PlayerPrefs.Save();
 
             //read the selections and set them in the corresponding UI elements
-            nameField.text = PlayerPrefs.GetString(PrefsKeys.playerName);
-            networkDrop.value = PlayerPrefs.GetInt(PrefsKeys.networkMode);
-            gameModeDrop.value = PlayerPrefs.GetInt(PrefsKeys.gameMode);
-            serverField.text = PlayerPrefs.GetString(PrefsKeys.serverAddress);
-            musicToggle.isOn = bool.Parse(PlayerPrefs.GetString(PrefsKeys.playMusic));
-            volumeSlider.value = PlayerPrefs.GetFloat(PrefsKeys.appVolume);
+            //nameField.text = PlayerPrefs.GetString(PrefsKeys.playerName);
+            //networkDrop.value = PlayerPrefs.GetInt(PrefsKeys.networkMode);
+            //gameModeDrop.value = PlayerPrefs.GetInt(PrefsKeys.gameMode);
+            //serverField.text = PlayerPrefs.GetString(PrefsKeys.serverAddress);
+            //musicToggle.isOn = bool.Parse(PlayerPrefs.GetString(PrefsKeys.playMusic));
+            //volumeSlider.value = PlayerPrefs.GetFloat(PrefsKeys.appVolume);
 
             //call the onValueChanged callbacks once with their saved values
-            OnMusicChanged(musicToggle.isOn);
-            OnVolumeChanged(volumeSlider.value);
+            //OnMusicChanged(musicToggle.isOn);
+            //OnVolumeChanged(volumeSlider.value);
 
             //listen to network connection and IAP billing errors
             UnityIAPManager.purchaseFailedEvent += OnBillingError;
@@ -123,17 +117,6 @@ namespace TanksMP
         }
 
 
-        //coroutine that waits 10 seconds before cancelling joining a match
-        /*IEnumerator HandleTimeout()
-        {
-            yield return new WaitForSeconds(10);
-
-            //timeout has passed, we would like to stop joining a game now
-            Photon.Pun.PhotonNetwork.Disconnect();
-            //display connection issue window
-            OnConnectionError();
-        }*/
-
 
         //activates the connection error window to be visible
         void OnConnectionError()
@@ -161,24 +144,12 @@ namespace TanksMP
             billingErrorWindow.SetActive(true);
         }
 
-
-        /// <summary>
-        /// Increase counter when opening the shop.
-        /// Used for Unity Analytics purposes.
-        /// </summary>
-        public void OpenShop()
-        {
-            //shopOpened++;
-        }
-
-
-        /// <summary>
-        /// Increase counter when opening settings.
-        /// Used for Unity Analytics purposes.
-        /// </summary>
         public void OpenSettings()
         {
-            //settingsOpened++;
+            uiSettings.Open((self) =>
+            {
+                self.Data = new SettingsData(APIManager.Instance.PlayerData.Settings);
+            });
         }
 
 
@@ -207,28 +178,28 @@ namespace TanksMP
         /// Modify music AudioSource based on player selection.
         /// Called by Toggle onValueChanged event.
         /// </summary>
-        public void OnMusicChanged(bool value)
+        /*public void OnMusicChanged(bool value)
         {
             AudioManager.GetInstance().musicSource.enabled = musicToggle.isOn;
             AudioManager.PlayMusic(0);
-        }
+        }*/
 
 
         /// <summary>
         /// Modify global game volume based on player selection.
         /// Called by Slider onValueChanged event.
         /// </summary>
-        public void OnVolumeChanged(float value)
+        /*public void OnVolumeChanged(float value)
         {
             volumeSlider.value = value;
             AudioListener.volume = value;
-        }
+        }*/
 
 
         /// <summary>
         /// Saves all player selections chosen in the Settings window on the device.
         /// </summary>
-        public void CloseSettings()
+        /*public void CloseSettings()
         {
             PlayerPrefs.SetString(PrefsKeys.playerName, nameField.text);
             PlayerPrefs.SetInt(PrefsKeys.networkMode, networkDrop.value);
@@ -236,7 +207,7 @@ namespace TanksMP
             PlayerPrefs.SetString(PrefsKeys.playMusic, musicToggle.isOn.ToString());
             PlayerPrefs.SetFloat(PrefsKeys.appVolume, volumeSlider.value);
             PlayerPrefs.Save();
-        }
+        }*/
 
 		
         /// <summary>

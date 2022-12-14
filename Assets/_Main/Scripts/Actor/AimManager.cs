@@ -12,6 +12,9 @@ public class AimManager : MonoBehaviour
     [SerializeField]
     private GameObject aimTrailIndicator;
 
+    [SerializeField]
+    private GameObject aimRangeIndicator;
+
     private Action onAttackPress;
 
     private Action onAimSkillPress;
@@ -35,7 +38,7 @@ public class AimManager : MonoBehaviour
 
     void Start()
     {
-        IndicatorSetActive(false);
+        IndicatorSetActive(false, false);
     }
 
     public void Initialize(
@@ -100,14 +103,18 @@ public class AimManager : MonoBehaviour
 
             var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, LayerMask.GetMask(layerNames)))
+            var maxDistance = aimTrailIndicator == null
+                ? action.Range + camDistanceToShip
+                : float.MaxValue;
+
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, LayerMask.GetMask(layerNames)))
             {
                 if (action.Aim == AimType.Water ||
                     action.Aim == AimType.AnyShip ||
                     (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
                     (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
                 {
-                    IndicatorSetActive(true);
+                    IndicatorSetActive(true, true);
 
                     aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
@@ -128,12 +135,12 @@ public class AimManager : MonoBehaviour
             }
             else
             {
-                IndicatorSetActive(false);
+                IndicatorSetActive(false, true);
             }
         }
         else
         {
-            IndicatorSetActive(false);
+            IndicatorSetActive(false, false);
         }
     }
 
@@ -144,13 +151,15 @@ public class AimManager : MonoBehaviour
         return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam()) || hitPlayer.IsMonster;
     }
 
-    private void IndicatorSetActive(bool value)
+    private void IndicatorSetActive(bool aim, bool range)
     {
-        aimIndicator.SetActive(value);
+        aimIndicator.SetActive(aim);
+
+        aimRangeIndicator.SetActive(range);
 
         if (aimTrailIndicator != null)
         {
-            aimTrailIndicator.SetActive(value);
+            aimTrailIndicator.SetActive(aim);
         }
     }
 }
