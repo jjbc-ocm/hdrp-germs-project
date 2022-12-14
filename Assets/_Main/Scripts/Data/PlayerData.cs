@@ -82,6 +82,22 @@ public class PlayerData
         ? JsonUtility.FromJson<DummyData>(strValue)
         : new DummyData();
 
+    public SettingsData Settings
+    {
+        get => getData.TryGetValue("settings", out string strValue)
+            ? JsonUtility.FromJson<SettingsData>(strValue)
+            : new SettingsData();
+
+        /*get
+        {
+            var a = getData.TryGetValue("settings", out string strValue);
+
+            Debug.Log(strValue);
+
+            return JsonUtility.FromJson<SettingsData>(strValue);
+        }*/
+    }
+
     public long Coins
     {
         get => getBalances.FirstOrDefault(i => i.CurrencyId == "COINS")?.Balance ?? 0;
@@ -123,6 +139,13 @@ public class PlayerData
     public PlayerData SetDummy(DummyData value, int index)
     {
         putData[$"dummy{index}"] = value;
+
+        return this;
+    }
+
+    public PlayerData SetSettings(SettingsData value)
+    {
+        putData["settings"] = value;
 
         return this;
     }
@@ -191,5 +214,42 @@ public class DummyData
             m_tail = tails.FirstOrDefault(i => i.ID == TailID),
             m_dummyName = DummyName,
         };
+    }
+}
+
+public class SettingsData
+{
+    public int QualityIndex;
+    public int ResolutionIndex;
+    public int ResolutionScaleIndex;
+    public int ParticleIndex;
+    public int AntiAliasingIndex;
+    public int PostProcessingIndex;
+    public float MusicVolume;
+    public float SoundVolume;
+
+    
+    public SettingsData()
+    {
+        QualityIndex = 2;
+        ResolutionIndex = 0;
+        ResolutionScaleIndex = 0;
+        ParticleIndex = 2;
+        AntiAliasingIndex = 1;
+        PostProcessingIndex = 1;
+        MusicVolume = 1;
+        SoundVolume = 1;
+    }
+
+    public SettingsData(SettingsData copy)
+    {
+        QualityIndex = copy.QualityIndex;
+        ResolutionIndex = copy.ResolutionIndex;
+        ResolutionScaleIndex = copy.ResolutionScaleIndex;
+        ParticleIndex = copy.ParticleIndex;
+        AntiAliasingIndex = copy.AntiAliasingIndex;
+        PostProcessingIndex = copy.PostProcessingIndex;
+        MusicVolume = copy.MusicVolume;
+        SoundVolume = copy.SoundVolume;
     }
 }
