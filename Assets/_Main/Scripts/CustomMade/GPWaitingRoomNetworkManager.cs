@@ -16,11 +16,17 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
+    private void Start()
+    {
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
+    }
+
     #endregion
 
     #region Photon
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
+        /*
         var roomOptions = new RoomOptions
         {
             MaxPlayers = Constants.MAX_PLAYER_COUNT,
@@ -29,8 +35,22 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
 
             EmptyRoomTtl = 10000
         };
+        */
 
-        PhotonNetwork.CreateRoom(null, roomOptions);
+        // We failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
+        ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable() {{ "WaitingForPlayers", true }};
+        string[] lobbyProperties = { "WaitingForPlayers" };
+        RoomOptions opt = new RoomOptions();
+        opt.MaxPlayers = Constants.MAX_PLAYER_COUNT;
+        opt.IsOpen = true;
+        opt.IsVisible = true;
+        opt.PublishUserId = true;
+        opt.CustomRoomPropertiesForLobby = lobbyProperties;
+        opt.CustomRoomProperties = roomProperties;
+        opt.BroadcastPropsChangeToAll = true;
+        opt.PlayerTtl = int.MaxValue;
+        opt.EmptyRoomTtl = 10000;
+        PhotonNetwork.CreateRoom(null, opt, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
@@ -45,7 +65,17 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRandomRoom();
+        DoMatchMaking();
+    }
+
+    /// <summary>
+    /// Try to join a room of the specified room type and match type
+    /// </summary>
+    public void DoMatchMaking()
+    {
+        // Join random room that meets the battle mode configurations
+        ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable() { { "WaitingForPlayers", true } };
+        PhotonNetwork.JoinRandomRoom(roomProperties, Constants.MAX_PLAYER_COUNT);
     }
 
     #endregion

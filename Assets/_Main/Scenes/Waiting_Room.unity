@@ -13619,13 +13619,20 @@ MonoBehaviour:
   m_waitingScreen: {fileID: 673040023}
   m_cardContainer: {fileID: 1146222863}
   m_cardPrefab: {fileID: 8698804379811224253, guid: 28491ba2309782540bae4adfe3fc2369, type: 3}
+  m_crewSelectionWindow: {fileID: 664104688}
   m_shipChangedSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
   m_shipSelectedSFX: {fileID: 8300000, guid: a037aff17c8abc842be8ca6c566592fa, type: 3}
   m_LoadIndicator: {fileID: 1603765579}
+  m_waitTime: 30
   m_timersText:
   - {fileID: 397835791}
   - {fileID: 891353810}
-  m_crewSelectionWindow: {fileID: 664104688}
+  m_searchingForPlayersText: Searching Players
+  m_matchFoundText: Match Found
+  m_searchingTimerText: {fileID: 397835791}
+  m_joinBattleButton: {fileID: 1149432847}
+  m_blueTeamButtonHolder: {fileID: 1102589678}
+  m_redTeamButtonHolder: {fileID: 2129484998}
 --- !u!4 &1491192048
 Transform:
   m_ObjectHideFlags: 0

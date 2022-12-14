@@ -19,21 +19,24 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         public string m_assignedUserID = "";
     }
 
+    [Header("Photon settings")]
     public PhotonView m_photonView;
 
+    [Header("Team settings")]
     public int m_maxTeamPlayerCount = 3;
     public Button m_teamBlueButton;
     public Button m_teamRedButton;
-
     public List<GPPlayerPanel> m_blueTeamPanels;
     public List<GPPlayerPanel> m_redTeamPanels;
     public float m_blueTeamReadyXOffset = -50.0f;
     public float m_redTeamReadyXOffset = 50.0f;
     public float m_slideAnimationDuration = 0.5f;
 
+    [Header("Screen references")]
     public GPGUIScreen m_preWaitingScreen;
     public GPGUIScreen m_waitingScreen;
 
+    [Header("Crew selection settings")]
     public Transform m_cardContainer;
     public GPShipCard m_cardPrefab;
     List<GPShipCard> m_shipsCards = new List<GPShipCard>();
@@ -41,33 +44,43 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     private int m_currShipIdx;
     private GPShipDesc m_viewedShip;
     private GPShipCard m_prevViewedCard;
+    public GameObject m_crewSelectionWindow;
+    public GPShipDesc SelectedShip { get => m_selectedShip; }
 
     [Header("Audio Settings")]
     public AudioClip m_shipChangedSFX;
     public AudioClip m_shipSelectedSFX;
 
     [Header("Misc.")]
-
     [SerializeField]
     private GameObject m_LoadIndicator;
 
-    public GPShipDesc SelectedShip { get => m_selectedShip; }
-
     [Header("Timer")]
+    public float m_waitTime = 30.0f;
     public List<TextMeshProUGUI> m_timersText;
     float m_readyWaitCountDown = 60.0f;
     float m_readyWaitStartTime = 0.0f;
     bool m_levelLoadedCalled = false;
 
-
     [Header("Ready")]
     List<string> m_playersReady = new List<string>();
     bool m_weighAnchorAlreadyPressed = false;
 
+    [Header("Match settings")]
+    public string m_selectTeamText = "Select Team";
+    public string m_searchingForPlayersText = "Searching Players";
+    public string m_matchFoundText = "Match Found";
+    public TextMeshProUGUI m_searchingTimerText;
+    bool m_matchFound = false;
+    int m_choosedTeam = 0;
+    public GameObject m_joinBattleButton;
+    public GameObject m_blueTeamButtonHolder;
+    public GameObject m_redTeamButtonHolder;
 
-    [Header("Other References")]
-    public GameObject m_crewSelectionWindow;
-
+    void Awake()
+    {
+        m_joinBattleButton.gameObject.SetActive(false);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -91,7 +104,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_currShipIdx = 0;
         ViewShip(m_shipsCards[0]);
 
-        m_readyWaitStartTime = Time.realtimeSinceStartup;
+        m_searchingTimerText.text = m_selectTeamText;
+
     }
 
     // Update is called once per frame
@@ -105,24 +119,38 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
             if (PhotonNetwork.IsMasterClient)
             {
-                m_readyWaitCountDown = 30 - (Time.realtimeSinceStartup - m_readyWaitStartTime);
+                m_readyWaitCountDown = m_waitTime - (Time.realtimeSinceStartup - m_readyWaitStartTime);
                 if (m_readyWaitCountDown < 0)
                 {
                     m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
 
-                    if (!m_levelLoadedCalled)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT)
                     {
-                        m_levelLoadedCalled = true;
-                        PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                        if (!m_levelLoadedCalled)
+                        {
+                            m_levelLoadedCalled = true;
+                            PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                        }
                     }
+                    else
+                    {
+                        m_readyWaitCountDown = m_waitTime; // reset timer to keep waiting.
+                        m_readyWaitStartTime = Time.realtimeSinceStartup;
+                    }
+
+
                 }
             }
 
-            foreach (var timer in m_timersText)
+            if (m_matchFound)
             {
-                var ts = TimeSpan.FromSeconds(m_readyWaitCountDown);
-                timer.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
+                foreach (var timer in m_timersText)
+                {
+                    var ts = TimeSpan.FromSeconds(m_readyWaitCountDown);
+                    timer.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
+                }
             }
+            
         }
         else
         {
@@ -135,10 +163,13 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     {
         GPWaitingRoomNetworkManager.Instance.JoinRoom();
         PhotonNetwork.JoinRandomRoom();
+        m_searchingTimerText.text = m_searchingForPlayersText;
+        m_joinBattleButton.gameObject.SetActive(false);
     }
 
     public void ChooseTeam(int teamIdx)
     {
+        /*
         //count the players in taht team
         int playersInSelectedTeam = GetNumberOfPlayersInTeam(teamIdx);
 
@@ -155,7 +186,14 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         m_preWaitingScreen.Hide();
         m_waitingScreen.Show();
+        */
 
+        m_choosedTeam = teamIdx;
+        m_joinBattleButton.gameObject.SetActive(true);
+        PhotonNetwork.LocalPlayer.SetTeam(m_choosedTeam);
+
+        m_blueTeamButtonHolder.SetActive(false);
+        m_redTeamButtonHolder.SetActive(false);
     }
 
     int GetNumberOfPlayersInTeam(int teamIdx)
@@ -203,7 +241,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     /// <summary>
-    /// Things that need to be updated when the previewed ship cahnges.
+    /// Things that need to be updated when the previewed ship changes.
     /// </summary>
     void OnCurrentShipChanged()
     {
@@ -234,7 +272,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         m_LoadIndicator.SetActive(false);
 
-        TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+        //TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
 
         m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }
@@ -343,12 +381,74 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    [PunRPC]
+    void OnMatchFound()
+    {
+        m_preWaitingScreen.Hide();
+        m_waitingScreen.Show();
+        StartCoroutine(IEMatchFound());
+    }
+
+    IEnumerator IEMatchFound()
+    {
+        m_searchingTimerText.text = m_matchFoundText;
+        yield return new WaitForSecondsRealtime(1.0f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            m_readyWaitCountDown = m_waitTime;
+            m_readyWaitStartTime = Time.realtimeSinceStartup;
+        }
+        m_matchFound = true;
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
         if (changedProps.ContainsKey(PlayerExtension.team) || changedProps.ContainsKey(PlayerExtension.shipIndex))
         {
             m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT)
+        {
+            m_photonView.RPC("OnMatchFound", RpcTarget.AllBuffered);
+        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            m_readyWaitCountDown = m_waitTime;
+            m_readyWaitStartTime = Time.realtimeSinceStartup;
+        }
+
+        //count the players in taht team
+        int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam);
+
+        //check if player can still join the team.
+        if (playersInSelectedTeam < m_maxTeamPlayerCount)
+        {
+            //join the team
+            PhotonNetwork.LocalPlayer.SetTeam(m_choosedTeam);
+        }
+        else
+        {
+            //Move to the other team
+            if (m_choosedTeam == 0)
+            {
+                PhotonNetwork.LocalPlayer.SetTeam(1);
+            }
+            else
+            {
+                PhotonNetwork.LocalPlayer.SetTeam(0);
+            }
         }
     }
 }
