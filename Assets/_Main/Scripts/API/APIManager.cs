@@ -17,6 +17,9 @@ public class APIManager : MonoBehaviour
     [SerializeField]
     private GPShipDesc startingShip;
 
+    [SerializeField]
+    private LoadingUI uiLoading;
+
     private PlayerData playerData;
 
     public PlayerData PlayerData { get => playerData; }
@@ -29,7 +32,9 @@ public class APIManager : MonoBehaviour
 
         Initialize((text, value) =>
         {
+            uiLoading.Text = text;
 
+            uiLoading.Progress = value;
         });
     }
 
