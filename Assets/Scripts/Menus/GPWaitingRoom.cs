@@ -50,6 +50,9 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Audio Settings")]
     public AudioClip m_shipChangedSFX;
     public AudioClip m_shipSelectedSFX;
+    public AudioClip m_teamSelectedSFX;
+    public AudioClip m_joinBattleClickedSFX;
+    public AudioClip m_weighAnchorClickedSFX;
 
     [Header("Misc.")]
     [SerializeField]
@@ -78,6 +81,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject m_blueTeamButtonHolder;
     public GameObject m_redTeamButtonHolder;
     public GameObject m_skipSearchButtonHolder;
+    public GameObject m_seachingTimerHolder;
 
     void Awake()
     {
@@ -130,6 +134,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         if (!m_levelLoadedCalled)
                         {
+                            PhotonNetwork.CurrentRoom.IsOpen = false;
+                            PhotonNetwork.CurrentRoom.IsVisible = false;
                             m_levelLoadedCalled = true;
                             PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
                         }
@@ -172,6 +178,12 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         {
             m_skipSearchButtonHolder.SetActive(false);
         }
+        m_photonView.RPC("RPCSkipPlayerSearch", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void RPCSkipPlayerSearch()
+    {
         m_skippedPlayerSearch = true;
     }
 
@@ -181,6 +193,9 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.JoinRandomRoom();
         m_searchingTimerText.text = m_searchingForPlayersText;
         m_joinBattleButton.gameObject.SetActive(false);
+        m_seachingTimerHolder.SetActive(true);
+
+        TanksMP.AudioManager.Play2D(m_joinBattleClickedSFX);
     }
 
     public void ChooseTeam(int teamIdx)
@@ -210,6 +225,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         m_blueTeamButtonHolder.SetActive(false);
         m_redTeamButtonHolder.SetActive(false);
+        m_seachingTimerHolder.SetActive(false);
+
+        TanksMP.AudioManager.Play2D(m_teamSelectedSFX);
+
     }
 
     int GetNumberOfPlayersInTeam(int teamIdx, bool ignoreLocalPlayer = false)
@@ -242,6 +261,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_weighAnchorAlreadyPressed = true;
         m_crewSelectionWindow.SetActive(false);
         m_photonView.RPC("RPCSetReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.UserId);
+        TanksMP.AudioManager.Play2D(m_weighAnchorClickedSFX);
     }
 
     /// <summary>
@@ -296,7 +316,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         m_LoadIndicator.SetActive(false);
 
-        //TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+        TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
 
         m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }
