@@ -53,14 +53,17 @@ namespace TanksMP
         [SerializeField]
         private TMP_Text textPlayerGold;
 
-        [SerializeField]
-        private TMP_Text deathText;
+        //[SerializeField]
+        //private TMP_Text deathText;
 
         [SerializeField]
         private TMP_Text spawnDelayText;
 
+        //[SerializeField]
+        //private TMP_Text gameOverText;
+
         [SerializeField]
-        private TMP_Text gameOverText;
+        private KillStatementUI uiKillStatement;
 
         [SerializeField]
         private AftermathUI uiAftermath;
@@ -179,17 +182,6 @@ namespace TanksMP
             }
         }
 
-
-
-        /// <summary>
-        /// Sets death text showing who killed the player in its team color.
-        /// Parameters: killer's name, killer's team
-        /// </summary>
-        public void SetDeathText(string playerName, Team team)
-        {
-            //show killer name and colorize the name converting its team color to an HTML RGB hex value for UI markup
-            deathText.text = "KILLED BY\n<color=#" + ColorUtility.ToHtmlStringRGB(team.material.color) + ">" + playerName + "</color>";
-        }
         
         
         /// <summary>
@@ -208,7 +200,7 @@ namespace TanksMP
         public void DisableDeath()
         {
             //clear text component values
-            deathText.text = string.Empty;
+            //deathText.text = string.Empty;
             spawnDelayText.text = string.Empty;
         }
 
@@ -216,25 +208,35 @@ namespace TanksMP
         /// <summary>
         /// Set game end text and display winning team in its team color.
         /// </summary>
-        public void SetGameOverText(Team team)
+        /*public void SetGameOverText(Team team)
         {
             //show winning team and colorize it by converting the team color to an HTML RGB hex value for UI markup
             gameOverText.text = "TEAM <color=#" + ColorUtility.ToHtmlStringRGB(team.material.color) + ">" + team.name + "</color> WINS!";
+        }*/
+
+
+        public void OpenKillStatement(PhotonView winner, PhotonView loser)
+        {
+            uiKillStatement.Open((self) =>
+            {
+                self.Winner = winner;
+
+                self.Loser = loser;
+            });
         }
 
-
-        /// <summary>
-        /// Displays the game's end screen. Called by GameManager after few seconds delay.
-        /// Tries to display a video ad, if not shown already.
-        /// </summary>
-        public void ShowGameOver(int teamIndex)
-        {       
-            //hide text but enable game over window
-            gameOverText.gameObject.SetActive(false);
-
+        public void OpenAftermath(Team team, int winnerTeamIndex)
+        {
             uiAftermath.Open((self) =>
             {
-                self.IsVictory = PhotonNetwork.LocalPlayer.GetTeam() == teamIndex;
+                self.WinnerTeam = team;
+
+                self.BattleResult =
+                    winnerTeamIndex == -1 ? BattleResultType.Draw :
+                    winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
+                    BattleResultType.Defeat;
+
+                self.IsMessageDone = false;
             });
         }
 

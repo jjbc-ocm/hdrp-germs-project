@@ -21,6 +21,8 @@ public class TimerManager : MonoBehaviour
 
     private double startTime;
 
+    private bool isAftermathCalled;
+
     public double TimeLapse { get => hasStartTime ? PhotonNetwork.Time - startTime : 0; }
 
     public double ReverseTimeLapse { get => Constants.GAME_MAX_TIMER - TimeLapse; }
@@ -55,26 +57,25 @@ public class TimerManager : MonoBehaviour
 
         if (!hasStartTime) return;
 
-        if (GameManager.GetInstance().IsGameOver())
+        if (GameManager.GetInstance().IsGameOver() && !isAftermathCalled)
         {
             int[] score = PhotonNetwork.CurrentRoom.GetScore();
 
             //close room for joining players
             PhotonNetwork.CurrentRoom.IsOpen = false;
             //tell all clients the winning team
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)(score[0] > score[1] ? 0 : 1));
+
+            var winnerTeamIndex =
+                score[0] > score[1] ? 0 :
+                score[0] < score[1] ? 1 :
+                -1;
+
+            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, winnerTeamIndex);
+
+            isAftermathCalled = true;
+
             return;
         }
-
-        /* Update UI */
-        /*if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("mode", out object mode))
-        {
-            var intMode = Convert.ToInt32(mode);
-
-            var enumMode = (GameMode)intMode;
-
-            mainContent.SetActive(enumMode == GameMode.Survival);
-        }*/
 
         var timeSpan = TimeSpan.FromSeconds(ReverseTimeLapse);
 

@@ -187,6 +187,11 @@ namespace TanksMP
         {
             GameManager.GetInstance().CreateOrUpdateOfflineSaveState(this, out var isReconnection);
 
+            if (!isReconnection)
+            {
+                stat.Initialize();
+            }
+
             if (!photonView.IsMine) return;
 
             Mine = this;
@@ -220,10 +225,7 @@ namespace TanksMP
 
             camFollow.target = transform;
 
-            if (!isReconnection)
-            {
-                stat.Initialize();
-            }
+            
         }
 
         void Update()
@@ -398,9 +400,7 @@ namespace TanksMP
 
                     camFollow.HideMask(true);
 
-                    GameManager.GetInstance().ui.SetDeathText(
-                        attackerView.GetName(),
-                        GameManager.GetInstance().teams[attackerView.GetTeam()]);
+                    photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
                 }
 
                 StartCoroutine(SpawnRoutine());
@@ -410,6 +410,12 @@ namespace TanksMP
             {
                 onDieEvent.Invoke(photonView.ViewID);
             }
+        }
+
+        [PunRPC]
+        public void RpcBroadcastKillStatement(int attackerId, int defenderId)
+        {
+            GameManager.GetInstance().ui.OpenKillStatement(PhotonView.Find(attackerId), PhotonView.Find(defenderId));
         }
 
         [PunRPC]
@@ -424,9 +430,9 @@ namespace TanksMP
         }
 
         [PunRPC]
-        public void RpcGameOver(byte teamIndex)
+        public void RpcGameOver(int winnerTeamIndex)
         {
-            GameManager.GetInstance().DisplayGameOver(teamIndex);
+            GameManager.GetInstance().DisplayGameOver(winnerTeamIndex);
         }
 
         [PunRPC]
@@ -452,14 +458,17 @@ namespace TanksMP
                 }
 
                 /* Handle collected chest */
-                photonView.HasChest(false);
+                if (photonView.HasChest())
+                {
+                    photonView.HasChest(false);
 
-                var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
+                    var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
 
-                PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
+                    PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
-                GPSManager.Instance.ClearDestination();
-
+                    GPSManager.Instance.ClearDestination();
+                }
+                
                 /* Reset stats */
                 stat.AddHealth(stat.MaxHealth);
 
@@ -555,7 +564,7 @@ namespace TanksMP
         {
             isRespawning = true;
 
-            float targetTime = Time.time + 10;
+            float targetTime = Time.time + Constants.RESPAWN_TIME;
 
             while (targetTime - Time.time > 0)
             {
