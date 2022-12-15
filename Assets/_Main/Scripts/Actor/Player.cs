@@ -458,14 +458,17 @@ namespace TanksMP
                 }
 
                 /* Handle collected chest */
-                photonView.HasChest(false);
+                if (photonView.HasChest())
+                {
+                    photonView.HasChest(false);
 
-                var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
+                    var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
 
-                PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
+                    PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
 
-                GPSManager.Instance.ClearDestination();
-
+                    GPSManager.Instance.ClearDestination();
+                }
+                
                 /* Reset stats */
                 stat.AddHealth(stat.MaxHealth);
 
