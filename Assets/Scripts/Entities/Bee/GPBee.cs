@@ -41,7 +41,7 @@ public class GPBee : GPMonsterBase
 
             foreach (var m_renderer in m_renderers)
             {
-                m_renderer.SetActive(isInPlayerRange);
+                m_renderer.SetActive(isInPlayerRange || isNullifyInvisibilityEffect);
             }
         }
 

@@ -196,15 +196,18 @@ namespace TanksMP
             aim.Initialize(
                 () =>
                 {
-                    ExecuteActionAim(attack, true);
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionAim(attack, true);
                 },
                 () =>
                 {
-                    ExecuteActionAim(skill, false);
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionAim(skill, false);
                 },
                 (aimPosition, autoTarget) =>
                 {
-                    ExecuteActionInstantly(aimPosition, autoTarget, false);
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionInstantly(aimPosition, autoTarget, false);
                 },
                 () =>
                 {
@@ -243,17 +246,20 @@ namespace TanksMP
             if (!photonView.IsMine || isRespawning) return;
 
             /* Update movement */
-            if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+            if (!ShopManager.Instance.UI.gameObject.activeSelf)
             {
-                moveDir.x += (0 - prevMoveDir.x) * 0.1f;
-                moveDir.y += (0 - prevMoveDir.y) * 0.1f;
-            }
-            else
-            {
-                moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
-                moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
-                ExecuteMove(moveDir);
-            }
+                if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+                {
+                    moveDir.x += (0 - prevMoveDir.x) * 0.1f;
+                    moveDir.y += (0 - prevMoveDir.y) * 0.1f;
+                }
+                else
+                {
+                    moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
+                    moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
+                    ExecuteMove(moveDir);
+                }
+            } 
 
             /* Update rotation */
             shipRotation = new Vector3(

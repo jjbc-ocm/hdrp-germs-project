@@ -22,16 +22,27 @@ namespace TanksMP
         [SerializeField]
         private GameObject graphics;
 
+        private bool isNullifyInvisibilityEffect;
+
         void Update()
         {
             if (Player.Mine != null)
             {
-                graphics.SetActive(Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE);
+                var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
+
+                graphics.SetActive(isInPlayerRange || isNullifyInvisibilityEffect);
             }
         }
 
         public virtual void OnTriggerEnter(Collider col)
 		{
+            var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
+
+            if (supremacyWard != null)
+            {
+                isNullifyInvisibilityEffect = true;
+            }
+
             if (!PhotonNetwork.IsMasterClient) return;
             
     		GameObject obj = col.gameObject;
@@ -43,6 +54,16 @@ namespace TanksMP
                 PhotonNetwork.Destroy(photonView);
             }
 		}
+
+        void OnTriggerExit(Collider col)
+        {
+            var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
+
+            if (supremacyWard != null)
+            {
+                isNullifyInvisibilityEffect = false;
+            }
+        }
 
         public virtual bool Apply(Player p)
 		{
