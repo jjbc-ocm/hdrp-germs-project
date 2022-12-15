@@ -167,28 +167,14 @@ namespace TanksMP
         /// Only for this player: sets game over text stating the winning team.
         /// Disables player movement so no updates are sent through the network.
         /// </summary>
-        public void DisplayGameOver(int teamIndex)
+        public void DisplayGameOver(int winnerTeamIndex)
         {
-            //PhotonNetwork.isMessageQueueRunning = false;
             Player.Mine.enabled = false;
+
             Player.Mine.CamFollow.HideMask(true);
-            ui.SetGameOverText(teams[teamIndex]);
 
-            //starts coroutine for displaying the game over window
-            //StopCoroutine(SpawnRoutine(null));
-            StartCoroutine(YieldDisplayGameOver(teamIndex));
-        }
+            ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
 
-
-        //displays game over window after short delay
-        IEnumerator YieldDisplayGameOver(int teamIndex)
-        {
-            //give the user a chance to read which team won the game
-            //before enabling the game over screen
-            yield return new WaitForSeconds(3);
-
-            //show game over window (still connected at that point)
-            ui.ShowGameOver(teamIndex);
         }
     }
 
