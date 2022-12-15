@@ -35,7 +35,9 @@ public class Constants
 
     public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
 
-    public const int SCORE_REQUIRED = 30;
+    public const int SCORE_REQUIRED = 50;
+
+    public const float RESPAWN_TIME = 10;
 }
 
 public class Globals
@@ -80,4 +82,11 @@ public enum StatFilterType
     Mana,
     Cooldown,
     LifeSteal
+}
+
+public enum BattleResultType
+{
+    Draw,
+    Victory,
+    Defeat
 }

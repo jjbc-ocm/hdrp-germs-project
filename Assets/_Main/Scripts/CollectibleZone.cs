@@ -35,47 +35,10 @@ namespace TanksMP
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
 
-                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
+                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamIndex);
 
                 return;
             }
         }
-
-        // TODO: need to revise implementation
-        // Why? It will only work if there's only 1 chest instance on the screen
-        /*public void OnTriggerEnter(Collider col)
-        {
-            if (!PhotonNetwork.IsMasterClient) return;
-
-            if (GameManager.GetInstance().IsGameOver()) return;
-
-            var player = col.GetComponent<Player>();
-
-            if (player == null) return;
-
-            if (player != null && player.photonView.GetTeam() != teamIndex) return;
-
-            if (!player.HasChest) return;
-
-            if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
-
-            GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
-
-            if (player.photonView.IsMine)
-            {
-                player.HasChest = false;
-            }
-
-            if (GameManager.GetInstance().IsGameOver())
-            {
-                //close room for joining players
-                PhotonNetwork.CurrentRoom.IsOpen = false;
-                //tell all clients the winning team
-                GameManager.GetInstance().localPlayer.photonView.RPC("RpcGameOver", RpcTarget.All, (byte)teamIndex);
-                return;
-            }
-
-            //PhotonNetwork.Destroy(chest.photonView);
-        }*/
     }
 }
