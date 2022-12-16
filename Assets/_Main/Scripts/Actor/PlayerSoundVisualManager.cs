@@ -54,6 +54,8 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
 
     private bool isNullifyInvisibilityEffect;
 
+    private bool isInsideBush;
+
     public Sprite SpriteIcon { get => spriteIcon; }
 
     public GameObject RendererAnchor { get => rendererAnchor; }
@@ -76,7 +78,7 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        var isInvisible = (inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible) && !isNullifyInvisibilityEffect;
+        var isInvisible = (inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible);
 
         if (photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
@@ -92,17 +94,19 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
             {
                 var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-                rendererShip.gameObject.SetActive(!isInvisible && (isInPlayerRange || isNullifyInvisibilityEffect));
+                var isActive = !isInvisible && (isInPlayerRange || isNullifyInvisibilityEffect) && !isInsideBush;
 
-                dummyNormal.SetActive(!isInvisible && (isInPlayerRange || isNullifyInvisibilityEffect));
+                rendererShip.gameObject.SetActive(isActive);
+
+                dummyNormal.SetActive(isActive);
 
                 dummyInvisible.SetActive(!dummyNormal.activeSelf);
 
-                teamIndicators[photonView.GetTeam()].SetActive(!isInvisible && (isInPlayerRange || isNullifyInvisibilityEffect));
+                teamIndicators[photonView.GetTeam()].SetActive(isActive);
 
                 foreach (var waterIndicator in waterIndicators)
                 {
-                    waterIndicator.SetActive(!isInvisible && (isInPlayerRange || isNullifyInvisibilityEffect));
+                    waterIndicator.SetActive(isActive);
                 }
             }
         }
@@ -116,6 +120,11 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
         {
             isNullifyInvisibilityEffect = true;
         }
+
+        else if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
+        {
+            isInsideBush = true;
+        }
     }
 
     void OnTriggerExit(Collider col)
@@ -125,6 +134,11 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
         if (supremacyWard != null)
         {
             isNullifyInvisibilityEffect = false;
+        }
+
+        else if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
+        {
+            isInsideBush = false;
         }
     }
 }
