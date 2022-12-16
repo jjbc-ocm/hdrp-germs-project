@@ -30,36 +30,12 @@ namespace TanksMP
         /// </summary>
         public GameObject billingErrorWindow;
 
-        /// <summary>
-		/// Settings: input field for the player name.
-		/// </summary>
-		//public InputField nameField;
-
-        /// <summary>
-        /// Settings: dropdown selection for network mode.
-        /// </summary>
-        //public Dropdown networkDrop;
 
         /// <summary>
         /// Dropdown selection for preferred game mode.
         /// </summary>
         public Dropdown gameModeDrop;
 
-        /// <summary>
-		/// Settings: input field for manual server address,
-        /// hosting a server in a private network (Photon only).
-		/// </summary>
-		//public InputField serverField;
-
-        /// <summary>
-        /// Settings: checkbox for playing background music.
-        /// </summary>
-        //public Toggle musicToggle;
-
-        /// <summary>
-        /// Settings: slider for adjusting game sound volume.
-        /// </summary>
-        //public Slider volumeSlider;
 
         void Start()
         {
@@ -119,7 +95,7 @@ namespace TanksMP
 
 
         //activates the connection error window to be visible
-        void OnConnectionError()
+        /*void OnConnectionError()
         {
             //game shut down completely
             if (this == null)
@@ -130,7 +106,7 @@ namespace TanksMP
             uiLoading.gameObject.SetActive(false);
 
             connectionErrorWindow.SetActive(true);
-        }
+        }*/
 
 
         //activates the billing error window to be visible
@@ -152,62 +128,32 @@ namespace TanksMP
             });
         }
 
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
+
 
         /// <summary>
         /// Allow additional input of server address only in network mode LAN.
         /// Otherwise, the input field will be hidden in the settings (Photon only).
         /// </summary>
-        public void OnNetworkChanged(int value)
+        /*public void OnNetworkChanged(int value)
         {
             //serverField.gameObject.SetActive((NetworkMode)value == NetworkMode.LAN ? true : false);
-        }
+        }*/
 
 
         /// <summary>
         /// Save newly selected GameMode value to PlayerPrefs in order to check it later.
         /// Called by DropDown onValueChanged event.
         /// </summary>
-        public void OnGameModeChanged(int value)
+        /*public void OnGameModeChanged(int value)
         {
             PlayerPrefs.SetInt(PrefsKeys.gameMode, value);
             PlayerPrefs.Save();
-        }
-
-
-        /// <summary>
-        /// Modify music AudioSource based on player selection.
-        /// Called by Toggle onValueChanged event.
-        /// </summary>
-        /*public void OnMusicChanged(bool value)
-        {
-            AudioManager.GetInstance().musicSource.enabled = musicToggle.isOn;
-            AudioManager.PlayMusic(0);
         }*/
 
-
-        /// <summary>
-        /// Modify global game volume based on player selection.
-        /// Called by Slider onValueChanged event.
-        /// </summary>
-        /*public void OnVolumeChanged(float value)
-        {
-            volumeSlider.value = value;
-            AudioListener.volume = value;
-        }*/
-
-
-        /// <summary>
-        /// Saves all player selections chosen in the Settings window on the device.
-        /// </summary>
-        /*public void CloseSettings()
-        {
-            PlayerPrefs.SetString(PrefsKeys.playerName, nameField.text);
-            PlayerPrefs.SetInt(PrefsKeys.networkMode, networkDrop.value);
-            PlayerPrefs.SetString(PrefsKeys.serverAddress, serverField.text);
-            PlayerPrefs.SetString(PrefsKeys.playMusic, musicToggle.isOn.ToString());
-            PlayerPrefs.SetFloat(PrefsKeys.appVolume, volumeSlider.value);
-            PlayerPrefs.Save();
-        }*/
 
 		
         /// <summary>
