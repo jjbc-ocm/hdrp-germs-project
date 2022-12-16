@@ -19,6 +19,7 @@ public class GPPlayerProfile : MonoBehaviour
     [Header("Owned items settings")]
     public List<GPStoreChestSO> m_chests;
     public List<GPShipDesc> m_ships;
+    public List<GPProfileIconSO> m_profileIcons;
     public List<GPDummyPartDesc> m_dummySkins;
     public List<GPDummyPartDesc> m_dummyEyes;
     public List<GPDummyPartDesc> m_dummyMouths;
@@ -155,7 +156,15 @@ public class GPPlayerProfile : MonoBehaviour
         {
             m_ships.Add(shipDesc);
         }
-    }    
+    }
+
+    public void AddProfileIcon(GPShipDesc shipDesc)
+    {
+        if (!m_ships.Contains(shipDesc))
+        {
+            m_ships.Add(shipDesc);
+        }
+    }
 
     /*public void AddGold(int amount)
     {
