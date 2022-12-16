@@ -77,6 +77,8 @@ public class ShopUI : UI<ShopUI>
         {
             var totalCost = ShopManager.Instance.GetTotalCost(data);
 
+            buttonBuy.enabled = Player.Mine.Inventory.Gold >= totalCost;
+
             textName.text = data.Name;
 
             textDesc.text = data.Desc;
@@ -140,7 +142,6 @@ public class ShopUI : UI<ShopUI>
             SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] :
             null;
 
-        // TODO: need to handle cost validation
         ShopManager.Instance.Buy(data);
     }
 
