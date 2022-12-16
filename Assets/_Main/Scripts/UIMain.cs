@@ -20,23 +20,6 @@ namespace TanksMP
         [SerializeField]
         private SettingsUI uiSettings;
 
-        /// <summary>
-        /// Window object for displaying errors with the connection or timeouts.
-        /// </summary>
-        public GameObject connectionErrorWindow;
-
-        /// <summary>
-        /// Window object for displaying errors with the billing actions.
-        /// </summary>
-        public GameObject billingErrorWindow;
-
-
-        /// <summary>
-        /// Dropdown selection for preferred game mode.
-        /// </summary>
-        public Dropdown gameModeDrop;
-
-
         void Start()
         {
             //set initial values for all settings
@@ -49,21 +32,7 @@ namespace TanksMP
             if (!PlayerPrefs.HasKey(PrefsKeys.activeTank)) PlayerPrefs.SetString(PrefsKeys.activeTank, Encryptor.Encrypt("0"));
 
             PlayerPrefs.Save();
-
-            //read the selections and set them in the corresponding UI elements
-            //nameField.text = PlayerPrefs.GetString(PrefsKeys.playerName);
-            //networkDrop.value = PlayerPrefs.GetInt(PrefsKeys.networkMode);
-            //gameModeDrop.value = PlayerPrefs.GetInt(PrefsKeys.gameMode);
-            //serverField.text = PlayerPrefs.GetString(PrefsKeys.serverAddress);
-            //musicToggle.isOn = bool.Parse(PlayerPrefs.GetString(PrefsKeys.playMusic));
-            //volumeSlider.value = PlayerPrefs.GetFloat(PrefsKeys.appVolume);
-
-            //call the onValueChanged callbacks once with their saved values
-            //OnMusicChanged(musicToggle.isOn);
-            //OnVolumeChanged(volumeSlider.value);
-
-            //listen to network connection and IAP billing errors
-            UnityIAPManager.purchaseFailedEvent += OnBillingError;
+            
         }
 
         public void DebugPlay()
@@ -92,34 +61,6 @@ namespace TanksMP
             });
         }
 
-
-
-        //activates the connection error window to be visible
-        /*void OnConnectionError()
-        {
-            //game shut down completely
-            if (this == null)
-                return;
-
-            StopAllCoroutines();
-
-            uiLoading.gameObject.SetActive(false);
-
-            connectionErrorWindow.SetActive(true);
-        }*/
-
-
-        //activates the billing error window to be visible
-        void OnBillingError(string error)
-        {
-            //get text label to display billing failed reason
-            Text errorLabel = billingErrorWindow.GetComponentInChildren<Text>();
-            if (errorLabel)
-                errorLabel.text = "Purchase failed.\n" + error;
-
-            billingErrorWindow.SetActive(true);
-        }
-
         public void OpenSettings()
         {
             uiSettings.Open((self) =>
@@ -131,55 +72,6 @@ namespace TanksMP
         public void ExitGame()
         {
             Application.Quit();
-        }
-
-
-        /// <summary>
-        /// Allow additional input of server address only in network mode LAN.
-        /// Otherwise, the input field will be hidden in the settings (Photon only).
-        /// </summary>
-        /*public void OnNetworkChanged(int value)
-        {
-            //serverField.gameObject.SetActive((NetworkMode)value == NetworkMode.LAN ? true : false);
-        }*/
-
-
-        /// <summary>
-        /// Save newly selected GameMode value to PlayerPrefs in order to check it later.
-        /// Called by DropDown onValueChanged event.
-        /// </summary>
-        /*public void OnGameModeChanged(int value)
-        {
-            PlayerPrefs.SetInt(PrefsKeys.gameMode, value);
-            PlayerPrefs.Save();
-        }*/
-
-
-		
-        /// <summary>
-        /// Opens a browser window to the App Store entry for this app.
-        /// </summary>
-        public void RateApp()
-        {
-            //UnityAnalyticsManager.RateStart();
-            
-            //default app url on non-mobile platforms
-            //replace with your website, for example
-			string url = "";
-			
-			#if UNITY_ANDROID
-				url = "http://play.google.com/store/apps/details?id=" + Application.identifier;
-			#elif UNITY_IPHONE
-				url = "https://itunes.apple.com/app/idXXXXXXXXX";
-			#endif
-			
-			if(string.IsNullOrEmpty(url) || url.EndsWith("XXXXXX"))
-            {
-                Debug.LogWarning("UIMain: You didn't replace your app links!");
-                return;
-            }
-			
-			Application.OpenURL(url);
         }
     }
 }
