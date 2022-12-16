@@ -26,12 +26,11 @@ Material:
   m_Name: Water-Deep
   m_Shader: {fileID: -6465566751694194690, guid: 39810a84e30e95d48be0bca493e650c2, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _DISABLE_SSR_TRANSPARENT
+  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: 2001
   stringTagMap: {}
   disabledShaderPasses:
   - TransparentDepthPrepass
@@ -219,7 +218,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_7D9A58EC: {r: 0.0030953567, g: 0, b: 0.3207547, a: 0.9843137}
-    - Color_F01C36BF: {r: 0.19215685, g: 0.5873176, b: 1, a: 0}
+    - Color_F01C36BF: {r: 0.19215685, g: 0.5873176, b: 1, a: 0.19215687}
     - Foam_Color: {r: 1, g: 1, b: 1, a: 0.5450981}
     - Shallow_Water_Color: {r: 0.12127627, g: 0, b: 0.20754719, a: 0.3176471}
     - Trough_Color: {r: 0.9980638, g: 0.4669811, b: 1, a: 0.4627451}
