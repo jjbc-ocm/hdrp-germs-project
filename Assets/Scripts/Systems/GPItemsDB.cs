@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GPItemsDB : MonoBehaviour
 {
+    [Header("Dummy Parts")]
     [SerializeField]
     List<GPDummyPartDesc> m_dummySkins = new List<GPDummyPartDesc>();
     [SerializeField]
@@ -23,9 +24,16 @@ public class GPItemsDB : MonoBehaviour
 
     public Dictionary<string, GPDummyPartDesc> m_dummyPartsMap = new Dictionary<string, GPDummyPartDesc>();
 
+    [Header("Crews")]
     [SerializeField]
     public List<GPShipDesc> m_crews = new List<GPShipDesc>();
     public Dictionary<string, GPShipDesc> m_crewsMap = new Dictionary<string, GPShipDesc>();
+
+    [Header("Profile icons")]
+    [SerializeField]
+    public List<GPProfileIconSO> m_profileIcons = new List<GPProfileIconSO>();
+    public Dictionary<string, GPProfileIconSO> m_profileIconsMap = new Dictionary<string, GPProfileIconSO>();
+
 
     public static GPItemsDB m_instance;
 
@@ -85,6 +93,11 @@ public class GPItemsDB : MonoBehaviour
         for (int i = 0; i < m_crews.Count; i++)
         {
             m_crewsMap.Add(m_crews[i].name, m_crews[i]);
+        }
+
+        for (int i = 0; i < m_profileIcons.Count; i++)
+        {
+            m_profileIconsMap.Add(m_profileIcons[i].name, m_profileIcons[i]);
         }
     }
 
