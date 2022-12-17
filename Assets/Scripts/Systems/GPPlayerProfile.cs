@@ -158,11 +158,11 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
-    public void AddProfileIcon(GPShipDesc shipDesc)
+    public void AddProfileIcon(GPProfileIconSO iconDesc)
     {
-        if (!m_ships.Contains(shipDesc))
+        if (!m_profileIcons.Contains(iconDesc))
         {
-            m_ships.Add(shipDesc);
+            m_profileIcons.Add(iconDesc);
         }
     }
 

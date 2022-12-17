@@ -253,3 +253,12 @@ public class SettingsData
         SoundVolume = copy.SoundVolume;
     }
 }
+
+public class StatsData
+{
+    public int Wins;
+    public int Loss;
+    public int Draws;
+    public float KDRatio; //in range 0-1
+    public float WinRate; //in range 0-1
+}

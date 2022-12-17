@@ -18,6 +18,9 @@ public class GPStoreChestCard : MonoBehaviour
     public GPStoreChestSO m_chestDesc;
     public GPPunchTween m_punchTween;
 
+    public TextMeshProUGUI m_contentDescText1;
+    public TextMeshProUGUI m_contentDescText2;
+
     public UnityEvent<GPStoreChestCard> OnClickedBuyUsingGoldEvent;
     public UnityEvent<GPStoreChestCard> OnClickedBuyUsingGemsEvent;
     public UnityEvent<GPStoreChestCard> OnSuccesfullBuyEvent;
@@ -45,6 +48,8 @@ public class GPStoreChestCard : MonoBehaviour
         m_gemPriceText.gameObject.SetActive(chestDesc.m_canBuyUsingGems);
         m_bestTag.SetActive(chestDesc.m_specialTag == GP_CHEST_TAG.kBest);
         m_popularTag.SetActive(chestDesc.m_specialTag == GP_CHEST_TAG.kPopular);
+        m_contentDescText1.text = chestDesc.m_contentDesc1;
+        m_contentDescText2.text = chestDesc.m_contentDesc2;
     }
 
     void OnBuyUsingGold()
