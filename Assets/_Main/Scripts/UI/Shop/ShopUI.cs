@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ShopUI : UI<ShopUI>
 {
+    [Header("Main Contents")]
+
     [SerializeField]
     private RecoItemsUI uiRecoItems;
 
