@@ -470,11 +470,16 @@ namespace TanksMP
                 }
                 
                 /* Reset stats */
-                stat.AddHealth(stat.MaxHealth);
+                stat.SetHealth(stat.MaxHealth);
 
-                stat.AddMana(stat.MaxMana);
+                stat.SetMana(stat.MaxMana);
 
+                stat.AddDeath();
+
+                /* Broadcast to all player that this ship is destroyed */
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
+
+                PhotonView.Find(attackerId).RPC("RPCAddKill", RpcTarget.All);
             }
         }
 

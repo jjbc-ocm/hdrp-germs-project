@@ -91,13 +91,13 @@ public class GPProfileWindow : GPGWindowUI
     public void WriteStats(StatsData data)
     {
         m_winsText.text = data.Wins.ToString();
-        m_lossText.text = data.Loss.ToString();
+        m_lossText.text = data.Losses.ToString();
         m_drawText.text = data.Draws.ToString();
 
-        int KDRatio = Mathf.RoundToInt(data.KDRatio * 100.0f);
+        int KDRatio = Mathf.RoundToInt(data.Kills / (float)(data.Kills + data.Deaths) * 100.0f);
         m_KDRatioText.text = KDRatio.ToString() + "%";
 
-        int winRate = Mathf.RoundToInt(data.WinRate * 100.0f);
+        int winRate = Mathf.RoundToInt(data.Wins / (float)(data.Wins + data.Losses) * 100.0f);
         m_winRateText.text = winRate.ToString() + "%";
     }
 

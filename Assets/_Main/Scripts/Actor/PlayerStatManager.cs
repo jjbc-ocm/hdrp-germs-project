@@ -29,6 +29,10 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private int moveSpeed = 50;
 
+    private int kills;
+
+    private int deaths;
+
     private PlayerInventoryManager inventory;
 
     private PlayerStatusManager status;
@@ -72,6 +76,10 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     public int Health { get => health; }
 
     public int Mana { get => mana; }
+
+    public int Kills { get => kills; }
+
+    public int Deaths { get => deaths; }
 
     public PlayerInventoryManager Inventory
     {
@@ -120,6 +128,17 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         mana = Mathf.Clamp(amount, 0, MaxMana);
     }
 
+    [PunRPC]
+    public void RPCAddKill()
+    {
+        kills++;
+    }
+
+    public void AddDeath()
+    {
+        deaths++;
+    }
+
     void Start()
     {
         if (!photonView.IsMine) return;
@@ -140,11 +159,15 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(health);
             stream.SendNext(mana);
+            stream.SendNext(kills);
+            stream.SendNext(deaths);
         }
         else
         {
             health = (int)stream.ReceiveNext();
             mana = (int)stream.ReceiveNext();
+            kills = (int)stream.ReceiveNext();
+            deaths = (int)stream.ReceiveNext();
         }
     }
 
