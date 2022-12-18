@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class GPChestScreen : GPGUIScreen
 {
+    [Header("Chests Settings")]
     public Transform m_chestCardsContainer;
     public GPStoreChestCard m_chestCardPrefab;
     public List<GPStoreChestSO> m_chestsData;
     List<GPStoreChestCard> m_instancedCards = new List<GPStoreChestCard>();
+
+    [Header("Rewards Settings")]
+    public GPChestRewardWindow m_rewardWindow;
+    public GPGUIScreen m_rewardScreen;
 
     [Header("Audio Settings")]
     public AudioClip m_buySuccedSFX;
@@ -83,7 +88,21 @@ public class GPChestScreen : GPGUIScreen
 
     public void OpenChest(GPStoreChestCard chestCard)
     {
-        chestCard.m_chestDesc.OpenChest();
+        GPGivenRewards rewards = chestCard.m_chestDesc.OpenChest();
+        m_rewardScreen.Show();
+        m_rewardWindow.Show();
+        m_rewardWindow.DisplayChestImage(chestCard.m_chestDesc);
+        m_rewardWindow.DisplayCrewRewards(rewards.m_ships);
+        m_rewardWindow.DisplayIconRewards(rewards.m_profileIcons);
+        m_rewardWindow.DisplayDummyRewards(rewards.m_dummyParts);
+        StartCoroutine(CloseRewardWindow()); // for now close reward window after 3 seconds
+    }
+
+    IEnumerator CloseRewardWindow()
+    {
+        yield return new WaitForSeconds(3.0f);
+        m_rewardScreen.Hide();
+        m_rewardWindow.Hide();
     }
 
 }

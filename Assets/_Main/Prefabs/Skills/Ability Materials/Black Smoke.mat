@@ -6,7 +6,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: _ColorRampTexGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.5098039507865906,"g":1.0,"b":0.501960813999176,"a":1.0},"time":0.0},{"color":{"r":0.501960813999176,"g":1.0,"b":0.7097393870353699,"a":1.0},"time":0.13629359006881715},{"color":{"r":0.5098039507865906,"g":1.0,"b":0.501960813999176,"a":1.0},"time":0.304158091545105},{"color":{"r":0.5735231637954712,"g":0.9254902005195618,"b":0.18431371450424195,"a":1.0},"time":0.6255435943603516},{"color":{"r":0.9076206088066101,"g":1.0,"b":0.3686274290084839,"a":1.0},"time":0.7345693111419678}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.18507668375968934},{"alpha":1.0,"time":0.4462043046951294},{"alpha":0.0,"time":1.0}]}
+  m_Name: _ColorRampTexGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.4373927116394043,"g":0.0,"b":1.0,"a":1.0},"time":0.5159838199615479},{"color":{"r":1.0,"g":0.6084905862808228,"b":0.9948430061340332,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -41,7 +41,7 @@ Texture2D:
   m_ColorSpace: 0
   m_PlatformBlob: 
   image data: 256
-  _typelessdata: 82ff800082ff861682ff8c2c81ff934281ff995781ff9f6d81ffa58380ffab9980ffb1af80ffb3c580ffaedb80ffa9f181ffa4ff81ff9fff81ff9aff81ff95ff81ff90ff82ff8bff82ff86ff82ff81ff83fe7dff83fd79ff84fc75ff85fb71ff86fa6dff87fa69ff87f965ff88f861ff89f75dff8af659f98bf555f18cf451ea8cf34de38df249db8ef145d48ff041cd90ef3dc590ee39be91ed35b792ec31af9aee33a8a6f03aa1b2f34199bff64892cbf94e8bd8fb5584e4fe5c7ce7ff5e75e7ff5e6ee7ff5e66e7ff5e5fe7ff5e58e7ff5e50e7ff5e49e7ff5e42e7ff5e3ae7ff5e33e7ff5e2ce7ff5e25e7ff5e1de7ff5e16e7ff5e0fe7ff5e07e7ff5e00
+  _typelessdata: 000000ff030008ff070010ff0a0018ff0e001fff110027ff15002fff180037ff1b003fff1f0047ff22004eff260056ff29005eff2d0066ff30006eff330076ff37007eff3a0085ff3e008dff410095ff45009dff4800a5ff4b00adff4f00b4ff5200bcff5600c4ff5900ccff5d00d4ff6000dcff6400e3ff6700ebff6a00f3ff6e00fbff7203ffff7708ffff7b0dffff8012ffff8517ffff891cffff8e21ffff9326ffff972bffff9c30ffffa135ffffa63affffaa40feffaf45feffb44afeffb84ffeffbd54feffc259feffc75efeffcb63feffd068feffd56dfeffd972feffde78feffe37dfeffe782feffec87fefff18cfefff691fefffa96feffff9bfeff
   m_StreamData:
     serializedVersion: 2
     offset: 0
@@ -57,13 +57,13 @@ Material:
   m_Name: Black Smoke
   m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
   m_ValidKeywords:
+  - ADDITIVECONFIG_ON
   - COLORRAMPGRAD_ON
   - DISTORTONLYBACK_ON
   - DISTORTUSECOL_ON
   - FADE_ON
   - GLOW_ON
   - MASK_ON
-  - POSTERIZE_ON
   - PREMULTIPLYCOLOR_ON
   - SCREENDISTORTION_ON
   m_InvalidKeywords: []
@@ -187,10 +187,10 @@ Material:
     - _FadeTransition: 0.194
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
-    - _GlowGlobal: 0
+    - _GlowGlobal: 1
     - _HandDrawnAmount: 0
     - _HandDrawnSpeed: 5
-    - _HsvBright: 1
+    - _HsvBright: 1.26
     - _HsvSaturation: 1.02
     - _HsvShift: 0
     - _LightAmount: 0
@@ -205,7 +205,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 5
+    - _RenderingMode: 3
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
@@ -262,7 +262,7 @@ Material:
     - _ShapeXSpeed: 0
     - _ShapeYSpeed: 0
     - _SoftFactor: 3
-    - _SrcMode: 3
+    - _SrcMode: 1
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
     - _TimingSeed: 0
@@ -285,7 +285,7 @@ Material:
     - _ZoomAmount: 1.5
     m_Colors:
     - _BackFaceTint: {r: 0, g: 0.7924528, b: 0.028143073, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.255, g: 0, b: 0.239, a: 1}
     - _ColorGradingDark: {r: 0.1299271, g: 0, b: 0.78431374, a: 1}
     - _ColorGradingLight: {r: 1.3124582, g: 0.9698211, b: 2.670157, a: 1}
     - _ColorGradingMiddle: {r: 0.48158965, g: 0.034163974, b: 1.4485527, a: 1}

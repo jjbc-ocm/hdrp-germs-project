@@ -10,6 +10,13 @@ public enum GP_CHEST_TAG
     kPopular
 }
 
+public class GPGivenRewards
+{
+    public List<GPDummyPartDesc> m_dummyParts = new List<GPDummyPartDesc>();
+    public List<GPShipDesc> m_ships = null;
+    public List<GPProfileIconSO> m_profileIcons = null;
+}
+
 [CreateAssetMenu(fileName = "GPStoreChestSO", menuName = "ScriptableObjects/GPStoreChestSO")]
 public class GPStoreChestSO : ScriptableObject
 {
@@ -20,12 +27,17 @@ public class GPStoreChestSO : ScriptableObject
     private string gemId;
 
     public string m_chestName;
+    [TextArea(1,2)]
+    public string m_contentDesc1;
+    [TextArea(1,2)]
+    public string m_contentDesc2;
     public bool m_canBuyUsingGold = true;
     public int m_goldPrice;
     public bool m_canBuyUsingGems = true;
     public int m_gemPrice;
     public GP_CHEST_TAG m_specialTag;
     public Sprite m_chestIcon;
+    public Sprite m_chestRewardIcon;
 
     [Header("Dummy Reward settings")]
     public int m_dummyPartAmount;
@@ -35,17 +47,24 @@ public class GPStoreChestSO : ScriptableObject
     [Header("Crew Reward settings")]
     public int m_crewAmount = 1;
 
+    [Header("Profile Icon Reward settings")]
+    public int m_profileIconAmount = 1;
+
+
     public string GoldID { get => goldId; }
 
     public string GemID { get => gemId; }
 
-    public void OpenChest()
+    public GPGivenRewards OpenChest()
     {
-        GiveDummyRewards();
-        GiveRandomCrew();
+        GPGivenRewards rewards = new GPGivenRewards();
+        rewards.m_dummyParts = GiveDummyRewards();
+        rewards.m_ships = GiveRandomCrew();
+        rewards.m_profileIcons = GiveRandomProfileIcon();
+        return rewards;
     }
 
-    void GiveDummyRewards()
+    List<GPDummyPartDesc> GiveDummyRewards()
     {
         //Suffle part types so they are randombly picked.
         //We'll pick in order so if whe shuffle the lsit they will be random
@@ -87,15 +106,33 @@ public class GPStoreChestSO : ScriptableObject
             GPPlayerProfile.m_instance.AddDummyPart(dummyPart);
             Debug.Log("DummyPart Added: " + dummyPart.name);
         }
+        return dummyRewards;
     }
 
-    void GiveRandomCrew()
+    List<GPShipDesc> GiveRandomCrew()
     {
+        List<GPShipDesc> crews = new List<GPShipDesc>();
         for (int i = 0; i < m_crewAmount; i++)
         {
             GPShipDesc randomCrew = GPItemsDB.m_instance.m_crews[Random.Range(0, GPItemsDB.m_instance.m_crews.Count)];
             GPPlayerProfile.m_instance.AddShip(randomCrew);
-            Debug.Log("DummyPart Added: " + randomCrew.name);
+            crews.Add(randomCrew);
+            Debug.Log("Crew Added: " + randomCrew.name);
         }
+        return crews;
+    }
+
+    List<GPProfileIconSO> GiveRandomProfileIcon()
+    {
+        List<GPProfileIconSO> icons = new List<GPProfileIconSO>();
+
+        for (int i = 0; i < m_profileIconAmount; i++)
+        {
+            GPProfileIconSO profileIcon = GPItemsDB.m_instance.m_profileIcons[Random.Range(0, GPItemsDB.m_instance.m_profileIcons.Count)];
+            GPPlayerProfile.m_instance.AddProfileIcon(profileIcon);
+            icons.Add(profileIcon);
+            Debug.Log("Profile icon Added: " + profileIcon.name);
+        }
+        return icons;
     }
 }
