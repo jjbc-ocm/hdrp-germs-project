@@ -87,15 +87,13 @@ public class PlayerData
         get => getData.TryGetValue("settings", out string strValue)
             ? JsonUtility.FromJson<SettingsData>(strValue)
             : new SettingsData();
+    }
 
-        /*get
-        {
-            var a = getData.TryGetValue("settings", out string strValue);
-
-            Debug.Log(strValue);
-
-            return JsonUtility.FromJson<SettingsData>(strValue);
-        }*/
+    public StatsData Stats
+    {
+        get => getData.TryGetValue("stats", out string strValue)
+            ? JsonUtility.FromJson<StatsData>(strValue)
+            : new StatsData();
     }
 
     public long Coins
@@ -146,6 +144,13 @@ public class PlayerData
     public PlayerData SetSettings(SettingsData value)
     {
         putData["settings"] = value;
+
+        return this;
+    }
+
+    public PlayerData SetStats(StatsData value)
+    {
+        putData["stats"] = value;
 
         return this;
     }
@@ -257,8 +262,8 @@ public class SettingsData
 public class StatsData
 {
     public int Wins;
-    public int Loss;
+    public int Losses;
     public int Draws;
-    public float KDRatio; //in range 0-1
-    public float WinRate; //in range 0-1
+    public int Kills;
+    public int Deaths;
 }
