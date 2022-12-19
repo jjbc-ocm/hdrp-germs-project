@@ -128,8 +128,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         mana = Mathf.Clamp(amount, 0, MaxMana);
     }
 
-    [PunRPC]
-    public void RPCAddKill()
+    public void AddKill()
     {
         kills++;
     }

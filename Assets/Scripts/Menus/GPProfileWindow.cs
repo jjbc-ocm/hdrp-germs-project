@@ -43,6 +43,11 @@ public class GPProfileWindow : GPGWindowUI
         }
     }
 
+    void Update()
+    {
+        WriteStats(APIManager.Instance.PlayerData.Stats);
+    }
+
     public override void Show()
     {
         base.Show();
@@ -94,10 +99,16 @@ public class GPProfileWindow : GPGWindowUI
         m_lossText.text = data.Losses.ToString();
         m_drawText.text = data.Draws.ToString();
 
-        int KDRatio = Mathf.RoundToInt(data.Kills / (float)(data.Kills + data.Deaths) * 100.0f);
+        var killsDeaths = data.Kills + data.Deaths;
+
+        int KDRatio = killsDeaths > 0 ? Mathf.RoundToInt(data.Kills / (float)killsDeaths * 100.0f) : 0;
+
         m_KDRatioText.text = KDRatio.ToString() + "%";
 
-        int winRate = Mathf.RoundToInt(data.Wins / (float)(data.Wins + data.Losses) * 100.0f);
+        var winsLosses = data.Wins + data.Losses;
+
+        int winRate = winsLosses > 0 ? Mathf.RoundToInt(data.Wins / winsLosses * 100.0f) : 0;
+
         m_winRateText.text = winRate.ToString() + "%";
     }
 
