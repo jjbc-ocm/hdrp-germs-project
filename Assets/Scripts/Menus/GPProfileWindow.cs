@@ -23,6 +23,9 @@ public class GPProfileWindow : GPGWindowUI
     public TextMeshProUGUI m_KDRatioText;
     public TextMeshProUGUI m_winRateText;
 
+    [Header("Audio settings")]
+    public AudioClip m_equipSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,6 +94,7 @@ public class GPProfileWindow : GPGWindowUI
                 image.sprite = m_lastPreviewedBlock.m_profileIconDesc.m_sprite;
             }
         }
+        TanksMP.AudioManager.Play2D(m_equipSFX);
     }
 
     public void WriteStats(StatsData data)

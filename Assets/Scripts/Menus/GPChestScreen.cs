@@ -91,6 +91,7 @@ public class GPChestScreen : GPGUIScreen
         GPGivenRewards rewards = chestCard.m_chestDesc.OpenChest();
         m_rewardScreen.Show();
         m_rewardWindow.Show();
+        m_rewardWindow.ClearContent();
         m_rewardWindow.DisplayChestImage(chestCard.m_chestDesc);
         m_rewardWindow.DisplayCrewRewards(rewards.m_ships);
         m_rewardWindow.DisplayIconRewards(rewards.m_profileIcons);

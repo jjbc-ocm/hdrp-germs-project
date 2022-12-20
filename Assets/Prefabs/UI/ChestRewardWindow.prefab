@@ -491,6 +491,7 @@ MonoBehaviour:
   m_opened: 0
   m_pendingClose: 0
   m_chestImage: {fileID: 1887616420271864875}
+  m_chestTierTextImage: {fileID: 1887616419856221447}
   m_upperRewardLabel: {fileID: 1887616421732549782}
   m_lowerRewardLabel: {fileID: 1887616420573372615}
   m_dummyPartDisplayerPrefab: {fileID: 5816341175728514235, guid: ff3ad0f3bf26b7947a71b52771e507fa, type: 3}
@@ -499,6 +500,8 @@ MonoBehaviour:
   m_dummyPartsHolder: {fileID: 1887616420176424968}
   m_crewsHolder: {fileID: 1887616420813667814}
   m_profileIconsHolder: {fileID: 1887616420813667814}
+  m_crewCardScaleOverride: {x: 0.33, y: 0.33, z: 0.33}
+  m_punchTween: {fileID: 2233404448240669260}
 --- !u!1 &1887616419969851742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,6 +1830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1887616420519481102}
+  - component: {fileID: 2233404448240669260}
   m_Layer: 5
   m_Name: Open Chest
   m_TagString: Untagged
@@ -1857,6 +1861,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 273.96216}
   m_SizeDelta: {x: 748.0279, y: 598.4478}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2233404448240669260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887616420519481103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07a6138f839b9a41b94cce61f970497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_scaleMultiplier: 1.2
+  m_punchEffectDuration: 0.4
+  m_obj: {fileID: 1887616420519481103}
 --- !u!1 &1887616420541764043
 GameObject:
   m_ObjectHideFlags: 0
