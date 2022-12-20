@@ -38,6 +38,7 @@ public class GPStoreChestSO : ScriptableObject
     public GP_CHEST_TAG m_specialTag;
     public Sprite m_chestIcon;
     public Sprite m_chestRewardIcon;
+    public Sprite m_chestRewardText;
 
     [Header("Dummy Reward settings")]
     public int m_dummyPartAmount;
