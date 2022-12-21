@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopUI : UI<ShopUI>
+public class ShopUI : WindowUI<ShopUI>
 {
     [Header("Main Contents")]
 
