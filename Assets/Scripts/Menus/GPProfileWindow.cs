@@ -13,6 +13,7 @@ public class GPProfileWindow : GPGWindowUI
 
     public List<Image> m_displayedImages; // it's a list because of the diferent level frames
     public List<Image> m_mainMenuProfileImages; // it's a list because of the diferent level frames
+    public List<TextMeshProUGUI> m_levelTexts; // it's a list because of the diferent level frames
     public GPProfileIconBlock m_lastPreviewedBlock;
 
     [Header("Bio")]
@@ -22,6 +23,9 @@ public class GPProfileWindow : GPGWindowUI
     public TextMeshProUGUI m_drawText;
     public TextMeshProUGUI m_KDRatioText;
     public TextMeshProUGUI m_winRateText;
+
+    [Header("Audio settings")]
+    public AudioClip m_equipSFX;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +45,13 @@ public class GPProfileWindow : GPGWindowUI
         {
             m_nameText.text = PlayerPrefs.GetString(PrefsKeys.playerName);
         }
+
+        UpdateLevelText();
+    }
+
+    void Update()
+    {
+        WriteStats(APIManager.Instance.PlayerData.Stats);
     }
 
     public override void Show()
@@ -51,7 +62,14 @@ public class GPProfileWindow : GPGWindowUI
         foreach (var block in m_spawnedBlocks)
         {
             block.ToggleLocked(!GPPlayerProfile.m_instance.m_profileIcons.Contains(block.m_profileIconDesc));
+
+            if (block.m_profileIconDesc.m_sprite == m_mainMenuProfileImages[0].sprite)
+            {
+                OnClickedIcon(block);
+            }
         }
+
+        UpdateLevelText();
     }
 
     public override void Hide()
@@ -86,19 +104,34 @@ public class GPProfileWindow : GPGWindowUI
                 image.sprite = m_lastPreviewedBlock.m_profileIconDesc.m_sprite;
             }
         }
+        TanksMP.AudioManager.Play2D(m_equipSFX);
     }
 
     public void WriteStats(StatsData data)
     {
         m_winsText.text = data.Wins.ToString();
-        m_lossText.text = data.Loss.ToString();
+        m_lossText.text = data.Losses.ToString();
         m_drawText.text = data.Draws.ToString();
 
-        int KDRatio = Mathf.RoundToInt(data.KDRatio * 100.0f);
+        var killsDeaths = data.Kills + data.Deaths;
+
+        int KDRatio = killsDeaths > 0 ? Mathf.RoundToInt(data.Kills / (float)killsDeaths * 100.0f) : 0;
+
         m_KDRatioText.text = KDRatio.ToString() + "%";
 
-        int winRate = Mathf.RoundToInt(data.WinRate * 100.0f);
+        var winsLosses = data.Wins + data.Losses;
+
+        int winRate = winsLosses > 0 ? Mathf.RoundToInt(data.Wins / winsLosses * 100.0f) : 0;
+
         m_winRateText.text = winRate.ToString() + "%";
+    }
+
+    void UpdateLevelText()
+    {
+        foreach (var levelText in m_levelTexts)
+        {
+            levelText.text = APIManager.Instance.PlayerData.Level.ToString();
+        }
     }
 
 }

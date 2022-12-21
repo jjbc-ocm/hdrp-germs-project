@@ -13,6 +13,9 @@ public class GPProfileIconBlock : MonoBehaviour
     public GameObject m_lockedSprite;
     public bool m_isLocked = false;
 
+    [Header("Audio settings")]
+    public AudioClip m_clickSFX;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,6 +42,7 @@ public class GPProfileIconBlock : MonoBehaviour
 
     void OnClicked()
     {
+        TanksMP.AudioManager.Play2D(m_clickSFX);
         if (onClickedEvent != null)
         {
             onClickedEvent.Invoke(this);
