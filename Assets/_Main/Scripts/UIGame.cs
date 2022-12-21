@@ -17,7 +17,7 @@ namespace TanksMP
     /// </summary>
     public class UIGame : MonoBehaviourPunCallbacks
     {
-        [SerializeField]
+        /*[SerializeField]
         private Image[] team1PlayerIndicators;
 
         [SerializeField]
@@ -30,12 +30,6 @@ namespace TanksMP
         private Image[] team2ChestIndicators;
 
         [SerializeField]
-        private ShipHUD[] team1ShipHuds;
-
-        [SerializeField]
-        private ShipHUD[] team2ShipHuds;
-
-        [SerializeField]
         private Slider[] team1HealthSliders;
 
         [SerializeField]
@@ -45,7 +39,7 @@ namespace TanksMP
         private Slider[] team1ManaSliders;
 
         [SerializeField]
-        private Slider[] team2ManaSliders;
+        private Slider[] team2ManaSliders;*/
 
         [SerializeField]
         private TMP_Text[] teamScore;
@@ -53,14 +47,8 @@ namespace TanksMP
         [SerializeField]
         private TMP_Text textPlayerGold;
 
-        //[SerializeField]
-        //private TMP_Text deathText;
-
         [SerializeField]
         private TMP_Text spawnDelayText;
-
-        //[SerializeField]
-        //private TMP_Text gameOverText;
 
         [SerializeField]
         private KillStatementUI uiKillStatement;
@@ -78,69 +66,6 @@ namespace TanksMP
 
         void Update()
         {
-            var players = FindObjectsOfType<Player>();
-
-            /* Update UI elements that is tied-up to other players */
-            var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
-
-            var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
-
-            for (int team = 0; team < Constants.MAX_TEAM; team++)
-            {
-                for (int i = 0; i < Constants.MAX_PLAYER_COUNT_PER_TEAM; i++)
-                {
-                    /* Handle for team 1 */
-                    if (team == 0)
-                    {
-                        var player = i < team1.Count() ? team1[i] : null;
-
-                        team1PlayerIndicators[i].sprite = player?.SoundVisuals.SpriteIcon ?? null;
-
-                        team1PlayerIndicators[i].gameObject.SetActive(player != null);
-
-                        team1ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
-
-                        team1HealthSliders[i].gameObject.SetActive(player != null);
-
-                        team1ManaSliders[i].gameObject.SetActive(player != null);
-
-                        if (player != null)
-                        {
-                            team1HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
-
-                            team1ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
-                        }
-
-                        team1ShipHuds[i].Player = player;
-                    }
-
-                    /* Handle for team 2 */
-                    if (team == 1)
-                    {
-                        var player = i < team2.Count() ? team2[i] : null;
-
-                        team2PlayerIndicators[i].sprite = player?.SoundVisuals.SpriteIcon ?? null;
-
-                        team2PlayerIndicators[i].gameObject.SetActive(player != null);
-
-                        team2ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
-
-                        team2HealthSliders[i].gameObject.SetActive(player != null);
-
-                        team2ManaSliders[i].gameObject.SetActive(player != null);
-
-                        if (player != null)
-                        {
-                            team2HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
-
-                            team2ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
-                        }
-
-                        team2ShipHuds[i].Player = player;
-                    }
-                }
-            }
-
             /* Update player current gold UI */
             if (Player.Mine != null)
             {
@@ -174,8 +99,8 @@ namespace TanksMP
 			for(int i = 0; i < score.Length; i++)
             {
                 //detect if the score has been increased, then add fancy animation
-                if(score[i] > int.Parse(teamScore[i].text))
-                    teamScore[i].GetComponent<Animator>().Play("Animation");
+                //if(score[i] > int.Parse(teamScore[i].text))
+                //    teamScore[i].GetComponent<Animator>().Play("Animation");
 
                 //assign score value to text
                 teamScore[i].text = score[i].ToString();
@@ -203,17 +128,6 @@ namespace TanksMP
             //deathText.text = string.Empty;
             spawnDelayText.text = string.Empty;
         }
-
-
-        /// <summary>
-        /// Set game end text and display winning team in its team color.
-        /// </summary>
-        /*public void SetGameOverText(Team team)
-        {
-            //show winning team and colorize it by converting the team color to an HTML RGB hex value for UI markup
-            gameOverText.text = "TEAM <color=#" + ColorUtility.ToHtmlStringRGB(team.material.color) + ">" + team.name + "</color> WINS!";
-        }*/
-
 
         public void OpenKillStatement(PhotonView winner, PhotonView loser)
         {

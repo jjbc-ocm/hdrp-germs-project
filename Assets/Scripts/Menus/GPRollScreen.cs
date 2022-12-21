@@ -14,7 +14,7 @@ public enum GP_PRIZE_TYPE
 }
 
 [System.Serializable]
-public class GPWheelPrize
+public class GPPrize
 {
     public GP_PRIZE_TYPE m_prizeType;
     public int m_prizeAmount;
@@ -30,7 +30,7 @@ public class GPRollScreen : GPGUIScreen
 
     [Header("Prize settings")]
     [Tooltip("List them in clock wise order starting from the top of the wheel")]
-    public List<GPWheelPrize> m_prizes;
+    public List<GPPrize> m_prizes;
     WeightedList<string> m_weightedList = new();
 
     [Header("Prize chest refrences")]
@@ -47,6 +47,10 @@ public class GPRollScreen : GPGUIScreen
     bool m_spinning = false;
     public GPPunchTween m_startSpinTween;
     public GPPunchTween m_endSpinTween;
+
+    [Header("Chest Rewards Settings")]
+    public GPChestRewardWindow m_rewardWindow;
+    public GPGUIScreen m_rewardScreen;
 
     [Header("Audio Settings")]
     public AudioClip m_spinStartedSFX;
@@ -129,7 +133,7 @@ public class GPRollScreen : GPGUIScreen
         GivePrize(m_prizes[prizeIDX]);
     }
 
-    public async void GivePrize(GPWheelPrize prize)
+    public async void GivePrize(GPPrize prize)
     {
         switch (prize.m_prizeType)
         {
@@ -149,17 +153,25 @@ public class GPRollScreen : GPGUIScreen
                 GPPlayerProfile.m_instance.AddEnergy(prize.m_prizeAmount);
                 break;
             case GP_PRIZE_TYPE.kWoodenChest:
-                for (int i = 0; i < prize.m_prizeAmount; i++)
                 {
-                    m_woodChest.OpenChest();
+                    List<GPStoreChestSO> chests = new List<GPStoreChestSO>();
+                    for (int i = 0; i < prize.m_prizeAmount; i++)
+                    {
+                        chests.Add(m_woodChest);
+                    }
+                    OpenChestsInSequence(chests);
+                    break;
                 }
-                break;
             case GP_PRIZE_TYPE.kGoldenChest:
-                for (int i = 0; i < prize.m_prizeAmount; i++)
                 {
-                    m_goldenChest.OpenChest();
+                    List<GPStoreChestSO> chests = new List<GPStoreChestSO>();
+                    for (int i = 0; i < prize.m_prizeAmount; i++)
+                    {
+                        chests.Add(m_goldenChest);
+                    }
+                    OpenChestsInSequence(chests);
+                    break;
                 }
-                break;
             default:
                 break;
         }
@@ -175,6 +187,44 @@ public class GPRollScreen : GPGUIScreen
         else
         {
             m_spinButton.interactable = true;
+        }
+    }
+
+    public void OpenChest(GPStoreChestSO chestDesc)
+    {
+        GPGivenRewards rewards = chestDesc.OpenChest();
+        m_rewardScreen.Show();
+        m_rewardWindow.Show();
+        m_rewardWindow.ClearContent();
+        m_rewardWindow.DisplayChestImage(chestDesc);
+        m_rewardWindow.DisplayCrewRewards(rewards.m_ships);
+        m_rewardWindow.DisplayIconRewards(rewards.m_profileIcons);
+        m_rewardWindow.DisplayDummyRewards(rewards.m_dummyParts);
+        StartCoroutine(CloseRewardWindow()); // for now close reward window after 3 seconds
+    }
+
+    IEnumerator CloseRewardWindow()
+    {
+        yield return new WaitForSeconds(3.0f);
+        m_rewardScreen.Hide();
+        m_rewardWindow.Hide();
+    }
+
+    public void OpenChestsInSequence(List<GPStoreChestSO> chests)
+    {
+        StartCoroutine(IEOpenChestsInSecuence(chests));
+    }
+
+    IEnumerator IEOpenChestsInSecuence(List<GPStoreChestSO> chests)
+    {
+        for (int i = 0; i < chests.Count; i++)
+        {
+            OpenChest(chests[i]);
+            yield return new WaitForSeconds(3.0f);
+            if (i < chests.Count-1) // so the last one doesn't play a sound at the end
+            {
+                TanksMP.AudioManager.Play2D(m_spinEndedSFX);
+            }
         }
     }
 }

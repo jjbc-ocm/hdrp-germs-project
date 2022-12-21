@@ -400,7 +400,7 @@ namespace TanksMP
 
                     camFollow.HideMask(true);
 
-                    photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
+                    //photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
                 }
 
                 StartCoroutine(SpawnRoutine());
@@ -470,11 +470,20 @@ namespace TanksMP
                 }
                 
                 /* Reset stats */
-                stat.AddHealth(stat.MaxHealth);
+                stat.SetHealth(stat.MaxHealth);
 
-                stat.AddMana(stat.MaxMana);
+                stat.SetMana(stat.MaxMana);
 
+                stat.AddDeath();
+
+                /* Broadcast to all player that this ship is destroyed */
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
+
+                /* If the attacker is me, add kill count */
+                if (attacker.IsMine)
+                {
+                    attacker.GetComponent<Player>().stat.AddKill();
+                }
             }
         }
 
