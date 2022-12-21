@@ -14,7 +14,7 @@ public enum GP_PRIZE_TYPE
 }
 
 [System.Serializable]
-public class GPWheelPrize
+public class GPPrize
 {
     public GP_PRIZE_TYPE m_prizeType;
     public int m_prizeAmount;
@@ -30,7 +30,7 @@ public class GPRollScreen : GPGUIScreen
 
     [Header("Prize settings")]
     [Tooltip("List them in clock wise order starting from the top of the wheel")]
-    public List<GPWheelPrize> m_prizes;
+    public List<GPPrize> m_prizes;
     WeightedList<string> m_weightedList = new();
 
     [Header("Prize chest refrences")]
@@ -133,7 +133,7 @@ public class GPRollScreen : GPGUIScreen
         GivePrize(m_prizes[prizeIDX]);
     }
 
-    public async void GivePrize(GPWheelPrize prize)
+    public async void GivePrize(GPPrize prize)
     {
         switch (prize.m_prizeType)
         {

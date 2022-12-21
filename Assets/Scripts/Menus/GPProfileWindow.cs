@@ -13,6 +13,7 @@ public class GPProfileWindow : GPGWindowUI
 
     public List<Image> m_displayedImages; // it's a list because of the diferent level frames
     public List<Image> m_mainMenuProfileImages; // it's a list because of the diferent level frames
+    public List<TextMeshProUGUI> m_levelTexts; // it's a list because of the diferent level frames
     public GPProfileIconBlock m_lastPreviewedBlock;
 
     [Header("Bio")]
@@ -44,6 +45,8 @@ public class GPProfileWindow : GPGWindowUI
         {
             m_nameText.text = PlayerPrefs.GetString(PrefsKeys.playerName);
         }
+
+        UpdateLevelText();
     }
 
     void Update()
@@ -59,7 +62,14 @@ public class GPProfileWindow : GPGWindowUI
         foreach (var block in m_spawnedBlocks)
         {
             block.ToggleLocked(!GPPlayerProfile.m_instance.m_profileIcons.Contains(block.m_profileIconDesc));
+
+            if (block.m_profileIconDesc.m_sprite == m_mainMenuProfileImages[0].sprite)
+            {
+                OnClickedIcon(block);
+            }
         }
+
+        UpdateLevelText();
     }
 
     public override void Hide()
@@ -114,6 +124,14 @@ public class GPProfileWindow : GPGWindowUI
         int winRate = winsLosses > 0 ? Mathf.RoundToInt(data.Wins / winsLosses * 100.0f) : 0;
 
         m_winRateText.text = winRate.ToString() + "%";
+    }
+
+    void UpdateLevelText()
+    {
+        foreach (var levelText in m_levelTexts)
+        {
+            levelText.text = APIManager.Instance.PlayerData.Level.ToString();
+        }
     }
 
 }
