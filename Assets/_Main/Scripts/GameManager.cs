@@ -50,6 +50,10 @@ namespace TanksMP
 
         public Player[] Ships { get => ships; }
 
+        public List<Player> Team1Ships { get => ships.Where(i => i.photonView.GetTeam() == 0).ToList(); }
+
+        public List<Player> Team2Ships { get => ships.Where(i => i.photonView.GetTeam() == 1).ToList(); }
+
         public PlayerOfflineSaveState[] OfflineSaveStates { get => offlineSaveStates; }
 
 

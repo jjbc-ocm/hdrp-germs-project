@@ -9,6 +9,9 @@ using UnityEngine.UI;
 public class MyPlayerUI : UI<MyPlayerUI>
 {
     [SerializeField]
+    private Image imageShip;
+
+    [SerializeField]
     private Image imageAttack;
 
     [SerializeField]
@@ -62,6 +65,8 @@ public class MyPlayerUI : UI<MyPlayerUI>
         var attackCooldown = Mathf.Max(0, Player.Mine.NextAttackTime - Time.time);
 
         var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
+
+        imageShip.sprite = Player.Mine.Data.ShipIconImage;
 
         imageAttack.sprite = Player.Mine.Attack.Icon;
 
