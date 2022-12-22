@@ -7,6 +7,21 @@ using UnityEngine;
 
 public abstract class WindowUI<T> : UI<T> where T : MonoBehaviour
 {
+    private static T instance;
+
+    public static T Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<T>(true);
+            }
+
+            return instance;
+        }
+    }
+
     [SerializeField]
     private GameObject windowMain;
 

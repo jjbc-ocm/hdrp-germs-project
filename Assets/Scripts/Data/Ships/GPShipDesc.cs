@@ -28,7 +28,10 @@ public class GPShipDesc : ScriptableObject
     public GameObject m_model;
     public Player m_playerPrefab;
     public Sprite m_cardImage;
-    public Sprite m_shipIconImage;
+
+    [SerializeField]
+    private Sprite m_shipIconImage;
+
     public GP_SHIP_TYPE m_type;
 
     [SerializeField]
@@ -44,6 +47,8 @@ public class GPShipDesc : ScriptableObject
     private List<ItemData> idealUtilityItems;
 
     public string ID { get => id; }
+
+    public Sprite ShipIconImage { get => m_shipIconImage; }
 
     public List<ItemData> IdealStarterItems { get => idealStarterItems; }
 

@@ -45,12 +45,10 @@ public class TopBarUI : UI<TopBarUI>
 
     protected override void OnRefreshUI()
     {
-        var players = FindObjectsOfType<Player>();
-
         /* Update UI elements that is tied-up to other players */
-        var team1 = players.Where(i => i.photonView.GetTeam() == 0).ToArray();
+        var team1 = GameManager.GetInstance().Team1Ships;
 
-        var team2 = players.Where(i => i.photonView.GetTeam() == 1).ToArray();
+        var team2 = GameManager.GetInstance().Team2Ships;
 
         for (int team = 0; team < Constants.MAX_TEAM; team++)
         {

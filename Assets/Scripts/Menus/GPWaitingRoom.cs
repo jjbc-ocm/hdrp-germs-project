@@ -354,7 +354,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 m_blueTeamPanels[blueidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
                 m_blueTeamPanels[blueidx].m_assignedUserID = PhotonNetwork.PlayerList[i].UserId;
                 m_blueTeamPanels[blueidx].m_shipImage.enabled = true;
-                m_blueTeamPanels[blueidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].m_shipIconImage;
+                m_blueTeamPanels[blueidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].ShipIconImage;
                 blueidx++;
             }
             else if (PhotonNetwork.PlayerList[i].GetTeam() == 1)
@@ -362,7 +362,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 m_redTeamPanels[redidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
                 m_redTeamPanels[redidx].m_assignedUserID = PhotonNetwork.PlayerList[i].UserId;
                 m_redTeamPanels[redidx].m_shipImage.enabled = true;
-                m_redTeamPanels[redidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].m_shipIconImage;
+                m_redTeamPanels[redidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].ShipIconImage;
                 redidx++;
             }
         }
