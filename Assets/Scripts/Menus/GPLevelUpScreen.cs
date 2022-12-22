@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GPLevelUpScreen : GPGUIScreen
 {
@@ -16,6 +17,9 @@ public class GPLevelUpScreen : GPGUIScreen
     [Header("Audio Settings")]
     public AudioClip m_showSFX;
     public AudioClip m_continueClickedSFX;
+
+    [Header("OTher references Settings")]
+    public TextMeshProUGUI m_levelText;
 
     [Header("Misc.")]
     [SerializeField]
@@ -33,6 +37,7 @@ public class GPLevelUpScreen : GPGUIScreen
         m_punchTween.PunchEffect();
         GiveRewards();
         TanksMP.AudioManager.Play2D(m_showSFX);
+        m_levelText.text = APIManager.Instance.PlayerData.Level.ToString();
     }
 
     public override void Hide()

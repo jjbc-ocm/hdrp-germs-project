@@ -126,4 +126,17 @@ public class GPItemsDB : MonoBehaviour
         }
         return parts;
     }
+
+    public List<GPDummyPartDesc> GetPartsOfRarity(GP_DUMMY_PART_RARITY rarity)
+    {
+        List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
+        foreach (KeyValuePair<string, GPDummyPartDesc> entry in m_dummyPartsMap)
+        {
+            if (entry.Value.m_rarity == rarity)
+            {
+                parts.Add(entry.Value);
+            }
+        }
+        return parts;
+    }
 }

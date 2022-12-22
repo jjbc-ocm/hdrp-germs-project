@@ -91,6 +91,12 @@ public class GPStoreChestSO : ScriptableObject
             //Get list of possible parts that match the random rarity and type.
             var posibleParts = GPItemsDB.m_instance.GetPartsOfTypeAndRarity(randomTypes[typeIdx], (GP_DUMMY_PART_RARITY)randomRarity);
 
+            //if no posible parts found then give any part of the specified rairty.
+            if (posibleParts.Count == 0)
+            {
+                posibleParts = GPItemsDB.m_instance.GetPartsOfRarity((GP_DUMMY_PART_RARITY)randomRarity);
+            }
+
             //if no posible parts found then give any part of any rairty.
             if (posibleParts.Count == 0)
             {
