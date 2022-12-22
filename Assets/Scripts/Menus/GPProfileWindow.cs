@@ -24,6 +24,10 @@ public class GPProfileWindow : GPGWindowUI
     public TextMeshProUGUI m_KDRatioText;
     public TextMeshProUGUI m_winRateText;
 
+    [Header("Exp")]
+    public Image m_expFill;
+    public TextMeshProUGUI m_expText;
+
     [Header("Audio settings")]
     public AudioClip m_equipSFX;
 
@@ -47,6 +51,7 @@ public class GPProfileWindow : GPGWindowUI
         }
 
         UpdateLevelText();
+        UpdateExpUI();
     }
 
     void Update()
@@ -70,6 +75,7 @@ public class GPProfileWindow : GPGWindowUI
         }
 
         UpdateLevelText();
+        UpdateExpUI();
     }
 
     public override void Hide()
@@ -132,6 +138,13 @@ public class GPProfileWindow : GPGWindowUI
         {
             levelText.text = APIManager.Instance.PlayerData.Level.ToString();
         }
+    }
+
+    void UpdateExpUI()
+    {
+        int nextLevelEXP = 100; // TODO: Calcualte this from another system.
+        m_expFill.fillAmount = (float)APIManager.Instance.PlayerData.Exp / (float)nextLevelEXP;
+        m_expText.text = APIManager.Instance.PlayerData.Exp.ToString() + "/" + nextLevelEXP.ToString() + " XP";
     }
 
 }
