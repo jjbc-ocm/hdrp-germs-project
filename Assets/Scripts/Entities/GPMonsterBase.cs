@@ -135,7 +135,7 @@ public class GPMonsterBase : ActorManager
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.LogError("OnTriggerEnter " + col.name);
+        //Debug.LogError("OnTriggerEnter " + col.name);
 
         var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
 

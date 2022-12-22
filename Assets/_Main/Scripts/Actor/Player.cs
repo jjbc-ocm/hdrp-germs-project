@@ -10,6 +10,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace TanksMP
 {
@@ -237,10 +238,29 @@ namespace TanksMP
                 ShopManager.Instance.ToggleShop();
             }
 
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (!ScoreBoardUI.Instance.gameObject.activeSelf)
+                {
+                    ScoreBoardUI.Instance.Open((self) =>
+                    {
+                        self.Data = new List<List<Player>>
+                    {
+                        GameManager.GetInstance().Team1Ships,
+                        GameManager.GetInstance().Team2Ships
+                    };
+                    });
+                }
+                else
+                {
+                    ScoreBoardUI.Instance.Close();
+                }
+            }
+
+            /*if (Input.GetKeyDown(KeyCode.P))
             {
                 PhotonNetwork.Disconnect();
-            }
+            }*/
         }
 
         void FixedUpdate()

@@ -86,9 +86,9 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
         if (spawner.IsChest)
         {
-            var players = FindObjectsOfType<Player>();
+            var ships = GameManager.GetInstance().Ships;
 
-            var hasChest = players.FirstOrDefault(i => i.photonView.HasChest()) != null;
+            var hasChest = ships.FirstOrDefault(i => i.photonView.HasChest()) != null;
 
             return objWithTags.Length < spawner.MaxLimit && !hasChest;
         }
