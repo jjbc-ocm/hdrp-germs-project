@@ -12,6 +12,10 @@ public class GPFriendWindow : MonoBehaviour
     public Button m_friendsTabButton;
     public Button m_addFriendTabButton;
 
+    [Header("Friend List Settings")]
+    public Transform m_friendsHolder;
+    public GPFriendSlot m_friendSlotPrefab;
+
     [Header("Tab Settings")]
     public Transform m_tabFocusImage;
     public Color m_selectedTabColor;
@@ -77,6 +81,17 @@ public class GPFriendWindow : MonoBehaviour
     public void MoveTapFocus(Transform targetTransform)
     {
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
+    }
+
+    public void UpdateFriendList()
+    {
+        foreach (var friend in GPPlayerProfile.m_instance.m_friends)
+        {
+            GPFriendSlot slot = Instantiate(m_friendSlotPrefab, m_friendsHolder);
+            slot.SetFriendName(friend.m_friendName);
+            slot.SetOnlineStatus(friend.m_onlineStatus);
+            slot.SetFriendProfileIcon(friend.m_profileIcon);
+        }
     }
 
 
