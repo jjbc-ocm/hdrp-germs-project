@@ -38,6 +38,12 @@ public class Constants
     public const int SCORE_REQUIRED = 50;
 
     public const float RESPAWN_TIME = 10;
+
+    public static float[] SETTINGS_RENDER_SCALE = new float[] { 1f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f };
+
+    public static int[] SETTINGS_MSAA = new int[] { 8, 0 };
+
+    public static bool[] SETTINGS_POST_PROCESS = new bool[] { true, false };
 }
 
 public class Globals

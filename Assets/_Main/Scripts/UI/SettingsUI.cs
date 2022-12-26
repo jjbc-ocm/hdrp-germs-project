@@ -117,6 +117,8 @@ public class SettingsUI : WindowUI<SettingsUI>
 
         await APIManager.Instance.PlayerData.SetSettings(Data).Put();
 
+        SettingsManager.Instance.ApplySettings(APIManager.Instance.PlayerData.Settings);
+
         loadIndicator.SetActive(false);
     }
 

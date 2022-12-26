@@ -18,9 +18,6 @@ namespace TanksMP
         private LoadingUI uiLoading;
 
         [SerializeField]
-        private SettingsUI uiSettings;
-
-        [SerializeField]
         private GameObject indicatorLoad;
 
         async void Start()
@@ -71,7 +68,7 @@ namespace TanksMP
 
         public void OpenSettings()
         {
-            uiSettings.Open((self) =>
+            SettingsUI.Instance.Open((self) =>
             {
                 self.Data = new SettingsData(APIManager.Instance.PlayerData.Settings);
             });

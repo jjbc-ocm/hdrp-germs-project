@@ -236,12 +236,12 @@ public class SettingsData
     
     public SettingsData()
     {
-        QualityIndex = 2;
-        ResolutionIndex = 0;
+        QualityIndex = 0;
+        ResolutionIndex = 2;
         ResolutionScaleIndex = 0;
-        ParticleIndex = 2;
-        AntiAliasingIndex = 1;
-        PostProcessingIndex = 1;
+        ParticleIndex = 0;
+        AntiAliasingIndex = 0;
+        PostProcessingIndex = 0;
         MusicVolume = 1;
         SoundVolume = 1;
     }
