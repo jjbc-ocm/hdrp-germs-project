@@ -33,6 +33,9 @@ public class GPPlayerProfile : MonoBehaviour
     //public List<GPDummyData> m_dummySlots = new List<GPDummyData>();
     //public int m_currDummySlotIdx = 0;
 
+    [Header("Social Settings")]
+    public List<GPFriend> m_friends = new List<GPFriend>(); // still not sure how the API will manage this but i'll use this data in the meantime for the UI building.
+
     public static GPPlayerProfile m_instance;
 
     private void Awake()
