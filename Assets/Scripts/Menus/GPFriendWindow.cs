@@ -15,6 +15,14 @@ public class GPFriendWindow : MonoBehaviour
     [Header("Friend List Settings")]
     public Transform m_friendsHolder;
     public GPFriendSlot m_friendSlotPrefab;
+    public TMP_InputField m_searchFriendInputField;
+    public Vector3 m_slotLocalEulerAngles = new Vector3(0, 0, 180);
+    public Vector3 m_slotPivot = new Vector2(0.675f, 0.29f);
+
+    [Header("Add Friend List Settings")]
+    public Transform m_addFriendsHolder;
+    public GPAddFriendSlot m_addFriendSlotPrefab;
+    public TMP_InputField m_searchUserInputField;
 
     [Header("Tab Settings")]
     public Transform m_tabFocusImage;
@@ -25,6 +33,10 @@ public class GPFriendWindow : MonoBehaviour
 
     [Header("Audio Settings")]
     public AudioClip m_changeTabSFX;
+
+    [Header("Testing Settings")]
+    public List<GPFriend> m_testFriends = new List<GPFriend>();
+    public bool m_useTestFriends = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +59,18 @@ public class GPFriendWindow : MonoBehaviour
         MoveTapFocus(m_friendsTabButton.transform);
         m_friendsTabButton.GetComponent<TextMeshProUGUI>().color = m_selectedTabColor; // set selected color to new tab
         OnNewTabShown(playSFX);
+
+#if !UNITY_EDITOR
+        m_useTestFriends = false;
+#endif
+        if (m_useTestFriends)
+        {
+            UpdateFriendList(m_testFriends);
+        }
+        else
+        {
+            UpdateFriendList(GPPlayerProfile.m_instance.m_friends);
+        }
     }
 
     public void ShowAddFriendScreen(bool playSFX)
@@ -83,16 +107,42 @@ public class GPFriendWindow : MonoBehaviour
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
     }
 
-    public void UpdateFriendList()
+    public void UpdateFriendList(List<GPFriend> friends)
     {
-        foreach (var friend in GPPlayerProfile.m_instance.m_friends)
+        //clear old UI
+        foreach (Transform child in m_friendsHolder)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (var friend in friends)
         {
             GPFriendSlot slot = Instantiate(m_friendSlotPrefab, m_friendsHolder);
+            slot.transform.localEulerAngles = m_slotLocalEulerAngles;
+            slot.GetComponent<RectTransform>().pivot = m_slotPivot;
             slot.SetFriendName(friend.m_friendName);
             slot.SetOnlineStatus(friend.m_onlineStatus);
             slot.SetFriendProfileIcon(friend.m_profileIcon);
         }
     }
 
+    public void UpdateAddFriendList(List<GPFriend> results)
+    {
+        //clear old UI
+        foreach (Transform child in m_addFriendsHolder)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        //Fill new UI
+        foreach (var friend in results)
+        {
+            GPAddFriendSlot slot = Instantiate(m_addFriendSlotPrefab, m_addFriendsHolder);
+            slot.transform.localEulerAngles = m_slotLocalEulerAngles;
+            slot.GetComponent<RectTransform>().pivot = m_slotPivot;
+            slot.SetFriendName(friend.m_friendName);
+            slot.SetFriendProfileIcon(friend.m_profileIcon);
+        }
+    }
 
 }

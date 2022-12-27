@@ -15,6 +15,9 @@ public class GPFriendSlot : MonoBehaviour
     public TextMeshProUGUI m_friendName;
     public TextMeshProUGUI m_friendOnlineStatus;
     public List<Image> m_profileIcons;
+    public Image m_statusIcon;
+    public Sprite m_offlineSprite;
+    public Sprite m_onlineSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -41,9 +44,11 @@ public class GPFriendSlot : MonoBehaviour
         {
             case GP_ONLINE_STATUS.kOffline:
                 m_friendOnlineStatus.text = "Offline";
+                m_statusIcon.sprite = m_offlineSprite;
                 break;
             case GP_ONLINE_STATUS.kOnline:
                 m_friendOnlineStatus.text = "Online";
+                m_statusIcon.sprite = m_onlineSprite;
                 break;
             default:
                 m_friendOnlineStatus.text = "Unknow";

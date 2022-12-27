@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Very simple class to just hold some basic data in the meantime.
 /// </summary>
+[System.Serializable]
 public class GPFriend
 {
     public string m_friendName;
