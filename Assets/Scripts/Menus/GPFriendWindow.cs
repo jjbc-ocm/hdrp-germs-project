@@ -36,6 +36,7 @@ public class GPFriendWindow : MonoBehaviour
 
     [Header("Testing Settings")]
     public List<GPFriend> m_testFriends = new List<GPFriend>();
+    public List<GPFriend> m_possibleFriends = new List<GPFriend>();
     public bool m_useTestFriends = false;
 
     // Start is called before the first frame update
@@ -45,6 +46,8 @@ public class GPFriendWindow : MonoBehaviour
         m_addFriendTabButton.onClick.AddListener(delegate { ShowAddFriendScreen(true); });
         m_currentScreen = m_friendScreen;
         ShowFriendScreen(false);
+
+        m_searchFriendInputField.onEndEdit.AddListener(OnSearchBoxEndEdit);
     }
 
     public void ShowFriendScreen(bool playSFX)
@@ -65,11 +68,11 @@ public class GPFriendWindow : MonoBehaviour
 #endif
         if (m_useTestFriends)
         {
-            UpdateFriendList(m_testFriends);
+            UpdateFriendListUI(m_testFriends);
         }
         else
         {
-            UpdateFriendList(GPPlayerProfile.m_instance.m_friends);
+            UpdateFriendListUI(GPPlayerProfile.m_instance.m_friends);
         }
     }
 
@@ -85,6 +88,16 @@ public class GPFriendWindow : MonoBehaviour
         MoveTapFocus(m_addFriendTabButton.transform);
         m_addFriendTabButton.GetComponent<TextMeshProUGUI>().color = m_selectedTabColor;
         OnNewTabShown(playSFX);
+
+        //only show users if there is sometihng written on the search box
+        if (m_searchFriendInputField.text != "")
+        {
+            OnSearchBoxEndEdit(m_searchFriendInputField.text);
+        }
+        else // if there is nothing written then clear the UI list.
+        {
+            UpdateAddFriendListUI(null);
+        }
     }
 
     /// <summary>
@@ -96,6 +109,8 @@ public class GPFriendWindow : MonoBehaviour
         {
             TanksMP.AudioManager.Play2D(m_changeTabSFX);
         }
+
+        m_searchFriendInputField.text = "";
     }
 
     /// <summary>
@@ -107,7 +122,7 @@ public class GPFriendWindow : MonoBehaviour
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
     }
 
-    public void UpdateFriendList(List<GPFriend> friends)
+    public void UpdateFriendListUI(List<GPFriend> friends)
     {
         //clear old UI
         foreach (Transform child in m_friendsHolder)
@@ -120,13 +135,11 @@ public class GPFriendWindow : MonoBehaviour
             GPFriendSlot slot = Instantiate(m_friendSlotPrefab, m_friendsHolder);
             slot.transform.localEulerAngles = m_slotLocalEulerAngles;
             slot.GetComponent<RectTransform>().pivot = m_slotPivot;
-            slot.SetFriendName(friend.m_friendName);
-            slot.SetOnlineStatus(friend.m_onlineStatus);
-            slot.SetFriendProfileIcon(friend.m_profileIcon);
+            slot.AssignToFriendAndDisplay(friend);
         }
     }
 
-    public void UpdateAddFriendList(List<GPFriend> results)
+    public void UpdateAddFriendListUI(List<GPFriend> results)
     {
         //clear old UI
         foreach (Transform child in m_addFriendsHolder)
@@ -134,15 +147,62 @@ public class GPFriendWindow : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
+        if (results == null) { return; }
+
         //Fill new UI
         foreach (var friend in results)
         {
             GPAddFriendSlot slot = Instantiate(m_addFriendSlotPrefab, m_addFriendsHolder);
             slot.transform.localEulerAngles = m_slotLocalEulerAngles;
             slot.GetComponent<RectTransform>().pivot = m_slotPivot;
-            slot.SetFriendName(friend.m_friendName);
-            slot.SetFriendProfileIcon(friend.m_profileIcon);
+            slot.AssignUserAndDisplay(friend);
         }
+    }
+
+    public List<GPFriend> FilterUsers(List<GPFriend> friends)
+    {
+        return friends.FindAll(FindFriend);
+    }
+
+    private bool FindFriend(GPFriend friend)
+    {
+
+        if (friend.m_friendName.Contains(m_searchFriendInputField.text))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void OnSearchBoxEndEdit(string text)
+    {
+        if (m_useTestFriends)
+        {
+            if (m_currentScreen == m_friendScreen)
+            {
+                UpdateFriendListUI(FilterUsers(m_testFriends));
+            }
+            else if (m_currentScreen == m_addFriendScreen)
+            {
+                UpdateAddFriendListUI(FilterUsers(m_possibleFriends));
+            }
+        }
+        else
+        {
+            if (m_currentScreen == m_friendScreen)
+            {
+                UpdateFriendListUI(FilterUsers(GPPlayerProfile.m_instance.m_friends));
+            }
+            else if (m_currentScreen == m_addFriendScreen)
+            {
+                // TODO: We should probably do the user filtering from the API and return them to just display them on the UI.
+                //UpdateAddFriendList(FilterUsers(putListOfUsersHere)); 
+            }
+        }
+        
     }
 
 }
