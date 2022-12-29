@@ -46,9 +46,9 @@ public class TopBarUI : UI<TopBarUI>
     protected override void OnRefreshUI()
     {
         /* Update UI elements that is tied-up to other players */
-        var team1 = GameManager.GetInstance().Team1Ships;
+        var team1 = GameManager.Instance.Team1Ships;
 
-        var team2 = GameManager.GetInstance().Team2Ships;
+        var team2 = GameManager.Instance.Team2Ships;
 
         for (int team = 0; team < Constants.MAX_TEAM; team++)
         {

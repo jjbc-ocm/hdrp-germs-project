@@ -44,7 +44,7 @@ public class GPRewardSystem : MonoBehaviour
     /// <param name="amount"></param>
     public void AddGoldToPlayer(Photon.Realtime.Player player, int amount)
     {
-        var ship = GameManager.GetInstance().Ships.FirstOrDefault(i => i.photonView.Owner == player);
+        var ship = GameManager.Instance.Ships.FirstOrDefault(i => i.photonView.Owner == player);
 
         ship.photonView.RPC("AddGold", RpcTarget.All, amount);
 
@@ -60,7 +60,7 @@ public class GPRewardSystem : MonoBehaviour
     {
         if (m_rewardsMap.ContainsKey(key))
         {
-            var ship = GameManager.GetInstance().Ships.FirstOrDefault(i => i.photonView.Owner == player);
+            var ship = GameManager.Instance.Ships.FirstOrDefault(i => i.photonView.Owner == player);
 
             ship.photonView.RPC("AddGold", RpcTarget.All, m_rewardsMap[key]);
 

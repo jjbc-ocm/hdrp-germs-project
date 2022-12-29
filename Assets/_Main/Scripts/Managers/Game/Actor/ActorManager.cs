@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class ActorManager : MonoBehaviourPunCallbacks
+public abstract class ActorManager : GameEntityManager
 {
     [SerializeField]
     private bool isMonster;

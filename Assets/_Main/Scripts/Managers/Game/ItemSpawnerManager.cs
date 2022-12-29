@@ -86,7 +86,7 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
         if (spawner.IsChest)
         {
-            var ships = GameManager.GetInstance().Ships;
+            var ships = GameManager.Instance.Ships;
 
             var hasChest = ships.FirstOrDefault(i => i.photonView.HasChest()) != null;
 

@@ -19,7 +19,7 @@ namespace TanksMP
     public class GameManager : MonoBehaviourPun
     {
         //reference to this script instance
-        private static GameManager instance;
+        public static GameManager Instance;
 
         [SerializeField]
         private PlayerOfflineSaveState prefabPlayerOfflineSaveState;
@@ -46,6 +46,8 @@ namespace TanksMP
 
         private Player[] ships;
 
+        private SupremacyWardEffectManager[] supremacyWards;
+
         private PlayerOfflineSaveState[] offlineSaveStates;
 
         public Player[] Ships { get => ships; }
@@ -54,18 +56,22 @@ namespace TanksMP
 
         public List<Player> Team2Ships { get => ships.Where(i => i.photonView.GetTeam() == 1).ToList(); }
 
+        public SupremacyWardEffectManager[] SupremacyWards { get => supremacyWards; }
+
         public PlayerOfflineSaveState[] OfflineSaveStates { get => offlineSaveStates; }
 
 
         //initialize variables
         void Awake()
         {
-            instance = this;
+            Instance = this;
         }
 
         void Update()
         {
             ships = FindObjectsOfType<Player>();
+
+            supremacyWards = FindObjectsOfType<SupremacyWardEffectManager>();
 
             offlineSaveStates = FindObjectsOfType<PlayerOfflineSaveState>();
 
@@ -78,15 +84,6 @@ namespace TanksMP
                     ship.SoundVisuals.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
                 }
             }
-        }
-
-
-        /// <summary>
-        /// Returns a reference to this script instance.
-        /// </summary>
-        public static GameManager GetInstance()
-        {
-            return instance;
         }
         
         public void CreateOrUpdateOfflineSaveState(Player player, out bool isReconnection)

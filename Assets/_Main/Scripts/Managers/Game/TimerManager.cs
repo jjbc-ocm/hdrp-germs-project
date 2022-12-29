@@ -57,7 +57,7 @@ public class TimerManager : MonoBehaviour
 
         if (!hasStartTime) return;
 
-        if (GameManager.GetInstance().IsGameOver() && !isAftermathCalled)
+        if (GameManager.Instance.IsGameOver() && !isAftermathCalled)
         {
             int[] score = PhotonNetwork.CurrentRoom.GetScore();
 

@@ -186,7 +186,7 @@ namespace TanksMP
 
         void Start()
         {
-            GameManager.GetInstance().CreateOrUpdateOfflineSaveState(this, out var isReconnection);
+            GameManager.Instance.CreateOrUpdateOfflineSaveState(this, out var isReconnection);
 
             if (!isReconnection)
             {
@@ -246,8 +246,8 @@ namespace TanksMP
                     {
                         self.Data = new List<List<Player>>
                     {
-                        GameManager.GetInstance().Team1Ships,
-                        GameManager.GetInstance().Team2Ships
+                        GameManager.Instance.Team1Ships,
+                        GameManager.Instance.Team2Ships
                     };
                     });
                 }
@@ -256,11 +256,6 @@ namespace TanksMP
                     ScoreBoardUI.Instance.Close();
                 }
             }
-
-            /*if (Input.GetKeyDown(KeyCode.P))
-            {
-                PhotonNetwork.Disconnect();
-            }*/
         }
 
         void FixedUpdate()
@@ -323,8 +318,8 @@ namespace TanksMP
                 collectibleTeam.Obtain(this);
 
                 var destination = photonView.GetTeam() == 0
-                    ? GameManager.GetInstance().zoneRed.transform.position
-                    : GameManager.GetInstance().zoneBlue.transform.position;
+                    ? GameManager.Instance.zoneRed.transform.position
+                    : GameManager.Instance.zoneBlue.transform.position;
 
                 GPSManager.Instance.SetDestination(destination);
             }
@@ -435,7 +430,7 @@ namespace TanksMP
         [PunRPC]
         public void RpcBroadcastKillStatement(int attackerId, int defenderId)
         {
-            GameManager.GetInstance().ui.OpenKillStatement(PhotonView.Find(attackerId), PhotonView.Find(defenderId));
+            GameManager.Instance.ui.OpenKillStatement(PhotonView.Find(attackerId), PhotonView.Find(defenderId));
         }
 
         [PunRPC]
@@ -452,7 +447,7 @@ namespace TanksMP
         [PunRPC]
         public void RpcGameOver(int winnerTeamIndex)
         {
-            GameManager.GetInstance().DisplayGameOver(winnerTeamIndex);
+            GameManager.Instance.DisplayGameOver(winnerTeamIndex);
         }
 
         [PunRPC]
@@ -471,7 +466,7 @@ namespace TanksMP
 
                     if (photonView.GetTeam() != attackerTeam)
                     {
-                        GameManager.GetInstance().AddScore(ScoreType.Kill, attackerTeam);
+                        GameManager.Instance.AddScore(ScoreType.Kill, attackerTeam);
 
                         GPRewardSystem.m_instance.AddGoldToPlayer(attacker.Owner, "Kill");
                     }
@@ -516,7 +511,7 @@ namespace TanksMP
             camFollow.target = transform;
             camFollow.HideMask(false);
 
-            //transform.position = GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam());
+            //transform.position = GameManager.Instance.GetSpawnPosition(photonView.GetTeam());
             transform.position = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position;
             transform.rotation = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].rotation;
 
@@ -597,12 +592,12 @@ namespace TanksMP
 
             while (targetTime - Time.time > 0)
             {
-                GameManager.GetInstance().ui.SetSpawnDelay(targetTime - Time.time);
+                GameManager.Instance.ui.SetSpawnDelay(targetTime - Time.time);
 
                 yield return null;
             }
 
-            GameManager.GetInstance().ui.DisableDeath();
+            GameManager.Instance.ui.DisableDeath();
 
             isRespawning = false;
 
