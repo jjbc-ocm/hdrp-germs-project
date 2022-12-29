@@ -8,7 +8,7 @@ using TMPro;
 public class GPAddFriendSlot : MonoBehaviour
 {
     public TextMeshProUGUI m_friendName;
-    public List<Image> m_profileIcons;
+    public GPUserFrameUI m_userMinitaureUI;
 
     public GPFriend m_asignedUser;
     public UnityEvent<GPFriend> onAddButtonClickedEvent;
@@ -33,10 +33,7 @@ public class GPAddFriendSlot : MonoBehaviour
 
     public void SetFriendProfileIcon(Sprite sprite)
     {
-        foreach (var icon in m_profileIcons)
-        {
-            icon.sprite = sprite;
-        }
+        m_userMinitaureUI.SetProfileIcon(sprite);
     }
 
     public void OnAddFriendButtonClicked()
