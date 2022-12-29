@@ -15,7 +15,7 @@ public class GPFriendSlot : MonoBehaviour
 {
     public TextMeshProUGUI m_friendName;
     public TextMeshProUGUI m_friendOnlineStatus;
-    public List<Image> m_profileIcons;
+    public GPUserFrameUI m_userMinitaureUI;
     public Image m_statusIcon;
     public Sprite m_offlineSprite;
     public Sprite m_onlineSprite;
@@ -50,10 +50,7 @@ public class GPFriendSlot : MonoBehaviour
 
     public void SetFriendProfileIcon(Sprite sprite)
     {
-        foreach (var icon in m_profileIcons)
-        {
-            icon.sprite = sprite;
-        }
+        m_userMinitaureUI.SetProfileIcon(sprite);
     }
 
     public void SetOnlineStatus(GP_ONLINE_STATUS status)

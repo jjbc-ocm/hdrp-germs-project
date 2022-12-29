@@ -11,10 +11,9 @@ public class GPProfileWindow : GPGWindowUI
     public GPProfileIconBlock m_profileIconBlockPrefab;
     List<GPProfileIconBlock> m_spawnedBlocks = new List<GPProfileIconBlock>();
 
-    public List<Image> m_displayedImages; // it's a list because of the diferent level frames
-    public List<Image> m_mainMenuProfileImages; // it's a list because of the diferent level frames
-    public List<TextMeshProUGUI> m_levelTexts; // it's a list because of the diferent level frames
     public GPProfileIconBlock m_lastPreviewedBlock;
+    public GPUserFrameUI m_profileWindowUserMiniature;
+    public GPUserFrameUI m_homeUserMiniature;
 
     [Header("Bio")]
     public TextMeshProUGUI m_nameText;
@@ -68,7 +67,7 @@ public class GPProfileWindow : GPGWindowUI
         {
             block.ToggleLocked(!GPPlayerProfile.m_instance.m_profileIcons.Contains(block.m_profileIconDesc));
 
-            if (block.m_profileIconDesc.m_sprite == m_mainMenuProfileImages[0].sprite)
+            if (block.m_profileIconDesc.m_sprite == m_homeUserMiniature.m_assignedProfileIconSprite)
             {
                 OnClickedIcon(block);
             }
@@ -92,10 +91,8 @@ public class GPProfileWindow : GPGWindowUI
         }
 
         m_lastPreviewedBlock = block;
-        foreach (var image in m_displayedImages)
-        {
-            image.sprite = block.m_profileIconDesc.m_sprite;
-        }
+
+        m_profileWindowUserMiniature.SetProfileIcon(block.m_profileIconDesc.m_sprite);
     }
 
     /// <summary>
@@ -105,10 +102,7 @@ public class GPProfileWindow : GPGWindowUI
     {
         if (m_lastPreviewedBlock)
         {
-            foreach (var image in m_mainMenuProfileImages)
-            {
-                image.sprite = m_lastPreviewedBlock.m_profileIconDesc.m_sprite;
-            }
+            m_homeUserMiniature.SetProfileIcon(m_lastPreviewedBlock.m_profileIconDesc.m_sprite);
         }
         TanksMP.AudioManager.Play2D(m_equipSFX);
     }
@@ -134,10 +128,8 @@ public class GPProfileWindow : GPGWindowUI
 
     void UpdateLevelText()
     {
-        foreach (var levelText in m_levelTexts)
-        {
-            levelText.text = APIManager.Instance.PlayerData.Level.ToString();
-        }
+        m_homeUserMiniature.SetLevel(APIManager.Instance.PlayerData.Level);
+        m_profileWindowUserMiniature.SetLevel(APIManager.Instance.PlayerData.Level);
     }
 
     void UpdateExpUI()
