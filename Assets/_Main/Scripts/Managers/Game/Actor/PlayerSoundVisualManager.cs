@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
 
-public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
+public class PlayerSoundVisualManager : GameEntityManager
 {
     [SerializeField]
     private GameObject[] teamIndicators;
@@ -94,7 +94,7 @@ public class PlayerSoundVisualManager : MonoBehaviourPunCallbacks
             {
                 var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-                var isActive = !isInvisible && (isInPlayerRange || isNullifyInvisibilityEffect) && !isInsideBush;
+                var isActive = !isInvisible && (isInPlayerRange || IsInSupremacyWard()) && !isInsideBush;
 
                 rendererShip.gameObject.SetActive(isActive);
 

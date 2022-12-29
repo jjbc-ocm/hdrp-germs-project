@@ -29,9 +29,9 @@ namespace TanksMP
         {
             if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
 
-            GameManager.GetInstance().AddScore(ScoreType.Capture, teamIndex);
+            GameManager.Instance.AddScore(ScoreType.Capture, teamIndex);
 
-            if (GameManager.GetInstance().IsGameOver())
+            if (GameManager.Instance.IsGameOver())
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
 

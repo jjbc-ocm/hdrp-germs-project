@@ -131,32 +131,6 @@ public class GPMonsterBase : ActorManager
 
     Collider m_mainCollider;
 
-    protected bool isNullifyInvisibilityEffect;
-
-    void OnTriggerEnter(Collider col)
-    {
-        //Debug.LogError("OnTriggerEnter " + col.name);
-
-        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-        if (supremacyWard != null)
-        {
-            isNullifyInvisibilityEffect = true;
-        }
-    }
-
-    void OnTriggerExit(Collider col)
-    {
-        //Debug.LogError("OnTriggerExit");
-
-        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-        if (supremacyWard != null)
-        {
-            isNullifyInvisibilityEffect = false;
-        }
-    }
-
     public void BaseStart()
     {
         if (m_photonView == null)

@@ -120,21 +120,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
     }
 
-    /*private void InstantiateDecoyPlayer(string userId)
-    {
-        var offlineSaveState = GameManager.GetInstance().OfflineSaveStates.FirstOrDefault(i => i.UserId == userId);
-
-        var shipIndex = offlineSaveState.ShipIndex;
-
-        var prefabName = shipPrefabs[shipIndex].name;
-
-        PhotonNetwork.InstantiateRoomObject(prefabName, offlineSaveState.TransformPosition, offlineSaveState.TransformRotation);
-    }
-
-    private void DestroyDecoyPlayer(string userId)
-    {
-
-    }*/
+    
 
     private bool IsAllowedToReconnect(DisconnectCause cause)
     {

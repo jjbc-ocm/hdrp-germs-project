@@ -15,14 +15,12 @@ namespace TanksMP
     /// 
 
     [RequireComponent(typeof(PhotonView))]
-	public abstract class Collectible : MonoBehaviourPun, IPunObservable
+	public abstract class Collectible : GameEntityManager, IPunObservable
     {
         public AudioClip useClip;
 
         [SerializeField]
         private GameObject graphics;
-
-        private bool isNullifyInvisibilityEffect;
 
         void Update()
         {
@@ -30,19 +28,12 @@ namespace TanksMP
             {
                 var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-                graphics.SetActive(isInPlayerRange || isNullifyInvisibilityEffect);
+                graphics.SetActive(isInPlayerRange || IsInSupremacyWard());
             }
         }
 
         public virtual void OnTriggerEnter(Collider col)
 		{
-            var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-            if (supremacyWard != null)
-            {
-                isNullifyInvisibilityEffect = true;
-            }
-
             if (!PhotonNetwork.IsMasterClient) return;
             
     		GameObject obj = col.gameObject;
@@ -54,16 +45,6 @@ namespace TanksMP
                 PhotonNetwork.Destroy(photonView);
             }
 		}
-
-        void OnTriggerExit(Collider col)
-        {
-            var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-            if (supremacyWard != null)
-            {
-                isNullifyInvisibilityEffect = false;
-            }
-        }
 
         public virtual bool Apply(Player p)
 		{
