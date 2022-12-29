@@ -16,7 +16,7 @@ public class SupremacyWardEffectManager : MonoBehaviourPunCallbacks
 
     private IEnumerator YieldDestroy()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(120);
 
         if (PhotonNetwork.IsMasterClient)
         {
