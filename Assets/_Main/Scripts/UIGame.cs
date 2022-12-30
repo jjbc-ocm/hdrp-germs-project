@@ -17,30 +17,6 @@ namespace TanksMP
     /// </summary>
     public class UIGame : MonoBehaviourPunCallbacks
     {
-        /*[SerializeField]
-        private Image[] team1PlayerIndicators;
-
-        [SerializeField]
-        private Image[] team2PlayerIndicators;
-
-        [SerializeField]
-        private Image[] team1ChestIndicators;
-
-        [SerializeField]
-        private Image[] team2ChestIndicators;
-
-        [SerializeField]
-        private Slider[] team1HealthSliders;
-
-        [SerializeField]
-        private Slider[] team2HealthSliders;
-
-        [SerializeField]
-        private Slider[] team1ManaSliders;
-
-        [SerializeField]
-        private Slider[] team2ManaSliders;*/
-
         [SerializeField]
         private TMP_Text[] teamScore;
 
@@ -136,6 +112,14 @@ namespace TanksMP
                 self.Winner = winner;
 
                 self.Loser = loser;
+            });
+        }
+
+        public void OpenSettings()
+        {
+            SettingsUI.Instance.Open((self) =>
+            {
+                self.Data = new SettingsData(APIManager.Instance.PlayerData.Settings);
             });
         }
 

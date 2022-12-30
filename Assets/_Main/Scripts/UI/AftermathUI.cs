@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
@@ -56,6 +57,8 @@ public class AftermathUI : UI<AftermathUI>
     public async void OnClick()
     {
         indicatorLoad.SetActive(true);
+
+        PhotonNetwork.Disconnect();
 
         var stats = APIManager.Instance.PlayerData.Stats;
 
