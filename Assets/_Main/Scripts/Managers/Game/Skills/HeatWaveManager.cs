@@ -22,6 +22,13 @@ public class HeatWaveManager : SkillBaseManager
             if (!IsHit(owner, actor)) continue;
 
             actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
+
+            if (owner is Player)
+            {
+                var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * (owner as Player).Inventory.StatModifier.LifeSteal));
+
+                owner.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+            }
         }
     }
 }
