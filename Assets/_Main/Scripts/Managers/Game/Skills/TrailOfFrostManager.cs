@@ -39,6 +39,13 @@ public class TrailOfFrostManager : SkillBaseManager
         Debug.Log("SDFGSFDFG C");
 
         actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
+
+        if (owner is Player)
+        {
+            var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * (owner as Player).Inventory.StatModifier.LifeSteal));
+
+            owner.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+        }
     }
 
     protected override void OnInitialize()

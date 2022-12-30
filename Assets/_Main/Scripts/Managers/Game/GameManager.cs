@@ -86,6 +86,7 @@ namespace TanksMP
             }
         }
         
+        // TODO: for now, do not use this since it will cause a massive bug
         public void CreateOrUpdateOfflineSaveState(Player player, out bool isReconnection)
         {
             var currentOfflineSaveState = offlineSaveStates != null && offlineSaveStates.Length > 0

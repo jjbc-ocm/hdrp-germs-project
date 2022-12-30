@@ -72,7 +72,7 @@ namespace TanksMP
 
                 if (owner is Player)
                 {
-                    var lifeSteal = -Mathf.RoundToInt(damage * (owner as Player).Inventory.StatModifier.LifeSteal);
+                    var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * (owner as Player).Inventory.StatModifier.LifeSteal));
 
                     owner.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
                 }
