@@ -186,12 +186,14 @@ namespace TanksMP
 
         void Start()
         {
-            GameManager.Instance.CreateOrUpdateOfflineSaveState(this, out var isReconnection);
+            //GameManager.Instance.CreateOrUpdateOfflineSaveState(this, out var isReconnection);
 
-            if (!isReconnection)
+            /*if (!isReconnection)
             {
                 stat.Initialize();
-            }
+            }*/
+
+            stat.Initialize();
 
             if (!photonView.IsMine) return;
 
@@ -453,6 +455,9 @@ namespace TanksMP
         [PunRPC]
         public override void RpcDamageHealth(int amount, int attackerId)
         {
+            /* Do not damage this ship if respawning */
+            if (!isRespawning) return;
+
             stat.AddHealth(-amount);
 
             if (stat.Health <= 0)
