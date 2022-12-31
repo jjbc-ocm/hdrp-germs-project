@@ -11,6 +11,8 @@ public enum GP_PRIZE_TYPE
     kEnergy,
     kWoodenChest,
     kGoldenChest,
+    kSilverChest,
+    kCrystalChest,
 }
 
 [System.Serializable]
