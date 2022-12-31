@@ -34,6 +34,11 @@ public class GPItemsDB : MonoBehaviour
     public List<GPProfileIconSO> m_profileIcons = new List<GPProfileIconSO>();
     public Dictionary<string, GPProfileIconSO> m_profileIconsMap = new Dictionary<string, GPProfileIconSO>();
 
+    [Header("Chests")]
+    public GPStoreChestSO m_woodenChest;
+    public GPStoreChestSO m_silverChest;
+    public GPStoreChestSO m_goldenChest;
+    public GPStoreChestSO m_crystalChest;
 
     public static GPItemsDB m_instance;
 
