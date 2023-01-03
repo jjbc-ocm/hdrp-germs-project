@@ -11,6 +11,9 @@ public class GPWeeklyRewardBlock : MonoBehaviour
     public TextMeshProUGUI m_dayText;
     public GameObject m_checkObj;
     public GameObject m_focusObj;
+    public string m_focusText = "TODAY";
+    public Color m_focusColor;
+    public Color m_normalColor;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +33,7 @@ public class GPWeeklyRewardBlock : MonoBehaviour
 
     public void SetDay(int day)
     {
-        m_dayText.text = "DAY" + day.ToString();
+        m_dayText.text = "DAY " + day.ToString();
     }
 
     public void ToggleChecked(bool active)
@@ -41,5 +44,16 @@ public class GPWeeklyRewardBlock : MonoBehaviour
     public void ToggleFocus(bool active)
     {
         m_focusObj.SetActive(active);
+
+        if (active)
+        {
+            m_dayText.text = m_focusText;
+            m_dayText.color = m_focusColor;
+        }
+        else
+        {
+            m_dayText.color = m_normalColor;
+        }
+
     }
 }
