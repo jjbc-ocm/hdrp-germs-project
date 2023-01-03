@@ -49,16 +49,7 @@ public class GPWeeklyRewardScreen : GPGUIScreen
 
         TanksMP.AudioManager.Play2D(m_showScreenSFX);
 
-        m_rewardCounterText.text = string.Format("Daily Login Rewards  <color=#f6e19c>{0} </color>/ {1}", m_currClaimedIdx, m_rewardCount);
-
-        for (int i = 0; i < m_rewardBlocks.Count; i++)
-        {
-            m_rewardBlocks[i].ToggleChecked(i < m_currClaimedIdx);
-            m_rewardBlocks[i].ToggleFocus(i == m_currClaimedIdx);
-            m_rewardBlocks[i].SetDay(i+1);
-            m_rewardBlocks[i].SetRewardSprite(m_rewards[i].m_rewardSO.m_rewardSprite);
-            m_rewardBlocks[i].SetRewardAmount(m_rewards[i].m_amount);
-        }
+        UpdateDisplayedData();
     }
 
     public override void Hide()
@@ -73,6 +64,30 @@ public class GPWeeklyRewardScreen : GPGUIScreen
         m_currClaimedIdx = Mathf.Clamp(m_currClaimedIdx, 0, 7);
         TanksMP.AudioManager.Play2D(m_claimSFX);
         Hide();
+    }
+
+    public void ResetWeekProgress()
+    {
+        m_currClaimedIdx = 0;
+        UpdateDisplayedData();
+    }
+
+    /// <summary>
+    /// Displays the reward sprites, eneables check marks on the claimed ones, disiplays the number of claimed rewards
+    /// and enables the focus sprite on the current reward block.
+    /// </summary>
+    void UpdateDisplayedData()
+    {
+        m_rewardCounterText.text = string.Format("Daily Login Rewards  <color=#f6e19c>{0} </color>/ {1}", m_currClaimedIdx, m_rewardCount);
+
+        for (int i = 0; i < m_rewardBlocks.Count; i++)
+        {
+            m_rewardBlocks[i].ToggleChecked(i < m_currClaimedIdx);
+            m_rewardBlocks[i].SetDay(i + 1);
+            m_rewardBlocks[i].ToggleFocus(i == m_currClaimedIdx);
+            m_rewardBlocks[i].SetRewardSprite(m_rewards[i].m_rewardSO.m_rewardSprite);
+            m_rewardBlocks[i].SetRewardAmount(m_rewards[i].m_amount);
+        }
     }
 
     public async void GivePrize(WeeklyReward reward)
