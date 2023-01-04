@@ -15,9 +15,9 @@ Material:
   - _DISABLE_SSR
   - _DISABLE_SSR_TRANSPARENT
   m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
@@ -411,16 +411,16 @@ Material:
     - _NumLayersCount: 1
     - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
-    - _OutlineDepthSensitivity: 0
+    - _OutlineDepthSensitivity: 3
     - _OutlineNormalsSensitivity: 1
-    - _OutlineThickness: 0
+    - _OutlineThickness: 1
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
     - _Parallax: 0.02
-    - _QueueControl: 0
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceiveShadows: 1
