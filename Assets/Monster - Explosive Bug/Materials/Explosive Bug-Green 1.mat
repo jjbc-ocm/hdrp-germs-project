@@ -55,7 +55,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_300EB541:
-        m_Texture: {fileID: 2800000, guid: a9c1a89413b9a804c9325560a1035746, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -99,7 +99,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
-        m_Texture: {fileID: 2800000, guid: a9c1a89413b9a804c9325560a1035746, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -116,7 +116,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_8606F96E: 1
+    - Vector1_8606F96E: 0.08
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
@@ -144,9 +144,9 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OpaqueCullMode: 2
-    - _OutlineDepthSensitivity: 0.2
+    - _OutlineDepthSensitivity: 3
     - _OutlineNormalsSensitivity: 1
-    - _OutlineThickness: 6
+    - _OutlineThickness: 1
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -194,6 +194,6 @@ Material:
     - _MainColor: {r: 1, g: 1, b: 1, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecularColor: {r: 0.2, g: 0.2, b: 0.2, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
