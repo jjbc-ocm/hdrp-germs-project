@@ -20,6 +20,12 @@ public class GPPrize
 {
     public GP_PRIZE_TYPE m_prizeType;
     public int m_prizeAmount;
+    public GPRewardSO m_desc;
+}
+
+[System.Serializable]
+public class GPWheelPrize : GPPrize
+{
     public int m_weight;
 }
 
@@ -32,7 +38,7 @@ public class GPRollScreen : GPGUIScreen
 
     [Header("Prize settings")]
     [Tooltip("List them in clock wise order starting from the top of the wheel")]
-    public List<GPPrize> m_prizes;
+    public List<GPWheelPrize> m_prizes;
     WeightedList<string> m_weightedList = new();
 
     [Header("Prize chest refrences")]
@@ -135,7 +141,7 @@ public class GPRollScreen : GPGUIScreen
         GivePrize(m_prizes[prizeIDX]);
     }
 
-    public async void GivePrize(GPPrize prize)
+    public async void GivePrize(GPWheelPrize prize)
     {
         switch (prize.m_prizeType)
         {
