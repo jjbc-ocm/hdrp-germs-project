@@ -350,6 +350,12 @@ namespace TanksMP
         }
 
         [PunRPC]
+        public void RpcSendChat(string sender, string message, int team, long time)
+        {
+            ChatManager.Instance.SendChat(sender, message, team, time);
+        }
+
+        [PunRPC]
         public void RpcAction(float[] position, float[] target, int autoTargetPhotonID, bool isAttack)
         {
             var action = isAttack ? attack : skill;
