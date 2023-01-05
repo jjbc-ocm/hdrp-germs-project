@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GPFriendWindow : MonoBehaviour
+public class GPFriendWindow : GPGWindowUI
 {
     public GPGUIScreen m_friendScreen;
     public GPGUIScreen m_addFriendScreen;

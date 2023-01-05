@@ -18,7 +18,6 @@ public enum GP_PRIZE_TYPE
 [System.Serializable]
 public class GPPrize
 {
-    public GP_PRIZE_TYPE m_prizeType;
     public int m_prizeAmount;
     public GPRewardSO m_desc;
 }
@@ -39,6 +38,7 @@ public class GPRollScreen : GPGUIScreen
     [Header("Prize settings")]
     [Tooltip("List them in clock wise order starting from the top of the wheel")]
     public List<GPWheelPrize> m_prizes;
+    public List<GPRouletteItem> m_rouletteItemsSlots;
     WeightedList<string> m_weightedList = new();
 
     [Header("Prize chest refrences")]
@@ -79,7 +79,9 @@ public class GPRollScreen : GPGUIScreen
     {
         for (int i = 0; i < m_prizes.Count; i++)
         {
-            m_weightedList.Add(m_prizes[i].m_prizeType.ToString() + " " + m_prizes[i].m_prizeAmount.ToString(),
+            m_rouletteItemsSlots[i].SetSprite(m_prizes[i].m_desc.m_rewardSprite);
+            m_rouletteItemsSlots[i].SetTextAmount(m_prizes[i].m_prizeAmount);
+            m_weightedList.Add(m_prizes[i].m_desc.m_type.ToString() + " " + m_prizes[i].m_prizeAmount.ToString(),
                                m_prizes[i].m_weight);
         }
 
@@ -143,7 +145,7 @@ public class GPRollScreen : GPGUIScreen
 
     public async void GivePrize(GPWheelPrize prize)
     {
-        switch (prize.m_prizeType)
+        switch (prize.m_desc.m_type)
         {
             case GP_PRIZE_TYPE.kGold:
                 //GPPlayerProfile.m_instance.AddGold(prize.m_prizeAmount);

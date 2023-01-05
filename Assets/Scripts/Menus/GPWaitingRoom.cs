@@ -80,12 +80,14 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject m_joinBattleButton;
     public GameObject m_blueTeamButtonHolder;
     public GameObject m_redTeamButtonHolder;
+    public GameObject m_cancelSearchButtonHolder;
     public GameObject m_skipSearchButtonHolder;
     public GameObject m_seachingTimerHolder;
 
     void Awake()
     {
         m_joinBattleButton.gameObject.SetActive(false);
+        m_cancelSearchButtonHolder.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -196,6 +198,15 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_seachingTimerHolder.SetActive(true);
 
         TanksMP.AudioManager.Play2D(m_joinBattleClickedSFX);
+    }
+
+    public void CancelPlayerSearchButtonPressed()
+    {
+        m_cancelSearchButtonHolder.gameObject.SetActive(false);
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
     }
 
     public void ChooseTeam(int teamIdx)
@@ -473,6 +484,8 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_readyWaitStartTime = Time.realtimeSinceStartup;
         }
 
+        m_cancelSearchButtonHolder.gameObject.SetActive(true);
+
         //count the players in taht team
         int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam, true);
 
@@ -494,5 +507,14 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 PhotonNetwork.LocalPlayer.SetTeam(0);
             }
         }
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        ClearPanels();
+        m_blueTeamButtonHolder.SetActive(true);
+        m_redTeamButtonHolder.SetActive(true);
+        m_seachingTimerHolder.SetActive(true);
     }
 }
