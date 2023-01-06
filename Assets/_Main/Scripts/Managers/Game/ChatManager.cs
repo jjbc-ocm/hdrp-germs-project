@@ -11,6 +11,8 @@ public class ChatManager : MonoBehaviour
 
     private List<ChatData> chats;
 
+    public ChatUI UI { get => ui; }
+
     void Awake()
     {
         Instance = this;
@@ -20,7 +22,10 @@ public class ChatManager : MonoBehaviour
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ui.IsMaximized = !ui.IsMaximized;
+        }
     }
 
     public void SendChat(string sender, string message, int team, long time)
