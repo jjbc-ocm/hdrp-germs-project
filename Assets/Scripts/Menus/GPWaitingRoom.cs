@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -81,6 +82,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject m_blueTeamButtonHolder;
     public GameObject m_redTeamButtonHolder;
     public GameObject m_cancelSearchButtonHolder;
+    public GameObject m_homeButtonHolder;
     public GameObject m_skipSearchButtonHolder;
     public GameObject m_seachingTimerHolder;
 
@@ -160,13 +162,13 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                     timer.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
                 }
             }
-            
+
         }
         else
         {
 
         }
-       
+
     }
 
     /// <summary>
@@ -195,6 +197,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.JoinRandomRoom();
         m_searchingTimerText.text = m_searchingForPlayersText;
         m_joinBattleButton.gameObject.SetActive(false);
+        m_homeButtonHolder.SetActive(false);
         m_seachingTimerHolder.SetActive(true);
 
         TanksMP.AudioManager.Play2D(m_joinBattleClickedSFX);
@@ -273,6 +276,11 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_crewSelectionWindow.SetActive(false);
         m_photonView.RPC("RPCSetReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.UserId);
         TanksMP.AudioManager.Play2D(m_weighAnchorClickedSFX);
+    }
+
+    public void OnHomeButtonPressed()
+    {
+        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
     }
 
     /// <summary>
@@ -360,6 +368,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         int redidx = 0;
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
+            if (PhotonNetwork.PlayerList[i].IsInactive)
+            {
+                continue;
+            }
             if (PhotonNetwork.PlayerList[i].GetTeam() == 0)
             {
                 m_blueTeamPanels[blueidx].m_userNameText.text = PhotonNetwork.PlayerList[i].NickName;
@@ -375,6 +387,29 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 m_redTeamPanels[redidx].m_shipImage.enabled = true;
                 m_redTeamPanels[redidx].m_shipImage.sprite = GPItemsDB.m_instance.m_crews[PhotonNetwork.PlayerList[i].GetShipIndex()].ShipIconImage;
                 redidx++;
+            }
+        }
+    }
+
+    [PunRPC]
+    public void RemovePlayerFromPanelsUI(Player player)
+    {
+        for (int i = 0; i < m_blueTeamPanels.Count; i++)
+        {
+            if (player.UserId == m_blueTeamPanels[i].m_assignedUserID)
+            {
+                m_blueTeamPanels[i].m_userNameText.text = "";
+                m_blueTeamPanels[i].m_assignedUserID = "";
+                m_blueTeamPanels[i].m_shipImage.enabled = false;
+            }
+        }
+        for (int i = 0; i < m_redTeamPanels.Count; i++)
+        {
+            if (player.UserId == m_redTeamPanels[i].m_assignedUserID)
+            {
+                m_redTeamPanels[i].m_userNameText.text = "";
+                m_redTeamPanels[i].m_assignedUserID = "";
+                m_redTeamPanels[i].m_shipImage.enabled = false;
             }
         }
     }
@@ -475,6 +510,13 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
+        //m_photonView.RPC("RemovePlayerFromPanelsUI", RpcTarget.All);
+    }
+
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -485,6 +527,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         m_cancelSearchButtonHolder.gameObject.SetActive(true);
+        m_homeButtonHolder.SetActive(false);
 
         //count the players in taht team
         int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam, true);
@@ -516,5 +559,6 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_blueTeamButtonHolder.SetActive(true);
         m_redTeamButtonHolder.SetActive(true);
         m_seachingTimerHolder.SetActive(true);
+        m_homeButtonHolder.SetActive(true);
     }
 }

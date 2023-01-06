@@ -6,6 +6,8 @@ using TMPro;
 
 public class GPFriendWindow : GPGWindowUI
 {
+    public Camera m_camera;
+    public List<GameObject> m_boundaryPanels;
     public GPGUIScreen m_friendScreen;
     public GPGUIScreen m_addFriendScreen;
 
@@ -48,6 +50,30 @@ public class GPFriendWindow : GPGWindowUI
         ShowFriendScreen(false);
 
         m_searchFriendInputField.onEndEdit.AddListener(OnSearchBoxEndEdit);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            int outsideCount = 0;
+            foreach (var bound in m_boundaryPanels)
+            {
+                if (bound.activeInHierarchy &&
+                    !RectTransformUtility.RectangleContainsScreenPoint(bound.GetComponent<RectTransform>(),
+                                                                                                  Input.mousePosition,
+                                                                                                  m_camera))
+                {
+                    outsideCount++;
+                }
+            }
+
+            if (outsideCount >= m_boundaryPanels.Count)
+            {
+                Hide();
+            }
+        }
+        
     }
 
     public void ShowFriendScreen(bool playSFX)
@@ -202,6 +228,11 @@ public class GPFriendWindow : GPGWindowUI
                 //UpdateAddFriendList(FilterUsers(putListOfUsersHere)); 
             }
         }
+        
+    }
+
+    private void HideIfClickedOutside(GameObject panel)
+    {
         
     }
 
