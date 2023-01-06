@@ -235,7 +235,7 @@ namespace TanksMP
         {
             if (!photonView.IsMine) return;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !ChatManager.Instance.UI.IsMaximized)
             {
                 ShopManager.Instance.ToggleShop();
             }
