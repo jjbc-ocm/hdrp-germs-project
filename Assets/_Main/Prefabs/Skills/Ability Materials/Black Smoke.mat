@@ -64,14 +64,14 @@ Material:
   - FADE_ON
   - GLOW_ON
   - MASK_ON
-  - PREMULTIPLYCOLOR_ON
   - SCREENDISTORTION_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -176,7 +176,7 @@ Material:
     - _DistortionPower: 30
     - _DistortionScrollXSpeed: 0
     - _DistortionScrollYSpeed: 0
-    - _DstMode: 10
+    - _DstMode: 1
     - _EditorDrawers: 61
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 7
@@ -187,7 +187,7 @@ Material:
     - _FadeTransition: 0.194
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
-    - _GlowGlobal: 1
+    - _GlowGlobal: 1.49
     - _HandDrawnAmount: 0
     - _HandDrawnSpeed: 5
     - _HsvBright: 1.26
@@ -205,7 +205,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 3
+    - _RenderingMode: 1
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
@@ -265,7 +265,7 @@ Material:
     - _SrcMode: 1
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
-    - _TimingSeed: 0
+    - _TimingSeed: 6.94
     - _TrailWidthPower: 1
     - _TwistUvAmount: 1
     - _TwistUvPosX: 0.5
