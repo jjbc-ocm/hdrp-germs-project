@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,35 +45,50 @@ public class APIManager : MonoBehaviour
 
 
 
-    public async void Initialize(Action<string, float> onProgress)
+    public void Initialize(Action<string, float> onProgress)
     {
-        /* Auto-login */
-        onProgress.Invoke("Logging in...", 0);
-
-        var options = new InitializationOptions();
-
-        options.SetEnvironmentName(Constants.ENV_NAME);
-
-        await UnityServices.InitializeAsync(options);
-
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
-        /* Get player data */
-        onProgress.Invoke("Fetching player data...", 0.5f);
-
-        playerData = await new PlayerData().Get();
-
-        if (!playerData.IsInitialized)
+        if (!SteamManager.Initialized)
         {
-            playerData.SetLevel(1).SetExp(0).SetInitialized(true).SetSelectedShipID(startingShip.ID);
+            // TODO: notify the player to open their steam or connect to internet to be able to continue
 
-            await playerData.Put();
+            return;
         }
 
-        /* Load next scene */
-        onProgress.Invoke("Loading game...", 0.9f);
+        /* Auto-login */
+        onProgress.Invoke("Logging in with Steam...", 0);
 
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        LogInWithSteam(async (sessionTicket) =>
+        {
+            var options = new InitializationOptions();
+
+            options.SetEnvironmentName(Constants.ENV_NAME);
+
+            await UnityServices.InitializeAsync(options);
+
+            await AuthenticationService.Instance.SignInWithSteamAsync(sessionTicket);
+
+            /* Get player data */
+            onProgress.Invoke("Fetching player data...", 0.5f);
+
+            playerData = await new PlayerData().Get();
+            
+            /* Initialize level, exp, and starting ship if first time playing the game */
+            if (!playerData.IsInitialized)
+            {
+                playerData.SetLevel(1).SetExp(0).SetInitialized(true).SetSelectedShipID(startingShip.ID);
+            }
+
+            /* Always update the name based on the name using on Steam */
+            playerData.SetName(SteamFriends.GetPersonaName());
+
+            /* Save data to cloud save */
+            await playerData.Put();
+
+            /* Load next scene */
+            onProgress.Invoke("Loading game...", 0.9f);
+
+            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        });
     }
 
     public async Task<bool> TryVirtualPurchase(string id)
@@ -88,5 +105,25 @@ public class APIManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+
+
+    private void LogInWithSteam(Action<string> onSuccess)
+    {
+        var sessionTicket = "";
+
+        Callback<GetAuthSessionTicketResponse_t>.Create((callback) =>
+        {
+            onSuccess.Invoke(sessionTicket);
+        });
+
+        var buffer = new byte[1024];
+
+        SteamUser.GetAuthSessionTicket(buffer, buffer.Length, out var ticketSize);
+
+        Array.Resize(ref buffer, (int)ticketSize);
+
+        sessionTicket = BitConverter.ToString(buffer).Replace("-", string.Empty);
     }
 }
