@@ -7,6 +7,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public static class PlayerExtension
 {
+    public const string name = "name";
     public const string team = "team";
     public const string shipIndex = "shipIndex";
 
@@ -18,7 +19,11 @@ public static class PlayerExtension
 
     public static string GetName(this PhotonView view)
     {
-        return view.Owner.NickName;
+        //Debug.Log("NickName: " + view.Owner.NickName);
+
+        //return view.Owner.NickName;
+
+        return view.Owner.GetName();
     }
 
     public static int GetTeam(this PhotonView view)
@@ -58,6 +63,7 @@ public static class PlayerExtension
 
         player.SetCustomProperties(new Hashtable
         {
+            { name, APIManager.Instance.PlayerData.Name },
             { PlayerExtension.team, team },
             { PlayerExtension.shipIndex, shipIndex },
             {"skin", dummyData.m_skin?.name },
@@ -75,6 +81,16 @@ public static class PlayerExtension
     {
         m_selectedShipIdx = shipIndex; // not saved on custom properties yet because he set it outside of room.
     }*/
+
+    public static string GetName(this Player player)
+    {
+        if (player.CustomProperties.TryGetValue(name, out object value))
+        {
+            return (string)value;
+        }
+
+        return "---";
+    }
 
     public static int GetTeam(this Player player)
     {
