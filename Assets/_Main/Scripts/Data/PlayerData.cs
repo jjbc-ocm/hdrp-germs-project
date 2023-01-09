@@ -50,6 +50,13 @@ public class PlayerData
             : false;
     }
 
+    public string Name
+    {
+        get => getData.TryGetValue("name", out string strValue)
+            ? strValue
+            : "";
+    }
+
     public int Level
     {
         get => getData.TryGetValue("level", out string strValue)
@@ -109,6 +116,13 @@ public class PlayerData
     public PlayerData SetInitialized(bool value)
     {
         putData["isInitialized"] = value;
+
+        return this;
+    }
+
+    public PlayerData SetName(string value)
+    {
+        putData["name"] = value;
 
         return this;
     }
