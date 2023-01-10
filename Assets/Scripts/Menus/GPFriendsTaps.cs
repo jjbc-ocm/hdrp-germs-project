@@ -20,7 +20,7 @@ public class GPFriendsTaps : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_friendCounter.text = GPPlayerProfile.m_instance.m_friends.Count.ToString();
+        SetFriendCounterText(GPPlayerProfile.m_instance.m_friends.Count);
     }
 
     public void AddFriendToTeam()
@@ -28,6 +28,10 @@ public class GPFriendsTaps : MonoBehaviour
         //TODO: Handle joining team.
     }
 
+    /// <summary>
+    /// Displays the friend number on the UI.
+    /// </summary>
+    /// <param name="friendCount"></param>
     public void SetFriendCounterText(int friendCount)
     {
         m_friendCounter.text = friendCount.ToString();
@@ -43,6 +47,10 @@ public class GPFriendsTaps : MonoBehaviour
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
     }
 
+    /// <summary>
+    /// Play SFX and moves the focus sprite to the clicked button.
+    /// </summary>
+    /// <param name="buttonIdx"></param>
     public void OnButtonClicked(int buttonIdx)
     {
         MoveTapFocus(m_buttons[buttonIdx].transform);

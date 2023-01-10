@@ -67,6 +67,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     bool m_levelLoadedCalled = false;
 
     [Header("Ready")]
+    public Button m_weighAnchorButton;
     List<string> m_playersReady = new List<string>();
     bool m_weighAnchorAlreadyPressed = false;
 
@@ -276,6 +277,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_crewSelectionWindow.SetActive(false);
         m_photonView.RPC("RPCSetReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.UserId);
         TanksMP.AudioManager.Play2D(m_weighAnchorClickedSFX);
+        m_weighAnchorButton.interactable = false;
     }
 
     public void OnHomeButtonPressed()
