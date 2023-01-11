@@ -34,9 +34,14 @@ public class GPLevelUpScreen : GPGUIScreen
     public override void Show()
     {
         base.Show();
-        m_punchTween.PunchEffect();
+
         GiveRewards();
+
+        //Play effects
+        m_punchTween.PunchEffect();
         TanksMP.AudioManager.Play2D(m_showSFX);
+
+        //Display the new current level on the UI
         m_levelText.text = APIManager.Instance.PlayerData.Level.ToString();
 
         //clear old rewards
@@ -58,12 +63,18 @@ public class GPLevelUpScreen : GPGUIScreen
         base.Hide();
     }
 
+    /// <summary>
+    /// Hides the screen and plays a SFX.
+    /// </summary>
     public void ContinueButtonPressed()
     {
         Hide();
         TanksMP.AudioManager.Play2D(m_continueClickedSFX);
     }
 
+    /// <summary>
+    /// Gives all the level up rewards to the player.
+    /// </summary>
     public async void GiveRewards()
     {
         m_LoadIndicator.SetActive(true);

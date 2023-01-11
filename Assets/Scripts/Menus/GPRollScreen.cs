@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using KaimiraGames;
+using TMPro;
 
 public enum GP_PRIZE_TYPE
 {
@@ -59,8 +60,7 @@ public class GPRollScreen : GPGUIScreen
     public GPPunchTween m_endSpinTween;
 
     [Header("Chest Rewards Settings")]
-    public GPChestRewardWindow m_rewardWindow;
-    public GPGUIScreen m_rewardScreen;
+    public GPChestOpeningLogic m_chestOpeningLogic;
 
     [Header("Particle Settings")]
     public ParticleSystem m_winningParticlePrefab;
@@ -72,6 +72,7 @@ public class GPRollScreen : GPGUIScreen
     [Header("Energy Settings")]
     public int m_spinWheelCost = 10;
     public Image m_energyFill;
+    public TextMeshProUGUI m_energyAmountText;
     public float m_fillAnimSpeed = 7.0f;
     float m_fillTargetValue = 0.0f;
 
@@ -169,13 +170,11 @@ public class GPRollScreen : GPGUIScreen
         switch (prize.m_desc.m_type)
         {
             case GP_PRIZE_TYPE.kGold:
-                //GPPlayerProfile.m_instance.AddGold(prize.m_prizeAmount);
                 m_LoadIndicator.SetActive(true);
                 await APIManager.Instance.PlayerData.AddCoins(prize.m_prizeAmount);
                 m_LoadIndicator.SetActive(false);
                 break;
             case GP_PRIZE_TYPE.kGems:
-                //GPPlayerProfile.m_instance.AddGems(prize.m_prizeAmount);
                 m_LoadIndicator.SetActive(true);
                 await APIManager.Instance.PlayerData.AddGems(prize.m_prizeAmount);
                 m_LoadIndicator.SetActive(false);
@@ -190,7 +189,7 @@ public class GPRollScreen : GPGUIScreen
                     {
                         chests.Add(m_woodChest);
                     }
-                    OpenChestsInSequence(chests);
+                    m_chestOpeningLogic.OpenChestsInSequence(chests);
                     break;
                 }
             case GP_PRIZE_TYPE.kGoldenChest:
@@ -200,7 +199,7 @@ public class GPRollScreen : GPGUIScreen
                     {
                         chests.Add(m_goldenChest);
                     }
-                    OpenChestsInSequence(chests);
+                    m_chestOpeningLogic.OpenChestsInSequence(chests);
                     break;
                 }
             default:
@@ -210,6 +209,7 @@ public class GPRollScreen : GPGUIScreen
 
     void OnEnergyUpdated()
     {
+        m_energyAmountText.text = GPPlayerProfile.m_instance.m_energy.ToString();
         m_fillTargetValue = (float)GPPlayerProfile.m_instance.m_energy / (float)GPPlayerProfile.m_instance.m_maxEnergy;
         if (GPPlayerProfile.m_instance.m_energy < m_spinWheelCost)
         {
@@ -221,41 +221,4 @@ public class GPRollScreen : GPGUIScreen
         }
     }
 
-    public void OpenChest(GPStoreChestSO chestDesc)
-    {
-        GPGivenRewards rewards = chestDesc.OpenChest();
-        m_rewardScreen.Show();
-        m_rewardWindow.Show();
-        m_rewardWindow.ClearContent();
-        m_rewardWindow.DisplayChestImage(chestDesc);
-        m_rewardWindow.DisplayCrewRewards(rewards.m_ships);
-        m_rewardWindow.DisplayIconRewards(rewards.m_profileIcons);
-        m_rewardWindow.DisplayDummyRewards(rewards.m_dummyParts);
-        StartCoroutine(CloseRewardWindow()); // for now close reward window after 3 seconds
-    }
-
-    IEnumerator CloseRewardWindow()
-    {
-        yield return new WaitForSeconds(3.0f);
-        m_rewardScreen.Hide();
-        m_rewardWindow.Hide();
-    }
-
-    public void OpenChestsInSequence(List<GPStoreChestSO> chests)
-    {
-        StartCoroutine(IEOpenChestsInSecuence(chests));
-    }
-
-    IEnumerator IEOpenChestsInSecuence(List<GPStoreChestSO> chests)
-    {
-        for (int i = 0; i < chests.Count; i++)
-        {
-            OpenChest(chests[i]);
-            yield return new WaitForSeconds(3.0f);
-            if (i < chests.Count-1) // so the last one doesn't play a sound at the end
-            {
-                TanksMP.AudioManager.Play2D(m_spinEndedSFX);
-            }
-        }
-    }
 }
