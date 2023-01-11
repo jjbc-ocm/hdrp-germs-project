@@ -9,12 +9,9 @@ namespace TanksMP
 {
 	public class HealthCollectible : Collectible
     {
-        [SerializeField]
-        private int amount = 5;
-
         protected override void OnObtain(Player player)
         {
-            player.Stat.AddHealth(amount);
+            player.Stat.AddHealth(player.Stat.MaxHealth / 2);
         }
 
         /*public override bool Apply(Player p)

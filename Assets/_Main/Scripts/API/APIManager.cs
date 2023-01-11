@@ -65,8 +65,17 @@ public class APIManager : MonoBehaviour
 
             await UnityServices.InitializeAsync(options);
 
-            await AuthenticationService.Instance.SignInWithSteamAsync(sessionTicket);
+            if (Constants.IS_DEBUG_MODE)
+            {
+                AuthenticationService.Instance.SignOut();
 
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
+            else
+            {
+                await AuthenticationService.Instance.SignInWithSteamAsync(sessionTicket);
+            }
+            
             /* Get player data */
             onProgress.Invoke("Fetching player data...", 0.5f);
 
@@ -79,7 +88,7 @@ public class APIManager : MonoBehaviour
             }
 
             /* Always update the name based on the name using on Steam */
-            playerData.SetName(SteamFriends.GetPersonaName());
+            playerData.SetName(Constants.IS_DEBUG_MODE ? "Debug User - Steam Disabled" : SteamFriends.GetPersonaName());
 
             /* Save data to cloud save */
             await playerData.Put();
