@@ -13,12 +13,10 @@ public class GPAddFriendSlot : MonoBehaviour
     public GPFriend m_asignedUser;
     public UnityEvent<GPFriend> onAddButtonClickedEvent;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
+    /// <summary>
+    /// Displays the data of the assigned user.
+    /// </summary>
+    /// <param name="user"></param>
     public void AssignUserAndDisplay(GPFriend user)
     {
         m_asignedUser = user;
@@ -26,16 +24,27 @@ public class GPAddFriendSlot : MonoBehaviour
         SetFriendProfileIcon(user.m_profileIcon);
     }
 
+    /// <summary>
+    /// Sets the displayed name.
+    /// </summary>
+    /// <param name="name"></param>
     public void SetFriendName(string name)
     {
         m_friendName.text = name;
     }
 
+    /// <summary>
+    /// Sets the displayed profile icon.
+    /// </summary>
+    /// <param name="sprite"></param>
     public void SetFriendProfileIcon(Sprite sprite)
     {
         m_userMinitaureUI.SetProfileIcon(sprite);
     }
 
+    /// <summary>
+    /// Linked to the button component of the plus icon.
+    /// </summary>
     public void OnAddFriendButtonClicked()
     {
         if (onAddButtonClickedEvent != null)
