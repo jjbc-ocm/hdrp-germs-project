@@ -10,7 +10,7 @@ namespace TanksMP
 	public class ManaCollectible : Collectible
     {
         [SerializeField]
-        private int amount = 5;
+        private int amount = 100;
 
         protected override void OnObtain(Player player)
         {
