@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Constants
 {
+    public const bool IS_DEBUG_MODE = false;
+
     public const string ENV_NAME = "dev"; // "production" or "dev"
 
     public const string NETWORK_VERSION = "1";
@@ -29,7 +31,7 @@ public class Constants
 
     public const int MAX_PLAYER_COUNT_PER_TEAM = MAX_PLAYER_COUNT / MAX_TEAM;
 
-    public const float GAME_MAX_TIMER = 600;
+    public const float GAME_MAX_TIMER = 1200;
 
     public const int FOG_OF_WAR_DISTANCE = 150;
 
