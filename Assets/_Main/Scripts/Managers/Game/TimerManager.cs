@@ -2,6 +2,7 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TanksMP;
 using TMPro;
 using UnityEngine;
@@ -57,7 +58,7 @@ public class TimerManager : MonoBehaviour
 
         if (!hasStartTime) return;
 
-        if (GameManager.Instance.IsGameOver() && !isAftermathCalled)
+        if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults) && !isAftermathCalled)
         {
             int[] score = PhotonNetwork.CurrentRoom.GetScore();
 
@@ -65,12 +66,12 @@ public class TimerManager : MonoBehaviour
             PhotonNetwork.CurrentRoom.IsOpen = false;
             //tell all clients the winning team
 
-            var winnerTeamIndex =
+            /*var winnerTeamIndex =
                 score[0] > score[1] ? 0 :
                 score[0] < score[1] ? 1 :
-                -1;
+                -1;*/
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, winnerTeamIndex);
+            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
 
             isAftermathCalled = true;
 

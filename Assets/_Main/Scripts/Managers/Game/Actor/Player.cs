@@ -586,6 +586,27 @@ namespace TanksMP
 
             var offset = 2;
 
+            if (action.IsHitscan)
+            {
+                var forward = new Vector3(0, transform.forward.y, transform.forward.z).normalized;
+
+                if (Physics.Raycast(transform.position, forward, out RaycastHit hit, Constants.FOG_OF_WAR_DISTANCE)) 
+                {
+                    if (hit.transform.TryGetComponent(out ActorManager actor))
+                    {
+                        var damage = 3; // TODO: do not hard-code it
+
+                        /* Damage the enemy */
+                        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, photonView.ViewID);
+
+                        /* Apply lifesteal */
+                        var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * inventory.StatModifier.LifeSteal));
+
+                        photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+                    }
+                }
+            }
+
             photonView.RPC(
                 "RpcAction",
                 RpcTarget.AllViaServer,
