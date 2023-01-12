@@ -491,9 +491,6 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_readyWaitStartTime = Time.realtimeSinceStartup;
         }
         m_matchFound = true;
-
-        PhotonNetwork.CurrentRoom.CustomProperties["WaitingForPlayers"] = false;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(PhotonNetwork.CurrentRoom.CustomProperties);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)

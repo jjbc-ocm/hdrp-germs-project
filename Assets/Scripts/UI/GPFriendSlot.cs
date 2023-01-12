@@ -13,7 +13,6 @@ public enum GP_ONLINE_STATUS
 
 public class GPFriendSlot : MonoBehaviour
 {
-    [Header("UI references")]
     public TextMeshProUGUI m_friendName;
     public TextMeshProUGUI m_friendOnlineStatus;
     public GPUserFrameUI m_userMinitaureUI;
@@ -24,13 +23,10 @@ public class GPFriendSlot : MonoBehaviour
     public Button m_chatButton;
     public Button m_blockButton;
 
-    [Header("Events")]
-    //Suscribe to this events for implementation of adding friends, chatting and blocking.
     public UnityEvent<GPFriend> onAddButtonClickedEvent;
     public UnityEvent<GPFriend> onChatButtonClickedEvent;
     public UnityEvent<GPFriend> onBlockButtonClickedEvent;
 
-    [HideInInspector]
     public GPFriend m_asignedFriend;
 
     // Start is called before the first frame update
@@ -39,10 +35,6 @@ public class GPFriendSlot : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Displays the data of the assigned friend.
-    /// </summary>
-    /// <param name="user"></param>
     public void AssignToFriendAndDisplay(GPFriend friend)
     {
         m_asignedFriend = friend;
@@ -51,28 +43,16 @@ public class GPFriendSlot : MonoBehaviour
         SetFriendProfileIcon(friend.m_profileIcon);
     }
 
-    /// <summary>
-    /// Sets the displayed name.
-    /// </summary>
-    /// <param name="name"></param>
     public void SetFriendName(string name)
     {
         m_friendName.text = name;
     }
 
-    /// <summary>
-    /// Sets the displayed profile icon.
-    /// </summary>
-    /// <param name="sprite"></param>
     public void SetFriendProfileIcon(Sprite sprite)
     {
         m_userMinitaureUI.SetProfileIcon(sprite);
     }
 
-    /// <summary>
-    /// Displays the online status of the friend.
-    /// </summary>
-    /// <param name="status"></param>
     public void SetOnlineStatus(GP_ONLINE_STATUS status)
     {
         switch (status)
@@ -91,9 +71,6 @@ public class GPFriendSlot : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Linked to the onClick event of the button component of the plus icon.
-    /// </summary>
     public void OnAddButtonClicked()
     {
         if (onAddButtonClickedEvent != null)
@@ -102,9 +79,6 @@ public class GPFriendSlot : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Linked to the onClick event of the button component of the chat icon.
-    /// </summary>
     public void OnChatButtonClicked()
     {
         if (onChatButtonClickedEvent != null)
@@ -113,9 +87,6 @@ public class GPFriendSlot : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Linked to the onClick event of the button component of the block icon.
-    /// </summary>
     public void OnBlockButtonClicked()
     {
         if (onBlockButtonClickedEvent != null)

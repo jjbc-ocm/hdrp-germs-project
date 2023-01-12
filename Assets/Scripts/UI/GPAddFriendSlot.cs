@@ -7,15 +7,11 @@ using TMPro;
 
 public class GPAddFriendSlot : MonoBehaviour
 {
-    [Header("UI references")]
     public TextMeshProUGUI m_friendName;
     public GPUserFrameUI m_userMinitaureUI;
 
-    [Header("Events")]
-    public UnityEvent<GPFriend> onAddButtonClickedEvent;
-
-    [HideInInspector]
     public GPFriend m_asignedUser;
+    public UnityEvent<GPFriend> onAddButtonClickedEvent;
 
     /// <summary>
     /// Displays the data of the assigned user.
