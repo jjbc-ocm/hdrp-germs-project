@@ -59,5 +59,5 @@ public class SkillData : ScriptableObject
 
     public SkillBaseManager Effect { get => effect; }
 
-    public bool IsHitscan { get => IsHitscan; }
+    public bool IsHitscan { get => isHitscan; }
 }
