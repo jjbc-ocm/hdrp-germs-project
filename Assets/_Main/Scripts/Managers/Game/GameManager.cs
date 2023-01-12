@@ -112,11 +112,6 @@ namespace TanksMP
             }
         }
 
-        public void PlayerSurrender()
-        {
-            Player.Mine.photonView.HasSurrendered(true);
-        }
-
 
         /// <summary>
         /// Adds points to the target team depending on matching game mode and score type.
@@ -142,48 +137,25 @@ namespace TanksMP
         /// <summary>
         /// Returns whether a team reached the maximum game score.
         /// </summary>
-        public bool IsGameOver(out BattleResultType[] teamResults)
+        public bool IsGameOver()
         {
             //init variables
-            teamResults = new BattleResultType[teams.Length];
-
-            var isOver = false;
-
-            var score = PhotonNetwork.CurrentRoom.GetScore();
-
+            bool isOver = false;
+            int[] score = PhotonNetwork.CurrentRoom.GetScore();
+            
             //loop over teams to find the highest score
-            for (var i = 0; i < teams.Length; i++)
+            for(int i = 0; i < teams.Length; i++)
             {
-                teamResults[i] = BattleResultType.Victory;
-
-                // Decide winner by score
-                for (var j = 0; j < teams.Length; j++)
-                {
-                    if (i == j) continue;
-                    if (score[j] > score[i]) teamResults[i] = BattleResultType.Defeat;
-                    if (score[j] == score[i]) teamResults[i] = BattleResultType.Draw;
-                }
-
-                // Decide winner by surrenders
-                var teamShips = ships.Where(ship => ship.photonView.GetTeam() == i);
-
-                var teamSurrendered = teamShips.Count(i => i.photonView.HasSurrendered()) > teamShips.Count(i => !i.photonView.HasSurrendered());
-
-                if (teamSurrendered) isOver = true;
-
-                teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
-            }
-
-            // Decide if the game has to stop
-            for (int i = 0; i < teams.Length; i++)
-            {
-                if (score[i] >= Constants.SCORE_REQUIRED)
+                //score is greater or equal to max score,
+                //which means the game is finished
+                if(score[i] >= Constants.SCORE_REQUIRED)
                 {
                     isOver = true;
                     break;
                 }
             }
 
+            // if maximum time is reached
             if (TimerManager.Instance.TimeLapse >= Constants.GAME_MAX_TIMER)
             {
                 isOver = true;

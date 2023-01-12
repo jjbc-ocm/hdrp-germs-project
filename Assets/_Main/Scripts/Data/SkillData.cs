@@ -36,9 +36,6 @@ public class SkillData : ScriptableObject
     [SerializeField]
     private SkillBaseManager effect;
 
-    [SerializeField]
-    private bool isHitscan;
-
     public string Name { get => name; }
 
     public string Desc { get => desc; }
@@ -58,6 +55,4 @@ public class SkillData : ScriptableObject
     public bool IsSpawnOnAim { get => isSpawnOnAim; }
 
     public SkillBaseManager Effect { get => effect; }
-
-    public bool IsHitscan { get => IsHitscan; }
 }
