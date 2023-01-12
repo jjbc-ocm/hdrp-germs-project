@@ -462,7 +462,7 @@ namespace TanksMP
         public override void RpcDamageHealth(int amount, int attackerId)
         {
             /* Do not damage this ship if respawning */
-            if (!isRespawning) return;
+            if (isRespawning) return;
 
             stat.AddHealth(-amount);
 

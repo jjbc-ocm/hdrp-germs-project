@@ -5,19 +5,12 @@ using UnityEngine.Events;
 
 public class GPPlayerProfile : MonoBehaviour
 {
-    /*[Header("Currency settings")]
-    public int m_gems;
-    public UnityEvent OnGemsModifiedEvent;
-    public int m_gold;
-    public UnityEvent OnGoldModifiedEvent;*/
-
     [Header("Energy settings")]
     public int m_energy;
     public int m_maxEnergy = 10;
     public UnityEvent OnEnergyModifiedEvent;
 
     [Header("Owned items settings")]
-    public List<GPStoreChestSO> m_chests;
     public List<GPShipDesc> m_ships;
     public List<GPProfileIconSO> m_profileIcons;
     public List<GPDummyPartDesc> m_dummySkins;
@@ -29,9 +22,6 @@ public class GPPlayerProfile : MonoBehaviour
     public List<GPDummyPartDesc> m_dummyGloves;
     public List<GPDummyPartDesc> m_dummyTails;
     public UnityEvent OnDummyPartsModifiedEvent; // called when player gets new dummy part
-
-    //public List<GPDummyData> m_dummySlots = new List<GPDummyData>();
-    //public int m_currDummySlotIdx = 0;
 
     [Header("Social Settings")]
     public List<GPFriend> m_friends = new List<GPFriend>(); // still not sure how the API will manage this but i'll use this data in the meantime for the UI building.
@@ -81,6 +71,10 @@ public class GPPlayerProfile : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Called whenever the energy is modified.
+    /// Invokes OnEnergyModifiedEvent.
+    /// </summary>
     void OnEnergyModified()
     {
         m_energy = Mathf.Clamp(m_energy, 0, m_maxEnergy);
@@ -91,6 +85,10 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds a dummy part to the owned parts by the user locally.
+    /// </summary>
+    /// <param name="dummyPart"></param>
     public void AddDummyPart(GPDummyPartDesc dummyPart)
     {
         switch (dummyPart.m_type)
@@ -153,6 +151,10 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds a ship to the owned ships by the user locally.
+    /// </summary>
+    /// <param name="shipDesc"></param>
     public void AddShip(GPShipDesc shipDesc)
     {
         if (!m_ships.Contains(shipDesc))
@@ -161,6 +163,10 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds a profile icon to the owned parts by the user locally.
+    /// </summary>
+    /// <param name="iconDesc"></param>
     public void AddProfileIcon(GPProfileIconSO iconDesc)
     {
         if (!m_profileIcons.Contains(iconDesc))
@@ -169,74 +175,4 @@ public class GPPlayerProfile : MonoBehaviour
         }
     }
 
-    /*public void AddGold(int amount)
-    {
-        //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
-        m_gold += amount;
-        OnGoldModified();
-    }*/
-
-    /// <summary>
-    /// Tries to spend gold if it has enough.
-    /// Returns true if user had enough gold to spend, false otherwise.
-    /// </summary>
-    /// <param name="amount"></param>
-    /// <returns></returns>
-    /*public bool TrySpendGold(int amount)
-    {
-        if (m_gold < amount)
-        {
-            return false;
-        }
-        //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
-        m_gold -= amount;
-        OnGoldModified();
-        return true;
-    }*/
-
-    /*void OnGoldModified()
-    {
-        m_gold = Mathf.Clamp(m_gold, 0, int.MaxValue);
-
-        if (OnGoldModifiedEvent != null)
-        {
-            OnGoldModifiedEvent.Invoke();
-        }
-    }*/
-
-    /*public void AddGems(int amount)
-    {
-        //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
-        m_gems += amount;
-        OnGemsModified();
-    }*/
-
-    /// <summary>
-    /// Tries to spend gems if it has enough.
-    /// Returns true if user had enough gems to spend, false otherwise.
-    /// </summary>
-    /// <param name="amount"></param>
-    /// <returns></returns>
-    /*public bool TrySpendGems(int amount)
-    {
-        //TODO: maybe we should do an api call here for modifying the amount on the API and then reading back the value.
-        if (m_gems < amount)
-        {
-            return false;
-        }
-        m_gems -= amount;
-        OnGemsModified();
-
-        return true;
-    }
-
-    void OnGemsModified()
-    {
-        m_gems = Mathf.Clamp(m_gems, 0, int.MaxValue);
-
-        if (OnGemsModifiedEvent != null)
-        {
-            OnGemsModifiedEvent.Invoke();
-        }
-    }*/
 }
