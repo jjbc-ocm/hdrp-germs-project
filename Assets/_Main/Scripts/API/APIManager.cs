@@ -17,6 +17,9 @@ public class APIManager : MonoBehaviour
     public static APIManager Instance;
 
     [SerializeField]
+    private GPDevFeaturesSettingsSO devSettings;
+
+    [SerializeField]
     private GPShipDesc startingShip;
 
     [SerializeField]
@@ -61,14 +64,14 @@ public class APIManager : MonoBehaviour
         {
             var options = new InitializationOptions();
 
-            options.SetEnvironmentName(Constants.ENV_NAME);
+            options.SetEnvironmentName(devSettings.Environment);
 
             await UnityServices.InitializeAsync(options);
 
-            if (Constants.IS_DEBUG_MODE)
-            {
-                AuthenticationService.Instance.SignOut();
+            AuthenticationService.Instance.SignOut();
 
+            if (devSettings.LoginAsAnonymous)
+            {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
             else
@@ -88,7 +91,7 @@ public class APIManager : MonoBehaviour
             }
 
             /* Always update the name based on the name using on Steam */
-            playerData.SetName(Constants.IS_DEBUG_MODE ? "Debug User - Steam Disabled" : SteamFriends.GetPersonaName());
+            playerData.SetName(devSettings.LoginAsAnonymous ? "Anonymous User" : SteamFriends.GetPersonaName());
 
             /* Save data to cloud save */
             await playerData.Put();
@@ -120,19 +123,26 @@ public class APIManager : MonoBehaviour
 
     private void LogInWithSteam(Action<string> onSuccess)
     {
-        var sessionTicket = "";
-
-        Callback<GetAuthSessionTicketResponse_t>.Create((callback) =>
+        if (!devSettings.LoginAsAnonymous)
         {
-            onSuccess.Invoke(sessionTicket);
-        });
+            var sessionTicket = "";
 
-        var buffer = new byte[1024];
+            Callback<GetAuthSessionTicketResponse_t>.Create((callback) =>
+            {
+                onSuccess.Invoke(sessionTicket);
+            });
 
-        SteamUser.GetAuthSessionTicket(buffer, buffer.Length, out var ticketSize);
+            var buffer = new byte[1024];
 
-        Array.Resize(ref buffer, (int)ticketSize);
+            SteamUser.GetAuthSessionTicket(buffer, buffer.Length, out var ticketSize);
 
-        sessionTicket = BitConverter.ToString(buffer).Replace("-", string.Empty);
+            Array.Resize(ref buffer, (int)ticketSize);
+
+            sessionTicket = BitConverter.ToString(buffer).Replace("-", string.Empty);
+        }
+        else
+        {
+            onSuccess.Invoke(null);
+        }
     }
 }

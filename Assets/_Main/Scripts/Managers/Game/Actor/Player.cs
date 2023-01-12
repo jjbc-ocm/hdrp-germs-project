@@ -358,6 +358,8 @@ namespace TanksMP
         [PunRPC]
         public void RpcAction(float[] position, float[] target, int autoTargetPhotonID, bool isAttack)
         {
+            Debug.Log("GOT HERE B");
+
             var action = isAttack ? attack : skill;
 
             /* Steps
@@ -377,7 +379,11 @@ namespace TanksMP
                 ? Instantiate(action.Effect, vTarget, rotation)
                 : Instantiate(action.Effect, vPosition, rotation);
 
+            Debug.Log("GOT HERE C");
+
             effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<ActorManager>() ?? null); // TODO: 3
+
+            Debug.Log("GOT HERE D");
         }
 
         [PunRPC]
@@ -585,6 +591,29 @@ namespace TanksMP
             stat.AddMana(-action.MpCost);
 
             var offset = 2;
+
+            if (action.IsHitscan)
+            {
+                /*var forward = new Vector3(0, transform.forward.y, transform.forward.z).normalized;
+
+                if (Physics.Raycast(transform.position, forward, out RaycastHit hit, Constants.FOG_OF_WAR_DISTANCE)) 
+                {
+                    if (hit.transform.TryGetComponent(out ActorManager actor))
+                    {
+                        var damage = 3; // TODO: do not hard-code it
+
+                        *//* Damage the enemy *//*
+                        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, photonView.ViewID);
+
+                        *//* Apply lifesteal *//*
+                        var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * inventory.StatModifier.LifeSteal));
+
+                        photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+                    }
+                }*/
+            }
+
+            Debug.Log("GOT HERE A");
 
             photonView.RPC(
                 "RpcAction",
