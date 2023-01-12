@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2649231879992536909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2649231879992536907}
+  - component: {fileID: 2649231879992536908}
+  m_Layer: 0
+  m_Name: PlayerProfile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2649231879992536907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2649231879992536909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 195.8995, y: 591.91345, z: 55.312}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2649231879992536908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2649231879992536909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f623aa5b8b02ea40b1075fcf3d8d429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_energy: 0
+  m_maxEnergy: 10
+  OnEnergyModifiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_chests: []
+  m_ships:
+  - {fileID: 11400000, guid: fa2ba3e54efded5489cf20ca4e4c0d29, type: 2}
+  - {fileID: 11400000, guid: 9af7b711318df614d8b94da6ae4e2e30, type: 2}
+  - {fileID: 11400000, guid: 3955e4989770e1549b8aa4280f402988, type: 2}
+  - {fileID: 11400000, guid: ed293fe47612dbd4e80425ed391bc95a, type: 2}
+  - {fileID: 11400000, guid: 32e7e4375945bb94895a2b36d7fbc8fc, type: 2}
+  - {fileID: 11400000, guid: fa83eb564e9ac264880ceb223ce5b457, type: 2}
+  m_profileIcons:
+  - {fileID: 11400000, guid: 3bfce32e9f53d2e4fa2a4f819e0aa478, type: 2}
+  m_dummySkins:
+  - {fileID: 11400000, guid: 1afc09af0592e9843926ae818727b019, type: 2}
+  m_dummyEyes:
+  - {fileID: 11400000, guid: 41250bb9d8d6cb64cab9ca25a2a9d808, type: 2}
+  m_dummyMouths: []
+  m_dummyHairs: []
+  m_dummyHorns: []
+  m_dummyWears: []
+  m_dummyGloves: []
+  m_dummyTails: []
+  OnDummyPartsModifiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_friends: []
