@@ -13,6 +13,8 @@ public static class PlayerExtension
 
     public const string hasChest = "hasChest";
 
+    public const string hasSurrendered = "hasSurrendered";
+
     public static int m_selectedShipIdx = 0;
 
     #region For Photon View
@@ -36,9 +38,19 @@ public static class PlayerExtension
         return view.Owner.HasChest();
     }
 
+    public static bool HasSurrendered(this PhotonView view)
+    {
+        return view.Owner.HasSurrendered();
+    }
+
     public static void HasChest(this PhotonView view, bool value)
     {
         view.Owner.HasChest(value);
+    }
+
+    public static void HasSurrendered(this PhotonView view, bool value)
+    {
+        view.Owner.HasSurrendered(value);
     }
 
     #endregion
@@ -76,11 +88,6 @@ public static class PlayerExtension
             {"tail", dummyData.m_tail?.name }
         });
     }
-
-    /*public static void SetSelectedShipIdx(this Player player, int shipIndex)
-    {
-        m_selectedShipIdx = shipIndex; // not saved on custom properties yet because he set it outside of room.
-    }*/
 
     public static string GetName(this Player player)
     {
@@ -122,9 +129,19 @@ public static class PlayerExtension
         return System.Convert.ToBoolean(player.CustomProperties[hasChest]);
     }
 
+    public static bool HasSurrendered(this Player player)
+    {
+        return System.Convert.ToBoolean(player.CustomProperties[hasSurrendered]);
+    }
+
     public static void SetTeam(this Player player, int teamIndex)
     {
         player.SetCustomProperties(new Hashtable() { { team, (byte)teamIndex } });
+    }
+
+    public static void SetShipIdx(this Player player, int value)
+    {
+        player.SetCustomProperties(new Hashtable() { { shipIndex, (byte)value } });
     }
 
     public static void HasChest(this Player player, bool value)
@@ -132,25 +149,10 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable() { { hasChest, value } });
     }
 
-    public static void SetShipIdx(this Player player, int shipIndex)
+    public static void HasSurrendered(this Player player, bool value)
     {
-        player.SetCustomProperties(new Hashtable() { { PlayerExtension.shipIndex, (byte)shipIndex } });
+        player.SetCustomProperties(new Hashtable() { { hasSurrendered, value } });
     }
-
-    /*public static void WriteDummyKeys(this Player player, GPDummyData data)
-    {
-        player.SetCustomProperties(new Hashtable
-        {
-            {"skin", data.m_skin?.name },
-            {"eyes", data.m_eye?.name },
-            {"mouth", data.m_mouth?.name },
-            {"hair", data.m_hair?.name },
-            {"horns", data.m_horns?.name},
-            {"wear", data.m_wear?.name },
-            {"gloves", data.m_gloves?.name },
-            {"tail", data.m_tail?.name }
-        });
-    }*/
 
     public static List<string> GetDummyKeys(this Player player)
     {

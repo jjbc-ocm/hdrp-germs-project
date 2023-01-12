@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using Photon.Pun;
+using System.Collections.Generic;
 
 namespace TanksMP
 {
@@ -31,11 +32,11 @@ namespace TanksMP
 
             GameManager.Instance.AddScore(ScoreType.Capture, teamIndex);
 
-            if (GameManager.Instance.IsGameOver())
+            if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
 
-                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamIndex);
+                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
 
                 return;
             }
