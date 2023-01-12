@@ -17,6 +17,9 @@ public class APIManager : MonoBehaviour
     public static APIManager Instance;
 
     [SerializeField]
+    private GPDevFeaturesSettingsSO devSettings;
+
+    [SerializeField]
     private GPShipDesc startingShip;
 
     [SerializeField]
@@ -47,7 +50,7 @@ public class APIManager : MonoBehaviour
 
     public void Initialize(Action<string, float> onProgress)
     {
-        if (!SteamManager.Initialized)
+        if (!devSettings.LoginAsAnonymous && !SteamManager.Initialized)
         {
             // TODO: notify the player to open their steam or connect to internet to be able to continue
 
@@ -61,11 +64,11 @@ public class APIManager : MonoBehaviour
         {
             var options = new InitializationOptions();
 
-            options.SetEnvironmentName(Constants.ENV_NAME);
+            options.SetEnvironmentName(devSettings.Environment);
 
             await UnityServices.InitializeAsync(options);
 
-            if (Constants.IS_DEBUG_MODE)
+            if (devSettings.LoginAsAnonymous)
             {
                 AuthenticationService.Instance.SignOut();
 
@@ -88,7 +91,7 @@ public class APIManager : MonoBehaviour
             }
 
             /* Always update the name based on the name using on Steam */
-            playerData.SetName(Constants.IS_DEBUG_MODE ? "Debug User - Steam Disabled" : SteamFriends.GetPersonaName());
+            playerData.SetName(devSettings.LoginAsAnonymous ? "Anonymous User" : SteamFriends.GetPersonaName());
 
             /* Save data to cloud save */
             await playerData.Put();
@@ -120,6 +123,13 @@ public class APIManager : MonoBehaviour
 
     private void LogInWithSteam(Action<string> onSuccess)
     {
+        if (devSettings.LoginAsAnonymous)
+        {
+            onSuccess.Invoke(null);
+
+            return;
+        }
+
         var sessionTicket = "";
 
         Callback<GetAuthSessionTicketResponse_t>.Create((callback) =>
