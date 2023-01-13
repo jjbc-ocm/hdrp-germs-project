@@ -19,6 +19,8 @@ public class GPRewardSystem : MonoBehaviour
     [Header("Gold settings")]
     public List<RewardData> m_rewardsData;
     public Dictionary<string, int> m_rewardsMap = new Dictionary<string, int>(); // cant set it from inspector, use m_rewardsData, values will be stored here.
+    public GPCoinMovement m_coin10Prefab;
+    public GPCoinMovement m_coin1Prefab;
 
     private void Awake()
     {
@@ -102,6 +104,33 @@ public class GPRewardSystem : MonoBehaviour
                 AddGoldToPlayer(player, key);
             }
         }
+    }
+
+    public void SpawnCoins(Vector3 position, int amount)
+    {
+        Vector3 offset = Vector3.zero;
+
+        if (amount > 10)
+        {
+            int tens = amount / 10;
+            amount -= tens * 10;
+            for (int i = 0; i < tens; i++)
+            {
+                offset.x = UnityEngine.Random.Range(-2.0f, 2.0f);
+                offset.z = UnityEngine.Random.Range(-2.0f, 2.0f);
+                GPCoinMovement instancedItem = Instantiate(m_coin10Prefab, position, Quaternion.identity).GetComponent<GPCoinMovement>();
+                instancedItem.StartCoroutine(instancedItem.Dispersate(position + offset));
+            }
+        }
+
+        for (int i = 0; i < amount; i++)
+        {
+            offset.x = UnityEngine.Random.Range(-2.0f, 2.0f);
+            offset.z = UnityEngine.Random.Range(-2.0f, 2.0f);
+            GPCoinMovement instancedItem = Instantiate(m_coin1Prefab, position, Quaternion.identity).GetComponent<GPCoinMovement>();
+            instancedItem.StartCoroutine(instancedItem.Dispersate(position + offset));
+        }
+
     }
 
 }
