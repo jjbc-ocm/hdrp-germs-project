@@ -6,8 +6,7 @@ using TMPro;
 
 public class GPFriendWindow : GPGWindowUI
 {
-    public Camera m_camera;
-    public List<GameObject> m_boundaryPanels;
+    [Header("Screen References")]
     public GPGUIScreen m_friendScreen;
     public GPGUIScreen m_addFriendScreen;
 
@@ -40,6 +39,10 @@ public class GPFriendWindow : GPGWindowUI
     public List<GPFriend> m_testFriends = new List<GPFriend>();
     public List<GPFriend> m_possibleFriends = new List<GPFriend>();
     public bool m_useTestFriends = false;
+
+    [Header("Click outside to hide settings")]
+    public Camera m_camera;
+    public List<GameObject> m_boundaryPanels;
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +79,11 @@ public class GPFriendWindow : GPGWindowUI
         
     }
 
+
+    /// <summary>
+    /// Displays the friend list and moves the tap focus sprite.
+    /// </summary>
+    /// <param name="playSFX"></param>
     public void ShowFriendScreen(bool playSFX)
     {
         m_currentScreen.Hide();
@@ -102,6 +110,10 @@ public class GPFriendWindow : GPGWindowUI
         }
     }
 
+    /// <summary>
+    /// Displays the add friend list and moves the tap focus sprite.
+    /// </summary>
+    /// <param name="playSFX"></param>
     public void ShowAddFriendScreen(bool playSFX)
     {
         m_currentScreen.Hide();
@@ -148,6 +160,10 @@ public class GPFriendWindow : GPGWindowUI
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
     }
 
+    /// <summary>
+    /// Instantiates a friend UI slot for each friend and fills it's content.
+    /// </summary>
+    /// <param name="friends"></param>
     public void UpdateFriendListUI(List<GPFriend> friends)
     {
         //clear old UI
@@ -165,6 +181,10 @@ public class GPFriendWindow : GPGWindowUI
         }
     }
 
+    /// <summary>
+    /// Instantiates a user UI slot for each user found and fills it's content.
+    /// </summary>
+    /// <param name="results"></param>
     public void UpdateAddFriendListUI(List<GPFriend> results)
     {
         //clear old UI
@@ -203,6 +223,10 @@ public class GPFriendWindow : GPGWindowUI
         }
     }
 
+    /// <summary>
+    /// Filters the friend list based on the what's written on the search text box.
+    /// </summary>
+    /// <param name="text"></param>
     public void OnSearchBoxEndEdit(string text)
     {
         if (m_useTestFriends)
@@ -228,11 +252,6 @@ public class GPFriendWindow : GPGWindowUI
                 //UpdateAddFriendList(FilterUsers(putListOfUsersHere)); 
             }
         }
-        
-    }
-
-    private void HideIfClickedOutside(GameObject panel)
-    {
         
     }
 
