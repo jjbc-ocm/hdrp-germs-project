@@ -37,7 +37,7 @@ public class SkillData : ScriptableObject
     private SkillBaseManager effect;
 
     [SerializeField]
-    private bool isHitscan;
+    private HitscanManager hitscanEffect;
 
     public string Name { get => name; }
 
@@ -59,5 +59,5 @@ public class SkillData : ScriptableObject
 
     public SkillBaseManager Effect { get => effect; }
 
-    public bool IsHitscan { get => isHitscan; }
+    public HitscanManager HitscanEffect { get => hitscanEffect; }
 }

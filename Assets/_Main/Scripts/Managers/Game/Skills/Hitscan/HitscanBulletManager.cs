@@ -2,14 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitscanBulletManager : SkillBaseManager
+public class HitscanBulletManager : HitscanManager
 {
-    protected override void OnInitialize()
-    {
-
-    }
-
-    /*private void Update()
+  
+    private void Update()
     {
         //if (hasHit) return;
 
@@ -17,11 +13,11 @@ public class HitscanBulletManager : SkillBaseManager
 
         transform.Translate(Vector3.forward * velocity * Time.deltaTime, Space.Self);
 
-        *//*if (Vector3.Dot(transform.forward, endPoint - transform.position) < 0)
+        if (Vector3.Dot(transform.forward, to - transform.position) < 0)
         {
-            transform.position = endPoint;
+            transform.position = to;
 
             Destroy(gameObject);
-        }*//*
-    }*/
+        }
+    }
 }
