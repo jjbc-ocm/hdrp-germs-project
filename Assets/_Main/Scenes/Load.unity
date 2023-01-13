@@ -477,7 +477,6 @@ GameObject:
   m_Component:
   - component: {fileID: 445657741}
   - component: {fileID: 445657740}
-  - component: {fileID: 445657739}
   m_Layer: 0
   m_Name: Steam Manager
   m_TagString: Untagged
@@ -485,18 +484,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &445657739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445657738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fa90016927eb45489ff9c544e112420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &445657740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1234,6 +1221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ecbde2512f9c147bef0fcd4799ee42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  devSettings: {fileID: 11400000, guid: b6af0a1f15415474eb5443b68d928a1b, type: 2}
   startingShip: {fileID: 11400000, guid: fa2ba3e54efded5489cf20ca4e4c0d29, type: 2}
   uiLoading: {fileID: 356375940}
 --- !u!4 &1467699952

@@ -38,6 +38,9 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
+        [SerializeField]
+        private LayerMask targetableLayers;
+
         private FollowTarget camFollow;
 
         private Rigidbody rigidBody;
@@ -381,6 +384,21 @@ namespace TanksMP
         }
 
         [PunRPC]
+        public void RpcHitscanEffect(int fromViewId, int toViewId, Vector3 toPosition, bool isAttack)
+        {
+            var action = isAttack ? attack : skill;
+
+            var from = PhotonView.Find(fromViewId);
+
+            var to = PhotonView.Find(toViewId);
+
+            var offset = Vector3.up * 2;
+
+            Instantiate(action.HitscanEffect)
+                .Initialize(from.transform.position + offset, to?.transform.position + offset ?? toPosition);
+        }
+
+        [PunRPC]
         public void RpcDestroy(int attackerId)
         {
             ToggleFunction(false);
@@ -462,7 +480,7 @@ namespace TanksMP
         public override void RpcDamageHealth(int amount, int attackerId)
         {
             /* Do not damage this ship if respawning */
-            if (!isRespawning) return;
+            if (isRespawning) return;
 
             stat.AddHealth(-amount);
 
@@ -584,15 +602,60 @@ namespace TanksMP
 
             stat.AddMana(-action.MpCost);
 
-            var offset = 2;
+            if (action.HitscanEffect)
+            {
+                var forward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
 
-            photonView.RPC(
-                "RpcAction",
-                RpcTarget.AllViaServer,
-                new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
-                new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
-                autoTarget?.photonView.ViewID ?? -1,
-                isAttack);
+                var fromPosition = transform.position + Vector3.up * 2;
+
+                var toPosition = fromPosition + forward * Constants.FOG_OF_WAR_DISTANCE;
+
+                var fromViewId = photonView.ViewID;
+
+                var toViewId = -1;
+
+                if (Physics.Raycast(
+                    fromPosition, 
+                    forward, 
+                    out RaycastHit hit, 
+                    Constants.FOG_OF_WAR_DISTANCE, 
+                    targetableLayers)) 
+                {
+                    if (hit.transform.TryGetComponent(out ActorManager actor))
+                    {
+                        // TODO: these whole attack thing must be better if it is in another file
+
+                        var damage = 3; // TODO: do not hard-code it
+
+                        /* Damage the enemy */
+                        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, photonView.ViewID);
+
+                        /* Apply lifesteal */
+                        var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * inventory.StatModifier.LifeSteal));
+
+                        photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+
+                        toViewId = actor.photonView.ViewID;
+                    }
+
+                    toPosition = hit.point;
+                }
+
+                photonView.RPC("RpcHitscanEffect", RpcTarget.AllViaServer, fromViewId, toViewId, toPosition, isAttack);
+            }
+            else
+            {
+                var offset = 2;
+
+                photonView.RPC(
+                    "RpcAction",
+                    RpcTarget.AllViaServer,
+                    new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
+                    new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
+                    autoTarget?.photonView.ViewID ?? -1,
+                    isAttack);
+            }
+            
         }
 
         private IEnumerator SpawnRoutine()
