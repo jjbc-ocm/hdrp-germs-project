@@ -90,9 +90,15 @@ MonoBehaviour:
   skill: {fileID: 11400000, guid: b957389eafd645141b5f04d7b8a0dafd, type: 2}
   colliders:
   - {fileID: 5606283660667125614}
+  allyLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 8192
   targetableLayers:
     serializedVersion: 2
-    m_Bits: 4416
+    m_Bits: 12352
 --- !u!114 &114000013291451648
 MonoBehaviour:
   m_ObjectHideFlags: 0
