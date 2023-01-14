@@ -19,8 +19,9 @@ public class GPRewardSystem : MonoBehaviour
     [Header("Gold settings")]
     public List<RewardData> m_rewardsData;
     public Dictionary<string, int> m_rewardsMap = new Dictionary<string, int>(); // cant set it from inspector, use m_rewardsData, values will be stored here.
-    public GPCoinMovement m_coin10Prefab;
     public GPCoinMovement m_coin1Prefab;
+    public GPCoinMovement m_coin10Prefab;
+    public float m_coinDispersionRadius = 10.0f;
 
     private void Awake()
     {
@@ -106,7 +107,7 @@ public class GPRewardSystem : MonoBehaviour
         }
     }
 
-    public void SpawnCoins(Vector3 position, int amount)
+    public void SpawnCoins(Vector3 position, int amount, Transform targetPlayer)
     {
         Vector3 offset = Vector3.zero;
 
@@ -116,18 +117,20 @@ public class GPRewardSystem : MonoBehaviour
             amount -= tens * 10;
             for (int i = 0; i < tens; i++)
             {
-                offset.x = UnityEngine.Random.Range(-2.0f, 2.0f);
-                offset.z = UnityEngine.Random.Range(-2.0f, 2.0f);
+                offset.x = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
+                offset.z = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
                 GPCoinMovement instancedItem = Instantiate(m_coin10Prefab, position, Quaternion.identity).GetComponent<GPCoinMovement>();
+                instancedItem.m_target = targetPlayer;
                 instancedItem.StartCoroutine(instancedItem.Dispersate(position + offset));
             }
         }
 
         for (int i = 0; i < amount; i++)
         {
-            offset.x = UnityEngine.Random.Range(-2.0f, 2.0f);
-            offset.z = UnityEngine.Random.Range(-2.0f, 2.0f);
+            offset.x = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
+            offset.z = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
             GPCoinMovement instancedItem = Instantiate(m_coin1Prefab, position, Quaternion.identity).GetComponent<GPCoinMovement>();
+            instancedItem.m_target = targetPlayer;
             instancedItem.StartCoroutine(instancedItem.Dispersate(position + offset));
         }
 

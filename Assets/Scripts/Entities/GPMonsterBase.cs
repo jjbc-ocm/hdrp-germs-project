@@ -311,6 +311,7 @@ public class GPMonsterBase : ActorManager
                 GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
             }
         }
+        m_photonView.RPC("RPCSpawnCoins", RpcTarget.All);
     }
 
     //For melee attacks, if I rename teh method animation events will be lost
@@ -544,6 +545,19 @@ public class GPMonsterBase : ActorManager
     {
         m_mainCollider.enabled = false;
         AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
+    }
+
+    [PunRPC]
+    public void RPCSpawnCoins()
+    {
+        int team = m_lastHitPlayer.photonView.GetTeam();
+        foreach (ActorManager player in m_playersWhoDamageIt)
+        {
+            if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player) && player.photonView.Owner == PhotonNetwork.LocalPlayer)
+            {
+                GPRewardSystem.m_instance.SpawnCoins(transform.position, GPRewardSystem.m_instance.m_rewardsMap[m_rewardKey], player.transform);
+            }
+        }
     }
 
     [PunRPC]
