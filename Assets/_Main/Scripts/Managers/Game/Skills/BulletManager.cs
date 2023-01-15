@@ -50,7 +50,7 @@ namespace TanksMP
             if (!IsHit(owner, target)) return;
 
             if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
-            if (hitClip) AudioManager.Play3D(hitClip, transform.position);
+            if (hitClip) AudioManager.Instance.Play3D(hitClip, transform.position);
 
             Destroy(gameObject);
 

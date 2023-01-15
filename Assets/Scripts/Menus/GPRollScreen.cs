@@ -121,7 +121,7 @@ public class GPRollScreen : GPGUIScreen
         {
             m_spinning = true;
             m_spinButton.interactable = false;
-            TanksMP.AudioManager.Play2D(m_spinStartedSFX);
+            AudioManager.Instance.Play2D(m_spinStartedSFX);
             m_startSpinTween.PunchEffect();
             StartCoroutine(IESpin());
         }
@@ -148,7 +148,7 @@ public class GPRollScreen : GPGUIScreen
             yield return new WaitForFixedUpdate();
         }
 
-        TanksMP.AudioManager.Play2D(m_spinEndedSFX);
+        AudioManager.Instance.Play2D(m_spinEndedSFX);
         m_endSpinTween.PunchEffect();
         m_winningParticlePrefab.Stop();
         m_winningParticlePrefab.Play();

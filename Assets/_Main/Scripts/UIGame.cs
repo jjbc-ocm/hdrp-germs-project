@@ -37,7 +37,7 @@ namespace TanksMP
         void Start()
         {
             //play background music
-            AudioManager.PlayMusic(1);
+            AudioManager.Instance.PlayMusic(1);
         }
 
         void Update()

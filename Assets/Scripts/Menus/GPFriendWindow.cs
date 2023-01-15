@@ -145,7 +145,7 @@ public class GPFriendWindow : GPGWindowUI
     {
         if (playSFX)
         {
-            TanksMP.AudioManager.Play2D(m_changeTabSFX);
+            AudioManager.Instance.Play2D(m_changeTabSFX);
         }
 
         m_searchFriendInputField.text = "";

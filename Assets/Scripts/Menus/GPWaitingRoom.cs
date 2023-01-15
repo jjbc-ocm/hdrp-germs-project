@@ -201,7 +201,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_homeButtonHolder.SetActive(false);
         m_seachingTimerHolder.SetActive(true);
 
-        TanksMP.AudioManager.Play2D(m_joinBattleClickedSFX);
+        AudioManager.Instance.Play2D(m_joinBattleClickedSFX);
     }
 
     public void CancelPlayerSearchButtonPressed()
@@ -242,7 +242,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_redTeamButtonHolder.SetActive(false);
         m_seachingTimerHolder.SetActive(false);
 
-        TanksMP.AudioManager.Play2D(m_teamSelectedSFX);
+        AudioManager.Instance.Play2D(m_teamSelectedSFX);
 
     }
 
@@ -276,7 +276,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_weighAnchorAlreadyPressed = true;
         m_crewSelectionWindow.SetActive(false);
         m_photonView.RPC("RPCSetReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.UserId);
-        TanksMP.AudioManager.Play2D(m_weighAnchorClickedSFX);
+        AudioManager.Instance.Play2D(m_weighAnchorClickedSFX);
         m_weighAnchorButton.interactable = false;
     }
 
@@ -337,7 +337,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         m_LoadIndicator.SetActive(false);
 
-        TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+        AudioManager.Instance.Play2D(m_shipSelectedSFX);
 
         m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }

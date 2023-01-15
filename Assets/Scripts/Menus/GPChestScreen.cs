@@ -51,12 +51,12 @@ public class GPChestScreen : GPGUIScreen
         if (buySucceed)
         {
             chestCard.OnSuccesfullBuy();
-            TanksMP.AudioManager.Play2D(m_buySuccedSFX);
+            AudioManager.Instance.Play2D(m_buySuccedSFX);
             OpenChest(chestCard);
         }
         else
         {
-            TanksMP.AudioManager.Play2D(m_buyErrorSFX);
+            AudioManager.Instance.Play2D(m_buyErrorSFX);
         }
     }
 
@@ -77,12 +77,12 @@ public class GPChestScreen : GPGUIScreen
         if (buySucceed)
         {
             chestCard.OnSuccesfullBuy();
-            TanksMP.AudioManager.Play2D(m_buySuccedSFX);
+            AudioManager.Instance.Play2D(m_buySuccedSFX);
             OpenChest(chestCard);
         }
         else
         {
-            TanksMP.AudioManager.Play2D(m_buyErrorSFX);
+            AudioManager.Instance.Play2D(m_buyErrorSFX);
         }
     }
 

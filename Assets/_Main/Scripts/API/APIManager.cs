@@ -50,7 +50,7 @@ public class APIManager : MonoBehaviour
 
     public void Initialize(Action<string, float> onProgress)
     {
-        if (!SteamManager.Initialized)
+        if (!SteamManager.Initialized && !devSettings.LoginAsAnonymous)
         {
             // TODO: notify the player to open their steam or connect to internet to be able to continue
 

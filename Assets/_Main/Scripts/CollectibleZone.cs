@@ -28,7 +28,7 @@ namespace TanksMP
 
         public void OnDropChest()
         {
-            if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
+            if (scoreClip) AudioManager.Instance.Play3D(scoreClip, transform.position);
 
             GameManager.Instance.AddScore(ScoreType.Capture, teamIndex);
 
