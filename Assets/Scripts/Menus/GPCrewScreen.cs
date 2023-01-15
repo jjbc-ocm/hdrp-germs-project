@@ -204,7 +204,7 @@ public class GPCrewScreen : GPGUIScreen
     {
         if (m_visible)
         {
-            TanksMP.AudioManager.Play2D(m_shipChangedSFX);
+            AudioManager.Instance.Play2D(m_shipChangedSFX);
         }
 
         m_currShipIdx = Mathf.Clamp(m_currShipIdx, 0, m_shipsCards.Count - 1);
@@ -281,7 +281,7 @@ public class GPCrewScreen : GPGUIScreen
 
         m_LoadIndicator.SetActive(false);
 
-        TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+        AudioManager.Instance.Play2D(m_shipSelectedSFX);
     }
 
     /// <summary>

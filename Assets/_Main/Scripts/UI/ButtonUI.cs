@@ -21,7 +21,7 @@ public class ButtonUI : UI<ButtonUI>
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            AudioManager.Play2D(soundClick);
+            AudioManager.Instance.Play2D(soundClick);
         });
     }
 }
