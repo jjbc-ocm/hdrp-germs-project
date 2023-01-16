@@ -54,7 +54,7 @@ public class GPFriendsTaps : MonoBehaviour
     public void OnButtonClicked(int buttonIdx)
     {
         MoveTapFocus(m_buttons[buttonIdx].transform);
-        TanksMP.AudioManager.Play2D(m_changeTabSFX);
+        AudioManager.Instance.Play2D(m_changeTabSFX);
     }
 
 

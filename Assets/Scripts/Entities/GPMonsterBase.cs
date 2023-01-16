@@ -533,7 +533,7 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public void RPCOnHurt()
     {
-        AudioManager.Play3D(m_hurtSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_hurtSFX, transform.position, 0.1f);
         if (OnRPCHurtEvent != null)
         {
             OnRPCHurtEvent.Invoke();
@@ -544,7 +544,7 @@ public class GPMonsterBase : ActorManager
     public void RPCOnDie()
     {
         m_mainCollider.enabled = false;
-        AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
     }
 
     [PunRPC]
@@ -567,12 +567,12 @@ public class GPMonsterBase : ActorManager
         m_respawnTimeCounter = 0.0f;
         m_health.Resurrect();
         m_animator.Play("Idle");
-        AudioManager.Play3D(m_deathSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
     }
 
     [PunRPC]
     public void RPCOnMeleeHit()
     {
-        AudioManager.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
     }
 }

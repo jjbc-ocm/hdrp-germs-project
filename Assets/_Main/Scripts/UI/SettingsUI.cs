@@ -89,7 +89,7 @@ public class SettingsUI : WindowUI<SettingsUI>
         {
             self.Data.MusicVolume = value;
 
-            AudioListener.volume = value;
+            AudioManager.Instance.SetMusicVolume(value);
         });
     }
 
@@ -99,7 +99,7 @@ public class SettingsUI : WindowUI<SettingsUI>
         {
             self.Data.SoundVolume = value;
 
-            AudioListener.volume = value;
+            AudioManager.Instance.SetSoundVolume(value);
         });
     }
 
@@ -117,9 +117,14 @@ public class SettingsUI : WindowUI<SettingsUI>
 
         await APIManager.Instance.PlayerData.SetSettings(Data).Put();
 
-        SettingsManager.Instance.ApplySettings(APIManager.Instance.PlayerData.Settings);
+        SettingsManager.Instance.ApplySettings(Data);
 
         loadIndicator.SetActive(false);
+
+        RefreshUI((self) =>
+        {
+            self.Data = new SettingsData(APIManager.Instance.PlayerData.Settings);
+        });
     }
 
     protected override void OnRefreshUI()

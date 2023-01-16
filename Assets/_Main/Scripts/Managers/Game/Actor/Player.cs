@@ -38,8 +38,18 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
+        [Header("Layers")]
+
+        [SerializeField]
+        private LayerMask allyLayers;
+
+        [SerializeField]
+        private LayerMask enemyLayers;
+
         [SerializeField]
         private LayerMask targetableLayers;
+
+
 
         private FollowTarget camFollow;
 
@@ -189,12 +199,7 @@ namespace TanksMP
 
         void Start()
         {
-            //GameManager.Instance.CreateOrUpdateOfflineSaveState(this, out var isReconnection);
-
-            /*if (!isReconnection)
-            {
-                stat.Initialize();
-            }*/
+            gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? allyLayers : enemyLayers);
 
             stat.Initialize();
 
