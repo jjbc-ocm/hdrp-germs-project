@@ -15,10 +15,10 @@ public class AudioManager : MonoBehaviour
     private AudioSource musicSource;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource soundSource;
 
     [SerializeField]
-    private GameObject oneShotPrefab;
+    private AudioSource sound3DSource;
 
     [SerializeField]
     private AudioClip[] musicClips;
@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour
 
     public void Play2D(AudioClip clip)
     {
-        audioSource.PlayOneShot(clip);
+        soundSource.PlayOneShot(clip);
     }
 
 
@@ -61,22 +61,33 @@ public class AudioManager : MonoBehaviour
     public void Play3D(AudioClip clip, Vector3 position, float pitch = 0f)
     {
         //cancel execution if clip wasn't set
-        if (clip == null) return;
+        //if (clip == null) return;
         //calculate random pitch in the range around 1, up or down
-        pitch = Random.Range(1 - pitch, 1 + pitch);
+        //pitch = Random.Range(1 - pitch, 1 + pitch);
 
         //activate new audio gameobject from pool
-        GameObject audioObj = PoolManager.Spawn(Instance.oneShotPrefab, position, Quaternion.identity);
+        //GameObject audioObj = PoolManager.Spawn(Instance.oneShotPrefab, position, Quaternion.identity);
         //get audio source for later use
-        AudioSource source = audioObj.GetComponent<AudioSource>();
+        //AudioSource source = audioObj.GetComponent<AudioSource>();
 
         //assign properties, play clip
-        source.clip = clip;
-        source.pitch = pitch;
-        source.Play();
+        //source.clip = clip;
+        //source.pitch = pitch;
+        //(clip, position);
+
 
         //deactivate audio gameobject when the clip stops playing
-        PoolManager.Despawn(audioObj, clip.length);
+        //PoolManager.Despawn(audioObj, clip.length);
+
+        var source = Instantiate(sound3DSource, position, Quaternion.identity);
+
+        source.clip = clip;
+
+        //source.pitch = pitch;
+
+        source.Play();
+
+        Destroy(source.gameObject, clip.length + 3);
     }
 
     public void SetMusicVolume(float value)

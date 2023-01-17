@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012081786146}
   - component: {fileID: 82000013940091746}
   m_Layer: 0
-  m_Name: OneShotAudio
+  m_Name: Sound 3D Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 1000011918052674}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1122551562053628270, guid: 6c805fa25d366274d9a3f218534d1316, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -53,9 +53,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 80
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -65,20 +65,20 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -2.2350168
-      outSlope: -2.2350168
-      tangentMode: 0
+      inSlope: 0
+      outSlope: -1.7142857
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.13942307
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
+      time: 0.5833333
       value: 0
-      inSlope: -0.17513396
-      outSlope: -0.17513396
-      tangentMode: 0
+      inSlope: -1.7142857
+      outSlope: 0
+      tangentMode: 5
       weightedMode: 0
-      inWeight: 0.28365386
+      inWeight: 0.33333334
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2

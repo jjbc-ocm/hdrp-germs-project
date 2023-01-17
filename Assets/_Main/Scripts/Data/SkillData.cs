@@ -39,6 +39,9 @@ public class SkillData : ScriptableObject
     [SerializeField]
     private HitscanManager hitscanEffect;
 
+    [SerializeField]
+    private AudioClip[] sounds;
+
     public string Name { get => name; }
 
     public string Desc { get => desc; }
@@ -60,4 +63,6 @@ public class SkillData : ScriptableObject
     public SkillBaseManager Effect { get => effect; }
 
     public HitscanManager HitscanEffect { get => hitscanEffect; }
+
+    public AudioClip[] Sounds { get => sounds; }
 }

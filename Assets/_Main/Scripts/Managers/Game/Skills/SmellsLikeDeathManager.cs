@@ -9,7 +9,9 @@ public class SmellsLikeDeathManager : SkillBaseManager
     protected override void OnInitialize()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        
+
+        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
+
         autoTarget.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
 
         if (owner is Player)

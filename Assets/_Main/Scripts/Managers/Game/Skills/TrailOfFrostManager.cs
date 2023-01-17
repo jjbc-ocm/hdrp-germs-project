@@ -52,7 +52,8 @@ public class TrailOfFrostManager : SkillBaseManager
     {
         boxCollider = GetComponent<BoxCollider>();
 
-        
+        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
+
         StartCoroutine(YieldSpawnDebugBox());
     }
 

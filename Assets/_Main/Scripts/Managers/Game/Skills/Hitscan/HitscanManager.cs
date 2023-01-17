@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HitscanManager : MonoBehaviour
 {
+    [SerializeField]
+    private SkillData data;
+
     protected Vector3 from;
 
     protected Vector3 to;
@@ -17,5 +20,7 @@ public class HitscanManager : MonoBehaviour
         transform.position = from;
 
         transform.forward = (to - from).normalized;
+
+        AudioManager.Instance.Play3D(data.Sounds[0], from);
     }
 }
