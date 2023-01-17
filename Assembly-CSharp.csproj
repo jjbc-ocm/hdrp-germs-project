@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Web3Unity\Scripts\Library\IPFS.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC721\ERC721URIExample.cs" />
+    <Compile Include="Assets\_Main\Scripts\Data\ChatData.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\SkillBaseManager.cs" />
     <Compile Include="Assets\Scripts\UI\GPShipCard.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\TrailOfFrostManager.cs" />
@@ -75,11 +76,13 @@
     <Compile Include="Assets\Scripts\Menus\GPChestScreen.cs" />
     <Compile Include="Assets\Arkham Interactive\Toony\Skies\Scripts\Levelloader.cs" />
     <Compile Include="Assets\Scripts\UI\GPUserFrameUI.cs" />
+    <Compile Include="Assets\Scripts\Menus\GPFriendsTaps.cs" />
     <Compile Include="Assets\Scripts\Entities\GPMonsterBase.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\SunShafts.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC1155\ERC1155URIExample.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatAppIdCheckerUI.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\AppSettingsExtensions.cs" />
+    <Compile Include="Assets\Scripts\UI\GPRewardFrame.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\PostEffectsHelper.cs" />
     <Compile Include="Assets\_Main\Scripts\IAPProductRestore.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\MyPlayerUI.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="Assets\_Main\Scripts\UnityAdsManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\Model\GetVoucherModel.cs" />
+    <Compile Include="Assets\Scripts\DevTools\GPDevFeaturesSettingsSO.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\GreenMercyManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Library\ERC20.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\ColorCorrectionLookup.cs" />
@@ -181,6 +185,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\MintWeb3Wallet1155.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\ScreenSpaceAmbientObscurance.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\ListNFTWebGL.cs" />
+    <Compile Include="Assets\Scripts\Other\GPCoinMovement.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\HolyBrightManager.cs" />
     <Compile Include="Assets\_Main\Scripts\RoomExtensions.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
@@ -203,6 +208,7 @@
     <Compile Include="Assets\_Main\Scripts\Managers\Game\GameEntityManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC1155\ERC1155BalanceOfBatchExample.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC20\ERC20NameExample.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Chat\ChatItemUI.cs" />
     <Compile Include="Assets\Hovl Studio\Epic toon VFX 3\Scripts\EGA_EffectSound.cs" />
     <Compile Include="Assets\Scripts\Utilities\GPLookAtCamera.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\ContrastStretch.cs" />
@@ -241,6 +247,7 @@
     <Compile Include="Assets\_Main\Scripts\UI\KillStatementUI.cs" />
     <Compile Include="Assets\3d_party\LeanTween\Framework\LeanTweenExt.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\Hitscan\HitscanManager.cs" />
     <Compile Include="Assets\Scripts\UI\GPGemPackCard.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC20\ERC20DecimalsExample.cs" />
     <Compile Include="Assets\3d_party\LeanTween\Framework\LTSeq.cs" />
@@ -250,6 +257,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\GetVoucherWeb3Wallet1155.cs" />
     <Compile Include="Assets\Scripts\Menus\GPRollScreen.cs" />
     <Compile Include="Assets\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeTransforms.cs" />
+    <Compile Include="Assets\_Main\Scripts\Utils.cs" />
     <Compile Include="Assets\_Main\Scripts\SettingsManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeySignMessageExample.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\GameManager.cs" />
@@ -263,6 +271,8 @@
     <Compile Include="Assets\Scenes\Scripts\ImportNFTTextureExampleTut.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGMessageManager.cs" />
     <Compile Include="Assets\_Main\Scripts\UIGame.cs" />
+    <Compile Include="Assets\Scripts\DevTools\GPMainMenuDevFeatures.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerInputSystem.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\FX\GPGElementsScaler.cs" />
     <Compile Include="Assets\_Main\Scripts\Data\StatModifierData.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\WebGL\WebGLTransfer1155.cs" />
@@ -286,6 +296,7 @@
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\DepthOfField.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeySend721Example.cs" />
     <Compile Include="Assets\Scripts\Menus\GPLevelUpScreen.cs" />
+    <Compile Include="Assets\Scripts\UI\GPRouletteItem.cs" />
     <Compile Include="Assets\Scripts\Data\Store\Gems\GPStoreGemsSO.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\EVM\EthBalanceOfExample.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\NoiseAndScratches.cs" />
@@ -300,6 +311,7 @@
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\UI\GPGUIScreen.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\CreateApprovalWebGL.cs" />
     <Compile Include="Assets\Scripts\Utilities\GPScaleTween.cs" />
+    <Compile Include="Assets\Scripts\Menus\GPChestOpeningLogic.cs" />
     <Compile Include="Assets\Scripts\UI\GPProfileIconBlock.cs" />
     <Compile Include="Assets\Scripts\UI\GPAddFriendSlot.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\TiltShift.cs" />
@@ -317,6 +329,7 @@
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\HeatWaveManager.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Triangles.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC20\ERC20SymbolExample.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\ChatManager.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\Effects\SupremacyWardEffectManager.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\ShopItemUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
@@ -353,6 +366,7 @@
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerOfflineSaveState.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\PlayerStatus\PlayerStatusesUI.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGConfirmationWindow.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\Hitscan\HitscanBulletManager.cs" />
     <Compile Include="Assets\Scripts\Menus\GPProfileWindow.cs" />
     <Compile Include="Assets\Scripts\UI\GPLoopScaler.cs" />
     <Compile Include="Assets\Scripts\Entities\OceanDragon\GPDragonPart.cs" />
@@ -371,9 +385,11 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Wallet\Web3WalletTransfer1155Example.cs" />
     <Compile Include="Assets\Scripts\UI\GPCurrencyUI.cs" />
+    <Compile Include="Assets\Scripts\DevTools\GPWaitingRoomDevFeatures.cs" />
     <Compile Include="Assets\Scripts\Menus\GPWaitingRoom.cs" />
     <Compile Include="Assets\_Main\Scripts\Data\ItemCountData.cs" />
     <Compile Include="Assets\Bitgem\StylisedWater\URP\Scripts\Bitgem\Core\FlagEnumAttribute.cs" />
+    <Compile Include="Assets\Scripts\Data\Rewards\GPRewardSO.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\GPSManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Wallet\Web3WalletSendTransactionExample.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Antialiasing.cs" />
@@ -385,6 +401,7 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs" />
     <Compile Include="Assets\_Main\Scripts\Network\MenuNetworkManager.cs" />
     <Compile Include="Assets\_Main\Scripts\Network\GPWaitingRoomNetworkManager.cs" />
+    <Compile Include="Assets\Scripts\UI\GPWeeklyRewardBlock.cs" />
     <Compile Include="Assets\Scripts\Steamworks.NET\SteamManager.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGMessageWindow.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\WebGL\WebGLSignMessageExample.cs" />
@@ -401,6 +418,7 @@
     <Compile Include="Assets\IgniteCoders\Simple Water Shader\Resources\WaterReflection.cs" />
     <Compile Include="Assets\_Main\Scripts\ParticleColor.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeyAddressExample.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Chat\ChatUI.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\AllItemsUI.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\ItemEffectManager.cs" />
     <Compile Include="Assets\_Main\Scripts\PrefsKeys.cs" />

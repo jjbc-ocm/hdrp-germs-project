@@ -38,6 +38,19 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
+        [Header("Layers")]
+
+        [SerializeField]
+        private LayerMask allyLayers;
+
+        [SerializeField]
+        private LayerMask enemyLayers;
+
+        [SerializeField]
+        private LayerMask targetableLayers;
+
+
+
         private FollowTarget camFollow;
 
         private Rigidbody rigidBody;
@@ -186,12 +199,7 @@ namespace TanksMP
 
         void Start()
         {
-            //GameManager.Instance.CreateOrUpdateOfflineSaveState(this, out var isReconnection);
-
-            /*if (!isReconnection)
-            {
-                stat.Initialize();
-            }*/
+            gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? allyLayers : enemyLayers);
 
             stat.Initialize();
 
@@ -235,7 +243,7 @@ namespace TanksMP
         {
             if (!photonView.IsMine) return;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !ChatManager.Instance.UI.IsMaximized)
             {
                 ShopManager.Instance.ToggleShop();
             }
@@ -350,6 +358,12 @@ namespace TanksMP
         }
 
         [PunRPC]
+        public void RpcSendChat(string sender, string message, int team, long time)
+        {
+            ChatManager.Instance.SendChat(sender, message, team, time);
+        }
+
+        [PunRPC]
         public void RpcAction(float[] position, float[] target, int autoTargetPhotonID, bool isAttack)
         {
             var action = isAttack ? attack : skill;
@@ -375,6 +389,21 @@ namespace TanksMP
         }
 
         [PunRPC]
+        public void RpcHitscanEffect(int fromViewId, int toViewId, Vector3 toPosition, bool isAttack)
+        {
+            var action = isAttack ? attack : skill;
+
+            var from = PhotonView.Find(fromViewId);
+
+            var to = PhotonView.Find(toViewId);
+
+            var offset = Vector3.up * 2;
+
+            Instantiate(action.HitscanEffect)
+                .Initialize(from.transform.position + offset, to?.transform.position + offset ?? toPosition);
+        }
+
+        [PunRPC]
         public void RpcDestroy(int attackerId)
         {
             ToggleFunction(false);
@@ -396,17 +425,19 @@ namespace TanksMP
                 //send player back to the team area, this will get overwritten by the exact position from the client itself later on
                 //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
                 //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
-                GetComponent<PhotonTransformView>().OnPhotonSerializeView(
+                /*GetComponent<PhotonTransformView>().OnPhotonSerializeView(
                     new PhotonStream(
                         false,
                         new object[]
                         {
-                            //GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            //GameManager.Instance.GetSpawnPosition(photonView.GetTeam()),
                             GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position,
                             Vector3.zero,
                             Quaternion.identity
                         }),
-                    new PhotonMessageInfo());
+                    new PhotonMessageInfo());*/
+
+                ResetPosition(false);
             }
 
             if (photonView.IsMine)
@@ -442,7 +473,7 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                ResetPosition();
+                ResetPosition(true);
             }
         }
 
@@ -456,7 +487,7 @@ namespace TanksMP
         public override void RpcDamageHealth(int amount, int attackerId)
         {
             /* Do not damage this ship if respawning */
-            if (!isRespawning) return;
+            if (isRespawning) return;
 
             stat.AddHealth(-amount);
 
@@ -500,9 +531,9 @@ namespace TanksMP
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
 
                 /* If the attacker is me, add kill count */
-                if (attacker.IsMine)
+                if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
                 {
-                    attacker.GetComponent<Player>().stat.AddKill();
+                    attackerPlayer.stat.AddKill();
                 }
             }
         }
@@ -511,11 +542,14 @@ namespace TanksMP
 
         #region Public
 
-        public void ResetPosition()
+        public void ResetPosition(bool isCameraFollow)
         {
-            camFollow.target = transform;
-            camFollow.HideMask(false);
-
+            if (isCameraFollow)
+            {
+                camFollow.target = transform;
+                camFollow.HideMask(false);
+            }
+            
             //transform.position = GameManager.Instance.GetSpawnPosition(photonView.GetTeam());
             transform.position = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position;
             transform.rotation = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].rotation;
@@ -578,15 +612,60 @@ namespace TanksMP
 
             stat.AddMana(-action.MpCost);
 
-            var offset = 2;
+            if (action.HitscanEffect)
+            {
+                var forward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
 
-            photonView.RPC(
-                "RpcAction",
-                RpcTarget.AllViaServer,
-                new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
-                new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
-                autoTarget?.photonView.ViewID ?? -1,
-                isAttack);
+                var fromPosition = transform.position + Vector3.up * 2;
+
+                var toPosition = fromPosition + forward * Constants.FOG_OF_WAR_DISTANCE;
+
+                var fromViewId = photonView.ViewID;
+
+                var toViewId = -1;
+
+                if (Physics.Raycast(
+                    fromPosition, 
+                    forward, 
+                    out RaycastHit hit, 
+                    Constants.FOG_OF_WAR_DISTANCE, 
+                    targetableLayers)) 
+                {
+                    if (hit.transform.TryGetComponent(out ActorManager actor))
+                    {
+                        // TODO: these whole attack thing must be better if it is in another file
+
+                        var damage = 3; // TODO: do not hard-code it
+
+                        /* Damage the enemy */
+                        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, photonView.ViewID);
+
+                        /* Apply lifesteal */
+                        var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * inventory.StatModifier.LifeSteal));
+
+                        photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+
+                        toViewId = actor.photonView.ViewID;
+                    }
+
+                    toPosition = hit.point;
+                }
+
+                photonView.RPC("RpcHitscanEffect", RpcTarget.AllViaServer, fromViewId, toViewId, toPosition, isAttack);
+            }
+            else
+            {
+                var offset = 2;
+
+                photonView.RPC(
+                    "RpcAction",
+                    RpcTarget.AllViaServer,
+                    new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
+                    new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
+                    autoTarget?.photonView.ViewID ?? -1,
+                    isAttack);
+            }
+            
         }
 
         private IEnumerator SpawnRoutine()

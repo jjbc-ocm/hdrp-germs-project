@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using TanksMP;
+using Photon.Pun;
 
 public class GPProfileWindow : GPGWindowUI
 {
@@ -35,6 +36,7 @@ public class GPProfileWindow : GPGWindowUI
     {
         m_closeButton.onClick.AddListener(Hide);
 
+        //instantiate the profile icon UI blocks for all existing icons
         for (int i = 0; i < GPItemsDB.m_instance.m_profileIcons.Count; i++)
         {
             GPProfileIconBlock block = Instantiate(m_profileIconBlockPrefab, m_iconsHolder);
@@ -43,12 +45,10 @@ public class GPProfileWindow : GPGWindowUI
             m_spawnedBlocks.Add(block);
         }
 
-        // set up stats
-        if (PlayerPrefs.HasKey(PrefsKeys.playerName))
-        {
-            m_nameText.text = PlayerPrefs.GetString(PrefsKeys.playerName);
-        }
+        //Display the name from the API
+        m_nameText.text = APIManager.Instance.PlayerData.Name;
 
+        //Display the current level text and EXP amount in the UI
         UpdateLevelText();
         UpdateExpUI();
     }
@@ -61,10 +61,11 @@ public class GPProfileWindow : GPGWindowUI
     public override void Show()
     {
         base.Show();
-        TanksMP.AudioManager.Play2D(m_showSound);
+        AudioManager.Instance.Play2D(m_showSound);
 
         foreach (var block in m_spawnedBlocks)
         {
+            //Display as locked or unlocked
             block.ToggleLocked(!GPPlayerProfile.m_instance.m_profileIcons.Contains(block.m_profileIconDesc));
 
             if (block.m_profileIconDesc.m_sprite == m_homeUserMiniature.m_assignedProfileIconSprite)
@@ -73,6 +74,7 @@ public class GPProfileWindow : GPGWindowUI
             }
         }
 
+        //Display the current level text and EXP amount in the UI
         UpdateLevelText();
         UpdateExpUI();
     }
@@ -80,9 +82,13 @@ public class GPProfileWindow : GPGWindowUI
     public override void Hide()
     {
         base.Hide();
-        TanksMP.AudioManager.Play2D(m_hideSound);
+        AudioManager.Instance.Play2D(m_hideSound);
     }
 
+    /// <summary>
+    /// If the clicked icon is unlocked then it is displayed on the preview profile icon.
+    /// </summary>
+    /// <param name="block"></param>
     void OnClickedIcon(GPProfileIconBlock block)
     {
         if (block.m_isLocked)
@@ -104,9 +110,13 @@ public class GPProfileWindow : GPGWindowUI
         {
             m_homeUserMiniature.SetProfileIcon(m_lastPreviewedBlock.m_profileIconDesc.m_sprite);
         }
-        TanksMP.AudioManager.Play2D(m_equipSFX);
+        AudioManager.Instance.Play2D(m_equipSFX);
     }
 
+    /// <summary>
+    /// Displays the player stats (wins, loss, draws, etc) on the profile window UI.
+    /// </summary>
+    /// <param name="data"></param>
     public void WriteStats(StatsData data)
     {
         m_winsText.text = data.Wins.ToString();
@@ -126,12 +136,18 @@ public class GPProfileWindow : GPGWindowUI
         m_winRateText.text = winRate.ToString() + "%";
     }
 
+    /// <summary>
+    /// Upates the displayed player level.
+    /// </summary>
     void UpdateLevelText()
     {
         m_homeUserMiniature.SetLevel(APIManager.Instance.PlayerData.Level);
         m_profileWindowUserMiniature.SetLevel(APIManager.Instance.PlayerData.Level);
     }
 
+    /// <summary>
+    /// Upates the displayed player EXP on the fill bar and text.
+    /// </summary>
     void UpdateExpUI()
     {
         int nextLevelEXP = 100; // TODO: Calcualte this from another system.

@@ -13,6 +13,8 @@ public class HeatWaveManager : SkillBaseManager
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
+        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
+
         var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, LayerMask.GetMask("Ship", "Monster"));
 
         foreach (var collider in colliders)

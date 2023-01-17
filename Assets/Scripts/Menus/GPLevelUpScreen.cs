@@ -7,9 +7,10 @@ using TMPro;
 public class GPLevelUpScreen : GPGUIScreen
 {
     [Header("Reward settings")]
-    public GPPrize m_goldPrize;
-    public GPPrize m_energyPrize;
-    public GPPrize m_gemPrize;
+    public Transform m_rewardFramesHolder;
+    public GPRewardFrame m_rewardFramePrefab;
+    public List<GPPrize> m_rewards;
+    public GPChestOpeningLogic m_chestOpeningLogic;
 
     [Header("Animation settings")]
     public GPPunchTween m_punchTween;
@@ -34,10 +35,28 @@ public class GPLevelUpScreen : GPGUIScreen
     public override void Show()
     {
         base.Show();
-        m_punchTween.PunchEffect();
+
         GiveRewards();
-        TanksMP.AudioManager.Play2D(m_showSFX);
+
+        //Play effects
+        m_punchTween.PunchEffect();
+        AudioManager.Instance.Play2D(m_showSFX);
+
+        //Display the new current level on the UI
         m_levelText.text = APIManager.Instance.PlayerData.Level.ToString();
+
+        //clear old rewards
+        foreach (Transform child in m_rewardFramesHolder.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        //display rewards
+        for (int i = 0; i < m_rewards.Count; i++)
+        {
+            GPRewardFrame frame = Instantiate(m_rewardFramePrefab, m_rewardFramesHolder);
+            frame.DisplayReward(m_rewards[i].m_desc, m_rewards[i].m_prizeAmount);
+        }
     }
 
     public override void Hide()
@@ -45,18 +64,78 @@ public class GPLevelUpScreen : GPGUIScreen
         base.Hide();
     }
 
+    /// <summary>
+    /// Hides the screen and plays a SFX.
+    /// </summary>
     public void ContinueButtonPressed()
     {
         Hide();
-        TanksMP.AudioManager.Play2D(m_continueClickedSFX);
+        AudioManager.Instance.Play2D(m_continueClickedSFX);
     }
 
+    /// <summary>
+    /// Gives all the level up rewards to the player.
+    /// </summary>
     public async void GiveRewards()
     {
         m_LoadIndicator.SetActive(true);
-        await APIManager.Instance.PlayerData.AddCoins(m_goldPrize.m_prizeAmount);
-        await APIManager.Instance.PlayerData.AddGems(m_gemPrize.m_prizeAmount);
-        GPPlayerProfile.m_instance.AddEnergy(m_energyPrize.m_prizeAmount);
+        foreach (var reward in m_rewards)
+        {
+            switch (reward.m_desc.m_type)
+            {
+                case GP_PRIZE_TYPE.kGold:
+                    await APIManager.Instance.PlayerData.AddCoins(reward.m_prizeAmount);
+                    break;
+                case GP_PRIZE_TYPE.kGems:
+                    await APIManager.Instance.PlayerData.AddGems(reward.m_prizeAmount);
+                    break;
+                case GP_PRIZE_TYPE.kEnergy:
+                    GPPlayerProfile.m_instance.AddEnergy(reward.m_prizeAmount);
+                    break;
+                case GP_PRIZE_TYPE.kWoodenChest:
+                    {
+                        List<GPStoreChestSO> m_chests = new List<GPStoreChestSO>();
+                        for (int i = 0; i < reward.m_prizeAmount; i++)
+                        {
+                            m_chests.Add(GPItemsDB.m_instance.m_woodenChest);
+                        }
+                        m_chestOpeningLogic.OpenChestsInSequence(m_chests);
+                        break;
+                    }
+                case GP_PRIZE_TYPE.kGoldenChest:
+                    {
+                        List<GPStoreChestSO> m_chests = new List<GPStoreChestSO>();
+                        for (int i = 0; i < reward.m_prizeAmount; i++)
+                        {
+                            m_chests.Add(GPItemsDB.m_instance.m_goldenChest);
+                        }
+                        m_chestOpeningLogic.OpenChestsInSequence(m_chests);
+                        break;
+                    }
+                case GP_PRIZE_TYPE.kSilverChest:
+                    {
+                        List<GPStoreChestSO> m_chests = new List<GPStoreChestSO>();
+                        for (int i = 0; i < reward.m_prizeAmount; i++)
+                        {
+                            m_chests.Add(GPItemsDB.m_instance.m_silverChest);
+                        }
+                        m_chestOpeningLogic.OpenChestsInSequence(m_chests);
+                        break;
+                    }
+                case GP_PRIZE_TYPE.kCrystalChest:
+                    {
+                        List<GPStoreChestSO> m_chests = new List<GPStoreChestSO>();
+                        for (int i = 0; i < reward.m_prizeAmount; i++)
+                        {
+                            m_chests.Add(GPItemsDB.m_instance.m_crystalChest);
+                        }
+                        m_chestOpeningLogic.OpenChestsInSequence(m_chests);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
         m_LoadIndicator.SetActive(false);
     }
 }

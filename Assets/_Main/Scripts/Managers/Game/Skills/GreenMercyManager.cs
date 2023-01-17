@@ -16,7 +16,7 @@ public class GreenMercyManager : SkillBaseManager
 
     protected override void OnInitialize()
     {
-
+        
     }
 
     void Update()
@@ -44,6 +44,8 @@ public class GreenMercyManager : SkillBaseManager
                     owner.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
                 }
             }
+
+            AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
         }
     }
 }

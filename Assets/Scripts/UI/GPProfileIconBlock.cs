@@ -42,7 +42,7 @@ public class GPProfileIconBlock : MonoBehaviour
 
     void OnClicked()
     {
-        TanksMP.AudioManager.Play2D(m_clickSFX);
+        AudioManager.Instance.Play2D(m_clickSFX);
         if (onClickedEvent != null)
         {
             onClickedEvent.Invoke(this);

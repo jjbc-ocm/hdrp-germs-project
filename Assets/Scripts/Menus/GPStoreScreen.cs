@@ -10,6 +10,7 @@ public class GPStoreScreen : GPGUIScreen
     public Button m_chestButton;
     public Button m_ticketsButton;
     public Button m_rollButton;
+    public Button m_homeButton;
     Button m_currentTabButton = null;
 
     [Header("Screen references")]
@@ -47,6 +48,14 @@ public class GPStoreScreen : GPGUIScreen
     {
         base.Hide();
         ShowChestScreen(); // so it's the one selected when the user opens the store again.
+    }
+
+    public void LockButtons(bool locked)
+    {
+        m_chestButton.interactable = !locked;
+        m_ticketsButton.interactable = !locked;
+        m_rollButton.interactable = !locked;
+        m_homeButton.interactable = !locked;
     }
 
     /// <summary>
@@ -108,7 +117,7 @@ public class GPStoreScreen : GPGUIScreen
     /// </summary>
     void OnNewTabShown()
     {
-        TanksMP.AudioManager.Play2D(m_changeTabSFX);
+        AudioManager.Instance.Play2D(m_changeTabSFX);
     }
 
     /// <summary>

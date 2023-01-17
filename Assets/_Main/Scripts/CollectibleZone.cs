@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using Photon.Pun;
+using System.Collections.Generic;
 
 namespace TanksMP
 {
@@ -27,15 +28,15 @@ namespace TanksMP
 
         public void OnDropChest()
         {
-            if (scoreClip) AudioManager.Play3D(scoreClip, transform.position);
+            if (scoreClip) AudioManager.Instance.Play3D(scoreClip, transform.position);
 
             GameManager.Instance.AddScore(ScoreType.Capture, teamIndex);
 
-            if (GameManager.Instance.IsGameOver())
+            if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
 
-                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamIndex);
+                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
 
                 return;
             }

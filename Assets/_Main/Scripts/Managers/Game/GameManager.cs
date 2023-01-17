@@ -12,43 +12,28 @@ using System.Linq;
 
 namespace TanksMP
 {
-    /// <summary>
-    /// Manages game workflow and provides high-level access to networked logic during a game.
-    /// It manages functions such as team fill, scores and ending a game, but also video ad results.
-    /// </summary>
     public class GameManager : MonoBehaviourPun
     {
-        //reference to this script instance
         public static GameManager Instance;
 
         [SerializeField]
         private PlayerOfflineSaveState prefabPlayerOfflineSaveState;
 
-        /// <summary>
-        /// Added by: Jilmer John
-        /// </summary>
+        [SerializeField]
         public CollectibleZone zoneRed;
 
-        /// <summary>
-        /// Added by: Jilmer John
-        /// </summary>
+        [SerializeField]
         public CollectibleZone zoneBlue;
 
-        /// <summary>
-        /// Reference to the UI script displaying game stats.
-        /// </summary>
+        [SerializeField]
         public UIGame ui;
 
-        /// <summary>
-        /// Definition of playing teams with additional properties.
-        /// </summary>
+        [SerializeField]
         public Team[] teams;
 
         private Player[] ships;
 
         private SupremacyWardEffectManager[] supremacyWards;
-
-        private PlayerOfflineSaveState[] offlineSaveStates;
 
         public Player[] Ships { get => ships; }
 
@@ -57,8 +42,6 @@ namespace TanksMP
         public List<Player> Team2Ships { get => ships.Where(i => i.photonView.GetTeam() == 1).ToList(); }
 
         public SupremacyWardEffectManager[] SupremacyWards { get => supremacyWards; }
-
-        public PlayerOfflineSaveState[] OfflineSaveStates { get => offlineSaveStates; }
 
 
         //initialize variables
@@ -73,7 +56,7 @@ namespace TanksMP
 
             supremacyWards = FindObjectsOfType<SupremacyWardEffectManager>();
 
-            offlineSaveStates = FindObjectsOfType<PlayerOfflineSaveState>();
+            //offlineSaveStates = FindObjectsOfType<PlayerOfflineSaveState>();
 
             foreach (var ship in ships)
             {
@@ -86,32 +69,10 @@ namespace TanksMP
             }
         }
         
-        // TODO: for now, do not use this since it will cause a massive bug
-        public void CreateOrUpdateOfflineSaveState(Player player, out bool isReconnection)
+        public void PlayerSurrender()
         {
-            var currentOfflineSaveState = offlineSaveStates != null && offlineSaveStates.Length > 0
-                    ? offlineSaveStates.FirstOrDefault(i => i.UserId == player.photonView.Owner.UserId)
-                    : null;
-
-            // This will happen when player joins the game
-            if (currentOfflineSaveState == null)
-            {
-                var offlineSaveState = Instantiate(prefabPlayerOfflineSaveState);
-
-                offlineSaveState.Initialize(player, false);
-
-                isReconnection = false;
-            }
-
-            // This will happen when player reconnects to the game after being disconnected
-            else
-            {
-                currentOfflineSaveState.Initialize(player, true);
-
-                isReconnection = true;
-            }
+            Player.Mine.photonView.HasSurrendered(true);
         }
-
 
         /// <summary>
         /// Adds points to the target team depending on matching game mode and score type.
@@ -134,28 +95,56 @@ namespace TanksMP
         }
         
 
-        /// <summary>
-        /// Returns whether a team reached the maximum game score.
-        /// </summary>
-        public bool IsGameOver()
+        public bool IsGameOver(out List<BattleResultType> teamResults)
         {
-            //init variables
-            bool isOver = false;
-            int[] score = PhotonNetwork.CurrentRoom.GetScore();
+            teamResults = new List<BattleResultType>();
+
+            var isOver = false;
+
+            var score = PhotonNetwork.CurrentRoom.GetScore();
             
-            //loop over teams to find the highest score
-            for(int i = 0; i < teams.Length; i++)
+            
+            for (var i = 0; i < teams.Length; i++)
             {
-                //score is greater or equal to max score,
-                //which means the game is finished
+                teamResults.Add(BattleResultType.Victory);
+
+                // Decide winner by score
+                for (var j = 0; j < teams.Length; j++)
+                {
+                    if (i == j) continue;
+                    if (score[j] > score[i]) teamResults[i] = BattleResultType.Defeat;
+                    if (score[j] == score[i]) teamResults[i] = BattleResultType.Draw;
+                }
+
+                // Decide winner by surrenders
+                var teamShips = ships.Where(ship => ship.photonView.GetTeam() == i);
+
+                var teamSurrendered = teamShips.Count(i => i.photonView.HasSurrendered()) > teamShips.Count(i => !i.photonView.HasSurrendered());
+
+                if (teamSurrendered) isOver = true;
+
+                teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
+            }
+
+            // Decide winner by surrenders
+            /*var team1Surrendered = Team1Ships.Count(i => i.photonView.HasSurrendered()) > Team1Ships.Count(i => !i.photonView.HasSurrendered());
+            var team2Surrendered = Team2Ships.Count(i => i.photonView.HasSurrendered()) > Team2Ships.Count(i => !i.photonView.HasSurrendered());
+
+            if (team1Surrendered || team2Surrendered) isOver = true;
+
+            teamResults[0] = team1Surrendered ? BattleResultType.Defeat : BattleResultType.Victory;
+            teamResults[1] = team2Surrendered ? BattleResultType.Defeat : BattleResultType.Victory;*/
+
+
+            // Decide if the game has to stop
+            for (int i = 0; i < teams.Length; i++)
+            {
                 if(score[i] >= Constants.SCORE_REQUIRED)
                 {
                     isOver = true;
-                    break;
                 }
             }
 
-            // if maximum time is reached
             if (TimerManager.Instance.TimeLapse >= Constants.GAME_MAX_TIMER)
             {
                 isOver = true;

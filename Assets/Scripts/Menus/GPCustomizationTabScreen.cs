@@ -136,12 +136,12 @@ public class GPCustomizationTabScreen : GPGUIScreen
                     break;
             }
 
-            TanksMP.AudioManager.Play2D(m_equipSFX);
+            AudioManager.Instance.Play2D(m_equipSFX);
         }
         else
         {
             m_selectedBlock = null;
-            TanksMP.AudioManager.Play2D(m_unEquipSFX);
+            AudioManager.Instance.Play2D(m_unEquipSFX);
         }
 
     }

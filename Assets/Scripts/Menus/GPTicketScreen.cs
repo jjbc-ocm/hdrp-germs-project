@@ -43,11 +43,11 @@ public class GPTicketScreen : GPGUIScreen
             m_LoadIndicator.SetActive(true);
             await APIManager.Instance.PlayerData.AddGems(gemPackDesc.m_gemAmount);
             m_LoadIndicator.SetActive(false);
-            TanksMP.AudioManager.Play2D(m_buySuccedSFX);
+            AudioManager.Instance.Play2D(m_buySuccedSFX);
         }
         else
         {
-            TanksMP.AudioManager.Play2D(m_buyErrorSFX);
+            AudioManager.Instance.Play2D(m_buyErrorSFX);
         }
     }
 }

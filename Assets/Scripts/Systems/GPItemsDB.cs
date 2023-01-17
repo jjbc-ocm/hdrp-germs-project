@@ -34,6 +34,11 @@ public class GPItemsDB : MonoBehaviour
     public List<GPProfileIconSO> m_profileIcons = new List<GPProfileIconSO>();
     public Dictionary<string, GPProfileIconSO> m_profileIconsMap = new Dictionary<string, GPProfileIconSO>();
 
+    [Header("Chests")]
+    public GPStoreChestSO m_woodenChest;
+    public GPStoreChestSO m_silverChest;
+    public GPStoreChestSO m_goldenChest;
+    public GPStoreChestSO m_crystalChest;
 
     public static GPItemsDB m_instance;
 
@@ -50,6 +55,7 @@ public class GPItemsDB : MonoBehaviour
             return;
         }
 
+        //Fill maps
         for (int i = 0; i < m_dummySkins.Count; i++)
         {
             m_dummyPartsMap.Add(m_dummySkins[i].name, m_dummySkins[i]);
@@ -101,6 +107,12 @@ public class GPItemsDB : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns a list of dummy parts of the specified type and rarity.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="rarity"></param>
+    /// <returns></returns>
     public List<GPDummyPartDesc> GetPartsOfTypeAndRarity(GP_DUMMY_PART_TYPE type, GP_DUMMY_PART_RARITY rarity)
     {
         List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
@@ -114,6 +126,11 @@ public class GPItemsDB : MonoBehaviour
         return parts;
     }
 
+    /// <summary>
+    /// Returns a list of dummy parts of the specified type.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public List<GPDummyPartDesc> GetPartsOfType(GP_DUMMY_PART_TYPE type)
     {
         List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
@@ -127,6 +144,11 @@ public class GPItemsDB : MonoBehaviour
         return parts;
     }
 
+    /// <summary>
+    /// Returns a list of dummy parts of the specified rarity.
+    /// </summary>
+    /// <param name="rarity"></param>
+    /// <returns></returns>
     public List<GPDummyPartDesc> GetPartsOfRarity(GP_DUMMY_PART_RARITY rarity)
     {
         List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();

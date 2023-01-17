@@ -6,6 +6,7 @@ using TMPro;
 
 public class GPChestRewardWindow : GPGWindowUI
 {
+    [Header("UI references")]
     public Image m_chestImage;
     public Image m_chestTierTextImage;
     public TextMeshProUGUI m_upperRewardLabel;
@@ -35,6 +36,9 @@ public class GPChestRewardWindow : GPGWindowUI
         m_punchTween.PunchEffect();
     }
 
+    /// <summary>
+    /// Clears the old reward UI blocks.
+    /// </summary>
     public void ClearContent()
     {
         foreach (Transform child in m_dummyPartsHolder)
@@ -53,12 +57,20 @@ public class GPChestRewardWindow : GPGWindowUI
         }
     }
 
+    /// <summary>
+    /// Displays the sprite of the openned chest based on the chest type.
+    /// </summary>
+    /// <param name="chestDesc"></param>
     public void DisplayChestImage(GPStoreChestSO chestDesc)
     {
         m_chestImage.sprite = chestDesc.m_chestRewardIcon;
         m_chestTierTextImage.sprite = chestDesc.m_chestRewardText;
     }
 
+    /// <summary>
+    /// Display the given dummy parts as rewards.
+    /// </summary>
+    /// <param name="dummyParts"></param>
     public void DisplayDummyRewards(List<GPDummyPartDesc> dummyParts)
     {
         for (int i = 0; i < dummyParts.Count; i++)
@@ -68,6 +80,10 @@ public class GPChestRewardWindow : GPGWindowUI
         }
     }
 
+    /// <summary>
+    /// Display the give crews as rewards.
+    /// </summary>
+    /// <param name="ships"></param>
     public void DisplayCrewRewards(List<GPShipDesc> ships)
     {
         for (int i = 0; i < ships.Count; i++)
@@ -78,6 +94,10 @@ public class GPChestRewardWindow : GPGWindowUI
         }
     }
 
+    /// <summary>
+    /// Display the given profile icon as rewards.
+    /// </summary>
+    /// <param name="icons"></param>
     public void DisplayIconRewards(List<GPProfileIconSO> icons)
     {
         for (int i = 0; i < icons.Count; i++)

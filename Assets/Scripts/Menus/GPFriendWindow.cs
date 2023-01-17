@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GPFriendWindow : MonoBehaviour
+public class GPFriendWindow : GPGWindowUI
 {
+    [Header("Screen References")]
     public GPGUIScreen m_friendScreen;
     public GPGUIScreen m_addFriendScreen;
 
@@ -39,6 +40,10 @@ public class GPFriendWindow : MonoBehaviour
     public List<GPFriend> m_possibleFriends = new List<GPFriend>();
     public bool m_useTestFriends = false;
 
+    [Header("Click outside to hide settings")]
+    public Camera m_camera;
+    public List<GameObject> m_boundaryPanels;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +55,35 @@ public class GPFriendWindow : MonoBehaviour
         m_searchFriendInputField.onEndEdit.AddListener(OnSearchBoxEndEdit);
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            int outsideCount = 0;
+            foreach (var bound in m_boundaryPanels)
+            {
+                if (bound.activeInHierarchy &&
+                    !RectTransformUtility.RectangleContainsScreenPoint(bound.GetComponent<RectTransform>(),
+                                                                                                  Input.mousePosition,
+                                                                                                  m_camera))
+                {
+                    outsideCount++;
+                }
+            }
+
+            if (outsideCount >= m_boundaryPanels.Count)
+            {
+                Hide();
+            }
+        }
+        
+    }
+
+
+    /// <summary>
+    /// Displays the friend list and moves the tap focus sprite.
+    /// </summary>
+    /// <param name="playSFX"></param>
     public void ShowFriendScreen(bool playSFX)
     {
         m_currentScreen.Hide();
@@ -76,6 +110,10 @@ public class GPFriendWindow : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Displays the add friend list and moves the tap focus sprite.
+    /// </summary>
+    /// <param name="playSFX"></param>
     public void ShowAddFriendScreen(bool playSFX)
     {
         m_currentScreen.Hide();
@@ -107,7 +145,7 @@ public class GPFriendWindow : MonoBehaviour
     {
         if (playSFX)
         {
-            TanksMP.AudioManager.Play2D(m_changeTabSFX);
+            AudioManager.Instance.Play2D(m_changeTabSFX);
         }
 
         m_searchFriendInputField.text = "";
@@ -122,6 +160,10 @@ public class GPFriendWindow : MonoBehaviour
         LeanTween.move(m_tabFocusImage.gameObject, targetTransform.position, 0.3f).setEaseSpring();
     }
 
+    /// <summary>
+    /// Instantiates a friend UI slot for each friend and fills it's content.
+    /// </summary>
+    /// <param name="friends"></param>
     public void UpdateFriendListUI(List<GPFriend> friends)
     {
         //clear old UI
@@ -139,6 +181,10 @@ public class GPFriendWindow : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiates a user UI slot for each user found and fills it's content.
+    /// </summary>
+    /// <param name="results"></param>
     public void UpdateAddFriendListUI(List<GPFriend> results)
     {
         //clear old UI
@@ -177,6 +223,10 @@ public class GPFriendWindow : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Filters the friend list based on the what's written on the search text box.
+    /// </summary>
+    /// <param name="text"></param>
     public void OnSearchBoxEndEdit(string text)
     {
         if (m_useTestFriends)

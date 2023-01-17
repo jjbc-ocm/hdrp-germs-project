@@ -86,7 +86,7 @@ public abstract class WindowUI<T> : UI<T> where T : MonoBehaviour
 
         if (soundOpen)
         {
-            AudioManager.Play2D(soundOpen);
+            AudioManager.Instance.Play2D(soundOpen);
         }
     }
 
@@ -109,7 +109,7 @@ public abstract class WindowUI<T> : UI<T> where T : MonoBehaviour
 
         if (soundOpen)
         {
-            AudioManager.Play2D(soundClose);
+            AudioManager.Instance.Play2D(soundClose);
         }
     }
 
