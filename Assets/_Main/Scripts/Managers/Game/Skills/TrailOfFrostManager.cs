@@ -22,21 +22,13 @@ public class TrailOfFrostManager : SkillBaseManager
     [SerializeField]
     private GameObject prefabIcicle;
 
-    private BoxCollider boxCollider;
-
     void OnTriggerEnter(Collider col)
     {
         var actor = col.GetComponent<ActorManager>();
 
-        Debug.Log("SDFGSFDFG A");
-        
         if (!PhotonNetwork.IsMasterClient) return;
 
-        Debug.Log("SDFGSFDFG B");
-
         if (!IsHit(owner, actor)) return;
-
-        Debug.Log("SDFGSFDFG C");
 
         actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, owner.photonView.ViewID);
 
@@ -50,17 +42,15 @@ public class TrailOfFrostManager : SkillBaseManager
 
     protected override void OnInitialize()
     {
-        boxCollider = GetComponent<BoxCollider>();
-
-        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
-
-        StartCoroutine(YieldSpawnDebugBox());
+        StartCoroutine(YieldSpawnIcicle());
     }
 
     private int spawnBoxCounter;
 
-    private IEnumerator YieldSpawnDebugBox()
+    private IEnumerator YieldSpawnIcicle()
     {
+        var boxCollider = GetComponent<BoxCollider>();
+
         var trailSize = 0f;
 
         while (data.Range > trailSize)
@@ -85,6 +75,8 @@ public class TrailOfFrostManager : SkillBaseManager
             var rotation = Quaternion.identity;
 
             Instantiate(prefabIcicle, position + offset, rotation, transform);
+
+            AudioManager.Instance.Play3D(data.Sounds[0], position + offset);
         }
     }
 }
