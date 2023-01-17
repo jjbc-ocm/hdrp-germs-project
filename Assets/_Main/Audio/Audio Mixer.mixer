@@ -9,7 +9,8 @@ AudioMixerGroupController:
   m_Name: Sound
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: cac7d317f39562b48861456102bbedd7
-  m_Children: []
+  m_Children:
+  - {fileID: 1122551562053628270}
   m_Volume: 5f37361bb2509dd4a97e7aeef8bc1e36
   m_Pitch: 4bc99526da2488845a4e3fa8c127008f
   m_Send: 00000000000000000000000000000000
@@ -58,6 +59,7 @@ AudioMixerController:
     - 9b83d72881d089341a8bd00070135a27
     - 5e02e51cb81009b419186accbb59832b
     - cac7d317f39562b48861456102bbedd7
+    - 7b9ad3e7a9e713a41ab04c279b257427
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -107,6 +109,25 @@ AudioMixerSnapshotController:
   m_SnapshotID: 3ce3008dd70db8347b739b072fdf2388
   m_FloatValues: {}
   m_TransitionOverrides: {}
+--- !u!243 &1122551562053628270
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 3D Sounds
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 7b9ad3e7a9e713a41ab04c279b257427
+  m_Children: []
+  m_Volume: 1e6c03b4b0457a5479ea7e3a0133f07e
+  m_Pitch: a7993c8eff9947c4faec20d0c261567a
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 7483086118236328254}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &1982334189287726658
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -136,6 +157,20 @@ AudioMixerEffectController:
   m_EffectID: 836d8feccd09dd440b4eee3a09b4be72
   m_EffectName: Attenuation
   m_MixLevel: a915a211eae5b2548bfcf466dcab5735
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &7483086118236328254
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 9309f46f7637e5449b3c0d3b6c95ed8f
+  m_EffectName: Attenuation
+  m_MixLevel: 6729fde4ce62f474b8858bbc5cc9e787
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
