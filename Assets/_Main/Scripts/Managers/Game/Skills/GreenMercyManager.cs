@@ -16,7 +16,7 @@ public class GreenMercyManager : SkillBaseManager
 
     protected override void OnInitialize()
     {
-
+        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
     }
 
     void Update()
