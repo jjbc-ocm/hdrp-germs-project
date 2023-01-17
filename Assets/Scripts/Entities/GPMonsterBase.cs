@@ -239,7 +239,7 @@ public class GPMonsterBase : ActorManager
 
     public virtual void DamagePlayer(ActorManager player)
     {
-        MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
+        MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (meleeAtk == null) { return; }
         //player.TakeMonsterDamage(meleeAtk);
         player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
@@ -309,15 +309,15 @@ public class GPMonsterBase : ActorManager
             if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player))
             {
                 GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
+                m_photonView.RPC("RPCSpawnCoinsForPlayer", player.photonView.Owner);
             }
         }
-        m_photonView.RPC("RPCSpawnCoins", RpcTarget.All);
     }
 
     //For melee attacks, if I rename teh method animation events will be lost
     public void StartMeleeAttack()
     {
-        MonsterMeleeAttackDesc meleeAtk = (MonsterMeleeAttackDesc)m_currAtk;
+        MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (m_currTargetPlayer == null || meleeAtk == null)
         {
             EndMeleeAttack();
@@ -548,12 +548,12 @@ public class GPMonsterBase : ActorManager
     }
 
     [PunRPC]
-    public void RPCSpawnCoins()
+    public void RPCSpawnCoinsForPlayer()
     {
-        int team = m_lastHitPlayer.photonView.GetTeam();
+        //search player
         foreach (ActorManager player in m_playersWhoDamageIt)
         {
-            if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player) && player.photonView.Owner == PhotonNetwork.LocalPlayer)
+            if (player.photonView.Owner == PhotonNetwork.LocalPlayer)
             {
                 GPRewardSystem.m_instance.SpawnCoins(transform.position, GPRewardSystem.m_instance.m_rewardsMap[m_rewardKey], player.transform);
             }
