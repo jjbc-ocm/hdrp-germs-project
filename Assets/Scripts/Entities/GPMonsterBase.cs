@@ -50,9 +50,11 @@ public class GPMonsterBase : ActorManager
     public PhotonView m_photonView;
     public GPHealth m_health;
     public GPGTriggerEvent m_detectionTrigger;
+    [Tooltip("When player enters this trigger he will be damage, this trigger is actiavted using animation events")]
     public GPGTriggerEvent m_meleeDamageTrigger;
+    [Tooltip("Only the players that are inside it when the mosnter dies will get gold (last hit team only)")]
     public GPGTriggerEvent m_goldTrigger;
-    public GameObject m_model;
+    public GameObject m_model; //Monster model gameobject
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -133,6 +135,7 @@ public class GPMonsterBase : ActorManager
 
     public void BaseStart()
     {
+        //Get photon view
         if (m_photonView == null)
         {
             m_photonView = GetComponent<PhotonView>();
@@ -140,6 +143,7 @@ public class GPMonsterBase : ActorManager
 
         m_mainCollider = GetComponent<Collider>();
 
+        //Only master client will process events
         if (PhotonNetwork.IsMasterClient)
         {
             m_health.OnDieEvent.AddListener(OnDie);
@@ -151,15 +155,22 @@ public class GPMonsterBase : ActorManager
             m_goldTrigger.m_OnExitEvent.AddListener(OnPlayerGoldTriggerExit);
         }
 
+        //store respawn position.
         m_respawnWorldPosition = transform.position;
         m_respawnModelLocalPosition = m_model.transform.localPosition;
     }
 
+    /// <summary>
+    /// Logic that updates while the monster is alive.
+    /// </summary>
     public void LiveUpdate()
     {
         
     }
 
+    /// <summary>
+    /// Logic that updates while the monster is dead.
+    /// </summary>
     public void DeathUpdate()
     {
         if (m_health.m_isDead)
@@ -173,6 +184,9 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Randomly chooses a player in range to attack.
+    /// </summary>
     public virtual void ChoosePlayerToAttack()
     {
         if (m_playersInRange.Count == 0)
@@ -183,6 +197,9 @@ public class GPMonsterBase : ActorManager
         m_currTargetPlayer = m_playersInRange[playerIdx];
     }
 
+    /// <summary>
+    /// Logic to do when monster is damaged.
+    /// </summary>
     public virtual void OnDamage()
     {
         if (!m_attacking)
@@ -192,6 +209,9 @@ public class GPMonsterBase : ActorManager
         m_photonView.RPC("RPCOnHurt", RpcTarget.All);
     }
 
+    /// <summary>
+    /// Logic to do when monster dies.
+    /// </summary>
     public virtual void OnDie()
     {
         m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_dieTriggerName);
@@ -200,6 +220,10 @@ public class GPMonsterBase : ActorManager
         StartCoroutine(Sink());
     }
 
+    /// <summary>
+    /// Play sink animation
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator Sink()
     {
         float timeCounter = 0.0f;
@@ -212,6 +236,10 @@ public class GPMonsterBase : ActorManager
         //Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Plays emerge animation
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator Emerge()
     {
         transform.position = m_respawnWorldPosition;
@@ -220,6 +248,12 @@ public class GPMonsterBase : ActorManager
         yield return 0;
     }
 
+    /// <summary>
+    /// Decreases monster's health.
+    /// Stores the players who damaged the monster in a list.
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="attackerId"></param>
     [PunRPC]
     public override void RpcDamageHealth(int amount, int attackerId)
     {
@@ -237,6 +271,10 @@ public class GPMonsterBase : ActorManager
         m_health.Damage(amount);
     }
 
+    /// <summary>
+    /// Does damage to a player
+    /// </summary>
+    /// <param name="player"></param>
     public virtual void DamagePlayer(ActorManager player)
     {
         MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
@@ -245,6 +283,10 @@ public class GPMonsterBase : ActorManager
         player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
     }
 
+    /// <summary>
+    /// Registers a player inside monster's range.
+    /// </summary>
+    /// <param name="other"></param>
     public virtual void OnPlayerEnter(Collider other)
     {
         ActorManager player = other.GetComponent<ActorManager>();
@@ -259,6 +301,10 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Erase a player from the monster's range list.
+    /// </summary>
+    /// <param name="other"></param>
     public virtual void OnPlayerExit(Collider other)
     {
         ActorManager player = other.GetComponent<ActorManager>();
@@ -276,6 +322,10 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Registers a player inside monster's gold range.
+    /// </summary>
+    /// <param name="other"></param>
     public virtual void OnPlayerGoldTriggerEnter(Collider other)
     {
         ActorManager player = other.GetComponent<ActorManager>();
@@ -288,6 +338,10 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Erase a player from the monster's gold range list.
+    /// </summary>
+    /// <param name="other"></param>
     public virtual void OnPlayerGoldTriggerExit(Collider other)
     {
         ActorManager player = other.GetComponent<ActorManager>();
@@ -300,6 +354,9 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Gives gold to all players in gold range that are from the team that made the last hit.
+    /// </summary>
     public void GiveRewards()
     {
         //get winning team
@@ -314,7 +371,11 @@ public class GPMonsterBase : ActorManager
         }
     }
 
-    //For melee attacks, if I rename teh method animation events will be lost
+    /// <summary>
+    /// AnimationEvent to start a melee attack.
+    /// Activates damage triggers.
+    /// Do not rename or the aniamtione vent will be lost.
+    /// </summary>
     public void StartMeleeAttack()
     {
         MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
@@ -334,11 +395,18 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Disables melee damage trigger.
+    /// </summary>
     public void EndMeleeAttack()
     {
         m_meleeDamageTrigger.SetEnabled(false);
     }
 
+    /// <summary>
+    /// Chooses a melee attack from the list.
+    /// </summary>
+    /// <returns></returns>
     public MonsterAttackDesc PickMeleeAttack()
     {
         int attackIndex = 0;
@@ -361,6 +429,10 @@ public class GPMonsterBase : ActorManager
         return m_meleeAtks[attackIndex];
     }
 
+    /// <summary>
+    /// Chooses a projectile attack from the list.
+    /// </summary>
+    /// <returns></returns>
     public MonsterAttackDesc PickProjectileAttack()
     {
         int attackIndex = 0;
@@ -383,6 +455,11 @@ public class GPMonsterBase : ActorManager
         return m_projectileAtks[attackIndex];
     }
 
+    /// <summary>
+    /// Rotates mosnter to llok in the direction of the target.
+    /// Needs to be called on update.
+    /// </summary>
+    /// <param name="target"></param>
     public virtual void LookAtTarget(Transform target)
     {
         Vector3 lookDir = target.transform.position - transform.position;
@@ -397,6 +474,10 @@ public class GPMonsterBase : ActorManager
         Gizmos.DrawWireSphere(transform.position, m_projectileRadius);
     }
 
+    /// <summary>
+    /// Does melee damage to a player.
+    /// </summary>
+    /// <param name="collider"></param>
     public virtual void BitePlayer(Collider collider)
     {
         Player player = collider.GetComponent<Player>();
@@ -413,8 +494,9 @@ public class GPMonsterBase : ActorManager
         EndMeleeAttack();
     }
 
-    //Shooting
-
+    /// <summary>
+    /// Shoots a projectile
+    /// </summary>
     public void ShootProjectile()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -500,6 +582,11 @@ public class GPMonsterBase : ActorManager
         effect.GetComponent<SkillBaseManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
     }
 
+    /// <summary>
+    /// Logic to do when the monster kills a player.
+    /// Player is removed from gold range and attack range lists.
+    /// </summary>
+    /// <param name="playerId"></param>
     public void OnPlayerKilled(int playerId)
     {
         PhotonView playerView = playerId > 0 ? PhotonView.Find(playerId) : null;
@@ -547,6 +634,9 @@ public class GPMonsterBase : ActorManager
         AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
     }
 
+    /// <summary>
+    /// Spawns visual coins for the local player
+    /// </summary>
     [PunRPC]
     public void RPCSpawnCoinsForPlayer()
     {
@@ -560,6 +650,9 @@ public class GPMonsterBase : ActorManager
         }
     }
 
+    /// <summary>
+    /// Resets monsters health, colliders, animator, among other things.
+    /// </summary>
     [PunRPC]
     public void RPCOnRespawn()
     {
@@ -570,6 +663,9 @@ public class GPMonsterBase : ActorManager
         AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
     }
 
+    /// <summary>
+    /// Visual and auditive effects that needs to happen for all players when the monster receives a hit.
+    /// </summary>
     [PunRPC]
     public void RPCOnMeleeHit()
     {
