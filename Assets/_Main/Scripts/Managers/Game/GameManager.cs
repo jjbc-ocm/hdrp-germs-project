@@ -17,9 +17,6 @@ namespace TanksMP
         public static GameManager Instance;
 
         [SerializeField]
-        private PlayerOfflineSaveState prefabPlayerOfflineSaveState;
-
-        [SerializeField]
         public CollectibleZone zoneRed;
 
         [SerializeField]
@@ -43,11 +40,14 @@ namespace TanksMP
 
         public SupremacyWardEffectManager[] SupremacyWards { get => supremacyWards; }
 
-
-        //initialize variables
         void Awake()
         {
             Instance = this;
+        }
+
+        void Start()
+        {
+            AudioManager.Instance.PlayMusic(1);
         }
 
         void Update()
@@ -55,8 +55,6 @@ namespace TanksMP
             ships = FindObjectsOfType<Player>();
 
             supremacyWards = FindObjectsOfType<SupremacyWardEffectManager>();
-
-            //offlineSaveStates = FindObjectsOfType<PlayerOfflineSaveState>();
 
             foreach (var ship in ships)
             {
@@ -125,16 +123,6 @@ namespace TanksMP
 
                 teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
             }
-
-            // Decide winner by surrenders
-            /*var team1Surrendered = Team1Ships.Count(i => i.photonView.HasSurrendered()) > Team1Ships.Count(i => !i.photonView.HasSurrendered());
-            var team2Surrendered = Team2Ships.Count(i => i.photonView.HasSurrendered()) > Team2Ships.Count(i => !i.photonView.HasSurrendered());
-
-            if (team1Surrendered || team2Surrendered) isOver = true;
-
-            teamResults[0] = team1Surrendered ? BattleResultType.Defeat : BattleResultType.Victory;
-            teamResults[1] = team2Surrendered ? BattleResultType.Defeat : BattleResultType.Victory;*/
-
 
             // Decide if the game has to stop
             for (int i = 0; i < teams.Length; i++)

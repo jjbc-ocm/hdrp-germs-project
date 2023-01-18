@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 223792564164533355}
   - component: {fileID: 65653937090360438}
   - component: {fileID: 1657566868653416574}
+  - component: {fileID: 8771608994588316864}
   - component: {fileID: 2707612666388455811}
   m_Layer: 0
   m_Name: GameManager
@@ -54,7 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a55adfe3d000247b07d5f9373dd1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPlayerOfflineSaveState: {fileID: 5022456133697373853, guid: 4ff91aae33fd02441891410a1afe222a, type: 3}
   zoneRed: {fileID: 0}
   zoneBlue: {fileID: 0}
   ui: {fileID: 0}
@@ -216,6 +216,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 0}
+--- !u!114 &8771608994588316864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013481812936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983ac570e82bb7145b26a89e35a3b268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guideDefault: {fileID: 11400000, guid: 0eacb668162f6974490a83c16468fdf1, type: 2}
+  guideChest: {fileID: 11400000, guid: d2eabea79c16dea4396d7aee7a11822e, type: 2}
+  guideShop: {fileID: 11400000, guid: 0b03308a848a9074da1f02e72001379e, type: 2}
+  guideMonster: {fileID: 11400000, guid: f74e54bdfa5056d4595f15f05781dfa0, type: 2}
 --- !u!114 &2707612666388455811
 MonoBehaviour:
   m_ObjectHideFlags: 0
