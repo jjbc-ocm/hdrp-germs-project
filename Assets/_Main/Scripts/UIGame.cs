@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using System.Linq;
 using TMPro;
+using System.Collections.Generic;
 
 namespace TanksMP
 {
@@ -32,20 +33,15 @@ namespace TanksMP
         [SerializeField]
         private AftermathUI uiAftermath;
 
-
-        //initialize variables
-        void Start()
-        {
-            //play background music
-            AudioManager.Instance.PlayMusic(1);
-        }
+        [SerializeField]
+        private GuideUI uiGuide;
 
         void Update()
         {
             /* Update player current gold UI */
             if (Player.Mine != null)
             {
-                textPlayerGold.text = Player.Mine.Inventory.Gold.ToString();
+                textPlayerGold.text = Player.Mine.Inventory.Gold.ToString(); // TODO: how about put it in player info UI instead?
             }
         }
 
@@ -57,7 +53,6 @@ namespace TanksMP
         /// </summary>
         public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
 		{
-			//OnTeamSizeChanged(PhotonNetwork.CurrentRoom.GetSize());
 			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore());
 		}
 
@@ -138,6 +133,30 @@ namespace TanksMP
             });
         }
 
+        public void AddGuideItem(GuideData data)
+        {
+            uiGuide.RefreshUI((self) =>
+            {
+                if (self.Data == null)
+                {
+                    self.Data = new List<GuideData>();
+                }
+
+                if (!self.Data.Contains(data))
+                {
+                    self.Data.Add(data);
+                }
+            });
+        }
+
+        public void RemoveGuideItem(GuideData data)
+        {
+            uiGuide.RefreshUI((self) =>
+            {
+                self.Data.RemoveAll((i) => i == data);
+            });
+        }
+
 
         /// <summary>
         /// Returns to the starting scene and immediately requests another game session.
@@ -164,18 +183,6 @@ namespace TanksMP
 
             if (PhotonNetwork.IsConnected)
                 PhotonNetwork.Disconnect();
-        }
-
-
-        /// <summary>
-        /// Loads the starting scene. Disconnecting already happened when presenting the GameOver screen.
-        /// </summary>
-        public override void OnLeftRoom()
-        {
-            //SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
-            //var reconnectResult = PhotonNetwork.ReconnectAndRejoin();
-
-            //Debug.Log("OnLeftRoom reconnectResult " + reconnectResult);
         }
     }
 }
