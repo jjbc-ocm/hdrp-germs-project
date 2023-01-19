@@ -52,7 +52,7 @@ public class GPChestOpeningLogic : MonoBehaviour
             yield return new WaitForSeconds(3.0f);
             if (i < chests.Count - 1) // so the last one doesn't play a sound at the end
             {
-                TanksMP.AudioManager.Play2D(m_chestOpenSFX);
+                AudioManager.Instance.Play2D(m_chestOpenSFX);
             }
         }
     }

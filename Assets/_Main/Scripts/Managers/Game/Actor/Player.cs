@@ -38,8 +38,18 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
+        [Header("Layers")]
+
+        [SerializeField]
+        private LayerMask allyLayers;
+
+        [SerializeField]
+        private LayerMask enemyLayers;
+
         [SerializeField]
         private LayerMask targetableLayers;
+
+
 
         private FollowTarget camFollow;
 
@@ -189,12 +199,7 @@ namespace TanksMP
 
         void Start()
         {
-            //GameManager.Instance.CreateOrUpdateOfflineSaveState(this, out var isReconnection);
-
-            /*if (!isReconnection)
-            {
-                stat.Initialize();
-            }*/
+            gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? allyLayers : enemyLayers);
 
             stat.Initialize();
 
@@ -420,17 +425,19 @@ namespace TanksMP
                 //send player back to the team area, this will get overwritten by the exact position from the client itself later on
                 //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
                 //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
-                GetComponent<PhotonTransformView>().OnPhotonSerializeView(
+                /*GetComponent<PhotonTransformView>().OnPhotonSerializeView(
                     new PhotonStream(
                         false,
                         new object[]
                         {
-                            //GameManager.GetInstance().GetSpawnPosition(photonView.GetTeam()),
+                            //GameManager.Instance.GetSpawnPosition(photonView.GetTeam()),
                             GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position,
                             Vector3.zero,
                             Quaternion.identity
                         }),
-                    new PhotonMessageInfo());
+                    new PhotonMessageInfo());*/
+
+                ResetPosition(false);
             }
 
             if (photonView.IsMine)
@@ -466,7 +473,7 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                ResetPosition();
+                ResetPosition(true);
             }
         }
 
@@ -524,10 +531,12 @@ namespace TanksMP
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
 
                 /* If the attacker is me, add kill count */
-                if (attacker.IsMine)
+                if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
                 {
-                    attacker.GetComponent<Player>().stat.AddKill();
+                    attackerPlayer.stat.AddKill();
                 }
+
+                GuideManager.Instance.TryAddShopGuide();
             }
         }
 
@@ -535,11 +544,14 @@ namespace TanksMP
 
         #region Public
 
-        public void ResetPosition()
+        public void ResetPosition(bool isCameraFollow)
         {
-            camFollow.target = transform;
-            camFollow.HideMask(false);
-
+            if (isCameraFollow)
+            {
+                camFollow.target = transform;
+                camFollow.HideMask(false);
+            }
+            
             //transform.position = GameManager.Instance.GetSpawnPosition(photonView.GetTeam());
             transform.position = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position;
             transform.rotation = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].rotation;

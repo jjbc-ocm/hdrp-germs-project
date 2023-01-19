@@ -44,7 +44,7 @@ public class GPWeeklyRewardScreen : GPGUIScreen
     {
         base.Show();
 
-        TanksMP.AudioManager.Play2D(m_showScreenSFX);
+        AudioManager.Instance.Play2D(m_showScreenSFX);
 
         UpdateDisplayedData();
     }
@@ -62,7 +62,7 @@ public class GPWeeklyRewardScreen : GPGUIScreen
         GivePrize(m_rewards[m_currClaimedIdx]);
         m_currClaimedIdx++;
         m_currClaimedIdx = Mathf.Clamp(m_currClaimedIdx, 0, 7);
-        TanksMP.AudioManager.Play2D(m_claimSFX);
+        AudioManager.Instance.Play2D(m_claimSFX);
         Hide();
     }
 

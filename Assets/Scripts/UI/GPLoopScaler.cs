@@ -15,10 +15,4 @@ public class GPLoopScaler : MonoBehaviour
     LeanTween.scaleY(gameObject, m_targetScaleY, m_tweenDuration).setEase(m_tweenType).setLoopPingPong();
     LeanTween.scaleX(gameObject, m_targetScaleX, m_tweenDuration).setEase(m_tweenType).setLoopPingPong();
   }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
 }

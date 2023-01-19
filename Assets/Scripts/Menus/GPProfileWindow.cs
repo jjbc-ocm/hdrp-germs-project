@@ -61,7 +61,7 @@ public class GPProfileWindow : GPGWindowUI
     public override void Show()
     {
         base.Show();
-        TanksMP.AudioManager.Play2D(m_showSound);
+        AudioManager.Instance.Play2D(m_showSound);
 
         foreach (var block in m_spawnedBlocks)
         {
@@ -82,7 +82,7 @@ public class GPProfileWindow : GPGWindowUI
     public override void Hide()
     {
         base.Hide();
-        TanksMP.AudioManager.Play2D(m_hideSound);
+        AudioManager.Instance.Play2D(m_hideSound);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public class GPProfileWindow : GPGWindowUI
         {
             m_homeUserMiniature.SetProfileIcon(m_lastPreviewedBlock.m_profileIconDesc.m_sprite);
         }
-        TanksMP.AudioManager.Play2D(m_equipSFX);
+        AudioManager.Instance.Play2D(m_equipSFX);
     }
 
     /// <summary>

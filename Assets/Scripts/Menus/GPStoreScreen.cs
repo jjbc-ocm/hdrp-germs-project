@@ -117,7 +117,7 @@ public class GPStoreScreen : GPGUIScreen
     /// </summary>
     void OnNewTabShown()
     {
-        TanksMP.AudioManager.Play2D(m_changeTabSFX);
+        AudioManager.Instance.Play2D(m_changeTabSFX);
     }
 
     /// <summary>

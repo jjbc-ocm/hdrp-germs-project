@@ -40,7 +40,7 @@ public class GPLevelUpScreen : GPGUIScreen
 
         //Play effects
         m_punchTween.PunchEffect();
-        TanksMP.AudioManager.Play2D(m_showSFX);
+        AudioManager.Instance.Play2D(m_showSFX);
 
         //Display the new current level on the UI
         m_levelText.text = APIManager.Instance.PlayerData.Level.ToString();
@@ -70,7 +70,7 @@ public class GPLevelUpScreen : GPGUIScreen
     public void ContinueButtonPressed()
     {
         Hide();
-        TanksMP.AudioManager.Play2D(m_continueClickedSFX);
+        AudioManager.Instance.Play2D(m_continueClickedSFX);
     }
 
     /// <summary>

@@ -256,8 +256,8 @@ public class SettingsData
         ParticleIndex = 0;
         AntiAliasingIndex = 0;
         PostProcessingIndex = 0;
-        MusicVolume = 1;
-        SoundVolume = 1;
+        MusicVolume = 0;
+        SoundVolume = 0;
     }
 
     public SettingsData(SettingsData copy)

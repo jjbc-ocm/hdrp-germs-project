@@ -61,7 +61,7 @@ public class HolyBrightManager : SkillBaseManager
 
     protected override void OnInitialize()
     {
-
+        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
     }
 
     

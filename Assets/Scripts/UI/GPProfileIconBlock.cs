@@ -28,21 +28,33 @@ public class GPProfileIconBlock : MonoBehaviour
         ToggleLocked(m_isLocked);
     }
 
+    /// <summary>
+    /// Displays the profile icon sprite from the given GPProfileIconSO.
+    /// </summary>
+    /// <param name="desc"></param>
     public void SetProfileIconDesc(GPProfileIconSO desc)
     {
         m_profileIconDesc = desc;
         m_image.sprite = desc.m_sprite;
     }
 
+    /// <summary>
+    /// If true, shows the prifile icon as locked.
+    /// </summary>
+    /// <param name="locked"></param>
     public void ToggleLocked(bool locked)
     {
         m_isLocked = locked;
         m_lockedSprite.SetActive(locked);
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the button component.
+    /// Plays SFX and calls onClickedEvent to handle the equip from somewhere else.
+    /// </summary>
     void OnClicked()
     {
-        TanksMP.AudioManager.Play2D(m_clickSFX);
+        AudioManager.Instance.Play2D(m_clickSFX);
         if (onClickedEvent != null)
         {
             onClickedEvent.Invoke(this);
