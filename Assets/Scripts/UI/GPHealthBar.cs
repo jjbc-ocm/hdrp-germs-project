@@ -14,19 +14,15 @@ public class GPHealthBar : MonoBehaviour
     void Start()
     {
         m_health.OnHealthChangedEvent.AddListener(UpdateBar);
-        m_health.OnDamagedEvent.AddListener(OnDamaged);
     }
 
+    /// <summary>
+    /// Displays the current fill amout fo the bar based on the 
+    /// current health and max health of the linked GPHealth component.
+    /// </summary>
     void UpdateBar()
     {
         m_bar.fillAmount = m_health.m_currentHealth / m_health.m_maxHealth;
     }
 
-    void OnDamaged()
-    {
-        if (m_onDamaged != null)
-        {
-            m_onDamaged.Invoke();
-        }
-    }
 }

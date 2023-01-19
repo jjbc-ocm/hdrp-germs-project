@@ -8,7 +8,6 @@ public class GPDragonPart : GPMonsterBase
 {
     DRAGON_STATES m_currentState = DRAGON_STATES.kIdle;
     float m_timeInState = 0.0f;
-
     public enum DRAGON_STATES
     {
         kIdle,
@@ -57,17 +56,20 @@ public class GPDragonPart : GPMonsterBase
         switch (m_currentState)
         {
             case DRAGON_STATES.kIdle:
-                OnIdle();
+                OnIdleUpdate();
                 break;
             case DRAGON_STATES.kAttacking:
-                OnAttacking();
+                OnAttackingUpdate();
                 break;
             default:
                 break;
         }
     }
 
-    void OnIdle()
+    /// <summary>
+    /// Logic to do every frame while being idle.
+    /// </summary>
+    void OnIdleUpdate()
     {
         if (m_currTargetPlayer != null)
         {
@@ -87,7 +89,11 @@ public class GPDragonPart : GPMonsterBase
         }
     }
 
-    void OnAttacking()
+    /// <summary>
+    /// Logic to do while attacking.
+    /// Returns to idle after the attack duration finishes.
+    /// </summary>
+    void OnAttackingUpdate()
     {
         MonsterAttackDesc attackDesc = null;
 
@@ -119,24 +125,21 @@ public class GPDragonPart : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Changes the state of the Dragon.
+    /// </summary>
+    /// <param name="newState"></param>
     void ChangeState(DRAGON_STATES newState)
     {
-        if (m_currentState == DRAGON_STATES.kIdle && newState == DRAGON_STATES.kAttacking)
-        {
-            m_attacking = true;
-            //look at target
-            /*
-            Vector3 lookDir = m_currTargetPlayer.transform.position - transform.position;
-            lookDir.y = 0.0f;
-            m_tweening = true;
-            LeanTween.rotate(gameObject, Quaternion.LookRotation(lookDir).eulerAngles, 0.5f).setEaseSpring().setOnComplete(OnTweenEnd);
-            */
-        }
-        else if (m_currentState == DRAGON_STATES.kAttacking && newState == DRAGON_STATES.kIdle)
+        if (newState == DRAGON_STATES.kIdle)
         {
             //choose new target
             ChoosePlayerToAttack();
             m_attacking = false;
+        }
+        else if (newState == DRAGON_STATES.kAttacking)
+        {
+            m_attacking = true;
         }
 
         m_timeInState = 0.0f;

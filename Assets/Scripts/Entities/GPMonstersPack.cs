@@ -15,6 +15,11 @@ public class GPMonstersPack : MonoBehaviour
         m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
     }
 
+    /// <summary>
+    /// Linked to the detection trigger enter event.
+    /// When player enters all monsters will be notified.
+    /// </summary>
+    /// <param name="other"></param>
     public void OnPlayerEnter(Collider other)
     {
         Player player = other.GetComponent<Player>();
@@ -27,6 +32,11 @@ public class GPMonstersPack : MonoBehaviour
         }
     }
 
+    // <summary>
+    /// Linked to the detection trigger exit event.
+    /// When player exits all monsters will be notified.
+    /// </summary>
+    /// <param name="other"></param>
     public void OnPlayerExit(Collider other)
     {
         Player player = other.GetComponent<Player>();
@@ -42,7 +52,7 @@ public class GPMonstersPack : MonoBehaviour
         GPBee bee = other.GetComponent<GPBee>();
         if (bee)
         {
-            if (m_monsters.Contains(bee)) // if that bee is fomr this nest
+            if (m_monsters.Contains(bee)) // if that bee is from this nest
             {
                 bee.ReturnToNest();
             }

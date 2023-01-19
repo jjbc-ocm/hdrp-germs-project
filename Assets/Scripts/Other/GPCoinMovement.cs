@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class GPCoinMovement : MonoBehaviour
 {
+    [Header("Movement settings")]
     public float m_grabRadius = 1.0f;
     public float m_moveSpeed = 1.0f;
 
-    private bool m_pursue = false;
+    private bool m_pursue = false; // set to true to start following the player
 
-    public Transform m_target;
-    public GameObject m_object;
+    public Transform m_target; // target to go to
+    public GameObject m_object; // coin model game object to which apply rotation effects
     public float m_rotationSpeed = 100.0f;
     private float m_elapsedTime = 0;
 
@@ -23,26 +24,21 @@ public class GPCoinMovement : MonoBehaviour
     [Header("Sound Settings")]
     public AudioClip m_pickSFX;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (m_pursue)
         {
             m_delayCounter += Time.deltaTime;
-            if (m_delayCounter > m_delayTime)
+            if (m_delayCounter > m_delayTime) //start following target after delay finishes
             {
                 seekPosition(m_target.position);
             }
         }
         else
         {
-            destroyTimeCounter += Time.deltaTime;
+            // destroy after some time just in case
+            destroyTimeCounter += Time.deltaTime; 
             if (destroyTimeCounter > m_destroyTime)
             {
                 Destroy(gameObject);
@@ -50,12 +46,18 @@ public class GPCoinMovement : MonoBehaviour
         }
 
         m_elapsedTime += Time.deltaTime;
+
         //rotate
         Vector3 rotation = m_object.transform.localEulerAngles;
         rotation.y += m_rotationSpeed * Time.deltaTime;
         m_object.transform.localEulerAngles = rotation;
     }
 
+
+    /// <summary>
+    /// Moves in the direction of a world position.
+    /// </summary>
+    /// <param name="position"></param>
     void seekPosition(Vector3 position)
     {
         Vector3 dir = position - transform.position;
@@ -66,12 +68,20 @@ public class GPCoinMovement : MonoBehaviour
         transform.position += dir.normalized * m_moveSpeed * Time.deltaTime;
     }
 
+    /// <summary>
+    /// Plays pick sfx and destroys the Coin.
+    /// </summary>
     void Pick()
     {
         AudioManager.Instance.Play3D(m_pickSFX, transform.position, 0.2f);
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Dispersates the coin to a initial target position
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <returns></returns>
     public IEnumerator Dispersate(Vector3 targetPos)
     {
         Vector3 startPosition = transform.position;
@@ -93,6 +103,11 @@ public class GPCoinMovement : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Cool interpolation factor calcualtion.
+    /// </summary>
+    /// <param name="valueFrom0to1"></param>
+    /// <returns></returns>
     public static float SofterInSofterOut01(float valueFrom0to1)
     {
         return (-Mathf.Cos(valueFrom0to1 * Mathf.PI)) * 0.5f + 0.5f;

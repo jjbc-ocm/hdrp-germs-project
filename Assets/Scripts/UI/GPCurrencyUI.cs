@@ -20,6 +20,9 @@ public class GPCurrencyUI : UI<GPCurrencyUI>
         RefreshUI();
     }
 
+    /// <summary>
+    /// Updates the displayed gem and gold amount with the new values from the APIManager.
+    /// </summary>
     protected override void OnRefreshUI()
     {
         var data = APIManager.Instance.PlayerData;
