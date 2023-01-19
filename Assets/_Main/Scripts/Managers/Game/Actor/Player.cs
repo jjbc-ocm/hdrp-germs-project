@@ -535,6 +535,8 @@ namespace TanksMP
                 {
                     attackerPlayer.stat.AddKill();
                 }
+
+                GuideManager.Instance.TryAddShopGuide();
             }
         }
 
