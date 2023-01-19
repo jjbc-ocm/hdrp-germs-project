@@ -55,6 +55,7 @@ public class GPMonsterBase : ActorManager
     [Tooltip("Only the players that are inside it when the mosnter dies will get gold (last hit team only)")]
     public GPGTriggerEvent m_goldTrigger;
     public GameObject m_model; //Monster model gameobject
+    public GameObject m_monsterHPBar;
 
     [Header("Movement settings")]
     public float m_rotateSpeed = 3.0f;
@@ -632,6 +633,10 @@ public class GPMonsterBase : ActorManager
     {
         m_mainCollider.enabled = false;
         AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
+        if (m_monsterHPBar)
+        {
+            m_monsterHPBar.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -658,6 +663,10 @@ public class GPMonsterBase : ActorManager
     {
         m_mainCollider.enabled = true;
         m_respawnTimeCounter = 0.0f;
+        if (m_monsterHPBar)
+        {
+            m_monsterHPBar.SetActive(true);
+        }
         m_health.Resurrect();
         m_animator.Play("Idle");
         AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);

@@ -36,12 +36,17 @@ namespace TanksMP
         [SerializeField]
         private GuideUI uiGuide;
 
+        private float m_currDisplayedGold = 0;
+        [SerializeField]
+        private float m_displayedGoldAnimSpeed = 5.0f;
+
         void Update()
         {
             /* Update player current gold UI */
             if (Player.Mine != null)
             {
-                textPlayerGold.text = Player.Mine.Inventory.Gold.ToString(); // TODO: how about put it in player info UI instead?
+                m_currDisplayedGold = Mathf.Lerp(m_currDisplayedGold, Player.Mine.Inventory.Gold, m_displayedGoldAnimSpeed * Time.deltaTime);
+                textPlayerGold.text = Mathf.RoundToInt(m_currDisplayedGold).ToString(); // TODO: how about put it in player info UI instead?
             }
         }
 
