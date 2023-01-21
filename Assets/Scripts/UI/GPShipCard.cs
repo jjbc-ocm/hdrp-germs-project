@@ -15,6 +15,10 @@ public class GPShipCard : MonoBehaviour
     GPShipDesc m_shipDesc;
     public GPShipDesc m_ShipDesc { get => m_shipDesc; }
 
+    /// <summary>
+    /// Displays the ship image, ship name and ship type on the card using the given GPShipDesc.
+    /// </summary>
+    /// <param name="desc"></param>
     public void DisplayShipDesc(GPShipDesc desc)
     {
         m_shipDesc = desc;
@@ -38,6 +42,10 @@ public class GPShipCard : MonoBehaviour
         m_nameText.text = name;
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the button component of the card.
+    /// Calls OnCardClickedEvent to which you can suscribe to handle what you need.
+    /// </summary>
     public void OnCardClicked()
     {
         if (OnCardClickedEvent != null)

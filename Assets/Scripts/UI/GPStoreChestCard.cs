@@ -37,6 +37,10 @@ public class GPStoreChestCard : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Displays the chest image, anme, price, tag, content text using the given GPStoreChestSO.
+    /// </summary>
+    /// <param name="chestDesc"></param>
     public void DisplayChest(GPStoreChestSO chestDesc)
     {
         m_chestDesc = chestDesc;
@@ -52,6 +56,10 @@ public class GPStoreChestCard : MonoBehaviour
         m_contentDescText2.text = chestDesc.m_contentDesc2;
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the buy using gold button component.
+    /// Calls the OnClickedBuyUsingGoldEvent to which you can suscribe to handle the buy.
+    /// </summary>
     void OnBuyUsingGold()
     {
         if (OnClickedBuyUsingGoldEvent != null)
@@ -60,6 +68,10 @@ public class GPStoreChestCard : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the buy using gems button component.
+    /// Calls the OnClickedBuyUsingGemsEvent to which you can suscribe to handle the buy.
+    /// </summary>
     void OnBuyUsingGems()
     {
         if (OnClickedBuyUsingGemsEvent != null)

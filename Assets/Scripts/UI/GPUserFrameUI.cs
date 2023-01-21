@@ -33,6 +33,10 @@ public class GPUserFrameUI : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Sets the displayed level on the user frame.
+    /// </summary>
+    /// <param name="lvl"></param>
     public void SetLevel(int lvl)
     {
         foreach (var frame in m_frames)
@@ -41,6 +45,10 @@ public class GPUserFrameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the displayed profile icon sprite of the user
+    /// </summary>
+    /// <param name="icon"></param>
     public void SetProfileIcon(Sprite icon)
     {
         m_assignedProfileIconSprite = icon;
@@ -50,6 +58,10 @@ public class GPUserFrameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the rank frame of the user.
+    /// </summary>
+    /// <param name="frameType"></param>
     public void SetFrame(GP_PROFILE_FRAME frameType)
     {
         foreach (var frame in m_frames)
