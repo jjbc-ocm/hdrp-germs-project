@@ -39,9 +39,16 @@ public class GPBee : GPMonsterBase
         {
             var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
+            var isActive = isInPlayerRange || IsInSupremacyWard();
+
             foreach (var m_renderer in m_renderers)
             {
-                m_renderer.SetActive(isInPlayerRange || IsInSupremacyWard());
+                m_renderer.SetActive(isActive);
+            }
+
+            if (isActive)
+            {
+                GuideManager.Instance.TryAddMonsterGuide();
             }
         }
 

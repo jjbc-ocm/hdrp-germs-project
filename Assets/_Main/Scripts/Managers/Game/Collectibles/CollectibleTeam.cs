@@ -14,6 +14,8 @@ namespace TanksMP
         protected override void OnObtain(Player player)
         {
             player.photonView.HasChest(true);
+
+            GuideManager.Instance.TryAddChestGuide();
         }
     }
 }
