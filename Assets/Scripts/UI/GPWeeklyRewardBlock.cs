@@ -21,26 +21,46 @@ public class GPWeeklyRewardBlock : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Sets the displayed reward sprite.
+    /// </summary>
+    /// <param name="sprite"></param>
     public void SetRewardSprite(Sprite sprite)
     {
         m_rewardImage.sprite = sprite;
     }
 
+    /// <summary>
+    /// Sets the displayed reward amount.
+    /// </summary>
+    /// <param name="amount"></param>
     public void SetRewardAmount(int amount)
     {
         m_rewardAmountText.text = amount.ToString();
     }
 
+    /// <summary>
+    /// Sets the displayed day of the reward.
+    /// </summary>
+    /// <param name="day"></param>
     public void SetDay(int day)
     {
         m_dayText.text = "DAY " + day.ToString();
     }
 
+    /// <summary>
+    /// Toggle the checkmark sprite.
+    /// </summary>
+    /// <param name="active"></param>
     public void ToggleChecked(bool active)
     {
         m_checkObj.SetActive(active);
     }
 
+    /// <summary>
+    /// Toggle the focus on the reward block to let the user know this is the current reward.
+    /// </summary>
+    /// <param name="active"></param>
     public void ToggleFocus(bool active)
     {
         m_focusObj.SetActive(active);

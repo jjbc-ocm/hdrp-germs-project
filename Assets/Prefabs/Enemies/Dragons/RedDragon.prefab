@@ -217,6 +217,7 @@ MonoBehaviour:
   m_meleeDamageTrigger: {fileID: 839077211561805785}
   m_goldTrigger: {fileID: 5355477165330685692}
   m_model: {fileID: 1360388980397296511}
+  m_monsterHPBar: {fileID: 4483485361532502503}
   m_rotateSpeed: 3
   m_tweening: 0
   m_animator: {fileID: 1360388980389886141}
@@ -711,8 +712,17 @@ PrefabInstance:
       propertyPath: m_health
       value: 
       objectReference: {fileID: 722159168821481043}
+    - target: {fileID: 6590168205446488028, guid: df4ff22ee674b404f96246fdeb834739, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df4ff22ee674b404f96246fdeb834739, type: 3}
+--- !u!1 &4483485361532502503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6798819197677600481, guid: df4ff22ee674b404f96246fdeb834739, type: 3}
+  m_PrefabInstance: {fileID: 6945333646939324166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5491366870902062188 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3195173319206093674, guid: df4ff22ee674b404f96246fdeb834739, type: 3}

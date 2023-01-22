@@ -103,6 +103,10 @@ public class GPBee : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Changes the state of the bee.
+    /// </summary>
+    /// <param name="newState"></param>
     void ChangeState(BEE_STATES newState)
     {
         if (newState == BEE_STATES.kAttacking)
@@ -126,6 +130,9 @@ public class GPBee : GPMonsterBase
         m_currentState = newState;
     }
 
+    /// <summary>
+    /// Logic to do at the start of being idle.
+    /// </summary>
     void OnStartIdle()
     {
         //choose new target
@@ -133,6 +140,9 @@ public class GPBee : GPMonsterBase
         m_attacking = false;
     }
 
+    /// <summary>
+    /// Logic to do every frame while being idle.
+    /// </summary>
     void OnIdleUpdate()
     {
         if (m_currTargetPlayer != null)
@@ -168,6 +178,9 @@ public class GPBee : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Logic to do before start attacking.
+    /// </summary>
     void OnStartAttacking()
     {
         if (m_currTargetPlayer == null)
@@ -196,6 +209,10 @@ public class GPBee : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Logic to do while attacking.
+    /// Returns to idle after the attack duration finishes.
+    /// </summary>
     void OnAttackingUpdate()
     {
         if (m_timeInState > m_currAtk.m_duration)
@@ -204,11 +221,17 @@ public class GPBee : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Logic to do when starting to chase a player
+    /// </summary>
     void OnStartChase()
     {
 
     }
 
+    /// <summary>
+    /// Logic to do whle chasing a player.
+    /// </summary>
     void OnChaseUpdate()
     {
         if (m_currTargetPlayer == null)
@@ -232,11 +255,19 @@ public class GPBee : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Logic to do when starting to return to nest.
+    /// </summary>
     void OnStartReturning()
     {
 
     }
 
+
+    /// <summary>
+    /// Logic to do while returning to nest.
+    /// Moves monster towards his respawn point (nest)
+    /// </summary>
     void OnReturningUpdate()
     {
         m_agent.SetDestination(m_respawnWorldPosition);
@@ -250,6 +281,9 @@ public class GPBee : GPMonsterBase
         }
     }
 
+    /// <summary>
+    /// Call to make the mosnter return to his nest.
+    /// </summary>
     public void ReturnToNest()
     {
         ChangeState(BEE_STATES.kReturning);
