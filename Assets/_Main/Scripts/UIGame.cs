@@ -36,6 +36,14 @@ namespace TanksMP
         [SerializeField]
         private GuideUI uiGuide;
 
+        [Header("Sound and Visuals")]
+
+        [SerializeField]
+        private AudioClip soundAddGuide;
+
+        [SerializeField]
+        private AudioClip soundRemoveGuide;
+
         void Update()
         {
             /* Update player current gold UI */
@@ -147,6 +155,8 @@ namespace TanksMP
                     self.Data.Add(data);
                 }
             });
+
+            AudioManager.Instance.Play2D(soundAddGuide);
         }
 
         public void RemoveGuideItem(GuideData data)
@@ -155,6 +165,8 @@ namespace TanksMP
             {
                 self.Data.RemoveAll((i) => i == data);
             });
+
+            AudioManager.Instance.Play2D(soundRemoveGuide);
         }
 
 
