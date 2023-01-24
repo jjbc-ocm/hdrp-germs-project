@@ -41,12 +41,6 @@ namespace TanksMP
         [Header("Layers")]
 
         [SerializeField]
-        private LayerMask allyLayers;
-
-        [SerializeField]
-        private LayerMask enemyLayers;
-
-        [SerializeField]
         private LayerMask targetableLayers;
 
 
@@ -199,7 +193,8 @@ namespace TanksMP
 
         void Start()
         {
-            gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? allyLayers : enemyLayers);
+            //gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? Constants.LAYER_ALLY : Constants.LAYER_ENEMY);
+            gameObject.layer = photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? Constants.LAYER_ALLY : Constants.LAYER_ENEMY;
 
             stat.Initialize();
 

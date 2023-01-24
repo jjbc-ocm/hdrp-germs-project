@@ -37,6 +37,10 @@ public class Constants
 
     public const float RESPAWN_TIME = 10;
 
+    public const int LAYER_ALLY = 8;
+
+    public const int LAYER_ENEMY = 13;
+
     public static Vector2Int[] SETTINGS_RESOLUTION = new Vector2Int[]
     {
         new Vector2Int(3840, 2160),
