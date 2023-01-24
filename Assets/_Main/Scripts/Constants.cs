@@ -37,6 +37,14 @@ public class Constants
 
     public const float RESPAWN_TIME = 10;
 
+    public static Vector2Int[] SETTINGS_RESOLUTION = new Vector2Int[]
+    {
+        new Vector2Int(3840, 2160),
+        new Vector2Int(2560, 1440),
+        new Vector2Int(1920, 1080),
+        new Vector2Int(1280, 720)
+    };
+
     public static float[] SETTINGS_RENDER_SCALE = new float[] { 1f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f };
 
     public static int[] SETTINGS_MSAA = new int[] { 8, 0 };
