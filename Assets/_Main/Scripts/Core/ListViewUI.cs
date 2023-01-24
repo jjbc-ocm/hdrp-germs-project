@@ -29,15 +29,31 @@ public abstract class ListViewUI<S, T> : UI<T>
         items.Clear();
     }
 
-    protected void RefreshItems<Data>(IEnumerable<Data> data, System.Action<S, Data> onBeforeRefresh)
+    protected void RefreshItems<Data>(IEnumerable<Data> data, System.Action<S, Data> onBeforeRefresh, bool isInitialized = false)
     {
+        if (items == null)
+        {
+            items = new List<S>();
+        }
+
+        var index = 0;
+
         foreach (var datum in data)
         {
-            var newItem = Instantiate(prefabItem, uiItemView);
+            if (!isInitialized)
+            {
+                var newItem = Instantiate(prefabItem, uiItemView);
 
-            newItem.RefreshUI((self) => onBeforeRefresh(self, datum));
+                newItem.RefreshUI((self) => onBeforeRefresh(self, datum));
 
-            items.Add(newItem);
+                items.Add(newItem);
+            }
+            else
+            {
+                items[index].RefreshUI((self) => onBeforeRefresh(self, datum));
+            }
+
+            index++;
         }
     }
 }
