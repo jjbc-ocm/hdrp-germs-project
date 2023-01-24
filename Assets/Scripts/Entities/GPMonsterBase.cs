@@ -368,6 +368,7 @@ public class GPMonsterBase : ActorManager
             {
                 GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
                 m_photonView.RPC("RPCSpawnCoinsForPlayer", player.photonView.Owner);
+                GPNumberSpawnerSystem.m_instance.SpawnGoldNumber(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
             }
         }
     }
