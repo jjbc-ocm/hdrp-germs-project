@@ -100,7 +100,7 @@ public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
         {
             isConnecting = PhotonNetwork.ConnectUsingSettings();
 
-            PhotonNetwork.GameVersion = Constants.NETWORK_VERSION;
+            PhotonNetwork.GameVersion = SOManager.Instance.Constants.NetworkVersion;
         }
     }
 

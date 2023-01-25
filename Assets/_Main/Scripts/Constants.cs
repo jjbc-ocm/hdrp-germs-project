@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Constants
 {
-    public const string NETWORK_VERSION = "1";
+    //public const string NETWORK_VERSION = "1";
 
     public const string DEBUG_SCENE_NAME = "Debug";
 
@@ -37,11 +37,11 @@ public class Constants
 
     public const float RESPAWN_TIME = 10;
 
-    public const int LAYER_ALLY = 8;
+    /*public const int LAYER_ALLY = 8;
 
-    public const int LAYER_ENEMY = 13;
+    public const int LAYER_ENEMY = 13;*/
 
-    public static Vector2Int[] SETTINGS_RESOLUTION = new Vector2Int[]
+    /*public static Vector2Int[] SETTINGS_RESOLUTION = new Vector2Int[]
     {
         new Vector2Int(3840, 2160),
         new Vector2Int(2560, 1440),
@@ -53,7 +53,7 @@ public class Constants
 
     public static int[] SETTINGS_MSAA = new int[] { 8, 0 };
 
-    public static bool[] SETTINGS_POST_PROCESS = new bool[] { true, false };
+    public static bool[] SETTINGS_POST_PROCESS = new bool[] { true, false };*/
 }
 
 public class Globals

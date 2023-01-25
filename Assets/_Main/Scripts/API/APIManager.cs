@@ -33,8 +33,6 @@ public class APIManager : MonoBehaviour
     {
         Instance = this;
 
-        DontDestroyOnLoad(gameObject);
-
         Initialize((text, value) =>
         {
             uiLoading.Text = text;

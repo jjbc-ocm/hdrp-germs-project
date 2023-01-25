@@ -193,8 +193,9 @@ namespace TanksMP
 
         void Start()
         {
-            //gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? Constants.LAYER_ALLY : Constants.LAYER_ENEMY);
-            gameObject.layer = photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? Constants.LAYER_ALLY : Constants.LAYER_ENEMY;
+            gameObject.layer = photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
 
             stat.Initialize();
 

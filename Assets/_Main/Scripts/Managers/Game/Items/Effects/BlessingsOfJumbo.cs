@@ -8,7 +8,11 @@ public class BlessingsOfJumbo : ItemEffectManager
 {
     public override void Execute(int slotIndex, Player user)
     {
-        var colliders = Physics.OverlapSphere(user.transform.position, 25, LayerMask.GetMask("Ship", "Monster"));
+        var constants = SOManager.Instance.Constants;
+
+        var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+
+        var colliders = Physics.OverlapSphere(user.transform.position, 25, layerMask);
 
         foreach (var collider in colliders)
         {
