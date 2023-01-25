@@ -7,35 +7,6 @@ using UnityEngine.UI;
 public class SettingsUI : WindowListViewUI<SettingCategoryUI, SettingsUI>
 {
     [SerializeField]
-    private SettingsSO data;
-
-    /*[Header("DELETE THESE PROPERTIES LATER")]
-
-    [SerializeField]
-    private GameObject[] qualityOptions;
-
-    [SerializeField]
-    private GameObject[] resolutionOptions;
-
-    [SerializeField]
-    private GameObject[] resolutionScaleOptions;
-
-    [SerializeField]
-    private GameObject[] particleOptions;
-
-    [SerializeField]
-    private GameObject[] antiAliasingOptions;
-
-    [SerializeField]
-    private GameObject[] postProcessingOptions;
-
-    [SerializeField]
-    private Slider sliderMusic;
-
-    [SerializeField]
-    private Slider sliderSound;*/
-
-    [SerializeField]
     private GameObject loadIndicator;
 
     public SettingsData Data { get; set; }
@@ -48,6 +19,14 @@ public class SettingsUI : WindowListViewUI<SettingCategoryUI, SettingsUI>
         RefreshUI((self) =>
         {
             self.Data.QualityIndex = self.Data.QualityIndex + 1;
+        });
+    }
+
+    public void OnModeClick()
+    {
+        RefreshUI((self) =>
+        {
+            self.Data.ModeIndex = self.Data.ModeIndex + 1;
         });
     }
 
@@ -137,43 +116,9 @@ public class SettingsUI : WindowListViewUI<SettingCategoryUI, SettingsUI>
 
     protected override void OnRefreshUI()
     {
-        /*for (var i = 0; i < qualityOptions.Length; i++)
-        {
-            qualityOptions[i].SetActive(Data.QualityIndex == i);
-        }
-
-        for (var i = 0; i < resolutionOptions.Length; i++)
-        {
-            resolutionOptions[i].SetActive(Data.ResolutionIndex == i);
-        }
-
-        for (var i = 0; i < resolutionScaleOptions.Length; i++)
-        {
-            resolutionScaleOptions[i].SetActive(Data.ResolutionScaleIndex == i);
-        }
-
-        for (var i = 0; i < particleOptions.Length; i++)
-        {
-            particleOptions[i].SetActive(Data.ParticleIndex == i);
-        }
-
-        for (var i = 0; i < antiAliasingOptions.Length; i++)
-        {
-            antiAliasingOptions[i].SetActive(Data.AntiAliasingIndex == i);
-        }
-
-        for (var i = 0; i < postProcessingOptions.Length; i++)
-        {
-            postProcessingOptions[i].SetActive(Data.PostProcessingIndex == i);
-        }
-
-        sliderMusic.value = Data.MusicVolume;
-
-        sliderSound.value = Data.SoundVolume;*/
-
         var index = 0;
 
-        RefreshItems(data.Categories, (item, data) =>
+        RefreshItems(SOManager.Instance.Settings.Categories, (item, data) =>
         {
             item.Data = data;
 
@@ -182,6 +127,7 @@ public class SettingsUI : WindowListViewUI<SettingCategoryUI, SettingsUI>
                     new List<Func<float>>
                     {
                         () => Data.QualityIndex,
+                        () => Data.ModeIndex,
                         () => Data.ResolutionIndex,
                         () => Data.ResolutionScaleIndex,
                         () => Data.ParticleIndex,
@@ -213,6 +159,7 @@ public class SettingsUI : WindowListViewUI<SettingCategoryUI, SettingsUI>
                     new List<Action<float>>
                     {
                         (value) => OnQualityClick(),
+                        (value) => OnModeClick(),
                         (value) => OnResolutionClick(),
                         (value) => OnResolutionScaleClick(),
                         (value) => OnParticleDetailClick(),

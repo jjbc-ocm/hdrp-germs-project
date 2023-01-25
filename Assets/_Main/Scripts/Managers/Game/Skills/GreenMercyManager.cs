@@ -27,7 +27,11 @@ public class GreenMercyManager : SkillBaseManager
         {
             lastAttackTime = Time.time;
 
-            var colliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Ship", "Monster"));
+            var constants = SOManager.Instance.Constants;
+
+            var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+
+            var colliders = Physics.OverlapSphere(transform.position, radius, layerMask);
 
             foreach (var collider in colliders)
             {

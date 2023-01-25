@@ -62,32 +62,22 @@ public class ItemAimManager : MonoBehaviour
 
         if (isAiming)
         {
+            var constants = SOManager.Instance.Constants;
+
             var action = player.Skill;
 
             var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
 
-            //var layerNames = action.Aim == AimType.Water ? new string[] { "Water" } : new string[] { "Ship", "Monster" };
-
             var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, LayerMask.GetMask("Water")))
+            var layerMask = LayerMask.GetMask(constants.LayerWater);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, layerMask))
             {
-                /*if (action.Aim == AimType.Water ||
-                    action.Aim == AimType.AnyShip ||
-                    (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
-                    (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
-                {*/
-                    IndicatorSetActive(true);
+                IndicatorSetActive(true);
 
-                    aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
-                    /*if (action.Aim == AimType.EnemyShip ||
-                        action.Aim == AimType.AllyShip ||
-                        action.Aim == AimType.AnyShip)
-                    {
-                        aimAutoTarget = hit.transform.GetComponent<ActorManager>();
-                    }*/
-                //}
             }
             else
             {
