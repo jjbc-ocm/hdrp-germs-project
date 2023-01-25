@@ -15,18 +15,6 @@ public class AimManager : MonoBehaviour
     [SerializeField]
     private GameObject aimRangeIndicator;
 
-    [SerializeField]
-    private LayerMask layerWater;
-
-    [SerializeField]
-    private LayerMask layerAlly;
-
-    [SerializeField]
-    private LayerMask layerEnemy;
-
-    [SerializeField]
-    private LayerMask layerAllShips;
-
     private Action onAttackPress;
 
     private Action onAimSkillPress;
