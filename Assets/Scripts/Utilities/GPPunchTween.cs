@@ -5,7 +5,7 @@ using UnityEngine;
 public class GPPunchTween : MonoBehaviour
 {
     private Vector3 m_scale;
-    [Tooltip("How big(or samall if less than 1.0f) the game object will get in relation to its original size")]
+    [Tooltip("How big(or small if less than 1.0f) the game object will get in relation to its original size")]
     public float m_scaleMultiplier = 1.8f;
     [Tooltip("Duration of the effect")]
     public float m_punchEffectDuration = 0.4f;
