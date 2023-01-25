@@ -6,6 +6,7 @@ public class GPNumberSpawnerSystem : MonoBehaviour
 {
     public GPFloatingNumberUI m_goldNumberPrefab;
     public Canvas m_canvas;
+    public Camera m_mainCamera;
     public float m_numberLifetime = 1.0f;
 
     public static GPNumberSpawnerSystem m_instance;
@@ -32,8 +33,7 @@ public class GPNumberSpawnerSystem : MonoBehaviour
     {
         GPFloatingNumberUI instancedNumber = Instantiate(m_goldNumberPrefab, m_canvas.transform);
         instancedNumber.SetNumber(goldAmount);
-        instancedNumber.SetPosition(goldOriginPosition);
-        Destroy(instancedNumber.gameObject, m_numberLifetime);
+        instancedNumber.SetPosition(goldOriginPosition, m_mainCamera);
     }
 
 }
