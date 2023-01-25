@@ -89,12 +89,6 @@ MonoBehaviour:
   skill: {fileID: 11400000, guid: 9db30a16efd0f064aa937033db078d60, type: 2}
   colliders:
   - {fileID: -4718720069755669738}
-  allyLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 8192
   targetableLayers:
     serializedVersion: 2
     m_Bits: 12352
@@ -174,6 +168,18 @@ MonoBehaviour:
   aimIndicator: {fileID: 3850876819284738180}
   aimTrailIndicator: {fileID: 0}
   aimRangeIndicator: {fileID: 1463076915940354155}
+  layerWater:
+    serializedVersion: 2
+    m_Bits: 0
+  layerAlly:
+    serializedVersion: 2
+    m_Bits: 0
+  layerEnemy:
+    serializedVersion: 2
+    m_Bits: 0
+  layerAllShips:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2976155564934854218
 MonoBehaviour:
   m_ObjectHideFlags: 0

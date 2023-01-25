@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c757ead4057617f46bc32bce8ee82d62, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  categories:
+  - name: Graphics
+    items:
+    - name: Quality
+      options:
+      - High
+      - Mid
+      - Low
+    - name: Mode
+      options:
+      - Fullscreen
+      - Windowed
+    - name: Resolution
+      options:
+      - 3840x2160
+      - 2560x1440
+      - 1920x1080
+      - 1280x720
+    - name: Resolution Scale
+      options:
+      - 100
+      - 90
+      - 80
+      - 70
+      - 60
+      - 50
+    - name: Particle Details
+      options:
+      - Max
+      - High
+      - Mid
+      - Low
+    - name: Anti Aliasing
+      options:
+      - On
+      - Off
+    - name: Post Processing
+      options:
+      - On
+      - Off
+  - name: Audio
+    items:
+    - name: Music
+      options: []
+    - name: SFX
+      options: []
+  - name: Controls
+    items:
+    - name: Forward
+      options:
+      - W
+    - name: Back
+      options:
+      - S
+    - name: Right
+      options:
+      - D
+    - name: Left
+      options:
+      - A
+    - name: Shoot
+      options:
+      - LMC
+    - name: Ability
+      options:
+      - Q
+    - name: Cancel Ability
+      options:
+      - RMC
+    - name: Movement Boost
+      options:
+      - L-Shift
+    - name: Item Store
+      options:
+      - Space

@@ -15,7 +15,11 @@ public class HeatWaveManager : SkillBaseManager
 
         AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
 
-        var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, LayerMask.GetMask("Ship", "Monster"));
+        var constants = SOManager.Instance.Constants;
+
+        var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+
+        var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, layerMask);
 
         foreach (var collider in colliders)
         {

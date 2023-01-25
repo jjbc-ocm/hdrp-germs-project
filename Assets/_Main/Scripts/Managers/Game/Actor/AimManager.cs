@@ -97,11 +97,17 @@ public class AimManager : MonoBehaviour
 
         if (isAiming)
         {
+            var constants = SOManager.Instance.Constants;
+
             var action = player.Skill;
 
             var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
 
-            var layerNames = action.Aim == AimType.Water ? new string[] { "Water" } : new string[] { "Ship", "Monster" };
+            var layerNames =
+                action.Aim == AimType.Water ? new string[] { constants.LayerWater } :
+                action.Aim == AimType.AllyShip ? new string[] { constants.LayerAlly } :
+                action.Aim == AimType.EnemyShip ? new string[] { constants.LayerEnemy, constants.LayerMonster } :
+                new string[] { constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster };
 
             var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
 

@@ -17,7 +17,8 @@ namespace TanksMP
     [RequireComponent(typeof(PhotonView))]
 	public abstract class Collectible : GameEntityManager, IPunObservable
     {
-        public AudioClip useClip;
+        [SerializeField]
+        private AudioClip sound;
 
         [SerializeField]
         private GameObject graphics;
@@ -67,6 +68,8 @@ namespace TanksMP
         public void Obtain(Player player)
         {
             OnObtain(player);
+
+            AudioManager.Instance.Play3D(sound, transform.position);
 
             photonView.RPC("Destroy", RpcTarget.MasterClient);
         }
