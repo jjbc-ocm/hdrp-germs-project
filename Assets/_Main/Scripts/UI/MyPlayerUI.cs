@@ -90,6 +90,10 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         textSkillCooldown.gameObject.SetActive(skillCooldown > 0);
 
+        imageAttack.fillAmount = (Player.Mine.Attack.Cooldown - attackCooldown) / (Constants.MOVE_SPEED_TO_SECONDS_RATIO / Player.Mine.Stat.AttackSpeed);
+
+        imageSkill.fillAmount = (Player.Mine.Skill.Cooldown - skillCooldown) / Player.Mine.Skill.Cooldown;
+
         var items = Player.Mine.Inventory.Items;
 
         /* For item slots */
