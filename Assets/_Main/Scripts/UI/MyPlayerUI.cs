@@ -66,6 +66,10 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
 
+        var attackMaxCooldown = Constants.MOVE_SPEED_TO_SECONDS_RATIO / Player.Mine.Stat.AttackSpeed;
+
+        var skillMaxCooldown = Player.Mine.Skill.Cooldown;
+
         imageShip.sprite = Player.Mine.Data.ShipIconImage;
 
         imageAttack.sprite = Player.Mine.Attack.Icon;
@@ -90,9 +94,9 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         textSkillCooldown.gameObject.SetActive(skillCooldown > 0);
 
-        imageAttack.fillAmount = (Player.Mine.Attack.Cooldown - attackCooldown) / (Constants.MOVE_SPEED_TO_SECONDS_RATIO / Player.Mine.Stat.AttackSpeed);
+        imageAttack.fillAmount = (attackMaxCooldown - attackCooldown) / attackMaxCooldown;
 
-        imageSkill.fillAmount = (Player.Mine.Skill.Cooldown - skillCooldown) / Player.Mine.Skill.Cooldown;
+        imageSkill.fillAmount = (skillMaxCooldown - skillCooldown) / skillMaxCooldown;
 
         var items = Player.Mine.Inventory.Items;
 
