@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcfbc2d616984145ba9ea3318a6a146, type: 3}
+  m_Name: Smells Like Death
+  m_EditorClassIdentifier: 
+  name: Smells Like Death
+  desc: They create a black mistic fog around the selected enemy cuasing great damage.
+  icon: {fileID: 21300000, guid: 3d26500fc8e79ed4a87c6295e783332c, type: 3}
+  aim: 3
+  target: 0
+  range: 100
+  cooldown: 5
+  mpCost: 50
+  isSpawnOnAim: 1
+  effect: {fileID: 1155533743644792178, guid: 64a3a1393cf945f4dab3ad77d9e373a5, type: 3}
+  hitscanEffect: {fileID: 0}
+  sounds:
+  - {fileID: 8300000, guid: 5fbdbeaa5ea3c6444a93c7463ebb13fb, type: 3}
