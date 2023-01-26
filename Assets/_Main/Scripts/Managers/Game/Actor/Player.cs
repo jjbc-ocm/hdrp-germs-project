@@ -404,17 +404,7 @@ namespace TanksMP
         {
             ToggleFunction(false);
 
-            var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
-
-            /*if (explosionFX)
-            {
-                PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
-            }
-
-            if (explosionClip)
-            {
-                AudioManager.Play3D(explosionClip, transform.position);
-            }*/
+            var attackerView = PhotonView.Find(attackerId);
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -438,14 +428,11 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                if (attackerView != null)
-                {
-                    camFollow.target = attackerView.transform;
+                camFollow.target = attackerView.transform;
 
-                    camFollow.HideMask(true);
+                camFollow.HideMask(true);
 
-                    //photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
-                }
+                photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
 
                 StartCoroutine(SpawnRoutine());
             }
@@ -502,6 +489,14 @@ namespace TanksMP
 
                         GPRewardSystem.m_instance.AddGoldToPlayer(attacker.Owner, "Kill");
                     }
+
+                    /* If the attacker is me, add kill count, then broadcast it */
+                    if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
+                    {
+                        attackerPlayer.stat.AddKill();
+
+                        photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
+                    }
                 }
 
                 /* Handle collected chest */
@@ -525,12 +520,6 @@ namespace TanksMP
 
                 /* Broadcast to all player that this ship is destroyed */
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
-
-                /* If the attacker is me, add kill count */
-                if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
-                {
-                    attackerPlayer.stat.AddKill();
-                }
 
                 GuideManager.Instance.TryAddShopGuide();
             }

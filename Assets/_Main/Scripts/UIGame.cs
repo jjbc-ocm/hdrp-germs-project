@@ -197,7 +197,7 @@ namespace TanksMP
         /// </summary>
         public void Disconnect()
         {
-            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+            SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
 
             if (PhotonNetwork.IsConnected)
                 PhotonNetwork.Disconnect();

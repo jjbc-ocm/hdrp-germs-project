@@ -29,13 +29,17 @@ public class KillStatementUI : UI<KillStatementUI>
 
     protected override void OnRefreshUI()
     {
-        textWinner.text = Winner.GetName();
+        var isWinnerMonster = Winner.GetComponent<ActorManager>().IsMonster;
 
-        textLoser.text = Loser.GetName();
+        var isLoserMonster = Loser.GetComponent<ActorManager>().IsMonster;
 
-        textWinner.color = colorTeams[Winner.GetTeam()];
+        textWinner.text = !isWinnerMonster ? Winner.GetName() : "Monster";
 
-        textLoser.color = colorTeams[Loser.GetTeam()];
+        textLoser.text = !isLoserMonster ? Loser.GetName() : "Monster";
+
+        textWinner.color = colorTeams[!isWinnerMonster ? Winner.GetTeam() : 2];
+
+        textLoser.color = colorTeams[!isLoserMonster ? Loser.GetTeam() : 2];
     }
 
     private IEnumerator YieldClose()
