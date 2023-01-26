@@ -16,6 +16,12 @@ public class GPRewardFrame : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Displays the reward icon sprite, reward amount 
+    /// and reward back frame of the given GPRewardSO.
+    /// </summary>
+    /// <param name="rewardSO"></param>
+    /// <param name="amount"></param>
     public void DisplayReward(GPRewardSO rewardSO, int amount)
     {
         m_rewardImage.sprite = rewardSO.m_rewardSprite;

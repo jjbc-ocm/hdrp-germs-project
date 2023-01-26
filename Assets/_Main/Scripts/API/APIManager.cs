@@ -33,8 +33,6 @@ public class APIManager : MonoBehaviour
     {
         Instance = this;
 
-        DontDestroyOnLoad(gameObject);
-
         Initialize((text, value) =>
         {
             uiLoading.Text = text;
@@ -161,6 +159,6 @@ public class APIManager : MonoBehaviour
         /* Load next scene */
         onProgress.Invoke("Loading game...", 0.9f);
 
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 }

@@ -20,25 +20,27 @@ public class SettingsManager : MonoBehaviour
 
     public void ApplySettings(SettingsData data)
     {
+        var constants = SOManager.Instance.Constants;
+
         QualitySettings.SetQualityLevel(data.QualityIndex);
 
         var urpCamera = Camera.main.GetUniversalAdditionalCameraData();
 
         var urpAsset = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
 
-        urpAsset.renderScale = Constants.SETTINGS_RENDER_SCALE[data.ResolutionScaleIndex];
+        var resolution = constants.SettingResolutions[data.ResolutionIndex % constants.SettingResolutions.Length];
 
-        urpAsset.msaaSampleCount = Constants.SETTINGS_MSAA[data.AntiAliasingIndex];
+        urpAsset.renderScale = constants.SettingRenderScales[data.ResolutionScaleIndex % constants.SettingRenderScales.Length];
 
-        urpCamera.renderPostProcessing = Constants.SETTINGS_POST_PROCESS[data.PostProcessingIndex];
+        urpAsset.msaaSampleCount = constants.SettingMSAA[data.AntiAliasingIndex % constants.SettingMSAA.Length];
 
-        Debug.Log(data.MusicVolume + " " + data.SoundVolume);
+        urpCamera.renderPostProcessing = constants.SettingPostProcessing[data.PostProcessingIndex % constants.SettingPostProcessing.Length];
+
+        Screen.SetResolution(resolution.x, resolution.y, data.ModeIndex == 0);
 
         AudioManager.Instance.SetMusicVolume(data.MusicVolume);
 
         AudioManager.Instance.SetSoundVolume(data.SoundVolume);
-
-        Debug.Log("MUST CALL");
 
         AudioManager.Instance.PlayMusic(Random.Range(0, AudioManager.Instance.MusicClips.Length));
     }

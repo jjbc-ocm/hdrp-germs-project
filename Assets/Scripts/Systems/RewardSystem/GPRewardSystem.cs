@@ -107,6 +107,16 @@ public class GPRewardSystem : MonoBehaviour
         }
     }
 
+    public int GetRewardAmountByKey(string key)
+    {
+        if (m_rewardsMap.ContainsKey(key))
+        {
+            return m_rewardsMap[key];
+        }
+        Debug.LogWarning("Key for reward not found.");
+        return 0;
+    }
+
     public void SpawnCoins(Vector3 position, int amount, Transform targetPlayer)
     {
         Vector3 offset = Vector3.zero;

@@ -30,6 +30,10 @@ public class GPGemPackCard : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Displays the sprite, name, price and special tag of a gem pack.
+    /// </summary>
+    /// <param name="gemPackDesc"></param>
     public void DisplayGemPack(GPStoreGemsSO gemPackDesc)
     {
         m_gemPackDesc = gemPackDesc;
@@ -49,6 +53,10 @@ public class GPGemPackCard : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the buy button component.
+    /// Just calls and event to tell subscribers and handle the try buying somwhere else.
+    /// </summary>
     void OnBuyClicked()
     {
         if (OnBuyClickedEvent != null)

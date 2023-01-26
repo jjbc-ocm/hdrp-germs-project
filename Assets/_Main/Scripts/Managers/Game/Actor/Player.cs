@@ -41,17 +41,7 @@ namespace TanksMP
         [Header("Layers")]
 
         [SerializeField]
-        private LayerMask allyLayers;
-
-        [SerializeField]
-        private LayerMask enemyLayers;
-
-        [SerializeField]
         private LayerMask targetableLayers;
-
-
-
-        private FollowTarget camFollow;
 
         private Rigidbody rigidBody;
 
@@ -91,8 +81,6 @@ namespace TanksMP
         public SkillData Attack { get => attack; }
 
         public SkillData Skill { get => skill; }
-
-        public FollowTarget CamFollow { get => camFollow; }
 
         public AimManager Aim
         {
@@ -188,8 +176,6 @@ namespace TanksMP
 
             rigidBody = GetComponent<Rigidbody>();
 
-            camFollow = FindObjectOfType<FollowTarget>();
-
             stat = GetComponent<PlayerStatManager>();
 
             status = GetComponent<PlayerStatusManager>();
@@ -199,7 +185,9 @@ namespace TanksMP
 
         void Start()
         {
-            gameObject.SetLayerRecursive(photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ? allyLayers : enemyLayers);
+            gameObject.layer = photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
 
             stat.Initialize();
 
@@ -234,9 +222,7 @@ namespace TanksMP
                     return stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
                 });
 
-            camFollow.target = transform;
-
-            
+            GameCameraManager.Instance.SetTarget(transform);
         }
 
         void Update()
@@ -284,7 +270,16 @@ namespace TanksMP
                 {
                     moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
                     moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
-                    ExecuteMove(moveDir);
+
+                    var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
+
+                    var moveForce = transform.forward * moveDir.y * stat.MoveSpeed * acceleration;
+
+                    var moveTorque = transform.up * moveDir.x * stat.MoveSpeed;
+
+                    rigidBody.AddForce(moveForce);
+
+                    rigidBody.AddTorque(moveTorque);
                 }
             } 
 
@@ -408,17 +403,7 @@ namespace TanksMP
         {
             ToggleFunction(false);
 
-            var attackerView = attackerId > 0 ? PhotonView.Find(attackerId) : null;
-
-            /*if (explosionFX)
-            {
-                PoolManager.Spawn(explosionFX, transform.position, transform.rotation);
-            }
-
-            if (explosionClip)
-            {
-                AudioManager.Play3D(explosionClip, transform.position);
-            }*/
+            var attackerView = PhotonView.Find(attackerId);
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -442,14 +427,9 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                if (attackerView != null)
-                {
-                    camFollow.target = attackerView.transform;
+                GameCameraManager.Instance.SetTarget(attackerView.transform);
 
-                    camFollow.HideMask(true);
-
-                    //photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
-                }
+                photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
 
                 StartCoroutine(SpawnRoutine());
             }
@@ -506,6 +486,14 @@ namespace TanksMP
 
                         GPRewardSystem.m_instance.AddGoldToPlayer(attacker.Owner, "Kill");
                     }
+
+                    /* If the attacker is me, add kill count, then broadcast it */
+                    if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
+                    {
+                        attackerPlayer.stat.AddKill();
+
+                        photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
+                    }
                 }
 
                 /* Handle collected chest */
@@ -530,11 +518,7 @@ namespace TanksMP
                 /* Broadcast to all player that this ship is destroyed */
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
 
-                /* If the attacker is me, add kill count */
-                if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
-                {
-                    attackerPlayer.stat.AddKill();
-                }
+                GuideManager.Instance.TryAddShopGuide();
             }
         }
 
@@ -546,8 +530,7 @@ namespace TanksMP
         {
             if (isCameraFollow)
             {
-                camFollow.target = transform;
-                camFollow.HideMask(false);
+                GameCameraManager.Instance.SetTarget(transform);
             }
             
             //transform.position = GameManager.Instance.GetSpawnPosition(photonView.GetTeam());
@@ -563,10 +546,10 @@ namespace TanksMP
 
         #region Private
 
-        private void ExecuteMove(Vector2 direction)
+        /*private void ExecuteMove(Vector2 direction)
         {
             //if direction is not zero, rotate player in the moving direction relative to camera
-            if (direction != Vector2.zero)
+            *//*if (direction != Vector2.zero)
             {
                 float x = direction.x * Time.deltaTime * 3f * (1 + inventory.StatModifier.BuffMoveSpeed + status.StatModifier.BuffMoveSpeed);
 
@@ -574,15 +557,22 @@ namespace TanksMP
 
                 var forward = new Vector3(x, 0, z);
 
-                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.CamTransform.eulerAngles.y, 0);
-            }
+                //transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.CamTransform.eulerAngles.y, 0);
+
+                // TODO: add torque yata need dito
+                
+            }*//*
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
+            var moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
+
+            var moveTorque = transform.up * direction.x * stat.MoveSpeed;
 
             rigidBody.AddForce(moveForce);
-        }
+
+            rigidBody.AddTorque(moveTorque);
+        }*/
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {

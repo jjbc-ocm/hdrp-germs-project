@@ -62,12 +62,12 @@ Rigidbody:
   m_GameObject: {fileID: 112386}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 3
   m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 3
 --- !u!114 &114000011901014096
 MonoBehaviour:
@@ -90,12 +90,6 @@ MonoBehaviour:
   skill: {fileID: 11400000, guid: b957389eafd645141b5f04d7b8a0dafd, type: 2}
   colliders:
   - {fileID: 5606283660667125614}
-  allyLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 8192
   targetableLayers:
     serializedVersion: 2
     m_Bits: 12352
@@ -116,10 +110,13 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 1
-  observableSearch: 0
+  observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
   - {fileID: 114000011901014096}
+  - {fileID: 4668640137004083853}
+  - {fileID: 6514621249464759126}
+  - {fileID: 1024529026044771402}
+  - {fileID: 1189887774602298406}
   sceneViewId: 0
   InstantiationId: -1
   isRuntimeInstantiated: 0
@@ -139,9 +136,9 @@ MonoBehaviour:
   floaters:
   - {fileID: 6744028412716901997}
   underWaterDrag: 3
-  underWaterAngularDrag: 1
-  airDrag: 0
-  airAngularDrag: 0.05
+  underWaterAngularDrag: 10
+  airDrag: 3
+  airAngularDrag: 10
   floatingPower: 10
   offsetY: -1
 --- !u!65 &5606283660667125614

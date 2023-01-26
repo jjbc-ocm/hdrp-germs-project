@@ -39,7 +39,11 @@ public class HolyBrightManager : SkillBaseManager
 
             var orientation = Quaternion.Euler(transform.eulerAngles);
 
-            var colliders = Physics.OverlapBox(center, halfExtents, orientation, LayerMask.GetMask("Ship", "Monster"));
+            var constants = SOManager.Instance.Constants;
+
+            var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+
+            var colliders = Physics.OverlapBox(center, halfExtents, orientation, layerMask);
 
             foreach (var collider in colliders)
             {
