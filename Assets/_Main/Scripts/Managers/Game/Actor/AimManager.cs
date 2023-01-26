@@ -101,7 +101,7 @@ public class AimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(Input.mousePosition);
 
             var layerNames =
                 action.Aim == AimType.Water ? new string[] { constants.LayerWater } :
@@ -109,7 +109,7 @@ public class AimManager : MonoBehaviour
                 action.Aim == AimType.EnemyShip ? new string[] { constants.LayerEnemy, constants.LayerMonster } :
                 new string[] { constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster };
 
-            var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
+            var camDistanceToShip = Vector3.Distance(player.transform.position, GameCameraManager.Instance.MainCamera.transform.position);
 
             var maxDistance = aimTrailIndicator == null
                 ? action.Range + camDistanceToShip

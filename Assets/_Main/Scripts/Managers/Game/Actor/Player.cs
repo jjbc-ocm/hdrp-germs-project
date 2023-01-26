@@ -43,10 +43,6 @@ namespace TanksMP
         [SerializeField]
         private LayerMask targetableLayers;
 
-
-
-        private FollowTarget camFollow;
-
         private Rigidbody rigidBody;
 
         private AimManager aim;
@@ -85,8 +81,6 @@ namespace TanksMP
         public SkillData Attack { get => attack; }
 
         public SkillData Skill { get => skill; }
-
-        public FollowTarget CamFollow { get => camFollow; }
 
         public AimManager Aim
         {
@@ -182,8 +176,6 @@ namespace TanksMP
 
             rigidBody = GetComponent<Rigidbody>();
 
-            camFollow = FindObjectOfType<FollowTarget>();
-
             stat = GetComponent<PlayerStatManager>();
 
             status = GetComponent<PlayerStatusManager>();
@@ -230,9 +222,7 @@ namespace TanksMP
                     return stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
                 });
 
-            camFollow.target = transform;
-
-            
+            GameCameraManager.Instance.SetTarget(transform);
         }
 
         void Update()
@@ -280,7 +270,16 @@ namespace TanksMP
                 {
                     moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
                     moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
-                    ExecuteMove(moveDir);
+
+                    var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
+
+                    var moveForce = transform.forward * moveDir.y * stat.MoveSpeed * acceleration;
+
+                    var moveTorque = transform.up * moveDir.x * stat.MoveSpeed;
+
+                    rigidBody.AddForce(moveForce);
+
+                    rigidBody.AddTorque(moveTorque);
                 }
             } 
 
@@ -428,9 +427,7 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                camFollow.target = attackerView.transform;
-
-                camFollow.HideMask(true);
+                GameCameraManager.Instance.SetTarget(attackerView.transform);
 
                 photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
 
@@ -533,8 +530,7 @@ namespace TanksMP
         {
             if (isCameraFollow)
             {
-                camFollow.target = transform;
-                camFollow.HideMask(false);
+                GameCameraManager.Instance.SetTarget(transform);
             }
             
             //transform.position = GameManager.Instance.GetSpawnPosition(photonView.GetTeam());
@@ -550,10 +546,10 @@ namespace TanksMP
 
         #region Private
 
-        private void ExecuteMove(Vector2 direction)
+        /*private void ExecuteMove(Vector2 direction)
         {
             //if direction is not zero, rotate player in the moving direction relative to camera
-            if (direction != Vector2.zero)
+            *//*if (direction != Vector2.zero)
             {
                 float x = direction.x * Time.deltaTime * 3f * (1 + inventory.StatModifier.BuffMoveSpeed + status.StatModifier.BuffMoveSpeed);
 
@@ -561,15 +557,22 @@ namespace TanksMP
 
                 var forward = new Vector3(x, 0, z);
 
-                transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.CamTransform.eulerAngles.y, 0);
-            }
+                //transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.CamTransform.eulerAngles.y, 0);
+
+                // TODO: add torque yata need dito
+                
+            }*//*
 
             var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
 
-            Vector3 moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
+            var moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
+
+            var moveTorque = transform.up * direction.x * stat.MoveSpeed;
 
             rigidBody.AddForce(moveForce);
-        }
+
+            rigidBody.AddTorque(moveTorque);
+        }*/
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {
