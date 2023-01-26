@@ -144,7 +144,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                             //PhotonNetwork.CurrentRoom.IsOpen = false;
                             PhotonNetwork.CurrentRoom.IsVisible = false;
                             m_levelLoadedCalled = true;
-                            PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                            PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneGame);
                         }
                     }
                     else
@@ -310,7 +310,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     /// </summary>
     public void OnHomeButtonPressed()
     {
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 
     /// <summary>

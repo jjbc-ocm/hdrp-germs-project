@@ -60,16 +60,31 @@ public class ConstantsSO : ScriptableObject
     public string LayerBush { get => layerBush; }
 
 
+    [Header("Scenes")]
+
+    [SerializeField]
+    private string sceneDebug = "Debug";
+
+    [SerializeField]
+    private string sceneMenu = "Intro";
+
+    [SerializeField]
+    private string sceneWaitRoom = "Waiting_Room";
+
+    [SerializeField]
+    private string sceneGame = "CTF_Game";
+
+    public string SceneDebug { get => sceneDebug; }
+
+    public string SceneMenu { get => sceneMenu; }
+
+    public string SceneWaitRoom { get => sceneWaitRoom; }
+
+    public string SceneGame { get => sceneGame; }
 
 
 
-    public const string DEBUG_SCENE_NAME = "Debug";
 
-    public const string MENU_SCENE_NAME = "Intro";
-
-    public const string WAITING_ROOM_SCENE_NAME = "Waiting_Room";
-
-    public const string GAME_SCENE_NAME = "CTF_Game";
 
     public const string KEY_TEAM = "team";
 
@@ -92,10 +107,6 @@ public class ConstantsSO : ScriptableObject
     public const int SCORE_REQUIRED = 50;
 
     public const float RESPAWN_TIME = 10;
-
-    public const int LAYER_ALLY = 8;
-
-    public const int LAYER_ENEMY = 13;
 
     [Header("Settings")]
 
@@ -124,5 +135,4 @@ public class ConstantsSO : ScriptableObject
     public int[] SettingMSAA { get => settingMSAA; }
 
     public bool[] SettingPostProcessing { get => settingPostProcessing; }
-    
 }
