@@ -31,7 +31,7 @@ public class SettingItemUI : UI<SettingItemUI>
 
     public void OnSliderChanged(float value)
     {
-        //SetOption.Invoke(value); // TODO: this causes bug, fix later
+        SetOption.Invoke(value);
     }
 
     protected override void OnRefreshUI()
