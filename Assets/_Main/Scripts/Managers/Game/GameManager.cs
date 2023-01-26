@@ -150,8 +150,6 @@ namespace TanksMP
         {
             Player.Mine.enabled = false;
 
-            Player.Mine.CamFollow.HideMask(true);
-
             ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
 
         }

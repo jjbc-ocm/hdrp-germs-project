@@ -66,9 +66,9 @@ public class ItemAimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(Input.mousePosition);
 
-            var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
+            var camDistanceToShip = Vector3.Distance(player.transform.position, GameCameraManager.Instance.MainCamera.transform.position);
 
             var layerMask = LayerMask.GetMask(constants.LayerWater);
 
