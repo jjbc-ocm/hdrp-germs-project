@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\Systems\GPItemsDB.cs" />
     <Compile Include="Assets\Hovl Studio\Epic toon VFX 3\Demo scene\Demo scene files\DemoToonVFX.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\BurningColdManager.cs" />
+    <Compile Include="Assets\_Main\Scripts\Info\SettingCategoryInfo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\_Main\Scripts\Pool.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\Model\GetNftListModel.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\_Main\Scripts\CollectibleZone.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Library\ERC1155.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Intro\SOManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\Model\GetVoucherModel.cs" />
     <Compile Include="Assets\Scripts\DevTools\GPDevFeaturesSettingsSO.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Assets\_Main\Scripts\UIMain.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\CreateApprovalWebWallet.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
+    <Compile Include="Assets\_Main\Scripts\Info\SettingItemInfo.cs" />
     <Compile Include="Assets\Scripts\UI\GPHealthBar.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerSoundVisualManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="Assets\Scenes\Scripts\PlayerAccount.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Library\EVM.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\GuideManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\Model\MintedNFT.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\MinimapManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\EVM\AllErc1155Example.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\CryptoConnector\GPGNFTCollectionSO.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\EVM\CustomRPCExample.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\CameraMotionBlur.cs" />
+    <Compile Include="Assets\_Main\Scripts\SO\SettingsSO.cs" />
     <Compile Include="Assets\Scripts\Utilities\GPPunchTween.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\RecoItemsUI.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\GlobalFog.cs" />
@@ -198,7 +203,9 @@
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\NoiseAndGrain.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Collectibles\HealthCollectible.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Guide\GuideUI.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\IPFS\IPFSUploadExample.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Guide\GuideItemUI.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Wallet\SignVerifyWebWallet.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\MintPK721.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\GameEntityManager.cs" />
@@ -214,7 +221,7 @@
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\Effects\SupremacyWard.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\ListViewUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\Core\ListViewUI.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\GetListedNFTWebGL.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextToggleIsOnTransition.cs" />
@@ -222,9 +229,10 @@
     <Compile Include="Assets\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WateverVolumeFloater.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Fisheye.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\UI.cs" />
+    <Compile Include="Assets\_Main\Scripts\Core\UI.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\MotionBlur.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\ListNftWebWallet.cs" />
+    <Compile Include="Assets\_Main\Scripts\SO\ConstantsSO.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\Scripts\UI\GPDummySlotCard.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\LoadUI.cs" />
@@ -345,7 +353,6 @@
     <Compile Include="Assets\_Main\Scripts\DontDestroyManager.cs" />
     <Compile Include="Assets\3d_party\LeanTween\Framework\LeanAudio.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\Model\CreateMintModel.cs" />
-    <Compile Include="Assets\_Main\Scripts\Managers\Game\FollowTarget.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\WebGL\WebGLSignOut.cs" />
     <Compile Include="Assets\Scripts\WaterManager.cs" />
     <Compile Include="Assets\Scripts\Systems\GPPlayerProfile.cs" />
@@ -356,11 +363,11 @@
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Collectibles\Collectible.cs" />
     <Compile Include="Assets\Scripts\Entities\GPHealth.cs" />
     <Compile Include="Assets\IgniteCoders\Simple Water Shader\Info\Scripts\Readme.cs" />
-    <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerOfflineSaveState.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\PlayerStatus\PlayerStatusesUI.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGConfirmationWindow.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Skills\Hitscan\HitscanBulletManager.cs" />
     <Compile Include="Assets\Scripts\Menus\GPProfileWindow.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Settings\SettingCategoryUI.cs" />
     <Compile Include="Assets\Scripts\UI\GPLoopScaler.cs" />
     <Compile Include="Assets\Scripts\Entities\OceanDragon\GPDragonPart.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
@@ -369,7 +376,7 @@
     <Compile Include="Assets\_Main\Scripts\Network\DebugMenuNetworkManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeySendTransactionExample.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Tonemapping.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\SettingsUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Settings\SettingsUI.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Utilities\GPGParentOnStart.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\CryptoConnector\GPGCryptoProjectSO.cs" />
     <Compile Include="Assets\3d_party\LeanTween\Framework\LeanSmooth.cs" />
@@ -390,6 +397,7 @@
     <Compile Include="Assets\3d_party\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeHelper.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
+    <Compile Include="Assets\_Main\Scripts\Core\WindowListViewUI.cs" />
     <Compile Include="Assets\Scripts\Menus\GPDummyScreen.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs" />
     <Compile Include="Assets\_Main\Scripts\Network\MenuNetworkManager.cs" />
@@ -412,6 +420,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeyAddressExample.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Chat\ChatUI.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\AllItemsUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Settings\SettingItemUI.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\ItemEffectManager.cs" />
     <Compile Include="Assets\_Main\Scripts\PrefsKeys.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Library\WebGL\Web3GL.cs" />
@@ -419,8 +428,9 @@
     <Compile Include="Assets\_Main\Scripts\PoolParticle.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\ActorManager.cs" />
     <Compile Include="Assets\Scripts\UI\GPUserProfileUI.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\WindowUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\Core\WindowUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\_Main\Scripts\Data\GuideData.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\PlayerStatus\PlayerStatusUI.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\CreaseShading.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
@@ -434,6 +444,9 @@
     <Compile Include="Assets\Env VFX\Environment VFX pack\Demo\Scripts\_InputKeyBoard.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\RecipeItemUI.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerStatusManager.cs" />
+    <Compile Include="Assets\Scripts\UI\GPNumberSpawnerSystem.cs" />
+    <Compile Include="Assets\Scripts\UI\GPFloatingNumberUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\GameCameraManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\Tonemapper.shader" />
