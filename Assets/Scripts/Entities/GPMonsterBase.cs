@@ -389,7 +389,7 @@ public class GPMonsterBase : ActorManager
 
         if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
         {
-            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, -1);
+            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
         }
         else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
@@ -490,7 +490,7 @@ public class GPMonsterBase : ActorManager
         {
             m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
             //player.TakeMonsterDamage(meleeAtk);
-            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, -1);
+            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
         }
 
         EndMeleeAttack();
