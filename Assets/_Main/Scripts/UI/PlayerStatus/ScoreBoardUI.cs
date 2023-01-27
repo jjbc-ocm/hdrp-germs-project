@@ -24,7 +24,7 @@ public class ScoreBoardUI : WindowUI<ScoreBoardUI>
         {
             textScores[i].text = PhotonNetwork.CurrentRoom.GetScore()[i].ToString();
 
-            textChests[i].text = "-"; // TODO: for now
+            textChests[i].text = PhotonNetwork.CurrentRoom.GetChests()[i].ToString();
 
             teams[i].RefreshUI((self) =>
             {

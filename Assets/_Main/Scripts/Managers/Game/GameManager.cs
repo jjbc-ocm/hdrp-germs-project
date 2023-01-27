@@ -81,13 +81,13 @@ namespace TanksMP
             switch (scoreType)
             {
                 case ScoreType.Capture:
-                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10);
+                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10, true);
 
                     GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
                     break;
 
                 case ScoreType.Kill:
-                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1);
+                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1, false);
                     break;
             }
         }
