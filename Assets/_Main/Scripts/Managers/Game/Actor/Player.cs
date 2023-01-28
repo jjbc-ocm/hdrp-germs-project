@@ -471,6 +471,8 @@ namespace TanksMP
 
             stat.AddHealth(-amount);
 
+            GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
+
             if (stat.Health <= 0)
             {
                 /* Add score to opponent */
