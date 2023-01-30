@@ -22,7 +22,7 @@ public class ChatManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (InputManager.Instance.IsChat)
         {
             ui.IsMaximized = !ui.IsMaximized;
         }
