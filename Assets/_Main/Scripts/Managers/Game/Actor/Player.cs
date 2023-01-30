@@ -229,12 +229,12 @@ namespace TanksMP
         {
             if (!photonView.IsMine) return;
 
-            if (Input.GetKeyDown(KeyCode.Space) && !ChatManager.Instance.UI.IsMaximized)
+            if (InputManager.Instance.IsShop && !ChatManager.Instance.UI.IsMaximized)
             {
                 ShopManager.Instance.ToggleShop();
             }
 
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (InputManager.Instance.IsScoreBoard)
             {
                 if (!ScoreBoardUI.Instance.gameObject.activeSelf)
                 {
@@ -261,17 +261,21 @@ namespace TanksMP
             /* Update movement */
             if (!ShopManager.Instance.UI.gameObject.activeSelf)
             {
-                if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+                //if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+                if (InputManager.Instance.Move.x == 0 && InputManager.Instance.Move.y == 0)
                 {
                     moveDir.x += (0 - prevMoveDir.x) * 0.1f;
                     moveDir.y += (0 - prevMoveDir.y) * 0.1f;
                 }
                 else
                 {
-                    moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
-                    moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
+                    //moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
+                    //moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
+                    moveDir.x += (InputManager.Instance.Move.x - prevMoveDir.x) * 0.1f;
+                    moveDir.y += (InputManager.Instance.Move.y - prevMoveDir.y) * 0.1f;
 
-                    var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
+                    //var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
+                    var acceleration = InputManager.Instance.IsSprint ? 2 : 1;
 
                     var moveForce = transform.forward * moveDir.y * stat.MoveSpeed * acceleration;
 
