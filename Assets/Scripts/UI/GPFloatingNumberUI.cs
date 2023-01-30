@@ -18,9 +18,9 @@ public class GPFloatingNumberUI : MonoBehaviour
         StartCoroutine(IEOnSpawn());
     }
 
-    public void SetNumber(int number)
+    public void SetNumber(int number, string preStr)
     {
-        m_text.text = "+" + number.ToString();
+        m_text.text = preStr + number.ToString();
     }
 
     public void SetPosition(Vector3 worldPos, Camera perfectiveCamera)

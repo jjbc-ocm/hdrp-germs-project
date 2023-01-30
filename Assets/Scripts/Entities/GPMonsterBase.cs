@@ -268,6 +268,7 @@ public class GPMonsterBase : ActorManager
                 m_playersWhoDamageIt.Add(other);
             }
         }
+        GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
 
         m_health.Damage(amount);
     }
