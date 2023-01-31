@@ -14,6 +14,7 @@ public class GPDevFeaturesSettingsSO : ScriptableObject
     public bool m_levelUpButton;
     public bool m_weeklyRewardButton;
     public bool m_skipPlayerSearch;
+    public bool m_autoFillBot;
 
     [Header("Steam Features")]
     [SerializeField]

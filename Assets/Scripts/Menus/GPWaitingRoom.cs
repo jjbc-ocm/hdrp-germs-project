@@ -188,6 +188,17 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_photonView.RPC("RPCSkipPlayerSearch", RpcTarget.AllBuffered);
     }
 
+    /// <summary>
+    /// Binded to a UI button only for development purposes. Disable the button for release.
+    /// Will fill up other player slots.
+    /// </summary>
+    public void AutoFillBotDevCheat()
+    {
+        PhotonNetwork.CurrentRoom.SetBots();
+
+        SkipPlayerSearchDevCheat();
+    }
+
     [PunRPC]
     public void RPCSkipPlayerSearch()
     {

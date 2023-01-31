@@ -39,7 +39,7 @@ public class BlessingsOfJumbo : ItemEffectManager
 
         if ((origin.IsMonster && !target.IsMonster) || (!origin.IsMonster && target.IsMonster)) return true;
 
-        else if (origin.photonView.GetTeam() == target.photonView.GetTeam()) return false;
+        else if (origin.GetTeam() == target.GetTeam()) return false;
 
         return true;
     }

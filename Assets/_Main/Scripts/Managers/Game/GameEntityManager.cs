@@ -8,6 +8,8 @@ public class GameEntityManager : MonoBehaviourPunCallbacks
 {
     protected bool IsInSupremacyWard()
     {
+        if (GameManager.Instance.SupremacyWards == null) return false;
+
         foreach (var supremacyWard in GameManager.Instance.SupremacyWards)
         {
             var distance = Vector3.Distance(transform.position, supremacyWard.transform.position);

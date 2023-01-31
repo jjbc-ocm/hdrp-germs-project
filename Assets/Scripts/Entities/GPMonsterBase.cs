@@ -362,10 +362,10 @@ public class GPMonsterBase : ActorManager
     public void GiveRewards()
     {
         //get winning team
-        int team = m_lastHitPlayer.photonView.GetTeam();
+        int team = m_lastHitPlayer.GetTeam();
         foreach (ActorManager player in m_playersWhoDamageIt)
         {
-            if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player))
+            if (player.GetTeam() == team && m_playersInGoldRange.Contains(player))
             {
                 GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
                 m_photonView.RPC("RPCSpawnCoinsForPlayer", player.photonView.Owner);

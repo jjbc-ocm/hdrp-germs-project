@@ -114,7 +114,7 @@ namespace TanksMP
             spawnDelayText.text = string.Empty;
         }
 
-        public void OpenKillStatement(PhotonView winner, PhotonView loser)
+        public void OpenKillStatement(ActorManager winner, ActorManager loser)
         {
             uiKillStatement.Open((self) =>
             {

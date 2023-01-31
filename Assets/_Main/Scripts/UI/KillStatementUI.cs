@@ -16,9 +16,9 @@ public class KillStatementUI : UI<KillStatementUI>
     [SerializeField]
     private Color[] colorTeams;
 
-    public PhotonView Winner { get; set; }
+    public ActorManager Winner { get; set; }
 
-    public PhotonView Loser { get; set; }
+    public ActorManager Loser { get; set; }
 
     void OnEnable()
     {
@@ -29,9 +29,9 @@ public class KillStatementUI : UI<KillStatementUI>
 
     protected override void OnRefreshUI()
     {
-        var isWinnerMonster = Winner.GetComponent<ActorManager>().IsMonster;
+        var isWinnerMonster = Winner.IsMonster;
 
-        var isLoserMonster = Loser.GetComponent<ActorManager>().IsMonster;
+        var isLoserMonster = Loser.IsMonster;
 
         textWinner.text = !isWinnerMonster ? Winner.GetName() : "Monster";
 

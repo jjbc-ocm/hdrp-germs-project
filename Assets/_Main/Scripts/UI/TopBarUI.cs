@@ -63,7 +63,7 @@ public class TopBarUI : UI<TopBarUI>
 
                     team1PlayerIndicators[i].gameObject.SetActive(player != null);
 
-                    team1ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
+                    team1ChestIndicators[i].gameObject.SetActive(player != null && player.HasChest());
 
                     team1HealthSliders[i].gameObject.SetActive(player != null);
 
@@ -86,7 +86,7 @@ public class TopBarUI : UI<TopBarUI>
 
                     team2PlayerIndicators[i].gameObject.SetActive(player != null);
 
-                    team2ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
+                    team2ChestIndicators[i].gameObject.SetActive(player != null && player.HasChest());
 
                     team2HealthSliders[i].gameObject.SetActive(player != null);
 

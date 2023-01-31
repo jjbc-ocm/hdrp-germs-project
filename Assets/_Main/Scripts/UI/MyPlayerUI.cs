@@ -100,8 +100,9 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         var items = Player.Mine.Inventory.Items;
 
-        /* For item slots */
+        if (items == null) return;
 
+        /* For item slots */
         for (var i = 0; i < itemSlots.Length; i++)
         {
             var item = items[i];
