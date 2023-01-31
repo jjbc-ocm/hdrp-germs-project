@@ -181,51 +181,9 @@ namespace TanksMP
             soundVisuals = GetComponent<PlayerSoundVisualManager>();
         }
 
-        void Start()
-        {
-            gameObject.layer = GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
-                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
-                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
-
-            stat.Initialize();
-
-            if (!photonView.IsMine) return;
-
-            Mine = this;
-
-            Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
-
-            aim.Initialize(
-                () =>
-                {
-                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
-                        ExecuteActionAim(attack, true);
-                },
-                () =>
-                {
-                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
-                        ExecuteActionAim(skill, false);
-                },
-                (aimPosition, autoTarget) =>
-                {
-                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
-                        ExecuteActionInstantly(aimPosition, autoTarget, false);
-                },
-                () =>
-                {
-                    return stat.Mana >= attack.MpCost && Time.time > nextAttackTime;
-                },
-                () =>
-                {
-                    return stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
-                });
-
-            GameCameraManager.Instance.SetTarget(transform);
-        }
-
         void Update()
         {
-            if (!photonView.IsMine) return;
+            if (!photonView.IsMine && !IsBot) return;
 
             if (InputManager.Instance.IsShop && !ChatManager.Instance.UI.IsMaximized)
             {
@@ -257,7 +215,7 @@ namespace TanksMP
             if (!photonView.IsMine || isRespawning) return;
 
             /* Update movement */
-            if (!ShopManager.Instance.UI.gameObject.activeSelf)
+            if (!ShopManager.Instance.UI.gameObject.activeSelf && !IsBot)
             {
                 //if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
                 if (InputManager.Instance.Move.x == 0 && InputManager.Instance.Move.y == 0)
@@ -429,8 +387,11 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                GameCameraManager.Instance.SetTarget(attackerView.transform);
-
+                if (!IsBot)
+                {
+                    GameCameraManager.Instance.SetTarget(attackerView.transform);
+                }
+                
                 photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
 
                 StartCoroutine(SpawnRoutine());
@@ -533,6 +494,50 @@ namespace TanksMP
         #endregion
 
         #region Public
+
+        public void Initialize(BotInfo botInfo = null)
+        {
+            this.botInfo = botInfo;
+
+            gameObject.layer = GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
+
+            stat.Initialize();
+
+            if (!photonView.IsMine || IsBot) return;
+
+            Mine = this;
+
+            Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
+
+            aim.Initialize(
+                () =>
+                {
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionAim(attack, true);
+                },
+                () =>
+                {
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionAim(skill, false);
+                },
+                (aimPosition, autoTarget) =>
+                {
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionInstantly(aimPosition, autoTarget, false);
+                },
+                () =>
+                {
+                    return stat.Mana >= attack.MpCost && Time.time > nextAttackTime;
+                },
+                () =>
+                {
+                    return stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
+                });
+
+            GameCameraManager.Instance.SetTarget(transform);
+        }
 
         public void ResetPosition(bool isCameraFollow)
         {
