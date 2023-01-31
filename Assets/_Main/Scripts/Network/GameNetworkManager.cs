@@ -130,16 +130,18 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         var spawnPoint = spawnPoints[team];
 
+        GameObject player;
+
         if (botInfo != null)
         {
-            var bot = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
-
-            bot.GetComponent<TanksMP.Player>().BotInfo = botInfo;
+            player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
         }
         else
         {
-            PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+            player = PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
         }
+
+        player.GetComponent<TanksMP.Player>().Initialize(botInfo);
     }
 
     

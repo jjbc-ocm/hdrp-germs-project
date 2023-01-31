@@ -7,16 +7,16 @@ using UnityEngine.Events;
 public abstract class ActorManager : GameEntityManager
 {
     [SerializeField]
-    private bool isMonster;
+    protected bool isMonster;
 
     [Header("Events")]
     public UnityEvent<int> onDieEvent;
 
-    private BotInfo botInfo;
+    protected BotInfo botInfo;
 
     public bool IsMonster { get => isMonster; }
 
-    public BotInfo BotInfo { get => botInfo; set => botInfo = value; }
+    public bool IsBot { get => botInfo != null; }
 
     public string GetName()
     {
