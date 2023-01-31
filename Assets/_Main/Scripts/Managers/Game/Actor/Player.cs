@@ -67,14 +67,12 @@ namespace TanksMP
 
         private bool isRespawning;
 
-        
-
-        
-
-        
 
 
 
+
+
+        #region Accessors
 
         public GPShipDesc Data { get => data; }
 
@@ -166,7 +164,7 @@ namespace TanksMP
 
         public bool IsRespawning { get => isRespawning; }
         
-
+        #endregion
 
         #region Unity
 
@@ -185,7 +183,7 @@ namespace TanksMP
 
         void Start()
         {
-            gameObject.layer = photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
+            gameObject.layer = GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
                 LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
                 LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
 
@@ -311,10 +309,10 @@ namespace TanksMP
 
             /* Handle collision to the collectible zone */
             if (collectibleZone != null && 
-                photonView.GetTeam() == collectibleZone.teamIndex && 
-                photonView.HasChest())
+                GetTeam() == collectibleZone.teamIndex && 
+                HasChest())
             {
-                photonView.HasChest(false);
+                HasChest(false);
 
                 collectibleZone.OnDropChest();
 
@@ -326,7 +324,7 @@ namespace TanksMP
             {
                 collectibleTeam.Obtain(this);
 
-                var destination = photonView.GetTeam() == 0
+                var destination = GetTeam() == 0
                     ? GameManager.Instance.zoneRed.transform.position
                     : GameManager.Instance.zoneBlue.transform.position;
 
@@ -447,7 +445,11 @@ namespace TanksMP
         [PunRPC]
         public void RpcBroadcastKillStatement(int attackerId, int defenderId)
         {
-            GameManager.Instance.ui.OpenKillStatement(PhotonView.Find(attackerId), PhotonView.Find(defenderId));
+            var winner = PhotonView.Find(attackerId).GetComponent<ActorManager>();
+
+            var loser = PhotonView.Find(defenderId).GetComponent<ActorManager>();
+
+            GameManager.Instance.ui.OpenKillStatement(winner, loser);
         }
 
         [PunRPC]
@@ -480,21 +482,21 @@ namespace TanksMP
             if (stat.Health <= 0)
             {
                 /* Add score to opponent */
-                var attacker = PhotonView.Find(attackerId);
+                var attacker = PhotonView.Find(attackerId).GetComponent<ActorManager>();
 
                 if (attacker != null)
                 {
                     var attackerTeam = attacker.GetTeam();
 
-                    if (photonView.GetTeam() != attackerTeam)
+                    if (GetTeam() != attackerTeam)
                     {
                         GameManager.Instance.AddScore(ScoreType.Kill, attackerTeam);
 
-                        GPRewardSystem.m_instance.AddGoldToPlayer(attacker.Owner, "Kill");
+                        GPRewardSystem.m_instance.AddGoldToPlayer(attacker.photonView.Owner, "Kill");
                     }
 
                     /* If the attacker is me, add kill count, then broadcast it */
-                    if (attacker.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
+                    if (attacker.photonView.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
                     {
                         attackerPlayer.stat.AddKill();
 
@@ -503,9 +505,9 @@ namespace TanksMP
                 }
 
                 /* Handle collected chest */
-                if (photonView.HasChest())
+                if (HasChest())
                 {
-                    photonView.HasChest(false);
+                    HasChest(false);
 
                     var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
 
@@ -539,9 +541,8 @@ namespace TanksMP
                 GameCameraManager.Instance.SetTarget(transform);
             }
             
-            //transform.position = GameManager.Instance.GetSpawnPosition(photonView.GetTeam());
-            transform.position = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position;
-            transform.rotation = GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].rotation;
+            transform.position = GameNetworkManager.Instance.SpawnPoints[GetTeam()].position;
+            transform.rotation = GameNetworkManager.Instance.SpawnPoints[GetTeam()].rotation;
 
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
@@ -551,34 +552,6 @@ namespace TanksMP
         #endregion
 
         #region Private
-
-        /*private void ExecuteMove(Vector2 direction)
-        {
-            //if direction is not zero, rotate player in the moving direction relative to camera
-            *//*if (direction != Vector2.zero)
-            {
-                float x = direction.x * Time.deltaTime * 3f * (1 + inventory.StatModifier.BuffMoveSpeed + status.StatModifier.BuffMoveSpeed);
-
-                float z = 1;
-
-                var forward = new Vector3(x, 0, z);
-
-                //transform.rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0, camFollow.CamTransform.eulerAngles.y, 0);
-
-                // TODO: add torque yata need dito
-                
-            }*//*
-
-            var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
-
-            var moveForce = transform.forward * direction.y * stat.MoveSpeed * acceleration;
-
-            var moveTorque = transform.up * direction.x * stat.MoveSpeed;
-
-            rigidBody.AddForce(moveForce);
-
-            rigidBody.AddTorque(moveTorque);
-        }*/
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {
@@ -693,10 +666,6 @@ namespace TanksMP
                 collider.enabled = toggle;
             }
         }
-
-        
-
-        
 
         #endregion
     }

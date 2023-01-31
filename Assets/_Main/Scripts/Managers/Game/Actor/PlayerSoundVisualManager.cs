@@ -48,6 +48,8 @@ public class PlayerSoundVisualManager : GameEntityManager
     [SerializeField]
     private GameObject dummyInvisible;
 
+    private Player player;
+
     private PlayerInventoryManager inventory;
 
     private PlayerStatusManager status;
@@ -66,6 +68,8 @@ public class PlayerSoundVisualManager : GameEntityManager
 
     void Awake()
     {
+        player = GetComponent<Player>();
+
         inventory = GetComponent<PlayerInventoryManager>();
 
         status = GetComponent<PlayerStatusManager>();
@@ -73,14 +77,14 @@ public class PlayerSoundVisualManager : GameEntityManager
 
     void Start()
     {
-        teamIndicators[photonView.GetTeam()].SetActive(true);
+        teamIndicators[player.GetTeam()].SetActive(true);
     }
 
     void Update()
     {
         var isInvisible = (inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible);
 
-        if (photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
+        if (player.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
             rendererShip.material = isInvisible ? materialInvisible : materialNormal;
 
@@ -102,7 +106,7 @@ public class PlayerSoundVisualManager : GameEntityManager
 
                 dummyInvisible.SetActive(!dummyNormal.activeSelf);
 
-                teamIndicators[photonView.GetTeam()].SetActive(isActive);
+                teamIndicators[player.GetTeam()].SetActive(isActive);
 
                 foreach (var waterIndicator in waterIndicators)
                 {
@@ -116,7 +120,7 @@ public class PlayerSoundVisualManager : GameEntityManager
     {
         var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
 
-        if (supremacyWard != null && supremacyWard.Team != photonView.GetTeam())
+        if (supremacyWard != null && supremacyWard.Team != player.GetTeam())
         {
             isNullifyInvisibilityEffect = true;
         }

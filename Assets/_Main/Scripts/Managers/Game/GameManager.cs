@@ -34,9 +34,9 @@ namespace TanksMP
 
         public Player[] Ships { get => ships; }
 
-        public List<Player> Team1Ships { get => ships.Where(i => i.photonView.GetTeam() == 0).ToList(); }
+        public List<Player> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
 
-        public List<Player> Team2Ships { get => ships.Where(i => i.photonView.GetTeam() == 1).ToList(); }
+        public List<Player> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
 
         public SupremacyWardEffectManager[] SupremacyWards { get => supremacyWards; }
 
@@ -58,7 +58,7 @@ namespace TanksMP
 
             foreach (var ship in ships)
             {
-                if (Player.Mine != null && ship.photonView.GetTeam() != Player.Mine.photonView.GetTeam())
+                if (Player.Mine != null && ship.GetTeam() != Player.Mine.GetTeam())
                 {
                     var distance = Vector3.Distance(ship.transform.position, Player.Mine.transform.position);
 
@@ -69,7 +69,7 @@ namespace TanksMP
         
         public void PlayerSurrender()
         {
-            Player.Mine.photonView.HasSurrendered(true);
+            Player.Mine.HasSurrendered(true);
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace TanksMP
                 }
 
                 // Decide winner by surrenders
-                var teamShips = ships.Where(ship => ship.photonView.GetTeam() == i);
+                var teamShips = ships.Where(ship => ship.GetTeam() == i);
 
-                var teamSurrendered = teamShips.Count(i => i.photonView.HasSurrendered()) > teamShips.Count(i => !i.photonView.HasSurrendered());
+                var teamSurrendered = teamShips.Count(i => i.HasSurrendered()) > teamShips.Count(i => !i.HasSurrendered());
 
                 if (teamSurrendered) isOver = true;
 

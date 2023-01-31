@@ -17,44 +17,6 @@ public static class PlayerExtension
 
     public static int m_selectedShipIdx = 0;
 
-    #region For Photon View
-
-    public static string GetName(this PhotonView view)
-    {
-        //Debug.Log("NickName: " + view.Owner.NickName);
-
-        //return view.Owner.NickName;
-
-        return view.Owner.GetName();
-    }
-
-    public static int GetTeam(this PhotonView view)
-    {
-        return view.Owner.GetTeam();
-    }
-
-    public static bool HasChest(this PhotonView view)
-    {
-        return view.Owner.HasChest();
-    }
-
-    public static bool HasSurrendered(this PhotonView view)
-    {
-        return view.Owner.HasSurrendered();
-    }
-
-    public static void HasChest(this PhotonView view, bool value)
-    {
-        view.Owner.HasChest(value);
-    }
-
-    public static void HasSurrendered(this PhotonView view, bool value)
-    {
-        view.Owner.HasSurrendered(value);
-    }
-
-    #endregion
-
     #region For Photon Player
 
     public static void Initialize(this Player player, int team, int shipIndex)
