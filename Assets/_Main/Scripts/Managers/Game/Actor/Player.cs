@@ -181,6 +181,12 @@ namespace TanksMP
             soundVisuals = GetComponent<PlayerSoundVisualManager>();
         }
 
+        void Start()
+        {
+            // TODO: this will cause conflicting problem in bot
+            Initialize();
+        }
+
         void Update()
         {
             if (!photonView.IsMine && !IsBot) return;
@@ -255,7 +261,11 @@ namespace TanksMP
             prevMoveDir = moveDir;
         }
 
-        void OnTriggerEnter(Collider col)
+        #endregion
+
+        #region Overrides
+
+        protected override void OnTriggerEnterCalled(Collider col)
         {
             if (!photonView.IsMine) return;
 
@@ -266,8 +276,8 @@ namespace TanksMP
             var collectible = col.GetComponent<Collectible>();
 
             /* Handle collision to the collectible zone */
-            if (collectibleZone != null && 
-                GetTeam() == collectibleZone.teamIndex && 
+            if (collectibleZone != null &&
+                GetTeam() == collectibleZone.teamIndex &&
                 HasChest())
             {
                 HasChest(false);
@@ -294,6 +304,11 @@ namespace TanksMP
             {
                 collectible.Obtain(this);
             }
+        }
+
+        protected override void OnTriggerExitCalled(Collider col)
+        {
+
         }
 
         #endregion
@@ -505,7 +520,9 @@ namespace TanksMP
 
             stat.Initialize();
 
-            if (!photonView.IsMine || IsBot) return;
+            //if (!photonView.IsMine || IsBot) return;
+
+            if (!photonView.AmOwner) return;
 
             Mine = this;
 

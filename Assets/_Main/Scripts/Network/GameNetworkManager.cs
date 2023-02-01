@@ -116,7 +116,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var bots = PhotonNetwork.CurrentRoom.GetBots();
 
-
+        if (bots == null) return;
 
         foreach (var bot in bots)
         {

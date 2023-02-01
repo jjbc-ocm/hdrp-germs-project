@@ -682,4 +682,14 @@ public class GPMonsterBase : ActorManager
     {
         AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
     }
+
+    protected override void OnTriggerEnterCalled(Collider col)
+    {
+
+    }
+
+    protected override void OnTriggerExitCalled(Collider col)
+    {
+
+    }
 }
