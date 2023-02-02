@@ -525,7 +525,7 @@ namespace TanksMP
 
         public void ResetPosition(bool isCameraFollow)
         {
-            if (isCameraFollow)
+            if (isCameraFollow && !isBot)
             {
                 GameCameraManager.Instance.SetTarget(transform);
             }
