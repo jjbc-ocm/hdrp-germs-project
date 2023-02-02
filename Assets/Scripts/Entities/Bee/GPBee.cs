@@ -37,9 +37,9 @@ public class GPBee : GPMonsterBase
         // Update visuals
         if (Player.Mine != null)
         {
-            var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
+            //var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-            var isActive = isInPlayerRange || IsInSupremacyWard();
+            var isActive = IsVisibleRelativeTo(Player.Mine.transform);//isInPlayerRange || IsInSupremacyWard();
 
             foreach (var m_renderer in m_renderers)
             {

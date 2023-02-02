@@ -34,10 +34,7 @@ public class SkillData : ScriptableObject
     private bool isSpawnOnAim;
 
     [SerializeField]
-    private SkillBaseManager effect;
-
-    [SerializeField]
-    private HitscanManager hitscanEffect;
+    private ActionBase effect;
 
     [SerializeField]
     private AudioClip[] sounds;
@@ -60,9 +57,7 @@ public class SkillData : ScriptableObject
 
     public bool IsSpawnOnAim { get => isSpawnOnAim; }
 
-    public SkillBaseManager Effect { get => effect; }
-
-    public HitscanManager HitscanEffect { get => hitscanEffect; }
+    public ActionBase Effect { get => effect; }
 
     public AudioClip[] Sounds { get => sounds; }
 }

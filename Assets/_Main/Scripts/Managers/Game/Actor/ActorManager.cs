@@ -9,6 +9,9 @@ public abstract class ActorManager : GameEntityManager
     [SerializeField]
     protected bool isMonster;
 
+    [SerializeField]
+    protected bool isBot;
+
     [Header("Events")]
     public UnityEvent<int> onDieEvent;
 
@@ -16,7 +19,9 @@ public abstract class ActorManager : GameEntityManager
 
     public bool IsMonster { get => isMonster; }
 
-    public bool IsBot { get => botInfo != null; }
+    public BotInfo BotInfo { get => botInfo; set => botInfo = value; }
+
+    public bool IsBot { get => isBot; }
 
     public string GetName()
     {

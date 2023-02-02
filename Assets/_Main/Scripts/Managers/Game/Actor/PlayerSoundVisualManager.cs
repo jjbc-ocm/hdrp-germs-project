@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
 
-public class PlayerSoundVisualManager : GameEntityManager
+public class PlayerSoundVisualManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] teamIndicators;
@@ -54,10 +54,6 @@ public class PlayerSoundVisualManager : GameEntityManager
 
     private PlayerStatusManager status;
 
-    private bool isNullifyInvisibilityEffect;
-
-    private bool isInsideBush;
-
     public Sprite SpriteIcon { get => spriteIcon; }
 
     public GameObject RendererAnchor { get => rendererAnchor; }
@@ -82,7 +78,7 @@ public class PlayerSoundVisualManager : GameEntityManager
 
     void Update()
     {
-        var isInvisible = (inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible);
+        var isInvisible = inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible;
 
         if (player.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
@@ -96,9 +92,9 @@ public class PlayerSoundVisualManager : GameEntityManager
         {
             if (Player.Mine != null)
             {
-                var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
+                //var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-                var isActive = !isInvisible && (isInPlayerRange || IsInSupremacyWard()) && !isInsideBush;
+                var isActive = !isInvisible && player.IsVisibleRelativeTo(Player.Mine.transform);//!isInvisible && (isInPlayerRange || IsInSupremacyWard()) && !isInsideBush;
 
                 rendererShip.gameObject.SetActive(isActive);
 
@@ -113,36 +109,6 @@ public class PlayerSoundVisualManager : GameEntityManager
                     waterIndicator.SetActive(isActive);
                 }
             }
-        }
-    }
-
-    void OnTriggerEnter(Collider col)
-    {
-        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-        if (supremacyWard != null && supremacyWard.Team != player.GetTeam())
-        {
-            isNullifyInvisibilityEffect = true;
-        }
-
-        else if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
-        {
-            isInsideBush = true;
-        }
-    }
-
-    void OnTriggerExit(Collider col)
-    {
-        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-        if (supremacyWard != null)
-        {
-            isNullifyInvisibilityEffect = false;
-        }
-
-        else if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
-        {
-            isInsideBush = false;
         }
     }
 }
