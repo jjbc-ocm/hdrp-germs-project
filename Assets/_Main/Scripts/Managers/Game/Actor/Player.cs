@@ -38,10 +38,10 @@ namespace TanksMP
         [SerializeField]
         private Collider[] colliders;
 
-        [Header("Layers")]
+        /*[Header("Layers")]
 
         [SerializeField]
-        private LayerMask targetableLayers;
+        private LayerMask targetableLayers;*/
 
         private Rigidbody rigidBody;
 
@@ -223,7 +223,6 @@ namespace TanksMP
             /* Update movement */
             if (!ShopManager.Instance.UI.gameObject.activeSelf && !IsBot)
             {
-                //if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
                 if (InputManager.Instance.Move.x == 0 && InputManager.Instance.Move.y == 0)
                 {
                     moveDir.x += (0 - prevMoveDir.x) * 0.1f;
@@ -231,12 +230,9 @@ namespace TanksMP
                 }
                 else
                 {
-                    //moveDir.x += (Input.GetAxis("Horizontal") - prevMoveDir.x) * 0.1f;
-                    //moveDir.y += (Input.GetAxis("Vertical") - prevMoveDir.y) * 0.1f;
                     moveDir.x += (InputManager.Instance.Move.x - prevMoveDir.x) * 0.1f;
                     moveDir.y += (InputManager.Instance.Move.y - prevMoveDir.y) * 0.1f;
 
-                    //var acceleration = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 2 : 1;
                     var acceleration = InputManager.Instance.IsSprint ? 2 : 1;
 
                     var moveForce = transform.forward * moveDir.y * stat.MoveSpeed * acceleration;
@@ -334,7 +330,7 @@ namespace TanksMP
         }
 
         [PunRPC]
-        public void RpcAction(float[] position, float[] target, int autoTargetPhotonID, bool isAttack)
+        public void RpcAction(Vector3 fromPosition, Vector3 targetPosition, int targetActorId, bool isAttack)
         {
             var action = isAttack ? attack : skill;
 
@@ -343,34 +339,23 @@ namespace TanksMP
              * 2. Spawn action.Effect based on position, and rotation
              * 3. Any trail reset or sound effects should be done on the actual object spawned
              */
-            var vPosition = new Vector3(position[0], position[1], position[2]);
+            //var vPosition = new Vector3(position[0], position[1], position[2]);
 
-            var vTarget = new Vector3(target[0], target[1], target[2]);
+            //var vTarget = new Vector3(target[0], target[1], target[2]);
 
-            var forward = vTarget - vPosition;
+            var forward = fromPosition - targetPosition;//vTarget - vPosition;
 
             var rotation = Quaternion.LookRotation(forward);
 
             var effect = action.IsSpawnOnAim
-                ? Instantiate(action.Effect, vTarget, rotation)
-                : Instantiate(action.Effect, vPosition, rotation);
+                ? Instantiate(action.Effect, targetPosition, rotation)
+                : Instantiate(action.Effect, fromPosition, rotation);
 
-            effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<ActorManager>() ?? null); // TODO: 3
-        }
+            //effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<ActorManager>() ?? null); // TODO: 3
 
-        [PunRPC]
-        public void RpcHitscanEffect(int fromViewId, int toViewId, Vector3 toPosition, bool isAttack)
-        {
-            var action = isAttack ? attack : skill;
+            var targetActor = PhotonView.Find(targetActorId)?.GetComponent<ActorManager>() ?? null;
 
-            var from = PhotonView.Find(fromViewId);
-
-            var to = PhotonView.Find(toViewId);
-
-            var offset = Vector3.up * 2;
-
-            Instantiate(action.HitscanEffect)
-                .Initialize(from.transform.position + offset, to?.transform.position + offset ?? toPosition);
+            effect.Initialize(this, targetPosition, targetActor);
         }
 
         [PunRPC]
@@ -603,60 +588,15 @@ namespace TanksMP
 
             stat.AddMana(-action.MpCost);
 
-            if (action.HitscanEffect)
-            {
-                var forward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
+            var offset = Vector3.up;
 
-                var fromPosition = transform.position + Vector3.up * 2;
-
-                var toPosition = fromPosition + forward * Constants.FOG_OF_WAR_DISTANCE;
-
-                var fromViewId = photonView.ViewID;
-
-                var toViewId = -1;
-
-                if (Physics.Raycast(
-                    fromPosition, 
-                    forward, 
-                    out RaycastHit hit, 
-                    Constants.FOG_OF_WAR_DISTANCE, 
-                    targetableLayers)) 
-                {
-                    if (hit.transform.TryGetComponent(out ActorManager actor))
-                    {
-                        // TODO: these whole attack thing must be better if it is in another file
-
-                        var damage = 3; // TODO: do not hard-code it
-
-                        /* Damage the enemy */
-                        actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, photonView.ViewID);
-
-                        /* Apply lifesteal */
-                        var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * inventory.StatModifier.LifeSteal));
-
-                        photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
-
-                        toViewId = actor.photonView.ViewID;
-                    }
-
-                    toPosition = hit.point;
-                }
-
-                photonView.RPC("RpcHitscanEffect", RpcTarget.AllViaServer, fromViewId, toViewId, toPosition, isAttack);
-            }
-            else
-            {
-                var offset = 2;
-
-                photonView.RPC(
-                    "RpcAction",
-                    RpcTarget.AllViaServer,
-                    new float[] { transform.position.x, transform.position.y + offset, transform.position.z },
-                    new float[] { aimPosition.x, aimPosition.y + offset, aimPosition.z },
-                    autoTarget?.photonView.ViewID ?? -1,
-                    isAttack);
-            }
-            
+            photonView.RPC(
+                "RpcAction",
+                RpcTarget.AllViaServer,
+                transform.position + offset,
+                aimPosition + offset,
+                autoTarget?.photonView.ViewID ?? -1,
+                isAttack);
         }
 
         private IEnumerator SpawnRoutine()

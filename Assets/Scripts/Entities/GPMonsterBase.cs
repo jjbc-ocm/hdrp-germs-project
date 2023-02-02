@@ -582,7 +582,7 @@ public class GPMonsterBase : ActorManager
 
         var effect = Instantiate(action.Effect, vPosition, rotation);
 
-        effect.GetComponent<SkillBaseManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
+        effect.GetComponent<ActionBase>().Initialize(this, Vector3.zero); // TODO: ProjectileAttack = this is not always the case // TODO: 3 and 4
     }
 
     /// <summary>
