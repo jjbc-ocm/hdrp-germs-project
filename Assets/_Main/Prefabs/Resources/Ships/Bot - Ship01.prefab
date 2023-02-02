@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 6224953993586183330}
   - component: {fileID: -3064112281273211591}
   m_Layer: 8
-  m_Name: Ship01
+  m_Name: Bot - Ship01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,17 +81,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMonster: 0
+  isBot: 1
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  data: {fileID: 11400000, guid: fa2ba3e54efded5489cf20ca4e4c0d29, type: 2}
+  data: {fileID: 11400000, guid: 863a0c526c01922478b871d26da3461e, type: 2}
   attack: {fileID: 11400000, guid: 751fdb97fa9340842af7d69454486bd0, type: 2}
   skill: {fileID: 11400000, guid: 9eeae887a2abda94a90f2c69a7d85e49, type: 2}
   colliders:
   - {fileID: -8983053965202403093}
-  targetableLayers:
-    serializedVersion: 2
-    m_Bits: 12352
 --- !u!114 &114000013996810128
 MonoBehaviour:
   m_ObjectHideFlags: 0

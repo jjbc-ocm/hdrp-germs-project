@@ -62,7 +62,7 @@ public class AimManager : MonoBehaviour
     void Update()
     {
         if (ShopManager.Instance.UI.gameObject.activeSelf) return;
-        
+
         if (!player.photonView.IsMine || player.IsRespawning || player.IsBot) return;
 
         if (InputManager.Instance.IsAttack && onCanExecuteAttack.Invoke())
