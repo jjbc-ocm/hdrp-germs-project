@@ -17,7 +17,7 @@ public class HeatWaveManager : SkillBaseManager
 
         var constants = SOManager.Instance.Constants;
 
-        var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+        var layerMask = LayerMask.GetMask(constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster);
 
         var colliders = Physics.OverlapSphere(autoTarget.transform.position, radius, layerMask);
 

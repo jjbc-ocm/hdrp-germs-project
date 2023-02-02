@@ -41,7 +41,7 @@ public class HolyBrightManager : SkillBaseManager
 
             var constants = SOManager.Instance.Constants;
 
-            var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+            var layerMask = LayerMask.GetMask(constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster);
 
             var colliders = Physics.OverlapBox(center, halfExtents, orientation, layerMask);
 
