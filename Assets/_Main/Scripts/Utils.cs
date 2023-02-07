@@ -9,7 +9,7 @@ public static class Utils
 {
     public static IEnumerable<GameEntityManager> GetEntityInRange(this Transform transform, float radius)
     {
-        var layers = LayerMask.GetMask(
+        /*var layers = LayerMask.GetMask(
             SOManager.Instance.Constants.LayerAlly,
             SOManager.Instance.Constants.LayerEnemy,
             SOManager.Instance.Constants.LayerMonster);
@@ -18,16 +18,19 @@ public static class Utils
 
         return actors
             .Select(i => i.GetComponent<GameEntityManager>())
-            .Where(i => i.IsVisibleRelativeTo(transform));
+            .Where(i => i.IsVisibleRelativeTo(transform));*/
         // TODO: need some adjustment in future, must add invisibility constraints too
-            /*.Where(i =>
-            {
-                i.TryGetComponent(out Player player);
+        /*.Where(i =>
+        {
+            i.TryGetComponent(out Player player);
 
-                i.TryGetComponent()
+            i.TryGetComponent()
 
-                return true;
-            });*/
+            return true;
+        });*/
+
+        // TODO: just get anything for now
+        return Object.FindObjectsOfType<GameEntityManager>();
     }
 
     public static bool IsState(this Animator animator, int layerIndex, string name)

@@ -10,17 +10,17 @@ GameObject:
   m_Component:
   - component: {fileID: 488270}
   - component: {fileID: 5470280}
-  - component: {fileID: 114000011901014096}
+  - component: {fileID: -4510424234135131342}
   - component: {fileID: 114000013291451648}
+  - component: {fileID: 1189887774602298406}
   - component: {fileID: 983993601524078469}
-  - component: {fileID: 5606283660667125614}
+  - component: {fileID: 114000011901014096}
   - component: {fileID: 3555987244240383957}
   - component: {fileID: 8411036033347904865}
   - component: {fileID: 4668640137004083853}
   - component: {fileID: 6514621249464759126}
   - component: {fileID: 1024529026044771402}
   - component: {fileID: 5518948924466108705}
-  - component: {fileID: 1189887774602298406}
   m_Layer: 8
   m_Name: Ship02
   m_TagString: Untagged
@@ -69,27 +69,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 3
---- !u!114 &114000011901014096
-MonoBehaviour:
+--- !u!135 &-4510424234135131342
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112386}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0a5fa8dc87825e4f87e00cac1db08b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMonster: 0
-  onDieEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  data: {fileID: 11400000, guid: 9af7b711318df614d8b94da6ae4e2e30, type: 2}
-  attack: {fileID: 11400000, guid: 1eeb2bd38d9b10144b6e4cac4489554f, type: 2}
-  skill: {fileID: 11400000, guid: b957389eafd645141b5f04d7b8a0dafd, type: 2}
-  colliders:
-  - {fileID: 5606283660667125614}
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 2, z: 0.5}
 --- !u!114 &114000013291451648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,14 +101,47 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 1189887774602298406}
   - {fileID: 114000011901014096}
   - {fileID: 4668640137004083853}
   - {fileID: 6514621249464759126}
   - {fileID: 1024529026044771402}
-  - {fileID: 1189887774602298406}
   sceneViewId: 0
   InstantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &1189887774602298406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 0
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 4
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!114 &983993601524078469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,19 +163,27 @@ MonoBehaviour:
   airAngularDrag: 10
   floatingPower: 10
   offsetY: -1
---- !u!65 &5606283660667125614
-BoxCollider:
+--- !u!114 &114000011901014096
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112386}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 6, z: 8}
-  m_Center: {x: 0, y: 2.25, z: 1}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a5fa8dc87825e4f87e00cac1db08b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMonster: 0
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  data: {fileID: 11400000, guid: 9af7b711318df614d8b94da6ae4e2e30, type: 2}
+  attack: {fileID: 11400000, guid: 1eeb2bd38d9b10144b6e4cac4489554f, type: 2}
+  skill: {fileID: 11400000, guid: b957389eafd645141b5f04d7b8a0dafd, type: 2}
+  colliders:
+  - {fileID: 0}
 --- !u!114 &3555987244240383957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,39 +286,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimIndicator: {fileID: 8922422051827579803}
---- !u!114 &1189887774602298406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 0
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 4
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!1 &16223819758989423
 GameObject:
   m_ObjectHideFlags: 0

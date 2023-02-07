@@ -138,9 +138,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         {
             player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
 
-            player.GetComponent<TanksMP.Player>().BotInfo = botInfo;
-
-            Debug.LogError(player.GetPhotonView().Owner == null);
+            player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo);
         }
         else
         {

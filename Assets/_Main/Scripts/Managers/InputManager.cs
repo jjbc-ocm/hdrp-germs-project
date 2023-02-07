@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
-    public static InputManager Instance;
-
     private Vector2 move;
 
     private Vector2 look;
@@ -69,10 +67,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    #region Player Input Bindings
 
     public void OnMove(InputValue value)
     {
@@ -113,4 +108,35 @@ public class InputManager : MonoBehaviour
     {
         isChat = value.isPressed;
     }
+
+    #endregion
+
+    #region Bot Inputs
+
+    public void OnMove(Vector2 value)
+    {
+        move = value;
+    }
+
+    public void OnLook(Vector2 value)
+    {
+        look = value;
+    }
+
+    public void OnAim(bool value)
+    {
+        isAim = value;
+    }
+
+    public void OnSprint(bool value)
+    {
+        isSprint = value;
+    }
+
+    public void OnAttack(bool value)
+    {
+        isAttack = value;
+    }
+
+    #endregion
 }

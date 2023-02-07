@@ -24,6 +24,8 @@ namespace TanksMP
 
         #endregion
 
+        #region Serializable
+
         [SerializeField]
         private GPShipDesc data;
 
@@ -35,22 +37,7 @@ namespace TanksMP
         [SerializeField]
         private SkillData skill;
 
-        [SerializeField]
-        private Collider[] colliders;
-
-        private Rigidbody rigidBody;
-
-        private AimManager aim;
-
-        private ItemAimManager itemAim;
-
-        private PlayerSoundVisualManager soundVisuals;
-
-        private PlayerStatManager stat;
-
-        private PlayerStatusManager status;
-
-        private PlayerInventoryManager inventory;
+        #endregion
 
         private float nextAttackTime;
 
@@ -62,8 +49,6 @@ namespace TanksMP
 
         private bool isRespawning;
 
-
-
         #region Accessors
 
         public GPShipDesc Data { get => data; }
@@ -71,84 +56,6 @@ namespace TanksMP
         public SkillData Attack { get => attack; }
 
         public SkillData Skill { get => skill; }
-
-        public AimManager Aim
-        {
-            get
-            {
-                if (aim == null)
-                {
-                    aim = GetComponent<AimManager>();
-                }
-
-                return aim;
-            }
-        }
-
-        public ItemAimManager ItemAim
-        {
-            get
-            {
-                if (itemAim == null)
-                {
-                    itemAim = GetComponent<ItemAimManager>();
-                }
-
-                return itemAim;
-            }
-        }
-
-        public PlayerSoundVisualManager SoundVisuals
-        {
-            get
-            {
-                if (soundVisuals == null)
-                {
-                    soundVisuals = GetComponent<PlayerSoundVisualManager>();
-                }
-
-                return soundVisuals;
-            }
-        }
-
-        public PlayerStatManager Stat 
-        {
-            get
-            {
-                if (stat == null)
-                {
-                    stat = GetComponent<PlayerStatManager>();
-                }
-
-                return stat;
-            }
-        }
-
-        public PlayerStatusManager Status
-        {
-            get
-            {
-                if (status == null)
-                {
-                    status = GetComponent<PlayerStatusManager>();
-                }
-
-                return status;
-            }
-        }
-
-        public PlayerInventoryManager Inventory
-        {
-            get
-            {
-                if (inventory == null)
-                {
-                    inventory = GetComponent<PlayerInventoryManager>();
-                }
-
-                return inventory;
-            }
-        }
 
         public float NextAttackTime { get => nextAttackTime; }
 
@@ -158,136 +65,7 @@ namespace TanksMP
 
         #endregion
 
-        #region Unity
-
-        void Awake()
-        {
-            aim = GetComponent<AimManager>();
-
-            rigidBody = GetComponent<Rigidbody>();
-
-            stat = GetComponent<PlayerStatManager>();
-
-            status = GetComponent<PlayerStatusManager>();
-
-            soundVisuals = GetComponent<PlayerSoundVisualManager>();
-        }
-
-        void Start()
-        {
-            gameObject.layer = GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
-                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
-                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
-
-            stat.Initialize();
-
-            if (!photonView.IsMine || isBot) return;
-
-            Mine = this;
-
-            Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
-
-            aim.Initialize(
-                () =>
-                {
-                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
-                        ExecuteActionAim(attack, true);
-                },
-                () =>
-                {
-                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
-                        ExecuteActionAim(skill, false);
-                },
-                (aimPosition, autoTarget) =>
-                {
-                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
-                        ExecuteActionInstantly(aimPosition, autoTarget, false);
-                },
-                () =>
-                {
-                    return stat.Mana >= attack.MpCost && Time.time > nextAttackTime;
-                },
-                () =>
-                {
-                    return stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
-                });
-
-            GameCameraManager.Instance.SetTarget(transform);
-        }
-
-        void Update()
-        {
-            if (!photonView.IsMine && !isBot) return;
-
-            if (InputManager.Instance.IsShop && !ChatManager.Instance.UI.IsMaximized)
-            {
-                ShopManager.Instance.ToggleShop();
-            }
-
-            if (InputManager.Instance.IsScoreBoard)
-            {
-                if (!ScoreBoardUI.Instance.gameObject.activeSelf)
-                {
-                    ScoreBoardUI.Instance.Open((self) =>
-                    {
-                        self.Data = new List<List<Player>>
-                    {
-                        GameManager.Instance.Team1Ships,
-                        GameManager.Instance.Team2Ships
-                    };
-                    });
-                }
-                else
-                {
-                    ScoreBoardUI.Instance.Close();
-                }
-            }
-        }
-
-        void FixedUpdate()
-        {
-            if (!photonView.IsMine || isRespawning) return;
-
-            /* Update movement */
-            if (!ShopManager.Instance.UI.gameObject.activeSelf && !isBot)
-            {
-                if (InputManager.Instance.Move.x == 0 && InputManager.Instance.Move.y == 0)
-                {
-                    moveDir.x += (0 - prevMoveDir.x) * 0.1f;
-                    moveDir.y += (0 - prevMoveDir.y) * 0.1f;
-                }
-                else
-                {
-                    moveDir.x += (InputManager.Instance.Move.x - prevMoveDir.x) * 0.1f;
-                    moveDir.y += (InputManager.Instance.Move.y - prevMoveDir.y) * 0.1f;
-
-                    var acceleration = InputManager.Instance.IsSprint ? 2 : 1;
-
-                    var moveForce = transform.forward * moveDir.y * stat.MoveSpeed * acceleration;
-
-                    var moveTorque = transform.up * moveDir.x * stat.MoveSpeed;
-
-                    rigidBody.AddForce(moveForce);
-
-                    rigidBody.AddTorque(moveTorque);
-                }
-            } 
-
-            /* Update rotation */
-            shipRotation = new Vector3(
-                moveDir.y * -10,
-                soundVisuals.RendererAnchor.transform.localEulerAngles.y,
-                moveDir.x * -10);
-
-            soundVisuals.RendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
-
-            /* Cache it because, we need to accumulate the movement force */
-            prevMoveDir = moveDir;
-        }
-
-        #endregion
-
-        #region Overrides
+        #region Override
 
         protected override void OnTriggerEnterCalled(Collider col)
         {
@@ -333,6 +111,122 @@ namespace TanksMP
         protected override void OnTriggerExitCalled(Collider col)
         {
 
+        }
+
+        #endregion
+
+        #region Unity
+
+        private void Start()
+        {
+            gameObject.layer = GetTeam() == PhotonNetwork.LocalPlayer.GetTeam() ?
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerAlly) :
+                LayerMask.NameToLayer(SOManager.Instance.Constants.LayerEnemy);
+
+            Stat.Initialize();
+
+            Aim.Initialize(
+                () =>
+                {
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionAim(attack, true);
+                },
+                () =>
+                {
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionAim(skill, false);
+                },
+                (aimPosition, autoTarget) =>
+                {
+                    if (!ShopManager.Instance.UI.gameObject.activeSelf)
+                        ExecuteActionInstantly(aimPosition, autoTarget, false);
+                },
+                () =>
+                {
+                    return Stat.Mana >= attack.MpCost && Time.time > nextAttackTime;
+                },
+                () =>
+                {
+                    return Stat.Mana >= skill.MpCost && Time.time > nextSkillTime;
+                });
+
+            if (!photonView.IsMine || IsBot) return;
+
+            Mine = this;
+
+            Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
+
+            GameCameraManager.Instance.SetTarget(transform);
+        }
+
+        private void Update()
+        {
+            if (!photonView.IsMine && !IsBot) return;
+
+            if (Input.IsShop && !ChatManager.Instance.UI.IsMaximized)
+            {
+                ShopManager.Instance.ToggleShop();
+            }
+
+            if (Input.IsScoreBoard)
+            {
+                if (!ScoreBoardUI.Instance.gameObject.activeSelf)
+                {
+                    ScoreBoardUI.Instance.Open((self) =>
+                    {
+                        self.Data = new List<List<Player>>
+                    {
+                        GameManager.Instance.Team1Ships,
+                        GameManager.Instance.Team2Ships
+                    };
+                    });
+                }
+                else
+                {
+                    ScoreBoardUI.Instance.Close();
+                }
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (!photonView.IsMine || isRespawning) return;
+
+            /* Update movement */
+            if (!ShopManager.Instance.UI.gameObject.activeSelf)
+            {
+                if (Input.Move.x == 0 && Input.Move.y == 0)
+                {
+                    moveDir.x += (0 - prevMoveDir.x) * 0.1f;
+                    moveDir.y += (0 - prevMoveDir.y) * 0.1f;
+                }
+                else
+                {
+                    moveDir.x += (Input.Move.x - prevMoveDir.x) * 0.1f;
+                    moveDir.y += (Input.Move.y - prevMoveDir.y) * 0.1f;
+
+                    var acceleration = Input.IsSprint ? 2 : 1;
+
+                    var moveForce = transform.forward * moveDir.y * Stat.MoveSpeed * acceleration;
+
+                    var moveTorque = transform.up * moveDir.x * Stat.MoveSpeed;
+
+                    RigidBody.AddForce(moveForce);
+
+                    RigidBody.AddTorque(moveTorque);
+                }
+            } 
+
+            /* Update rotation */
+            shipRotation = new Vector3(
+                moveDir.y * -10,
+                SoundVisuals.RendererAnchor.transform.localEulerAngles.y,
+                moveDir.x * -10);
+
+            SoundVisuals.RendererAnchor.transform.localRotation = Quaternion.Euler(shipRotation);
+
+            /* Cache it because, we need to accumulate the movement force */
+            prevMoveDir = moveDir;
         }
 
         #endregion
@@ -415,7 +309,7 @@ namespace TanksMP
 
             if (photonView.IsMine)
             {
-                if (!isBot)
+                if (!IsBot)
                 {
                     GameCameraManager.Instance.SetTarget(attackerView.transform);
                 }
@@ -464,11 +358,11 @@ namespace TanksMP
             /* Do not damage this ship if respawning */
             if (isRespawning) return;
 
-            stat.AddHealth(-amount);
+            Stat.AddHealth(-amount);
 
             GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
 
-            if (stat.Health <= 0)
+            if (Stat.Health <= 0)
             {
                 /* Add score to opponent */
                 var attacker = PhotonView.Find(attackerId).GetComponent<ActorManager>();
@@ -487,7 +381,7 @@ namespace TanksMP
                     /* If the attacker is me, add kill count, then broadcast it */
                     if (attacker.photonView.IsMine && attacker.TryGetComponent(out Player attackerPlayer))
                     {
-                        attackerPlayer.stat.AddKill();
+                        attackerPlayer.Stat.AddKill();
 
                         photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
                     }
@@ -506,11 +400,11 @@ namespace TanksMP
                 }
                 
                 /* Reset stats */
-                stat.SetHealth(stat.MaxHealth);
+                Stat.SetHealth(Stat.MaxHealth);
 
-                stat.SetMana(stat.MaxMana);
+                Stat.SetMana(Stat.MaxMana);
 
-                stat.AddDeath();
+                Stat.AddDeath();
 
                 /* Broadcast to all player that this ship is destroyed */
                 photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
@@ -525,7 +419,7 @@ namespace TanksMP
 
         public void ResetPosition(bool isCameraFollow)
         {
-            if (isCameraFollow && !isBot)
+            if (isCameraFollow && !IsBot)
             {
                 GameCameraManager.Instance.SetTarget(transform);
             }
@@ -533,8 +427,8 @@ namespace TanksMP
             transform.position = GameNetworkManager.Instance.SpawnPoints[GetTeam()].position;
             transform.rotation = GameNetworkManager.Instance.SpawnPoints[GetTeam()].rotation;
 
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.angularVelocity = Vector3.zero;
+            RigidBody.velocity = Vector3.zero;
+            RigidBody.angularVelocity = Vector3.zero;
             transform.rotation = Quaternion.identity;
         }
 
@@ -546,7 +440,7 @@ namespace TanksMP
         {
             var instantAim =
                 action.Aim == AimType.None ? transform.position :
-                action.Aim == AimType.WhileExecute ? transform.position + transform.forward :
+                action.Aim == AimType.WhileExecute ? transform.position + transform.forward * 999f :
                 Vector3.zero;
 
             if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)
@@ -561,16 +455,16 @@ namespace TanksMP
 
             if (isAttack)
             {
-                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / stat.AttackSpeed;
+                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / Stat.AttackSpeed;
             }
             else
             {
-                nextSkillTime = Time.time + action.Cooldown * (1 - inventory.StatModifier.BuffCooldown - status.StatModifier.BuffCooldown);
+                nextSkillTime = Time.time + action.Cooldown * (1 - Inventory.StatModifier.BuffCooldown - Status.StatModifier.BuffCooldown);
             }
 
-            stat.AddMana(-action.MpCost);
+            Stat.AddMana(-action.MpCost);
 
-            var offset = Vector3.up;
+            var offset = Vector3.up * 2;
 
             photonView.RPC(
                 "RpcAction",
@@ -603,9 +497,9 @@ namespace TanksMP
 
         private void ToggleFunction(bool toggle)
         {
-            soundVisuals.RendererAnchor.SetActive(toggle);
+            SoundVisuals.RendererAnchor.SetActive(toggle);
 
-            foreach (var collider in colliders)
+            foreach (var collider in Colliders)
             {
                 collider.enabled = toggle;
             }

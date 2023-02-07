@@ -6,56 +6,108 @@ using UnityEngine.Events;
 
 public abstract class ActorManager : GameEntityManager
 {
-    [SerializeField]
-    protected bool isMonster;
+    #region Serializables
 
     [SerializeField]
-    protected bool isBot;
+    protected bool isMonster;
 
     [Header("Events")]
     public UnityEvent<int> onDieEvent;
 
-    protected BotInfo botInfo;
+    #endregion
+
+    #region Components
+
+    private Rigidbody rigidBody;
+
+    private Collider[] colliders;
+
+    private AimManager aim;
+
+    private ItemAimManager itemAim;
+
+    private PlayerSoundVisualManager soundVisuals;
+
+    private PlayerStatManager stat;
+
+    private PlayerStatusManager status;
+
+    private PlayerInventoryManager inventory;
+
+    private InputManager input;
+
+    private BotManager bot;
+
+    #endregion
+
+    #region Accessors
 
     public bool IsMonster { get => isMonster; }
 
-    public BotInfo BotInfo { get => botInfo; set => botInfo = value; }
+    public Rigidbody RigidBody { get => GetComponent(rigidBody); }
 
-    public bool IsBot { get => isBot; }
+    public Collider[] Colliders { get => GetComponents(colliders); }
+
+    public AimManager Aim { get => GetComponent(aim); }
+
+    public ItemAimManager ItemAim { get => GetComponent(itemAim); }
+
+    public PlayerSoundVisualManager SoundVisuals { get => GetComponent(soundVisuals); }
+
+    public PlayerStatManager Stat { get => GetComponent(stat); }
+
+    public PlayerStatusManager Status { get => GetComponent(status); }
+
+    public PlayerInventoryManager Inventory { get => GetComponent(inventory); }
+
+    public InputManager Input
+    {
+        get
+        {
+            var attachedComponent = GetComponent(input);
+            
+            if (attachedComponent)
+            {
+                return attachedComponent;
+            }
+
+            return InputManager.Instance;
+        }
+    }
+
+    public BotManager Bot { get => GetComponent(bot); }
+
+    public bool IsBot { get => GetComponent(bot) != null; }
+
+    #endregion
+
+    #region Public
 
     public string GetName()
     {
-        if (botInfo != null) return botInfo.Name;
-
-        return photonView.Owner.GetName();
+        return Bot?.Info.Name ?? photonView.Owner.GetName();
     }
 
     public int GetTeam()
     {
-        if (botInfo != null) return botInfo.Team;
-
-        return photonView.Owner.GetTeam();
+        return Bot?.Info.Team ?? photonView.Owner.GetTeam();
     }
 
     public bool HasChest()
     {
-        if (botInfo != null) return botInfo.HasChest;
-
-        return photonView.Owner.HasChest();
+        return Bot?.Info.HasChest ?? photonView.Owner.HasChest();
     }
 
     public bool HasSurrendered()
     {
-        if (botInfo != null) return botInfo.HasSurrendered;
-
-        return photonView.Owner.HasSurrendered();
+        return Bot?.Info.HasSurrendered ?? photonView.Owner.HasSurrendered();
     }
 
     public void HasChest(bool value)
     {
-        if (botInfo != null)
+        if (Bot != null)
         {
-            botInfo.HasChest = value;
+            Bot.Info.HasChest = value;
         }
         else
         {
@@ -65,9 +117,9 @@ public abstract class ActorManager : GameEntityManager
 
     public void HasSurrendered(bool value)
     {
-        if (botInfo != null)
+        if (Bot != null)
         {
-            botInfo.HasSurrendered = value;
+            Bot.Info.HasSurrendered = value;
         }
         else
         {
@@ -75,6 +127,32 @@ public abstract class ActorManager : GameEntityManager
         }
     }
 
+    public T GetComponent<T>(T value)
+    {
+        if (value == null)
+        {
+            value = GetComponent<T>();
+        }
+
+        return value;
+    }
+
+    public T[] GetComponents<T>(T[] value)
+    {
+        if (value == null)
+        {
+            value = GetComponents<T>();
+        }
+
+        return value;
+    }
+
+    #endregion
+
+    #region Override
+
     [PunRPC]
     public abstract void RpcDamageHealth(int amount, int attackerId);
+
+    #endregion
 }
