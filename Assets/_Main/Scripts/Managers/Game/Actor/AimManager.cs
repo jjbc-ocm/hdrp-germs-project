@@ -63,9 +63,9 @@ public class AimManager : MonoBehaviour
     {
         if (ShopManager.Instance.UI.gameObject.activeSelf) return;
 
-        if (!player.photonView.IsMine || player.IsRespawning || player.IsBot) return;
+        if (!player.photonView.IsMine || player.IsRespawning) return;
 
-        if (InputManager.Instance.IsAttack && onCanExecuteAttack.Invoke())
+        if (player.Input.IsAttack && onCanExecuteAttack.Invoke())
         {
             if (!isAiming)
             {
@@ -73,36 +73,14 @@ public class AimManager : MonoBehaviour
             }
         }
 
-        /*if (Input.GetMouseButton(1))
-        {
-            isAiming = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q) && onCanExecuteSkill.Invoke())
-        {
-            isAiming = true;
-
-            onAimSkillPress.Invoke();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Q) && isAiming)
-        {
-            isAiming = false;
-
-            if (aimIndicator.activeSelf)
-            {
-                onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
-            }
-        }*/
-
-        if (InputManager.Instance.IsAim && onCanExecuteSkill.Invoke())
+        if (player.Input.IsAim && onCanExecuteSkill.Invoke())
         {
             isAiming = true;
 
             onAimSkillPress.Invoke();
         }
         
-        if (!InputManager.Instance.IsAim && isAiming)
+        if (!player.Input.IsAim && isAiming)
         {
             isAiming = false;
 
@@ -118,7 +96,7 @@ public class AimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(InputManager.Instance.Look);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var layerNames =
                 action.Aim == AimType.Water ? new string[] { constants.LayerWater } :

@@ -60,7 +60,7 @@ public class ItemAimManager : MonoBehaviour
             isAiming = false;
         }*/
 
-        if (InputManager.Instance.IsAttack && isAiming)
+        if (player.Input.IsAttack && isAiming)
         {
             isAiming = false;
 
@@ -71,7 +71,7 @@ public class ItemAimManager : MonoBehaviour
             }
         }
 
-        if (InputManager.Instance.IsAim)
+        if (player.Input.IsAim)
         {
             isAiming = false;
         }
@@ -82,7 +82,7 @@ public class ItemAimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(InputManager.Instance.Look);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var camDistanceToShip = Vector3.Distance(player.transform.position, GameCameraManager.Instance.MainCamera.transform.position);
 
