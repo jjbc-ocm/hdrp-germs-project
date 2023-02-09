@@ -51,7 +51,7 @@ public abstract class ActionBase : MonoBehaviour
         }
     }
 
-    protected bool IsHit(ActorManager origin, ActorManager target)
+    protected bool IsHit(ActorManager origin, ActorManager target) // TODO: this need to be dynamic, because what if the skill is suppose to be targeting the ally instead of the enemy
     {
         if (target == owner || target == null) return false;
 
