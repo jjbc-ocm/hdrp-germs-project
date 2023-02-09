@@ -77,7 +77,7 @@ public class BotManager : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.1f);
 
             foreach (var thread in threads)
             {
@@ -114,22 +114,11 @@ public class DecisionThreadInfo
 
         foreach (var entity in entities)
         {
-            if (entity is Player)
+            if (entity is Player && entity != player)
             {
-                var targetPlayer = entity as Player;
+                var newDecision = GetDecisionToShip(entity as Player);
 
-                if (targetPlayer.GetTeam() == player.GetTeam())
-                {
-                    var newDecision = GetBestDecisionToAllyShip(targetPlayer);
-
-                    currentDecision = GetBetterDecision(currentDecision, newDecision);
-                }
-                else
-                {
-                    var newDecision = GetBestDecisionToEnemyShip(targetPlayer);
-
-                    currentDecision = GetBetterDecision(currentDecision, newDecision);
-                }
+                currentDecision = GetBetterDecision(currentDecision, newDecision);
             }
 
             if (entity is GPMonsterBase)
@@ -139,7 +128,9 @@ public class DecisionThreadInfo
 
             if (entity is Collectible)
             {
-                // TODO:
+                var newDecision = GetDecisionToCollectible(entity as Collectible);
+
+                currentDecision = GetBetterDecision(currentDecision, newDecision);
             }
         }
 
@@ -154,35 +145,11 @@ public class DecisionThreadInfo
         return a.Weight > b.Weight ? a : b;
     }
 
-    private DecisionNodeInfo GetBestDecisionToAllyShip(Player targetPlayer)
+    private DecisionNodeInfo GetDecisionToShip(Player targetPlayer)
     {
-        DecisionNodeInfo bestDecision = null;
-
-        var weight = 0f;
-
-        // Approach ally
-        // Avoid ally
-
-        bestDecision = new DecisionNodeInfo
-        {
-            Weight = weight,
-
-            Decision = () =>
-            {
-                agent.SetDestination(targetPlayer.transform.position);
-            }
-        };
-
-        return bestDecision;
-    }
-
-    private DecisionNodeInfo GetBestDecisionToEnemyShip(Player targetPlayer)
-    {
-        DecisionNodeInfo bestDecision = null;
-
         if (type == DecisionType.Action)
         {
-            bestDecision = new DecisionNodeInfo
+            return new DecisionNodeInfo
             {
                 Weight = 1f,
 
@@ -197,52 +164,115 @@ public class DecisionThreadInfo
         
         if (type == DecisionType.Movement)
         {
-            bestDecision = new DecisionNodeInfo
+            /* Decision to approach the enemy */
+            return new DecisionNodeInfo
             {
-                Weight = GetWeightToEnemyShip(targetPlayer),
+                Weight = GetWeightToApproachTarget(targetPlayer),
 
                 Decision = () =>
                 {
-                    agent.SetDestination(targetPlayer.transform.position);
-
-                    if (agent.path.corners.Length > 1)
-                    {
-                        var target = agent.path.corners[1];
-
-                        var treshold = 0.05f;
-
-                        var dotVertical = Vector3.Dot(player.transform.forward, (target - player.transform.position).normalized);
-
-                        var dotHorizontal = Vector3.Dot(player.transform.right, (target - player.transform.position).normalized);
-
-                        var x = dotHorizontal > treshold ? 1 : dotHorizontal < treshold ? -1 : 0;
-
-                        var y = dotVertical > treshold ? 1 : dotVertical < treshold ? -1 : 0;
-
-                        player.Input.OnMove(new Vector2(dotHorizontal, dotVertical));
-                    }
+                    ApproachTarget(targetPlayer.transform);
                 }
             };
         }
 
-        
-
-        return bestDecision;
+        return null;
     }
 
-    private void GetBoestDecisionToMonster()
+    private void GetDecisionToMonster()
     {
 
     }
 
-    private float GetWeightToEnemyShip(Player target)
+    private DecisionNodeInfo GetDecisionToCollectible(Collectible collectible)
     {
-        // Make target more likely to be targeted if has low health
+        if (type == DecisionType.Movement)
+        {
+            /* Decision to approach the collectible */
+            return new DecisionNodeInfo
+            {
+                Weight = GetWeightToApproachTarget(collectible),
 
-        // TODO: to add tomorrow
-        // Increase weight if target is carrying a chest
-        //
-        return 1f - (target.Stat.Health / (float)target.Stat.MaxHealth);
+                Decision = () =>
+                {
+                    ApproachTarget(collectible.transform);
+                }
+            };
+        }
+
+        return null;
+    }
+
+    private void ApproachTarget(Transform target)
+    {
+        var targetDestination = target.position;
+
+        // TODO: one problem, player must rotate towards the targetPlayer, not just the final destination
+        // TDOO: it means even when they reached the stopping distance, they must continue to rotate until they face the enemy
+
+        /* Make adjustment to target destination to keep distance to the target */
+        /*if (Vector3.Distance(player.transform.position, targetDestination) < Constants.FOG_OF_WAR_DISTANCE / 2f)
+        {
+            targetDestination = (player.transform.position - targetDestination).normalized * -Constants.FOG_OF_WAR_DISTANCE;
+        }*/
+
+        /* Finally set a destination to create a path */
+        agent.SetDestination(targetDestination);
+
+        /* Make the bot move along the path using the similar controls player have */
+        if (agent.path.corners.Length > 1)
+        {
+            var targetPosition = agent.path.corners[1];
+
+            //var treshold = 0.05f;
+
+            var dotVertical = Vector3.Dot(player.transform.forward, (targetPosition - player.transform.position).normalized);
+
+            var dotHorizontal = Vector3.Dot(player.transform.right, (targetPosition - player.transform.position).normalized);
+
+            //var x = dotHorizontal > treshold ? 1 : dotHorizontal < treshold ? -1 : 0;
+
+            //var y = dotVertical > treshold ? 1 : dotVertical < treshold ? -1 : 0;
+
+            player.Input.OnMove(new Vector2(dotHorizontal, dotVertical));
+        }
+    }
+    
+    /* This part is the most crucial part of decision making, everyday a new kind of decision is added
+     * Find a way to make readable in the future */
+    private float GetWeightToApproachTarget(GameEntityManager target)
+    {
+        if (target is Player)
+        {
+            var targetPlayer = target as Player;
+
+            // TODO: to add tomorrow
+            // Increase weight if target is carrying a chest
+            //
+
+            /* 0% Health - 100% Weight
+             * 100% Health - 0% Weight */
+            var weightHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth);
+
+            /* 0 Meters - 100% Weight
+             * >= 150 Meters - 0% Weight */
+            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / 150f));
+
+            /* Different Team - 100% Weight
+             * Same Team - 0% Weight */
+            var weightTeam = player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
+
+            return 0;//weightHealthRatio * 0.333f + weightTeam * 0.333f + weightDistance * 0.333f;
+        }
+
+        if (target is Collectible)
+        {
+            var targetCollectible = target as Collectible;
+
+            return 1;
+        }
+
+        return 0;
     }
 }
 

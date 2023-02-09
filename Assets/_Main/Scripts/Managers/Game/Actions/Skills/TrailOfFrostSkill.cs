@@ -24,13 +24,14 @@ public class TrailOfFrostSkill : SkillBase
 
     void OnTriggerEnter(Collider col)
     {
-        var actor = col.GetComponent<ActorManager>();
-
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (!IsHit(owner, actor)) return;
+        if (col.TryGetComponent(out ActorManager actor))
+        {
+            if (!IsHit(owner, actor)) return;
 
-        ApplyEffect(owner, actor);
+            ApplyEffect(owner, actor);
+        }
     }
 
     protected override void OnInitialize()

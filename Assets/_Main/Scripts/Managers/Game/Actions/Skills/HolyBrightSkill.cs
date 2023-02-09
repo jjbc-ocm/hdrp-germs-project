@@ -39,19 +39,20 @@ public class HolyBrightSkill : SkillBase
 
             var orientation = Quaternion.Euler(transform.eulerAngles);
 
-            var constants = SOManager.Instance.Constants;
+            //var constants = SOManager.Instance.Constants;
 
-            var layerMask = LayerMask.GetMask(constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster);
+            //var layerMask = LayerMask.GetMask(constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster);
 
-            var colliders = Physics.OverlapBox(center, halfExtents, orientation, layerMask);
+            var colliders = Physics.OverlapBox(center, halfExtents, orientation);
 
             foreach (var collider in colliders)
             {
-                var actor = collider.GetComponent<ActorManager>();
+                if (collider.TryGetComponent(out ActorManager actor))
+                {
+                    if (!IsHit(owner, actor)) continue;
 
-                if (!IsHit(owner, actor)) continue;
-
-                ApplyEffect(owner, actor);
+                    ApplyEffect(owner, actor);
+                }
             }
         }
     }

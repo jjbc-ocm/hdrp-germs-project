@@ -15,19 +15,20 @@ public class HeatWaveSkill : SkillBase
 
         AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
 
-        var constants = SOManager.Instance.Constants;
+        //var constants = SOManager.Instance.Constants;
 
-        var layerMask = LayerMask.GetMask(constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster);
+        //var layerMask = LayerMask.GetMask(constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster);
 
-        var colliders = Physics.OverlapSphere(targetActor.transform.position, radius, layerMask);
+        var colliders = Physics.OverlapSphere(targetActor.transform.position, radius);
 
         foreach (var collider in colliders)
         {
-            var actor = collider.GetComponent<ActorManager>();
+            if (collider.TryGetComponent(out ActorManager actor))
+            {
+                if (!IsHit(owner, actor)) continue;
 
-            if (!IsHit(owner, actor)) continue;
-
-            ApplyEffect(owner, actor);
+                ApplyEffect(owner, actor);
+            } 
         }
     }
 }
