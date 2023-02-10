@@ -13,24 +13,23 @@ namespace TanksMP
     /// Component that acts as an area to trigger collection of CollectibleTeam items.
     /// E.g. necessary for team bases in Capture The Flag mode. Needs a Collider to trigger.
     /// </summary>
-	public class CollectibleZone : MonoBehaviour
+	public class CollectibleZone : GameEntityManager
     {
-        /// <summary>
-        /// Team index this zone belongs to.
-        /// Teams are defined in the GameManager script inspector.
-        /// </summary>
-        public int teamIndex = 0;
+        [SerializeField]
+        private int team;
 
-        /// <summary>
-        /// Clip to play when a CollectibleTeam item is brought to this zone.
-        /// </summary>
-        public AudioClip scoreClip;
+        [SerializeField]
+        private AudioClip clip;
+
+        public int Team { get => team; }
+
+        public AudioClip Clip { get => clip; }
 
         public void OnDropChest()
         {
-            if (scoreClip) AudioManager.Instance.Play3D(scoreClip, transform.position);
+            if (clip) AudioManager.Instance.Play3D(clip, transform.position);
 
-            GameManager.Instance.AddScore(ScoreType.Capture, teamIndex);
+            GameManager.Instance.AddScore(ScoreType.Capture, team);
 
             if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
             {
@@ -40,6 +39,16 @@ namespace TanksMP
 
                 return;
             }
+        }
+
+        protected override void OnTriggerEnterCalled(Collider col)
+        {
+
+        }
+
+        protected override void OnTriggerExitCalled(Collider col)
+        {
+
         }
     }
 }
