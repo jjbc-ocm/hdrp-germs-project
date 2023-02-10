@@ -79,7 +79,7 @@ namespace TanksMP
 
             /* Handle collision to the collectible zone */
             if (collectibleZone != null &&
-                GetTeam() == collectibleZone.teamIndex &&
+                GetTeam() == collectibleZone.Team &&
                 HasChest())
             {
                 HasChest(false);

@@ -116,7 +116,7 @@ public class DecisionThreadInfo
         {
             if (entity is Player && entity != player)
             {
-                var newDecision = GetDecisionToShip(entity as Player);
+                var newDecision = GetDecisionTo(entity);
 
                 currentDecision = GetBetterDecision(currentDecision, newDecision);
             }
@@ -126,9 +126,9 @@ public class DecisionThreadInfo
                 var targetMonster = entity as GPMonsterBase;
             }
 
-            if (entity is Collectible)
+            if (entity is Collectible || entity is CollectibleZone)
             {
-                var newDecision = GetDecisionToCollectible(entity as Collectible);
+                var newDecision = GetDecisionTo(entity);
 
                 currentDecision = GetBetterDecision(currentDecision, newDecision);
             }
@@ -145,7 +145,7 @@ public class DecisionThreadInfo
         return a.Weight > b.Weight ? a : b;
     }
 
-    private DecisionNodeInfo GetDecisionToShip(Player targetPlayer)
+    /*private DecisionNodeInfo GetDecisionToShip(Player targetPlayer)
     {
         if (type == DecisionType.Action)
         {
@@ -164,7 +164,7 @@ public class DecisionThreadInfo
         
         if (type == DecisionType.Movement)
         {
-            /* Decision to approach the enemy */
+            *//* Decision to approach the enemy *//*
             return new DecisionNodeInfo
             {
                 Weight = GetWeightToApproachTarget(targetPlayer),
@@ -182,20 +182,35 @@ public class DecisionThreadInfo
     private void GetDecisionToMonster()
     {
 
-    }
+    }*/
 
-    private DecisionNodeInfo GetDecisionToCollectible(Collectible collectible)
+    private DecisionNodeInfo GetDecisionTo(GameEntityManager entity)
     {
+        if (type == DecisionType.Action)
+        {
+            return new DecisionNodeInfo
+            {
+                Weight = 1f,
+
+                Decision = () =>
+                {
+                    player.Input.OnAttack(true);
+                    // player.Bot.InputAttack();
+                    //agent.SetDestination(targetPlayer.transform.position);
+                }
+            };
+        }
+
         if (type == DecisionType.Movement)
         {
             /* Decision to approach the collectible */
             return new DecisionNodeInfo
             {
-                Weight = GetWeightToApproachTarget(collectible),
+                Weight = GetWeightToApproachTarget(entity),
 
                 Decision = () =>
                 {
-                    ApproachTarget(collectible.transform);
+                    ApproachTarget(entity.transform);
                 }
             };
         }
@@ -224,15 +239,9 @@ public class DecisionThreadInfo
         {
             var targetPosition = agent.path.corners[1];
 
-            //var treshold = 0.05f;
-
             var dotVertical = Vector3.Dot(player.transform.forward, (targetPosition - player.transform.position).normalized);
 
             var dotHorizontal = Vector3.Dot(player.transform.right, (targetPosition - player.transform.position).normalized);
-
-            //var x = dotHorizontal > treshold ? 1 : dotHorizontal < treshold ? -1 : 0;
-
-            //var y = dotVertical > treshold ? 1 : dotVertical < treshold ? -1 : 0;
 
             player.Input.OnMove(new Vector2(dotHorizontal, dotVertical));
         }
@@ -262,14 +271,25 @@ public class DecisionThreadInfo
              * Same Team - 0% Weight */
             var weightTeam = player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
 
-            return 0;//weightHealthRatio * 0.333f + weightTeam * 0.333f + weightDistance * 0.333f;
+            return weightHealthRatio * 0.333f + weightTeam * 0.333f + weightDistance * 0.333f;
         }
 
-        if (target is Collectible)
+        if (target is CollectibleTeam)
         {
-            var targetCollectible = target as Collectible;
+            var targetCollectible = target as CollectibleTeam;
 
             return 1;
+        }
+
+        if (target is CollectibleZone)
+        {
+            var targetZone = target as CollectibleZone;
+
+            /* Has Chest and Target is Mine - 100% Weight
+             * Other Reason - 0% Weight */
+            var weightChest = player.HasChest() && targetZone.Team == player.GetTeam() ? 1f : 0f;
+
+            return weightChest * 1f;
         }
 
         return 0;

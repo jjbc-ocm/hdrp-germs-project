@@ -18,6 +18,8 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
         {
             isInsideBush = true;
         }
+
+        OnTriggerEnterCalled(col);
     }
 
     private void OnTriggerExit(Collider col)
@@ -26,6 +28,8 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
         {
             isInsideBush = false;
         }
+
+        OnTriggerExitCalled(col);
     }
 
     public bool IsVisibleRelativeTo(Transform target)
