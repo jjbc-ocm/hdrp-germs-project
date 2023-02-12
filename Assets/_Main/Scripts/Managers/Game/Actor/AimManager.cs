@@ -31,6 +31,8 @@ public class AimManager : MonoBehaviour
 
     private Player player;
 
+    public bool IsAiming { get => isAiming; }
+
     void Awake()
     {
         player = GetComponent<Player>();
