@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class RecipeItemUI : UI<RecipeItemUI>
     {
         imageSprite.sprite = Data.Icon;
 
-        textCost.text = ShopManager.Instance.GetTotalCost(Data).ToString();
+        textCost.text = ShopManager.Instance.GetTotalCost(Player.Mine, Data).ToString();
     }
 
     public void OnClick()

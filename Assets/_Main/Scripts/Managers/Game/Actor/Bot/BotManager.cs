@@ -114,26 +114,35 @@ public class DecisionThreadInfo
 
         foreach (var entity in entities)
         {
-            if (entity is Player && entity != player)
+            if (entity.IsVisibleRelativeTo(player.transform))
             {
-                var newDecision = GetDecisionTo(entity);
+                if (entity is Player && entity != player)
+                {
+                    currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
+                }
 
-                currentDecision = GetBetterDecision(currentDecision, newDecision);
+                if (entity is Collectible)
+                {
+                    currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
+                }
+            }
+            
+            if (entity is GPMonsterBase && (entity as GPMonsterBase).m_health.m_currentHealth > 0)
+            {
+                currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
             }
 
-            if (entity is GPMonsterBase)
+            if (entity is CollectibleZone)
             {
-                var targetMonster = entity as GPMonsterBase;
-
-
+                currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
             }
+        }
 
-            if (entity is Collectible || entity is CollectibleZone)
-            {
-                var newDecision = GetDecisionTo(entity);
-
-                currentDecision = GetBetterDecision(currentDecision, newDecision);
-            }
+        foreach (var item in ShopManager.Instance.Data)
+        {
+            if (player.Inventory.Gold < ShopManager.Instance.GetTotalCost(player, item, new List<int>())) continue;
+            
+            currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(item));
         }
 
         currentDecision.Decision.Invoke();
@@ -177,6 +186,19 @@ public class DecisionThreadInfo
         return null;
     }
 
+    private DecisionNodeInfo GetDecisionTo(ItemData item)
+    {
+        return new DecisionNodeInfo
+        {
+            Weight = 1f,
+
+            Decision = () =>
+            {
+                ShopManager.Instance.Buy(player, item);
+            }
+        };
+    }
+
     private DecisionNodeInfo AttackDecision()
     {
         return new DecisionNodeInfo
@@ -215,7 +237,7 @@ public class DecisionThreadInfo
 
             Decision = () =>
             {
-                player.Input.OnLook(Vector2.zero); // TODO: should have diff implem from bot
+                player.Input.OnLook(Vector3.zero); // TODO: should have diff implem from bot
 
                 player.Input.OnAim(false);
             }
@@ -257,43 +279,68 @@ public class DecisionThreadInfo
         {
             var targetPlayer = target as Player;
 
-            /* Has Chest and Enemy - 100%
-             * Other Reason - 0% */
+            /* Prioritize enemy carrying a chest */
             var weightChest = targetPlayer.HasChest() && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
 
-            /* 0% Health - 100% Weight
-             * 100% Health - 0% Weight */
-            var weightHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth);
+            /* Prioritize enemy with less health */
+            var weightEnemyHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth);
 
-            /* 0 Meters - 100% Weight
-             * >= 150 Meters - 0% Weight */
-            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / 150f));
+            /* Derioritize enemy if player have less health */
+            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth;
 
-            /* Different Team - 100% Weight
-             * Same Team - 0% Weight */
+            /* Prioritize nearby enemies */
+            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
+
+            /* Prioritize enemies generally */
             // TODO: this is a problem because what if my action is to cast a support skill
             var weightTeam = player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
 
             return 
-                weightChest * 0.25f + 
-                weightHealthRatio * 0.25f + 
-                weightTeam * 0.25f + 
+                weightChest * 0.2f +
+                weightEnemyHealthRatio * 0.2f +
+                weightSelfHealthRatio * 0.2f +
+                weightTeam * 0.2f + 
+                weightDistance * 0.2f;
+        }
+
+        if (target is GPMonsterBase)
+        {
+            var targetMonster = target as GPMonsterBase;
+
+            /* Deprioritize monster when carrying a chest */
+            var weightChest = !player.HasChest() ? 1f : 0f;
+
+            /* Prioritize monster with less health */
+            var weightMonsterHealthRatio = 1f - (targetMonster.m_health.m_currentHealth / targetMonster.m_health.m_maxHealth);
+
+            /* Deprioritize monster if player have less health */
+            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+            /* Prioritize nearby monster */
+            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetMonster.transform.position) / 1000f));
+
+            return
+                weightChest * 0.25f +
+                weightMonsterHealthRatio * 0.25f +
+                weightSelfHealthRatio * 0.25f +
                 weightDistance * 0.25f;
         }
 
         if (target is CollectibleTeam)
         {
-            var weightChest = target is CollectibleTeam ? 1f : 0f;
+            var targetChest = target as CollectibleTeam;
 
-            return weightChest * 1f;
+            /* Deprioritize chest if player have less health */
+            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+            return weightSelfHealthRatio * 1f;
         }
 
         if (target is CollectibleZone)
         {
             var targetZone = target as CollectibleZone;
 
-            /* Has Chest and Target is Mine - 100% Weight
-             * Other Reason - 0% Weight */
+            /* Prioritize returning to base if player has the chest */
             var weightChest = player.HasChest() && targetZone.Team == player.GetTeam() ? 1f : 0f;
 
             return weightChest * 1f;

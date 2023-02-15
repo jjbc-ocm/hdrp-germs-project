@@ -43,20 +43,20 @@ public class ShopManager : MonoBehaviour
         ui.Close();
     }
 
-    public void Buy(ItemData item)
+    public void Buy(Player player, ItemData item)
     {
         var usedSlotIndexes = new List<int>();
 
-        var totalCost = GetTotalCost(item, usedSlotIndexes);
+        var totalCost = GetTotalCost(player, item, usedSlotIndexes);
 
         foreach (var usedSlotIndex in usedSlotIndexes)
         {
-            Player.Mine.Inventory.TryRemoveItem(usedSlotIndex);
+            player.Inventory.TryRemoveItem(usedSlotIndex);
         }
 
-        if (Player.Mine.Inventory.TryAddItem(item))
+        if (player.Inventory.TryAddItem(item))
         {
-            Player.Mine.Inventory.AddGold(-totalCost);
+            player.Inventory.AddGold(-totalCost);
 
             ui.RefreshUI((self) =>
             {
@@ -67,13 +67,13 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void Sell(int slotIndex)
+    public void Sell(Player player, int slotIndex)
     {
-        if (Player.Mine.Inventory.TryRemoveItem(slotIndex))
+        if (player.Inventory.TryRemoveItem(slotIndex))
         {
-            var item = Player.Mine.Inventory.Items[slotIndex];
+            var item = player.Inventory.Items[slotIndex];
 
-            Player.Mine.Inventory.AddGold(item.CostSell);
+            player.Inventory.AddGold(item.CostSell);
 
             ui.RefreshUI((self) =>
             {
@@ -84,7 +84,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public int GetTotalCost(ItemData item, List<int> invSlotCheckedIndexes = null)
+    public int GetTotalCost(Player player, ItemData item, List<int> invSlotCheckedIndexes = null)
     {
         if (invSlotCheckedIndexes == null) invSlotCheckedIndexes = new List<int>();
 
@@ -92,9 +92,9 @@ public class ShopManager : MonoBehaviour
 
         foreach (var recipe in item.Recipes)
         {
-            if (IsInInventory(recipe, invSlotCheckedIndexes))
+            if (IsInInventory(player, recipe, invSlotCheckedIndexes))
             {
-                cost -= GetTotalCost(recipe, invSlotCheckedIndexes);
+                cost -= GetTotalCost(player, recipe, invSlotCheckedIndexes);
             }
 
         }
@@ -102,11 +102,11 @@ public class ShopManager : MonoBehaviour
         return cost;
     }
 
-    private bool IsInInventory(ItemData item, List<int> invSlotCheckedIndexes)
+    private bool IsInInventory(Player player, ItemData item, List<int> invSlotCheckedIndexes)
     {
-        for (var i = 0; i < Player.Mine.Inventory.Items.Count; i++)
+        for (var i = 0; i < player.Inventory.Items.Count; i++)
         {
-            var slotItem = Player.Mine.Inventory.Items[i];
+            var slotItem = player.Inventory.Items[i];
 
             if (!invSlotCheckedIndexes.Contains(i) && slotItem != null && item.ID == slotItem.ID)
             {
