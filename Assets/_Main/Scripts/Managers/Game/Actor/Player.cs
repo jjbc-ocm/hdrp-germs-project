@@ -375,7 +375,7 @@ namespace TanksMP
                     {
                         GameManager.Instance.AddScore(ScoreType.Kill, attackerTeam);
 
-                        GPRewardSystem.m_instance.AddGoldToPlayer(attacker.photonView.Owner, "Kill");
+                        GPRewardSystem.m_instance.AddGoldToPlayer(attacker, "Kill");
                     }
 
                     /* If the attacker is me, add kill count, then broadcast it */

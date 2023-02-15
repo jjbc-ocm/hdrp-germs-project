@@ -9,6 +9,8 @@ public class InputManager : Singleton<InputManager>
 
     private Vector2 look;
 
+    private Vector3 botLook;
+
     private bool isAim;
 
     private bool isSprint;
@@ -24,6 +26,8 @@ public class InputManager : Singleton<InputManager>
     public Vector2 Move { get => move; }
 
     public Vector2 Look { get => look; }
+
+    public Vector3 BotLook { get => botLook; }
 
     public bool IsAim { get => isAim; }
 
@@ -118,9 +122,9 @@ public class InputManager : Singleton<InputManager>
         move = value;
     }
 
-    public void OnLook(Vector2 value)
+    public void OnLook(Vector3 value)
     {
-        look = value;
+        botLook = value;
     }
 
     public void OnAim(bool value)
