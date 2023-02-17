@@ -67,6 +67,13 @@ public class BotManager : MonoBehaviour
         this.info = info;
     }
 
+    public Ray GetRay()
+    {
+        var origin = transform.position + transform.up * 5 - transform.forward * 5; // TODO: test bukas umaga
+
+        return new Ray(origin, (player.Input.BotLook - origin).normalized);
+    }
+
     #endregion
 
     #region Private
@@ -77,6 +84,8 @@ public class BotManager : MonoBehaviour
 
         while (true)
         {
+            Debug.Log("TEEEEEST");
+
             yield return new WaitForSeconds(0.1f);
 
             foreach (var thread in threads)
@@ -110,11 +119,11 @@ public class DecisionThreadInfo
     {
         DecisionNodeInfo currentDecision = null;
 
-        var entities = player.transform.GetEntityInRange(Constants.FOG_OF_WAR_DISTANCE);
+        var entities = Object.FindObjectsOfType<GameEntityManager>();//player.transform.GetEntityInRange(Constants.FOG_OF_WAR_DISTANCE); // TODO: doesn't work, it just aim to all
 
         foreach (var entity in entities)
         {
-            if (entity.IsVisibleRelativeTo(player.transform))
+            /*if (entity.IsVisibleRelativeTo(player.transform))
             {
                 if (entity is Player && entity != player)
                 {
@@ -125,9 +134,9 @@ public class DecisionThreadInfo
                 {
                     currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
                 }
-            }
+            }*/
             
-            if (entity is GPMonsterBase && (entity as GPMonsterBase).m_health.m_currentHealth > 0)
+            if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
             {
                 currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
             }
@@ -168,7 +177,10 @@ public class DecisionThreadInfo
 
             currentDecision = GetBetterDecision(currentDecision, AimDecision());
 
-            currentDecision = GetBetterDecision(currentDecision, AimStopDecision());
+            if (Vector3.Distance(player.transform.position, entity.transform.position) <= player.Skill.Range)
+            {
+                currentDecision = GetBetterDecision(currentDecision, AimStopDecision(entity));
+            }
 
             return currentDecision;
         }
@@ -203,7 +215,7 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
-            Weight = 1f,
+            Weight = 0f,
 
             Decision = () => player.Input.OnAttack(true)
         };
@@ -223,13 +235,13 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
-            Weight = 1f,
+            Weight = 0.5f,
 
             Decision = () => player.Input.OnAim(true)
         };
     }
 
-    private DecisionNodeInfo AimStopDecision()
+    private DecisionNodeInfo AimStopDecision(GameEntityManager entity)
     {
         return new DecisionNodeInfo
         {
@@ -237,7 +249,11 @@ public class DecisionThreadInfo
 
             Decision = () =>
             {
-                player.Input.OnLook(Vector3.zero); // TODO: should have diff implem from bot
+                /* This is necessary to make it look like aiming at the water below.
+                 * Without it, bot cannot use skills that aim the water */
+                var submergeOffset = player.Skill.Aim == AimType.Water ? Vector3.down : Vector3.zero;
+
+                player.Input.OnLook(entity.transform.position + submergeOffset);
 
                 player.Input.OnAim(false);
             }
@@ -247,15 +263,6 @@ public class DecisionThreadInfo
     private void ApproachTargetDecision(Transform target)
     {
         var targetDestination = target.position;
-
-        // TODO: one problem, player must rotate towards the targetPlayer, not just the final destination
-        // TDOO: it means even when they reached the stopping distance, they must continue to rotate until they face the enemy
-
-        /* Make adjustment to target destination to keep distance to the target */
-        /*if (Vector3.Distance(player.transform.position, targetDestination) < Constants.FOG_OF_WAR_DISTANCE / 2f)
-        {
-            targetDestination = (player.transform.position - targetDestination).normalized * -Constants.FOG_OF_WAR_DISTANCE;
-        }*/
 
         /* Finally set a destination to create a path */
         agent.SetDestination(targetDestination);
@@ -269,7 +276,19 @@ public class DecisionThreadInfo
 
             var dotHorizontal = Vector3.Dot(player.transform.right, (targetPosition - player.transform.position).normalized);
 
-            player.Input.OnMove(new Vector2(dotHorizontal, dotVertical));
+            /* Keep distance to the target */
+            if (target.TryGetComponent(out ActorManager _) && 
+                Vector3.Distance(player.transform.position, targetDestination) <= 25f) // TODO: range should actually be different based on role (melee, ranger, etc)
+            {
+                player.Input.OnMove(new Vector2(dotHorizontal, Mathf.Min(0, dotVertical)));
+            }
+
+            /* Otherwise, move normally */
+            else
+            {
+                player.Input.OnMove(new Vector2(dotHorizontal, dotVertical));
+            }
+            
         }
     }
     
