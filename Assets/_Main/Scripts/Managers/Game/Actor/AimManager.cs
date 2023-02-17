@@ -98,7 +98,9 @@ public class AimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
+            var ray = player.IsBot
+                ? player.Bot.GetRay()
+                : GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var layerNames =
                 action.Aim == AimType.Water ? new string[] { constants.LayerWater } :
@@ -119,6 +121,8 @@ public class AimManager : MonoBehaviour
                     (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
                     (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
                 {
+                    Debug.DrawLine(ray.origin, hit.point, player.GetTeam() == 0 ? Color.red : Color.blue, 1f);
+
                     IndicatorSetActive(true, true);
 
                     aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
