@@ -123,7 +123,7 @@ public class DecisionThreadInfo
 
         foreach (var entity in entities)
         {
-            if (entity.IsVisibleRelativeTo(player.transform))
+            /*if (entity.IsVisibleRelativeTo(player.transform))
             {
                 if (entity is Player && entity != player)
                 {
@@ -134,7 +134,7 @@ public class DecisionThreadInfo
                 {
                     currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
                 }
-            }
+            }*/
             
             if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
             {
