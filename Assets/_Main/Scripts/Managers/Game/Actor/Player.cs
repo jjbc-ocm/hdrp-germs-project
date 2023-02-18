@@ -283,8 +283,6 @@ namespace TanksMP
         [PunRPC]
         public void RpcDestroy(int attackerId)
         {
-            ToggleFunction(false);
-
             var attackerView = PhotonView.Find(attackerId);
 
             if (PhotonNetwork.IsMasterClient)
@@ -306,6 +304,8 @@ namespace TanksMP
 
                 ResetPosition(false);
             }
+
+            ToggleFunction(false);
 
             if (photonView.IsMine)
             {
