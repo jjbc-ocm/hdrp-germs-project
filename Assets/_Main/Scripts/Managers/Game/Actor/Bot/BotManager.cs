@@ -84,9 +84,9 @@ public class BotManager : MonoBehaviour
 
         while (true)
         {
-            Debug.Log("TEEEEEST");
-
             yield return new WaitForSeconds(0.1f);
+
+            if (player.Stat.Health <= 0) continue;
 
             foreach (var thread in threads)
             {
@@ -119,11 +119,11 @@ public class DecisionThreadInfo
     {
         DecisionNodeInfo currentDecision = null;
 
-        var entities = Object.FindObjectsOfType<GameEntityManager>();//player.transform.GetEntityInRange(Constants.FOG_OF_WAR_DISTANCE); // TODO: doesn't work, it just aim to all
+        var entities = Object.FindObjectsOfType<GameEntityManager>();
 
         foreach (var entity in entities)
         {
-            /*if (entity.IsVisibleRelativeTo(player.transform))
+            if (entity.IsVisibleRelativeTo(player.transform))
             {
                 if (entity is Player && entity != player)
                 {
@@ -134,7 +134,7 @@ public class DecisionThreadInfo
                 {
                     currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
                 }
-            }*/
+            }
             
             if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
             {
@@ -149,10 +149,12 @@ public class DecisionThreadInfo
 
         foreach (var item in ShopManager.Instance.Data)
         {
-            if (player.Inventory.Gold < ShopManager.Instance.GetTotalCost(player, item, new List<int>())) continue;
+            if (!ShopManager.Instance.CanBuy(player, item)) continue;
             
             currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(item));
         }
+
+        Debug.Log("[BOT] " + currentDecision.Key);
 
         currentDecision.Decision.Invoke();
     }
@@ -189,6 +191,8 @@ public class DecisionThreadInfo
         {
             return new DecisionNodeInfo
             {
+                Key = "Move to: " + entity.name,
+
                 Weight = GetWeightToApproachTarget(entity),
 
                 Decision = () => ApproachTargetDecision(entity.transform)
@@ -202,6 +206,8 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
+            Key = "Buy Item : " + item.Name,
+            
             Weight = 1f,
 
             Decision = () =>
@@ -215,6 +221,8 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
+            Key = "Attack: True",
+
             Weight = 0f,
 
             Decision = () => player.Input.OnAttack(true)
@@ -225,6 +233,8 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
+            Key = "Attack: False",
+
             Weight = 0f,
 
             Decision = () => player.Input.OnAttack(false)
@@ -235,6 +245,8 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
+            Key = "Skill Aim: True",
+
             Weight = 0.5f,
 
             Decision = () => player.Input.OnAim(true)
@@ -245,6 +257,8 @@ public class DecisionThreadInfo
     {
         return new DecisionNodeInfo
         {
+            Key = "Skill Aim: False\nTarget: " + entity.name,
+
             Weight = player.Aim.IsAiming ? 1f : 0f, //player.Input.IsAim ? 1f : 0f,
 
             Decision = () =>

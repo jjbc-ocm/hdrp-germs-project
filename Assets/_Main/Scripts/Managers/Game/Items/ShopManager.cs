@@ -102,6 +102,23 @@ public class ShopManager : MonoBehaviour
         return cost;
     }
 
+    public bool CanBuy(Player player, ItemData item)
+    {
+        var freeSlots =
+            (string.IsNullOrEmpty(player.Inventory.ItemId0) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId1) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId2) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId3) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId4) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId5) ? 1 : 0);
+
+        var usedSlotIndexes = new List<int>();
+
+        var totalCost = GetTotalCost(player, item, usedSlotIndexes);
+
+        return player.Inventory.Gold >= totalCost && (freeSlots + usedSlotIndexes.Count) > 0;
+    }
+
     private bool IsInInventory(Player player, ItemData item, List<int> invSlotCheckedIndexes)
     {
         for (var i = 0; i < player.Inventory.Items.Count; i++)
