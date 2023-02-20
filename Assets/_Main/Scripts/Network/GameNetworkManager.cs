@@ -114,9 +114,9 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     private void InstantiateBots()
     {
-        var players = PhotonNetwork.CurrentRoom.Players;
-
         var bots = PhotonNetwork.CurrentRoom.GetBots();
+
+        var players = PhotonNetwork.CurrentRoom.Players;
 
         if (bots == null) return;
 
@@ -131,8 +131,6 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         var team0FreeSlots = Constants.MAX_PLAYER_COUNT_PER_TEAM - team0Players.Count();
 
         var team1FreeSlots = Constants.MAX_PLAYER_COUNT_PER_TEAM - team1Players.Count();
-
-
 
         for (var i = 0; i < team0FreeSlots; i++)
         {

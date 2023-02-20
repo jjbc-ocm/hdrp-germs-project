@@ -74,12 +74,12 @@ public static class RoomExtensions
                 bots, 
                 new string[]
                 {
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 1", Team = 0, ShipIndex = 0 }),
+                    //JsonUtility.ToJson(new BotInfo { Name = "Bot 1", Team = 0, ShipIndex = 0 }),
                     JsonUtility.ToJson(new BotInfo { Name = "Bot 2", Team = 0, ShipIndex = 1 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 3", Team = 0, ShipIndex = 2 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 4", Team = 0, ShipIndex = 3 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 5", Team = 0, ShipIndex = 4 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 6", Team = 0, ShipIndex = 5 })
+                    //JsonUtility.ToJson(new BotInfo { Name = "Bot 3", Team = 0, ShipIndex = 2 }),
+                    //JsonUtility.ToJson(new BotInfo { Name = "Bot 4", Team = 1, ShipIndex = 3 }),
+                    //JsonUtility.ToJson(new BotInfo { Name = "Bot 5", Team = 1, ShipIndex = 4 }),
+                    //JsonUtility.ToJson(new BotInfo { Name = "Bot 6", Team = 1, ShipIndex = 5 })
                 }
             }
         });

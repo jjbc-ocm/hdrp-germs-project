@@ -265,7 +265,7 @@ public class DecisionThreadInfo
             {
                 /* This is necessary to make it look like aiming at the water below.
                  * Without it, bot cannot use skills that aim the water */
-                var submergeOffset = player.Skill.Aim == AimType.Water ? Vector3.down : Vector3.zero;
+                var submergeOffset = Vector3.zero;//player.Skill.Aim == AimType.Water ? Vector3.down : Vector3.zero;
 
                 player.Input.OnLook(entity.transform.position + submergeOffset);
 
