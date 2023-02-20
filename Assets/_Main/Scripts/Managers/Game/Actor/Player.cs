@@ -256,16 +256,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            /* Steps
-             * 1. Calculate the rotation ased on position and target
-             * 2. Spawn action.Effect based on position, and rotation
-             * 3. Any trail reset or sound effects should be done on the actual object spawned
-             */
-            //var vPosition = new Vector3(position[0], position[1], position[2]);
-
-            //var vTarget = new Vector3(target[0], target[1], target[2]);
-
-            var forward = fromPosition - targetPosition;//vTarget - vPosition;
+            var forward = targetPosition - fromPosition; // TODO: this is correct, if other skill face wrong direction, it's nt it
 
             var rotation = Quaternion.LookRotation(forward);
 

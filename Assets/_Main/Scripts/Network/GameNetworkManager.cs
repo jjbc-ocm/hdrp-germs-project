@@ -116,12 +116,40 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var bots = PhotonNetwork.CurrentRoom.GetBots();
 
+        var players = PhotonNetwork.CurrentRoom.Players;
+
         if (bots == null) return;
 
-        foreach (var bot in bots)
+        var team0Players = players.Where(i => i.Value.GetTeam() == 0);
+
+        var team1Players = players.Where(i => i.Value.GetTeam() == 1);
+
+        var team0Bots = bots.Where(i => i.Team == 0).ToList();
+
+        var team1Bots = bots.Where(i => i.Team == 1).ToList();
+
+        var team0FreeSlots = Constants.MAX_PLAYER_COUNT_PER_TEAM - team0Players.Count();
+
+        var team1FreeSlots = Constants.MAX_PLAYER_COUNT_PER_TEAM - team1Players.Count();
+
+        for (var i = 0; i < team0FreeSlots; i++)
         {
+            var bot = team0Bots[i];
+
             InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
         }
+
+        for (var i = 0; i < team1FreeSlots; i++)
+        {
+            var bot = team1Bots[i];
+
+            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+        }
+
+        /*foreach (var bot in bots)
+        {
+            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+        }*/
     }
 
     private void InstantiatePlayer(int team, int shipIndex, BotInfo botInfo = null)
