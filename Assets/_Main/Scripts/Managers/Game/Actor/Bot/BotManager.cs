@@ -208,7 +208,7 @@ public class DecisionThreadInfo
         {
             Key = "Buy Item : " + item.Name,
             
-            Weight = 1f,
+            Weight = GetWeightTiItem(item),
 
             Decision = () =>
             {
@@ -216,6 +216,8 @@ public class DecisionThreadInfo
             }
         };
     }
+
+    #region DECISION TO ENTITY
 
     private DecisionNodeInfo AttackDecision()
     {
@@ -263,11 +265,7 @@ public class DecisionThreadInfo
 
             Decision = () =>
             {
-                /* This is necessary to make it look like aiming at the water below.
-                 * Without it, bot cannot use skills that aim the water */
-                var submergeOffset = Vector3.zero;//player.Skill.Aim == AimType.Water ? Vector3.down : Vector3.zero;
-
-                player.Input.OnLook(entity.transform.position + submergeOffset);
+                player.Input.OnLook(entity.transform.position);
 
                 player.Input.OnAim(false);
             }
@@ -381,6 +379,100 @@ public class DecisionThreadInfo
 
         return 0;
     }
+
+    #endregion
+
+    #region DECISION TO ITEM
+
+    private float GetWeightTiItem(ItemData item)
+    {
+        /*if (target is Player)
+        {
+            var targetPlayer = target as Player;
+
+            *//* Prioritize enemy carrying a chest *//*
+            var weightChest = targetPlayer.HasChest() && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
+
+            *//* Prioritize enemy with less health *//*
+            var weightEnemyHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth);
+
+            *//* Derioritize enemy if player have less health *//*
+            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+            *//* Prioritize nearby enemies *//*
+            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
+
+            *//* Prioritize enemies generally *//*
+            // TODO: this is a problem because what if my action is to cast a support skill
+            var weightTeam = player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
+
+            return
+                weightChest * 0.2f +
+                weightEnemyHealthRatio * 0.2f +
+                weightSelfHealthRatio * 0.2f +
+                weightTeam * 0.2f +
+                weightDistance * 0.2f;
+        }
+
+        if (target is GPMonsterBase)
+        {
+            var targetMonster = target as GPMonsterBase;
+
+            *//* Deprioritize monster when carrying a chest *//*
+            var weightChest = !player.HasChest() ? 1f : 0f;
+
+            *//* Prioritize monster with less health *//*
+            var weightMonsterHealthRatio = 1f - (targetMonster.m_health.m_currentHealth / targetMonster.m_health.m_maxHealth);
+
+            *//* Deprioritize monster if player have less health *//*
+            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+            *//* Prioritize nearby monster *//*
+            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetMonster.transform.position) / 1000f));
+
+            return
+                weightChest * 0.25f +
+                weightMonsterHealthRatio * 0.25f +
+                weightSelfHealthRatio * 0.25f +
+                weightDistance * 0.25f;
+        }
+
+        if (target is CollectibleTeam)
+        {
+            var targetChest = target as CollectibleTeam;
+
+            *//* Deprioritize chest if player have less health *//*
+            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth;
+
+            return weightSelfHealthRatio * 1f;
+        }
+
+        if (target is CollectibleZone)
+        {
+            var targetZone = target as CollectibleZone;
+
+            *//* Prioritize returning to base if player has the chest *//*
+            var weightChest = player.HasChest() && targetZone.Team == player.GetTeam() ? 1f : 0f;
+
+            return weightChest * 1f;
+        }*/
+
+        var weightCost = 1f;
+
+        var weightStatInc = 1f;
+
+        var weightFurtherStatInc = 1f;
+
+        var weightCounter = 1f;
+
+        return 
+            weightCost * 0.25f +
+            weightStatInc * 0.25f +
+            weightFurtherStatInc * 0.25f +
+            weightCounter * 0.25f;
+    }
+
+    #endregion
 }
 
 public enum DecisionType
