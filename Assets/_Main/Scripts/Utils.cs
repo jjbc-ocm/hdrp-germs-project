@@ -5,7 +5,7 @@ using TanksMP;
 using UnityEngine;
 using UnityEngine.AI;
 
-class Debug : UnityEngine.Debug
+/*class Debug : UnityEngine.Debug
 {
     public static void DrawCircle(Vector3 position, float radius, float segments, Color color, float duration = 0)
     {
@@ -49,7 +49,7 @@ class Debug : UnityEngine.Debug
             DrawLine(lineStart, lineEnd, color, duration);
         }
     }
-}
+}*/
 
 public static class Utils
 {

@@ -71,9 +71,9 @@ public class TopBarUI : UI<TopBarUI>
 
                     if (player != null)
                     {
-                        team1HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
+                        team1HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth();
 
-                        team1ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
+                        team1ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana();
                     }
                 }
 
@@ -94,9 +94,9 @@ public class TopBarUI : UI<TopBarUI>
 
                     if (player != null)
                     {
-                        team2HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
+                        team2HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth();
 
-                        team2ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
+                        team2ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana();
                     }
                 }
             }

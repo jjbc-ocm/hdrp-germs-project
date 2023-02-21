@@ -57,7 +57,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int BaseResist { get => resist; }
 
-    public int MaxHealth { get => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth + Status.StatModifier.BuffMaxHealth); }
+    /*public int MaxHealth { get => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth + Status.StatModifier.BuffMaxHealth); }
 
     public int MaxMana { get => (int)(maxMana * (1 + Inventory.StatModifier.BuffMaxMana + Status.StatModifier.BuffMaxMana)); }
 
@@ -71,7 +71,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int Armor { get => (int)(armor * (1 + Inventory.StatModifier.BuffArmor + Status.StatModifier.BuffArmor)); }
 
-    public int Resist { get => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist)); }
+    public int Resist { get => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist)); }*/
 
     public int Health { get => health; }
 
@@ -107,25 +107,41 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public int MaxHealth(float modifier = 0) => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth + Status.StatModifier.BuffMaxHealth + modifier);
+
+    public int MaxMana(float modifier = 0) => (int)(maxMana * (1 + Inventory.StatModifier.BuffMaxMana + Status.StatModifier.BuffMaxMana + modifier));
+
+    public int AbilityPower(float modifier = 0) => (int)(abilityPower * (1 + Inventory.StatModifier.BuffAbilityPower + Status.StatModifier.BuffAbilityPower + modifier));
+
+    public int AttackDamage(float modifier = 0) => (int)(attackDamage * (1 + Inventory.StatModifier.BuffAttackDamage + Status.StatModifier.BuffAttackDamage + modifier));
+
+    public int AttackSpeed(float modifier = 0) => (int)(attackSpeed * (1 + Inventory.StatModifier.BuffAttackSpeed + Status.StatModifier.BuffAttackSpeed + modifier));
+
+    public int MoveSpeed(float modifier = 0) => (int)(moveSpeed * (1 + Inventory.StatModifier.BuffMoveSpeed + Status.StatModifier.BuffMoveSpeed + modifier));
+
+    public int Armor(float modifier = 0) => (int)(armor * (1 + Inventory.StatModifier.BuffArmor + Status.StatModifier.BuffArmor + modifier));
+
+    public int Resist(float modifier = 0) => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist + modifier));
+
 
     public void AddHealth(int amount)
     {
-        health = Mathf.Clamp(health + amount, 0, MaxHealth);
+        health = Mathf.Clamp(health + amount, 0, MaxHealth());
     }
 
     public void AddMana(int amount)
     {
-        mana = Mathf.Clamp(mana + amount, 0, MaxMana);
+        mana = Mathf.Clamp(mana + amount, 0, MaxMana());
     }
 
     public void SetHealth(int amount)
     {
-        health = Mathf.Clamp(amount, 0, MaxHealth);
+        health = Mathf.Clamp(amount, 0, MaxHealth());
     }
 
     public void SetMana(int amount)
     {
-        mana = Mathf.Clamp(amount, 0, MaxMana);
+        mana = Mathf.Clamp(amount, 0, MaxMana());
     }
 
     public void AddKill()
@@ -176,7 +192,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             yield return new WaitForSeconds(delay);
 
-            AddMana(MaxMana / 10);
+            AddMana(MaxMana() / 10);
         }
     }
 }

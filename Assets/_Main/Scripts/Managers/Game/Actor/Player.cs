@@ -207,9 +207,9 @@ namespace TanksMP
 
                     var acceleration = Input.IsSprint ? 2 : 1;
 
-                    var moveForce = transform.forward * moveDir.y * Stat.MoveSpeed * acceleration;
+                    var moveForce = transform.forward * moveDir.y * Stat.MoveSpeed() * acceleration;
 
-                    var moveTorque = transform.up * moveDir.x * Stat.MoveSpeed;
+                    var moveTorque = transform.up * moveDir.x * Stat.MoveSpeed();
 
                     RigidBody.AddForce(moveForce);
 
@@ -391,9 +391,9 @@ namespace TanksMP
                 }
                 
                 /* Reset stats */
-                Stat.SetHealth(Stat.MaxHealth);
+                Stat.SetHealth(Stat.MaxHealth());
 
-                Stat.SetMana(Stat.MaxMana);
+                Stat.SetMana(Stat.MaxMana());
 
                 Stat.AddDeath();
 
@@ -446,7 +446,7 @@ namespace TanksMP
 
             if (isAttack)
             {
-                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / Stat.AttackSpeed;
+                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / Stat.AttackSpeed();
             }
             else
             {
