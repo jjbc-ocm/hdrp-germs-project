@@ -79,7 +79,7 @@ public class AftermathUI : UI<AftermathUI>
 
         indicatorLoad.SetActive(false);
 
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 
 

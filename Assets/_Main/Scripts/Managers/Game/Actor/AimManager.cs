@@ -31,6 +31,8 @@ public class AimManager : MonoBehaviour
 
     private Player player;
 
+    public bool IsAiming { get => isAiming; }
+
     void Awake()
     {
         player = GetComponent<Player>();
@@ -62,10 +64,10 @@ public class AimManager : MonoBehaviour
     void Update()
     {
         if (ShopManager.Instance.UI.gameObject.activeSelf) return;
-        
+
         if (!player.photonView.IsMine || player.IsRespawning) return;
 
-        if (Input.GetMouseButton(0) && onCanExecuteAttack.Invoke())
+        if (player.Input.IsAttack && onCanExecuteAttack.Invoke())
         {
             if (!isAiming)
             {
@@ -73,19 +75,14 @@ public class AimManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(1))
-        {
-            isAiming = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q) && onCanExecuteSkill.Invoke())
+        if (player.Input.IsAim && onCanExecuteSkill.Invoke())
         {
             isAiming = true;
 
             onAimSkillPress.Invoke();
         }
-
-        if (Input.GetKeyUp(KeyCode.Q) && isAiming)
+        
+        if (!player.Input.IsAim && isAiming)
         {
             isAiming = false;
 
@@ -101,7 +98,7 @@ public class AimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var layerNames =
                 action.Aim == AimType.Water ? new string[] { constants.LayerWater } :
@@ -109,7 +106,7 @@ public class AimManager : MonoBehaviour
                 action.Aim == AimType.EnemyShip ? new string[] { constants.LayerEnemy, constants.LayerMonster } :
                 new string[] { constants.LayerAlly, constants.LayerEnemy, constants.LayerMonster };
 
-            var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
+            var camDistanceToShip = Vector3.Distance(player.transform.position, GameCameraManager.Instance.MainCamera.transform.position);
 
             var maxDistance = aimTrailIndicator == null
                 ? action.Range + camDistanceToShip
@@ -156,7 +153,7 @@ public class AimManager : MonoBehaviour
     {
         var hitPlayer = hit.transform.GetComponent<ActorManager>();
 
-        return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam()) || hitPlayer.IsMonster;
+        return !hitPlayer || (hitPlayer && hitPlayer.GetTeam() != player.GetTeam()) || hitPlayer.IsMonster;
     }
 
     private void IndicatorSetActive(bool aim, bool range)

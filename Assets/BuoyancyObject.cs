@@ -9,7 +9,7 @@ public class BuoyancyObject : MonoBehaviour
     public PhotonView photonView;
     public Transform[] floaters;
     public float underWaterDrag = 3f;
-    public float underWaterAngularDrag = 1f;
+    public float underWaterAngularDrag = 10f;
     public float airDrag = 0.0f;
     public float airAngularDrag = 0.05f;
     public float floatingPower = 15f;

@@ -41,7 +41,7 @@ public class PlayerStatusUI : UI<PlayerStatusUI>
 
         imageSkill.sprite = Data.Skill.Icon;
 
-        textName.text = Data.photonView.GetName();
+        textName.text = Data.GetName();
 
         textKills.text = Data.Stat.Kills.ToString();
 

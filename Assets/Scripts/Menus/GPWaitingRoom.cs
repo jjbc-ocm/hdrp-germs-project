@@ -144,7 +144,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                             //PhotonNetwork.CurrentRoom.IsOpen = false;
                             PhotonNetwork.CurrentRoom.IsVisible = false;
                             m_levelLoadedCalled = true;
-                            PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                            PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneGame);
                         }
                     }
                     else
@@ -186,6 +186,17 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_skipSearchButtonHolder.SetActive(false);
         }
         m_photonView.RPC("RPCSkipPlayerSearch", RpcTarget.AllBuffered);
+    }
+
+    /// <summary>
+    /// Binded to a UI button only for development purposes. Disable the button for release.
+    /// Will fill up other player slots.
+    /// </summary>
+    public void AutoFillBotDevCheat()
+    {
+        PhotonNetwork.CurrentRoom.SetBots();
+
+        SkipPlayerSearchDevCheat();
     }
 
     [PunRPC]
@@ -310,7 +321,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     /// </summary>
     public void OnHomeButtonPressed()
     {
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 
     /// <summary>

@@ -139,7 +139,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         //if (!PhotonNetwork.IsMasterClient) return;
 
-        PhotonNetwork.LoadLevel(Constants.WAITING_ROOM_SCENE_NAME);
+        PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneWaitRoom);
     }
 
     #endregion

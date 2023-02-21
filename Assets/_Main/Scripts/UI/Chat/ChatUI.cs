@@ -45,7 +45,7 @@ public class ChatUI : ListViewUI<ChatItemUI, ChatUI>
 
         var playerView = player.photonView;
 
-        playerView.RPC("RpcSendChat", RpcTarget.All, playerView.GetName(), message, playerView.GetTeam(), DateTime.Now.Ticks);
+        playerView.RPC("RpcSendChat", RpcTarget.All, player.GetName(), message, player.GetTeam(), DateTime.Now.Ticks);
     } 
 
     protected override void OnRefreshUI()

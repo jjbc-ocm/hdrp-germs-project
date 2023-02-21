@@ -114,7 +114,7 @@ public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        PhotonNetwork.LoadLevel(Constants.DEBUG_SCENE_NAME);
+        PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneDebug);
     }
 
     #endregion

@@ -12,8 +12,8 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Serializable
 
-    [SerializeField]
-    private GameObject[] shipPrefabs;
+    //[SerializeField]
+    //private GameObject[] shipPrefabs;
 
     [SerializeField]
     private Transform[] spawnPoints;
@@ -37,13 +37,11 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        /*
-        if (PhotonNetwork.IsMasterClient)
-        {
-            IntstantiatePlayer();
-        }
-        */
-        IntstantiatePlayer();
+        var myPlayer = PhotonNetwork.LocalPlayer;
+
+        InstantiatePlayer(myPlayer.GetTeam(), myPlayer.GetShipIndex());
+
+        InstantiateBots();
     }
 
     #endregion
@@ -71,10 +69,13 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RejoinRoom(Globals.ROOM_NAME);
     }
 
+    // TODO: removed because never called
     // These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene
     // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
-    public override void OnJoinedRoom()
+    /*public override void OnJoinedRoom()
     {
+        Debug.LogError("OnJoinedRoom");
+
         // Only initialize if the player has initially joined the game
         // It will not be executed when player got disconnected, then reconnected
         if (!hasBeenDisconnected)
@@ -89,13 +90,17 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
+        Debug.LogError("OnPlayerPropertiesUpdate A");
+
         if (targetPlayer == PhotonNetwork.LocalPlayer && 
             changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) && 
             changedProps.ContainsKey(Constants.KEY_TEAM))
         {
+            Debug.LogError("OnPlayerPropertiesUpdate B");
+
             IntstantiatePlayer();
         }
-    }
+    }*/
 
     // This method is only called when player rejoined the room
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -107,17 +112,40 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private
 
-    private void IntstantiatePlayer()
+    private void InstantiateBots()
     {
-        var team = PhotonNetwork.LocalPlayer.GetTeam();
+        var bots = PhotonNetwork.CurrentRoom.GetBots();
 
-        var shipIndex = PhotonNetwork.LocalPlayer.GetShipIndex();
+        if (bots == null) return;
 
-        var prefabName = shipPrefabs[shipIndex].name;
+        foreach (var bot in bots)
+        {
+            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+        }
+    }
+
+    private void InstantiatePlayer(int team, int shipIndex, BotInfo botInfo = null)
+    {
+        var prefabName = botInfo == null 
+            ? SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name
+            : SOManager.Instance.BotShips[shipIndex].m_playerPrefab.name;
 
         var spawnPoint = spawnPoints[team];
 
-        PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+        GameObject player;
+
+        if (botInfo != null)
+        {
+            player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
+
+            player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo);
+        }
+        else
+        {
+            PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+        }
+
+        
     }
 
     

@@ -45,11 +45,11 @@ public class GPRewardSystem : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="amount"></param>
-    public void AddGoldToPlayer(Photon.Realtime.Player player, int amount)
+    public void AddGoldToPlayer(ActorManager player, int amount)
     {
-        var ship = GameManager.Instance.Ships.FirstOrDefault(i => i.photonView.Owner == player);
+        //var ship = GameManager.Instance.Ships.FirstOrDefault(i => i.photonView.Owner == player);
 
-        ship.photonView.RPC("AddGold", RpcTarget.All, amount);
+        player.photonView.RPC("AddGold", RpcTarget.All, amount);
 
         //player.AddGold(amount);
     }
@@ -59,13 +59,17 @@ public class GPRewardSystem : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <param name="key"></param>
-    public void AddGoldToPlayer(Photon.Realtime.Player player, string key)
+    public void AddGoldToPlayer(ActorManager player, string key)
     {
         if (m_rewardsMap.ContainsKey(key))
         {
-            var ship = GameManager.Instance.Ships.FirstOrDefault(i => i.photonView.Owner == player);
+            //var ship = GameManager.Instance.Ships.FirstOrDefault(i => i.photonView.Owner == player);
 
-            ship.photonView.RPC("AddGold", RpcTarget.All, m_rewardsMap[key]);
+
+
+            player.photonView.RPC("AddGold", RpcTarget.All, m_rewardsMap[key]);
+
+
 
             //player.AddGold(m_rewardsMap[key]);
         }
@@ -82,7 +86,15 @@ public class GPRewardSystem : MonoBehaviour
     /// <param name="amount"></param>
     public void AddGoldToAllTeam(int teamIndex, int amount)
     {
-        foreach (var player in PhotonNetwork.PlayerList)
+        /*foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.GetTeam() == teamIndex)
+            {
+                AddGoldToPlayer(player, amount);
+            }
+        }*/
+
+        foreach (var player in GameManager.Instance.Ships)
         {
             if (player.GetTeam() == teamIndex)
             {
@@ -98,7 +110,15 @@ public class GPRewardSystem : MonoBehaviour
     /// <param name="key"></param>
     public void AddGoldToAllTeam(int teamIndex, string key)
     {
-        foreach (var player in PhotonNetwork.PlayerList)
+        /*foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.GetTeam() == teamIndex)
+            {
+                AddGoldToPlayer(player, key);
+            }
+        }*/
+
+        foreach (var player in GameManager.Instance.Ships)
         {
             if (player.GetTeam() == teamIndex)
             {

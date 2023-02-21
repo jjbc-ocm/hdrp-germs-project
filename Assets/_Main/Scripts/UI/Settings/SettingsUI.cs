@@ -72,22 +72,22 @@ public class SettingsUI : WindowListViewUI<SettingCategoryUI, SettingsUI>
 
     public void OnMusicVolumeChange(float value)
     {
-        RefreshUI((self) =>
-        {
-            self.Data.MusicVolume = value;
+        //RefreshUI((self) =>
+        //{
+            Data.MusicVolume = value;
 
             AudioManager.Instance.SetMusicVolume(value);
-        });
+        //});
     }
 
     public void OnSoundVolumeChange(float value)
     {
-        RefreshUI((self) =>
-        {
-            self.Data.SoundVolume = value;
+        //RefreshUI((self) =>
+        //{
+            Data.SoundVolume = value;
 
             AudioManager.Instance.SetSoundVolume(value);
-        });
+        //});
     }
 
     public void OnResetClick()

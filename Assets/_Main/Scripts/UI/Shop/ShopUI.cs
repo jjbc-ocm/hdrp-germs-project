@@ -77,7 +77,7 @@ public class ShopUI : WindowUI<ShopUI>
 
         if (data != null)
         {
-            var totalCost = ShopManager.Instance.GetTotalCost(data);
+            var totalCost = ShopManager.Instance.GetTotalCost(Player.Mine, data);
 
             buttonBuy.enabled = Player.Mine.Inventory.Gold >= totalCost;
 
@@ -144,12 +144,12 @@ public class ShopUI : WindowUI<ShopUI>
             SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] :
             null;
 
-        ShopManager.Instance.Buy(data);
+        ShopManager.Instance.Buy(Player.Mine, data);
     }
 
     public void OnSellButtonClick()
     {
-        ShopManager.Instance.Sell(SelectedSlotIndex);
+        ShopManager.Instance.Sell(Player.Mine, SelectedSlotIndex);
     }
 
     private void CreateRecipeTree(ItemData item, int recipeLayer)

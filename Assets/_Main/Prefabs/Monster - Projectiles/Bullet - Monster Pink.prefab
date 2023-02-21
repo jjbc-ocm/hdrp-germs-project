@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000012126426226}
+  - component: {fileID: 114000014051134244}
   - component: {fileID: 33000011738337212}
   - component: {fileID: 23000013250707318}
   - component: {fileID: 135000011308072078}
   - component: {fileID: 54000013431412088}
-  - component: {fileID: 114000014051134244}
   m_Layer: 9
   m_Name: Bullet - Monster Pink
   m_TagString: Untagged
@@ -38,6 +38,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114000014051134244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010310479910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd273be5de0c024da7ef86707f5d826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
+  damage: 5
+  velocity: 100
+  speed: 100
+  hitClip: {fileID: 8300000, guid: 8dc9383c4cdc7b146a328aa4b1aaf7d2, type: 3}
+  explosionClip: {fileID: 8300000, guid: 80fbf126d99beab44b35b0dda79f88b1, type: 3}
+  hitFX: {fileID: 1000010321467122, guid: 3ccf1b30bb4058f4499a550a8b569bc9, type: 3}
+  explosionFX: {fileID: 1000010321467122, guid: 0b39af0d39f5fe443807a910bd327abe, type: 3}
 --- !u!33 &33000011738337212
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -117,27 +137,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 2
---- !u!114 &114000014051134244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010310479910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cd273be5de0c024da7ef86707f5d826, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  damage: 5
-  lifeSpan: 1
-  speed: 100
-  hitClip: {fileID: 8300000, guid: 8dc9383c4cdc7b146a328aa4b1aaf7d2, type: 3}
-  explosionClip: {fileID: 8300000, guid: 80fbf126d99beab44b35b0dda79f88b1, type: 3}
-  hitFX: {fileID: 1000010321467122, guid: 3ccf1b30bb4058f4499a550a8b569bc9, type: 3}
-  explosionFX: {fileID: 1000010321467122, guid: 0b39af0d39f5fe443807a910bd327abe, type: 3}
-  ignoreMonsters: 1
 --- !u!1 &1935345122234741257
 GameObject:
   m_ObjectHideFlags: 0

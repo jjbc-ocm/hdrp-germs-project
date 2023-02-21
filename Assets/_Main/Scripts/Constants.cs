@@ -7,13 +7,13 @@ public class Constants
 {
     //public const string NETWORK_VERSION = "1";
 
-    public const string DEBUG_SCENE_NAME = "Debug";
+    /*public const string DEBUG_SCENE_NAME = "Debug";
 
     public const string MENU_SCENE_NAME = "Intro";
 
     public const string WAITING_ROOM_SCENE_NAME = "Waiting_Room";
 
-    public const string GAME_SCENE_NAME = "CTF_Game";
+    public const string GAME_SCENE_NAME = "CTF_Game";*/
 
     public const string KEY_TEAM = "team";
 

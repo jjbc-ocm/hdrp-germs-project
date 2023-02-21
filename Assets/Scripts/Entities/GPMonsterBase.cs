@@ -268,6 +268,7 @@ public class GPMonsterBase : ActorManager
                 m_playersWhoDamageIt.Add(other);
             }
         }
+        GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
 
         m_health.Damage(amount);
     }
@@ -361,12 +362,12 @@ public class GPMonsterBase : ActorManager
     public void GiveRewards()
     {
         //get winning team
-        int team = m_lastHitPlayer.photonView.GetTeam();
+        int team = m_lastHitPlayer.GetTeam();
         foreach (ActorManager player in m_playersWhoDamageIt)
         {
-            if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player))
+            if (player.GetTeam() == team && m_playersInGoldRange.Contains(player))
             {
-                GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
+                GPRewardSystem.m_instance.AddGoldToPlayer(player, m_rewardKey);
                 m_photonView.RPC("RPCSpawnCoinsForPlayer", player.photonView.Owner);
                 GPNumberSpawnerSystem.m_instance.SpawnGoldNumber(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
             }
@@ -389,7 +390,7 @@ public class GPMonsterBase : ActorManager
 
         if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
         {
-            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, -1);
+            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
         }
         else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
@@ -490,7 +491,7 @@ public class GPMonsterBase : ActorManager
         {
             m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
             //player.TakeMonsterDamage(meleeAtk);
-            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, -1);
+            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
         }
 
         EndMeleeAttack();
@@ -581,7 +582,7 @@ public class GPMonsterBase : ActorManager
 
         var effect = Instantiate(action.Effect, vPosition, rotation);
 
-        effect.GetComponent<SkillBaseManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
+        effect.GetComponent<ActionBase>().Initialize(this, Vector3.zero); // TODO: ProjectileAttack = this is not always the case // TODO: 3 and 4
     }
 
     /// <summary>
@@ -680,5 +681,15 @@ public class GPMonsterBase : ActorManager
     public void RPCOnMeleeHit()
     {
         AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
+    }
+
+    protected override void OnTriggerEnterCalled(Collider col)
+    {
+
+    }
+
+    protected override void OnTriggerExitCalled(Collider col)
+    {
+
     }
 }

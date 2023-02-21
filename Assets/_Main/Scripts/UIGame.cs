@@ -114,7 +114,7 @@ namespace TanksMP
             spawnDelayText.text = string.Empty;
         }
 
-        public void OpenKillStatement(PhotonView winner, PhotonView loser)
+        public void OpenKillStatement(ActorManager winner, ActorManager loser)
         {
             uiKillStatement.Open((self) =>
             {
@@ -197,7 +197,7 @@ namespace TanksMP
         /// </summary>
         public void Disconnect()
         {
-            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+            SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
 
             if (PhotonNetwork.IsConnected)
                 PhotonNetwork.Disconnect();
