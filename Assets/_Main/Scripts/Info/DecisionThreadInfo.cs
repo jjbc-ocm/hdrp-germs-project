@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TanksMP;
 using UnityEngine;
 using UnityEngine.AI;
@@ -321,6 +322,8 @@ public class DecisionThreadInfo
 
         var weightFurtherStatInc = 1f;
 
+        var enemyAverageStats = GetAverageStats(Object.FindObjectsOfType<ActorManager>());
+
         var weightCounter = 1f;
 
         return
@@ -328,6 +331,44 @@ public class DecisionThreadInfo
             weightStatInc * 0.25f +
             weightFurtherStatInc * 0.25f +
             weightCounter * 0.25f;
+    }
+
+    private ItemStatValuesInfo GetAverageStats(ActorManager[] actors)
+    {
+        var enemies = actors.Where(i => i.GetTeam() != player.GetTeam());
+
+        var itemStatValues = new ItemStatValuesInfo();
+
+        /*
+         * 
+         * maxItemStatValues.Health 
+            + item.StatModifier.BuffMaxMana / maxItemStatValues.Mana 
+            + item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage 
+            + item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower 
+            + item.StatModifier.BuffArmor / maxItemStatValues.Armor 
+            + item.StatModifier.BuffResist / maxItemStatValues.Resist 
+            + item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed 
+            + item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed 
+            + item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal 
+            + item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown 
+         */
+
+        var enemiesCount = (float)enemies.Count();
+
+        foreach (var enemy in enemies)
+        {
+            itemStatValues.Health += enemy.Stat.MaxHealth() / enemiesCount;
+            itemStatValues.Mana += enemy.Stat.MaxMana() / enemiesCount;
+            itemStatValues.AttackDamage += enemy.Stat.AttackDamage() / enemiesCount;
+            itemStatValues.AbilityPower += enemy.Stat.AbilityPower() / enemiesCount;
+            itemStatValues.Armor += enemy.Stat.Armor() / enemiesCount;
+            itemStatValues.Resist += enemy.Stat.Resist() / enemiesCount;
+            itemStatValues.AttackSpeed += enemy.Stat.AttackSpeed() / enemiesCount;
+            itemStatValues.MoveSpeed += enemy.Stat.MoveSpeed() / enemiesCount;
+
+        }
+
+        return itemStatValues;
     }
 
     #endregion
