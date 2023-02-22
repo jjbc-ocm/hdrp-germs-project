@@ -46,6 +46,9 @@ public class GPShipDesc : ScriptableObject
     [SerializeField]
     private List<ItemData> idealUtilityItems;
 
+    [SerializeField]
+    private PersonalityInfo personality;
+
     public string ID { get => id; }
 
     public Sprite ShipIconImage { get => m_shipIconImage; }
@@ -57,4 +60,6 @@ public class GPShipDesc : ScriptableObject
     public List<ItemData> IdealDefensiveItems { get => idealDefensiveItems; }
 
     public List<ItemData> IdealUtilityItems { get => idealUtilityItems; }
+
+    public PersonalityInfo Personality { get => personality; }
 }

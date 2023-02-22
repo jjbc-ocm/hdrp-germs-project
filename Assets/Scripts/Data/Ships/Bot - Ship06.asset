@@ -40,3 +40,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f5acca1ea09403469dbeb6fcf270787, type: 2}
   idealUtilityItems:
   - {fileID: 11400000, guid: 1afe3fc43491bf247906a2fe22728bc8, type: 2}
+  personality:
+    moveToPlayerPriorities:
+    - key: targetChest
+      weight: 0.2
+    - key: targetHealthRatio
+      weight: 0.2
+    - key: selfHealthRatio
+      weight: 0.2
+    - key: targetDistance
+      weight: 0.2
+    moveToMonsterPriorities:
+    - key: selfChest
+      weight: 0.25
+    - key: targetHealthRatio
+      weight: 0.25
+    - key: selfHealthRatio
+      weight: 0.25
+    - key: targetDistance
+      weight: 0.25
+    moveToChestPriorities:
+    - key: selfHealthRatio
+      weight: 1
+    moveToCollectiblePriorities:
+    - key: targetDistance
+      weight: 1
+    moveToBasePriorities:
+    - key: selfChest
+      weight: 1

@@ -123,8 +123,6 @@ public class AimManager : MonoBehaviour
                 {
                     Debug.DrawLine(ray.origin, hit.point, player.GetTeam() == 0 ? Color.red : Color.blue, 1f);
 
-                    Debug.DrawCircle(hit.point, 5f, 30, player.GetTeam() == 0 ? Color.red : Color.blue, 1f);
-
                     IndicatorSetActive(true, true);
 
                     aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
