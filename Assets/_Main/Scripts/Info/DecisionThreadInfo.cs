@@ -7,6 +7,8 @@ using UnityEngine.AI;
 
 public class DecisionThreadInfo
 {
+    private PersonalityInfo personality;
+
     private Player player;
 
     private NavMeshAgent agent;
@@ -17,6 +19,8 @@ public class DecisionThreadInfo
 
     public DecisionThreadInfo(Player player, NavMeshAgent agent, DecisionType type, ItemStatValuesInfo maxItemStatValues)
     {
+        personality = player.Data.Personality;
+
         this.player = player;
 
         this.agent = agent;
@@ -212,27 +216,28 @@ public class DecisionThreadInfo
             var targetPlayer = target as Player;
 
             /* Prioritize enemy carrying a chest */
-            var weightChest = targetPlayer.HasChest() && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
+            var targetChest = targetPlayer.HasChest() && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
 
             /* Prioritize enemy with less health */
-            var weightEnemyHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth());
+            var targetHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth());
 
             /* Derioritize enemy if player have less health */
-            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
+            var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
 
             /* Prioritize nearby enemies */
-            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
+            var targetDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
 
             /* Prioritize enemies generally */
             // TODO: this is a problem because what if my action is to cast a support skill
+            // TODO: right now, player will not approach their ally
             var weightTeam = player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
 
             return
-                weightChest * 0.2f +
-                weightEnemyHealthRatio * 0.2f +
-                weightSelfHealthRatio * 0.2f +
-                weightTeam * 0.2f +
-                weightDistance * 0.2f;
+                targetChest * personality.GetWeightMoveToPlayerPriority("targetChest") +
+                targetHealthRatio * personality.GetWeightMoveToPlayerPriority("targetHealthRatio") +
+                selfHealthRatio * personality.GetWeightMoveToPlayerPriority("selfHealthRatio") +
+                targetDistance * personality.GetWeightMoveToPlayerPriority("targetDistance") +
+                weightTeam * 0.2f;
         }
 
         if (target is GPMonsterBase)
@@ -240,22 +245,22 @@ public class DecisionThreadInfo
             var targetMonster = target as GPMonsterBase;
 
             /* Deprioritize monster when carrying a chest */
-            var weightChest = !player.HasChest() ? 1f : 0f;
+            var selfChest = !player.HasChest() ? 1f : 0f;
 
             /* Prioritize monster with less health */
-            var weightMonsterHealthRatio = 1f - (targetMonster.m_health.m_currentHealth / targetMonster.m_health.m_maxHealth);
+            var targetHealthRatio = 1f - (targetMonster.m_health.m_currentHealth / targetMonster.m_health.m_maxHealth);
 
             /* Deprioritize monster if player have less health */
-            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
+            var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
 
             /* Prioritize nearby monster */
-            var weightDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetMonster.transform.position) / 1000f));
+            var targetDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetMonster.transform.position) / 1000f));
 
             return
-                weightChest * 0.25f +
-                weightMonsterHealthRatio * 0.25f +
-                weightSelfHealthRatio * 0.25f +
-                weightDistance * 0.25f;
+                selfChest * personality.GetWeightMoveToMonsterPriority("selfChest") +
+                targetHealthRatio * personality.GetWeightMoveToMonsterPriority("targetHealthRatio") +
+                selfHealthRatio * personality.GetWeightMoveToMonsterPriority("selfHealthRatio") +
+                targetDistance * personality.GetWeightMoveToMonsterPriority("targetDistance");
         }
 
         if (target is CollectibleTeam)
@@ -263,9 +268,19 @@ public class DecisionThreadInfo
             var targetChest = target as CollectibleTeam;
 
             /* Deprioritize chest if player have less health */
-            var weightSelfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
+            var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
 
-            return weightSelfHealthRatio * 1f;
+            return selfHealthRatio * personality.GetWeightMoveToChestPriority("selfHealthRatio");
+        }
+
+        if (target is Collectible && target is not CollectibleTeam)
+        {
+            var targetCollectible = target as Collectible;
+
+            /* Prioritize nearby enemies */
+            var targetDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetCollectible.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
+
+            return targetDistance * personality.GetWeightMoveToCollectiblePriority("targetDistance");
         }
 
         if (target is CollectibleZone)
@@ -273,9 +288,9 @@ public class DecisionThreadInfo
             var targetZone = target as CollectibleZone;
 
             /* Prioritize returning to base if player has the chest */
-            var weightChest = player.HasChest() && targetZone.Team == player.GetTeam() ? 1f : 0f;
+            var selfChest = player.HasChest() && targetZone.Team == player.GetTeam() ? 1f : 0f;
 
-            return weightChest * 1f;
+            return selfChest * personality.GetWeightMoveToBasePriority("selfChest");
         }
 
         return 0;
@@ -319,57 +334,13 @@ public class DecisionThreadInfo
             + item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown 
             + (item.StatModifier.IsInvisible ? 1f : 0f)
             / parametersCount;
-
-        var weightFurtherStatInc = 1f;
-
-        var enemyAverageStats = GetAverageStats(Object.FindObjectsOfType<ActorManager>());
-
-        var weightCounter = 1f;
-
+        
         return
-            weightCost * 0.25f +
-            weightStatInc * 0.25f +
-            weightFurtherStatInc * 0.25f +
-            weightCounter * 0.25f;
+            weightCost * 0.5f +
+            weightStatInc * 0.5f;
     }
 
-    private ItemStatValuesInfo GetAverageStats(ActorManager[] actors)
-    {
-        var enemies = actors.Where(i => i.GetTeam() != player.GetTeam());
-
-        var itemStatValues = new ItemStatValuesInfo();
-
-        /*
-         * 
-         * maxItemStatValues.Health 
-            + item.StatModifier.BuffMaxMana / maxItemStatValues.Mana 
-            + item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage 
-            + item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower 
-            + item.StatModifier.BuffArmor / maxItemStatValues.Armor 
-            + item.StatModifier.BuffResist / maxItemStatValues.Resist 
-            + item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed 
-            + item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed 
-            + item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal 
-            + item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown 
-         */
-
-        var enemiesCount = (float)enemies.Count();
-
-        foreach (var enemy in enemies)
-        {
-            itemStatValues.Health += enemy.Stat.MaxHealth() / enemiesCount;
-            itemStatValues.Mana += enemy.Stat.MaxMana() / enemiesCount;
-            itemStatValues.AttackDamage += enemy.Stat.AttackDamage() / enemiesCount;
-            itemStatValues.AbilityPower += enemy.Stat.AbilityPower() / enemiesCount;
-            itemStatValues.Armor += enemy.Stat.Armor() / enemiesCount;
-            itemStatValues.Resist += enemy.Stat.Resist() / enemiesCount;
-            itemStatValues.AttackSpeed += enemy.Stat.AttackSpeed() / enemiesCount;
-            itemStatValues.MoveSpeed += enemy.Stat.MoveSpeed() / enemiesCount;
-
-        }
-
-        return itemStatValues;
-    }
+    
 
     #endregion
 }
