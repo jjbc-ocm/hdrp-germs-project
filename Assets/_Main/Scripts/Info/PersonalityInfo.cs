@@ -21,6 +21,9 @@ public class PersonalityInfo
     [SerializeField]
     private List<PriorityInfo> moveToBasePriorities;
 
+    [SerializeField]
+    private List<PriorityInfo> buyItemPriorities;
+
     public float GetWeightMoveToPlayerPriority(string key)
     {
         return moveToPlayerPriorities.FirstOrDefault(i => i.Key == key).Weight;
@@ -44,5 +47,10 @@ public class PersonalityInfo
     public float GetWeightMoveToBasePriority(string key)
     {
         return moveToBasePriorities.FirstOrDefault(i => i.Key == key).Weight;
+    }
+
+    public float GetWeightBuyItem(string key)
+    {
+        return buyItemPriorities.FirstOrDefault(i => i.Key == key).Weight;
     }
 }
