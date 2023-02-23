@@ -36,47 +36,56 @@ public class DecisionThreadInfo
     {
         DecisionNodeInfo currentDecision = null;
 
-        var entities = Object.FindObjectsOfType<GameEntityManager>();
-
         /* Find best decision this player can do to all entities in-game */
-        foreach (var entity in entities)
+        if (type != DecisionType.Shop)
         {
-            if (entity.IsVisibleRelativeTo(player.transform))
+
+            var entities = Object.FindObjectsOfType<GameEntityManager>();
+            foreach (var entity in entities)
             {
-                if (entity is Player && entity != player)
+                if (entity.IsVisibleRelativeTo(player.transform))
+                {
+                    if (entity is Player && entity != player)
+                    {
+                        currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
+                    }
+
+                    if (entity is Collectible)
+                    {
+                        currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
+                    }
+                }
+
+                if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
                 {
                     currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
                 }
 
-                if (entity is Collectible)
+                if (entity is CollectibleZone)
                 {
                     currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
                 }
-            }
-
-            if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
-            {
-                currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
-            }
-
-            if (entity is CollectibleZone)
-            {
-                currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
             }
         }
-
+        
         /* Find best possible decision this player can do in terms of buying items */
-        foreach (var item in ShopManager.Instance.Data)
+        else
         {
-            if (!ShopManager.Instance.CanBuy(player, item)) continue;
+            foreach (var item in ShopManager.Instance.Data)
+            {
+                if (!ShopManager.Instance.CanBuy(player, item)) continue;
 
-            currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(item));
+                currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(item));
+            }
         }
 
-        Debug.Log("[BOT] " + currentDecision.Key);
+        if (currentDecision != null)
+        {
+            Debug.Log("[BOT] " + currentDecision.Key);
 
-        /* Only one decision must be executed */
-        currentDecision.Decision.Invoke();
+            /* Only one decision must be executed */
+            currentDecision.Decision.Invoke();
+        }
     }
 
     private DecisionNodeInfo GetBetterDecision(DecisionNodeInfo a, DecisionNodeInfo b)
@@ -317,27 +326,44 @@ public class DecisionThreadInfo
 
     private float GetWeightToItem(ItemData item)
     {
-        var weightCost = item.CostBuy / maxItemStatValues.Cost;
+        var healthRatio = item.StatModifier.BuffMaxHealth / maxItemStatValues.Health;
 
-        var parametersCount = 11f;
+        var manaRatio = item.StatModifier.BuffMaxMana / maxItemStatValues.Mana;
 
-        var weightStatInc = 
-            item.StatModifier.BuffMaxHealth / maxItemStatValues.Health 
-            + item.StatModifier.BuffMaxMana / maxItemStatValues.Mana 
-            + item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage 
-            + item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower 
-            + item.StatModifier.BuffArmor / maxItemStatValues.Armor 
-            + item.StatModifier.BuffResist / maxItemStatValues.Resist 
-            + item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed 
-            + item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed 
-            + item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal 
-            + item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown 
-            + (item.StatModifier.IsInvisible ? 1f : 0f)
-            / parametersCount;
-        
+        var attackDamageRatio = item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage;
+
+        var abilityPowerRatio = item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower;
+
+        var armorRatio = item.StatModifier.BuffArmor / maxItemStatValues.Armor;
+
+        var resistRatio = item.StatModifier.BuffResist / maxItemStatValues.Resist;
+
+        var attackSpeedRatio = item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed;
+
+        var moveSpeedRatio = item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed;
+
+        var lifeStealRatio = item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal;
+
+        var cooldownRatio = item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown;
+
+        var invisibilityRatio = item.StatModifier.IsInvisible ? 1f : 0f;
+
+        var costInverseRatio = 1 - item.CostBuy / maxItemStatValues.Cost;
+
+
         return
-            weightCost * 0.5f +
-            weightStatInc * 0.5f;
+            healthRatio * personality.GetWeightBuyItem("healthRatio") +
+            manaRatio * personality.GetWeightBuyItem("manaRatio") +
+            attackDamageRatio * personality.GetWeightBuyItem("attackDamageRatio") +
+            abilityPowerRatio * personality.GetWeightBuyItem("abilityPowerRatio") +
+            armorRatio * personality.GetWeightBuyItem("armorRatio") +
+            resistRatio * personality.GetWeightBuyItem("resistRatio") +
+            attackSpeedRatio * personality.GetWeightBuyItem("attackSpeedRatio") +
+            moveSpeedRatio * personality.GetWeightBuyItem("moveSpeedRatio") +
+            lifeStealRatio * personality.GetWeightBuyItem("lifeStealRatio") +
+            cooldownRatio * personality.GetWeightBuyItem("cooldownRatio") +
+            invisibilityRatio * personality.GetWeightBuyItem("invisibilityRatio") +
+            costInverseRatio * personality.GetWeightBuyItem("costInverseRatio");
     }
 
     
