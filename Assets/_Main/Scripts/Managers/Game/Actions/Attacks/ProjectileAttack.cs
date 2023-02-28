@@ -25,7 +25,7 @@ public class ProjectileAttack : AttackBase
 
     void Start()
     {
-        Destroy(gameObject, Constants.FOG_OF_WAR_DISTANCE / velocity);
+        Destroy(gameObject, SOManager.Instance.Constants.FogOrWarDistance / velocity);
     }
 
     void OnTriggerEnter(Collider col)

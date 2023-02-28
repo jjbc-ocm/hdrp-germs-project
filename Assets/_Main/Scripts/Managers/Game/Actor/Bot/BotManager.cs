@@ -36,13 +36,22 @@ public class BotManager : MonoBehaviour
     {
         var maxStatsInfo = GetMaxItemStatValues();
 
-        threads = new DecisionThreadInfo[3];
+        threads = new DecisionThreadInfo[2];
 
-        threads[0] = new DecisionThreadInfo(player, agent, DecisionType.Action, maxStatsInfo);
+        threads[0] = new MoveThreadInfo();
 
-        threads[1] = new DecisionThreadInfo(player, agent, DecisionType.Movement, maxStatsInfo);
+        threads[1] = new SkillThreadInfo();
 
-        threads[2] = new DecisionThreadInfo(player, agent, DecisionType.Shop, maxStatsInfo);
+        //threads[0] = new DecisionThreadInfo(player, agent, DecisionType.Action, maxStatsInfo);
+
+        //threads[1] = new DecisionThreadInfo(player, agent, DecisionType.Movement, maxStatsInfo);
+
+        //threads[2] = new DecisionThreadInfo(player, agent, DecisionType.Shop, maxStatsInfo);
+
+        foreach (var thread in threads)
+        {
+            thread.Initialize(player, agent, maxStatsInfo);
+        }
 
         StartCoroutine(YieldDecisionMaking());
     }
@@ -147,9 +156,9 @@ public class BotManager : MonoBehaviour
     #endregion
 }
 
-public enum DecisionType
+/*public enum DecisionType
 {
     Action,
     Movement,
     Shop
-}
+}*/

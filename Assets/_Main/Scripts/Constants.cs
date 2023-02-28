@@ -19,7 +19,7 @@ public class Constants
 
     public const string KEY_SHIP_INDEX = "shipIndex";
 
-    public const int MAX_PLAYER_COUNT = 6;
+    /*public const int MAX_PLAYER_COUNT = 6;
 
     public const int MIN_PLAYER_COUNT = 6;
 
@@ -35,7 +35,7 @@ public class Constants
 
     public const int SCORE_REQUIRED = 50;
 
-    public const float RESPAWN_TIME = 10;
+    public const float RESPAWN_TIME = 10;*/
 
     /*public const int LAYER_ALLY = 8;
 

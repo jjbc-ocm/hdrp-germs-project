@@ -66,7 +66,7 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
 
-        var attackMaxCooldown = Constants.MOVE_SPEED_TO_SECONDS_RATIO / Player.Mine.Stat.AttackSpeed();
+        var attackMaxCooldown = SOManager.Instance.Constants.MoveSpeedToSecondsRatio / Player.Mine.Stat.AttackSpeed();
 
         var skillMaxCooldown = Player.Mine.Skill.Cooldown;
 

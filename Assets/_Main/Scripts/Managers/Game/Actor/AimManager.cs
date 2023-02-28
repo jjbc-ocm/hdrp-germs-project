@@ -82,14 +82,17 @@ public class AimManager : MonoBehaviour
             onAimSkillPress.Invoke();
         }
         
+        /* Executed when player release the aim, which will execute the skill */
         if (!player.Input.IsAim && isAiming)
         {
             isAiming = false;
 
-            if (aimIndicator.activeSelf)
-            {
-                onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
-            }
+            onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+        }
+
+        if (player.Input.IsAimCancel)
+        {
+            isAiming = false;
         }
 
         if (isAiming)
@@ -162,13 +165,15 @@ public class AimManager : MonoBehaviour
 
     private void IndicatorSetActive(bool aim, bool range)
     {
-        aimIndicator.SetActive(aim);
+        var isMine = player.photonView.IsMine && !player.IsBot;
 
-        aimRangeIndicator.SetActive(range);
+        aimIndicator.SetActive(aim && isMine);
+
+        aimRangeIndicator.SetActive(range && isMine);
 
         if (aimTrailIndicator != null)
         {
-            aimTrailIndicator.SetActive(aim);
+            aimTrailIndicator.SetActive(aim && isMine);
         }
     }
 }

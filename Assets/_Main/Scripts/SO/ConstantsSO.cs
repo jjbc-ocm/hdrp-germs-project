@@ -83,30 +83,58 @@ public class ConstantsSO : ScriptableObject
     public string SceneGame { get => sceneGame; }
 
 
+    [Header("In-Game")]
 
+    [SerializeField]
+    private float captureChestTime = 45f;
 
+    [SerializeField]
+    private int maxPlayerCount = 6;
 
-    public const string KEY_TEAM = "team";
+    [SerializeField]
+    private int minPlayerCount = 6;
 
-    public const string KEY_SHIP_INDEX = "shipIndex";
+    [SerializeField]
+    private int maxTeam = 2;
 
-    public const int MAX_PLAYER_COUNT = 6;
+    [SerializeField]
+    private int maxPlayerPerTeam = 3;
 
-    public const int MIN_PLAYER_COUNT = 6;
+    [SerializeField]
+    private float gameTimer = 1200f;
 
-    public const int MAX_TEAM = 2;
+    [SerializeField]
+    private float fogOrWarDistance = 150f;
 
-    public const int MAX_PLAYER_COUNT_PER_TEAM = MAX_PLAYER_COUNT / MAX_TEAM;
+    [SerializeField]
+    private float moveSpeedToSecondsRatio = 25f;
 
-    public const float GAME_MAX_TIMER = 1200;
+    [SerializeField]
+    private int scoreRequired = 50;
 
-    public const int FOG_OF_WAR_DISTANCE = 150;
+    [SerializeField]
+    private float respawnTime = 10f;
 
-    public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
+    public float CaptureChestTime { get => captureChestTime; }
 
-    public const int SCORE_REQUIRED = 50;
+    public int MaxPlayerCount { get => maxPlayerCount; }
 
-    public const float RESPAWN_TIME = 10;
+    public int MinPlayerCount { get => minPlayerCount; }
+
+    public int MaxTeam { get => maxTeam; }
+
+    public int MaxPlayerPerTeam { get => maxPlayerPerTeam; }
+
+    public float GameTimer { get => gameTimer; }
+
+    public float FogOrWarDistance { get => fogOrWarDistance; }
+
+    public float MoveSpeedToSecondsRatio { get => moveSpeedToSecondsRatio; }
+
+    public int ScoreRequired { get => scoreRequired; }
+
+    public float RespawnTime { get => respawnTime; }
+
 
     [Header("Settings")]
 

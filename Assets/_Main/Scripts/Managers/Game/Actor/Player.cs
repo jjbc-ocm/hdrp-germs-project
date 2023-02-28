@@ -78,7 +78,7 @@ namespace TanksMP
             var collectible = col.GetComponent<Collectible>();
 
             /* Handle collision to the collectible zone */
-            if (collectibleZone != null &&
+            /*if (collectibleZone != null &&
                 GetTeam() == collectibleZone.Team &&
                 HasChest())
             {
@@ -87,10 +87,12 @@ namespace TanksMP
                 collectibleZone.OnDropChest();
 
                 GPSManager.Instance.ClearDestination();
-            }
+            }*/
 
             /* Handle collision with chests */
-            else if (collectibleTeam != null)
+            //else 
+            
+            if (collectibleTeam != null)
             {
                 collectibleTeam.Obtain(this);
 
@@ -446,7 +448,7 @@ namespace TanksMP
 
             if (isAttack)
             {
-                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / Stat.AttackSpeed();
+                nextAttackTime = Time.time + SOManager.Instance.Constants.MoveSpeedToSecondsRatio / Stat.AttackSpeed();
             }
             else
             {
@@ -470,7 +472,7 @@ namespace TanksMP
         {
             isRespawning = true;
 
-            float targetTime = Time.time + Constants.RESPAWN_TIME;
+            float targetTime = Time.time + SOManager.Instance.Constants.RespawnTime;
 
             while (targetTime - Time.time > 0)
             {

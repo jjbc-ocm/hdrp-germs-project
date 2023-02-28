@@ -50,9 +50,9 @@ public class TopBarUI : UI<TopBarUI>
 
         var team2 = GameManager.Instance.Team2Ships;
 
-        for (int team = 0; team < Constants.MAX_TEAM; team++)
+        for (int team = 0; team < SOManager.Instance.Constants.MaxTeam; team++)
         {
-            for (int i = 0; i < Constants.MAX_PLAYER_COUNT_PER_TEAM; i++)
+            for (int i = 0; i < SOManager.Instance.Constants.MaxPlayerPerTeam; i++)
             {
                 /* Handle for team 1 */
                 if (team == 0)
