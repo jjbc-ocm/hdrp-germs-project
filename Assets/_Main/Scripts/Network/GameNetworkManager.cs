@@ -128,9 +128,9 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         var team1Bots = bots.Where(i => i.Team == 1).ToList();
 
-        var team0FreeSlots = Constants.MAX_PLAYER_COUNT_PER_TEAM - team0Players.Count();
+        var team0FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team0Players.Count();
 
-        var team1FreeSlots = Constants.MAX_PLAYER_COUNT_PER_TEAM - team1Players.Count();
+        var team1FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team1Players.Count();
 
         for (var i = 0; i < team0FreeSlots; i++)
         {

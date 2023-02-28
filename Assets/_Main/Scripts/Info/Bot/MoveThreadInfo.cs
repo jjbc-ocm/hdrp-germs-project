@@ -69,7 +69,9 @@ public class MoveThreadInfo : DecisionThreadInfo
             var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
 
             /* Prioritize nearby enemies */
-            var targetDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetPlayer.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
+            var playerTargetDistance = Vector3.Distance(player.transform.position, targetPlayer.transform.position);
+
+            var targetDistance = Mathf.Max(0f, 1f - (playerTargetDistance / SOManager.Instance.Constants.FogOrWarDistance));
 
             /* Prioritize enemies generally */
             // TODO: this is a problem because what if my action is to cast a support skill
@@ -122,7 +124,9 @@ public class MoveThreadInfo : DecisionThreadInfo
             var targetCollectible = target as Collectible;
 
             /* Prioritize nearby enemies */
-            var targetDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetCollectible.transform.position) / Constants.FOG_OF_WAR_DISTANCE));
+            var playerTargetDistance = Vector3.Distance(player.transform.position, targetCollectible.transform.position);
+
+            var targetDistance = Mathf.Max(0f, 1f - (playerTargetDistance / SOManager.Instance.Constants.FogOrWarDistance));
 
             return targetDistance * personality.GetWeightMoveToCollectiblePriority("targetDistance");
         }

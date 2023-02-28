@@ -19,9 +19,9 @@ public class HitscanAttack : AttackBase
 
         transform.forward = direction;
 
-        targetPosition = fromPosition + direction * Constants.FOG_OF_WAR_DISTANCE;
+        targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance;
 
-        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, Constants.FOG_OF_WAR_DISTANCE, GetMask()))
+        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, SOManager.Instance.Constants.FogOrWarDistance, GetMask()))
         {
             if (hit.transform.TryGetComponent(out ActorManager actor))
             {

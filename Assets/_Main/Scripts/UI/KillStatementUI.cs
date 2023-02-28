@@ -44,7 +44,7 @@ public class KillStatementUI : UI<KillStatementUI>
 
     private IEnumerator YieldClose()
     {
-        yield return new WaitForSeconds(Constants.RESPAWN_TIME);
+        yield return new WaitForSeconds(SOManager.Instance.Constants.RespawnTime);
 
         Close();
     }

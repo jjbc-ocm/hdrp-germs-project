@@ -15,9 +15,19 @@ public class SkillThreadInfo : DecisionThreadInfo
 
         foreach (var entity in entities)
         {
-            if (entity.IsVisibleRelativeTo(player.transform))
+            //if (entity.IsVisibleRelativeTo(player.transform))
+            if (Vector3.Distance(player.transform.position, entity.transform.position) <= player.Skill.Range)
             {
-                if (entity is Player && entity != player)
+                if (entity is Player && (entity as Player).GetTeam() != player.GetTeam()) // TODO: this will be a problem if skill was intended to use to allies
+                {
+                    currentDecision = GetBetterDecision(currentDecision, AimCancelDecision());
+
+                    currentDecision = GetBetterDecision(currentDecision, AimReleaseDecision());
+
+                    currentDecision = GetBetterDecision(currentDecision, AimDecision(entity));
+                }
+
+                if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
                 {
                     currentDecision = GetBetterDecision(currentDecision, AimCancelDecision());
 
@@ -26,18 +36,7 @@ public class SkillThreadInfo : DecisionThreadInfo
                     currentDecision = GetBetterDecision(currentDecision, AimDecision(entity));
                 }
             }
-
-            if (entity is GPMonsterBase && !(entity as GPMonsterBase).m_health.m_isDead)
-            {
-                currentDecision = GetBetterDecision(currentDecision, AimCancelDecision());
-
-                currentDecision = GetBetterDecision(currentDecision, AimReleaseDecision());
-
-                currentDecision = GetBetterDecision(currentDecision, AimDecision(entity));
-            }
         }
-
-        
 
         return currentDecision;
     }
