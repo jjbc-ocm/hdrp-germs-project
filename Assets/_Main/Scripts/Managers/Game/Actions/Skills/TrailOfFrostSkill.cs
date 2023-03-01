@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
+//[RequireComponent(typeof(BoxCollider))]
 public class TrailOfFrostSkill : SkillBase
 {
     [SerializeField]
@@ -22,18 +22,6 @@ public class TrailOfFrostSkill : SkillBase
     [SerializeField]
     private GameObject prefabIcicle;
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        if (col.TryGetComponent(out ActorManager actor))
-        {
-            if (!IsHit(owner, actor)) return;
-
-            ApplyEffect(owner, actor);
-        }
-    }
-
     protected override void OnInitialize()
     {
         StartCoroutine(YieldSpawnIcicle());
@@ -43,7 +31,7 @@ public class TrailOfFrostSkill : SkillBase
 
     private IEnumerator YieldSpawnIcicle()
     {
-        var boxCollider = GetComponent<BoxCollider>();
+        //var boxCollider = GetComponent<BoxCollider>();
 
         var trailSize = 0f;
 
@@ -54,10 +42,6 @@ public class TrailOfFrostSkill : SkillBase
             trailSize = spawnBoxCounter * trailSpeed * spawnDelay;
 
             spawnBoxCounter++;
-
-            boxCollider.size = new Vector3(5, 50, trailSize);
-
-            boxCollider.center = boxCollider.size / 2f;
 
             var position = transform.position + transform.forward * trailSize;
 
@@ -70,7 +54,24 @@ public class TrailOfFrostSkill : SkillBase
 
             Instantiate(prefabIcicle, position + offset, rotation, transform);
 
+            ExecuteDamageOnCollision(position);
+
             AudioManager.Instance.Play3D(data.Sounds[0], position + offset);
+        }
+    }
+
+    private void ExecuteDamageOnCollision(Vector3 position)
+    {
+        var colliders = Physics.OverlapBox(position, Vector3.one * 1.25f);
+
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent(out ActorManager actor))
+            {
+                if (!IsHit(owner, actor)) return;
+
+                ApplyEffect(owner, actor);
+            }
         }
     }
 }

@@ -1,54 +1,91 @@
-﻿/*  This file is part of the "Tanks Multiplayer" project by FLOBUK.
- *  You are only allowed to use these resources if you've bought them from the Unity Asset Store.
- * 	You shall not license, sublicense, sell, resell, transfer, assign, distribute or
- * 	otherwise make available to any third party the Service or the Content. */
-
+﻿
 using UnityEngine;
 using Photon.Pun;
 using System.Collections.Generic;
+using TanksMP;
+using System.Linq;
 
-namespace TanksMP
+public class CollectibleZone : GameEntityManager
 {
-    /// <summary>
-    /// Component that acts as an area to trigger collection of CollectibleTeam items.
-    /// E.g. necessary for team bases in Capture The Flag mode. Needs a Collider to trigger.
-    /// </summary>
-	public class CollectibleZone : GameEntityManager
+    [SerializeField]
+    private int team;
+
+    [SerializeField]
+    private AudioClip clip;
+
+    private float timer;
+
+    public int Team { get => team; }
+
+    public AudioClip Clip { get => clip; }
+
+    public float Timer { get => timer; }
+
+    private void Update()
     {
-        [SerializeField]
-        private int team;
+        var allyShips = team == 0 ? GameManager.Instance.Team1Ships : GameManager.Instance.Team2Ships;
 
-        [SerializeField]
-        private AudioClip clip;
+        var enemyShips = team == 0 ? GameManager.Instance.Team2Ships : GameManager.Instance.Team1Ships;
 
-        public int Team { get => team; }
+        var hasChest = allyShips.Any(i => i.HasChest() && Vector3.Distance(transform.position, i.transform.position) <= transform.localScale.x / 2f);
 
-        public AudioClip Clip { get => clip; }
+        var hasEnemy = enemyShips.Any(i => Vector3.Distance(transform.position, i.transform.position) <= transform.localScale.x / 2f);
 
-        public void OnDropChest()
+        if (hasChest)
         {
-            if (clip) AudioManager.Instance.Play3D(clip, transform.position);
-
-            GameManager.Instance.AddScore(ScoreType.Capture, team);
-
-            if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
+            if (!hasEnemy)
             {
-                PhotonNetwork.CurrentRoom.IsOpen = false;
+                timer += Time.deltaTime;
 
-                Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
+                Debug.Log("[Drop Chest] No Enemy, Team: " + team + " Time: " + timer);
 
-                return;
+                if (timer >= SOManager.Instance.Constants.CaptureChestTime)
+                {
+                    DropChest();
+                    timer = 0;
+                }
+            }
+            else
+            {
+                Debug.Log("[Drop Chest] Has Enemy, Team: " + team + " Time: " + timer);
             }
         }
-
-        protected override void OnTriggerEnterCalled(Collider col)
+        else
         {
+            timer = 0;
+        }
+    }
 
+    public void DropChest()
+    {
+        if (clip) AudioManager.Instance.Play3D(clip, transform.position);
+
+        /* Add score */
+        GameManager.Instance.AddScore(ScoreType.Capture, team);
+
+        /* Reset chest references */
+        foreach (var ship in GameManager.Instance.Ships)
+        {
+            ship.HasChest(false);
         }
 
-        protected override void OnTriggerExitCalled(Collider col)
+        if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
         {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
 
+            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
+
+            return;
         }
+    }
+
+    protected override void OnTriggerEnterCalled(Collider col)
+    {
+
+    }
+
+    protected override void OnTriggerExitCalled(Collider col)
+    {
+
     }
 }

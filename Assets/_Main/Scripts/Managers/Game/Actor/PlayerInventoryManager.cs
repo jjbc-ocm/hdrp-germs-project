@@ -59,8 +59,6 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
     public void AddGold(int amount)
     {
         gold += amount;
-
-        Debug.Log("GOTHEREEEEe " + gold);
     }
 
     public bool TryAddItem(ItemData data)

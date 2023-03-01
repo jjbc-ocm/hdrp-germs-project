@@ -78,7 +78,7 @@ namespace TanksMP
             var collectible = col.GetComponent<Collectible>();
 
             /* Handle collision to the collectible zone */
-            if (collectibleZone != null &&
+            /*if (collectibleZone != null &&
                 GetTeam() == collectibleZone.Team &&
                 HasChest())
             {
@@ -87,10 +87,12 @@ namespace TanksMP
                 collectibleZone.OnDropChest();
 
                 GPSManager.Instance.ClearDestination();
-            }
+            }*/
 
             /* Handle collision with chests */
-            else if (collectibleTeam != null)
+            //else 
+            
+            if (collectibleTeam != null)
             {
                 collectibleTeam.Obtain(this);
 
@@ -207,9 +209,9 @@ namespace TanksMP
 
                     var acceleration = Input.IsSprint ? 2 : 1;
 
-                    var moveForce = transform.forward * moveDir.y * Stat.MoveSpeed * acceleration;
+                    var moveForce = transform.forward * moveDir.y * Stat.MoveSpeed() * acceleration;
 
-                    var moveTorque = transform.up * moveDir.x * Stat.MoveSpeed;
+                    var moveTorque = transform.up * moveDir.x * Stat.MoveSpeed();
 
                     RigidBody.AddForce(moveForce);
 
@@ -256,16 +258,7 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            /* Steps
-             * 1. Calculate the rotation ased on position and target
-             * 2. Spawn action.Effect based on position, and rotation
-             * 3. Any trail reset or sound effects should be done on the actual object spawned
-             */
-            //var vPosition = new Vector3(position[0], position[1], position[2]);
-
-            //var vTarget = new Vector3(target[0], target[1], target[2]);
-
-            var forward = fromPosition - targetPosition;//vTarget - vPosition;
+            var forward = targetPosition - fromPosition; // TODO: this is correct, if other skill face wrong direction, it's nt it
 
             var rotation = Quaternion.LookRotation(forward);
 
@@ -283,8 +276,6 @@ namespace TanksMP
         [PunRPC]
         public void RpcDestroy(int attackerId)
         {
-            ToggleFunction(false);
-
             var attackerView = PhotonView.Find(attackerId);
 
             if (PhotonNetwork.IsMasterClient)
@@ -306,6 +297,8 @@ namespace TanksMP
 
                 ResetPosition(false);
             }
+
+            ToggleFunction(false);
 
             if (photonView.IsMine)
             {
@@ -400,9 +393,9 @@ namespace TanksMP
                 }
                 
                 /* Reset stats */
-                Stat.SetHealth(Stat.MaxHealth);
+                Stat.SetHealth(Stat.MaxHealth());
 
-                Stat.SetMana(Stat.MaxMana);
+                Stat.SetMana(Stat.MaxMana());
 
                 Stat.AddDeath();
 
@@ -455,7 +448,7 @@ namespace TanksMP
 
             if (isAttack)
             {
-                nextAttackTime = Time.time + Constants.MOVE_SPEED_TO_SECONDS_RATIO / Stat.AttackSpeed;
+                nextAttackTime = Time.time + SOManager.Instance.Constants.MoveSpeedToSecondsRatio / Stat.AttackSpeed();
             }
             else
             {
@@ -479,7 +472,7 @@ namespace TanksMP
         {
             isRespawning = true;
 
-            float targetTime = Time.time + Constants.RESPAWN_TIME;
+            float targetTime = Time.time + SOManager.Instance.Constants.RespawnTime;
 
             while (targetTime - Time.time > 0)
             {

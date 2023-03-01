@@ -82,14 +82,17 @@ public class AimManager : MonoBehaviour
             onAimSkillPress.Invoke();
         }
         
+        /* Executed when player release the aim, which will execute the skill */
         if (!player.Input.IsAim && isAiming)
         {
             isAiming = false;
 
-            if (aimIndicator.activeSelf)
-            {
-                onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
-            }
+            onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+        }
+
+        if (player.Input.IsAimCancel)
+        {
+            isAiming = false;
         }
 
         if (isAiming)
@@ -98,7 +101,9 @@ public class AimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
+            var ray = player.IsBot
+                ? player.Bot.GetRay()
+                : GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var layerNames =
                 action.Aim == AimType.Water ? new string[] { constants.LayerWater } :
@@ -119,6 +124,8 @@ public class AimManager : MonoBehaviour
                     (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
                     (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
                 {
+                    Debug.DrawLine(ray.origin, hit.point, player.GetTeam() == 0 ? Color.red : Color.blue, 1f);
+
                     IndicatorSetActive(true, true);
 
                     aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
@@ -158,13 +165,15 @@ public class AimManager : MonoBehaviour
 
     private void IndicatorSetActive(bool aim, bool range)
     {
-        aimIndicator.SetActive(aim);
+        var isMine = player.photonView.IsMine && !player.IsBot;
 
-        aimRangeIndicator.SetActive(range);
+        aimIndicator.SetActive(aim && isMine);
+
+        aimRangeIndicator.SetActive(range && isMine);
 
         if (aimTrailIndicator != null)
         {
-            aimTrailIndicator.SetActive(aim);
+            aimTrailIndicator.SetActive(aim && isMine);
         }
     }
 }

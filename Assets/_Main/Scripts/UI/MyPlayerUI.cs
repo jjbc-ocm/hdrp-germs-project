@@ -50,23 +50,23 @@ public class MyPlayerUI : UI<MyPlayerUI>
     {
         if (Player.Mine == null) return;
 
-        var ad = Player.Mine.Stat.AttackDamage;
+        var ad = Player.Mine.Stat.AttackDamage();
 
-        var ap = Player.Mine.Stat.AbilityPower;
+        var ap = Player.Mine.Stat.AbilityPower();
 
-        var @as = Player.Mine.Stat.AttackSpeed;
+        var @as = Player.Mine.Stat.AttackSpeed();
 
-        var ms = Player.Mine.Stat.MoveSpeed;
+        var ms = Player.Mine.Stat.MoveSpeed();
 
-        var ar = Player.Mine.Stat.Armor;
+        var ar = Player.Mine.Stat.Armor();
 
-        var mr = Player.Mine.Stat.Resist;
+        var mr = Player.Mine.Stat.Resist();
 
         var attackCooldown = Mathf.Max(0, Player.Mine.NextAttackTime - Time.time);
 
         var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
 
-        var attackMaxCooldown = Constants.MOVE_SPEED_TO_SECONDS_RATIO / Player.Mine.Stat.AttackSpeed;
+        var attackMaxCooldown = SOManager.Instance.Constants.MoveSpeedToSecondsRatio / Player.Mine.Stat.AttackSpeed();
 
         var skillMaxCooldown = Player.Mine.Skill.Cooldown;
 
@@ -76,13 +76,13 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         imageSkill.sprite = Player.Mine.Skill.Icon;
 
-        sliderHealth.value = Player.Mine.Stat.Health / (float)Player.Mine.Stat.MaxHealth;
+        sliderHealth.value = Player.Mine.Stat.Health / (float)Player.Mine.Stat.MaxHealth();
 
-        sliderMana.value = Player.Mine.Stat.Mana / (float)Player.Mine.Stat.MaxMana;
+        sliderMana.value = Player.Mine.Stat.Mana / (float)Player.Mine.Stat.MaxMana();
 
-        textHealth.text = $"{Player.Mine.Stat.Health}/{Player.Mine.Stat.MaxHealth}";
+        textHealth.text = $"{Player.Mine.Stat.Health}/{Player.Mine.Stat.MaxHealth()}";
 
-        textMana.text = $"{Player.Mine.Stat.Mana}/{Player.Mine.Stat.MaxMana}";
+        textMana.text = $"{Player.Mine.Stat.Mana}/{Player.Mine.Stat.MaxMana()}";
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
 

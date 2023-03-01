@@ -62,7 +62,7 @@ namespace TanksMP
                 {
                     var distance = Vector3.Distance(ship.transform.position, Player.Mine.transform.position);
 
-                    ship.SoundVisuals.IconIndicator.SetActive(distance <= Constants.FOG_OF_WAR_DISTANCE);
+                    ship.SoundVisuals.IconIndicator.SetActive(distance <= SOManager.Instance.Constants.FogOrWarDistance);
                 }
             }
         }
@@ -127,13 +127,13 @@ namespace TanksMP
             // Decide if the game has to stop
             for (int i = 0; i < teams.Length; i++)
             {
-                if(score[i] >= Constants.SCORE_REQUIRED)
+                if(score[i] >= SOManager.Instance.Constants.ScoreRequired)
                 {
                     isOver = true;
                 }
             }
 
-            if (TimerManager.Instance.TimeLapse >= Constants.GAME_MAX_TIMER)
+            if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer)
             {
                 isOver = true;
             }

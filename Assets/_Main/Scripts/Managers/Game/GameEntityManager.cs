@@ -34,7 +34,7 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
 
     public bool IsVisibleRelativeTo(Transform target)
     {
-        var isInTargetRange = Vector3.Distance(transform.position, target.position) <= Constants.FOG_OF_WAR_DISTANCE;
+        var isInTargetRange = Vector3.Distance(transform.position, target.position) <= SOManager.Instance.Constants.FogOrWarDistance;
 
         if (target.TryGetComponent(out Player targetPlayer))
         {

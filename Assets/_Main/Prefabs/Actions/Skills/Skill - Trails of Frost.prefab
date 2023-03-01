@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012126426226}
   - component: {fileID: 821231162903042443}
-  - component: {fileID: 2473134198470058499}
   m_Layer: 9
   m_Name: Skill - Trails of Frost
   m_TagString: Untagged
@@ -54,19 +53,6 @@ MonoBehaviour:
   spawnOffsetDown: 2
   spawnOffsetForward: 5
   prefabIcicle: {fileID: 5289786657155151200}
---- !u!65 &2473134198470058499
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010310479910}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.25, y: 5, z: 3.25}
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1001 &5290907902606932990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,13 +60,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4000012126426226}
     m_Modifications:
+    - target: {fileID: 1011944589024182, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076362295649150, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_Name
       value: Icicle
       objectReference: {fileID: 0}
     - target: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1343619001022232, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487707040375606, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590120279685436, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695839561737514, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4503135384220222, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
       propertyPath: m_RootOrder
@@ -258,3 +272,16 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1139387570327198, guid: a1fd51e33143bf84fa8bdbd6ef485348, type: 3}
   m_PrefabInstance: {fileID: 5290907902606932990}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &2412157767539383415
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289786657155151200}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 5, z: 1.5}
+  m_Center: {x: 0, y: 1.5, z: 0}

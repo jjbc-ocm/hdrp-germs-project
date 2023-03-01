@@ -79,7 +79,7 @@ public class ShopUI : WindowUI<ShopUI>
         {
             var totalCost = ShopManager.Instance.GetTotalCost(Player.Mine, data);
 
-            buttonBuy.enabled = Player.Mine.Inventory.Gold >= totalCost;
+            buttonBuy.enabled = ShopManager.Instance.CanBuy(Player.Mine, data);//Player.Mine.Inventory.Gold >= totalCost;
 
             textName.text = data.Name;
 

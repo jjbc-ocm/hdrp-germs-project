@@ -13,6 +13,8 @@ public class InputManager : Singleton<InputManager>
 
     private bool isAim;
 
+    private bool isAimCancel;
+
     private bool isSprint;
 
     private bool isAttack;
@@ -31,9 +33,28 @@ public class InputManager : Singleton<InputManager>
 
     public bool IsAim { get => isAim; }
 
+    
+
     public bool IsSprint { get => isSprint; }
 
     public bool IsAttack { get => isAttack; }
+
+    public bool IsAimCancel
+    {
+        get
+        {
+            var oldValue = isAimCancel;
+
+            isAimCancel = false;
+
+            if (oldValue)
+            {
+                isAim = false;
+            }
+            
+            return oldValue;
+        }
+    }
 
     public bool IsShop
     {
@@ -88,6 +109,11 @@ public class InputManager : Singleton<InputManager>
         isAim = value.isPressed;
     }
 
+    public void OnAimCancel(InputValue value)
+    {
+        isAimCancel = value.isPressed;
+    }
+
     public void OnSprint(InputValue value)
     {
         isSprint = value.isPressed;
@@ -130,6 +156,11 @@ public class InputManager : Singleton<InputManager>
     public void OnAim(bool value)
     {
         isAim = value;
+    }
+
+    public void OnAimCancel(bool value)
+    {
+        isAimCancel = value;
     }
 
     public void OnSprint(bool value)
