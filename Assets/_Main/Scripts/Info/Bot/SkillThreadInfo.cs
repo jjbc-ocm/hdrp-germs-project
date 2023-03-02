@@ -7,11 +7,9 @@ public class SkillThreadInfo : DecisionThreadInfo
 {
     private GameEntityManager aimTarget;
 
-    public override DecisionNodeInfo GetFinalDecision()
+    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
     {
         DecisionNodeInfo currentDecision = null;
-
-        var entities = Object.FindObjectsOfType<GameEntityManager>();
 
         foreach (var entity in entities)
         {

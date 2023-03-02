@@ -36,17 +36,15 @@ public class BotManager : MonoBehaviour
     {
         var maxStatsInfo = GetMaxItemStatValues();
 
-        threads = new DecisionThreadInfo[2];
+        threads = new DecisionThreadInfo[4];
 
         threads[0] = new MoveThreadInfo();
 
-        threads[1] = new SkillThreadInfo();
+        threads[1] = new AttackThreadInfo();
 
-        //threads[0] = new DecisionThreadInfo(player, agent, DecisionType.Action, maxStatsInfo);
+        threads[2] = new SkillThreadInfo();
 
-        //threads[1] = new DecisionThreadInfo(player, agent, DecisionType.Movement, maxStatsInfo);
-
-        //threads[2] = new DecisionThreadInfo(player, agent, DecisionType.Shop, maxStatsInfo);
+        threads[3] = new ShopThreadInfo();
 
         foreach (var thread in threads)
         {
@@ -140,6 +138,8 @@ public class BotManager : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.value);
 
+        var entities = Object.FindObjectsOfType<GameEntityManager>();
+
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
@@ -148,17 +148,10 @@ public class BotManager : MonoBehaviour
 
             foreach (var thread in threads)
             {
-                thread.DecisionMaking();
+                thread.DecisionMaking(entities);
             }
         }
     }
 
     #endregion
 }
-
-/*public enum DecisionType
-{
-    Action,
-    Movement,
-    Shop
-}*/

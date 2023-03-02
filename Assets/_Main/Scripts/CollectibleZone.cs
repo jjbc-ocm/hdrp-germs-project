@@ -11,6 +11,12 @@ public class CollectibleZone : GameEntityManager
     private int team;
 
     [SerializeField]
+    private GameObject indicatorNormal;
+
+    [SerializeField]
+    private GameObject indicatorCollect;
+
+    [SerializeField]
     private AudioClip clip;
 
     private float timer;
@@ -54,6 +60,10 @@ public class CollectibleZone : GameEntityManager
         {
             timer = 0;
         }
+
+        indicatorNormal.SetActive(!hasChest);
+
+        indicatorCollect.SetActive(hasChest);
     }
 
     public void DropChest()

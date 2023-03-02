@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackThreadInfo : MonoBehaviour
+public class AttackThreadInfo : DecisionThreadInfo
 {
-    // Start is called before the first frame update
-    void Start()
+    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return null;
     }
 }

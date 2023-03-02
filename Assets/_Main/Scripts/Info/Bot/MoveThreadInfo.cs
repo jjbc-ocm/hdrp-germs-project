@@ -6,11 +6,9 @@ using UnityEngine.AI;
 
 public class MoveThreadInfo : DecisionThreadInfo
 {
-    public override DecisionNodeInfo GetFinalDecision()
+    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
     {
         DecisionNodeInfo currentDecision = null;
-
-        var entities = Object.FindObjectsOfType<GameEntityManager>();
 
         foreach (var entity in entities)
         {
