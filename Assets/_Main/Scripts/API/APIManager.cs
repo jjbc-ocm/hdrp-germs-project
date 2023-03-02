@@ -90,6 +90,7 @@ public class APIManager : MonoBehaviour
     }
 
 
+    #region Private
 
     private void LogInWithSteam(Action<string> onSuccess)
     {
@@ -161,4 +162,29 @@ public class APIManager : MonoBehaviour
 
         SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
+
+    private List<FriendInfo> Test()
+    {
+        var list = new List<FriendInfo>();
+
+        var count = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagNone);
+
+        for (var i = 0; i < count; i++)
+        {
+            var friend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagNone);
+
+            // TODO: nu gagawen sa friend data?
+
+            list.Add(new FriendInfo
+            {
+                Name = SteamFriends.GetFriendPersonaName(friend),
+
+                //IsOnline = SteamFriends.getFriend
+            });
+        }
+
+        return null;
+    }
+
+    #endregion
 }
