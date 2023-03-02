@@ -13,24 +13,7 @@ public abstract class DecisionThreadInfo
 
     protected NavMeshAgent agent;
 
-    //private DecisionType type;
-
     protected ItemStatValuesInfo maxItemStatValues;
-
-    /*public DecisionThreadInfo() { }
-
-    public DecisionThreadInfo(Player player, NavMeshAgent agent, ItemStatValuesInfo maxItemStatValues)
-    {
-        personality = player.Data.Personality;
-
-        this.player = player;
-
-        this.agent = agent;
-
-        //this.type = type;
-
-        this.maxItemStatValues = maxItemStatValues;
-    }*/
 
     public void Initialize(Player player, NavMeshAgent agent, ItemStatValuesInfo maxItemStatValues)
     {
@@ -43,9 +26,9 @@ public abstract class DecisionThreadInfo
         this.maxItemStatValues = maxItemStatValues;
     }
 
-    public void DecisionMaking()
+    public void DecisionMaking(GameEntityManager[] entities)
     {
-        var finalDecision = GetFinalDecision();
+        var finalDecision = GetFinalDecision(entities);
 
         if (finalDecision != null)
         {
@@ -113,7 +96,7 @@ public abstract class DecisionThreadInfo
         }
     }*/
 
-    public abstract DecisionNodeInfo GetFinalDecision();
+    public abstract DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities);
 
     protected DecisionNodeInfo GetBetterDecision(DecisionNodeInfo a, DecisionNodeInfo b)
     {
@@ -352,7 +335,7 @@ public abstract class DecisionThreadInfo
 
     #region DECISION TO ITEM
 
-    private DecisionNodeInfo GetDecisionTo(ItemData item)
+    /*private DecisionNodeInfo GetDecisionTo(ItemData item)
     {
         return new DecisionNodeInfo
         {
@@ -407,7 +390,7 @@ public abstract class DecisionThreadInfo
             cooldownRatio * personality.GetWeightBuyItem("cooldownRatio") +
             invisibilityRatio * personality.GetWeightBuyItem("invisibilityRatio") +
             costRatio * personality.GetWeightBuyItem("costRatio");
-    }
+    }*/
 
     
 
