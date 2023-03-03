@@ -71,34 +71,15 @@ namespace TanksMP
         {
             if (!photonView.IsMine) return;
 
-            var collectibleZone = col.GetComponent<CollectibleZone>();
-
             var collectibleTeam = col.GetComponent<CollectibleTeam>();
 
             var collectible = col.GetComponent<Collectible>();
 
-            /* Handle collision to the collectible zone */
-            /*if (collectibleZone != null &&
-                GetTeam() == collectibleZone.Team &&
-                HasChest())
-            {
-                HasChest(false);
-
-                collectibleZone.OnDropChest();
-
-                GPSManager.Instance.ClearDestination();
-            }*/
-
-            /* Handle collision with chests */
-            //else 
-            
             if (collectibleTeam != null)
             {
                 collectibleTeam.Obtain(this);
 
-                var destination = GetTeam() == 0
-                    ? GameManager.Instance.zoneRed.transform.position
-                    : GameManager.Instance.zoneBlue.transform.position;
+                var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
 
                 GPSManager.Instance.SetDestination(destination);
             }
@@ -165,7 +146,10 @@ namespace TanksMP
         {
             if (!photonView.IsMine && !IsBot) return;
 
-            if (Input.IsShop && !ChatManager.Instance.UI.IsMaximized)
+            /* Shop must only be accessible if:
+             * - Chat UI is minimized as it will interfere with keyboard inputs
+             * - Player is in the base */
+            if (Input.IsShop && !ChatManager.Instance.UI.IsMaximized && GameManager.Instance.GetBase(GetTeam()).HasPlayer(this))
             {
                 ShopManager.Instance.ToggleShop();
             }

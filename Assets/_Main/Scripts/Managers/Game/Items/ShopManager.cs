@@ -18,10 +18,22 @@ public class ShopManager : MonoBehaviour
 
     public List<ItemData> Data { get => data; }
 
-    void Awake()
+    #region Unity
+
+    private void Awake()
     {
         Instance = this;
     }
+
+    private void Update()
+    {
+        if (!GameManager.Instance.GetBase(Player.Mine.GetTeam()).HasPlayer(Player.Mine))
+        {
+            ui.Close();
+        }
+    }
+
+    #endregion
 
     public void ToggleShop()
     {

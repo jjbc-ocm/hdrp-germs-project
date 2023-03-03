@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TanksMP;
 using UnityEngine;
 
 public class ShopThreadInfo : DecisionThreadInfo
@@ -8,12 +9,17 @@ public class ShopThreadInfo : DecisionThreadInfo
     {
         DecisionNodeInfo currentDecision = null;
 
-        foreach (var item in ShopManager.Instance.Data)
+        /* Only allow shop for bots when they are at their bases */
+        if (GameManager.Instance.GetBase(player.GetTeam()).HasPlayer(player))
         {
-            if (!ShopManager.Instance.CanBuy(player, item)) continue;
+            foreach (var item in ShopManager.Instance.Data)
+            {
+                if (!ShopManager.Instance.CanBuy(player, item)) continue;
 
-            currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(item));
+                currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(item));
+            }
         }
+
         return currentDecision;
     }
 
@@ -56,8 +62,7 @@ public class ShopThreadInfo : DecisionThreadInfo
 
         var invisibilityRatio = item.StatModifier.IsInvisible ? 1f : 0f;
 
-        var costRatio = 1 - item.CostBuy / maxItemStatValues.Cost;
-
+        var costRatio = player.Inventory.Gold / item.CostBuy;
 
         return
             healthRatio * personality.GetWeightBuyItem("healthRatio") +

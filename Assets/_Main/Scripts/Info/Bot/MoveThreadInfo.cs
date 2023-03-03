@@ -30,7 +30,7 @@ public class MoveThreadInfo : DecisionThreadInfo
                 currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
             }
 
-            if (entity is CollectibleZone)
+            if (entity is BaseManager)
             {
                 currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
             }
@@ -129,12 +129,12 @@ public class MoveThreadInfo : DecisionThreadInfo
             return targetDistance * personality.GetWeightMoveToCollectiblePriority("targetDistance");
         }
 
-        if (target is CollectibleZone)
+        if (target is BaseManager)
         {
-            var targetZone = target as CollectibleZone;
+            var targetBase = target as BaseManager;
 
             /* Prioritize returning to base if player has the chest */
-            var selfChest = player.HasChest() && targetZone.Team == player.GetTeam() ? 1f : 0f;
+            var selfChest = player.HasChest() && targetBase.Team == player.GetTeam() ? 1f : 0f;
 
             return selfChest * personality.GetWeightMoveToBasePriority("selfChest");
         }

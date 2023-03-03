@@ -138,17 +138,19 @@ public class BotManager : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.value);
 
-        var entities = Object.FindObjectsOfType<GameEntityManager>();
+        var entities = FindObjectsOfType<GameEntityManager>();
 
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.25f);
 
             if (player.Stat.Health <= 0) continue;
 
             foreach (var thread in threads)
             {
                 thread.DecisionMaking(entities);
+
+                yield return new WaitForSeconds(0.25f);
             }
         }
     }
