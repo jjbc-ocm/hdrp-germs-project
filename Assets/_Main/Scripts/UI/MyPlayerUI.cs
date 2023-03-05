@@ -39,6 +39,9 @@ public class MyPlayerUI : UI<MyPlayerUI>
     private TMP_Text textSkillCooldown;
 
     [SerializeField]
+    private Button buttonShop;
+
+    [SerializeField]
     private ItemSlotUI[] itemSlots;
 
     void Update()
@@ -97,6 +100,8 @@ public class MyPlayerUI : UI<MyPlayerUI>
         imageAttack.fillAmount = (attackMaxCooldown - attackCooldown) / attackMaxCooldown;
 
         imageSkill.fillAmount = (skillMaxCooldown - skillCooldown) / skillMaxCooldown;
+
+        buttonShop.interactable = GameManager.Instance.GetBase(Player.Mine.GetTeam()).HasPlayer(Player.Mine);
 
         var items = Player.Mine.Inventory.Items;
 

@@ -16,9 +16,9 @@ public class ShopItemUI : UI<ShopItemUI>
     private TMP_Text textCost;
 
     [SerializeField]
-    private ItemData data;
+    private ItemSO data;
 
-    public ItemData Data { get => data; set => data = value; }
+    public ItemSO Data { get => data; set => data = value; }
 
     protected override void OnRefreshUI()
     {
