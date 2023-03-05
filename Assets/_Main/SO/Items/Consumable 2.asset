@@ -20,9 +20,9 @@ MonoBehaviour:
   costBuy: 300
   costSell: 100
   className: BlessingsOfJumbo
-  statusGroup:
-    id: 0
+  statModifier:
     isInvisible: 0
+    lifeSteal: 0
     buffMaxHealth: 0
     buffMaxMana: 0
     buffAttackDamage: 0
@@ -31,4 +31,7 @@ MonoBehaviour:
     buffResist: 0
     buffAttackSpeed: 0
     buffMoveSpeed: 0
-    duration: 0
+    buffCooldown: 0
+  duration: 0
+  purchaseLimit: 1
+  recipes: []

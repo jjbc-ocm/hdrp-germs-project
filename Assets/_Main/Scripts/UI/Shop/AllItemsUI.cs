@@ -47,7 +47,7 @@ public class AllItemsUI : ListViewUI<ShopItemUI, AllItemsUI>
         });
     }
 
-    private bool IsInStatFilter(ItemData item)
+    private bool IsInStatFilter(ItemSO item)
     {
         switch (StatFilter)
         {

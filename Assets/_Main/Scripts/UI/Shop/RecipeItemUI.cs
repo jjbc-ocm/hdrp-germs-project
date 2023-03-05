@@ -13,7 +13,7 @@ public class RecipeItemUI : UI<RecipeItemUI>
     [SerializeField]
     private TMP_Text textCost;
 
-    public ItemData Data { get; set; }
+    public ItemSO Data { get; set; }
 
     protected override void OnRefreshUI()
     {

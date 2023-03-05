@@ -24,7 +24,7 @@ public class ScriptableObjectIdDrawer : PropertyDrawer
 #endif
 
 [CreateAssetMenu]
-public class ItemData : ScriptableObject
+public class ItemSO : ScriptableObject
 {
     [SerializeField]
     [ScriptableObjectId]
@@ -59,7 +59,10 @@ public class ItemData : ScriptableObject
     private float duration;
 
     [SerializeField]
-    private List<ItemData> recipes;
+    private int purchaseLimit;
+
+    [SerializeField]
+    private List<ItemSO> recipes;
 
     public string ID { get => id; }
 
@@ -81,5 +84,7 @@ public class ItemData : ScriptableObject
 
     public float Duration { get => duration; }
 
-    public List<ItemData> Recipes { get => recipes; }
+    public int PurchaseLimit { get => purchaseLimit; }
+
+    public List<ItemSO> Recipes { get => recipes; }
 }

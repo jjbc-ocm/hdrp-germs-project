@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using TanksMP;
 using System.Linq;
 
-public class CollectibleZone : GameEntityManager
+public class BaseManager : GameEntityManager
 {
     [SerializeField]
     private int team;
+
+    [SerializeField]
+    private GameObject collectibleZone;
 
     [SerializeField]
     private GameObject indicatorNormal;
@@ -27,15 +30,17 @@ public class CollectibleZone : GameEntityManager
 
     public float Timer { get => timer; }
 
+    #region Unity
+
     private void Update()
     {
         var allyShips = team == 0 ? GameManager.Instance.Team1Ships : GameManager.Instance.Team2Ships;
 
         var enemyShips = team == 0 ? GameManager.Instance.Team2Ships : GameManager.Instance.Team1Ships;
 
-        var hasChest = allyShips.Any(i => i.HasChest() && Vector3.Distance(transform.position, i.transform.position) <= transform.localScale.x / 2f);
+        var hasChest = allyShips.Any(i => i.HasChest() && HasPlayer(i));
 
-        var hasEnemy = enemyShips.Any(i => Vector3.Distance(transform.position, i.transform.position) <= transform.localScale.x / 2f);
+        var hasEnemy = enemyShips.Any(i => HasPlayer(i));
 
         if (hasChest)
         {
@@ -66,7 +71,20 @@ public class CollectibleZone : GameEntityManager
         indicatorCollect.SetActive(hasChest);
     }
 
-    public void DropChest()
+    #endregion
+
+    #region Public
+
+    public bool HasPlayer(Player player)
+    {
+        return Vector3.Distance(collectibleZone.transform.position, player.transform.position) <= collectibleZone.transform.localScale.x / 2f;
+    }
+
+    #endregion
+
+    #region Private
+
+    private void DropChest()
     {
         if (clip) AudioManager.Instance.Play3D(clip, transform.position);
 
@@ -88,6 +106,8 @@ public class CollectibleZone : GameEntityManager
             return;
         }
     }
+
+    #endregion
 
     protected override void OnTriggerEnterCalled(Collider col)
     {

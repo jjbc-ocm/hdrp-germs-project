@@ -17,10 +17,7 @@ namespace TanksMP
         public static GameManager Instance;
 
         [SerializeField]
-        public CollectibleZone zoneRed;
-
-        [SerializeField]
-        public CollectibleZone zoneBlue;
+        public BaseManager[] bases;
 
         [SerializeField]
         public UIGame ui;
@@ -39,6 +36,8 @@ namespace TanksMP
         public List<Player> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
 
         public SupremacyWardEffectManager[] SupremacyWards { get => supremacyWards; }
+
+        #region Unity
 
         void Awake()
         {
@@ -66,16 +65,21 @@ namespace TanksMP
                 }
             }
         }
-        
+
+        #endregion
+
+        #region Public
+
+        public BaseManager GetBase(int team)
+        {
+            return bases.FirstOrDefault(i => i.Team == team);
+        }
+
         public void PlayerSurrender()
         {
             Player.Mine.HasSurrendered(true);
         }
 
-        /// <summary>
-        /// Adds points to the target team depending on matching game mode and score type.
-        /// This allows us for granting different amount of points on different score actions.
-        /// </summary>
         public void AddScore(ScoreType scoreType, int teamIndex)
         {
             switch (scoreType)
@@ -142,10 +146,6 @@ namespace TanksMP
             return isOver;
         }
 
-        /// <summary>
-        /// Only for this player: sets game over text stating the winning team.
-        /// Disables player movement so no updates are sent through the network.
-        /// </summary>
         public void DisplayGameOver(int winnerTeamIndex)
         {
             Player.Mine.enabled = false;
@@ -153,6 +153,8 @@ namespace TanksMP
             ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
 
         }
+
+        #endregion
     }
 
 
