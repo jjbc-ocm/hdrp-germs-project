@@ -87,7 +87,10 @@ public class AimManager : MonoBehaviour
         {
             isAiming = false;
 
-            onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+            if (aimAutoTarget || !IsAimAutoTarget(player.Skill))
+            {
+                onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+            }
         }
 
         if (player.Input.IsAimCancel)
@@ -137,9 +140,7 @@ public class AimManager : MonoBehaviour
                         aimTrailIndicator.transform.eulerAngles = new Vector3(0, targetEuler.y, 0);
                     }
 
-                    if (action.Aim == AimType.EnemyShip ||
-                        action.Aim == AimType.AllyShip ||
-                        action.Aim == AimType.AnyShip)
+                    if (IsAimAutoTarget(action))
                     {
                         aimAutoTarget = hit.transform.GetComponent<ActorManager>();
                     }
@@ -148,12 +149,22 @@ public class AimManager : MonoBehaviour
             else
             {
                 IndicatorSetActive(false, true);
+
+                aimAutoTarget = null;
             }
         }
         else
         {
             IndicatorSetActive(false, false);
         }
+    }
+
+    private bool IsAimAutoTarget(SkillData action)
+    {
+        return
+            action.Aim == AimType.EnemyShip ||
+            action.Aim == AimType.AllyShip ||
+            action.Aim == AimType.AnyShip;
     }
 
     private bool IsEnemyShip(RaycastHit hit)

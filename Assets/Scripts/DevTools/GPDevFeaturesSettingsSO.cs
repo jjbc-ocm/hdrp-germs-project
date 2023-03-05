@@ -15,6 +15,7 @@ public class GPDevFeaturesSettingsSO : ScriptableObject
     public bool m_weeklyRewardButton;
     public bool m_skipPlayerSearch;
     public bool m_autoFillBot;
+    public bool m_disableFogOfWar;
 
     [Header("Steam Features")]
     [SerializeField]
