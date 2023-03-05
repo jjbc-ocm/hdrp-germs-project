@@ -29,13 +29,13 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
     //private float duration8;
     //private float duration9;
 
-    private List<ItemData> items;
+    private List<ItemSO> items;
 
     private StatModifier statModifier;
 
     //private PlayerSoundVisualManager visuals;
 
-    public List<ItemData> Items { get => items; }
+    public List<ItemSO> Items { get => items; }
 
     public StatModifier StatModifier { get => statModifier; }
 
@@ -47,7 +47,7 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        items = new List<ItemData>
+        items = new List<ItemSO>
         {
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId0),
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId1),
@@ -93,7 +93,7 @@ public class PlayerStatusManager : MonoBehaviourPunCallbacks, IPunObservable
         
     }
 
-    public bool TryApplyItem(ItemData data)
+    public bool TryApplyItem(ItemSO data)
     {
         if (string.IsNullOrEmpty(itemId0)) { itemId0 = data.ID; duration0 += data.Duration; return true; }
         if (string.IsNullOrEmpty(itemId1)) { itemId1 = data.ID; duration1 += data.Duration; return true; }

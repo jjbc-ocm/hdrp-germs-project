@@ -12,6 +12,8 @@ public class ShopThreadInfo : DecisionThreadInfo
         /* Only allow shop for bots when they are at their bases */
         if (GameManager.Instance.GetBase(player.GetTeam()).HasPlayer(player))
         {
+            Debug.Log("[ShopThreadInfo] " + player.gameObject.name + " can buy an item.");
+
             foreach (var item in ShopManager.Instance.Data)
             {
                 if (!ShopManager.Instance.CanBuy(player, item)) continue;
@@ -23,13 +25,15 @@ public class ShopThreadInfo : DecisionThreadInfo
         return currentDecision;
     }
 
-    private DecisionNodeInfo GetDecisionTo(ItemData item)
+    private DecisionNodeInfo GetDecisionTo(ItemSO item)
     {
+        var weight = GetWeightToItem(item);
+
         return new DecisionNodeInfo
         {
             Key = "Buy Item : " + item.Name,
 
-            Weight = GetWeightToItem(item),
+            Weight = weight,
 
             Decision = () =>
             {
@@ -38,44 +42,39 @@ public class ShopThreadInfo : DecisionThreadInfo
         };
     }
 
-    private float GetWeightToItem(ItemData item)
+    private float GetWeightToItem(ItemSO item)
     {
-        var healthRatio = item.StatModifier.BuffMaxHealth / maxItemStatValues.Health;
+        var healthRatio = item.StatModifier.BuffMaxHealth / maxItemStatValues.Health * personality.GetWeightBuyItem("healthRatio");
 
-        var manaRatio = item.StatModifier.BuffMaxMana / maxItemStatValues.Mana;
+        var manaRatio = item.StatModifier.BuffMaxMana / maxItemStatValues.Mana * personality.GetWeightBuyItem("manaRatio");
 
-        var attackDamageRatio = item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage;
+        var attackDamageRatio = item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage * personality.GetWeightBuyItem("attackDamageRatio");
 
-        var abilityPowerRatio = item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower;
+        var abilityPowerRatio = item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower * personality.GetWeightBuyItem("abilityPowerRatio");
 
-        var armorRatio = item.StatModifier.BuffArmor / maxItemStatValues.Armor;
+        var armorRatio = item.StatModifier.BuffArmor / maxItemStatValues.Armor * personality.GetWeightBuyItem("armorRatio");
 
-        var resistRatio = item.StatModifier.BuffResist / maxItemStatValues.Resist;
+        var resistRatio = item.StatModifier.BuffResist / maxItemStatValues.Resist * personality.GetWeightBuyItem("resistRatio");
 
-        var attackSpeedRatio = item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed;
+        var attackSpeedRatio = item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed * personality.GetWeightBuyItem("attackSpeedRatio");
 
-        var moveSpeedRatio = item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed;
+        var moveSpeedRatio = item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed * personality.GetWeightBuyItem("moveSpeedRatio");
 
-        var lifeStealRatio = item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal;
+        var lifeStealRatio = item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal * personality.GetWeightBuyItem("lifeStealRatio");
 
-        var cooldownRatio = item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown;
+        var cooldownRatio = item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown * personality.GetWeightBuyItem("cooldownRatio");
 
-        var invisibilityRatio = item.StatModifier.IsInvisible ? 1f : 0f;
+        var invisibilityRatio = (item.StatModifier.IsInvisible ? 1f : 0f) * personality.GetWeightBuyItem("invisibilityRatio");
 
-        var costRatio = player.Inventory.Gold / item.CostBuy;
+        /* Need to add some limit because if not, bot will always prioritize buying the cheapest item
+         * despite it can afford the item that is really helpful. */
+        var costRatio = Mathf.Min(1f, player.Inventory.Gold / item.CostBuy) * personality.GetWeightBuyItem("costRatio");
+
+        var consumableRatio = (item.Category == CategoryType.Consumables ? 1f : 0f) * personality.GetWeightBuyItem("consumableRatio");
 
         return
-            healthRatio * personality.GetWeightBuyItem("healthRatio") +
-            manaRatio * personality.GetWeightBuyItem("manaRatio") +
-            attackDamageRatio * personality.GetWeightBuyItem("attackDamageRatio") +
-            abilityPowerRatio * personality.GetWeightBuyItem("abilityPowerRatio") +
-            armorRatio * personality.GetWeightBuyItem("armorRatio") +
-            resistRatio * personality.GetWeightBuyItem("resistRatio") +
-            attackSpeedRatio * personality.GetWeightBuyItem("attackSpeedRatio") +
-            moveSpeedRatio * personality.GetWeightBuyItem("moveSpeedRatio") +
-            lifeStealRatio * personality.GetWeightBuyItem("lifeStealRatio") +
-            cooldownRatio * personality.GetWeightBuyItem("cooldownRatio") +
-            invisibilityRatio * personality.GetWeightBuyItem("invisibilityRatio") +
-            costRatio * personality.GetWeightBuyItem("costRatio");
+            healthRatio + manaRatio + attackDamageRatio + abilityPowerRatio + armorRatio + 
+            resistRatio + attackSpeedRatio + moveSpeedRatio + lifeStealRatio + cooldownRatio + 
+            invisibilityRatio + costRatio + consumableRatio;
     }
 }

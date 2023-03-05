@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ItemCountData
 {
-    private ItemData item;
+    private ItemSO item;
 
     private int count;
 
-    public ItemData Item { get => item; set => item = value; }
+    public ItemSO Item { get => item; set => item = value; }
 
     public int Count { get => count; set => count = value; }
 }

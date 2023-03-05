@@ -179,7 +179,7 @@ namespace TanksMP
             if (!photonView.IsMine || isRespawning) return;
 
             /* Update movement */
-            if (!ShopManager.Instance.UI.gameObject.activeSelf)
+            if (!ShopManager.Instance.UI.gameObject.activeSelf || IsBot)
             {
                 if (Input.Move.x == 0 && Input.Move.y == 0)
                 {
