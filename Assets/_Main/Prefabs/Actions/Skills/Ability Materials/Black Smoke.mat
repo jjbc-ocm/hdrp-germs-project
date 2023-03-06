@@ -64,12 +64,13 @@ Material:
   - FADE_ON
   - GLOW_ON
   - MASK_ON
+  - PREMULTIPLYCOLOR_ON
   - SCREENDISTORTION_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 5000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses: []
@@ -176,7 +177,7 @@ Material:
     - _DistortionPower: 30
     - _DistortionScrollXSpeed: 0
     - _DistortionScrollYSpeed: 0
-    - _DstMode: 1
+    - _DstMode: 10
     - _EditorDrawers: 61
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 7
@@ -205,7 +206,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 1
+    - _RenderingMode: 3
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
@@ -285,7 +286,7 @@ Material:
     - _ZoomAmount: 1.5
     m_Colors:
     - _BackFaceTint: {r: 0, g: 0.7924528, b: 0.028143073, a: 1}
-    - _Color: {r: 0.255, g: 0, b: 0.239, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradingDark: {r: 0.1299271, g: 0, b: 0.78431374, a: 1}
     - _ColorGradingLight: {r: 1.3124582, g: 0.9698211, b: 2.670157, a: 1}
     - _ColorGradingMiddle: {r: 0.48158965, g: 0.034163974, b: 1.4485527, a: 1}
