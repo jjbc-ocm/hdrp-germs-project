@@ -12,6 +12,13 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
 
     protected abstract void OnTriggerExitCalled(Collider col);
 
+    #region Unity
+
+    private void Awake()
+    {
+        StartCoroutine(YieldCacheSelf());
+    }
+
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
@@ -32,6 +39,15 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
         OnTriggerExitCalled(col);
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.UncacheEntity(this);
+    }
+
+    #endregion
+
+    #region Public
+
     public bool IsVisibleRelativeTo(Transform target)
     {
         var isInTargetRange = Vector3.Distance(transform.position, target.position) <= SOManager.Instance.Constants.FogOrWarDistance;
@@ -45,10 +61,12 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
         return (isInTargetRange || IsInSupremacyWard()) && !isInsideBush;
     }
 
+    #endregion
+
+    #region Protected
+
     protected bool IsInSupremacyWard()
     {
-        if (GameManager.Instance.SupremacyWards == null) return false;
-
         foreach (var supremacyWard in GameManager.Instance.SupremacyWards)
         {
             var distance = Vector3.Distance(transform.position, supremacyWard.transform.position);
@@ -61,4 +79,27 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
 
         return false;
     }
+
+    #endregion
+
+    #region Private
+
+    private IEnumerator YieldCacheSelf()
+    {
+        var isCached = false;
+
+        while (!isCached)
+        {
+            yield return new WaitForEndOfFrame();
+
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.CacheEntity(this);
+
+                isCached = true;
+            }
+        }
+    }
+
+    #endregion
 }

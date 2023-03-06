@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class HitscanAttack : AttackBase
 {
-    //[SerializeField]
-    //private LayerMask layerMask;
-
     protected override void OnInitialize()
     {
         var fromPosition = owner.transform.position;
@@ -15,11 +12,11 @@ public class HitscanAttack : AttackBase
 
         direction = new Vector3(direction.x, 0, direction.z).normalized;
 
-        transform.position = fromPosition;
+        transform.position = fromPosition + Vector3.up * 2;
 
         transform.forward = direction;
 
-        targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance;
+        targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance + Vector3.up * 2;
 
         if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, SOManager.Instance.Constants.FogOrWarDistance, GetMask()))
         {

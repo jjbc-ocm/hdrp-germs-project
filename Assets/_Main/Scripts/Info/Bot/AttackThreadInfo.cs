@@ -8,7 +8,7 @@ public class AttackThreadInfo : DecisionThreadInfo
 {
     private bool isAttackFinalized;
 
-    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
+    public override DecisionNodeInfo GetFinalDecision(List<GameEntityManager> entities)
     {
         DecisionNodeInfo currentDecision = null;
 

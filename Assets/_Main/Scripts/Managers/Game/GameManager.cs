@@ -9,186 +9,207 @@ using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TanksMP;
 
-namespace TanksMP
+public class GameManager : MonoBehaviourPun
 {
-    public class GameManager : MonoBehaviourPun
+    public static GameManager Instance;
+
+    [SerializeField]
+    public BaseManager[] bases;
+
+    [SerializeField]
+    public UIGame ui;
+
+    [SerializeField]
+    public Team[] teams;
+
+    private List<Player> ships;
+
+    private List<SupremacyWardEffectManager> supremacyWards;
+
+    private List<GameEntityManager> entities;
+
+    public List<Player> Ships { get => ships; }
+
+    public List<Player> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
+
+    public List<Player> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
+
+    public List<SupremacyWardEffectManager> SupremacyWards { get => supremacyWards; }
+
+    public List<GameEntityManager> Entities { get => entities; }
+
+    #region Unity
+
+    private void Awake()
     {
-        public static GameManager Instance;
+        Instance = this;
 
-        [SerializeField]
-        public BaseManager[] bases;
+        ships = new List<Player>();
 
-        [SerializeField]
-        public UIGame ui;
+        supremacyWards = new List<SupremacyWardEffectManager>();
 
-        [SerializeField]
-        public Team[] teams;
+        entities = new List<GameEntityManager>();
+    }
 
-        private Player[] ships;
+    private void Start()
+    {
+        AudioManager.Instance.PlayMusic(1);
+    }
 
-        private SupremacyWardEffectManager[] supremacyWards;
+    #endregion
 
-        public Player[] Ships { get => ships; }
+    #region Public
 
-        public List<Player> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
+    public BaseManager GetBase(int team)
+    {
+        return bases.FirstOrDefault(i => i.Team == team);
+    }
 
-        public List<Player> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
+    public void CacheSupremacyWard(SupremacyWardEffectManager supremacyWard)
+    {
+        supremacyWards.Add(supremacyWard);
+    }
 
-        public SupremacyWardEffectManager[] SupremacyWards { get => supremacyWards; }
+    public void UncacheSupremacyWard(SupremacyWardEffectManager supremacyWard)
+    {
+        supremacyWards.Remove(supremacyWard);
+    }
 
-        #region Unity
+    public void CacheEntity(GameEntityManager entity)
+    {
+        entities.Add(entity);
 
-        void Awake()
+        if (entity is Player)
         {
-            Instance = this;
+            ships.Add(entity as Player);
         }
+    }
 
-        void Start()
+    public void UncacheEntity(GameEntityManager entity)
+    {
+        entities.Remove(entity);
+
+        if (entity is Player)
         {
-            AudioManager.Instance.PlayMusic(1);
+            ships.Remove(entity as Player);
         }
+    }
 
-        void Update()
+    public void PlayerSurrender()
+    {
+        Player.Mine.HasSurrendered(true);
+    }
+
+    public void AddScore(ScoreType scoreType, int teamIndex)
+    {
+        switch (scoreType)
         {
-            ships = FindObjectsOfType<Player>();
+            case ScoreType.Capture:
+                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10, true);
 
-            supremacyWards = FindObjectsOfType<SupremacyWardEffectManager>();
+                GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
+                break;
 
-            foreach (var ship in ships)
-            {
-                if (Player.Mine != null && ship.GetTeam() != Player.Mine.GetTeam())
-                {
-                    var distance = Vector3.Distance(ship.transform.position, Player.Mine.transform.position);
-
-                    ship.SoundVisuals.IconIndicator.SetActive(distance <= SOManager.Instance.Constants.FogOrWarDistance);
-                }
-            }
+            case ScoreType.Kill:
+                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1, false);
+                break;
         }
-
-        #endregion
-
-        #region Public
-
-        public BaseManager GetBase(int team)
-        {
-            return bases.FirstOrDefault(i => i.Team == team);
-        }
-
-        public void PlayerSurrender()
-        {
-            Player.Mine.HasSurrendered(true);
-        }
-
-        public void AddScore(ScoreType scoreType, int teamIndex)
-        {
-            switch (scoreType)
-            {
-                case ScoreType.Capture:
-                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10, true);
-
-                    GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
-                    break;
-
-                case ScoreType.Kill:
-                    PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1, false);
-                    break;
-            }
-        }
+    }
         
 
-        public bool IsGameOver(out List<BattleResultType> teamResults)
+    public bool IsGameOver(out List<BattleResultType> teamResults)
+    {
+        teamResults = new List<BattleResultType>();
+
+        var isOver = false;
+
+        var score = PhotonNetwork.CurrentRoom.GetScore();
+            
+            
+        for (var i = 0; i < teams.Length; i++)
         {
-            teamResults = new List<BattleResultType>();
+            teamResults.Add(BattleResultType.Victory);
 
-            var isOver = false;
-
-            var score = PhotonNetwork.CurrentRoom.GetScore();
-            
-            
-            for (var i = 0; i < teams.Length; i++)
+            // Decide winner by score
+            for (var j = 0; j < teams.Length; j++)
             {
-                teamResults.Add(BattleResultType.Victory);
-
-                // Decide winner by score
-                for (var j = 0; j < teams.Length; j++)
-                {
-                    if (i == j) continue;
-                    if (score[j] > score[i]) teamResults[i] = BattleResultType.Defeat;
-                    if (score[j] == score[i]) teamResults[i] = BattleResultType.Draw;
-                }
-
-                // Decide winner by surrenders
-                var teamShips = ships.Where(ship => ship.GetTeam() == i);
-
-                var teamSurrendered = teamShips.Count(i => i.HasSurrendered()) > teamShips.Count(i => !i.HasSurrendered());
-
-                if (teamSurrendered) isOver = true;
-
-                teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
+                if (i == j) continue;
+                if (score[j] > score[i]) teamResults[i] = BattleResultType.Defeat;
+                if (score[j] == score[i]) teamResults[i] = BattleResultType.Draw;
             }
 
-            // Decide if the game has to stop
-            for (int i = 0; i < teams.Length; i++)
-            {
-                if(score[i] >= SOManager.Instance.Constants.ScoreRequired)
-                {
-                    isOver = true;
-                }
-            }
+            // Decide winner by surrenders
+            var teamShips = ships.Where(ship => ship.GetTeam() == i);
 
-            if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer)
+            var teamSurrendered = teamShips.Count(i => i.HasSurrendered()) > teamShips.Count(i => !i.HasSurrendered());
+
+            if (teamSurrendered) isOver = true;
+
+            teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
+        }
+
+        // Decide if the game has to stop
+        for (int i = 0; i < teams.Length; i++)
+        {
+            if(score[i] >= SOManager.Instance.Constants.ScoreRequired)
             {
                 isOver = true;
             }
-
-            //return the result
-            return isOver;
         }
 
-        public void DisplayGameOver(int winnerTeamIndex)
+        if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer)
         {
-            Player.Mine.enabled = false;
-
-            ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
-
+            isOver = true;
         }
 
-        #endregion
+        //return the result
+        return isOver;
     }
 
+    public void DisplayGameOver(int winnerTeamIndex)
+    {
+        Player.Mine.enabled = false;
+
+        ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
+
+    }
+
+    #endregion
+}
+
+
+/// <summary>
+/// Defines properties of a team.
+/// </summary>
+[System.Serializable]
+public class Team
+{
+    /// <summary>
+    /// The name of the team shown on game over.
+    /// </summary>
+    public string name;
 
     /// <summary>
-    /// Defines properties of a team.
-    /// </summary>
-    [System.Serializable]
-    public class Team
-    {
-        /// <summary>
-        /// The name of the team shown on game over.
-        /// </summary>
-        public string name;
-
-        /// <summary>
-        /// The color of a team for UI and player prefabs.
-        /// </summary>   
-        public Material material;
-
-        /// <summary>
-        /// The spawn point of a team in the scene. In case it has a BoxCollider
-        /// component attached, a point within the collider bounds will be used.
-        /// </summary>
-        //public Transform spawn;
-    }
-
+    /// The color of a team for UI and player prefabs.
+    /// </summary>   
+    public Material material;
 
     /// <summary>
-    /// Defines the types that could grant points to players or teams.
-    /// Used in the AddScore() method for filtering.
+    /// The spawn point of a team in the scene. In case it has a BoxCollider
+    /// component attached, a point within the collider bounds will be used.
     /// </summary>
-    public enum ScoreType
-    {
-        Kill,
-        Capture
-    }
+    //public Transform spawn;
+}
+
+
+/// <summary>
+/// Defines the types that could grant points to players or teams.
+/// Used in the AddScore() method for filtering.
+/// </summary>
+public enum ScoreType
+{
+    Kill,
+    Capture
 }

@@ -62,7 +62,9 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
     public GameObject IconIndicator { get => iconIndicator; }
 
-    void Awake()
+    #region Unity
+
+    private void Awake()
     {
         player = GetComponent<Player>();
 
@@ -71,12 +73,12 @@ public class PlayerSoundVisualManager : MonoBehaviour
         status = GetComponent<PlayerStatusManager>();
     }
 
-    void Start()
+    private void Start()
     {
         teamIndicators[player.GetTeam()].SetActive(true);
     }
 
-    void Update()
+    private void Update()
     {
         var isInvisible = inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible;
 
@@ -92,9 +94,7 @@ public class PlayerSoundVisualManager : MonoBehaviour
         {
             if (Player.Mine != null)
             {
-                //var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
-
-                var isActive = !isInvisible && player.IsVisibleRelativeTo(Player.Mine.transform);//!isInvisible && (isInPlayerRange || IsInSupremacyWard()) && !isInsideBush;
+                var isActive = !isInvisible && player.IsVisibleRelativeTo(Player.Mine.transform);
 
                 rendererShip.gameObject.SetActive(isActive);
 
@@ -104,6 +104,8 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
                 teamIndicators[player.GetTeam()].SetActive(isActive);
 
+                iconIndicator.SetActive(isActive);
+
                 foreach (var waterIndicator in waterIndicators)
                 {
                     waterIndicator.SetActive(isActive);
@@ -111,4 +113,6 @@ public class PlayerSoundVisualManager : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }

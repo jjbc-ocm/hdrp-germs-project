@@ -242,15 +242,13 @@ namespace TanksMP
         {
             var action = isAttack ? attack : skill;
 
-            var forward = targetPosition - fromPosition; // TODO: this is correct, if other skill face wrong direction, it's nt it
+            var forward = targetPosition - fromPosition;
 
             var rotation = Quaternion.LookRotation(forward);
 
             var effect = action.IsSpawnOnAim
                 ? Instantiate(action.Effect, targetPosition, rotation)
                 : Instantiate(action.Effect, fromPosition, rotation);
-
-            //effect.Initialize(this, PhotonView.Find(autoTargetPhotonID)?.GetComponent<ActorManager>() ?? null); // TODO: 3
 
             var targetActor = PhotonView.Find(targetActorId)?.GetComponent<ActorManager>() ?? null;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ShopThreadInfo : DecisionThreadInfo
 {
-    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
+    public override DecisionNodeInfo GetFinalDecision(List<GameEntityManager> entities)
     {
         DecisionNodeInfo currentDecision = null;
 
