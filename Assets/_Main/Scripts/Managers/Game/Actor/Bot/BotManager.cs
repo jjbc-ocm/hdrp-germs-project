@@ -54,23 +54,6 @@ public class BotManager : MonoBehaviour
         StartCoroutine(YieldDecisionMaking());
     }
 
-    private void Update()
-    {
-        agent.stoppingDistance = 5f; // TODO: do not hard-code
-
-        //agent.speed = player.Stat.MoveSpeed;
-
-        //agent.angularSpeed = player.Stat.MoveSpeed;
-
-        for (var i = 0; i < agent.path.corners.Length - 1; i++)
-        {
-            var a = agent.path.corners[i];
-            var b = agent.path.corners[i + 1];
-
-            Debug.DrawLine(a, b, player.GetTeam() == 0 ? Color.red : Color.blue);
-        }
-    }
-
     #endregion
 
     #region Public
@@ -138,7 +121,7 @@ public class BotManager : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.value);
 
-        var entities = FindObjectsOfType<GameEntityManager>();
+        var entities = GameManager.Instance.Entities;//FindObjectsOfType<GameEntityManager>();
 
         while (true)
         {

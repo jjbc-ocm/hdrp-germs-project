@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class MoveThreadInfo : DecisionThreadInfo
 {
-    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
+    public override DecisionNodeInfo GetFinalDecision(List<GameEntityManager> entities)
     {
         DecisionNodeInfo currentDecision = null;
 

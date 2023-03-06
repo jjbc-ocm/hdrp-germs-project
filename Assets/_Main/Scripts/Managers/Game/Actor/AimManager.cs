@@ -33,35 +33,19 @@ public class AimManager : MonoBehaviour
 
     public bool IsAiming { get => isAiming; }
 
-    void Awake()
+    #region Unity
+
+    private void Awake()
     {
         player = GetComponent<Player>();
     }
 
-    void Start()
+    private void Start()
     {
         IndicatorSetActive(false, false);
     }
 
-    public void Initialize(
-        Action onAttackPress, 
-        Action onAimSkillPress, 
-        Action<Vector3, ActorManager> onAimSkillRelease, 
-        Func<bool> onCanExecuteAttack, 
-        Func<bool> onCanExecuteSkill)
-    {
-        this.onAttackPress = onAttackPress;
-
-        this.onAimSkillPress = onAimSkillPress;
-
-        this.onAimSkillRelease = onAimSkillRelease;
-
-        this.onCanExecuteAttack = onCanExecuteAttack;
-
-        this.onCanExecuteSkill = onCanExecuteSkill;
-    }
-
-    void Update()
+    private void Update()
     {
         if (ShopManager.Instance.UI.gameObject.activeSelf) return;
 
@@ -127,8 +111,6 @@ public class AimManager : MonoBehaviour
                     (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
                     (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
                 {
-                    Debug.DrawLine(ray.origin, hit.point, player.GetTeam() == 0 ? Color.red : Color.blue, 1f);
-
                     IndicatorSetActive(true, true);
 
                     aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
@@ -158,6 +140,30 @@ public class AimManager : MonoBehaviour
             IndicatorSetActive(false, false);
         }
     }
+
+    #endregion
+
+    #region Public
+
+    public void Initialize(
+        Action onAttackPress,
+        Action onAimSkillPress,
+        Action<Vector3, ActorManager> onAimSkillRelease,
+        Func<bool> onCanExecuteAttack,
+        Func<bool> onCanExecuteSkill)
+    {
+        this.onAttackPress = onAttackPress;
+
+        this.onAimSkillPress = onAimSkillPress;
+
+        this.onAimSkillRelease = onAimSkillRelease;
+
+        this.onCanExecuteAttack = onCanExecuteAttack;
+
+        this.onCanExecuteSkill = onCanExecuteSkill;
+    }
+
+    #endregion
 
     private bool IsAimAutoTarget(SkillData action)
     {

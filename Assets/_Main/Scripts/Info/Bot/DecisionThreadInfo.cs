@@ -26,7 +26,7 @@ public abstract class DecisionThreadInfo
         this.maxItemStatValues = maxItemStatValues;
     }
 
-    public void DecisionMaking(GameEntityManager[] entities)
+    public void DecisionMaking(List<GameEntityManager> entities)
     {
         var finalDecision = GetFinalDecision(entities);
 
@@ -40,7 +40,7 @@ public abstract class DecisionThreadInfo
 
     
 
-    public abstract DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities);
+    public abstract DecisionNodeInfo GetFinalDecision(List<GameEntityManager> entities);
 
     protected DecisionNodeInfo GetBetterDecision(DecisionNodeInfo a, DecisionNodeInfo b)
     {

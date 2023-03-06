@@ -7,7 +7,7 @@ public class SkillThreadInfo : DecisionThreadInfo
 {
     private GameEntityManager aimTarget;
 
-    public override DecisionNodeInfo GetFinalDecision(GameEntityManager[] entities)
+    public override DecisionNodeInfo GetFinalDecision(List<GameEntityManager> entities)
     {
         DecisionNodeInfo currentDecision = null;
 
