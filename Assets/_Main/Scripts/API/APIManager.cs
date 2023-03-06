@@ -29,7 +29,9 @@ public class APIManager : MonoBehaviour
 
     public PlayerData PlayerData { get => playerData; }
 
-    void Awake()
+    #region Unity
+
+    private void Awake()
     {
         Instance = this;
 
@@ -41,10 +43,12 @@ public class APIManager : MonoBehaviour
         });
     }
 
+    #endregion
 
 
 
 
+    #region Public
 
     public void Initialize(Action<string, float> onProgress)
     {
@@ -89,7 +93,30 @@ public class APIManager : MonoBehaviour
         }
     }
 
+    public List<FriendInfo> GetFriends()
+    {
+        var list = new List<FriendInfo>();
 
+        var count = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagAll);
+
+        for (var i = 0; i < count; i++)
+        {
+            var friend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
+
+            list.Add(new FriendInfo
+            {
+                Name = SteamFriends.GetFriendPersonaName(friend),
+
+                Status = SteamFriends.GetFriendPersonaState(friend)
+            });
+        }
+
+        return list;
+    }
+
+    #endregion
+
+    #region Private
 
     private void LogInWithSteam(Action<string> onSuccess)
     {
@@ -161,4 +188,6 @@ public class APIManager : MonoBehaviour
 
         SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
+
+    #endregion
 }
