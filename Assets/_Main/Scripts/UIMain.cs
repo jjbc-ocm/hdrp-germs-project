@@ -29,7 +29,7 @@ namespace TanksMP
             indicatorLoad.SetActive(false);
         }
 
-        public void DebugPlay()
+        /*public void DebugPlay()
         {
             uiLoading.gameObject.SetActive(true);
 
@@ -39,13 +39,13 @@ namespace TanksMP
             {
                 uiLoading.Text = text;
             });
-        }
+        }*/
 
         public void Play()
         {
             uiLoading.gameObject.SetActive(true);
 
-            DebugMenuNetworkManager.Instance.enabled = false;
+            //DebugMenuNetworkManager.Instance.enabled = false;
 
             MenuNetworkManager.Instance.Play((text, progress) =>
             {

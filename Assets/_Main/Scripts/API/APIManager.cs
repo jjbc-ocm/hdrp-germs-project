@@ -27,7 +27,11 @@ public class APIManager : MonoBehaviour
 
     private PlayerData playerData;
 
+    private List<FriendInfo> friends;
+
     public PlayerData PlayerData { get => playerData; }
+
+    public List<FriendInfo> Friends { get => friends; }
 
     #region Unity
 
@@ -95,23 +99,37 @@ public class APIManager : MonoBehaviour
 
     public List<FriendInfo> GetFriends()
     {
+        SteamFriends.ActivateGameOverlay("Friends");
+
         var list = new List<FriendInfo>();
 
         var count = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagAll);
 
         for (var i = 0; i < count; i++)
         {
-            var friend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
+            var steamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
 
             list.Add(new FriendInfo
             {
-                Name = SteamFriends.GetFriendPersonaName(friend),
+                SteamID = steamId,
 
-                Status = SteamFriends.GetFriendPersonaState(friend)
+                Name = SteamFriends.GetFriendPersonaName(steamId),
+
+                Status = SteamFriends.GetFriendPersonaState(steamId)
             });
         }
 
         return list;
+    }
+
+    public void InviteFriend(CSteamID steamId)
+    {
+        SteamFriends.InviteUserToGame(steamId, "TEST");
+
+        Callback<GameRichPresenceJoinRequested_t>.Create((callback) =>
+        {
+            Debug.Log(callback.m_rgchConnect + " " + callback.m_steamIDFriend);
+        });
     }
 
     #endregion

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class AftermathUI : UI<AftermathUI>
 {
-    [SerializeField]
+    /*[SerializeField]
     private TMP_Text textMessage;
 
     [SerializeField]
@@ -92,5 +92,35 @@ public class AftermathUI : UI<AftermathUI>
         {
             self.IsMessageDone = true;
         });
+    }*/
+
+    [SerializeField]
+    private TMP_Text[] textScores;
+
+    [SerializeField]
+    private TMP_Text[] textChests;
+
+    [SerializeField]
+    private PlayerStatusesUI[] teams;
+
+    public List<List<Player>> Data { get; set; }
+
+    protected override void OnRefreshUI()
+    {
+        var scores = PhotonNetwork.CurrentRoom.GetScore();
+
+        var chests = PhotonNetwork.CurrentRoom.GetChests();
+
+        for (var i = 0; i < teams.Length; i++)
+        {
+            textScores[i].text = scores[i].ToString();
+
+            textChests[i].text = chests[i].ToString();
+
+            teams[i].RefreshUI((self) =>
+            {
+                self.Data = Data[i];
+            });
+        }
     }
 }
