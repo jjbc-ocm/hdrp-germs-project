@@ -32894,6 +32894,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854846362e36757488eac68c77c7fbc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indicatorLoad: {fileID: 0}
+  indicatorVictory: {fileID: 0}
+  indicatorDefeat: {fileID: 0}
+  indicatorDraw: {fileID: 0}
   textScores: []
   textChests: []
   teams: []
@@ -51106,8 +51110,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218422449}
-  m_LocalRotation: {x: -0.34727368, y: 0.55934983, z: -0.5077706, w: -0.55560577}
-  m_LocalPosition: {x: -2332.565, y: 136.48187, z: 12882.297}
+  m_LocalRotation: {x: 0.37408674, y: 0.4565634, z: 0.10228373, w: 0.80071664}
+  m_LocalPosition: {x: -2382.7537, y: 115.5843, z: 12874.364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95058,19 +95062,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2067370873135488578, guid: b5ce5dadb934f0e4697a4c5a12205351, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.38903424
+      value: 0.6640124
       objectReference: {fileID: 0}
     - target: {fileID: 2067370873135488578, guid: b5ce5dadb934f0e4697a4c5a12205351, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.59046793
+      value: 0.24307944
       objectReference: {fileID: 0}
     - target: {fileID: 2067370873135488578, guid: b5ce5dadb934f0e4697a4c5a12205351, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.59046793
+      value: 0.24307944
       objectReference: {fileID: 0}
     - target: {fileID: 2067370873135488578, guid: b5ce5dadb934f0e4697a4c5a12205351, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.38903424
+      value: -0.6640124
       objectReference: {fileID: 0}
     - target: {fileID: 2067370873135488578, guid: b5ce5dadb934f0e4697a4c5a12205351, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -95181,6 +95185,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2875811125777672266, guid: 6461a9fcce593194eb07e8182ca00fdd, type: 3}
+      propertyPath: indicatorLoad
+      value: 
+      objectReference: {fileID: 1116046821}
     - target: {fileID: 2875811125777672267, guid: 6461a9fcce593194eb07e8182ca00fdd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

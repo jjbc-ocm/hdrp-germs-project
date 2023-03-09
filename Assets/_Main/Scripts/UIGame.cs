@@ -149,6 +149,11 @@ namespace TanksMP
                     GameManager.Instance.Team1Ships,
                     GameManager.Instance.Team2Ships
                 };
+
+                self.BattleResult =
+                    winnerTeamIndex == -1 ? BattleResultType.Draw :
+                    winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
+                    BattleResultType.Defeat;
             });
         }
 

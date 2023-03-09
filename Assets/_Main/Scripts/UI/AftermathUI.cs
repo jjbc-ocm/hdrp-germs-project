@@ -95,6 +95,24 @@ public class AftermathUI : UI<AftermathUI>
     }*/
 
     [SerializeField]
+    private GameObject indicatorLoad;
+
+    [Header("Battle Status")]
+
+    [SerializeField]
+    private GameObject indicatorVictory;
+
+    [SerializeField]
+    private GameObject indicatorDefeat;
+
+    [SerializeField]
+    private GameObject indicatorDraw;
+
+    
+
+    [Header("Score Board")]
+
+    [SerializeField]
     private TMP_Text[] textScores;
 
     [SerializeField]
@@ -105,7 +123,24 @@ public class AftermathUI : UI<AftermathUI>
 
     public List<List<Player>> Data { get; set; }
 
+    public BattleResultType BattleResult { get; set; }
+
     protected override void OnRefreshUI()
+    {
+        RefreshBattleStatus();
+
+        RefreshScoreBoard();
+    }
+
+    private void RefreshBattleStatus()
+    {
+        indicatorVictory.SetActive(BattleResult == BattleResultType.Victory);
+
+        indicatorDefeat.SetActive(BattleResult == BattleResultType.Defeat);
+
+        indicatorDraw.SetActive(BattleResult == BattleResultType.Draw);
+    }
+    private void RefreshScoreBoard()
     {
         var scores = PhotonNetwork.CurrentRoom.GetScore();
 
