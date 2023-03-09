@@ -65,11 +65,18 @@ public abstract class ActorManager : GameEntityManager
         get
         {
             var attachedComponent = GetComponent(input);
+
+            if (attachedComponent == InputManager.Instance)
+            {
+                Debug.LogError("InputManager singleton is assigned to " + gameObject.name);
+            }
             
-            if (attachedComponent)
+            if (attachedComponent != null)
             {
                 return attachedComponent;
             }
+
+            
 
             return InputManager.Instance;
         }

@@ -136,14 +136,24 @@ namespace TanksMP
         {
             uiAftermath.Open((self) =>
             {
-                self.WinnerTeam = team;
+                /*self.WinnerTeam = team;
 
                 self.BattleResult =
                     winnerTeamIndex == -1 ? BattleResultType.Draw :
                     winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
                     BattleResultType.Defeat;
 
-                self.IsMessageDone = false;
+                self.IsMessageDone = false;*/
+                self.Data = new List<List<Player>>
+                {
+                    GameManager.Instance.Team1Ships,
+                    GameManager.Instance.Team2Ships
+                };
+
+                self.BattleResult =
+                    winnerTeamIndex == -1 ? BattleResultType.Draw :
+                    winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
+                    BattleResultType.Defeat;
             });
         }
 

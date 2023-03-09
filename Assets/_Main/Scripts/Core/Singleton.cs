@@ -10,12 +10,22 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<T>(true);
-            }
-
-            return instance;
+            return GetInstance();
         }
+    }
+
+    private void Awake()
+    {
+        GetInstance();
+    }
+
+    private static T GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = FindObjectOfType<T>(true);
+        }
+
+        return instance;
     }
 }
