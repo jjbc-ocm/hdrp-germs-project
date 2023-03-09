@@ -30,8 +30,8 @@ namespace TanksMP
         [SerializeField]
         private KillStatementUI uiKillStatement;
 
-        [SerializeField]
-        private AftermathUI uiAftermath;
+        //[SerializeField]
+        //private AftermathUI uiAftermath;
 
         [SerializeField]
         private GuideUI uiGuide;
@@ -132,18 +132,10 @@ namespace TanksMP
             });
         }
 
-        public void OpenAftermath(Team team, int winnerTeamIndex)
+        /*public void OpenAftermath(Team team, int winnerTeamIndex)
         {
             uiAftermath.Open((self) =>
             {
-                /*self.WinnerTeam = team;
-
-                self.BattleResult =
-                    winnerTeamIndex == -1 ? BattleResultType.Draw :
-                    winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
-                    BattleResultType.Defeat;
-
-                self.IsMessageDone = false;*/
                 self.Data = new List<List<Player>>
                 {
                     GameManager.Instance.Team1Ships,
@@ -155,7 +147,7 @@ namespace TanksMP
                     winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
                     BattleResultType.Defeat;
             });
-        }
+        }*/
 
         public void AddGuideItem(GuideData data)
         {

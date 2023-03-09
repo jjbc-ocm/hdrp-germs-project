@@ -8081,6 +8081,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854846362e36757488eac68c77c7fbc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windowMain: {fileID: 0}
+  soundOpen: {fileID: 0}
+  soundClose: {fileID: 0}
+  tweenDuration: 0
+  tweenEaseOpen: 0
+  tweenEaseClose: 0
+  uiInGame: {fileID: 0}
   indicatorLoad: {fileID: 0}
   indicatorVictory: {fileID: 2875811124167555406}
   indicatorDefeat: {fileID: 2875811124903543705}
@@ -9253,6 +9260,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5201229645726143961, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 8054287939117316666}
+    - target: {fileID: 5201229645726143961, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -9304,8 +9315,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Home (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5201229646160253374, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5201229646938332777, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5201229646977780136, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
+--- !u!114 &8054287939117316666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5201229646938332777, guid: 151e2b51c77809f4198adaa462b61439, type: 3}
+  m_PrefabInstance: {fileID: 2875811125846451283}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8054287940052677003 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5201229645726143960, guid: 151e2b51c77809f4198adaa462b61439, type: 3}

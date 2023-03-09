@@ -144,6 +144,8 @@ namespace TanksMP
 
         private void Update()
         {
+            if (AftermathUI.Instance.gameObject.activeSelf) return;
+
             if (!photonView.IsMine && !IsBot) return;
 
             /* Shop must only be accessible if:
@@ -176,6 +178,8 @@ namespace TanksMP
 
         private void FixedUpdate()
         {
+            if (AftermathUI.Instance.gameObject.activeSelf) return;
+
             if (!photonView.IsMine || isRespawning) return;
 
             /* Update movement */

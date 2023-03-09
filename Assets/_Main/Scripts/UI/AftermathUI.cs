@@ -6,8 +6,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AftermathUI : UI<AftermathUI>
+public class AftermathUI : WindowUI<AftermathUI>
 {
+    [SerializeField]
+    private GameObject uiInGame;
+
     [SerializeField]
     private GameObject indicatorLoad;
 
@@ -72,6 +75,8 @@ public class AftermathUI : UI<AftermathUI>
 
     protected override void OnRefreshUI()
     {
+        uiInGame.SetActive(false);
+
         RefreshBattleStatus();
 
         RefreshScoreBoard();
