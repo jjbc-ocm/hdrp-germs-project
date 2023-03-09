@@ -172,8 +172,17 @@ public class GameManager : MonoBehaviourPun
     {
         Player.Mine.enabled = false;
 
-        ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
+        //ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
 
+        AftermathUI.Instance.Open((self) =>
+        {
+            self.Data = new List<List<Player>> { Team1Ships, Team2Ships };
+
+            self.BattleResult =
+                winnerTeamIndex == -1 ? BattleResultType.Draw :
+                winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
+                BattleResultType.Defeat;
+        });
     }
 
     #endregion
