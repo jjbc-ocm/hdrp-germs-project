@@ -1,11 +1,10 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChatManager : MonoBehaviour
+public class ChatManager : Singleton<ChatManager>
 {
-    public static ChatManager Instance;
-
     [SerializeField]
     private ChatUI ui;
 
@@ -13,23 +12,35 @@ public class ChatManager : MonoBehaviour
 
     public ChatUI UI { get => ui; }
 
-    void Awake()
-    {
-        Instance = this;
+    #region Unity
 
+    private void Start()
+    {
         chats = new List<ChatData>();
     }
 
-    void Update()
+    private void Update()
     {
         if (InputManager.Instance.IsChat)
         {
-            ui.IsMaximized = !ui.IsMaximized;
+            ui.RefreshUI((self) =>
+            {
+                self.Data = chats;
+
+                if (string.IsNullOrEmpty(self.InputMessage.text))
+                {
+                    self.IsMaximized = !self.IsMaximized;
+                }
+            });
         }
     }
 
+    #endregion
+
     public void SendChat(string sender, string message, int team, long time)
     {
+        if (string.IsNullOrEmpty(message)) return;
+
         chats.Add(new ChatData
         {
             Sender = sender,
@@ -44,6 +55,16 @@ public class ChatManager : MonoBehaviour
         ui.RefreshUI((self) =>
         {
             self.Data = chats;
+
+            /*self.InputMessage.text = "";*/
+            StartCoroutine(YieldResetInputMessage());
         });
+    }
+
+    private IEnumerator YieldResetInputMessage()
+    {
+        yield return new WaitForEndOfFrame();
+
+        ui.InputMessage.text = "";
     }
 }

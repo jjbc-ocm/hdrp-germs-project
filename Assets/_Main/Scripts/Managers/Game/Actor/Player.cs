@@ -182,8 +182,13 @@ namespace TanksMP
 
             if (!photonView.IsMine || isRespawning) return;
 
-            /* Update movement */
-            if (!ShopManager.Instance.UI.gameObject.activeSelf || IsBot)
+            /* 
+             * Update movement
+             * Conditions:
+             * - UIs that interfere in inputs must be not enabled or in minized state
+             * - Is a bot
+             */
+            if ((!ShopManager.Instance.UI.gameObject.activeSelf && !ChatManager.Instance.UI.IsMaximized) || IsBot)
             {
                 if (Input.Move.x == 0 && Input.Move.y == 0)
                 {
