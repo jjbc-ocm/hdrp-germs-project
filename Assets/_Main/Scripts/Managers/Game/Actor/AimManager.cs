@@ -47,9 +47,9 @@ public class AimManager : MonoBehaviour
 
     private void Update()
     {
-        if (AftermathUI.Instance.gameObject.activeSelf) return;
-
-        if (ShopManager.Instance.UI.gameObject.activeSelf) return;
+        if (AftermathUI.Instance.gameObject.activeSelf ||
+            ShopManager.Instance.UI.gameObject.activeSelf ||
+            ChatManager.Instance.UI.IsMaximized) return;
 
         if (!player.photonView.IsMine || player.IsRespawning) return;
 
