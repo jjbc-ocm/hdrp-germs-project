@@ -100,7 +100,7 @@ public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
         {
             isConnecting = PhotonNetwork.ConnectUsingSettings();
 
-            PhotonNetwork.GameVersion = Constants.NETWORK_VERSION;
+            PhotonNetwork.GameVersion = SOManager.Instance.Constants.NetworkVersion;
         }
     }
 
@@ -114,7 +114,7 @@ public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        PhotonNetwork.LoadLevel(Constants.DEBUG_SCENE_NAME);
+        PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneDebug);
     }
 
     #endregion

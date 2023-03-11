@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using System.Linq;
 using TMPro;
+using System.Collections.Generic;
 
 namespace TanksMP
 {
@@ -29,23 +30,32 @@ namespace TanksMP
         [SerializeField]
         private KillStatementUI uiKillStatement;
 
+        //[SerializeField]
+        //private AftermathUI uiAftermath;
+
         [SerializeField]
-        private AftermathUI uiAftermath;
+        private GuideUI uiGuide;
 
+        [Header("Sound and Visuals")]
 
-        //initialize variables
-        void Start()
-        {
-            //play background music
-            AudioManager.PlayMusic(1);
-        }
+        [SerializeField]
+        private AudioClip soundAddGuide;
+
+        [SerializeField]
+        private AudioClip soundRemoveGuide;
+
+        private float m_currDisplayedGold = 0;
+
+        [SerializeField]
+        private float m_displayedGoldAnimSpeed = 5.0f;
 
         void Update()
         {
             /* Update player current gold UI */
             if (Player.Mine != null)
             {
-                textPlayerGold.text = Player.Mine.Inventory.Gold.ToString();
+                m_currDisplayedGold = Mathf.Lerp(m_currDisplayedGold, Player.Mine.Inventory.Gold, m_displayedGoldAnimSpeed * Time.deltaTime);
+                textPlayerGold.text = Mathf.RoundToInt(m_currDisplayedGold).ToString(); // TODO: how about put it in player info UI instead?
             }
         }
 
@@ -57,7 +67,6 @@ namespace TanksMP
         /// </summary>
         public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
 		{
-			//OnTeamSizeChanged(PhotonNetwork.CurrentRoom.GetSize());
 			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore());
 		}
 
@@ -105,7 +114,7 @@ namespace TanksMP
             spawnDelayText.text = string.Empty;
         }
 
-        public void OpenKillStatement(PhotonView winner, PhotonView loser)
+        public void OpenKillStatement(ActorManager winner, ActorManager loser)
         {
             uiKillStatement.Open((self) =>
             {
@@ -123,19 +132,49 @@ namespace TanksMP
             });
         }
 
-        public void OpenAftermath(Team team, int winnerTeamIndex)
+        /*public void OpenAftermath(Team team, int winnerTeamIndex)
         {
             uiAftermath.Open((self) =>
             {
-                self.WinnerTeam = team;
+                self.Data = new List<List<Player>>
+                {
+                    GameManager.Instance.Team1Ships,
+                    GameManager.Instance.Team2Ships
+                };
 
                 self.BattleResult =
                     winnerTeamIndex == -1 ? BattleResultType.Draw :
                     winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
                     BattleResultType.Defeat;
-
-                self.IsMessageDone = false;
             });
+        }*/
+
+        public void AddGuideItem(GuideData data)
+        {
+            uiGuide.RefreshUI((self) =>
+            {
+                if (self.Data == null)
+                {
+                    self.Data = new List<GuideData>();
+                }
+
+                if (!self.Data.Contains(data))
+                {
+                    self.Data.Add(data);
+                }
+            });
+
+            AudioManager.Instance.Play2D(soundAddGuide);
+        }
+
+        public void RemoveGuideItem(GuideData data)
+        {
+            uiGuide.RefreshUI((self) =>
+            {
+                self.Data.RemoveAll((i) => i == data);
+            });
+
+            AudioManager.Instance.Play2D(soundRemoveGuide);
         }
 
 
@@ -160,22 +199,10 @@ namespace TanksMP
         /// </summary>
         public void Disconnect()
         {
-            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+            SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
 
             if (PhotonNetwork.IsConnected)
                 PhotonNetwork.Disconnect();
-        }
-
-
-        /// <summary>
-        /// Loads the starting scene. Disconnecting already happened when presenting the GameOver screen.
-        /// </summary>
-        public override void OnLeftRoom()
-        {
-            //SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
-            //var reconnectResult = PhotonNetwork.ReconnectAndRejoin();
-
-            //Debug.Log("OnLeftRoom reconnectResult " + reconnectResult);
         }
     }
 }

@@ -15,7 +15,7 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
     private string itemId4;
     private string itemId5;
 
-    private List<ItemData> items;
+    private List<ItemSO> items;
 
     private StatModifier statModifier;
 
@@ -33,13 +33,16 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public string ItemId5 { get => itemId5; set => itemId5 = value; }
 
-    public List<ItemData> Items { get => items; }
+    public List<ItemSO> Items { get => items; }
 
     public StatModifier StatModifier { get => statModifier; }
 
-    void Update()
+
+    #region Unity
+
+    private void Update()
     {
-        items = new List<ItemData>
+        items = new List<ItemSO>
         {
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId0),
             ShopManager.Instance.Data.FirstOrDefault(i => i.ID == itemId1),
@@ -55,13 +58,11 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
             .Aggregate(new StatModifier(), (a, b) => a + b);
     }
 
-    [PunRPC]
-    public void AddGold(int amount)
-    {
-        gold += amount;
-    }
+    #endregion
 
-    public bool TryAddItem(ItemData data)
+    #region Public
+
+    public bool TryAddItem(ItemSO data)
     {
         if (string.IsNullOrEmpty(itemId0)) { itemId0 = data.ID; return true; }
         if (string.IsNullOrEmpty(itemId1)) { itemId1 = data.ID; return true; }
@@ -72,18 +73,6 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
 
         return false;
     }
-
-    /*public bool TryRemoveItem(ItemData data)
-    {
-        if (itemId0 == data.ID) { itemId0 = ""; return true; }
-        if (itemId1 == data.ID) { itemId1 = ""; return true; }
-        if (itemId2 == data.ID) { itemId2 = ""; return true; }
-        if (itemId3 == data.ID) { itemId3 = ""; return true; }
-        if (itemId4 == data.ID) { itemId4 = ""; return true; }
-        if (itemId5 == data.ID) { itemId5 = ""; return true; }
-
-        return false;
-    }*/
 
     public bool TryRemoveItem(int slotIndex)
     {
@@ -97,10 +86,30 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
         return false;
     }
 
-    /*public bool HasItem(ItemData data)
+    public int GetQuantity(ItemSO item)
     {
-        return items.Any(i => i != null && data != null && i.ID == data.ID);
-    }*/
+        var quantity = 0;
+
+        if (itemId0 == item.ID) { quantity += 1; }
+        if (itemId1 == item.ID) { quantity += 1; }
+        if (itemId2 == item.ID) { quantity += 1; }
+        if (itemId3 == item.ID) { quantity += 1; }
+        if (itemId4 == item.ID) { quantity += 1; }
+        if (itemId5 == item.ID) { quantity += 1; }
+
+
+        return quantity;
+    }
+
+    #endregion
+
+    #region Photon
+
+    [PunRPC]
+    public void AddGold(int amount)
+    {
+        gold += amount;
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -125,4 +134,6 @@ public class PlayerInventoryManager : MonoBehaviourPunCallbacks, IPunObservable
             itemId5 = (string)stream.ReceiveNext();
         }
     }
+
+    #endregion
 }

@@ -96,6 +96,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
+        //Clear player panels so they don't display anything, the will be filled later as users join.
         ClearPanels();
 
         m_preWaitingScreen.Show();
@@ -125,24 +126,25 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log(PhotonNetwork.NetworkClientState);
         if (PhotonNetwork.InRoom)
         {
+            //Only enable the buttons of the teams that still has empty space left.
             m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(0) < m_maxTeamPlayerCount;
             m_teamBlueButton.interactable = GetNumberOfPlayersInTeam(1) < m_maxTeamPlayerCount;
 
             if (PhotonNetwork.IsMasterClient)
             {
                 m_readyWaitCountDown = m_waitTime - (Time.realtimeSinceStartup - m_readyWaitStartTime);
-                if (m_readyWaitCountDown < 0)
+                if (m_readyWaitCountDown < 0) // when timer reaches zero
                 {
                     m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
 
-                    if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT || m_skippedPlayerSearch)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MinPlayerCount || m_skippedPlayerSearch)
                     {
                         if (!m_levelLoadedCalled)
                         {
-                            PhotonNetwork.CurrentRoom.IsOpen = false;
+                            //PhotonNetwork.CurrentRoom.IsOpen = false;
                             PhotonNetwork.CurrentRoom.IsVisible = false;
                             m_levelLoadedCalled = true;
-                            PhotonNetwork.LoadLevel(Constants.GAME_SCENE_NAME);
+                            PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneGame);
                         }
                     }
                     else
@@ -186,33 +188,58 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_photonView.RPC("RPCSkipPlayerSearch", RpcTarget.AllBuffered);
     }
 
+    /// <summary>
+    /// Binded to a UI button only for development purposes. Disable the button for release.
+    /// Will fill up other player slots.
+    /// </summary>
+    public void AutoFillBotDevCheat()
+    {
+        PhotonNetwork.CurrentRoom.SetBots();
+
+        SkipPlayerSearchDevCheat();
+    }
+
     [PunRPC]
     public void RPCSkipPlayerSearch()
     {
         m_skippedPlayerSearch = true;
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the join game button component.
+    /// Joins a random room
+    /// </summary>
     public void JoinGamePressed()
     {
         GPWaitingRoomNetworkManager.Instance.JoinRoom();
-        PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRandomRoom();
         m_searchingTimerText.text = m_searchingForPlayersText;
         m_joinBattleButton.gameObject.SetActive(false);
         m_homeButtonHolder.SetActive(false);
         m_seachingTimerHolder.SetActive(true);
 
-        TanksMP.AudioManager.Play2D(m_joinBattleClickedSFX);
+        AudioManager.Instance.Play2D(m_joinBattleClickedSFX);
     }
 
+    /// <summary>
+    /// Cancel player searching and leaves photon room.
+    /// </summary>
     public void CancelPlayerSearchButtonPressed()
     {
         m_cancelSearchButtonHolder.gameObject.SetActive(false);
+        m_searchingTimerText.text = m_selectTeamText;
         if (PhotonNetwork.InRoom)
         {
             PhotonNetwork.LeaveRoom();
         }
     }
 
+    /// <summary>
+    /// Linked to the OnClick event of the team buttons components.
+    /// Sets the team that the player wants to join.
+    /// Also disables tghe other team buttons after pressing it.
+    /// </summary>
+    /// <param name="teamIdx"></param>
     public void ChooseTeam(int teamIdx)
     {
         /*
@@ -242,10 +269,16 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_redTeamButtonHolder.SetActive(false);
         m_seachingTimerHolder.SetActive(false);
 
-        TanksMP.AudioManager.Play2D(m_teamSelectedSFX);
+        AudioManager.Instance.Play2D(m_teamSelectedSFX);
 
     }
 
+    /// <summary>
+    /// Gets the number of players in a team.
+    /// </summary>
+    /// <param name="teamIdx"></param>
+    /// <param name="ignoreLocalPlayer"></param>
+    /// <returns></returns>
     int GetNumberOfPlayersInTeam(int teamIdx, bool ignoreLocalPlayer = false)
     {
         int playersInTeam = 0;
@@ -267,6 +300,9 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         return playersInTeam;
     }
 
+    /// <summary>
+    /// Sets the player as ready and confirms the ship he wants to use.
+    /// </summary>
     public void OnWeighAnchorButtonPressed()
     {
         if (m_weighAnchorAlreadyPressed)
@@ -276,13 +312,16 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         m_weighAnchorAlreadyPressed = true;
         m_crewSelectionWindow.SetActive(false);
         m_photonView.RPC("RPCSetReady", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.UserId);
-        TanksMP.AudioManager.Play2D(m_weighAnchorClickedSFX);
+        AudioManager.Instance.Play2D(m_weighAnchorClickedSFX);
         m_weighAnchorButton.interactable = false;
     }
 
+    /// <summary>
+    /// Returns the Player to the maini menu.
+    /// </summary>
     public void OnHomeButtonPressed()
     {
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 
     /// <summary>
@@ -337,11 +376,14 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 
         m_LoadIndicator.SetActive(false);
 
-        TanksMP.AudioManager.Play2D(m_shipSelectedSFX);
+        AudioManager.Instance.Play2D(m_shipSelectedSFX);
 
         m_photonView.RPC("UpdatePlayerPanelsUI", RpcTarget.All);
     }
 
+    /// <summary>
+    /// Clears the displayed players on the side panels.
+    /// </summary>
     void ClearPanels()
     {
         //Clear old data.
@@ -359,6 +401,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Updates the side player panels to display the ships and user names
+    /// of the players in the match.
+    /// </summary>
     [PunRPC]
     public void UpdatePlayerPanelsUI()
     {
@@ -393,6 +439,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Removes a player from the side panels.
+    /// </summary>
+    /// <param name="player"></param>
     [PunRPC]
     public void RemovePlayerFromPanelsUI(Player player)
     {
@@ -435,6 +485,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Returns the number of players that are ready (pressed the weigh anchor button)
+    /// </summary>
+    /// <returns></returns>
     public int GetNumberOfPlayersReady()
     {
         int readyCount = 0;
@@ -448,6 +502,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         return readyCount;
     }
 
+    /// <summary>
+    /// Add the user to the ready list and animates its player panel.
+    /// </summary>
+    /// <param name="UserId"></param>
     [PunRPC]
     public void RPCSetReady(string UserId)
     {
@@ -473,6 +531,11 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Call when all players are found.
+    /// Pre waiting room hides and waiting screen shows.
+    /// Starts the count down for starting the battle.
+    /// </summary>
     [PunRPC]
     void OnMatchFound()
     {
@@ -491,6 +554,9 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_readyWaitStartTime = Time.realtimeSinceStartup;
         }
         m_matchFound = true;
+
+        PhotonNetwork.CurrentRoom.CustomProperties["WaitingForPlayers"] = false;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(PhotonNetwork.CurrentRoom.CustomProperties);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
@@ -506,7 +572,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT)
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MinPlayerCount)
         {
             m_photonView.RPC("OnMatchFound", RpcTarget.AllBuffered);
         }
@@ -528,6 +594,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_readyWaitStartTime = Time.realtimeSinceStartup;
         }
 
+        //Disable cancel match button and home button.
         m_cancelSearchButtonHolder.gameObject.SetActive(true);
         m_homeButtonHolder.SetActive(false);
 
@@ -535,7 +602,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam, true);
 
         //check if player can still join the team.
-        if (playersInSelectedTeam < Constants.MAX_PLAYER_COUNT_PER_TEAM)
+        if (playersInSelectedTeam < SOManager.Instance.Constants.MaxPlayerPerTeam)
         {
             //join the team
             PhotonNetwork.LocalPlayer.SetTeam(m_choosedTeam);
@@ -557,7 +624,10 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
+        //Clear side player panels
         ClearPanels();
+
+        //Re enable the select team buttons and home button.
         m_blueTeamButtonHolder.SetActive(true);
         m_redTeamButtonHolder.SetActive(true);
         m_seachingTimerHolder.SetActive(true);

@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class Constants
 {
-    public const string NETWORK_VERSION = "1";
+    //public const string NETWORK_VERSION = "1";
 
-    public const string DEBUG_SCENE_NAME = "Debug";
+    /*public const string DEBUG_SCENE_NAME = "Debug";
 
     public const string MENU_SCENE_NAME = "Intro";
 
     public const string WAITING_ROOM_SCENE_NAME = "Waiting_Room";
 
-    public const string GAME_SCENE_NAME = "CTF_Game";
+    public const string GAME_SCENE_NAME = "CTF_Game";*/
 
     public const string KEY_TEAM = "team";
 
     public const string KEY_SHIP_INDEX = "shipIndex";
 
-    public const int MAX_PLAYER_COUNT = 6;
+    /*public const int MAX_PLAYER_COUNT = 6;
 
     public const int MIN_PLAYER_COUNT = 6;
 
@@ -35,13 +35,25 @@ public class Constants
 
     public const int SCORE_REQUIRED = 50;
 
-    public const float RESPAWN_TIME = 10;
+    public const float RESPAWN_TIME = 10;*/
+
+    /*public const int LAYER_ALLY = 8;
+
+    public const int LAYER_ENEMY = 13;*/
+
+    /*public static Vector2Int[] SETTINGS_RESOLUTION = new Vector2Int[]
+    {
+        new Vector2Int(3840, 2160),
+        new Vector2Int(2560, 1440),
+        new Vector2Int(1920, 1080),
+        new Vector2Int(1280, 720)
+    };
 
     public static float[] SETTINGS_RENDER_SCALE = new float[] { 1f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f };
 
     public static int[] SETTINGS_MSAA = new int[] { 8, 0 };
 
-    public static bool[] SETTINGS_POST_PROCESS = new bool[] { true, false };
+    public static bool[] SETTINGS_POST_PROCESS = new bool[] { true, false };*/
 }
 
 public class Globals

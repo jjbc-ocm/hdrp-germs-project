@@ -9,8 +9,10 @@ public class SupremacyWardEffectManager : MonoBehaviourPunCallbacks
 
     public int Team { get => team; set => team = value; }
 
-    void Start()
+    private void Start()
     {
+        GameManager.Instance.CacheSupremacyWard(this);
+
         StartCoroutine(YieldDestroy());
     }
 
@@ -20,6 +22,8 @@ public class SupremacyWardEffectManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
+            GameManager.Instance.UncacheSupremacyWard(this);
+
             PhotonNetwork.Destroy(photonView);
         }
     }

@@ -22,17 +22,6 @@ namespace TanksMP
 
         async void Start()
         {
-            //set initial values for all settings
-            /*if (!PlayerPrefs.HasKey(PrefsKeys.playerName)) PlayerPrefs.SetString(PrefsKeys.playerName, "User" + System.String.Format("{0:0000}", Random.Range(1, 9999)));
-            if (!PlayerPrefs.HasKey(PrefsKeys.networkMode)) PlayerPrefs.SetInt(PrefsKeys.networkMode, 0);
-            if (!PlayerPrefs.HasKey(PrefsKeys.gameMode)) PlayerPrefs.SetInt(PrefsKeys.gameMode, 0);
-            if (!PlayerPrefs.HasKey(PrefsKeys.serverAddress)) PlayerPrefs.SetString(PrefsKeys.serverAddress, "127.0.0.1");
-            if (!PlayerPrefs.HasKey(PrefsKeys.playMusic)) PlayerPrefs.SetString(PrefsKeys.playMusic, "true");
-            if (!PlayerPrefs.HasKey(PrefsKeys.appVolume)) PlayerPrefs.SetFloat(PrefsKeys.appVolume, 1f);
-            if (!PlayerPrefs.HasKey(PrefsKeys.activeTank)) PlayerPrefs.SetString(PrefsKeys.activeTank, Encryptor.Encrypt("0"));
-
-            PlayerPrefs.Save();*/
-
             indicatorLoad.SetActive(true);
 
             await APIManager.Instance.PlayerData.Get();
@@ -40,7 +29,7 @@ namespace TanksMP
             indicatorLoad.SetActive(false);
         }
 
-        public void DebugPlay()
+        /*public void DebugPlay()
         {
             uiLoading.gameObject.SetActive(true);
 
@@ -50,13 +39,13 @@ namespace TanksMP
             {
                 uiLoading.Text = text;
             });
-        }
+        }*/
 
         public void Play()
         {
             uiLoading.gameObject.SetActive(true);
 
-            DebugMenuNetworkManager.Instance.enabled = false;
+            //DebugMenuNetworkManager.Instance.enabled = false;
 
             MenuNetworkManager.Instance.Play((text, progress) =>
             {

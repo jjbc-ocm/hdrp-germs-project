@@ -8,7 +8,11 @@ public class BlessingsOfJumbo : ItemEffectManager
 {
     public override void Execute(int slotIndex, Player user)
     {
-        var colliders = Physics.OverlapSphere(user.transform.position, 25, LayerMask.GetMask("Ship", "Monster"));
+        var constants = SOManager.Instance.Constants;
+
+        var layerMask = LayerMask.GetMask(constants.LayerEnemy, constants.LayerMonster);
+
+        var colliders = Physics.OverlapSphere(user.transform.position, 25, layerMask);
 
         foreach (var collider in colliders)
         {
@@ -35,7 +39,7 @@ public class BlessingsOfJumbo : ItemEffectManager
 
         if ((origin.IsMonster && !target.IsMonster) || (!origin.IsMonster && target.IsMonster)) return true;
 
-        else if (origin.photonView.GetTeam() == target.photonView.GetTeam()) return false;
+        else if (origin.GetTeam() == target.GetTeam()) return false;
 
         return true;
     }

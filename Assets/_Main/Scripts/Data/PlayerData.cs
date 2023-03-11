@@ -239,6 +239,7 @@ public class DummyData
 public class SettingsData
 {
     public int QualityIndex;
+    public int ModeIndex;
     public int ResolutionIndex;
     public int ResolutionScaleIndex;
     public int ParticleIndex;
@@ -251,18 +252,20 @@ public class SettingsData
     public SettingsData()
     {
         QualityIndex = 0;
+        ModeIndex = 0;
         ResolutionIndex = 2;
         ResolutionScaleIndex = 0;
         ParticleIndex = 0;
         AntiAliasingIndex = 0;
         PostProcessingIndex = 0;
-        MusicVolume = 1;
-        SoundVolume = 1;
+        MusicVolume = 0;
+        SoundVolume = 0;
     }
 
     public SettingsData(SettingsData copy)
     {
         QualityIndex = copy.QualityIndex;
+        ModeIndex = copy.ModeIndex;
         ResolutionIndex = copy.ResolutionIndex;
         ResolutionScaleIndex = copy.ResolutionScaleIndex;
         ParticleIndex = copy.ParticleIndex;

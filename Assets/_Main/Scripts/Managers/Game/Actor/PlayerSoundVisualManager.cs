@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
 
-public class PlayerSoundVisualManager : GameEntityManager
+public class PlayerSoundVisualManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] teamIndicators;
@@ -48,13 +48,11 @@ public class PlayerSoundVisualManager : GameEntityManager
     [SerializeField]
     private GameObject dummyInvisible;
 
+    private Player player;
+
     private PlayerInventoryManager inventory;
 
     private PlayerStatusManager status;
-
-    private bool isNullifyInvisibilityEffect;
-
-    private bool isInsideBush;
 
     public Sprite SpriteIcon { get => spriteIcon; }
 
@@ -64,23 +62,27 @@ public class PlayerSoundVisualManager : GameEntityManager
 
     public GameObject IconIndicator { get => iconIndicator; }
 
-    void Awake()
+    #region Unity
+
+    private void Awake()
     {
+        player = GetComponent<Player>();
+
         inventory = GetComponent<PlayerInventoryManager>();
 
         status = GetComponent<PlayerStatusManager>();
     }
 
-    void Start()
+    private void Start()
     {
-        teamIndicators[photonView.GetTeam()].SetActive(true);
+        teamIndicators[player.GetTeam()].SetActive(true);
     }
 
-    void Update()
+    private void Update()
     {
-        var isInvisible = (inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible);
+        var isInvisible = inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible;
 
-        if (photonView.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
+        if (player.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
             rendererShip.material = isInvisible ? materialInvisible : materialNormal;
 
@@ -92,9 +94,7 @@ public class PlayerSoundVisualManager : GameEntityManager
         {
             if (Player.Mine != null)
             {
-                var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
-
-                var isActive = !isInvisible && (isInPlayerRange || IsInSupremacyWard()) && !isInsideBush;
+                var isActive = !isInvisible && player.IsVisibleRelativeTo(Player.Mine.transform);
 
                 rendererShip.gameObject.SetActive(isActive);
 
@@ -102,7 +102,9 @@ public class PlayerSoundVisualManager : GameEntityManager
 
                 dummyInvisible.SetActive(!dummyNormal.activeSelf);
 
-                teamIndicators[photonView.GetTeam()].SetActive(isActive);
+                teamIndicators[player.GetTeam()].SetActive(isActive);
+
+                iconIndicator.SetActive(isActive);
 
                 foreach (var waterIndicator in waterIndicators)
                 {
@@ -112,33 +114,5 @@ public class PlayerSoundVisualManager : GameEntityManager
         }
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-        if (supremacyWard != null && supremacyWard.Team != photonView.GetTeam())
-        {
-            isNullifyInvisibilityEffect = true;
-        }
-
-        else if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
-        {
-            isInsideBush = true;
-        }
-    }
-
-    void OnTriggerExit(Collider col)
-    {
-        var supremacyWard = col.GetComponent<SupremacyWardEffectManager>();
-
-        if (supremacyWard != null)
-        {
-            isNullifyInvisibilityEffect = false;
-        }
-
-        else if (col.gameObject.layer == LayerMask.NameToLayer("Bush"))
-        {
-            isInsideBush = false;
-        }
-    }
+    #endregion
 }

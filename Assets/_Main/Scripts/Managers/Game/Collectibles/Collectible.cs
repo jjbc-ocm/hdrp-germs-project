@@ -17,7 +17,8 @@ namespace TanksMP
     [RequireComponent(typeof(PhotonView))]
 	public abstract class Collectible : GameEntityManager, IPunObservable
     {
-        public AudioClip useClip;
+        [SerializeField]
+        private AudioClip sound;
 
         [SerializeField]
         private GameObject graphics;
@@ -26,31 +27,33 @@ namespace TanksMP
         {
             if (Player.Mine != null)
             {
-                var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
-
-                graphics.SetActive(isInPlayerRange || IsInSupremacyWard());
+                graphics.SetActive(IsVisibleRelativeTo(Player.Mine.transform));
             }
         }
 
-        public virtual void OnTriggerEnter(Collider col)
-		{
+        protected override void OnTriggerEnterCalled(Collider col)
+        {
             if (!PhotonNetwork.IsMasterClient) return;
-            
-    		GameObject obj = col.gameObject;
 
-			Player player = obj.GetComponent<Player>();
+            GameObject obj = col.gameObject;
+
+            Player player = obj.GetComponent<Player>();
 
             if (Apply(player))
             {
                 PhotonNetwork.Destroy(photonView);
             }
-		}
+        }
+
+        protected override void OnTriggerExitCalled(Collider col)
+        {
+
+        }
 
         public virtual bool Apply(Player p)
 		{
             return p != null;
         }
-
 
 
 
@@ -67,6 +70,8 @@ namespace TanksMP
         public void Obtain(Player player)
         {
             OnObtain(player);
+
+            AudioManager.Instance.Play3D(sound, transform.position);
 
             photonView.RPC("Destroy", RpcTarget.MasterClient);
         }

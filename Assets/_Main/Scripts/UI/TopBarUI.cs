@@ -50,9 +50,9 @@ public class TopBarUI : UI<TopBarUI>
 
         var team2 = GameManager.Instance.Team2Ships;
 
-        for (int team = 0; team < Constants.MAX_TEAM; team++)
+        for (int team = 0; team < SOManager.Instance.Constants.MaxTeam; team++)
         {
-            for (int i = 0; i < Constants.MAX_PLAYER_COUNT_PER_TEAM; i++)
+            for (int i = 0; i < SOManager.Instance.Constants.MaxPlayerPerTeam; i++)
             {
                 /* Handle for team 1 */
                 if (team == 0)
@@ -63,7 +63,7 @@ public class TopBarUI : UI<TopBarUI>
 
                     team1PlayerIndicators[i].gameObject.SetActive(player != null);
 
-                    team1ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
+                    team1ChestIndicators[i].gameObject.SetActive(player != null && player.HasChest());
 
                     team1HealthSliders[i].gameObject.SetActive(player != null);
 
@@ -71,9 +71,9 @@ public class TopBarUI : UI<TopBarUI>
 
                     if (player != null)
                     {
-                        team1HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
+                        team1HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth();
 
-                        team1ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
+                        team1ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana();
                     }
                 }
 
@@ -86,7 +86,7 @@ public class TopBarUI : UI<TopBarUI>
 
                     team2PlayerIndicators[i].gameObject.SetActive(player != null);
 
-                    team2ChestIndicators[i].gameObject.SetActive(player != null && player.photonView.HasChest());
+                    team2ChestIndicators[i].gameObject.SetActive(player != null && player.HasChest());
 
                     team2HealthSliders[i].gameObject.SetActive(player != null);
 
@@ -94,9 +94,9 @@ public class TopBarUI : UI<TopBarUI>
 
                     if (player != null)
                     {
-                        team2HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth;
+                        team2HealthSliders[i].value = player.Stat.Health / (float)player.Stat.MaxHealth();
 
-                        team2ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana;
+                        team2ManaSliders[i].value = player.Stat.Mana / (float)player.Stat.MaxMana();
                     }
                 }
             }

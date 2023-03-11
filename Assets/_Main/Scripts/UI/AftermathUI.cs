@@ -6,10 +6,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AftermathUI : UI<AftermathUI>
+public class AftermathUI : WindowUI<AftermathUI>
 {
     [SerializeField]
-    private TMP_Text textMessage;
+    private GameObject uiInGame;
+
+    [SerializeField]
+    private GameObject indicatorLoad;
+
+    [Header("Battle Status")]
 
     [SerializeField]
     private GameObject indicatorVictory;
@@ -20,41 +25,27 @@ public class AftermathUI : UI<AftermathUI>
     [SerializeField]
     private GameObject indicatorDraw;
 
-    [SerializeField]
-    private GameObject indicatorLoad;
+    [Header("Score Board")]
 
-    public Team WinnerTeam { get; set; }
+    [SerializeField]
+    private TMP_Text[] textScores;
+
+    [SerializeField]
+    private TMP_Text[] textChests;
+
+    [SerializeField]
+    private PlayerStatusesUI[] teams;
+
+    [Header("Other Info")]
+
+    [SerializeField]
+    private GPShipCard uiShip;
+
+    public List<List<Player>> Data { get; set; }
 
     public BattleResultType BattleResult { get; set; }
 
-    public bool IsMessageDone { get; set; }
-
-    void OnEnable()
-    {
-        StartCoroutine(YieldProceed());
-    }
-
-    protected override void OnRefreshUI()
-    {
-        textMessage.gameObject.SetActive(!IsMessageDone);
-
-        if (!IsMessageDone)
-        {
-            textMessage.text = WinnerTeam != null
-                ? "TEAM <color=#" + ColorUtility.ToHtmlStringRGB(WinnerTeam.material.color) + ">" + WinnerTeam.name + "</color> WINS!"
-                : "DRAW!";
-        }
-        else
-        {
-            indicatorVictory.SetActive(BattleResult == BattleResultType.Victory);
-
-            indicatorDefeat.SetActive(BattleResult == BattleResultType.Defeat);
-
-            indicatorDraw.SetActive(BattleResult == BattleResultType.Draw);
-        }
-    }
-
-    public async void OnClick()
+    public async void OnHomeButtonClick()
     {
         indicatorLoad.SetActive(true);
 
@@ -79,18 +70,49 @@ public class AftermathUI : UI<AftermathUI>
 
         indicatorLoad.SetActive(false);
 
-        SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 
-
-
-    private IEnumerator YieldProceed()
+    protected override void OnRefreshUI()
     {
-        yield return new WaitForSeconds(3);
+        uiInGame.SetActive(false);
 
-        RefreshUI((self) =>
+        RefreshBattleStatus();
+
+        RefreshScoreBoard();
+
+        RefreshOtherInfo();
+    }
+
+    private void RefreshBattleStatus()
+    {
+        indicatorVictory.SetActive(BattleResult == BattleResultType.Victory);
+
+        indicatorDefeat.SetActive(BattleResult == BattleResultType.Defeat);
+
+        indicatorDraw.SetActive(BattleResult == BattleResultType.Draw);
+    }
+    private void RefreshScoreBoard()
+    {
+        var scores = PhotonNetwork.CurrentRoom.GetScore();
+
+        var chests = PhotonNetwork.CurrentRoom.GetChests();
+
+        for (var i = 0; i < teams.Length; i++)
         {
-            self.IsMessageDone = true;
-        });
+            textScores[i].text = scores[i].ToString();
+
+            textChests[i].text = chests[i].ToString();
+
+            teams[i].RefreshUI((self) =>
+            {
+                self.Data = Data[i];
+            });
+        }
+    }
+
+    private void RefreshOtherInfo()
+    {
+        uiShip.DisplayShipDesc(Player.Mine.Data);
     }
 }

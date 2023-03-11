@@ -12,8 +12,8 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Serializable
 
-    [SerializeField]
-    private GameObject[] shipPrefabs;
+    //[SerializeField]
+    //private GameObject[] shipPrefabs;
 
     [SerializeField]
     private Transform[] spawnPoints;
@@ -37,13 +37,11 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        /*
-        if (PhotonNetwork.IsMasterClient)
-        {
-            IntstantiatePlayer();
-        }
-        */
-        IntstantiatePlayer();
+        var myPlayer = PhotonNetwork.LocalPlayer;
+
+        InstantiatePlayer(myPlayer.GetTeam(), myPlayer.GetShipIndex());
+
+        InstantiateBots();
     }
 
     #endregion
@@ -71,10 +69,13 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.RejoinRoom(Globals.ROOM_NAME);
     }
 
+    // TODO: removed because never called
     // These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene
     // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
-    public override void OnJoinedRoom()
+    /*public override void OnJoinedRoom()
     {
+        Debug.LogError("OnJoinedRoom");
+
         // Only initialize if the player has initially joined the game
         // It will not be executed when player got disconnected, then reconnected
         if (!hasBeenDisconnected)
@@ -89,13 +90,17 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     // NOTE: MenuNetworkManager must be destroyed when changing scenes to avoid conflict in logic
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
+        Debug.LogError("OnPlayerPropertiesUpdate A");
+
         if (targetPlayer == PhotonNetwork.LocalPlayer && 
             changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) && 
             changedProps.ContainsKey(Constants.KEY_TEAM))
         {
+            Debug.LogError("OnPlayerPropertiesUpdate B");
+
             IntstantiatePlayer();
         }
-    }
+    }*/
 
     // This method is only called when player rejoined the room
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -107,17 +112,68 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private
 
-    private void IntstantiatePlayer()
+    private void InstantiateBots()
     {
-        var team = PhotonNetwork.LocalPlayer.GetTeam();
+        var bots = PhotonNetwork.CurrentRoom.GetBots();
 
-        var shipIndex = PhotonNetwork.LocalPlayer.GetShipIndex();
+        var players = PhotonNetwork.CurrentRoom.Players;
 
-        var prefabName = shipPrefabs[shipIndex].name;
+        if (bots == null) return;
+
+        var team0Players = players.Where(i => i.Value.GetTeam() == 0);
+
+        var team1Players = players.Where(i => i.Value.GetTeam() == 1);
+
+        var team0Bots = bots.Where(i => i.Team == 0).ToList();
+
+        var team1Bots = bots.Where(i => i.Team == 1).ToList();
+
+        var team0FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team0Players.Count();
+
+        var team1FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team1Players.Count();
+
+        for (var i = 0; i < team0FreeSlots; i++)
+        {
+            var bot = team0Bots[i];
+
+            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+        }
+
+        for (var i = 0; i < team1FreeSlots; i++)
+        {
+            var bot = team1Bots[i];
+
+            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+        }
+
+        /*foreach (var bot in bots)
+        {
+            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+        }*/
+    }
+
+    private void InstantiatePlayer(int team, int shipIndex, BotInfo botInfo = null)
+    {
+        var prefabName = botInfo == null 
+            ? SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name
+            : SOManager.Instance.BotShips[shipIndex].m_playerPrefab.name;
 
         var spawnPoint = spawnPoints[team];
 
-        PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+        GameObject player;
+
+        if (botInfo != null)
+        {
+            player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
+
+            player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo);
+        }
+        else
+        {
+            PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+        }
+
+        
     }
 
     

@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class GPLookAtCamera : MonoBehaviour
 {
-    public string m_cameraName = "Main Camera";
-    GameObject m_cameraRef;
+    /*[Tooltip("Name of the game object of the camera that you want this componnet to look at")]
+    public string m_cameraName = "Game Camera";
+    GameObject m_cameraRef;*/
 
-    void Start()
+    /*void Start()
     {
+        //Find camera in scene by name.
         m_cameraRef = GameObject.Find(m_cameraName);
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
     {
-        transform.forward = transform.position - m_cameraRef.transform.position;
+        //Always look at the referenced camera.
+        transform.forward = transform.position - GameCameraManager.Instance.MainCamera.transform.position;
     }
 }

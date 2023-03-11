@@ -12,19 +12,19 @@ public class RecoItemsUI : UI<RecoItemsUI>
     private GameObject buttonSelectedIndicator;
 
     /*[SerializeField]
-    private ItemData[] starterItems;*/
+    private ItemSO[] starterItems;*/
 
     [SerializeField]
-    private ItemData[] consumableItems;
+    private ItemSO[] consumableItems;
 
-   /* [SerializeField]
-    private ItemData[] offensiveItems;
+    /* [SerializeField]
+     private ItemSO[] offensiveItems;
 
-    [SerializeField]
-    private ItemData[] defensiveItems;
+     [SerializeField]
+     private ItemSO[] defensiveItems;
 
-    [SerializeField]
-    private ItemData[] utilityItems;*/
+     [SerializeField]
+     private ItemSO[] utilityItems;*/
 
     [SerializeField]
     private Transform transformStarter;

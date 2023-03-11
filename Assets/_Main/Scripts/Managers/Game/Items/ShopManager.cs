@@ -12,16 +12,28 @@ public class ShopManager : MonoBehaviour
     private ShopUI ui;
 
     [SerializeField]
-    private List<ItemData> data;
+    private List<ItemSO> data;
 
     public ShopUI UI { get => ui; }
 
-    public List<ItemData> Data { get => data; }
+    public List<ItemSO> Data { get => data; }
 
-    void Awake()
+    #region Unity
+
+    private void Awake()
     {
         Instance = this;
     }
+
+    private void Update()
+    {
+        if (!GameManager.Instance.GetBase(Player.Mine.GetTeam()).HasPlayer(Player.Mine))
+        {
+            ui.Close();
+        }
+    }
+
+    #endregion
 
     public void ToggleShop()
     {
@@ -43,20 +55,20 @@ public class ShopManager : MonoBehaviour
         ui.Close();
     }
 
-    public void Buy(ItemData item)
+    public void Buy(Player player, ItemSO item)
     {
         var usedSlotIndexes = new List<int>();
 
-        var totalCost = GetTotalCost(item, usedSlotIndexes);
+        var totalCost = GetTotalCost(player, item, usedSlotIndexes);
 
         foreach (var usedSlotIndex in usedSlotIndexes)
         {
-            Player.Mine.Inventory.TryRemoveItem(usedSlotIndex);
+            player.Inventory.TryRemoveItem(usedSlotIndex);
         }
 
-        if (Player.Mine.Inventory.TryAddItem(item))
+        if (player.Inventory.TryAddItem(item))
         {
-            Player.Mine.Inventory.AddGold(-totalCost);
+            player.Inventory.AddGold(-totalCost);
 
             ui.RefreshUI((self) =>
             {
@@ -67,13 +79,13 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void Sell(int slotIndex)
+    public void Sell(Player player, int slotIndex)
     {
-        if (Player.Mine.Inventory.TryRemoveItem(slotIndex))
+        if (player.Inventory.TryRemoveItem(slotIndex))
         {
-            var item = Player.Mine.Inventory.Items[slotIndex];
+            var item = player.Inventory.Items[slotIndex];
 
-            Player.Mine.Inventory.AddGold(item.CostSell);
+            player.Inventory.AddGold(item.CostSell);
 
             ui.RefreshUI((self) =>
             {
@@ -84,7 +96,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public int GetTotalCost(ItemData item, List<int> invSlotCheckedIndexes = null)
+    public int GetTotalCost(Player player, ItemSO item, List<int> invSlotCheckedIndexes = null)
     {
         if (invSlotCheckedIndexes == null) invSlotCheckedIndexes = new List<int>();
 
@@ -92,9 +104,9 @@ public class ShopManager : MonoBehaviour
 
         foreach (var recipe in item.Recipes)
         {
-            if (IsInInventory(recipe, invSlotCheckedIndexes))
+            if (IsInInventory(player, recipe, invSlotCheckedIndexes))
             {
-                cost -= GetTotalCost(recipe, invSlotCheckedIndexes);
+                cost -= GetTotalCost(player, recipe, invSlotCheckedIndexes);
             }
 
         }
@@ -102,11 +114,35 @@ public class ShopManager : MonoBehaviour
         return cost;
     }
 
-    private bool IsInInventory(ItemData item, List<int> invSlotCheckedIndexes)
+    public bool CanBuy(Player player, ItemSO item)
     {
-        for (var i = 0; i < Player.Mine.Inventory.Items.Count; i++)
+        var freeSlots =
+            (string.IsNullOrEmpty(player.Inventory.ItemId0) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId1) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId2) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId3) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId4) ? 1 : 0) +
+            (string.IsNullOrEmpty(player.Inventory.ItemId5) ? 1 : 0);
+
+        var usedSlotIndexes = new List<int>();
+
+        var totalCost = GetTotalCost(player, item, usedSlotIndexes);
+
+        var conditionGold = player.Inventory.Gold >= totalCost;
+
+        var conditionSlot = (freeSlots + usedSlotIndexes.Count) > 0;
+
+        /* 0 purchase limit means infinte */
+        var conditionLimit = player.Inventory.GetQuantity(item) < item.PurchaseLimit || item.PurchaseLimit == 0;
+
+        return conditionGold && conditionSlot && conditionLimit;
+    }
+
+    private bool IsInInventory(Player player, ItemSO item, List<int> invSlotCheckedIndexes)
+    {
+        for (var i = 0; i < player.Inventory.Items.Count; i++)
         {
-            var slotItem = Player.Mine.Inventory.Items[i];
+            var slotItem = player.Inventory.Items[i];
 
             if (!invSlotCheckedIndexes.Contains(i) && slotItem != null && item.ID == slotItem.ID)
             {

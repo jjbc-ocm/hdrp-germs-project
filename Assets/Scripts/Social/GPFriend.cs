@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Very simple class to just hold some basic data in the meantime.
+/// Modify as you need.
 /// </summary>
 [System.Serializable]
 public class GPFriend

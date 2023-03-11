@@ -17,19 +17,16 @@ public class ChatUI : ListViewUI<ChatItemUI, ChatUI>
     [SerializeField]
     private float maxHeight;
 
-    private RectTransform rectTransform;
+    public TMP_InputField InputMessage { get => inputMessage; }
 
     public List<ChatData> Data { get; set; }
 
     public bool IsMaximized { get; set; }
 
-    void Awake()
+    private void Update()
     {
-        rectTransform = GetComponent<RectTransform>();
-    }
+        var rectTransform = GetComponent<RectTransform>();
 
-    void Update()
-    {
         var targetHeight = IsMaximized ? maxHeight : minHeight;
 
         var x = rectTransform.sizeDelta.x;
@@ -45,7 +42,7 @@ public class ChatUI : ListViewUI<ChatItemUI, ChatUI>
 
         var playerView = player.photonView;
 
-        playerView.RPC("RpcSendChat", RpcTarget.All, playerView.GetName(), message, playerView.GetTeam(), DateTime.Now.Ticks);
+        playerView.RPC("RpcSendChat", RpcTarget.All, player.GetName(), message, player.GetTeam(), DateTime.Now.Ticks);
     } 
 
     protected override void OnRefreshUI()
@@ -56,5 +53,12 @@ public class ChatUI : ListViewUI<ChatItemUI, ChatUI>
         {
             item.Data = data;
         });
+
+        if (IsMaximized)
+        {
+            inputMessage.Select();
+
+            inputMessage.ActivateInputField();
+        }
     }
 }

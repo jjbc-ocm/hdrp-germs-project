@@ -27,13 +27,17 @@ public class APIManager : MonoBehaviour
 
     private PlayerData playerData;
 
+    private List<FriendInfo> friends;
+
     public PlayerData PlayerData { get => playerData; }
 
-    void Awake()
+    public List<FriendInfo> Friends { get => friends; }
+
+    #region Unity
+
+    private void Awake()
     {
         Instance = this;
-
-        DontDestroyOnLoad(gameObject);
 
         Initialize((text, value) =>
         {
@@ -43,23 +47,26 @@ public class APIManager : MonoBehaviour
         });
     }
 
+    #endregion
 
 
 
 
+    #region Public
 
     public void Initialize(Action<string, float> onProgress)
     {
-        if (!SteamManager.Initialized)
+        if (!SteamManager.Initialized && !devSettings.LoginAsAnonymous)
         {
             // TODO: notify the player to open their steam or connect to internet to be able to continue
 
             return;
         }
 
-        /* Auto-login */
+        
         onProgress.Invoke("Logging in with Steam...", 0);
 
+        /* Auto-login via steam */
         LogInWithSteam(async (sessionTicket) =>
         {
             var options = new InitializationOptions();
@@ -70,36 +77,7 @@ public class APIManager : MonoBehaviour
 
             AuthenticationService.Instance.SignOut();
 
-            if (devSettings.LoginAsAnonymous)
-            {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            }
-            else
-            {
-                await AuthenticationService.Instance.SignInWithSteamAsync(sessionTicket);
-            }
-            
-            /* Get player data */
-            onProgress.Invoke("Fetching player data...", 0.5f);
-
-            playerData = await new PlayerData().Get();
-            
-            /* Initialize level, exp, and starting ship if first time playing the game */
-            if (!playerData.IsInitialized)
-            {
-                playerData.SetLevel(1).SetExp(0).SetInitialized(true).SetSelectedShipID(startingShip.ID);
-            }
-
-            /* Always update the name based on the name using on Steam */
-            playerData.SetName(devSettings.LoginAsAnonymous ? "Anonymous User" : SteamFriends.GetPersonaName());
-
-            /* Save data to cloud save */
-            await playerData.Put();
-
-            /* Load next scene */
-            onProgress.Invoke("Loading game...", 0.9f);
-
-            SceneManager.LoadScene(Constants.MENU_SCENE_NAME);
+            await LogInWithUnity(onProgress, devSettings.LoginAsAnonymous ? null : sessionTicket);
         });
     }
 
@@ -119,7 +97,44 @@ public class APIManager : MonoBehaviour
         }
     }
 
+    public List<FriendInfo> GetFriends()
+    {
+        SteamFriends.ActivateGameOverlay("Friends");
 
+        var list = new List<FriendInfo>();
+
+        var count = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagAll);
+
+        for (var i = 0; i < count; i++)
+        {
+            var steamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
+
+            list.Add(new FriendInfo
+            {
+                SteamID = steamId,
+
+                Name = SteamFriends.GetFriendPersonaName(steamId),
+
+                Status = SteamFriends.GetFriendPersonaState(steamId)
+            });
+        }
+
+        return list;
+    }
+
+    public void InviteFriend(CSteamID steamId)
+    {
+        SteamFriends.InviteUserToGame(steamId, "TEST");
+
+        Callback<GameRichPresenceJoinRequested_t>.Create((callback) =>
+        {
+            Debug.Log(callback.m_rgchConnect + " " + callback.m_steamIDFriend);
+        });
+    }
+
+    #endregion
+
+    #region Private
 
     private void LogInWithSteam(Action<string> onSuccess)
     {
@@ -145,4 +160,52 @@ public class APIManager : MonoBehaviour
             onSuccess.Invoke(null);
         }
     }
+
+    private async Task LogInWithUnity(Action<string, float> onProgress, string steamSessionTicket = null)
+    {
+        try
+        {
+            if (steamSessionTicket == null)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
+            else
+            {
+                await AuthenticationService.Instance.SignInWithSteamAsync(steamSessionTicket);
+            }
+        }
+        catch (Exception)
+        {
+            onProgress.Invoke("Login failed... Logging in as guest instead...", 0.25f);
+
+            await LogInWithUnity(onProgress, null);
+
+            return;
+        }
+        
+
+        /* Get player data */
+        onProgress.Invoke("Fetching player data...", 0.5f);
+
+        playerData = await new PlayerData().Get();
+
+        /* Initialize level, exp, and starting ship if first time playing the game */
+        if (!playerData.IsInitialized)
+        {
+            playerData.SetLevel(1).SetExp(0).SetInitialized(true).SetSelectedShipID(startingShip.ID);
+        }
+
+        /* Always update the name based on the name using on Steam */
+        playerData.SetName(devSettings.LoginAsAnonymous ? "Anonymous User" : SteamFriends.GetPersonaName());
+
+        /* Save data to cloud save */
+        await playerData.Put();
+
+        /* Load next scene */
+        onProgress.Invoke("Loading game...", 0.9f);
+
+        SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
+    }
+
+    #endregion
 }

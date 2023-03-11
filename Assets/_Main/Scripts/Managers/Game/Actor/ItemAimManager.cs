@@ -44,7 +44,7 @@ public class ItemAimManager : MonoBehaviour
             onAimSkillPress.Invoke();
         }*/
 
-        if (Input.GetMouseButton(0) && isAiming)
+        /*if (Input.GetMouseButton(0) && isAiming)
         {
             isAiming = false;
 
@@ -58,36 +58,42 @@ public class ItemAimManager : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             isAiming = false;
+        }*/
+
+        if (player.Input.IsAttack && isAiming)
+        {
+            isAiming = false;
+
+            if (aimIndicator.activeSelf)
+            {
+                onRelease.Invoke(aimIndicator.transform.position);
+                //onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+            }
+        }
+
+        if (player.Input.IsAim)
+        {
+            isAiming = false;
         }
 
         if (isAiming)
         {
+            var constants = SOManager.Instance.Constants;
+
             var action = player.Skill;
 
-            var ray = player.CamFollow.Cam.ScreenPointToRay(Input.mousePosition);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
-            //var layerNames = action.Aim == AimType.Water ? new string[] { "Water" } : new string[] { "Ship", "Monster" };
+            var camDistanceToShip = Vector3.Distance(player.transform.position, GameCameraManager.Instance.MainCamera.transform.position);
 
-            var camDistanceToShip = Vector3.Distance(player.transform.position, player.CamFollow.Cam.transform.position);
+            var layerMask = LayerMask.GetMask(constants.LayerWater);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, LayerMask.GetMask("Water")))
+            if (Physics.Raycast(ray, out RaycastHit hit, action.Range + camDistanceToShip, layerMask))
             {
-                /*if (action.Aim == AimType.Water ||
-                    action.Aim == AimType.AnyShip ||
-                    (action.Aim == AimType.EnemyShip && IsEnemyShip(hit)) ||
-                    (action.Aim == AimType.AllyShip && !IsEnemyShip(hit)))
-                {*/
-                    IndicatorSetActive(true);
+                IndicatorSetActive(true);
 
-                    aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                aimIndicator.transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
 
-                    /*if (action.Aim == AimType.EnemyShip ||
-                        action.Aim == AimType.AllyShip ||
-                        action.Aim == AimType.AnyShip)
-                    {
-                        aimAutoTarget = hit.transform.GetComponent<ActorManager>();
-                    }*/
-                //}
             }
             else
             {

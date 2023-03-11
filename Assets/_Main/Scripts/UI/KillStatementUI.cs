@@ -16,9 +16,9 @@ public class KillStatementUI : UI<KillStatementUI>
     [SerializeField]
     private Color[] colorTeams;
 
-    public PhotonView Winner { get; set; }
+    public ActorManager Winner { get; set; }
 
-    public PhotonView Loser { get; set; }
+    public ActorManager Loser { get; set; }
 
     void OnEnable()
     {
@@ -29,18 +29,22 @@ public class KillStatementUI : UI<KillStatementUI>
 
     protected override void OnRefreshUI()
     {
-        textWinner.text = Winner.GetName();
+        var isWinnerMonster = Winner.IsMonster;
 
-        textLoser.text = Loser.GetName();
+        var isLoserMonster = Loser.IsMonster;
 
-        textWinner.color = colorTeams[Winner.GetTeam()];
+        textWinner.text = !isWinnerMonster ? Winner.GetName() : "Monster";
 
-        textLoser.color = colorTeams[Loser.GetTeam()];
+        textLoser.text = !isLoserMonster ? Loser.GetName() : "Monster";
+
+        textWinner.color = colorTeams[!isWinnerMonster ? Winner.GetTeam() : 2];
+
+        textLoser.color = colorTeams[!isLoserMonster ? Loser.GetTeam() : 2];
     }
 
     private IEnumerator YieldClose()
     {
-        yield return new WaitForSeconds(Constants.RESPAWN_TIME);
+        yield return new WaitForSeconds(SOManager.Instance.Constants.RespawnTime);
 
         Close();
     }

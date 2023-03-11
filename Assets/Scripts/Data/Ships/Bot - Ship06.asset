@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342adb7a097e3fb4490d985e5691c535, type: 3}
+  m_Name: Bot - Ship06
+  m_EditorClassIdentifier: 
+  id: 92e2e0ff-4350-4141-ac4f-8fdf13b97775
+  m_prefabListIndex: 5
+  m_name: 'Black Flames Crew '
+  m_desc: The Flames crew are dangerous pirates as they play with nothing but fire.
+    Their hatred towards the world motivaites them to see the water planet burn with
+    their magical flames.
+  m_ability: 'Heat Wave:
+
+    They create a heat wave around the selected enemy causing
+    great damage.'
+  m_model: {fileID: 919132149155446097, guid: 2912ef3e5c43408448554900078a96d7, type: 3}
+  m_playerPrefab: {fileID: 114000011901014096, guid: fb00416bd2102064db15d87423a16f8a, type: 3}
+  m_cardImage: {fileID: 21300000, guid: f943bcb544a10b34f8f67efedb764b87, type: 3}
+  m_shipIconImage: {fileID: 21300000, guid: ad506745adf9d5b459d911d23f16e0c4, type: 3}
+  m_type: 1
+  idealStarterItems:
+  - {fileID: 11400000, guid: cb07227d41c2ac644aed07e2b8b83d17, type: 2}
+  - {fileID: 11400000, guid: 73d06cc0179bb9248b6a77d39089c877, type: 2}
+  - {fileID: 11400000, guid: 44bc83bc49496604ea240b1b3fee6d56, type: 2}
+  idealOffensiveItems:
+  - {fileID: 11400000, guid: 61de84167523f4b40b2d48a6507e9302, type: 2}
+  - {fileID: 11400000, guid: 21382891077a1584ca6ed7f6b5be1515, type: 2}
+  - {fileID: 11400000, guid: 8209079d27a59414f9630a90ab4ce2f8, type: 2}
+  idealDefensiveItems:
+  - {fileID: 11400000, guid: 13c26977870119a439a52ae5ec2bde47, type: 2}
+  - {fileID: 11400000, guid: 1f5acca1ea09403469dbeb6fcf270787, type: 2}
+  idealUtilityItems:
+  - {fileID: 11400000, guid: 1afe3fc43491bf247906a2fe22728bc8, type: 2}
+  personality:
+    moveToPlayerPriorities:
+    - key: targetChest
+      weight: 0.2
+    - key: targetHealthRatio
+      weight: 0.2
+    - key: selfHealthRatio
+      weight: 0.2
+    - key: targetDistance
+      weight: 0.2
+    moveToMonsterPriorities:
+    - key: selfChest
+      weight: 0.25
+    - key: targetHealthRatio
+      weight: 0.25
+    - key: selfHealthRatio
+      weight: 0.25
+    - key: targetDistance
+      weight: 0.25
+    moveToChestPriorities:
+    - key: selfHealthRatio
+      weight: 1
+    moveToCollectiblePriorities:
+    - key: targetDistance
+      weight: 1
+    moveToBasePriorities:
+    - key: selfChest
+      weight: 1
+    buyItemPriorities:
+    - key: healthRatio
+      weight: 1
+    - key: manaRatio
+      weight: 1
+    - key: attackDamageRatio
+      weight: 1
+    - key: abilityPowerRatio
+      weight: 1
+    - key: armorRatio
+      weight: 1
+    - key: resistRatio
+      weight: 1
+    - key: attackSpeedRatio
+      weight: 1
+    - key: moveSpeedRatio
+      weight: 1
+    - key: lifeStealRatio
+      weight: 1
+    - key: cooldownRatio
+      weight: 1
+    - key: invisibilityRatio
+      weight: 1
+    - key: costRatio
+      weight: 1
+    - key: consumableRatio
+      weight: -1

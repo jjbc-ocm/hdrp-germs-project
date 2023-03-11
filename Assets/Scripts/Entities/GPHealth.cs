@@ -26,6 +26,11 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         m_currentHealth = m_maxHealth;
     }
 
+    /// <summary>
+    /// Decreases the current health.
+    /// Calls a OnDamagedEvent to which you can subcribe.
+    /// </summary>
+    /// <param name="damageAmount"></param>
     public void Damage(float damageAmount)
     {
         m_currentHealth -= damageAmount;
@@ -43,6 +48,11 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
 
     }
 
+    /// <summary>
+    /// Inreases the current health.
+    /// Calls a OnHealthChanged to which you can subcribe.
+    /// </summary>
+    /// <param name="healthAmount"></param>
     public void Heal(float healthAmount)
     {
         m_currentHealth += healthAmount;
@@ -50,6 +60,11 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         if (OnHealEvent != null) { OnHealEvent.Invoke(); }
     }
 
+    /// <summary>
+    /// Set current health to be zero.
+    /// Activates the m_isDead bool.
+    /// Calls a OnDieEvent to which you can subcribe.
+    /// </summary>
     public void Kill()
     {
         m_currentHealth = 0;
@@ -61,6 +76,11 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Resets the current health to have the max health.
+    /// Sets the m_isDead to be false.
+    /// Calls a OnResurrectEvent to which you can subcribe.
+    /// </summary>
     public void Resurrect()
     {
         m_currentHealth = m_maxHealth;
@@ -72,6 +92,9 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Resets the current health to have the max health, but does not resurrect.
+    /// </summary>
     public void ResetHealth()
     {
         m_currentHealth = m_maxHealth;
@@ -84,6 +107,11 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         if (OnHealthChangedEvent != null) { OnHealthChangedEvent.Invoke(); }
     }
 
+    /// <summary>
+    /// Sets the current health to a specific value.
+    /// If value is equal or less than 0 then it is killed.
+    /// </summary>
+    /// <param name="value"></param>
     public void SetHealth(float value)
     {
         m_currentHealth = value;
@@ -94,6 +122,10 @@ public class GPHealth : MonoBehaviourPunCallbacks, IPunObservable
         OnHealthChanged();
     }
 
+    /// <summary>
+    /// Get current health value.
+    /// </summary>
+    /// <returns></returns>
     public float GetHealth()
     {
         return m_currentHealth;

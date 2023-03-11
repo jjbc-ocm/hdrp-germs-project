@@ -57,15 +57,16 @@ public class GPFriendWindow : GPGWindowUI
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (InputManager.Instance.IsAttack)
         {
             int outsideCount = 0;
             foreach (var bound in m_boundaryPanels)
             {
                 if (bound.activeInHierarchy &&
-                    !RectTransformUtility.RectangleContainsScreenPoint(bound.GetComponent<RectTransform>(),
-                                                                                                  Input.mousePosition,
-                                                                                                  m_camera))
+                    !RectTransformUtility.RectangleContainsScreenPoint(
+                        bound.GetComponent<RectTransform>(),
+                        InputManager.Instance.Look,
+                        m_camera))
                 {
                     outsideCount++;
                 }
@@ -145,7 +146,7 @@ public class GPFriendWindow : GPGWindowUI
     {
         if (playSFX)
         {
-            TanksMP.AudioManager.Play2D(m_changeTabSFX);
+            AudioManager.Instance.Play2D(m_changeTabSFX);
         }
 
         m_searchFriendInputField.text = "";

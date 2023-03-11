@@ -13,7 +13,7 @@ public class ItemSlotUI : UI<ItemSlotUI>
 
     public int Index { get; set; }
 
-    public ItemData Data { get; set; }
+    public ItemSO Data { get; set; }
 
     protected override void OnRefreshUI()
     {

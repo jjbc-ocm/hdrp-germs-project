@@ -51,9 +51,9 @@ public class ShopUI : WindowUI<ShopUI>
     [SerializeField]
     private Transform[] transformRecipeLayers;
 
-    public List<ItemData> Data { get; set; }
+    public List<ItemSO> Data { get; set; }
 
-    public ItemData SelectedData { get; set; }
+    public ItemSO SelectedData { get; set; }
 
     public int SelectedSlotIndex { get; set; }
 
@@ -77,9 +77,9 @@ public class ShopUI : WindowUI<ShopUI>
 
         if (data != null)
         {
-            var totalCost = ShopManager.Instance.GetTotalCost(data);
+            var totalCost = ShopManager.Instance.GetTotalCost(Player.Mine, data);
 
-            buttonBuy.enabled = Player.Mine.Inventory.Gold >= totalCost;
+            buttonBuy.interactable = ShopManager.Instance.CanBuy(Player.Mine, data);
 
             textName.text = data.Name;
 
@@ -144,15 +144,15 @@ public class ShopUI : WindowUI<ShopUI>
             SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] :
             null;
 
-        ShopManager.Instance.Buy(data);
+        ShopManager.Instance.Buy(Player.Mine, data);
     }
 
     public void OnSellButtonClick()
     {
-        ShopManager.Instance.Sell(SelectedSlotIndex);
+        ShopManager.Instance.Sell(Player.Mine, SelectedSlotIndex);
     }
 
-    private void CreateRecipeTree(ItemData item, int recipeLayer)
+    private void CreateRecipeTree(ItemSO item, int recipeLayer)
     {
         var recipeItem = Instantiate(prefabRecipeItem, transformRecipeLayers[recipeLayer]);
 

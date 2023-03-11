@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c4617706eb53b4e9e7a45ffbf49f40, type: 3}
+  m_Name: T1 Defensive 5
+  m_EditorClassIdentifier: 
+  id: 9c108354-6722-4238-ba6a-53dae803b7d8
+  name: Tranquility
+  desc: '+80 Health
+
+    +15% Armor'
+  icon: {fileID: 21300000, guid: 11b7ac3348444da468be2c0e0adeb132, type: 3}
+  category: 2
+  costBuy: 1250
+  costSell: 850
+  className: BaseItemEffect
+  statModifier:
+    isInvisible: 0
+    lifeSteal: 0
+    buffMaxHealth: 80
+    buffMaxMana: 0
+    buffAttackDamage: 0
+    buffAbilityPower: 0
+    buffArmor: 0.15
+    buffResist: 0
+    buffAttackSpeed: 0
+    buffMoveSpeed: 0
+    buffCooldown: 0
+  duration: 0
+  purchaseLimit: 1
+  recipes:
+  - {fileID: 11400000, guid: cb07227d41c2ac644aed07e2b8b83d17, type: 2}
+  - {fileID: 11400000, guid: 2057b3b44663f344ab8ba4a3dde414b5, type: 2}
