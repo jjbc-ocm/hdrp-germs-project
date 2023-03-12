@@ -69,7 +69,7 @@ public class ConstantsSO : ScriptableObject
     private string sceneMenu = "Intro";
 
     [SerializeField]
-    private string sceneWaitRoom = "Waiting_Room";
+    private string scenePreparation = "Preparation";
 
     [SerializeField]
     private string sceneGame = "CTF_Game";
@@ -78,7 +78,7 @@ public class ConstantsSO : ScriptableObject
 
     public string SceneMenu { get => sceneMenu; }
 
-    public string SceneWaitRoom { get => sceneWaitRoom; }
+    public string ScenePreparation { get => scenePreparation; }
 
     public string SceneGame { get => sceneGame; }
 
@@ -89,10 +89,7 @@ public class ConstantsSO : ScriptableObject
     private float captureChestTime = 45f;
 
     [SerializeField]
-    private int maxPlayerCount = 6;
-
-    [SerializeField]
-    private int minPlayerCount = 6;
+    private byte maxPlayerCount = 6;
 
     [SerializeField]
     private int maxTeam = 2;
@@ -117,9 +114,7 @@ public class ConstantsSO : ScriptableObject
 
     public float CaptureChestTime { get => captureChestTime; }
 
-    public int MaxPlayerCount { get => maxPlayerCount; }
-
-    public int MinPlayerCount { get => minPlayerCount; }
+    public byte MaxPlayerCount { get => maxPlayerCount; }
 
     public int MaxTeam { get => maxTeam; }
 

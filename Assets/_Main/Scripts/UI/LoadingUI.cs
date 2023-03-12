@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingUI : MonoBehaviour
+public class LoadingUI : WindowUI<LoadingUI>
 {
     [SerializeField]
     private TMP_Text textMessage;
@@ -16,7 +16,7 @@ public class LoadingUI : MonoBehaviour
 
     public float Progress { get; set; }
 
-    void Update()
+    protected override void OnRefreshUI()
     {
         textMessage.text = Text;
 

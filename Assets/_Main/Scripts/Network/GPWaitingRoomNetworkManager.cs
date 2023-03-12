@@ -75,7 +75,7 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
     {
         // Join random room that meets the battle mode configurations
         ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable() { { "WaitingForPlayers", true } };
-        PhotonNetwork.JoinRandomRoom(roomProperties, (byte)SOManager.Instance.Constants.MaxPlayerCount);
+        PhotonNetwork.JoinRandomRoom(roomProperties, SOManager.Instance.Constants.MaxPlayerCount);
     }
 
     #endregion
