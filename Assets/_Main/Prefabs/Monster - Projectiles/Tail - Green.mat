@@ -2,18 +2,22 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Tail - Green
   m_Shader: {fileID: 4800000, guid: 6eb86e4931b506a408fd1477edec61ea, type: 3}
-  m_ShaderKeywords: ADDITIVECONFIG_ON PREMULTIPLYCOLOR_ON TRAILWIDTH_ON
+  m_ValidKeywords:
+  - ADDITIVECONFIG_ON
+  - PREMULTIPLYCOLOR_ON
+  - TRAILWIDTH_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 5000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -87,6 +91,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: 48da24d771916524899d36e4bfe7f762, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Alpha: 1
     - _AlphaCutoffValue: 0.25
@@ -116,7 +121,7 @@ Material:
     - _DistortionScrollXSpeed: 0
     - _DistortionScrollYSpeed: 0
     - _DstMode: 1
-    - _EditorDrawers: 60
+    - _EditorDrawers: 61
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 5
     - _FadeBurnWidth: 0.01
@@ -232,6 +237,7 @@ Material:
     - _Shape2Color: {r: 1, g: 1, b: 1, a: 1}
     - _Shape3Color: {r: 1, g: 1, b: 1, a: 1}
     - _ShapeColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!28 &28761834029838142
 Texture2D:
   m_ObjectHideFlags: 0
@@ -244,15 +250,20 @@ Texture2D:
     Hash: 00000000000000000000000000000000
   m_ForcedFallbackFormat: 4
   m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
   serializedVersion: 2
   m_Width: 64
   m_Height: 1
   m_CompleteImageSize: 256
+  m_MipsStripped: 0
   m_TextureFormat: 4
   m_MipCount: 1
   m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMasterTextureLimit: 0
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
   m_AlphaIsTransparency: 0
   m_ImageCount: 1
   m_TextureDimension: 2
@@ -266,9 +277,11 @@ Texture2D:
     m_WrapW: 1
   m_LightmapFormat: 0
   m_ColorSpace: 1
+  m_PlatformBlob: 
   image data: 256
   _typelessdata: fffffffffcfcfcfff9f9f9fff6f6f6fff3f3f3fff0f0f0ffedededffeaeaeaffe7e7e7ffe4e4e4ffe1e1e1ffdededeffdbdbdbffd8d8d8ffd5d5d5ffd2d2d2ffcfcfcfffccccccffc9c9c9ffc6c6c6ffc3c3c3ffc0c0c0ffbdbdbdffbababaffb8b8b8ffb5b5b5ffb2b2b2ffafafafffacacacffa9a9a9ffa6a6a6ffa3a3a3ffa0a0a0ff9d9d9dff9a9a9aff979797ff949494ff919191ff8e8e8eff8b8b8bff888888ff858585ff828282ff7f7f7fff7c7c7cff797979ff767676ff737373ff707070ff6d6d6dff6a6a6aff676767ff646464ff616161ff5e5e5eff5b5b5bff585858ff555555ff525252ff4f4f4fff4c4c4cff494949ff464646ff434343ff
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 

@@ -8,22 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mana Potion - Bottle 1
-  m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
-  m_ValidKeywords:
-  - COLORRAMPGRAD_ON
-  - COLORRAMP_ON
-  - DEPTHGLOW_ON
-  - GLOW_ON
-  - HSV_ON
-  - PREMULTIPLYALPHA_ON
-  - RIM_ON
-  - SHAPE1CONTRAST_ON
-  - SHAPE2CONTRAST_ON
+  m_Shader: {fileID: -6465566751694194690, guid: 6308ea4821d1aeb4cbe77aa991079282, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 5000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -97,8 +88,24 @@ Material:
         m_Texture: {fileID: 2800000, guid: ead4bb59fa3716842879d18a0d632106, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Refaction_Scale: 1
+    - Refraction_Evolution_Speed: 1.5
+    - Refraction_Height: 0.2
+    - Vector1_398E6F7F: 0.85
     - _Alpha: 1
     - _AlphaBrightness: 0
     - _AlphaContrast: 1
@@ -139,6 +146,8 @@ Material:
     - _FadeScrollYSpeed: 0
     - _FadeTransition: 0.075
     - _FishEyeUvAmount: 0.35
+    - _FresnelOpacity: 3.75
+    - _Fresnel_Power: 2.25
     - _Glow: 0.48
     - _GlowGlobal: 1
     - _HandDrawnAmount: 10
@@ -148,6 +157,7 @@ Material:
     - _HsvShift: 0
     - _LightAmount: 0
     - _MaskPow: 1
+    - _Metallic: 3
     - _OffsetSh1: 1
     - _OffsetSh2: 1
     - _OffsetSh3: 1
@@ -155,6 +165,8 @@ Material:
     - _PixelateSize: 234
     - _PosterizeGamma: 0.75
     - _PosterizeNumColors: 8
+    - _QueueControl: 1
+    - _QueueOffset: 0
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
@@ -214,7 +226,9 @@ Material:
     - _ShapeRotationSpeed: 0
     - _ShapeXSpeed: 0
     - _ShapeYSpeed: 0
+    - _Smoothness: 0
     - _SoftFactor: 0.5
+    - _Specular: 0.77
     - _SrcMode: 5
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
@@ -237,12 +251,14 @@ Material:
     - _ZWrite: 0
     - _ZoomAmount: 1.5
     m_Colors:
+    - Color_9BF846A1: {r: 0, g: 0.57689905, b: 1, a: 1}
     - _BackFaceTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.17647058, g: 0.8530592, b: 1, a: 1}
     - _ColorGradingDark: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradingLight: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradingMiddle: {r: 1, g: 1, b: 1, a: 1}
     - _DepthGlowColor: {r: 0, g: 0.093310446, b: 0.3018868, a: 1}
+    - _Emissive_Color: {r: 0, g: 0.1582623, b: 0.3018868, a: 1}
     - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
     - _FrontFaceTint: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 0, g: 0.16998608, b: 0.4056604, a: 1}
