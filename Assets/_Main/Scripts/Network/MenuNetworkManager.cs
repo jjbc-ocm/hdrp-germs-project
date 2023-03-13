@@ -23,7 +23,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private bool isConnecting;
 
-    private bool isMatchInitiated;
+    private bool isPreparationInitiated;
 
     #endregion
 
@@ -49,9 +49,9 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         var lapseTime = PhotonNetwork.Time - timeLastPlayerJoined;
 
-        if (!isMatchInitiated && lapseTime >= 15 && lapseTime < 999)
+        if (!isPreparationInitiated && lapseTime >= 15)
         {
-            TryLoadPreparationScene(true);
+            TrySetPlayerTeams(true);
         }
     }
 
@@ -88,7 +88,11 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         timeJoined = PhotonNetwork.Time;
 
-        TryLoadPreparationScene();
+        timeLastPlayerJoined = PhotonNetwork.Time;
+
+        PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+
+        TrySetPlayerTeams();
     }
 
     public override void OnLeftRoom()
@@ -100,12 +104,20 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         timeLastPlayerJoined = PhotonNetwork.Time;
 
-        TryLoadPreparationScene();
+        TrySetPlayerTeams();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        TryLoadPreparationScene();
+        TrySetPlayerTeams();
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (PhotonNetwork.CurrentRoom.IsTeamSetup())
+        {
+            TryLoadPreparationScene();
+        }
     }
 
     #endregion
@@ -118,7 +130,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         onStatusChange.Invoke("Start a match...", 0.1f);
 
-        PhotonNetwork.NickName = PlayerPrefs.GetString(APIManager.Instance.PlayerData.Name);
+        //PhotonNetwork.NickName = PlayerPrefs.GetString(APIManager.Instance.PlayerData.Name);
 
         if (PhotonNetwork.IsConnected)
         {
@@ -148,22 +160,25 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
                 SOManager.Instance.Constants.MaxPlayerCount);
     }
 
-    private void TryLoadPreparationScene(bool isIgnorePlayerCount = false)
+    private void TrySetPlayerTeams(bool isIgnorePlayerCount = false)
     {
         var playerCountCondition = !isIgnorePlayerCount && PhotonNetwork.CurrentRoom.PlayerCount < SOManager.Instance.Constants.MaxPlayerCount;
 
         if (!PhotonNetwork.IsMasterClient || playerCountCondition) return;
 
-        SetTeams();
+        SetPlayerTeams();
+    }
+
+    private void TryLoadPreparationScene()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
 
         onStatusChange.Invoke("Loading scene...", 0.9f);
 
         PhotonNetwork.LoadLevel(SOManager.Instance.Constants.ScenePreparation);
-
-        isMatchInitiated = true;
     }
 
-    private void SetTeams()
+    private void SetPlayerTeams()
     {
         var players = PhotonNetwork.PlayerList;
 
@@ -185,6 +200,10 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
             }
         }
         while (i < players.Length);
+
+        PhotonNetwork.CurrentRoom.IsTeamSetup(true);
+
+        isPreparationInitiated = true;
     }
 
     #endregion

@@ -86,6 +86,9 @@ public class ConstantsSO : ScriptableObject
     [Header("In-Game")]
 
     [SerializeField]
+    private double preparationTime = 30f;
+
+    [SerializeField]
     private float captureChestTime = 45f;
 
     [SerializeField]
@@ -111,6 +114,8 @@ public class ConstantsSO : ScriptableObject
 
     [SerializeField]
     private float respawnTime = 10f;
+
+    public double PreparationTime { get => preparationTime; }
 
     public float CaptureChestTime { get => captureChestTime; }
 

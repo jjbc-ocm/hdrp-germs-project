@@ -57,7 +57,7 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
     {
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+        PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
     }
     #endregion
 

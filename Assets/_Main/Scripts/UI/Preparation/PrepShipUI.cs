@@ -1,6 +1,7 @@
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,11 @@ public class PrepShipUI : UI<PrepShipUI>
 
         imageShip.gameObject.SetActive(Data != null);
 
-        textName.text = Data.NickName;
+        if (Data != null)
+        {
+            textName.text = Data.GetName();
+
+            imageShip.sprite = SOManager.Instance.PlayerShips.FirstOrDefault(i => i.m_prefabListIndex == Data.GetShipIndex())?.ShipIconImage ?? null;
+        }
     }
 }

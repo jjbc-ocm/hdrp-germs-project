@@ -7,11 +7,52 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public static class RoomExtensions
 {
+    public const string isTeamSetup = "isTeamSetup";
+
+    public const string timePrepSceneLoaded = "timePrepSceneLoaded";
+
     public const string score = "score";
 
     public const string chest = "chest";
 
     public const string bots = "bots";
+
+    
+    public static bool IsTeamSetup(this Room room)
+    {
+        if (room.CustomProperties.TryGetValue(isTeamSetup, out object value))
+        {
+            return (bool)value;
+        }
+
+        return false;
+    }
+
+    public static void IsTeamSetup(this Room room, bool value)
+    {
+        room.SetCustomProperties(new Hashtable
+        {
+            { isTeamSetup, value }
+        });
+    }
+
+    public static double GetTimePrepSceneLoaded(this Room room)
+    {
+        if (room.CustomProperties.TryGetValue(timePrepSceneLoaded, out object value))
+        {
+            return (double)value;
+        }
+
+        return 0;
+    }
+
+    public static void SetTimePrepSceneLoaded(this Room room, double value)
+    {
+        room.SetCustomProperties(new Hashtable
+        {
+            { timePrepSceneLoaded, value }
+        });
+    }
 
     public static int[] GetScore(this Room room)
     {
@@ -21,26 +62,6 @@ public static class RoomExtensions
         }
 
         return new int[] { 0, 0 };
-    }
-
-    public static int[] GetChests(this Room room)
-    {
-        if (room.CustomProperties.TryGetValue(chest, out object value))
-        {
-            return (int[])value;
-        }
-
-        return new int[] { 0, 0 };
-    }
-
-    public static BotInfo[] GetBots(this Room room)
-    {
-        if (room.CustomProperties.TryGetValue(bots, out object value))
-        {
-            return ((string[])value).Select(i => JsonUtility.FromJson<BotInfo>(i)).ToArray();
-        }
-
-        return null;
     }
 
     public static void AddScore(this Room room, int teamIndex, int value, bool isFromChest)
@@ -65,6 +86,30 @@ public static class RoomExtensions
 
         room.SetCustomProperties(data);
     }
+
+    public static int[] GetChests(this Room room)
+    {
+        if (room.CustomProperties.TryGetValue(chest, out object value))
+        {
+            return (int[])value;
+        }
+
+        return new int[] { 0, 0 };
+    }
+
+    public static BotInfo[] GetBots(this Room room)
+    {
+        if (room.CustomProperties.TryGetValue(bots, out object value))
+        {
+            return ((string[])value).Select(i => JsonUtility.FromJson<BotInfo>(i)).ToArray();
+        }
+
+        return null;
+    }
+
+    
+
+    
 
     public static void SetBots(this Room room)
     {
