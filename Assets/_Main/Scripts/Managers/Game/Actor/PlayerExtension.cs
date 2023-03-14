@@ -19,7 +19,7 @@ public static class PlayerExtension
 
     #region For Photon Player
 
-    public static void Initialize(this Player player, int team, int shipIndex)
+    public static void Initialize(this Player player, int shipIndex)
     {
         var profile = GPPlayerProfile.m_instance;
 
@@ -38,8 +38,8 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable
         {
             { name, APIManager.Instance.PlayerData.Name },
-            { PlayerExtension.team, team },
-            { PlayerExtension.shipIndex, shipIndex },
+            //{ PlayerExtension.team, team },
+            { shipIndex, shipIndex },
             {"skin", dummyData.m_skin?.name },
             {"eyes", dummyData.m_eye?.name },
             {"mouth", dummyData.m_mouth?.name },
@@ -79,11 +79,6 @@ public static class PlayerExtension
         }
 
         return 0;
-    }
-
-    public static int GetSelectedShipIdx(this Player player)
-    {
-        return m_selectedShipIdx;
     }
 
     public static bool HasChest(this Player player)

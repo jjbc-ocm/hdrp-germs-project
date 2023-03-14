@@ -184,14 +184,14 @@ namespace TanksMP
         /// so this saves us additional work of doing the same logic twice in the game scene. The
         /// restart request is implemented in another gameobject that lives throughout scene changes.
         /// </summary>
-        public void Restart()
+        /*public void Restart()
         {
             GameObject gObj = new GameObject("RestartNow");
             gObj.AddComponent<UIRestartButton>();
             DontDestroyOnLoad(gObj);
             
             Disconnect();
-        }
+        }*/
 
 
         /// <summary>

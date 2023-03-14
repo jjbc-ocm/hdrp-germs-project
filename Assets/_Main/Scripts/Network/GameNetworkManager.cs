@@ -116,28 +116,21 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var bots = PhotonNetwork.CurrentRoom.GetBots();
 
-        var players = PhotonNetwork.CurrentRoom.Players;
+        var players = PhotonNetwork.CurrentRoom.Players.Select(i => i.Value);
 
         if (bots == null) return;
 
-        var team0Players = players.Where(i => i.Value.GetTeam() == 0);
+        var team1Players = players.Where(i => i.GetTeam() == 0).ToArray();
 
-        var team1Players = players.Where(i => i.Value.GetTeam() == 1);
+        var team2Players = players.Where(i => i.GetTeam() == 1).ToArray();
 
-        var team0Bots = bots.Where(i => i.Team == 0).ToList();
+        var team1Bots = bots.Where(i => i.Team == 0).ToList();
 
-        var team1Bots = bots.Where(i => i.Team == 1).ToList();
-
-        var team0FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team0Players.Count();
+        var team2Bots = bots.Where(i => i.Team == 1).ToList();
 
         var team1FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team1Players.Count();
 
-        for (var i = 0; i < team0FreeSlots; i++)
-        {
-            var bot = team0Bots[i];
-
-            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
-        }
+        var team2FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team2Players.Count();
 
         for (var i = 0; i < team1FreeSlots; i++)
         {
@@ -146,10 +139,12 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
             InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
         }
 
-        /*foreach (var bot in bots)
+        for (var i = 0; i < team2FreeSlots; i++)
         {
+            var bot = team2Bots[i];
+
             InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
-        }*/
+        }
     }
 
     private void InstantiatePlayer(int team, int shipIndex, BotInfo botInfo = null)

@@ -5,10 +5,8 @@ using TanksMP;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class GameCameraManager : MonoBehaviour
+public class GameCameraManager : Singleton<GameCameraManager>
 {
-    public static GameCameraManager Instance;
-
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
 
@@ -18,8 +16,6 @@ public class GameCameraManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         mainCamera = GetComponent<Camera>();
     }
 

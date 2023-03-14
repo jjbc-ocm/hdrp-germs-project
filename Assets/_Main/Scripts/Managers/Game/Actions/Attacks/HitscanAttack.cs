@@ -10,6 +10,10 @@ public class HitscanAttack : AttackBase
 
         var direction = (targetPosition - fromPosition).normalized;
 
+        var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
+
+        var layerMask = Utils.GetBulletHitMask(owner.gameObject);
+
         direction = new Vector3(direction.x, 0, direction.z).normalized;
 
         transform.position = fromPosition + Vector3.up * 2;
@@ -18,7 +22,7 @@ public class HitscanAttack : AttackBase
 
         targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance + Vector3.up * 2;
 
-        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, SOManager.Instance.Constants.FogOrWarDistance, GetMask()))
+        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, maxDistance, layerMask))
         {
             if (hit.transform.TryGetComponent(out ActorManager actor))
             {
@@ -43,17 +47,5 @@ public class HitscanAttack : AttackBase
         }
     }
 
-    private LayerMask GetMask() // TODO: found a way to make usable in other skills
-    {
-        // TODO: limitation, it always refer to target the enemy
-        var constants = SOManager.Instance.Constants;
-
-        var isOwnerAlly = owner.gameObject.layer == LayerMask.NameToLayer(constants.LayerAlly);
-
-        //var isOwnerEnemy = owner.gameObject.layer == LayerMask.NameToLayer(constants.LayerEnemy);
-
-        var layerOpposingTeam = isOwnerAlly ? constants.LayerEnemy : constants.LayerAlly;
-
-        return LayerMask.GetMask(layerOpposingTeam, constants.LayerMonster, constants.LayerEnvironment);
-    }
+    
 }

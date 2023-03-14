@@ -17,18 +17,42 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private Action<string, float> onStatusChange;
 
+    private double timeJoined;
+
+    private double timeLastPlayerJoined;
+
     private bool isConnecting;
+
+    private bool isPreparationInitiated;
+
+    #endregion
+
+    #region Accessor
+
+    public double TimeJoined { get => timeJoined; }
+
+    public double TimeLastPlayerJoined { get => timeLastPlayerJoined; }
 
     #endregion
 
 
     #region Unity
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
 
         PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+    private void Update()
+    {
+        var lapseTime = PhotonNetwork.Time - timeLastPlayerJoined;
+
+        if (!isPreparationInitiated && lapseTime >= 15)
+        {
+            TrySetPlayerTeams(true);
+        }
     }
 
     #endregion
@@ -38,21 +62,14 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         onStatusChange.Invoke("Attempting to join a room...", 0.2f);
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
-        /*
+
         if (isConnecting)
         {
-            PhotonNetwork.JoinRandomRoom();
+            StartMatchMaking();
 
             isConnecting = false;
         }
-        */
-    }
-
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
-        TryLoadGame();
+        
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -60,66 +77,64 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         onStatusChange.Invoke("Error " + cause.ToString(), 0f);
     }
 
-    /*
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        onStatusChange.Invoke("Player will create a room instead...", 0.4f);
+        onStatusChange.Invoke("Create own room instead...", 0.3f);
 
-        var roomOptions = new RoomOptions
-        {
-            MaxPlayers = Constants.MAX_PLAYER_COUNT,
-
-            PlayerTtl = int.MaxValue,
-
-            EmptyRoomTtl = 10000
-        };
-
-        PhotonNetwork.CreateRoom(null, roomOptions);
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = SOManager.Instance.Constants.MaxPlayerCount });
     }
-    */
 
-    /*
     public override void OnJoinedRoom()
     {
-        onStatusChange.Invoke("Player joined a room...", 0.6f);
+        timeJoined = PhotonNetwork.Time;
 
-        var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        timeLastPlayerJoined = PhotonNetwork.Time;
 
-        //PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
-        PhotonNetwork.LocalPlayer.Initialize(-1, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+        PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+
+        TrySetPlayerTeams();
     }
-    */
 
-    /*
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnLeftRoom()
     {
-        onStatusChange.Invoke("Updating player info...", 0.8f);
+        onStatusChange.Invoke("Match making canceled...", 0f);
+    }
 
-        if (targetPlayer == PhotonNetwork.LocalPlayer &&
-            changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) &&
-            changedProps.ContainsKey(Constants.KEY_TEAM))
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        timeLastPlayerJoined = PhotonNetwork.Time;
+
+        TrySetPlayerTeams();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        TrySetPlayerTeams();
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (PhotonNetwork.CurrentRoom.IsTeamSetup())
         {
-            TryLoadGame();
+            TryLoadPreparationScene();
         }
     }
-    */
 
     #endregion
 
     #region Public
 
-    public void Play(Action<string, float> onStatusChange)
+    public void StartMatchMaking(Action<string, float> onStatusChange)
     {
         this.onStatusChange = onStatusChange;
 
-        onStatusChange.Invoke("Attempting to join a room...", 0.2f);
+        onStatusChange.Invoke("Start a match...", 0.1f);
 
-        PhotonNetwork.NickName = PlayerPrefs.GetString(TanksMP.PrefsKeys.playerName);
+        //PhotonNetwork.NickName = PlayerPrefs.GetString(APIManager.Instance.PlayerData.Name);
 
         if (PhotonNetwork.IsConnected)
         {
-            //PhotonNetwork.JoinRandomRoom();
-            TryLoadGame();
+            StartMatchMaking();
         }
         else
         {
@@ -129,17 +144,66 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void CancelMatchMaking()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
     #endregion
 
     #region Private
 
-    private void TryLoadGame()
+    private void StartMatchMaking()
     {
+        PhotonNetwork.JoinRandomRoom(
+                new ExitGames.Client.Photon.Hashtable { /* Enter game mode here in the future */ },
+                SOManager.Instance.Constants.MaxPlayerCount);
+    }
+
+    private void TrySetPlayerTeams(bool isIgnorePlayerCount = false)
+    {
+        var playerCountCondition = !isIgnorePlayerCount && PhotonNetwork.CurrentRoom.PlayerCount < SOManager.Instance.Constants.MaxPlayerCount;
+
+        if (!PhotonNetwork.IsMasterClient || playerCountCondition) return;
+
+        SetPlayerTeams();
+    }
+
+    private void TryLoadPreparationScene()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         onStatusChange.Invoke("Loading scene...", 0.9f);
 
-        //if (!PhotonNetwork.IsMasterClient) return;
+        PhotonNetwork.LoadLevel(SOManager.Instance.Constants.ScenePreparation);
+    }
 
-        PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneWaitRoom);
+    private void SetPlayerTeams()
+    {
+        var players = PhotonNetwork.PlayerList;
+
+        var teamsCount = new int[2];
+
+        var i = 0;
+
+        do
+        {
+            var team = UnityEngine.Random.Range(0, 2);
+
+            if (teamsCount[i] < SOManager.Instance.Constants.MaxPlayerPerTeam)
+            {
+                players[i].SetTeam(team);
+
+                teamsCount[i] += 1;
+
+                i += 1;
+            }
+        }
+        while (i < players.Length);
+
+        PhotonNetwork.CurrentRoom.Initialize(true);
+
+        isPreparationInitiated = true;
     }
 
     #endregion
