@@ -110,7 +110,7 @@ public class ConstantsSO : ScriptableObject
     private float moveSpeedToSecondsRatio = 25f;
 
     [SerializeField]
-    private int scoreRequired = 1;
+    private int scoreRequired = 50;
 
     [SerializeField]
     private float respawnTime = 10f;
