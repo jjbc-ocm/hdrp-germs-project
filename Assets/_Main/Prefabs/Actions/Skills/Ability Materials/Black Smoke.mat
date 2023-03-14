@@ -59,6 +59,7 @@ Material:
   m_ValidKeywords:
   - ADDITIVECONFIG_ON
   - COLORRAMPGRAD_ON
+  - COLORRAMP_ON
   - DISTORTONLYBACK_ON
   - DISTORTUSECOL_ON
   - FADE_ON
@@ -71,8 +72,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 5000
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -163,7 +163,7 @@ Material:
     - _ColorGradingMidPoint: 0.463
     - _ColorMask: 15
     - _ColorRampBlend: 1
-    - _ColorRampLuminosity: 1
+    - _ColorRampLuminosity: -1
     - _CullingOption: 0
     - _DebugShape: 1
     - _DepthGlow: 20
@@ -173,7 +173,7 @@ Material:
     - _DistortAmount: 1.68
     - _DistortTexXSpeed: 5
     - _DistortTexYSpeed: 5
-    - _DistortionBlend: 0
+    - _DistortionBlend: 0.12
     - _DistortionPower: 30
     - _DistortionScrollXSpeed: 0
     - _DistortionScrollYSpeed: 0
@@ -182,10 +182,10 @@ Material:
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 7
     - _FadeBurnWidth: 0.2
-    - _FadePower: 0.34
+    - _FadePower: 2.3
     - _FadeScrollXSpeed: 0
     - _FadeScrollYSpeed: 0
-    - _FadeTransition: 0.194
+    - _FadeTransition: 0.28
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
     - _GlowGlobal: 1.49
