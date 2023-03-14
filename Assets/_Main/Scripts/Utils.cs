@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,43 @@ using UnityEngine.AI;
 
 public static class Utils
 {
-    
+    public static LayerMask GetBulletHitMask(GameObject gameObject) // TODO: found a way to make usable in other skills
+    {
+        // TODO: limitation, it always refer to target the enemy
+        var constants = SOManager.Instance.Constants;
+
+        var isOwnerAlly = gameObject.layer == LayerMask.NameToLayer(constants.LayerAlly);
+
+        //var isOwnerEnemy = owner.gameObject.layer == LayerMask.NameToLayer(constants.LayerEnemy);
+
+        var layerOpposingTeam = isOwnerAlly ? constants.LayerEnemy : constants.LayerAlly;
+
+        return LayerMask.GetMask(layerOpposingTeam, constants.LayerMonster, constants.LayerEnvironment);
+    }
+
+    /*public static void CheckBulletRaycast(this GameObject gameObject, ActorManager owner, ref Vector3 targetPosition, Action<RaycastHit> OnHit)
+    {
+        var fromPosition = owner.transform.position;
+
+        var direction = (targetPosition - fromPosition).normalized;
+
+        var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
+
+        var layerMask = GetBulletHitMask(owner.gameObject);
+
+        direction = new Vector3(direction.x, 0, direction.z).normalized;
+
+        gameObject.transform.position = fromPosition + Vector3.up * 2;
+
+        gameObject.transform.forward = direction;
+
+        targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance + Vector3.up * 2;
+
+        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, maxDistance, layerMask))
+        {
+            OnHit.Invoke(hit);
+        }
+    }*/
 
     public static bool IsState(this Animator animator, int layerIndex, string name)
     {

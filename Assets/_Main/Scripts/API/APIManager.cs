@@ -12,18 +12,13 @@ using Unity.Services.Economy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class APIManager : MonoBehaviour
+public class APIManager : Singleton<APIManager>
 {
-    public static APIManager Instance;
-
     [SerializeField]
     private GPDevFeaturesSettingsSO devSettings;
 
     [SerializeField]
     private GPShipDesc startingShip;
-
-    [SerializeField]
-    private LoadingUI uiLoading;
 
     private PlayerData playerData;
 
@@ -37,13 +32,14 @@ public class APIManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         Initialize((text, value) =>
         {
-            uiLoading.Text = text;
+            LoadingUI.Instance.RefreshUI((self) =>
+            {
+                self.Text = text;
 
-            uiLoading.Progress = value;
+                self.Progress = value;
+            });
         });
     }
 
@@ -99,7 +95,7 @@ public class APIManager : MonoBehaviour
 
     public List<FriendInfo> GetFriends()
     {
-        SteamFriends.ActivateGameOverlay("Friends");
+        //SteamFriends.ActivateGameOverlay("Friends");
 
         var list = new List<FriendInfo>();
 

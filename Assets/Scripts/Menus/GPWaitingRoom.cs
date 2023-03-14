@@ -137,7 +137,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
 
-                    if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MinPlayerCount || m_skippedPlayerSearch)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MaxPlayerCount || m_skippedPlayerSearch)
                     {
                         if (!m_levelLoadedCalled)
                         {
@@ -194,7 +194,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     /// </summary>
     public void AutoFillBotDevCheat()
     {
-        PhotonNetwork.CurrentRoom.SetBots();
+        //PhotonNetwork.CurrentRoom.SetBots();
 
         SkipPlayerSearchDevCheat();
     }
@@ -572,7 +572,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MinPlayerCount)
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MaxPlayerCount)
         {
             m_photonView.RPC("OnMatchFound", RpcTarget.AllBuffered);
         }

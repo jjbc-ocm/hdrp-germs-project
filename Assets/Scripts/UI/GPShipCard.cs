@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
-public class GPShipCard : MonoBehaviour
+public class GPShipCard : UI<GPShipCard>
 {
     public Image m_shipImage;
     public Image m_typeImage;
@@ -14,6 +15,10 @@ public class GPShipCard : MonoBehaviour
     public UnityEvent<GPShipCard> OnCardClickedEvent;
     GPShipDesc m_shipDesc;
     public GPShipDesc m_ShipDesc { get => m_shipDesc; }
+
+    public GPShipDesc Data { get; set; }
+
+    public Action OnClickCallback { get; set; }
 
     /// <summary>
     /// Displays the ship image, ship name and ship type on the card using the given GPShipDesc.
@@ -52,5 +57,17 @@ public class GPShipCard : MonoBehaviour
         {
             OnCardClickedEvent.Invoke(this);
         }
+    }
+
+    public void OnClick()
+    {
+        Debug.Log("CLICK");
+
+        OnClickCallback?.Invoke();
+    }
+
+    protected override void OnRefreshUI()
+    {
+        DisplayShipDesc(Data);
     }
 }
