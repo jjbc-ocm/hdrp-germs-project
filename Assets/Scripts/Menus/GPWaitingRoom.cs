@@ -194,7 +194,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     /// </summary>
     public void AutoFillBotDevCheat()
     {
-        PhotonNetwork.CurrentRoom.SetBots();
+        //PhotonNetwork.CurrentRoom.SetBots();
 
         SkipPlayerSearchDevCheat();
     }

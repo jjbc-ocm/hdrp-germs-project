@@ -36,15 +36,26 @@ public class PreparationUI : WindowUI<PreparationUI>
 
         if (IsUpdatePrepShip)
         {
+            var bots = PhotonNetwork.CurrentRoom.GetBots();
+
             var players = PhotonNetwork.CurrentRoom.Players.Select(i => i.Value);
 
-            var team1 = players.Where(i => i.GetTeam() == 0).ToArray();
+            var team1Players = players.Where(i => i.GetTeam() == 0).ToArray();
 
-            var team2 = players.Where(i => i.GetTeam() == 1).ToArray();
+            var team2Players = players.Where(i => i.GetTeam() == 1).ToArray();
 
+            var team1Bots = bots.Where(i => i.Team == 0).ToList();
+
+            var team2Bots = bots.Where(i => i.Team == 1).ToList();
+
+            var team1FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team1Players.Count();
+
+            var team2FreeSlots = SOManager.Instance.Constants.MaxPlayerPerTeam - team2Players.Count();
+
+            /* Update UI for players */
             for (int i = 0; i < uiTeam1.Length; i++)
             {
-                var data = i < team1.Length ? team1[i] : null;
+                var data = i < team1Players.Length ? team1Players[i] : null;
 
                 uiTeam1[i].RefreshUI((self) =>
                 {
@@ -54,11 +65,32 @@ public class PreparationUI : WindowUI<PreparationUI>
 
             for (int i = 0; i < uiTeam2.Length; i++)
             {
-                var data = i < team2.Length ? team2[i] : null;
+                var data = i < team2Players.Length ? team2Players[i] : null;
 
                 uiTeam2[i].RefreshUI((self) =>
                 {
                     self.Data = data;
+                });
+            }
+
+            /* Update UI for bots */
+            for (var i = 0; i < team1FreeSlots; i++)
+            {
+                var bot = team1Bots[i];
+
+                uiTeam1[i + team1Players.Length].RefreshUI((self) =>
+                {
+                    self.BotData = bot;
+                });
+            }
+
+            for (var i = 0; i < team2FreeSlots; i++)
+            {
+                var bot = team2Bots[i];
+
+                uiTeam2[i + team2Players.Length].RefreshUI((self) =>
+                {
+                    self.BotData = bot;
                 });
             }
         }

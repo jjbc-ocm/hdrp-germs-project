@@ -188,7 +188,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         do
         {
-            var team = UnityEngine.Random.Range(0, 1);
+            var team = UnityEngine.Random.Range(0, 2);
 
             if (teamsCount[i] < SOManager.Instance.Constants.MaxPlayerPerTeam)
             {
@@ -201,7 +201,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         }
         while (i < players.Length);
 
-        PhotonNetwork.CurrentRoom.IsTeamSetup(true);
+        PhotonNetwork.CurrentRoom.Initialize(true);
 
         isPreparationInitiated = true;
     }

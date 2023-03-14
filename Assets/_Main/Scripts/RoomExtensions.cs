@@ -16,7 +16,26 @@ public static class RoomExtensions
     public const string chest = "chest";
 
     public const string bots = "bots";
-
+    
+    public static void Initialize(this Room room, bool isTeamSetup)
+    {
+        room.SetCustomProperties(new Hashtable
+        {
+            { RoomExtensions.isTeamSetup, isTeamSetup },
+            {
+                bots,
+                new string[]
+                {
+                    JsonUtility.ToJson(new BotInfo { Name = "Bot 1", Team = 0, ShipIndex = 0 }),
+                    JsonUtility.ToJson(new BotInfo { Name = "Bot 2", Team = 0, ShipIndex = 1 }),
+                    JsonUtility.ToJson(new BotInfo { Name = "Bot 3", Team = 0, ShipIndex = 2 }),
+                    JsonUtility.ToJson(new BotInfo { Name = "Bot 4", Team = 1, ShipIndex = 3 }),
+                    JsonUtility.ToJson(new BotInfo { Name = "Bot 5", Team = 1, ShipIndex = 4 }),
+                    JsonUtility.ToJson(new BotInfo { Name = "Bot 6", Team = 1, ShipIndex = 5 })
+                }
+            }
+        });
+    }
     
     public static bool IsTeamSetup(this Room room)
     {
@@ -28,13 +47,13 @@ public static class RoomExtensions
         return false;
     }
 
-    public static void IsTeamSetup(this Room room, bool value)
+    /*public static void IsTeamSetup(this Room room, bool value)
     {
         room.SetCustomProperties(new Hashtable
         {
             { isTeamSetup, value }
         });
-    }
+    }*/
 
     public static double GetTimePrepSceneLoaded(this Room room)
     {
@@ -111,7 +130,7 @@ public static class RoomExtensions
 
     
 
-    public static void SetBots(this Room room)
+    /*public static void SetBots(this Room room)
     {
         room.SetCustomProperties(new Hashtable
         {
@@ -128,5 +147,5 @@ public static class RoomExtensions
                 }
             }
         });
-    }
+    }*/
 }

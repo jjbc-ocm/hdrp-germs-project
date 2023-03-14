@@ -92,6 +92,15 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    #region Unity
+
+    private void Awake()
+    {
+        var _ = Instance;
+    }
+
+    #endregion
+
     #region Player Input Bindings
 
     public void OnMove(InputValue value)

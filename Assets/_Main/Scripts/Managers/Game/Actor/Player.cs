@@ -146,7 +146,7 @@ namespace TanksMP
         {
             if (AftermathUI.Instance.gameObject.activeSelf) return;
 
-            if (!photonView.IsMine && !IsBot) return;
+            if (!photonView.IsMine || IsBot) return;
 
             /* Shop must only be accessible if:
              * - Chat UI is minimized as it will interfere with keyboard inputs
@@ -174,6 +174,8 @@ namespace TanksMP
                     ScoreBoardUI.Instance.Close();
                 }
             }
+
+            UpdateCrosshair();
         }
 
         private void FixedUpdate()
@@ -419,6 +421,38 @@ namespace TanksMP
         #endregion
 
         #region Private
+        
+        private void UpdateCrosshair()
+        {
+            var offset = Vector3.up * 2;
+
+            var aimPosition = transform.position + transform.forward * 999f;
+
+            var targetPosition = aimPosition + offset;
+
+            var fromPosition = transform.position + offset;
+
+            var direction = (targetPosition - fromPosition).normalized;
+
+            var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
+
+            var layerMask = Utils.GetBulletHitMask(gameObject);
+
+            direction = new Vector3(direction.x, 0, direction.z).normalized;
+
+            targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance + offset;
+
+            if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, maxDistance, layerMask))
+            {
+                CrosshairUI.Instance.Target = hit.point;
+            }
+            else
+            {
+                CrosshairUI.Instance.Target = targetPosition;
+            }
+
+            //CrosshairUI.Instance.Target = transform.position;
+        }
 
         private void ExecuteActionAim(SkillData action, bool isAttack)
         {

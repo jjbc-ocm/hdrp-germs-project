@@ -16,17 +16,26 @@ public class PrepShipUI : UI<PrepShipUI>
 
     public Player Data { get; set; }
 
+    public BotInfo BotData { get; set; }
+
     protected override void OnRefreshUI()
     {
-        textName.gameObject.SetActive(Data != null);
+        textName.gameObject.SetActive(Data != null || BotData != null);
 
-        imageShip.gameObject.SetActive(Data != null);
+        imageShip.gameObject.SetActive(Data != null || BotData != null);
 
         if (Data != null)
         {
             textName.text = Data.GetName();
 
             imageShip.sprite = SOManager.Instance.PlayerShips.FirstOrDefault(i => i.m_prefabListIndex == Data.GetShipIndex())?.ShipIconImage ?? null;
+        }
+
+        if (BotData != null)
+        {
+            textName.text = BotData.Name;
+
+            imageShip.sprite = SOManager.Instance.PlayerShips.FirstOrDefault(i => i.m_prefabListIndex == BotData.ShipIndex)?.ShipIconImage ?? null;
         }
     }
 }
