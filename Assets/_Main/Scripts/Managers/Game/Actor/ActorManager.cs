@@ -92,29 +92,29 @@ public abstract class ActorManager : GameEntityManager
 
     public string GetName()
     {
-        return Bot?.Info.Name ?? photonView.Owner.GetName();
+        return Bot?.Name ?? photonView.Owner.GetName();
     }
 
     public int GetTeam()
     {
-        return Bot?.Info.Team ?? photonView.Owner.GetTeam();
+        return Bot?.Team ?? photonView.Owner.GetTeam();
     }
 
     public bool HasChest()
     {
-        return Bot?.Info.HasChest ?? photonView.Owner.HasChest();
+        return Bot?.HasChest ?? photonView.Owner.HasChest();
     }
 
     public bool HasSurrendered()
     {
-        return Bot?.Info.HasSurrendered ?? photonView.Owner.HasSurrendered();
+        return Bot?.HasSurrendered ?? photonView.Owner.HasSurrendered();
     }
 
     public void HasChest(bool value)
     {
         if (Bot != null)
         {
-            Bot.Info.HasChest = value;
+            Bot.HasChest = value;
         }
         else
         {
@@ -126,7 +126,7 @@ public abstract class ActorManager : GameEntityManager
     {
         if (Bot != null)
         {
-            Bot.Info.HasSurrendered = value;
+            Bot.HasSurrendered = value;
         }
         else
         {

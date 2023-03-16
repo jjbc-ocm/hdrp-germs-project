@@ -41,6 +41,8 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         InstantiatePlayer(myPlayer.GetTeam(), myPlayer.GetShipIndex());
 
+        if (!PhotonNetwork.IsMasterClient) return;
+
         InstantiateBots();
     }
 
@@ -136,51 +138,35 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         {
             var bot = team1Bots[i];
 
-            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+            InstantiateBot(bot.Team, bot.ShipIndex, bot);
         }
 
         for (var i = 0; i < team2FreeSlots; i++)
         {
             var bot = team2Bots[i];
 
-            InstantiatePlayer(bot.Team, bot.ShipIndex, bot);
+            InstantiateBot(bot.Team, bot.ShipIndex, bot);
         }
     }
 
-    private void InstantiatePlayer(int team, int shipIndex, BotInfo botInfo = null)
+    private void InstantiatePlayer(int team, int shipIndex)
     {
-        var prefabName = botInfo == null 
-            ? SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name
-            : SOManager.Instance.BotShips[shipIndex].m_playerPrefab.name;
+        var prefabName = SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name;
 
         var spawnPoint = spawnPoints[team];
 
-        GameObject player;
-
-        if (botInfo != null)
-        {
-            player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
-
-            player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo);
-        }
-        else
-        {
-            PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
-        }
-
-        
+        PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
     }
 
-    
-
-    private bool IsAllowedToReconnect(DisconnectCause cause)
+    private void InstantiateBot(int team, int shipIndex, BotInfo botInfo)
     {
-        return 
-            cause == DisconnectCause.Exception ||
-            cause == DisconnectCause.ServerTimeout ||
-            cause == DisconnectCause.ClientTimeout ||
-            cause == DisconnectCause.DisconnectByServerLogic ||
-            cause == DisconnectCause.DisconnectByServerReasonUnknown;
+        var prefabName = SOManager.Instance.BotShips[shipIndex].m_playerPrefab.name;
+
+        var spawnPoint = spawnPoints[team];
+
+        var player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
+
+        player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo); // Master client need to call everything here, but non master client must call this to assign botInfo
     }
 
     #endregion

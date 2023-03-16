@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class BotManager : MonoBehaviour
+public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     #region Components
 
@@ -15,11 +16,35 @@ public class BotManager : MonoBehaviour
 
     #endregion
 
+    #region Networked
+    
+    private new string name;
+
+    private int team;
+
+    private int shipIndex;
+
+    private bool hasChest;
+
+    private bool hasSurrendered;
+
+    #endregion
+
     private DecisionThreadInfo[] threads;
 
-    private BotInfo info;
+    public string Name { get => name; }
 
-    public BotInfo Info { get => info; }
+    public int Team { get => team; }
+
+    public int ShipIndex { get => shipIndex; }
+
+    public bool HasChest { get => hasChest; set => hasChest = value; }
+
+    public bool HasSurrendered { get => hasSurrendered; set => hasSurrendered = value; }
+
+    //private BotInfo info;
+
+    //public BotInfo Info { get => info; set => info = value; }
 
     #region Unity
 
@@ -60,7 +85,11 @@ public class BotManager : MonoBehaviour
 
     public void Initialize(BotInfo info)
     {
-        this.info = info;
+        name = info.Name;
+        team = info.Team;
+        shipIndex = info.ShipIndex;
+        hasChest = info.HasChest;
+        hasSurrendered = info.HasSurrendered;
     }
 
     public Ray GetRay()
@@ -135,6 +164,33 @@ public class BotManager : MonoBehaviour
 
                 yield return new WaitForSeconds(0.25f);
             }
+        }
+    }
+
+
+
+    #endregion
+
+    #region Photon
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(name);
+            stream.SendNext(team);
+            stream.SendNext(shipIndex);
+            stream.SendNext(hasChest);
+            stream.SendNext(hasSurrendered);
+        }
+        else
+        {
+            Debug.Log("[OnPhotonSerializeView] receving");
+            name = (string)stream.ReceiveNext();
+            team = (int)stream.ReceiveNext();
+            shipIndex = (int)stream.ReceiveNext();
+            hasChest = (bool)stream.ReceiveNext();
+            hasSurrendered = (bool)stream.ReceiveNext();
         }
     }
 
