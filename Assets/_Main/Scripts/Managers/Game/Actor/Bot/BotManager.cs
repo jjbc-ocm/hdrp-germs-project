@@ -17,34 +17,14 @@ public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
     #endregion
 
     #region Networked
+
+    private int botIndex;
     
-    private new string name;
-
-    private int team;
-
-    private int shipIndex;
-
-    private bool hasChest;
-
-    private bool hasSurrendered;
-
     #endregion
 
     private DecisionThreadInfo[] threads;
 
-    public string Name { get => name; }
-
-    public int Team { get => team; }
-
-    public int ShipIndex { get => shipIndex; }
-
-    public bool HasChest { get => hasChest; set => hasChest = value; }
-
-    public bool HasSurrendered { get => hasSurrendered; set => hasSurrendered = value; }
-
-    //private BotInfo info;
-
-    //public BotInfo Info { get => info; set => info = value; }
+    public int BotIndex { get => botIndex; }
 
     #region Unity
 
@@ -83,18 +63,14 @@ public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
 
     #region Public
 
-    public void Initialize(BotInfo info)
+    public void Initialize(int botIndex)
     {
-        name = info.Name;
-        team = info.Team;
-        shipIndex = info.ShipIndex;
-        hasChest = info.HasChest;
-        hasSurrendered = info.HasSurrendered;
+        this.botIndex = botIndex;
     }
 
     public Ray GetRay()
     {
-        var origin = transform.position + transform.up * 5 - transform.forward * 5; // TODO: test bukas umaga
+        var origin = transform.position + transform.up * 5 - transform.forward * 5;
 
         return new Ray(origin, (player.Input.BotLook - origin).normalized);
     }
@@ -177,20 +153,11 @@ public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(name);
-            stream.SendNext(team);
-            stream.SendNext(shipIndex);
-            stream.SendNext(hasChest);
-            stream.SendNext(hasSurrendered);
+            stream.SendNext(botIndex);
         }
         else
         {
-            Debug.Log("[OnPhotonSerializeView] receving");
-            name = (string)stream.ReceiveNext();
-            team = (int)stream.ReceiveNext();
-            shipIndex = (int)stream.ReceiveNext();
-            hasChest = (bool)stream.ReceiveNext();
-            hasSurrendered = (bool)stream.ReceiveNext();
+            botIndex = (int)stream.ReceiveNext();
         }
     }
 

@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "LookDelta",
+                    "type": "Value",
+                    "id": "e02daa8b-0c93-4766-a206-7a8a87889a29",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Aim",
                     "type": "PassThrough",
                     "id": "f6025f1b-7457-4787-967c-06078ed53757",
@@ -272,6 +281,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "AimCancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e04ec24-f537-44b9-85d2-aa2e230329b5",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
+                    "groups": "Keyboard&Mouse",
+                    "action": "LookDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

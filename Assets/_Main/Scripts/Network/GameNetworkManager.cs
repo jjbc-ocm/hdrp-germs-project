@@ -166,7 +166,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         var player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
 
-        player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo); // Master client need to call everything here, but non master client must call this to assign botInfo
+        player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo.BotIndex);
     }
 
     #endregion

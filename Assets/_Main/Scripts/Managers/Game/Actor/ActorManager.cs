@@ -90,31 +90,37 @@ public abstract class ActorManager : GameEntityManager
 
     #region Public
 
+    // TODO: little inneficient now when calling PhotonNetwork.CurrentRoom.GetBots()
+
     public string GetName()
     {
-        return Bot?.Name ?? photonView.Owner.GetName();
+        return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).Name : photonView.Owner.GetName();
     }
 
     public int GetTeam()
     {
-        return Bot?.Team ?? photonView.Owner.GetTeam();
+        return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).Team : photonView.Owner.GetTeam();
     }
 
     public bool HasChest()
     {
-        return Bot?.HasChest ?? photonView.Owner.HasChest();
+        return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).HasChest : photonView.Owner.HasChest();
     }
 
     public bool HasSurrendered()
     {
-        return Bot?.HasSurrendered ?? photonView.Owner.HasSurrendered();
+        return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).HasSurrendered : photonView.Owner.HasSurrendered();
     }
 
     public void HasChest(bool value)
     {
         if (Bot != null)
         {
-            Bot.HasChest = value;
+            var botInfo = PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex);
+
+            botInfo.HasChest = value;
+
+            PhotonNetwork.CurrentRoom.SetBotInfo(Bot.BotIndex, botInfo);
         }
         else
         {
@@ -124,9 +130,15 @@ public abstract class ActorManager : GameEntityManager
 
     public void HasSurrendered(bool value)
     {
+        var bots = PhotonNetwork.CurrentRoom.GetBots();
+
         if (Bot != null)
         {
-            Bot.HasSurrendered = value;
+            var botInfo = PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex);
+
+            botInfo.HasSurrendered = value;
+
+            PhotonNetwork.CurrentRoom.SetBotInfo(Bot.BotIndex, botInfo);
         }
         else
         {
