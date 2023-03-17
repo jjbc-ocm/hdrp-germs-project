@@ -9,6 +9,8 @@ public class InputManager : Singleton<InputManager>
 
     private Vector2 look;
 
+    private Vector2 lookDelta;
+
     private Vector3 botLook;
 
     private bool isAim;
@@ -28,6 +30,8 @@ public class InputManager : Singleton<InputManager>
     public Vector2 Move { get => move; }
 
     public Vector2 Look { get => look; }
+
+    public Vector2 LookDelta { get => lookDelta; }
 
     public Vector3 BotLook { get => botLook; }
 
@@ -113,6 +117,11 @@ public class InputManager : Singleton<InputManager>
         look = value.Get<Vector2>();
     }
 
+    public void OnLookDelta(InputValue value)
+    {
+        lookDelta = value.Get<Vector2>();
+    }
+
     public void OnAim(InputValue value)
     {
         isAim = value.isPressed;
@@ -160,6 +169,11 @@ public class InputManager : Singleton<InputManager>
     public void OnLook(Vector3 value)
     {
         botLook = value;
+    }
+
+    public void OnLookDelta(Vector2 value)
+    {
+        lookDelta = value;
     }
 
     public void OnAim(bool value)

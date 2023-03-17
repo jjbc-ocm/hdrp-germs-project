@@ -49,6 +49,7 @@ Transform:
   - {fileID: 5391821638647574813}
   - {fileID: 252083241193757325}
   - {fileID: 9101198309469240442}
+  - {fileID: 5027805384954347753}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -178,6 +179,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  cameraFollow: {fileID: 5027805384954347753}
   data: {fileID: 11400000, guid: fa2ba3e54efded5489cf20ca4e4c0d29, type: 2}
   attack: {fileID: 11400000, guid: 751fdb97fa9340842af7d69454486bd0, type: 2}
   skill: {fileID: 11400000, guid: 9eeae887a2abda94a90f2c69a7d85e49, type: 2}
@@ -17394,6 +17396,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.016088247, y: -0.025500238, z: 0.63478374}
     m_Extent: {x: 0.5360473, y: 0.5432345, z: 0.33927774}
   m_DirtyAABB: 0
+--- !u!1 &8343591391259603922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5027805384954347753}
+  m_Layer: 8
+  m_Name: Camera Follow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5027805384954347753
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343591391259603922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 488270}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8368141423901700758
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,9 @@ using UnityEngine;
 public class BotInfo
 {
     [SerializeField]
+    private int botIndex;
+
+    [SerializeField]
     private string name;
 
     [SerializeField]
@@ -19,6 +22,8 @@ public class BotInfo
 
     [SerializeField]
     private bool hasSurrendered;
+
+    public int BotIndex { get => botIndex; set => botIndex = value; }
 
     public string Name { get => name; set => name = value; }
 
