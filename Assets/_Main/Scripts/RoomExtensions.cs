@@ -15,25 +15,24 @@ public static class RoomExtensions
 
     public const string chest = "chest";
 
-    public const string bots = "bots";
-    
+    public const string bot0 = "bot0";
+    public const string bot1 = "bot1";
+    public const string bot2 = "bot2";
+    public const string bot3 = "bot3";
+    public const string bot4 = "bot4";
+    public const string bot5 = "bot5";
+
     public static void Initialize(this Room room, bool isTeamSetup)
     {
         room.SetCustomProperties(new Hashtable
         {
             { RoomExtensions.isTeamSetup, isTeamSetup },
-            {
-                bots,
-                new string[]
-                {
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 1", Team = 0, ShipIndex = 0 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 2", Team = 0, ShipIndex = 1 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 3", Team = 0, ShipIndex = 2 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 4", Team = 1, ShipIndex = 3 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 5", Team = 1, ShipIndex = 4 }),
-                    JsonUtility.ToJson(new BotInfo { Name = "Bot 6", Team = 1, ShipIndex = 5 })
-                }
-            }
+            { bot0, JsonUtility.ToJson(new BotInfo { BotIndex = 0, Name = "Bot 1", Team = 0, ShipIndex = 0 }) },
+            { bot1, JsonUtility.ToJson(new BotInfo { BotIndex = 1, Name = "Bot 2", Team = 0, ShipIndex = 1 }) },
+            { bot2, JsonUtility.ToJson(new BotInfo { BotIndex = 2, Name = "Bot 3", Team = 0, ShipIndex = 2 }) },
+            { bot3, JsonUtility.ToJson(new BotInfo { BotIndex = 3, Name = "Bot 4", Team = 1, ShipIndex = 3 }) },
+            { bot4, JsonUtility.ToJson(new BotInfo { BotIndex = 4, Name = "Bot 5", Team = 1, ShipIndex = 4 }) },
+            { bot5, JsonUtility.ToJson(new BotInfo { BotIndex = 5, Name = "Bot 6", Team = 1, ShipIndex = 5 }) },
         });
     }
     
@@ -46,14 +45,6 @@ public static class RoomExtensions
 
         return false;
     }
-
-    /*public static void IsTeamSetup(this Room room, bool value)
-    {
-        room.SetCustomProperties(new Hashtable
-        {
-            { isTeamSetup, value }
-        });
-    }*/
 
     public static double GetTimePrepSceneLoaded(this Room room)
     {
@@ -116,16 +107,40 @@ public static class RoomExtensions
         return new int[] { 0, 0 };
     }
 
-    public static BotInfo[] GetBots(this Room room)
+    public static List<BotInfo> GetBots(this Room room)
     {
-        if (room.CustomProperties.TryGetValue(bots, out object value))
+        List<BotInfo> bots = null;
+
+        for (var i = 0; i < 6; i++)
         {
-            return ((string[])value).Select(i => JsonUtility.FromJson<BotInfo>(i)).ToArray();
+            if (room.CustomProperties.TryGetValue("bot" + i, out object value))
+            {
+                if (bots == null) bots = new List<BotInfo>();
+
+                bots.Add(JsonUtility.FromJson<BotInfo>((string)value));
+            }
+        }
+        
+        return bots;
+    }
+
+    public static BotInfo GetBot(this Room room, int index)
+    {
+        if (room.CustomProperties.TryGetValue("bot" + index, out object value))
+        {
+            return JsonUtility.FromJson<BotInfo>((string)value);
         }
 
         return null;
     }
 
+    public static void SetBotInfo(this Room room, int index, BotInfo botInfo)
+    {
+        room.SetCustomProperties(new Hashtable
+        {
+            { "bot" + index, JsonUtility.ToJson(botInfo) }
+        });
+    }
     
 
     

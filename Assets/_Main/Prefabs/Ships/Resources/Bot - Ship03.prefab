@@ -52,6 +52,7 @@ Transform:
   - {fileID: 373671231301691910}
   - {fileID: 5962626840285534644}
   - {fileID: 2731505172814482886}
+  - {fileID: 528439600157120410}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -108,6 +109,7 @@ MonoBehaviour:
   - {fileID: 806182921213133375}
   - {fileID: -3898388585158951413}
   - {fileID: 3327990943972068538}
+  - {fileID: -3412774058622914903}
   sceneViewId: 0
   InstantiationId: -1
   isRuntimeInstantiated: 0
@@ -181,6 +183,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  cameraFollow: {fileID: 528439600157120410}
   data: {fileID: 11400000, guid: 01d2876441f09984bae20b4322aa0a89, type: 2}
   attack: {fileID: 11400000, guid: f734caff2cd679248b25bad6aaad93f5, type: 2}
   skill: {fileID: 11400000, guid: f428a80421c99c344a07f780cc411c59, type: 2}
@@ -9639,6 +9642,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5985778449493000646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528439600157120410}
+  m_Layer: 8
+  m_Name: Camera Follow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &528439600157120410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985778449493000646}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 488270}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5990003410029244382
 GameObject:
   m_ObjectHideFlags: 0

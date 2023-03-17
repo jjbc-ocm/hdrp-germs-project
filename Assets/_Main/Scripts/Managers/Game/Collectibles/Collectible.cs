@@ -71,6 +71,8 @@ namespace TanksMP
         {
             OnObtain(player);
 
+            graphics.SetActive(false);
+
             AudioManager.Instance.Play3D(sound, transform.position);
 
             photonView.RPC("Destroy", RpcTarget.MasterClient);

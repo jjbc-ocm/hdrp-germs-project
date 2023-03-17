@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class BotManager : MonoBehaviour
+public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     #region Components
 
@@ -15,11 +16,15 @@ public class BotManager : MonoBehaviour
 
     #endregion
 
+    #region Networked
+
+    private int botIndex;
+    
+    #endregion
+
     private DecisionThreadInfo[] threads;
 
-    private BotInfo info;
-
-    public BotInfo Info { get => info; }
+    public int BotIndex { get => botIndex; }
 
     #region Unity
 
@@ -58,14 +63,14 @@ public class BotManager : MonoBehaviour
 
     #region Public
 
-    public void Initialize(BotInfo info)
+    public void Initialize(int botIndex)
     {
-        this.info = info;
+        this.botIndex = botIndex;
     }
 
     public Ray GetRay()
     {
-        var origin = transform.position + transform.up * 5 - transform.forward * 5; // TODO: test bukas umaga
+        var origin = transform.position + transform.up * 5 - transform.forward * 5;
 
         return new Ray(origin, (player.Input.BotLook - origin).normalized);
     }
@@ -135,6 +140,24 @@ public class BotManager : MonoBehaviour
 
                 yield return new WaitForSeconds(0.25f);
             }
+        }
+    }
+
+
+
+    #endregion
+
+    #region Photon
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(botIndex);
+        }
+        else
+        {
+            botIndex = (int)stream.ReceiveNext();
         }
     }
 

@@ -27,9 +27,10 @@ namespace TanksMP
         #region Serializable
 
         [SerializeField]
-        private GPShipDesc data;
+        private Transform cameraFollow;
 
-        [Header("Other Properties")]
+        [SerializeField]
+        private GPShipDesc data;
 
         [SerializeField]
         private SkillData attack;
@@ -139,7 +140,7 @@ namespace TanksMP
 
             Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
 
-            GameCameraManager.Instance.SetTarget(transform);
+            GameCameraManager.Instance.SetTarget(cameraFollow);
         }
 
         private void Update()
@@ -297,7 +298,7 @@ namespace TanksMP
             {
                 if (!IsBot)
                 {
-                    GameCameraManager.Instance.SetTarget(attackerView.transform);
+                    GameCameraManager.Instance.SetTarget(attackerView.GetComponent<Player>().cameraFollow);
                 }
                 
                 photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
@@ -407,7 +408,7 @@ namespace TanksMP
         {
             if (isCameraFollow && !IsBot)
             {
-                GameCameraManager.Instance.SetTarget(transform);
+                GameCameraManager.Instance.SetTarget(cameraFollow);
             }
             
             transform.position = GameNetworkManager.Instance.SpawnPoints[GetTeam()].position;

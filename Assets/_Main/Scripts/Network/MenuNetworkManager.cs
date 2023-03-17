@@ -51,7 +51,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         if (!isPreparationInitiated && lapseTime >= 15)
         {
-            TrySetPlayerTeams(true);
+            TryInitializePlayers(true);
         }
     }
 
@@ -92,7 +92,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
 
-        TrySetPlayerTeams();
+        //TryInitializePlayers();
     }
 
     public override void OnLeftRoom()
@@ -104,12 +104,12 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         timeLastPlayerJoined = PhotonNetwork.Time;
 
-        TrySetPlayerTeams();
+        TryInitializePlayers();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        TrySetPlayerTeams();
+        //TryInitializePlayers();
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -160,13 +160,16 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
                 SOManager.Instance.Constants.MaxPlayerCount);
     }
 
-    private void TrySetPlayerTeams(bool isIgnorePlayerCount = false)
+    private void TryInitializePlayers(bool isIgnorePlayerCount = false)
     {
-        var playerCountCondition = !isIgnorePlayerCount && PhotonNetwork.CurrentRoom.PlayerCount < SOManager.Instance.Constants.MaxPlayerCount;
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        if (!PhotonNetwork.IsMasterClient || playerCountCondition) return;
+        var isMaxPlayers = PhotonNetwork.CurrentRoom.PlayerCount == SOManager.Instance.Constants.MaxPlayerCount;
 
-        SetPlayerTeams();
+        if (isMaxPlayers || isIgnorePlayerCount)
+        {
+            InitializePlayers();
+        }
     }
 
     private void TryLoadPreparationScene()
@@ -178,8 +181,12 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(SOManager.Instance.Constants.ScenePreparation);
     }
 
-    private void SetPlayerTeams()
+    private void InitializePlayers()
     {
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+
         var players = PhotonNetwork.PlayerList;
 
         var teamsCount = new int[2];
