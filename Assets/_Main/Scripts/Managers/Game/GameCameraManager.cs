@@ -11,7 +11,10 @@ public class GameCameraManager : Singleton<GameCameraManager>
     private CinemachineVirtualCamera virtualCamera;
 
     [SerializeField]
-    private float angleLimit;
+    private float limitYaw;
+
+    [SerializeField]
+    private float limitPitch;
 
     private Camera mainCamera;
 
@@ -47,8 +50,8 @@ public class GameCameraManager : Singleton<GameCameraManager>
         }
 
         // clamp our rotations so our values are limited 360 degrees
-        targetYaw = ClampAngle(targetYaw, -angleLimit, angleLimit);
-        targetPitch = ClampAngle(targetPitch, -angleLimit, angleLimit);
+        targetYaw = ClampAngle(targetYaw, -limitYaw, limitYaw);
+        targetPitch = ClampAngle(targetPitch, -limitPitch, limitPitch);
 
         // Cinemachine will follow this target
         virtualCamera.Follow.transform.localRotation = Quaternion.Euler(targetPitch, targetYaw, 0.0f);

@@ -15,7 +15,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private Variables
 
-    private Action<string, float> onStatusChange;
+    private Action<string> onStatusChange;
 
     private double timeJoined;
 
@@ -61,7 +61,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        onStatusChange.Invoke("Attempting to join a room...", 0.2f);
+        onStatusChange.Invoke("Ready for match making...");
 
         if (isConnecting)
         {
@@ -74,18 +74,20 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        onStatusChange.Invoke("Error " + cause.ToString(), 0f);
+        onStatusChange.Invoke("Disconnect Error " + cause.ToString());
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        onStatusChange.Invoke("Create own room instead...", 0.3f);
+        onStatusChange.Invoke("Cannot join room, creating one instead...");
 
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = SOManager.Instance.Constants.MaxPlayerCount });
     }
 
     public override void OnJoinedRoom()
     {
+        onStatusChange.Invoke("Successfully joined a room...");
+
         timeJoined = PhotonNetwork.Time;
 
         timeLastPlayerJoined = PhotonNetwork.Time;
@@ -97,11 +99,13 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        onStatusChange.Invoke("Match making canceled...", 0f);
+        onStatusChange.Invoke("Match making canceled...");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        onStatusChange.Invoke(newPlayer.GetName() + " joined...");
+
         timeLastPlayerJoined = PhotonNetwork.Time;
 
         TryInitializePlayers();
@@ -109,6 +113,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        onStatusChange.Invoke(otherPlayer.GetName() + " left...");
+
         //TryInitializePlayers();
     }
 
@@ -116,6 +122,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.IsTeamSetup())
         {
+            onStatusChange.Invoke("Player initialization complete...");
+
             TryLoadPreparationScene();
         }
     }
@@ -124,13 +132,11 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Public
 
-    public void StartMatchMaking(Action<string, float> onStatusChange)
+    public void StartMatchMaking(Action<string> onStatusChange)
     {
         this.onStatusChange = onStatusChange;
 
-        onStatusChange.Invoke("Start a match...", 0.1f);
-
-        //PhotonNetwork.NickName = PlayerPrefs.GetString(APIManager.Instance.PlayerData.Name);
+        onStatusChange.Invoke("Starting a game...");
 
         if (PhotonNetwork.IsConnected)
         {
@@ -146,6 +152,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public void CancelMatchMaking()
     {
+        onStatusChange.Invoke("Match making canceled...");
+
         PhotonNetwork.LeaveRoom();
     }
 
@@ -155,6 +163,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private void StartMatchMaking()
     {
+        onStatusChange.Invoke("Joining random room...");
+
         PhotonNetwork.JoinRandomRoom(
                 new ExitGames.Client.Photon.Hashtable { /* Enter game mode here in the future */ },
                 SOManager.Instance.Constants.MaxPlayerCount);
@@ -176,13 +186,17 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        onStatusChange.Invoke("Loading scene...", 0.9f);
+        onStatusChange.Invoke("Loading preparation phase...");
 
         PhotonNetwork.LoadLevel(SOManager.Instance.Constants.ScenePreparation);
     }
 
     private void InitializePlayers()
     {
+        onStatusChange.Invoke("Initializing players...");
+
+        // TODO: somewhere here, there's an index out of range
+
         PhotonNetwork.CurrentRoom.IsOpen = false;
 
         PhotonNetwork.CurrentRoom.IsVisible = false;
@@ -197,11 +211,11 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         {
             var team = UnityEngine.Random.Range(0, 2);
 
-            if (teamsCount[i] < SOManager.Instance.Constants.MaxPlayerPerTeam)
+            if (teamsCount[team] < SOManager.Instance.Constants.MaxPlayerPerTeam)
             {
                 players[i].SetTeam(team);
 
-                teamsCount[i] += 1;
+                teamsCount[team] += 1;
 
                 i += 1;
             }
