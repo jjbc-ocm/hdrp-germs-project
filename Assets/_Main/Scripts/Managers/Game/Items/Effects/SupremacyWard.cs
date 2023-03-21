@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SupremacyWard : ItemEffectManager
 {
-    public override void Execute(int slotIndex, Player user)
+    public override void Execute(int slotIndex, PlayerManager user)
     {
         user.ItemAim.Aim((targetPosition) =>
         {

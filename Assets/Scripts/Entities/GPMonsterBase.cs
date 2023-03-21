@@ -483,7 +483,7 @@ public class GPMonsterBase : ActorManager
     /// <param name="collider"></param>
     public virtual void BitePlayer(Collider collider)
     {
-        Player player = collider.GetComponent<Player>();
+        var player = collider.GetComponent<PlayerManager>();
         MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (meleeAtk == null) { return; }
 

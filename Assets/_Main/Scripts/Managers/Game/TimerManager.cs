@@ -71,7 +71,7 @@ public class TimerManager : MonoBehaviour
                 score[0] < score[1] ? 1 :
                 -1;*/
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
+            PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
             isAftermathCalled = true;
 

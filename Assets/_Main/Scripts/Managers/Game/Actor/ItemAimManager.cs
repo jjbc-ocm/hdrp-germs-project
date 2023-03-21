@@ -11,13 +11,13 @@ public class ItemAimManager : MonoBehaviour
 
     private bool isAiming;
 
-    private Player player;
+    private PlayerManager player;
 
     private Action<Vector3> onRelease;
 
     void Awake()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerManager>();
     }
 
     void Start()

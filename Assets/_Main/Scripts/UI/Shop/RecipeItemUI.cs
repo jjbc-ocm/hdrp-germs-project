@@ -19,7 +19,7 @@ public class RecipeItemUI : UI<RecipeItemUI>
     {
         imageSprite.sprite = Data.Icon;
 
-        textCost.text = ShopManager.Instance.GetTotalCost(Player.Mine, Data).ToString();
+        textCost.text = ShopManager.Instance.GetTotalCost(PlayerManager.Mine, Data).ToString();
     }
 
     public void OnClick()

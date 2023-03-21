@@ -102,10 +102,10 @@ public class TopBarUI : UI<TopBarUI>
             }
         }
 
-        if (Player.Mine == null) return;
+        if (PlayerManager.Mine == null) return;
 
-        textKills.text = Player.Mine.Stat.Kills.ToString();
+        textKills.text = PlayerManager.Mine.Stat.Kills.ToString();
 
-        textDeaths.text = Player.Mine.Stat.Deaths.ToString();
+        textDeaths.text = PlayerManager.Mine.Stat.Deaths.ToString();
     }
 }

@@ -14,7 +14,7 @@ public class MoveThreadInfo : DecisionThreadInfo
         {
             if (entity.IsVisibleRelativeTo(player.transform))
             {
-                if (entity is Player && entity != player)
+                if (entity is PlayerManager && entity != player)
                 {
                     currentDecision = GetBetterDecision(currentDecision, GetDecisionTo(entity));
                 }
@@ -53,9 +53,9 @@ public class MoveThreadInfo : DecisionThreadInfo
 
     private float GetWeightToApproachTarget(GameEntityManager target)
     {
-        if (target is Player)
+        if (target is PlayerManager)
         {
-            var targetPlayer = target as Player;
+            var targetPlayer = target as PlayerManager;
 
             /* Prioritize enemy carrying a chest */
             var targetChest = targetPlayer.HasChest() && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;

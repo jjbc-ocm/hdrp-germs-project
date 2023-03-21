@@ -16,7 +16,7 @@ public class ScoreBoardUI : WindowUI<ScoreBoardUI>
     [SerializeField]
     private PlayerStatusesUI [] teams;
 
-    public List<List<Player>> Data { get; set; }
+    public List<List<PlayerManager>> Data { get; set; }
 
     protected override void OnRefreshUI()
     {

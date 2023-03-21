@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerStatusesUI : ListViewUI<PlayerStatusUI, PlayerStatusesUI>
 {
-    public List<Player> Data { get; set; }
+    public List<PlayerManager> Data { get; set; }
 
     protected override void OnRefreshUI()
     {

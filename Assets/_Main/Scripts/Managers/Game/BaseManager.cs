@@ -75,7 +75,7 @@ public class BaseManager : GameEntityManager
 
     #region Public
 
-    public bool HasPlayer(Player player)
+    public bool HasPlayer(PlayerManager player)
     {
         return Vector3.Distance(collectibleZone.transform.position, player.transform.position) <= collectibleZone.transform.localScale.x / 2f;
     }
@@ -101,7 +101,7 @@ public class BaseManager : GameEntityManager
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
+            PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
             return;
         }

@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviourPun
     [SerializeField]
     public Team[] teams;
 
-    private List<Player> ships;
+    private List<PlayerManager> ships;
 
     private List<SupremacyWardEffectManager> supremacyWards;
 
@@ -32,11 +32,11 @@ public class GameManager : MonoBehaviourPun
 
     private BattleResultType[] battleResults;
 
-    public List<Player> Ships { get => ships; }
+    public List<PlayerManager> Ships { get => ships; }
 
-    public List<Player> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
+    public List<PlayerManager> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
 
-    public List<Player> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
+    public List<PlayerManager> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
 
     public List<SupremacyWardEffectManager> SupremacyWards { get => supremacyWards; }
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviourPun
     {
         Instance = this;
 
-        ships = new List<Player>();
+        ships = new List<PlayerManager>();
 
         supremacyWards = new List<SupremacyWardEffectManager>();
 
@@ -87,9 +87,9 @@ public class GameManager : MonoBehaviourPun
     {
         entities.Add(entity);
 
-        if (entity is Player)
+        if (entity is PlayerManager)
         {
-            ships.Add(entity as Player);
+            ships.Add(entity as PlayerManager);
         }
     }
 
@@ -97,15 +97,15 @@ public class GameManager : MonoBehaviourPun
     {
         entities.Remove(entity);
 
-        if (entity is Player)
+        if (entity is PlayerManager)
         {
-            ships.Remove(entity as Player);
+            ships.Remove(entity as PlayerManager);
         }
     }
 
     public void PlayerSurrender()
     {
-        Player.Mine.HasSurrendered(true);
+        PlayerManager.Mine.HasSurrendered(true);
     }
 
     public void AddScore(ScoreType scoreType, int teamIndex)
@@ -159,13 +159,13 @@ public class GameManager : MonoBehaviourPun
 
     public void DisplayGameOver(int winnerTeamIndex)
     {
-        Player.Mine.enabled = false;
+        PlayerManager.Mine.enabled = false;
 
         //ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
 
         AftermathUI.Instance.Open((self) =>
         {
-            self.Data = new List<List<Player>> { Team1Ships, Team2Ships };
+            self.Data = new List<List<PlayerManager>> { Team1Ships, Team2Ships };
 
             self.BattleResult =
                 winnerTeamIndex == -1 ? BattleResultType.Draw :

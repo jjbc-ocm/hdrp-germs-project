@@ -18,7 +18,7 @@ public class AttackThreadInfo : DecisionThreadInfo
         {
             if (entity.IsVisibleRelativeTo(player.transform))
             {
-                if (entity is Player && (entity as Player).GetTeam() != player.GetTeam())
+                if (entity is PlayerManager && (entity as PlayerManager).GetTeam() != player.GetTeam())
                 {
                     currentDecision = GetBetterDecision(currentDecision, AttackDecision(entity));
                 }

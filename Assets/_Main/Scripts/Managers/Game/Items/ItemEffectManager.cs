@@ -5,5 +5,5 @@ using UnityEngine;
 
 public abstract class ItemEffectManager
 {
-    public abstract void Execute(int slotIndex, Player user);
+    public abstract void Execute(int slotIndex, PlayerManager user);
 }

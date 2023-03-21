@@ -9,13 +9,13 @@ public abstract class DecisionThreadInfo
 {
     protected PersonalityInfo personality;
 
-    protected Player player;
+    protected PlayerManager player;
 
     protected NavMeshAgent agent;
 
     protected ItemStatValuesInfo maxItemStatValues;
 
-    public void Initialize(Player player, NavMeshAgent agent, ItemStatValuesInfo maxItemStatValues)
+    public void Initialize(PlayerManager player, NavMeshAgent agent, ItemStatValuesInfo maxItemStatValues)
     {
         personality = player.Data.Personality;
 

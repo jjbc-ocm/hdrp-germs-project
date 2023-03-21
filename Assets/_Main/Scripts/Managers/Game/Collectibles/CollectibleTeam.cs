@@ -7,15 +7,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
 
-namespace TanksMP
+public class CollectibleTeam : Collectible
 {
-    public class CollectibleTeam : Collectible
+    protected override void OnObtain(PlayerManager player)
     {
-        protected override void OnObtain(Player player)
-        {
-            player.HasChest(true);
+        player.HasChest(true);
 
-            GuideManager.Instance.TryAddChestGuide();
-        }
+        GuideManager.Instance.TryAddChestGuide();
     }
 }

@@ -31,7 +31,7 @@ public class PlayerStatusUI : UI<PlayerStatusUI>
     [SerializeField]
     private ItemSlotUI[] itemSlots;
 
-    public Player Data { get; set; }
+    public PlayerManager Data { get; set; }
 
     protected override void OnRefreshUI()
     {

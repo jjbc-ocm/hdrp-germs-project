@@ -26,7 +26,7 @@ public class GPShipDesc : ScriptableObject
     [TextArea(2, 10)]
     public string m_ability;
     public GameObject m_model;
-    public Player m_playerPrefab;
+    public PlayerManager m_playerPrefab;
     public Sprite m_cardImage;
 
     [SerializeField]

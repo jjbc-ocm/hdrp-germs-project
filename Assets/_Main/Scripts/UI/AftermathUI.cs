@@ -41,7 +41,7 @@ public class AftermathUI : WindowUI<AftermathUI>
     [SerializeField]
     private GPShipCard uiShip;
 
-    public List<List<Player>> Data { get; set; }
+    public List<List<PlayerManager>> Data { get; set; }
 
     public BattleResultType BattleResult { get; set; }
 
@@ -56,9 +56,9 @@ public class AftermathUI : WindowUI<AftermathUI>
         await APIManager.Instance.PlayerData
             .SetStats(new StatsData
             {
-                Kills = stats.Kills + Player.Mine.Stat.Kills,
+                Kills = stats.Kills + PlayerManager.Mine.Stat.Kills,
 
-                Deaths = stats.Deaths + Player.Mine.Stat.Deaths,
+                Deaths = stats.Deaths + PlayerManager.Mine.Stat.Deaths,
 
                 Wins = stats.Wins + (BattleResult == BattleResultType.Victory ? 1 : 0),
 
@@ -109,6 +109,6 @@ public class AftermathUI : WindowUI<AftermathUI>
 
     private void RefreshOtherInfo()
     {
-        uiShip.DisplayShipDesc(Player.Mine.Data);
+        uiShip.DisplayShipDesc(PlayerManager.Mine.Data);
     }
 }

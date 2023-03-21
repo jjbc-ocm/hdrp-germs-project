@@ -52,7 +52,7 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
     {
         var isInTargetRange = Vector3.Distance(transform.position, target.position) <= SOManager.Instance.Constants.FogOrWarDistance;
 
-        if (target.TryGetComponent(out Player targetPlayer))
+        if (target.TryGetComponent(out PlayerManager targetPlayer))
         {
             // TODO: still have to handle invisibility items
             //return (isInTargetRange || IsInSupremacyWard()) && !isInsideBush;

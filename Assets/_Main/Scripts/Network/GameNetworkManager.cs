@@ -166,7 +166,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         var player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
 
-        player.GetComponent<TanksMP.Player>().Bot.Initialize(botInfo.BotIndex);
+        player.GetComponent<PlayerManager>().Bot.Initialize(botInfo.BotIndex);
     }
 
     #endregion

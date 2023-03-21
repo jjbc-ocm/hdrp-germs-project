@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BlessingsOfJumbo : ItemEffectManager
 {
-    public override void Execute(int slotIndex, Player user)
+    public override void Execute(int slotIndex, PlayerManager user)
     {
         var constants = SOManager.Instance.Constants;
 

@@ -43,7 +43,7 @@ public abstract class ActionBase : MonoBehaviour
     {
         target.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, user.photonView.ViewID);
 
-        if (user.TryGetComponent(out Player playerUser))//(owner is Player)
+        if (user.TryGetComponent(out PlayerManager playerUser))//(owner is Player)
         {
             var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * playerUser.Inventory.StatModifier.LifeSteal));
 
