@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class HitscanAttack : AttackBase
 {
+    [SerializeField]
+    private FireType fire;
+
+    #region Reticle
+
+    public float gravity = 9.81f;  // the gravity force
+    public float travelTime = 1f;  // the time it takes for the projectile to reach the target
+
+    private Vector3 aimDirection;  // the aim direction of the projectile
+    private float initialSpeed;  // the initial speed of the projectile
+    private Vector3 velocity3D;  // the velocity of the projectile
+
+    #endregion
+
+
     protected override void OnInitialize()
     {
         var fromPosition = owner.transform.position;
@@ -33,9 +48,65 @@ public class HitscanAttack : AttackBase
         }
 
         AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
+
+
+        if (fire == FireType.Straight)
+        {
+
+        }
+
+        else if (fire == FireType.Reticle)
+        {
+            InitializeReticleFire();
+        }
+
+        else if (fire == FireType.Sight)
+        {
+
+        }
     }
 
     private void Update()
+    {
+        if (fire == FireType.Straight)
+        {
+            UpdateStraightFire();
+        }
+
+        else if (fire == FireType.Reticle)
+        {
+            UpdateReticleFire();
+        }
+
+        else if (fire == FireType.Sight)
+        {
+            UpdateSightFire();
+        }
+        
+        
+    }
+
+    private void InitializeReticleFire()
+    {
+        // get the direction from the projectile to the target
+        Vector3 targetDirection = targetPosition - transform.position;
+        // calculate the distance to the target
+        float targetDistance = targetDirection.magnitude;
+        // calculate the time required for the projectile to hit the target
+        float timeToTarget = Mathf.Sqrt(2f * targetDistance / gravity);
+        // calculate the initial speed required to hit the target
+        initialSpeed = targetDistance / timeToTarget;
+        initialSpeed *= 1f;
+        // calculate the angle required to hit the target
+        float angle = Mathf.Atan((targetDirection.y + 0.5f * gravity * timeToTarget * timeToTarget) / targetDistance);
+        // calculate the aim direction of the projectile
+        aimDirection = targetDirection.normalized;
+        aimDirection.y = Mathf.Tan(angle);
+        // calculate the velocity of the projectile
+        velocity3D = initialSpeed * aimDirection;
+    }
+
+    private void UpdateStraightFire()
     {
         transform.Translate(Vector3.forward * velocity * Time.deltaTime, Space.Self);
 
@@ -47,5 +118,40 @@ public class HitscanAttack : AttackBase
         }
     }
 
-    
+    private void UpdateReticleFire()
+    {
+        // calculate the new position of the projectile
+        Vector3 newPosition = transform.position + velocity3D * Time.deltaTime;
+        newPosition.y += 0.5f * gravity * Time.deltaTime * Time.deltaTime;
+        velocity3D.y -= gravity * Time.deltaTime;
+        // update the position and velocity of the projectile
+        transform.position = newPosition;
+
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            Destroy(gameObject);
+        }
+
+
+        /* Draw traectory */
+        /*Vector3[] points = new Vector3[20];
+        float timeStep = travelTime / (float)20;
+        for (int i = 0; i < 20; i++)
+        {
+            float t = i * timeStep;
+            Vector3 point = transform.position + initialSpeed * aimDirection * t;
+            point.y = transform.position.y + initialSpeed * aimDirection.y * t - 0.5f * gravity * t * t;
+            points[i] = point;
+        }
+        // draw the trajectory line
+        for (int i = 0; i < 20 - 1; i++)
+        {
+            Debug.DrawLine(points[i], points[i + 1], Color.red, 0.1f);
+        }*/
+    }
+
+    private void UpdateSightFire()
+    {
+
+    }
 }

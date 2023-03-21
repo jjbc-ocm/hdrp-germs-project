@@ -20,15 +20,15 @@ public class ScoreBoardUI : WindowUI<ScoreBoardUI>
 
     protected override void OnRefreshUI()
     {
-        var scores = PhotonNetwork.CurrentRoom.GetScore();
+        //var scores = PhotonNetwork.CurrentRoom.GetScore();
 
-        var chests = PhotonNetwork.CurrentRoom.GetChests();
+        //var chests = PhotonNetwork.CurrentRoom.GetChests();
 
         for (var i = 0; i < teams.Length; i++)
         {
-            textScores[i].text = scores[i].ToString();
+            textScores[i].text = PhotonNetwork.CurrentRoom.GetScore(i).ToString();
 
-            textChests[i].text = chests[i].ToString();
+            textChests[i].text = PhotonNetwork.CurrentRoom.GetChest(i).ToString();
 
             teams[i].RefreshUI((self) =>
             {

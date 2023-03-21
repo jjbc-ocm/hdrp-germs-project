@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviourPun
 
     private List<GameEntityManager> entities;
 
+    private BattleResultType[] battleResults;
+
     public List<Player> Ships { get => ships; }
 
     public List<Player> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviourPun
     public List<SupremacyWardEffectManager> SupremacyWards { get => supremacyWards; }
 
     public List<GameEntityManager> Entities { get => entities; }
+
+    public BattleResultType[] BattleResults { get => battleResults; }
 
     #region Unity
 
@@ -51,6 +55,8 @@ public class GameManager : MonoBehaviourPun
         supremacyWards = new List<SupremacyWardEffectManager>();
 
         entities = new List<GameEntityManager>();
+
+        battleResults = new BattleResultType[teams.Length];
     }
 
     private void Start()
@@ -117,54 +123,37 @@ public class GameManager : MonoBehaviourPun
                 break;
         }
     }
-        
-
-    public bool IsGameOver(out List<BattleResultType> teamResults)
+    
+    public bool IsGameOver()
     {
-        teamResults = new List<BattleResultType>();
-
         var isOver = false;
 
-        var score = PhotonNetwork.CurrentRoom.GetScore();
-            
-            
-        for (var i = 0; i < teams.Length; i++)
-        {
-            teamResults.Add(BattleResultType.Victory);
+        // Decide battle result by score
+        var score0 = PhotonNetwork.CurrentRoom.GetScore(0);
 
-            // Decide winner by score
-            for (var j = 0; j < teams.Length; j++)
-            {
-                if (i == j) continue;
-                if (score[j] > score[i]) teamResults[i] = BattleResultType.Defeat;
-                if (score[j] == score[i]) teamResults[i] = BattleResultType.Draw;
-            }
+        var score1 = PhotonNetwork.CurrentRoom.GetScore(1);
 
-            // Decide winner by surrenders
-            var teamShips = ships.Where(ship => ship.GetTeam() == i);
+        battleResults[0] =
+            score0 > score1 ? BattleResultType.Victory :
+            score0 < score1 ? BattleResultType.Defeat :
+            BattleResultType.Draw;
 
-            var teamSurrendered = teamShips.Count(i => i.HasSurrendered()) > teamShips.Count(i => !i.HasSurrendered());
+        battleResults[1] =
+            score1 > score0 ? BattleResultType.Victory :
+            score1 < score0 ? BattleResultType.Defeat :
+            BattleResultType.Draw;
 
-            if (teamSurrendered) isOver = true;
-
-            teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
-        }
+        // Decide battle result who surrendered
+        // TODO:
 
         // Decide if the game has to stop
-        for (int i = 0; i < teams.Length; i++)
-        {
-            if(score[i] >= SOManager.Instance.Constants.ScoreRequired)
-            {
-                isOver = true;
-            }
-        }
-
-        if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer)
+        if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer ||
+            score0 >= SOManager.Instance.Constants.ScoreRequired ||
+            score1 >= SOManager.Instance.Constants.ScoreRequired)
         {
             isOver = true;
         }
 
-        //return the result
         return isOver;
     }
 

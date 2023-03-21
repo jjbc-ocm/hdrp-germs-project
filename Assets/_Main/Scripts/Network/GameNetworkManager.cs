@@ -66,10 +66,10 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     }
 
     // It is called when reconnecting the game when the player got disconnected
-    public override void OnConnectedToMaster()
+   /* public override void OnConnectedToMaster()
     {
         PhotonNetwork.RejoinRoom(Globals.ROOM_NAME);
-    }
+    }*/
 
     // TODO: removed because never called
     // These methods are not called in MenuNetworkManager if player is not the master client, so they must be handled in these scene

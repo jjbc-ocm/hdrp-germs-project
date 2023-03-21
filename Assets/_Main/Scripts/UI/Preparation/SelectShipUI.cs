@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectShipUI : ListViewUI<GPShipCard, SelectShipUI>
+public class SelectShipUI : WindowListViewUI<GPShipCard, SelectShipUI>
 {
     protected override void OnRefreshUI()
     {

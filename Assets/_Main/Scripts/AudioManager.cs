@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance;
-
     [SerializeField]
     private AudioMixer audioMixer;
 
@@ -24,13 +22,6 @@ public class AudioManager : MonoBehaviour
     private AudioClip[] musicClips;
 
     public AudioClip[] MusicClips { get => musicClips; }
-
-    void Awake()
-    {
-        Instance = this;
-
-        //SceneManager.sceneLoaded += OnSceneLoaded;
-    }
 
 
     // Stop playing music after switching scenes. To keep playing

@@ -67,7 +67,7 @@ namespace TanksMP
         /// </summary>
         public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
 		{
-			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore());
+			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore(0), PhotonNetwork.CurrentRoom.GetScore(1));
 		}
 
 
@@ -78,18 +78,10 @@ namespace TanksMP
         /// This is an implementation for changes to the team score,
         /// updating the text values (updates UI display of team scores).
         /// </summary>
-        public void OnTeamScoreChanged(int[] score)
+        public void OnTeamScoreChanged(int score0, int score1)
         {
-            //loop over texts
-			for(int i = 0; i < score.Length; i++)
-            {
-                //detect if the score has been increased, then add fancy animation
-                //if(score[i] > int.Parse(teamScore[i].text))
-                //    teamScore[i].GetComponent<Animator>().Play("Animation");
-
-                //assign score value to text
-                teamScore[i].text = score[i].ToString();
-            }
+            teamScore[0].text = score0.ToString();
+            teamScore[1].text = score1.ToString();
         }
 
         

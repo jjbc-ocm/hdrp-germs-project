@@ -11,6 +11,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace TanksMP
 {
@@ -138,8 +139,6 @@ namespace TanksMP
 
             Mine = this;
 
-            Globals.ROOM_NAME = PhotonNetwork.CurrentRoom.Name;
-
             GameCameraManager.Instance.SetTarget(cameraFollow);
         }
 
@@ -148,14 +147,6 @@ namespace TanksMP
             if (AftermathUI.Instance.gameObject.activeSelf) return;
 
             if (!photonView.IsMine || IsBot) return;
-
-            /* */
-            /*Cursor.visible = 
-                !ShopUI.Instance.gameObject.activeSelf&&
-                !ChatUI.Instance.gameObject.activeSelf &&
-                !ScoreBoardUI.Instance.gameObject.activeSelf &&
-                !AftermathUI.Instance.gameObject.activeSelf &&
-                !SettingsUI.Instance.gameObject.activeSelf;*/
 
             /* Shop must only be accessible if:
              * - Chat UI is minimized as it will interfere with keyboard inputs
@@ -233,6 +224,20 @@ namespace TanksMP
 
             /* Cache it because, we need to accumulate the movement force */
             prevMoveDir = moveDir;
+        }
+
+        private void LateUpdate()
+        {
+            if (!photonView.IsMine || IsBot) return;
+
+            Cursor.lockState =
+                !ShopUI.Instance.gameObject.activeSelf &&
+                !ChatUI.Instance.gameObject.activeSelf &&
+                !ScoreBoardUI.Instance.gameObject.activeSelf &&
+                !AftermathUI.Instance.gameObject.activeSelf &&
+                !SettingsUI.Instance.gameObject.activeSelf ?
+                CursorLockMode.Locked :
+                CursorLockMode.None;
         }
 
         #endregion
@@ -342,9 +347,9 @@ namespace TanksMP
         }
 
         [PunRPC]
-        public void RpcGameOver(int winnerTeamIndex)
+        public void RpcGameOver()
         {
-            GameManager.Instance.DisplayGameOver(winnerTeamIndex);
+            GameManager.Instance.DisplayGameOver(Array.IndexOf(GameManager.Instance.BattleResults, BattleResultType.Victory));
         }
 
         [PunRPC]
@@ -435,7 +440,7 @@ namespace TanksMP
         {
             var offset = Vector3.up * 2;
 
-            var aimPosition = transform.position + transform.forward * 999f;
+            var aimPosition = transform.position + cameraFollow.forward * 999f;
 
             var targetPosition = aimPosition + offset;
 
@@ -467,7 +472,7 @@ namespace TanksMP
         {
             var instantAim =
                 action.Aim == AimType.None ? transform.position :
-                action.Aim == AimType.WhileExecute ? transform.position + transform.forward * 999f :
+                action.Aim == AimType.WhileExecute ? transform.position + cameraFollow.forward * 999f :
                 Vector3.zero;
 
             if (action.Aim == AimType.None || action.Aim == AimType.WhileExecute)

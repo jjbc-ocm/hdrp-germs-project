@@ -32,7 +32,7 @@ public abstract class DecisionThreadInfo
 
         if (finalDecision != null)
         {
-            Debug.Log("[BOT: " + player.gameObject.name + "] " + finalDecision.Key);
+            //Debug.Log("[BOT: " + player.gameObject.name + "] " + finalDecision.Key);
 
             finalDecision.Decision.Invoke();
         }

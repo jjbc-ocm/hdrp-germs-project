@@ -48,7 +48,7 @@ public class BaseManager : GameEntityManager
             {
                 timer += Time.deltaTime;
 
-                Debug.Log("[Drop Chest] No Enemy, Team: " + team + " Time: " + timer);
+                //Debug.Log("[Drop Chest] No Enemy, Team: " + team + " Time: " + timer);
 
                 if (timer >= SOManager.Instance.Constants.CaptureChestTime)
                 {
@@ -58,7 +58,7 @@ public class BaseManager : GameEntityManager
             }
             else
             {
-                Debug.Log("[Drop Chest] Has Enemy, Team: " + team + " Time: " + timer);
+                //Debug.Log("[Drop Chest] Has Enemy, Team: " + team + " Time: " + timer);
             }
         }
         else
@@ -97,11 +97,11 @@ public class BaseManager : GameEntityManager
             ship.HasChest(false);
         }
 
-        if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
+        if (GameManager.Instance.IsGameOver())
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
+            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
             return;
         }
