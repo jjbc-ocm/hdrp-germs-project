@@ -149,6 +149,14 @@ namespace TanksMP
 
             if (!photonView.IsMine || IsBot) return;
 
+            /* */
+            /*Cursor.visible = 
+                !ShopUI.Instance.gameObject.activeSelf&&
+                !ChatUI.Instance.gameObject.activeSelf &&
+                !ScoreBoardUI.Instance.gameObject.activeSelf &&
+                !AftermathUI.Instance.gameObject.activeSelf &&
+                !SettingsUI.Instance.gameObject.activeSelf;*/
+
             /* Shop must only be accessible if:
              * - Chat UI is minimized as it will interfere with keyboard inputs
              * - Player is in the base */

@@ -6,7 +6,7 @@ using TanksMP;
 using TMPro;
 using UnityEngine;
 
-public class ChatUI : ListViewUI<ChatItemUI, ChatUI>
+public class ChatUI : WindowListViewUI<ChatItemUI, ChatUI>
 {
     [SerializeField]
     private TMP_InputField inputMessage;
