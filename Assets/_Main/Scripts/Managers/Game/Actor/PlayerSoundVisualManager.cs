@@ -48,7 +48,7 @@ public class PlayerSoundVisualManager : MonoBehaviour
     [SerializeField]
     private GameObject dummyInvisible;
 
-    private Player player;
+    private PlayerManager player;
 
     private PlayerInventoryManager inventory;
 
@@ -66,7 +66,7 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerManager>();
 
         inventory = GetComponent<PlayerInventoryManager>();
 
@@ -92,9 +92,9 @@ public class PlayerSoundVisualManager : MonoBehaviour
         }
         else
         {
-            if (Player.Mine != null)
+            if (PlayerManager.Mine != null)
             {
-                var isActive = !isInvisible && player.IsVisibleRelativeTo(Player.Mine.transform);
+                var isActive = !isInvisible && player.IsVisibleRelativeTo(PlayerManager.Mine.transform);
 
                 rendererShip.gameObject.SetActive(isActive);
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PreparationUI : WindowUI<PreparationUI>
 {
@@ -25,13 +26,20 @@ public class PreparationUI : WindowUI<PreparationUI>
 
     public bool IsUpdateSelectShip { get; set; }
 
+    public void OnAnchorClick(GameObject button)
+    {
+        uiSelectShip.Close();
+
+        button.SetActive(false);
+    }
+
     protected override void OnRefreshUI()
     {
         if (IsUpdateTimer)
         {
             var time = PhotonNetwork.Time - PhotonNetwork.CurrentRoom.GetTimePrepSceneLoaded();
 
-            textTimer.text = $"{Mathf.RoundToInt((float)(SOManager.Instance.Constants.PreparationTime - time))}";
+            textTimer.text = $"{Mathf.Max(0, Mathf.RoundToInt((float)(SOManager.Instance.Constants.PreparationTime - time)))}";
         }
 
         if (IsUpdatePrepShip)

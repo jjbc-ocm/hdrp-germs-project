@@ -73,7 +73,7 @@ public class GPCoinMovement : MonoBehaviour
     /// </summary>
     void Pick()
     {
-        AudioManager.Instance.Play3D(m_pickSFX, transform.position, 0.2f);
+        AudioManager.Instance.Play3D(m_pickSFX, transform.position);
         Destroy(gameObject);
     }
 

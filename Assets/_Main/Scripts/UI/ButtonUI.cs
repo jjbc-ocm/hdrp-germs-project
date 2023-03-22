@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
@@ -12,6 +13,14 @@ public class ButtonUI : UI<ButtonUI>
     [SerializeField]
     private AudioClip soundClick;
 
+    [Header("Tween Settings")]
+
+    [SerializeField]
+    private float tweenDurationClick;
+
+    [SerializeField]
+    private Ease tweenEaseClick;
+
     protected override void OnRefreshUI()
     {
 
@@ -21,6 +30,11 @@ public class ButtonUI : UI<ButtonUI>
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
+            if (tweenEaseClick != Ease.Unset)
+            {
+                transform.DOScale(Vector3.one, tweenDurationClick).SetEase(tweenEaseClick);
+            }
+
             AudioManager.Instance.Play2D(soundClick);
         });
     }

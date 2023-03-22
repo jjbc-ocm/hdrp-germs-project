@@ -15,7 +15,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private Variables
 
-    private Action<string> onStatusChange;
+    private string status;
 
     private double timeJoined;
 
@@ -29,9 +29,17 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Accessor
 
-    public double TimeJoined { get => timeJoined; }
+    public string Status
+    {
+        get
+        {
+            var arg0 = Mathf.RoundToInt(Mathf.Max(0, (float)(15f - (PhotonNetwork.Time - timeLastPlayerJoined))));
 
-    public double TimeLastPlayerJoined { get => timeLastPlayerJoined; }
+            return string.Format(status, arg0);
+        }
+    }
+
+    public double ElapsedTimeJoined { get => PhotonNetwork.Time - timeJoined; }
 
     #endregion
 
@@ -61,7 +69,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        onStatusChange.Invoke("Ready for match making...");
+        status = "Ready for match making...";
 
         if (isConnecting)
         {
@@ -74,37 +82,35 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        onStatusChange.Invoke("Disconnect Error " + cause.ToString());
+        status = "Disconnect Error " + cause.ToString();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        onStatusChange.Invoke("Cannot join room, creating one instead...");
+        status = "Cannot join room, creating one instead...";
 
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = SOManager.Instance.Constants.MaxPlayerCount });
     }
 
     public override void OnJoinedRoom()
     {
-        onStatusChange.Invoke("Successfully joined a room...");
+        status = "Waiting for other players in {0}.";
 
         timeJoined = PhotonNetwork.Time;
 
         timeLastPlayerJoined = PhotonNetwork.Time;
 
         PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
-
-        //TryInitializePlayers();
     }
 
     public override void OnLeftRoom()
     {
-        onStatusChange.Invoke("Match making canceled...");
+        status = "Match making canceled...";
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        onStatusChange.Invoke(newPlayer.GetName() + " joined...");
+        status = "A player joined... Waiting for other players in {0}.";
 
         timeLastPlayerJoined = PhotonNetwork.Time;
 
@@ -113,16 +119,14 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        onStatusChange.Invoke(otherPlayer.GetName() + " left...");
-
-        //TryInitializePlayers();
+        status = "A player left... Waiting for other players in {0}.";
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         if (PhotonNetwork.CurrentRoom.IsTeamSetup())
         {
-            onStatusChange.Invoke("Player initialization complete...");
+            status = "Player initialization complete...";
 
             TryLoadPreparationScene();
         }
@@ -132,11 +136,9 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Public
 
-    public void StartMatchMaking(Action<string> onStatusChange)
+    public void TryStartMatchMaking()
     {
-        this.onStatusChange = onStatusChange;
-
-        onStatusChange.Invoke("Starting a game...");
+        status = "Starting a game...";
 
         if (PhotonNetwork.IsConnected)
         {
@@ -152,7 +154,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     public void CancelMatchMaking()
     {
-        onStatusChange.Invoke("Match making canceled...");
+        status = "Match making canceled...";
 
         PhotonNetwork.LeaveRoom();
     }
@@ -163,7 +165,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private void StartMatchMaking()
     {
-        onStatusChange.Invoke("Joining random room...");
+        status = "Joining random room...";
 
         PhotonNetwork.JoinRandomRoom(
                 new ExitGames.Client.Photon.Hashtable { /* Enter game mode here in the future */ },
@@ -186,16 +188,14 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        onStatusChange.Invoke("Loading preparation phase...");
+        status = "Loading preparation phase...";
 
         PhotonNetwork.LoadLevel(SOManager.Instance.Constants.ScenePreparation);
     }
 
     private void InitializePlayers()
     {
-        onStatusChange.Invoke("Initializing players...");
-
-        // TODO: somewhere here, there's an index out of range
+        status = "Initializing players...";
 
         PhotonNetwork.CurrentRoom.IsOpen = false;
 

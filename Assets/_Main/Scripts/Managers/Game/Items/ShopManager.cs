@@ -27,7 +27,7 @@ public class ShopManager : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.GetBase(Player.Mine.GetTeam()).HasPlayer(Player.Mine))
+        if (!GameManager.Instance.GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine) && ui.gameObject.activeSelf)
         {
             ui.Close();
         }
@@ -55,7 +55,7 @@ public class ShopManager : MonoBehaviour
         ui.Close();
     }
 
-    public void Buy(Player player, ItemSO item)
+    public void Buy(PlayerManager player, ItemSO item)
     {
         var usedSlotIndexes = new List<int>();
 
@@ -79,7 +79,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void Sell(Player player, int slotIndex)
+    public void Sell(PlayerManager player, int slotIndex)
     {
         if (player.Inventory.TryRemoveItem(slotIndex))
         {
@@ -96,7 +96,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public int GetTotalCost(Player player, ItemSO item, List<int> invSlotCheckedIndexes = null)
+    public int GetTotalCost(PlayerManager player, ItemSO item, List<int> invSlotCheckedIndexes = null)
     {
         if (invSlotCheckedIndexes == null) invSlotCheckedIndexes = new List<int>();
 
@@ -114,7 +114,7 @@ public class ShopManager : MonoBehaviour
         return cost;
     }
 
-    public bool CanBuy(Player player, ItemSO item)
+    public bool CanBuy(PlayerManager player, ItemSO item)
     {
         var freeSlots =
             (string.IsNullOrEmpty(player.Inventory.ItemId0) ? 1 : 0) +
@@ -138,7 +138,7 @@ public class ShopManager : MonoBehaviour
         return conditionGold && conditionSlot && conditionLimit;
     }
 
-    private bool IsInInventory(Player player, ItemSO item, List<int> invSlotCheckedIndexes)
+    private bool IsInInventory(PlayerManager player, ItemSO item, List<int> invSlotCheckedIndexes)
     {
         for (var i = 0; i < player.Inventory.Items.Count; i++)
         {

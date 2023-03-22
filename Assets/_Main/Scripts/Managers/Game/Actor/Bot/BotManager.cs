@@ -12,7 +12,7 @@ public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private NavMeshAgent agent;
 
-    private Player player;
+    private PlayerManager player;
 
     #endregion
 
@@ -32,7 +32,7 @@ public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         agent = GetComponent<NavMeshAgent>();
 
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerManager>();
 
         
     }

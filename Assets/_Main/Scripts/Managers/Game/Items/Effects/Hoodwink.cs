@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Hoodwink : ItemEffectManager
 {
-    public override void Execute(int slotIndex, Player user)
+    public override void Execute(int slotIndex, PlayerManager user)
     {
-        user.Status.TryApplyItem(Player.Mine.Inventory.Items[slotIndex]);
+        user.Status.TryApplyItem(PlayerManager.Mine.Inventory.Items[slotIndex]);
 
         user.Inventory.TryRemoveItem(slotIndex);
     }

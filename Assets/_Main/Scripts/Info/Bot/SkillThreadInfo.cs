@@ -15,7 +15,7 @@ public class SkillThreadInfo : DecisionThreadInfo
         {
             if (Vector3.Distance(player.transform.position, entity.transform.position) <= player.Skill.Range)
             {
-                if (entity is Player && (entity as Player).GetTeam() != player.GetTeam()) // TODO: this will be a problem if skill was intended to use to allies
+                if (entity is PlayerManager && (entity as PlayerManager).GetTeam() != player.GetTeam()) // TODO: this will be a problem if skill was intended to use to allies
                 {
                     currentDecision = GetBetterDecision(currentDecision, AimCancelDecision());
 

@@ -64,47 +64,39 @@ public static class RoomExtensions
         });
     }
 
-    public static int[] GetScore(this Room room)
+    public static int GetScore(this Room room, int index)
     {
-        if (room.CustomProperties.TryGetValue(score, out object value))
+        if (room.CustomProperties.TryGetValue(score + index, out object value))
         {
-            return (int[])value;
+            return (int)value;
         }
 
-        return new int[] { 0, 0 };
+        return 0;
     }
 
-    public static void AddScore(this Room room, int teamIndex, int value, bool isFromChest)
+    public static void AddScore(this Room room, int index, int value, bool isFromChest)
     {
-        int[] scores = room.GetScore();
-
-        int[] chests = room.GetChests();
-
-        scores[teamIndex] += value;
-
         var data = new Hashtable
         {
-            { score, scores }
+            { score + index, room.GetScore(index) + value }
         };
 
         if (isFromChest)
         {
-            chests[teamIndex] += 1;
-
-            data.Add(chest, chests);
+            data.Add(chest + index, room.GetChest(index) + 1);
         }
 
         room.SetCustomProperties(data);
     }
 
-    public static int[] GetChests(this Room room)
+    public static int GetChest(this Room room, int index)
     {
-        if (room.CustomProperties.TryGetValue(chest, out object value))
+        if (room.CustomProperties.TryGetValue(chest + index, out object value))
         {
-            return (int[])value;
+            return (int)value;
         }
 
-        return new int[] { 0, 0 };
+        return 0;
     }
 
     public static List<BotInfo> GetBots(this Room room)

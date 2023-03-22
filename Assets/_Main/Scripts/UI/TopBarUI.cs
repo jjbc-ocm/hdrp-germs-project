@@ -63,7 +63,7 @@ public class TopBarUI : UI<TopBarUI>
 
                     team1PlayerIndicators[i].gameObject.SetActive(player != null);
 
-                    team1ChestIndicators[i].gameObject.SetActive(player != null && player.HasChest());
+                    team1ChestIndicators[i].gameObject.SetActive(player != null && player.Stat.HasChest);
 
                     team1HealthSliders[i].gameObject.SetActive(player != null);
 
@@ -86,7 +86,7 @@ public class TopBarUI : UI<TopBarUI>
 
                     team2PlayerIndicators[i].gameObject.SetActive(player != null);
 
-                    team2ChestIndicators[i].gameObject.SetActive(player != null && player.HasChest());
+                    team2ChestIndicators[i].gameObject.SetActive(player != null && player.Stat.HasChest);
 
                     team2HealthSliders[i].gameObject.SetActive(player != null);
 
@@ -102,10 +102,10 @@ public class TopBarUI : UI<TopBarUI>
             }
         }
 
-        if (Player.Mine == null) return;
+        if (PlayerManager.Mine == null) return;
 
-        textKills.text = Player.Mine.Stat.Kills.ToString();
+        textKills.text = PlayerManager.Mine.Stat.Kills.ToString();
 
-        textDeaths.text = Player.Mine.Stat.Deaths.ToString();
+        textDeaths.text = PlayerManager.Mine.Stat.Deaths.ToString();
     }
 }

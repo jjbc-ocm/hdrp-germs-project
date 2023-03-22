@@ -31,7 +31,7 @@ public class GameCameraManager : Singleton<GameCameraManager>
 
     private void Update()
     {
-        var targetFOV = Player.Mine.Input.IsSprint ? 90f : 75f;
+        var targetFOV = PlayerManager.Mine.Input.IsSprint ? 90f : 75f;
 
         virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, targetFOV, Time.deltaTime * 2f);
     }

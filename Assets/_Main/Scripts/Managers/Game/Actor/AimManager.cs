@@ -29,7 +29,7 @@ public class AimManager : MonoBehaviour
 
     private ActorManager aimAutoTarget;
 
-    private Player player;
+    private PlayerManager player;
 
     public bool IsAiming { get => isAiming; }
 
@@ -37,7 +37,7 @@ public class AimManager : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerManager>();
     }
 
     private void Start()

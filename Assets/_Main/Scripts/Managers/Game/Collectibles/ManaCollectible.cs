@@ -12,7 +12,7 @@ namespace TanksMP
         [SerializeField]
         private int amount = 100;
 
-        protected override void OnObtain(Player player)
+        protected override void OnObtain(PlayerManager player)
         {
             player.Stat.AddMana(amount);
         }

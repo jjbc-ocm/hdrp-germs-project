@@ -22,7 +22,7 @@ public class GPMonstersPack : MonoBehaviour
     /// <param name="other"></param>
     public void OnPlayerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        var player = other.GetComponent<PlayerManager>();
         if (player)
         {
             foreach (var monster in m_monsters)
@@ -39,7 +39,7 @@ public class GPMonstersPack : MonoBehaviour
     /// <param name="other"></param>
     public void OnPlayerExit(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        var player = other.GetComponent<PlayerManager>();
         if (player)
         {
             foreach (var monster in m_monsters)

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Not used, might delete in the future
 public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
 {
     public static DebugMenuNetworkManager Instance;
@@ -73,8 +74,8 @@ public class DebugMenuNetworkManager : MonoBehaviourPunCallbacks
         onStatusChange.Invoke("Updating player info...");
 
         if (targetPlayer == PhotonNetwork.LocalPlayer &&
-            changedProps.ContainsKey(Constants.KEY_SHIP_INDEX) &&
-            changedProps.ContainsKey(Constants.KEY_TEAM))
+            changedProps.ContainsKey("shipIndex") &&
+            changedProps.ContainsKey("team"))
         {
             TryLoadGame();
         }

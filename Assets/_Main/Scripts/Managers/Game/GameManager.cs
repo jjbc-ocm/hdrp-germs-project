@@ -24,21 +24,25 @@ public class GameManager : MonoBehaviourPun
     [SerializeField]
     public Team[] teams;
 
-    private List<Player> ships;
+    private List<PlayerManager> ships;
 
     private List<SupremacyWardEffectManager> supremacyWards;
 
     private List<GameEntityManager> entities;
 
-    public List<Player> Ships { get => ships; }
+    private BattleResultType[] battleResults;
 
-    public List<Player> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
+    public List<PlayerManager> Ships { get => ships; }
 
-    public List<Player> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
+    public List<PlayerManager> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
+
+    public List<PlayerManager> Team2Ships { get => ships.Where(i => i.GetTeam() == 1).ToList(); }
 
     public List<SupremacyWardEffectManager> SupremacyWards { get => supremacyWards; }
 
     public List<GameEntityManager> Entities { get => entities; }
+
+    public BattleResultType[] BattleResults { get => battleResults; }
 
     #region Unity
 
@@ -46,11 +50,13 @@ public class GameManager : MonoBehaviourPun
     {
         Instance = this;
 
-        ships = new List<Player>();
+        ships = new List<PlayerManager>();
 
         supremacyWards = new List<SupremacyWardEffectManager>();
 
         entities = new List<GameEntityManager>();
+
+        battleResults = new BattleResultType[teams.Length];
     }
 
     private void Start()
@@ -81,9 +87,9 @@ public class GameManager : MonoBehaviourPun
     {
         entities.Add(entity);
 
-        if (entity is Player)
+        if (entity is PlayerManager)
         {
-            ships.Add(entity as Player);
+            ships.Add(entity as PlayerManager);
         }
     }
 
@@ -91,15 +97,15 @@ public class GameManager : MonoBehaviourPun
     {
         entities.Remove(entity);
 
-        if (entity is Player)
+        if (entity is PlayerManager)
         {
-            ships.Remove(entity as Player);
+            ships.Remove(entity as PlayerManager);
         }
     }
 
     public void PlayerSurrender()
     {
-        Player.Mine.HasSurrendered(true);
+        PlayerManager.Mine.HasSurrendered(true);
     }
 
     public void AddScore(ScoreType scoreType, int teamIndex)
@@ -117,66 +123,49 @@ public class GameManager : MonoBehaviourPun
                 break;
         }
     }
-        
-
-    public bool IsGameOver(out List<BattleResultType> teamResults)
+    
+    public bool IsGameOver()
     {
-        teamResults = new List<BattleResultType>();
-
         var isOver = false;
 
-        var score = PhotonNetwork.CurrentRoom.GetScore();
-            
-            
-        for (var i = 0; i < teams.Length; i++)
-        {
-            teamResults.Add(BattleResultType.Victory);
+        // Decide battle result by score
+        var score0 = PhotonNetwork.CurrentRoom.GetScore(0);
 
-            // Decide winner by score
-            for (var j = 0; j < teams.Length; j++)
-            {
-                if (i == j) continue;
-                if (score[j] > score[i]) teamResults[i] = BattleResultType.Defeat;
-                if (score[j] == score[i]) teamResults[i] = BattleResultType.Draw;
-            }
+        var score1 = PhotonNetwork.CurrentRoom.GetScore(1);
 
-            // Decide winner by surrenders
-            var teamShips = ships.Where(ship => ship.GetTeam() == i);
+        battleResults[0] =
+            score0 > score1 ? BattleResultType.Victory :
+            score0 < score1 ? BattleResultType.Defeat :
+            BattleResultType.Draw;
 
-            var teamSurrendered = teamShips.Count(i => i.HasSurrendered()) > teamShips.Count(i => !i.HasSurrendered());
+        battleResults[1] =
+            score1 > score0 ? BattleResultType.Victory :
+            score1 < score0 ? BattleResultType.Defeat :
+            BattleResultType.Draw;
 
-            if (teamSurrendered) isOver = true;
-
-            teamResults[i] = teamSurrendered ? BattleResultType.Defeat : BattleResultType.Victory;
-        }
+        // Decide battle result who surrendered
+        // TODO:
 
         // Decide if the game has to stop
-        for (int i = 0; i < teams.Length; i++)
-        {
-            if(score[i] >= SOManager.Instance.Constants.ScoreRequired)
-            {
-                isOver = true;
-            }
-        }
-
-        if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer)
+        if (TimerManager.Instance.TimeLapse >= SOManager.Instance.Constants.GameTimer ||
+            score0 >= SOManager.Instance.Constants.ScoreRequired ||
+            score1 >= SOManager.Instance.Constants.ScoreRequired)
         {
             isOver = true;
         }
 
-        //return the result
         return isOver;
     }
 
     public void DisplayGameOver(int winnerTeamIndex)
     {
-        Player.Mine.enabled = false;
+        PlayerManager.Mine.enabled = false;
 
         //ui.OpenAftermath(winnerTeamIndex >= 0 ? teams[winnerTeamIndex] : null, winnerTeamIndex);
 
         AftermathUI.Instance.Open((self) =>
         {
-            self.Data = new List<List<Player>> { Team1Ships, Team2Ships };
+            self.Data = new List<List<PlayerManager>> { Team1Ships, Team2Ships };
 
             self.BattleResult =
                 winnerTeamIndex == -1 ? BattleResultType.Draw :

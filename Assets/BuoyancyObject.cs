@@ -35,12 +35,6 @@ public class BuoyancyObject : MonoBehaviour
         if (photonView != null && !photonView.IsMine) return;
 
         deltaTime += Time.deltaTime * 0.5f;
-
-        //var player = GetComponent<Player>();
-
-        //var offset = player != null ? -Mathf.Abs(player.MoveDir.y) : 0f;
-
-        //transform.rotation = Quaternion.Euler(Mathf.Sin(deltaTime) * 5f + offset * 5f, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
     void FixedUpdate()

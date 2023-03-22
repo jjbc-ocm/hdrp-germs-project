@@ -58,9 +58,9 @@ public class TimerManager : MonoBehaviour
 
         if (!hasStartTime) return;
 
-        if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults) && !isAftermathCalled)
+        if (GameManager.Instance.IsGameOver() && !isAftermathCalled)
         {
-            int[] score = PhotonNetwork.CurrentRoom.GetScore();
+            //int[] score = PhotonNetwork.CurrentRoom.GetScore();
 
             //close room for joining players
             PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -71,7 +71,7 @@ public class TimerManager : MonoBehaviour
                 score[0] < score[1] ? 1 :
                 -1;*/
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
+            PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
             isAftermathCalled = true;
 

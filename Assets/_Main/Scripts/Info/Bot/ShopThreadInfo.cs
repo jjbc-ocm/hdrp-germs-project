@@ -12,7 +12,7 @@ public class ShopThreadInfo : DecisionThreadInfo
         /* Only allow shop for bots when they are at their bases */
         if (GameManager.Instance.GetBase(player.GetTeam()).HasPlayer(player))
         {
-            Debug.Log("[ShopThreadInfo] " + player.gameObject.name + " can buy an item.");
+            //Debug.Log("[ShopThreadInfo] " + player.gameObject.name + " can buy an item.");
 
             foreach (var item in ShopManager.Instance.Data)
             {

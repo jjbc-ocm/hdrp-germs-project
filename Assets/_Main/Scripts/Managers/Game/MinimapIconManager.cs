@@ -7,6 +7,6 @@ public class MinimapIconManager : MonoBehaviour
 {
     void Update()
     {
-        transform.eulerAngles = new Vector3(90, 0, Player.Mine.GetTeam() == 0 ? 270 : 90);
+        transform.eulerAngles = new Vector3(90, 0, PlayerManager.Mine.GetTeam() == 0 ? 270 : 90);
     }
 }

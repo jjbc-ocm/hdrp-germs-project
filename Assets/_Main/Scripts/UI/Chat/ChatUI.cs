@@ -38,7 +38,7 @@ public class ChatUI : WindowListViewUI<ChatItemUI, ChatUI>
 
     public void OnSendMessage(string message)
     {
-        var player = Player.Mine;
+        var player = PlayerManager.Mine;
 
         var playerView = player.photonView;
 

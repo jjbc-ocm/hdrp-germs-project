@@ -37,45 +37,55 @@ public class BaseManager : GameEntityManager
         var allyShips = team == 0 ? GameManager.Instance.Team1Ships : GameManager.Instance.Team2Ships;
 
         var enemyShips = team == 0 ? GameManager.Instance.Team2Ships : GameManager.Instance.Team1Ships;
+        
+        var hasAllyWithChest = allyShips.Any(i => i.Stat.HasChest && HasPlayer(i));
 
-        var hasChest = allyShips.Any(i => i.HasChest() && HasPlayer(i));
+        var enemyWithKey = enemyShips.FirstOrDefault(i => HasPlayer(i) && i.Stat.HasKey);
 
-        var hasEnemy = enemyShips.Any(i => HasPlayer(i));
-
-        if (hasChest)
+        // If allied ship carrying a chest is in this base
+        if (hasAllyWithChest)
         {
+            var hasEnemy = enemyShips.Any(i => HasPlayer(i));
+
+            // If there's no enemy in this base
             if (!hasEnemy)
             {
+                // Proceed on the countdown to drop the chest
                 timer += Time.deltaTime;
-
-                Debug.Log("[Drop Chest] No Enemy, Team: " + team + " Time: " + timer);
 
                 if (timer >= SOManager.Instance.Constants.CaptureChestTime)
                 {
+                    // Finally dropping the chest
                     DropChest();
+
+                    // Reset countdown so it has to repeat the same process next time
                     timer = 0;
                 }
             }
-            else
-            {
-                Debug.Log("[Drop Chest] Has Enemy, Team: " + team + " Time: " + timer);
-            }
         }
+
+        // Reset timer always if there's no allied ship carrying a chest 
         else
         {
             timer = 0;
         }
 
-        indicatorNormal.SetActive(!hasChest);
+        // If enemy ship carrying a key is in this base
+        if (enemyWithKey)
+        {
+            FetchChest(enemyWithKey);
+        }
 
-        indicatorCollect.SetActive(hasChest);
+        indicatorNormal.SetActive(!hasAllyWithChest);
+
+        indicatorCollect.SetActive(hasAllyWithChest);
     }
 
     #endregion
 
     #region Public
 
-    public bool HasPlayer(Player player)
+    public bool HasPlayer(PlayerManager player)
     {
         return Vector3.Distance(collectibleZone.transform.position, player.transform.position) <= collectibleZone.transform.localScale.x / 2f;
     }
@@ -84,24 +94,35 @@ public class BaseManager : GameEntityManager
 
     #region Private
 
+    private void FetchChest(PlayerManager player)
+    {
+        if (clip) AudioManager.Instance.Play3D(clip, transform.position);
+
+        // Remove key in player's possessiob
+        player.Stat.SetKey(false);
+
+        // Add chest in player's possession
+        player.Stat.SetChest(true);
+    }
+
     private void DropChest()
     {
         if (clip) AudioManager.Instance.Play3D(clip, transform.position);
 
-        /* Add score */
+        // Add score
         GameManager.Instance.AddScore(ScoreType.Capture, team);
 
-        /* Reset chest references */
+        // Remove chest in any player's possession
         foreach (var ship in GameManager.Instance.Ships)
         {
-            ship.HasChest(false);
+            ship.Stat.SetChest(false);
         }
 
-        if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults))
+        if (GameManager.Instance.IsGameOver())
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
+            PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
             return;
         }

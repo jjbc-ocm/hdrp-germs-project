@@ -52,9 +52,9 @@ namespace TanksMP
         void Update()
         {
             /* Update player current gold UI */
-            if (Player.Mine != null)
+            if (PlayerManager.Mine != null)
             {
-                m_currDisplayedGold = Mathf.Lerp(m_currDisplayedGold, Player.Mine.Inventory.Gold, m_displayedGoldAnimSpeed * Time.deltaTime);
+                m_currDisplayedGold = Mathf.Lerp(m_currDisplayedGold, PlayerManager.Mine.Inventory.Gold, m_displayedGoldAnimSpeed * Time.deltaTime);
                 textPlayerGold.text = Mathf.RoundToInt(m_currDisplayedGold).ToString(); // TODO: how about put it in player info UI instead?
             }
         }
@@ -67,7 +67,7 @@ namespace TanksMP
         /// </summary>
         public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
 		{
-			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore());
+			OnTeamScoreChanged(PhotonNetwork.CurrentRoom.GetScore(0), PhotonNetwork.CurrentRoom.GetScore(1));
 		}
 
 
@@ -78,18 +78,10 @@ namespace TanksMP
         /// This is an implementation for changes to the team score,
         /// updating the text values (updates UI display of team scores).
         /// </summary>
-        public void OnTeamScoreChanged(int[] score)
+        public void OnTeamScoreChanged(int score0, int score1)
         {
-            //loop over texts
-			for(int i = 0; i < score.Length; i++)
-            {
-                //detect if the score has been increased, then add fancy animation
-                //if(score[i] > int.Parse(teamScore[i].text))
-                //    teamScore[i].GetComponent<Animator>().Play("Animation");
-
-                //assign score value to text
-                teamScore[i].text = score[i].ToString();
-            }
+            teamScore[0].text = score0.ToString();
+            teamScore[1].text = score1.ToString();
         }
 
         
@@ -131,23 +123,6 @@ namespace TanksMP
                 self.Data = new SettingsData(APIManager.Instance.PlayerData.Settings);
             });
         }
-
-        /*public void OpenAftermath(Team team, int winnerTeamIndex)
-        {
-            uiAftermath.Open((self) =>
-            {
-                self.Data = new List<List<Player>>
-                {
-                    GameManager.Instance.Team1Ships,
-                    GameManager.Instance.Team2Ships
-                };
-
-                self.BattleResult =
-                    winnerTeamIndex == -1 ? BattleResultType.Draw :
-                    winnerTeamIndex == PhotonNetwork.LocalPlayer.GetTeam() ? BattleResultType.Victory :
-                    BattleResultType.Defeat;
-            });
-        }*/
 
         public void AddGuideItem(GuideData data)
         {
