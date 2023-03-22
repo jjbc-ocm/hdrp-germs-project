@@ -27,7 +27,7 @@ public class ShopManager : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine))
+        if (!GameManager.Instance.GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine) && ui.gameObject.activeSelf)
         {
             ui.Close();
         }

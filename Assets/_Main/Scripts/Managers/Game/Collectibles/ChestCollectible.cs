@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
 
-public class CollectibleTeam : Collectible
+public class ChestCollectible : Collectible
 {
     protected override void OnObtain(PlayerManager player)
     {

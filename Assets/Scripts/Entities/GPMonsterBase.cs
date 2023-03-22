@@ -623,7 +623,7 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public void RPCOnHurt()
     {
-        AudioManager.Instance.Play3D(m_hurtSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_hurtSFX, transform.position);
         if (OnRPCHurtEvent != null)
         {
             OnRPCHurtEvent.Invoke();
@@ -634,7 +634,7 @@ public class GPMonsterBase : ActorManager
     public void RPCOnDie()
     {
         m_mainCollider.enabled = false;
-        AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_deathSFX, transform.position);
         if (m_monsterHPBar)
         {
             m_monsterHPBar.SetActive(false);
@@ -671,7 +671,7 @@ public class GPMonsterBase : ActorManager
         }
         m_health.Resurrect();
         m_animator.Play("Idle");
-        AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_deathSFX, transform.position);
     }
 
     /// <summary>
@@ -680,7 +680,7 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public void RPCOnMeleeHit()
     {
-        AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position);
     }
 
     protected override void OnTriggerEnterCalled(Collider col)

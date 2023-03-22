@@ -67,24 +67,34 @@ public class PlayerManager : ActorManager, IPunObservable
 
     #region Override
 
+    // This method is used on collecting items via collision
     protected override void OnTriggerEnterCalled(Collider col)
     {
         if (!photonView.IsMine) return;
 
-        var collectibleTeam = col.GetComponent<CollectibleTeam>();
+        var key = col.GetComponent<KeyCollectible>();
+
+        var chest = col.GetComponent<ChestCollectible>();
 
         var collectible = col.GetComponent<Collectible>();
 
-        if (collectibleTeam != null)
+        // Handle collision to key
+        if (key != null)
         {
-            collectibleTeam.Obtain(this);
-
-            var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
-
-            GPSManager.Instance.SetDestination(destination);
+            key.Obtain(this);
         }
 
-        /* Handle collision to normal item */
+        // Handle collision to chest
+        else if (chest != null)
+        {
+            chest.Obtain(this);
+
+            //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
+
+            //GPSManager.Instance.SetDestination(destination);
+        }
+
+        // Handle collision to normal item
         else if (collectible != null)
         {
             collectible.Obtain(this);
@@ -309,7 +319,9 @@ public class PlayerManager : ActorManager, IPunObservable
         {
             if (!IsBot)
             {
-                GameCameraManager.Instance.SetTarget(attackerView.GetComponent<PlayerManager>().cameraFollow);
+                var target = attackerView.TryGetComponent(out PlayerManager player) ? player.cameraFollow : attackerView.transform;
+
+                GameCameraManager.Instance.SetTarget(target);
             }
                 
             photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
@@ -390,9 +402,7 @@ public class PlayerManager : ActorManager, IPunObservable
             {
                 Stat.SetChest(false);
 
-                var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
-
-                PhotonNetwork.InstantiateRoomObject(chest.name, transform.position, Quaternion.identity);
+                PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
 
                 GPSManager.Instance.ClearDestination();
             }

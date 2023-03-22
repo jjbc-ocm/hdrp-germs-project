@@ -43,7 +43,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        InstantiateBots();
+        //InstantiateBots();
     }
 
     #endregion

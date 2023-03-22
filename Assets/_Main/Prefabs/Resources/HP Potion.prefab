@@ -36,7 +36,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000010815868052}
-  - {fileID: 5338334774707755670}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -117,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photonView: {fileID: 0}
   floaters:
-  - {fileID: 5338334774707755670}
+  - {fileID: 4000010641155418}
   underWaterDrag: 3
   underWaterAngularDrag: 1
   airDrag: 0
@@ -292,7 +291,7 @@ GameObject:
   - component: {fileID: 2477619804995403624}
   - component: {fileID: 562274305764545469}
   - component: {fileID: 1573855035229610181}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: strip1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1822761125919972582}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Potion1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +411,7 @@ GameObject:
   - component: {fileID: 7467620894011699094}
   - component: {fileID: 5799854008195869584}
   - component: {fileID: 1218835425360797896}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ribbon2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +494,7 @@ GameObject:
   - component: {fileID: 2603726512964050824}
   - component: {fileID: 7646820295813929971}
   - component: {fileID: 3058943262077990773}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: strip2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,37 +566,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &4198896563689875858
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5338334774707755670}
-  m_Layer: 10
-  m_Name: Floater
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5338334774707755670
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4198896563689875858}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.33, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4000012517790088}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8270589712645528605
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +577,7 @@ GameObject:
   - component: {fileID: 9059137364062697649}
   - component: {fileID: 2547255815903011546}
   - component: {fileID: 5519650162958142661}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bottle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -692,7 +660,7 @@ GameObject:
   - component: {fileID: 6800007666939948876}
   - component: {fileID: 3054327731187930513}
   - component: {fileID: 287612505689679295}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: cork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +743,7 @@ GameObject:
   - component: {fileID: 1774585894085649749}
   - component: {fileID: 8567670729652670518}
   - component: {fileID: 7366471994794787221}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ribbon1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

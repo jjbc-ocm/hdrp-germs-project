@@ -107,9 +107,9 @@ public class MoveThreadInfo : DecisionThreadInfo
                 targetDistance * personality.GetWeightMoveToMonsterPriority("targetDistance");
         }
 
-        if (target is CollectibleTeam)
+        if (target is ChestCollectible)
         {
-            var targetChest = target as CollectibleTeam;
+            var targetChest = target as ChestCollectible;
 
             /* Deprioritize chest if player have less health */
             var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
@@ -117,7 +117,7 @@ public class MoveThreadInfo : DecisionThreadInfo
             return selfHealthRatio * personality.GetWeightMoveToChestPriority("selfHealthRatio");
         }
 
-        if (target is Collectible && target is not CollectibleTeam)
+        if (target is Collectible && target is not ChestCollectible)
         {
             var targetCollectible = target as Collectible;
 
