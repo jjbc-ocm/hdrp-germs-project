@@ -18,6 +18,7 @@ public class HitscanAttack : AttackBase
 
     #endregion
 
+    #region Override
 
     protected override void OnInitialize()
     {
@@ -65,6 +66,18 @@ public class HitscanAttack : AttackBase
 
         }
     }
+
+    public override void OnGet()
+    {
+
+    }
+
+    public override void OnRelease()
+    {
+
+    }
+
+    #endregion
 
     private void Update()
     {
@@ -114,7 +127,8 @@ public class HitscanAttack : AttackBase
         {
             transform.position = targetPosition;
 
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            PoolManager.Instance.Release(this);
         }
     }
 
@@ -129,7 +143,8 @@ public class HitscanAttack : AttackBase
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            PoolManager.Instance.Release(this);
         }
 
 

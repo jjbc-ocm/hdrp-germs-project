@@ -280,8 +280,8 @@ public class PlayerManager : ActorManager, IPunObservable
         var rotation = Quaternion.LookRotation(forward);
 
         var effect = action.IsSpawnOnAim
-            ? Instantiate(action.Effect, targetPosition, rotation)
-            : Instantiate(action.Effect, fromPosition, rotation);
+            ? PoolManager.Instance.Get(action.Effect, targetPosition, rotation)//Instantiate(action.Effect, targetPosition, rotation)
+            : PoolManager.Instance.Get(action.Effect, fromPosition, rotation);//Instantiate(action.Effect, fromPosition, rotation);
 
         var targetActor = PhotonView.Find(targetActorId)?.GetComponent<ActorManager>() ?? null;
 

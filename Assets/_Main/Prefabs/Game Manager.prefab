@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 65653937090360438}
   - component: {fileID: 1657566868653416574}
   - component: {fileID: 8771608994588316864}
-  - component: {fileID: 2707612666388455811}
+  - component: {fileID: 7276025515575003479}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -339,7 +339,7 @@ MonoBehaviour:
   guideChest: {fileID: 11400000, guid: d2eabea79c16dea4396d7aee7a11822e, type: 2}
   guideShop: {fileID: 11400000, guid: 0b03308a848a9074da1f02e72001379e, type: 2}
   guideMonster: {fileID: 11400000, guid: f74e54bdfa5056d4595f15f05781dfa0, type: 2}
---- !u!114 &2707612666388455811
+--- !u!114 &7276025515575003479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -348,19 +348,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000013481812936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: e992509358e5b9645983c03a288d0b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  prefabs:
+  - {fileID: -2593864994205978240, guid: 6cb168add0f845b40905e529877010c6, type: 3}
+  - {fileID: 3236954030341158552, guid: b4ccd8f6d5c875a4480efd9e6aaff002, type: 3}
+  - {fileID: 8797876970988011360, guid: 1f415501fb595d547a8c70196b1f42a6, type: 3}
+  - {fileID: 4336743962145786837, guid: ecd05e000ab511d43861b6e78c90f20a, type: 3}
+  - {fileID: 2099830847688345910, guid: d2c0d258403f8224a81aeeda0f4b45ba, type: 3}
+  - {fileID: -8027742618884846989, guid: e3d3e67ff433877478166f800c5001a5, type: 3}
+  - {fileID: 745555743484375241, guid: d967723a7f0a63a44865c73bfbd292a0, type: 3}
+  - {fileID: 2771556123462503611, guid: 6b882a63aecbdeb4fb4b1fee4779b453, type: 3}
+  - {fileID: 1155533743644792178, guid: 64a3a1393cf945f4dab3ad77d9e373a5, type: 3}
+  - {fileID: 821231162903042443, guid: 2d995b6cfee2ba243927ac5740ea2bc4, type: 3}
 --- !u!1 &2050945310018176571
 GameObject:
   m_ObjectHideFlags: 0

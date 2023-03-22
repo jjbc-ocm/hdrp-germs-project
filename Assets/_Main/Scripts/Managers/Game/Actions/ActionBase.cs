@@ -64,5 +64,13 @@ public abstract class ActionBase : MonoBehaviour
 
     #endregion
 
+    #region Abstract
+
     protected abstract void OnInitialize();
+
+    public abstract void OnGet();
+
+    public abstract void OnRelease();
+
+    #endregion
 }

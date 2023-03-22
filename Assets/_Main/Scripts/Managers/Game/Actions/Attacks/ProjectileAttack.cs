@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Photon.Pun;
 using TanksMP;
+using System.Collections;
 
 public class ProjectileAttack : AttackBase
 {
@@ -23,10 +24,10 @@ public class ProjectileAttack : AttackBase
 
     #region Unity
 
-    void Start()
+    /*void Start()
     {
         Destroy(gameObject, SOManager.Instance.Constants.FogOrWarDistance / velocity);
-    }
+    }*/
 
     void OnTriggerEnter(Collider col)
     {
@@ -43,7 +44,7 @@ public class ProjectileAttack : AttackBase
 
             ApplyEffect(owner, actor);
 
-            if (hitFX) PoolManager.Spawn(hitFX, transform.position, Quaternion.identity);
+            if (hitFX) Instantiate(hitFX, transform.position, Quaternion.identity);
 
             if (hitClip) AudioManager.Instance.Play3D(hitClip, transform.position);
 
@@ -53,10 +54,35 @@ public class ProjectileAttack : AttackBase
 
     #endregion
 
+    #region Override
+
     protected override void OnInitialize()
     {
         rigidBody = GetComponent<Rigidbody>();
 
         rigidBody.velocity = transform.forward * velocity;
     }
+
+    public override void OnGet()
+    {
+        StartCoroutine(YieldDespawn());
+    }
+
+    public override void OnRelease()
+    {
+
+    }
+
+    #endregion
+
+    #region Private
+
+    private IEnumerator YieldDespawn()
+    {
+        yield return new WaitForSeconds(SOManager.Instance.Constants.FogOrWarDistance / velocity);
+
+        PoolManager.Instance.Release(this);
+    }
+
+    #endregion
 }
