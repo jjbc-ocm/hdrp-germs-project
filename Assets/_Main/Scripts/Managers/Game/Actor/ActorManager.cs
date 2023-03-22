@@ -90,8 +90,6 @@ public abstract class ActorManager : GameEntityManager
 
     #region Public
 
-    // TODO: little inneficient now when calling PhotonNetwork.CurrentRoom.GetBots()
-
     public string GetName()
     {
         return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).Name : photonView.Owner.GetName();
@@ -102,36 +100,13 @@ public abstract class ActorManager : GameEntityManager
         return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).Team : photonView.Owner.GetTeam();
     }
 
-    public bool HasChest()
-    {
-        return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).HasChest : photonView.Owner.HasChest();
-    }
-
     public bool HasSurrendered()
     {
         return Bot ? PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex).HasSurrendered : photonView.Owner.HasSurrendered();
     }
 
-    public void HasChest(bool value)
-    {
-        if (Bot != null)
-        {
-            var botInfo = PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex);
-
-            botInfo.HasChest = value;
-
-            PhotonNetwork.CurrentRoom.SetBotInfo(Bot.BotIndex, botInfo);
-        }
-        else
-        {
-            photonView.Owner.HasChest(value);
-        }
-    }
-
     public void HasSurrendered(bool value)
     {
-        var bots = PhotonNetwork.CurrentRoom.GetBots();
-
         if (Bot != null)
         {
             var botInfo = PhotonNetwork.CurrentRoom.GetBot(Bot.BotIndex);

@@ -18,10 +18,7 @@ public class HomeUI : UI<HomeUI>
     {
         MatchMakingUI.Instance.Open();
 
-        MenuNetworkManager.Instance.StartMatchMaking((text) =>
-        {
-            Debug.Log(text);
-        });
+        MenuNetworkManager.Instance.TryStartMatchMaking();
     }
 
     public void OnSettingsClick()

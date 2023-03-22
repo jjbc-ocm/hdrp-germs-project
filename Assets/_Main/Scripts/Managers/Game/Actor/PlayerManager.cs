@@ -386,9 +386,9 @@ public class PlayerManager : ActorManager, IPunObservable
             }
 
             /* Handle collected chest */
-            if (HasChest())
+            if (Stat.HasChest)
             {
-                HasChest(false);
+                Stat.SetChest(false);
 
                 var chest = ItemSpawnerManager.Instance.Spawners.FirstOrDefault(i => i.IsChest).Prefab;
 

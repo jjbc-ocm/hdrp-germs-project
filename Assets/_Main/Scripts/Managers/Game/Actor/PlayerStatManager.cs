@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+    #region Serializable
+
     [SerializeField]
     private int maxHealth = 175;
 
@@ -29,17 +31,33 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField]
     private int moveSpeed = 50;
 
-    private int kills;
+    #endregion
 
-    private int deaths;
+    #region Components
 
     private PlayerInventoryManager inventory;
 
     private PlayerStatusManager status;
 
+    #endregion
+
+    #region Networked
+
+    private int kills;
+
+    private int deaths;
+    
     private int health;
 
     private int mana;
+
+    private bool hasKey;
+
+    private bool hasChest;
+
+    #endregion
+
+    #region Accessors
 
     public int BaseMaxHealth { get => maxHealth; }
 
@@ -56,30 +74,20 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     public int BaseArmor { get => armor; }
 
     public int BaseResist { get => resist; }
-
-    /*public int MaxHealth { get => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth + Status.StatModifier.BuffMaxHealth); }
-
-    public int MaxMana { get => (int)(maxMana * (1 + Inventory.StatModifier.BuffMaxMana + Status.StatModifier.BuffMaxMana)); }
-
-    public int AbilityPower { get => (int)(abilityPower * (1 + Inventory.StatModifier.BuffAbilityPower + Status.StatModifier.BuffAbilityPower)); }
-
-    public int AttackDamage { get => (int)(attackDamage * (1 + Inventory.StatModifier.BuffAttackDamage + Status.StatModifier.BuffAttackDamage)); }
-
-    public int AttackSpeed { get => (int)(attackSpeed * (1 + Inventory.StatModifier.BuffAttackSpeed + Status.StatModifier.BuffAttackSpeed)); }
-
-    public int MoveSpeed { get => (int)(moveSpeed * (1 + Inventory.StatModifier.BuffMoveSpeed + Status.StatModifier.BuffMoveSpeed)); }
-
-    public int Armor { get => (int)(armor * (1 + Inventory.StatModifier.BuffArmor + Status.StatModifier.BuffArmor)); }
-
-    public int Resist { get => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist)); }*/
-
+    
     public int Health { get => health; }
 
     public int Mana { get => mana; }
 
+    public bool HasKey { get => hasKey; }
+
+    public bool HasChest { get => hasChest; }
+
     public int Kills { get => kills; }
 
     public int Deaths { get => deaths; }
+
+    
 
     public PlayerInventoryManager Inventory
     {
@@ -106,6 +114,8 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
             return status;
         }
     }
+
+    #endregion
 
     public int MaxHealth(float modifier = 0) => (int)(maxHealth + Inventory.StatModifier.BuffMaxHealth + Status.StatModifier.BuffMaxHealth + modifier);
 
@@ -144,6 +154,16 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         mana = Mathf.Clamp(amount, 0, MaxMana());
     }
 
+    public void SetKey(bool value)
+    {
+        hasKey = value;
+    }
+
+    public void SetChest(bool value)
+    {
+        hasChest = value;
+    }
+
     public void AddKill()
     {
         kills++;
@@ -174,6 +194,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(health);
             stream.SendNext(mana);
+            stream.SendNext(hasChest);
             stream.SendNext(kills);
             stream.SendNext(deaths);
         }
@@ -181,6 +202,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             health = (int)stream.ReceiveNext();
             mana = (int)stream.ReceiveNext();
+            hasChest = (bool)stream.ReceiveNext();
             kills = (int)stream.ReceiveNext();
             deaths = (int)stream.ReceiveNext();
         }

@@ -58,7 +58,7 @@ public class MoveThreadInfo : DecisionThreadInfo
             var targetPlayer = target as PlayerManager;
 
             /* Prioritize enemy carrying a chest */
-            var targetChest = targetPlayer.HasChest() && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
+            var targetChest = targetPlayer.Stat.HasChest && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
 
             /* Prioritize enemy with less health */
             var targetHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth());
@@ -89,7 +89,7 @@ public class MoveThreadInfo : DecisionThreadInfo
             var targetMonster = target as GPMonsterBase;
 
             /* Deprioritize monster when carrying a chest */
-            var selfChest = !player.HasChest() ? 1f : 0f;
+            var selfChest = !player.Stat.HasChest ? 1f : 0f;
 
             /* Prioritize monster with less health */
             var targetHealthRatio = 1f - (targetMonster.m_health.m_currentHealth / targetMonster.m_health.m_maxHealth);
@@ -134,7 +134,7 @@ public class MoveThreadInfo : DecisionThreadInfo
             var targetBase = target as BaseManager;
 
             /* Prioritize returning to base if player has the chest */
-            var selfChest = player.HasChest() && targetBase.Team == player.GetTeam() ? 1f : 0f;
+            var selfChest = player.Stat.HasChest && targetBase.Team == player.GetTeam() ? 1f : 0f;
 
             return selfChest * personality.GetWeightMoveToBasePriority("selfChest");
         }

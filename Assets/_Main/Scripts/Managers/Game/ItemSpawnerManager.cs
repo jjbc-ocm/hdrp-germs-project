@@ -88,7 +88,7 @@ public class ItemSpawnerManager : MonoBehaviourPun
         {
             var ships = GameManager.Instance.Ships;
 
-            var hasChest = ships.FirstOrDefault(i => i.HasChest()) != null;
+            var hasChest = ships.FirstOrDefault(i => i.Stat.HasChest) != null;
 
             return objWithTags.Length < spawner.MaxLimit && !hasChest;
         }

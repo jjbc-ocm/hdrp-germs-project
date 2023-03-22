@@ -11,7 +11,7 @@ public static class PlayerExtension
     public const string team = "team";
     public const string shipIndex = "shipIndex";
 
-    public const string hasChest = "hasChest";
+    //public const string hasChest = "hasChest";
 
     public const string hasSurrendered = "hasSurrendered";
 
@@ -81,11 +81,6 @@ public static class PlayerExtension
         return 0;
     }
 
-    public static bool HasChest(this Player player)
-    {
-        return System.Convert.ToBoolean(player.CustomProperties[hasChest]);
-    }
-
     public static bool HasSurrendered(this Player player)
     {
         return System.Convert.ToBoolean(player.CustomProperties[hasSurrendered]);
@@ -99,11 +94,6 @@ public static class PlayerExtension
     public static void SetShipIdx(this Player player, int value)
     {
         player.SetCustomProperties(new Hashtable() { { shipIndex, (byte)value } });
-    }
-
-    public static void HasChest(this Player player, bool value)
-    {
-        player.SetCustomProperties(new Hashtable() { { hasChest, value } });
     }
 
     public static void HasSurrendered(this Player player, bool value)

@@ -11,7 +11,7 @@ public class CollectibleTeam : Collectible
 {
     protected override void OnObtain(PlayerManager player)
     {
-        player.HasChest(true);
+        player.Stat.SetChest(true);
 
         GuideManager.Instance.TryAddChestGuide();
     }
