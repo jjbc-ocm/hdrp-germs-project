@@ -370,7 +370,8 @@ public class PlayerManager : ActorManager, IPunObservable
 
         Stat.AddHealth(-amount);
 
-        GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
+        //GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
+        PopupManager.Instance.ShowDamage(amount, transform.position);
 
         if (Stat.Health <= 0)
         {

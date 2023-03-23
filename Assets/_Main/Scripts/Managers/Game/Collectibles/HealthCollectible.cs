@@ -11,8 +11,13 @@ namespace TanksMP
     {
         protected override void OnObtain(PlayerManager player)
         {
-            player.Stat.AddHealth(player.Stat.MaxHealth() / 2);
-            GPNumberSpawnerSystem.m_instance.SpawnHealNumber(player.Stat.MaxHealth() / 2, transform.position);
+            var amount = player.Stat.MaxHealth() / 2;
+
+            player.Stat.AddHealth(amount);
+
+            //GPNumberSpawnerSystem.m_instance.SpawnHealNumber(player.Stat.MaxHealth() / 2, transform.position);
+
+            PopupManager.Instance.ShowHeal(amount, transform.position);
         }
 
         /*public override bool Apply(Player p)
