@@ -89,9 +89,9 @@ public class PlayerManager : ActorManager, IPunObservable
         {
             chest.Obtain(this);
 
-            //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
+            var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
 
-            //GPSManager.Instance.SetDestination(destination);
+            GPSManager.Instance.SetDestination(this, destination);
         }
 
         // Handle collision to normal item
@@ -156,14 +156,13 @@ public class PlayerManager : ActorManager, IPunObservable
 
         if (!photonView.IsMine || IsBot) return;
 
-        /* Shop must only be accessible if:
-            * - Chat UI is minimized as it will interfere with keyboard inputs
-            * - Player is in the base */
+        // Shop can only be accessed if chat is minimized and player is in the base
         if (Input.IsShop && !ChatManager.Instance.UI.IsMaximized && GameManager.Instance.GetBase(GetTeam()).HasPlayer(this))
         {
             ShopManager.Instance.ToggleShop();
         }
 
+        // Score board can be toggled
         if (Input.IsScoreBoard)
         {
             if (!ScoreBoardUI.Instance.gameObject.activeSelf)
@@ -181,6 +180,14 @@ public class PlayerManager : ActorManager, IPunObservable
             {
                 ScoreBoardUI.Instance.Close();
             }
+        }
+
+        // This is a debug feature where player can kill itself
+        if (Input.IsSelfDestruct)
+        {
+            photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, photonView.ViewID);
+
+            PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
         }
 
         UpdateCrosshair();
@@ -370,7 +377,11 @@ public class PlayerManager : ActorManager, IPunObservable
 
         Stat.AddHealth(-amount);
 
-        GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
+        if (photonView.IsMine && !IsBot)
+        {
+            PopupManager.Instance.ShowDamage(amount, transform.position);
+        }
+        
 
         if (Stat.Health <= 0)
         {
@@ -383,7 +394,8 @@ public class PlayerManager : ActorManager, IPunObservable
 
                 if (GetTeam() != attackerTeam)
                 {
-                    GameManager.Instance.AddScore(ScoreType.Kill, attackerTeam);
+                    //GameManager.Instance.AddScore(ScoreType.Kill, attackerTeam);
+                    GameManager.Instance.AddScoreByKill(attackerTeam);
 
                     GPRewardSystem.m_instance.AddGoldToPlayer(attacker, "Kill");
                 }
@@ -431,13 +443,14 @@ public class PlayerManager : ActorManager, IPunObservable
         {
             GameCameraManager.Instance.SetTarget(cameraFollow);
         }
-            
-        transform.position = GameNetworkManager.Instance.SpawnPoints[GetTeam()].position;
-        transform.rotation = GameNetworkManager.Instance.SpawnPoints[GetTeam()].rotation;
+
+        var spawnPoint = GameManager.Instance.GetBase(GetTeam()).SpawnPoint;
+
+        transform.position = spawnPoint.transform.position;
+        transform.rotation = spawnPoint.transform.rotation;
 
         RigidBody.velocity = Vector3.zero;
         RigidBody.angularVelocity = Vector3.zero;
-        transform.rotation = Quaternion.identity;
     }
 
     #endregion

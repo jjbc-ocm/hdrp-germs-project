@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
 
-public class ShopManager : MonoBehaviour
+public class ShopManager : Singleton<ShopManager>
 {
-    public static ShopManager Instance;
-
     [SerializeField]
     private ShopUI ui;
 
@@ -20,13 +18,9 @@ public class ShopManager : MonoBehaviour
 
     #region Unity
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     private void Update()
     {
+        // Automatically close the shop when player is outside the base
         if (!GameManager.Instance.GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine) && ui.gameObject.activeSelf)
         {
             ui.Close();

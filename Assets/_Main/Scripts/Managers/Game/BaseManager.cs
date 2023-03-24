@@ -20,9 +20,14 @@ public class BaseManager : GameEntityManager
     private GameObject indicatorCollect;
 
     [SerializeField]
+    private GameObject spawnPoint;
+
+    [SerializeField]
     private AudioClip clip;
 
     private float timer;
+
+    public GameObject SpawnPoint { get => spawnPoint; }
 
     public int Team { get => team; }
 
@@ -110,7 +115,8 @@ public class BaseManager : GameEntityManager
         if (clip) AudioManager.Instance.Play3D(clip, transform.position);
 
         // Add score
-        GameManager.Instance.AddScore(ScoreType.Capture, team);
+        //GameManager.Instance.AddScore(ScoreType.Capture, team);
+        GameManager.Instance.AddScoreByChest(team, team == 0 ? 1 : 0);
 
         // Remove chest in any player's possession
         foreach (var ship in GameManager.Instance.Ships)

@@ -35,6 +35,20 @@ public abstract class ActionBase : MonoBehaviour
         OnInitialize();
     }
 
+    public void Get()
+    {
+        gameObject.SetActive(true);
+
+        OnGet();
+    }
+
+    public void Release()
+    {
+        gameObject.SetActive(false);
+
+        OnRelease();
+    }
+
     #endregion
 
     #region Protected
@@ -68,9 +82,9 @@ public abstract class ActionBase : MonoBehaviour
 
     protected abstract void OnInitialize();
 
-    public abstract void OnGet();
+    protected abstract void OnGet();
 
-    public abstract void OnRelease();
+    protected abstract void OnRelease();
 
     #endregion
 }

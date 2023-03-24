@@ -15,7 +15,7 @@ public abstract class Collectible : GameEntityManager, IPunObservable
     [SerializeField]
     private GameObject graphics;
 
-    void Update()
+    private void Update()
     {
         if (PlayerManager.Mine != null)
         {

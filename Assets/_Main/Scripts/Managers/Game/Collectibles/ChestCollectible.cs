@@ -6,13 +6,26 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
+using System.Collections;
 
 public class ChestCollectible : Collectible
 {
+    private void Start()
+    {
+        StartCoroutine(YieldAutoReturn());
+    }
+
     protected override void OnObtain(PlayerManager player)
     {
         player.Stat.SetChest(true);
 
         GuideManager.Instance.TryAddChestGuide();
+    }
+
+    private IEnumerator YieldAutoReturn()
+    {
+        yield return new WaitForSeconds(SOManager.Instance.Constants.ReturnChestTime);
+
+        photonView.RPC("Destroy", RpcTarget.MasterClient);
     }
 }
