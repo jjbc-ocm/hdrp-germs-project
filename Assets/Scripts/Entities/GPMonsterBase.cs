@@ -268,9 +268,12 @@ public class GPMonsterBase : ActorManager
                 m_playersWhoDamageIt.Add(other);
             }
         }
-        //GPNumberSpawnerSystem.m_instance.SpawnDamageNumber(amount, transform.position);
-        PopupManager.Instance.ShowDamage(amount, transform.position);
 
+        if (other.photonView.IsMine && !IsBot)
+        {
+            //PopupManager.Instance.ShowDamage(amount, transform.position);
+        }
+        
         m_health.Damage(amount);
     }
 
@@ -370,8 +373,11 @@ public class GPMonsterBase : ActorManager
             {
                 GPRewardSystem.m_instance.AddGoldToPlayer(player, m_rewardKey);
                 m_photonView.RPC("RPCSpawnCoinsForPlayer", player.photonView.Owner);
-                //GPNumberSpawnerSystem.m_instance.SpawnGoldNumber(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
-                PopupManager.Instance.ShowGold(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
+
+                if (player.photonView.IsMine && !player.IsBot)
+                {
+                    PopupManager.Instance.ShowGold(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
+                }
             }
         }
     }

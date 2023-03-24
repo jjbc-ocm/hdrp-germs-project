@@ -92,6 +92,9 @@ public class ConstantsSO : ScriptableObject
     private float captureChestTime = 45f;
 
     [SerializeField]
+    private float returnChestTime = 45f;
+
+    [SerializeField]
     private byte maxPlayerCount = 6;
 
     [SerializeField]
@@ -99,6 +102,9 @@ public class ConstantsSO : ScriptableObject
 
     [SerializeField]
     private int maxPlayerPerTeam = 3;
+
+    [SerializeField]
+    private int maxChestPerTeam = 5;
 
     [SerializeField]
     private float gameTimer = 1200f;
@@ -119,11 +125,15 @@ public class ConstantsSO : ScriptableObject
 
     public float CaptureChestTime { get => captureChestTime; }
 
+    public float ReturnChestTime { get => returnChestTime; }
+
     public byte MaxPlayerCount { get => maxPlayerCount; }
 
     public int MaxTeam { get => maxTeam; }
 
     public int MaxPlayerPerTeam { get => maxPlayerPerTeam; }
+
+    public int MaxChestPerTeam { get => maxChestPerTeam; }
 
     public float GameTimer { get => gameTimer; }
 

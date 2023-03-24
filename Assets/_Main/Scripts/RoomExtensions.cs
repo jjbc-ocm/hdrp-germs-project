@@ -13,7 +13,7 @@ public static class RoomExtensions
 
     public const string score = "score";
 
-    public const string chest = "chest";
+    public const string chestLost = "chestLost";
 
     public const string bot0 = "bot0";
     public const string bot1 = "bot1";
@@ -74,29 +74,35 @@ public static class RoomExtensions
         return 0;
     }
 
-    public static void AddScore(this Room room, int index, int value, bool isFromChest)
+    public static int GetChestLost(this Room room, int team)
     {
-        var data = new Hashtable
-        {
-            { score + index, room.GetScore(index) + value }
-        };
-
-        if (isFromChest)
-        {
-            data.Add(chest + index, room.GetChest(index) + 1);
-        }
-
-        room.SetCustomProperties(data);
-    }
-
-    public static int GetChest(this Room room, int index)
-    {
-        if (room.CustomProperties.TryGetValue(chest + index, out object value))
+        if (room.CustomProperties.TryGetValue(chestLost + team, out object value))
         {
             return (int)value;
         }
 
         return 0;
+    }
+
+    public static void AddScoreByKill(this Room room, int teamGain, int value)
+    {
+        var data = new Hashtable
+        {
+            { score + teamGain, room.GetScore(teamGain) + value }
+        };
+
+        room.SetCustomProperties(data);
+    }
+
+    public static void AddScoreByChest(this Room room, int teamGain, int teamLose, int value)
+    {
+        var data = new Hashtable
+        {
+            { score + teamGain, room.GetScore(teamGain) + value },
+            { chestLost + teamLose, room.GetChestLost(teamLose) + 1 }
+        };
+
+        room.SetCustomProperties(data);
     }
 
     public static List<BotInfo> GetBots(this Room room)

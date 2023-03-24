@@ -6,7 +6,7 @@ using UnityEngine;
 public class PopupManager : Singleton<PopupManager>
 {
     [SerializeField]
-    private RectTransform canvas;
+    private Canvas canvas;
 
     [SerializeField]
     private DamageNumber popupDamage;
@@ -19,28 +19,28 @@ public class PopupManager : Singleton<PopupManager>
 
     public void ShowDamage(int amount, Vector3 worldPos)
     {
-        var newDamage = popupDamage.Spawn(Vector3.zero, amount);
+        var newPopup = popupDamage.Spawn(Vector3.zero, amount);
 
-        Vector3 pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
+        var pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
 
-        newDamage.SetAnchoredPosition(canvas, pos);
+        newPopup.SetAnchoredPosition(canvas.transform, pos);
     }
 
     public void ShowGold(int amount, Vector3 worldPos)
     {
-        var newDamage = popupGold.Spawn(Vector3.zero, amount);
+        var newPopup = popupGold.Spawn(Vector3.zero, amount);
 
-        Vector3 pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
+        var pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
 
-        newDamage.SetAnchoredPosition(canvas, pos);
+        newPopup.SetAnchoredPosition(canvas.transform, pos);
     }
 
     public void ShowHeal(int amount, Vector3 worldPos)
     {
-        var newDamage = popupHeal.Spawn(Vector3.zero, amount);
+        var newPopup = popupHeal.Spawn(Vector3.zero, amount);
 
-        Vector3 pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
+        var pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
 
-        newDamage.SetAnchoredPosition(canvas, pos);
+        newPopup.SetAnchoredPosition(canvas.transform, pos);
     }
 }

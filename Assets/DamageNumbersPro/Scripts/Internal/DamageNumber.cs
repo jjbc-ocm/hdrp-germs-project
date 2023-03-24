@@ -1733,7 +1733,7 @@ namespace DamageNumbersPro
 
             //Set Parent and Position:
             transform.SetParent(rectParent, false);
-            transform.position = anchoredPosition;
+            (transform as RectTransform).position = anchoredPosition;
 
             //New Transform:
             transform.localScale = oldScale;

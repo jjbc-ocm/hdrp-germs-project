@@ -15,9 +15,10 @@ namespace TanksMP
 
             player.Stat.AddHealth(amount);
 
-            //GPNumberSpawnerSystem.m_instance.SpawnHealNumber(player.Stat.MaxHealth() / 2, transform.position);
-
-            PopupManager.Instance.ShowHeal(amount, transform.position);
+            if (player.photonView.IsMine && !player.IsBot)
+            {
+                PopupManager.Instance.ShowHeal(amount, transform.position);
+            }
         }
 
         /*public override bool Apply(Player p)

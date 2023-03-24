@@ -28,7 +28,7 @@ public class ScoreBoardUI : WindowUI<ScoreBoardUI>
         {
             textScores[i].text = PhotonNetwork.CurrentRoom.GetScore(i).ToString();
 
-            textChests[i].text = PhotonNetwork.CurrentRoom.GetChest(i).ToString();
+            textChests[i].text = (SOManager.Instance.Constants.MaxChestPerTeam - PhotonNetwork.CurrentRoom.GetChestLost(i)).ToString();
 
             teams[i].RefreshUI((self) =>
             {

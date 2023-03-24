@@ -25,6 +25,8 @@ public class InputManager : Singleton<InputManager>
 
     private bool isScoreBoard;
 
+    private bool isSelfDestruct;
+
     private bool isChat;
 
     public Vector2 Move { get => move; }
@@ -84,6 +86,18 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    public bool IsSelfDestruct
+    {
+        get
+        {
+            var oldValue = isSelfDestruct;
+
+            isSelfDestruct = false;
+
+            return oldValue;
+        }
+    }
+
     public bool IsChat
     {
         get
@@ -100,6 +114,10 @@ public class InputManager : Singleton<InputManager>
 
     private void Awake()
     {
+        // Automatically cache singleton class
+        // Why? Because if not, random bot will take control of main player's control
+        // Why? Because a singleton class means there's one script in scene, but this script is attached to all bots and player ship
+        // Why? Lazy implementation
         var _ = Instance;
     }
 
@@ -150,6 +168,11 @@ public class InputManager : Singleton<InputManager>
     public void OnScoreBoard(InputValue value)
     {
         isScoreBoard = value.isPressed;
+    }
+
+    public void OnSelfDestruct(InputValue value)
+    {
+        isSelfDestruct = value.isPressed;
     }
 
     public void OnChat(InputValue value)

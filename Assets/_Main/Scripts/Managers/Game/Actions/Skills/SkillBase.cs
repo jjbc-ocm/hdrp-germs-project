@@ -7,17 +7,12 @@ public abstract class SkillBase : ActionBase
     [SerializeField]
     protected float duration;
 
-    /*private void Awake()
-    {
-        Destroy(gameObject, duration);
-    }*/
-
-    public override void OnGet()
+    protected override void OnGet()
     {
         StartCoroutine(YieldDespawn());
     }
 
-    public override void OnRelease()
+    protected override void OnRelease()
     {
 
     }
