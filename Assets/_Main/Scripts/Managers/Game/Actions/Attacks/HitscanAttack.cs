@@ -67,12 +67,12 @@ public class HitscanAttack : AttackBase
         }
     }
 
-    public override void OnGet()
+    protected override void OnGet()
     {
 
     }
 
-    public override void OnRelease()
+    protected override void OnRelease()
     {
 
     }

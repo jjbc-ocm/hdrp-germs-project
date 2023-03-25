@@ -108,22 +108,18 @@ public class GameManager : MonoBehaviourPun
         PlayerManager.Mine.HasSurrendered(true);
     }
 
-    public void AddScore(ScoreType scoreType, int teamIndex)
+    public void AddScoreByKill(int teamGain)
     {
-        switch (scoreType)
-        {
-            case ScoreType.Capture:
-                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 10, true);
-
-                GPRewardSystem.m_instance.AddGoldToAllTeam(teamIndex, "Chest");
-                break;
-
-            case ScoreType.Kill:
-                PhotonNetwork.CurrentRoom.AddScore(teamIndex, 1, false);
-                break;
-        }
+        PhotonNetwork.CurrentRoom.AddScoreByKill(teamGain, 1);
     }
-    
+
+    public void AddScoreByChest(int teamGain, int teamLose)
+    {
+        PhotonNetwork.CurrentRoom.AddScoreByChest(teamGain, teamLose, 10);
+
+        GPRewardSystem.m_instance.AddGoldToAllTeam(teamGain, "Chest");
+    }
+
     public bool IsGameOver()
     {
         var isOver = false;
@@ -199,15 +195,4 @@ public class Team
     /// component attached, a point within the collider bounds will be used.
     /// </summary>
     //public Transform spawn;
-}
-
-
-/// <summary>
-/// Defines the types that could grant points to players or teams.
-/// Used in the AddScore() method for filtering.
-/// </summary>
-public enum ScoreType
-{
-    Kill,
-    Capture
 }

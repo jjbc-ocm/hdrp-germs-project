@@ -63,12 +63,12 @@ public class ProjectileAttack : AttackBase
         rigidBody.velocity = transform.forward * velocity;
     }
 
-    public override void OnGet()
+    protected override void OnGet()
     {
         StartCoroutine(YieldDespawn());
     }
 
-    public override void OnRelease()
+    protected override void OnRelease()
     {
 
     }

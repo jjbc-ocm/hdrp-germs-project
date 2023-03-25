@@ -20,8 +20,8 @@ public class PoolManager : Singleton<PoolManager>
         {
             var pool = new ObjectPool<ActionBase>(
                 () => OnCreate(prefab), 
-                (action) => action.OnGet(), 
-                (action) => action.OnRelease());
+                (action) => action.Get(), 
+                (action) => action.Release());
 
             pooledObjects.Add(prefab.name, pool);
         }
@@ -41,8 +41,6 @@ public class PoolManager : Singleton<PoolManager>
 
             obj.transform.rotation = rotation;
 
-            obj.gameObject.SetActive(true);
-
             return obj;
         }
 
@@ -53,8 +51,6 @@ public class PoolManager : Singleton<PoolManager>
     {
         if (pooledObjects.TryGetValue(obj.name, out ObjectPool<ActionBase> pooledObject))
         {
-            obj.gameObject.SetActive(false);
-
             pooledObject.Release(obj);
         }
     }

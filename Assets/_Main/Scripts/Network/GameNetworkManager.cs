@@ -10,18 +10,6 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 {
     public static GameNetworkManager Instance;
 
-    #region Serializable
-
-    //[SerializeField]
-    //private GameObject[] shipPrefabs;
-
-    [SerializeField]
-    private Transform[] spawnPoints;
-
-    public Transform[] SpawnPoints { get => spawnPoints; }
-
-    #endregion
-
     #region Private
 
     private bool hasBeenDisconnected;
@@ -153,7 +141,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var prefabName = SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name;
 
-        var spawnPoint = spawnPoints[team];
+        var spawnPoint = GameManager.Instance.GetBase(team).SpawnPoint.transform;
 
         PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
     }
@@ -162,7 +150,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var prefabName = SOManager.Instance.BotShips[shipIndex].m_playerPrefab.name;
 
-        var spawnPoint = spawnPoints[team];
+        var spawnPoint = GameManager.Instance.GetBase(team).SpawnPoint.transform;
 
         var player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
 

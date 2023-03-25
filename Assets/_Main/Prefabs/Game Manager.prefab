@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 1657566868653416574}
   - component: {fileID: 8771608994588316864}
   - component: {fileID: 7276025515575003479}
+  - component: {fileID: 1112927681637850105}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -362,6 +363,22 @@ MonoBehaviour:
   - {fileID: 2771556123462503611, guid: 6b882a63aecbdeb4fb4b1fee4779b453, type: 3}
   - {fileID: 1155533743644792178, guid: 64a3a1393cf945f4dab3ad77d9e373a5, type: 3}
   - {fileID: 821231162903042443, guid: 2d995b6cfee2ba243927ac5740ea2bc4, type: 3}
+--- !u!114 &1112927681637850105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013481812936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d428e3be517cdd24687ebd4d638b34e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  popupDamage: {fileID: 4253935853773538503, guid: 54769a80758003d40816762b3b70e8eb, type: 3}
+  popupGold: {fileID: 6722433959149542201, guid: 7bd2e2f7a45391c40a483248d1f8bba5, type: 3}
+  popupHeal: {fileID: 6166708232514016060, guid: 9c74ba0ea89e81842ab723c821112fc0, type: 3}
 --- !u!1 &2050945310018176571
 GameObject:
   m_ObjectHideFlags: 0
