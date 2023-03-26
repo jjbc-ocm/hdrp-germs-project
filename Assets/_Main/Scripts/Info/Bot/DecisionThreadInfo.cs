@@ -32,7 +32,7 @@ public abstract class DecisionThreadInfo
 
         if (finalDecision != null)
         {
-            //Debug.Log("[BOT: " + player.gameObject.name + "] " + finalDecision.Key);
+            Debug.Log("[BOT: " + player.gameObject.name + "] " + finalDecision.Key + " | Weight: " + finalDecision.Weight);
 
             finalDecision.Decision.Invoke();
         }
@@ -50,40 +50,64 @@ public abstract class DecisionThreadInfo
         return a.Weight > b.Weight ? a : b;
     }
 
-    #region DECISION TO ENTITY
+    #region Decisions
 
-    
-    private DecisionNodeInfo AttackDecision()
+    protected float GetDecisionWeight(GameEntityManager other, BotPropertyType propertyType, bool isInverse)
     {
-        return new DecisionNodeInfo
+        var target = other ?? player;
+
+        // Note: It's value must always be between or equal 0 and 1
+        var value = 0f;
+
+        if (propertyType == BotPropertyType.Distance)
         {
-            Key = "Attack: True",
+            var distance = Vector3.Distance(player.transform.position, target.transform.position);
 
-            Weight = 0f,
+            value = Mathf.Min(1f, distance / SOManager.Instance.Constants.FogOrWarDistance);
+        }
 
-            Decision = () => player.Input.OnAttack(true)
-        };
-    }
-
-    private DecisionNodeInfo AttackStopDecision()
-    {
-        return new DecisionNodeInfo
+        else if (propertyType == BotPropertyType.DistanceNoFOV)
         {
-            Key = "Attack: False",
+            var distance = Vector3.Distance(player.transform.position, target.transform.position);
 
-            Weight = 0f,
+            value = Mathf.Min(1f, distance / 1000f);
+        }
 
-            Decision = () => player.Input.OnAttack(false)
-        };
+        else if (propertyType == BotPropertyType.Key)
+        {
+            if (target is PlayerManager)
+            {
+                value = (target as PlayerManager).Stat.HasKey ? 1f : 0f;
+            }
+        }
+
+        else if (propertyType == BotPropertyType.Chest)
+        {
+            if (target is PlayerManager)
+            {
+                value = (target as PlayerManager).Stat.HasChest ? 1f : 0f;
+            }
+        }
+
+        else if (propertyType == BotPropertyType.HealthRatio)
+        {
+            if (target is PlayerManager)
+            {
+                value = (target as PlayerManager).Stat.Health / (float)(target as PlayerManager).Stat.MaxHealth();
+            }
+
+            if (target is GPMonsterBase)
+            {
+                value = (target as GPMonsterBase).m_health.m_currentHealth / (target as GPMonsterBase).m_health.m_maxHealth;
+            }
+        }
+
+        if (isInverse) value = 1f - value;
+
+        return value;
     }
-
-    
-
-    #endregion
-
-    #region DECISION TO ITEM
-
-    
 
     #endregion
 }
+
+

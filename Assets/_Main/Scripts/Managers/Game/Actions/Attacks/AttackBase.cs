@@ -5,5 +5,8 @@ using UnityEngine;
 public abstract class AttackBase : ActionBase
 {
     [SerializeField]
+    protected TrailRenderer[] trails;
+
+    [SerializeField]
     protected float velocity;
 }

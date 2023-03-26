@@ -126,7 +126,7 @@ public class BotManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         yield return new WaitForSeconds(Random.value);
 
-        var entities = GameManager.Instance.Entities;//FindObjectsOfType<GameEntityManager>();
+        var entities = GameManager.Instance.Entities;
 
         while (true)
         {

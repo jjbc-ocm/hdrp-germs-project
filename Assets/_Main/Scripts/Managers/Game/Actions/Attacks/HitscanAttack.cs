@@ -69,7 +69,14 @@ public class HitscanAttack : AttackBase
 
     protected override void OnGet()
     {
+        foreach (var trail in trails)
+        {
+            trail.enabled = false;
 
+            trail.Clear();
+
+            trail.enabled = true;
+        }
     }
 
     protected override void OnRelease()

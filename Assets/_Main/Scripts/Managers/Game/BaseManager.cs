@@ -4,6 +4,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using TanksMP;
 using System.Linq;
+using UnityEngine.UI;
 
 public class BaseManager : GameEntityManager
 {
@@ -25,6 +26,14 @@ public class BaseManager : GameEntityManager
     [SerializeField]
     private AudioClip clip;
 
+    [Header("Chest Zone")]
+
+    [SerializeField]
+    private GameObject[] chests;
+
+    [SerializeField]
+    private Slider sliderChests;
+
     private float timer;
 
     public GameObject SpawnPoint { get => spawnPoint; }
@@ -42,9 +51,29 @@ public class BaseManager : GameEntityManager
         var allyShips = team == 0 ? GameManager.Instance.Team1Ships : GameManager.Instance.Team2Ships;
 
         var enemyShips = team == 0 ? GameManager.Instance.Team2Ships : GameManager.Instance.Team1Ships;
-        
+
         var hasAllyWithChest = allyShips.Any(i => i.Stat.HasChest && HasPlayer(i));
 
+        UpdateChestLogic(enemyShips, hasAllyWithChest);
+
+        UpdateChestVisual(hasAllyWithChest);
+    }
+
+    #endregion
+
+    #region Public
+
+    public bool HasPlayer(PlayerManager player)
+    {
+        return Vector3.Distance(collectibleZone.transform.position, player.transform.position) <= SOManager.Instance.Constants.BaseRadius;
+    }
+
+    #endregion
+
+    #region Private
+
+    private void UpdateChestLogic(List<PlayerManager> enemyShips, bool hasAllyWithChest)
+    {
         var enemyWithKey = enemyShips.FirstOrDefault(i => HasPlayer(i) && i.Stat.HasKey);
 
         // If allied ship carrying a chest is in this base
@@ -80,24 +109,23 @@ public class BaseManager : GameEntityManager
         {
             FetchChest(enemyWithKey);
         }
+    }
 
+    private void UpdateChestVisual(bool hasAllyWithChest)
+    {
         indicatorNormal.SetActive(!hasAllyWithChest);
 
         indicatorCollect.SetActive(hasAllyWithChest);
+
+        var chestCount = SOManager.Instance.Constants.MaxChestPerTeam - PhotonNetwork.CurrentRoom.GetChestLost(team);
+
+        sliderChests.value = chestCount;
+
+        for (var i = 0; i < chests.Length; i++)
+        {
+            chests[i].SetActive(i < chestCount);
+        }
     }
-
-    #endregion
-
-    #region Public
-
-    public bool HasPlayer(PlayerManager player)
-    {
-        return Vector3.Distance(collectibleZone.transform.position, player.transform.position) <= collectibleZone.transform.localScale.x / 2f;
-    }
-
-    #endregion
-
-    #region Private
 
     private void FetchChest(PlayerManager player)
     {

@@ -51,6 +51,8 @@ public class PlayerManager : ActorManager, IPunObservable
 
     #region Accessors
 
+    public Transform CameraFollow { get => cameraFollow; }
+
     public GPShipDesc Data { get => data; }
 
     public SkillData Attack { get => attack; }
@@ -150,49 +152,6 @@ public class PlayerManager : ActorManager, IPunObservable
         GameCameraManager.Instance.SetTarget(cameraFollow);
     }
 
-    private void Update()
-    {
-        if (AftermathUI.Instance.gameObject.activeSelf) return;
-
-        if (!photonView.IsMine || IsBot) return;
-
-        // Shop can only be accessed if chat is minimized and player is in the base
-        if (Input.IsShop && !ChatManager.Instance.UI.IsMaximized && GameManager.Instance.GetBase(GetTeam()).HasPlayer(this))
-        {
-            ShopManager.Instance.ToggleShop();
-        }
-
-        // Score board can be toggled
-        if (Input.IsScoreBoard)
-        {
-            if (!ScoreBoardUI.Instance.gameObject.activeSelf)
-            {
-                ScoreBoardUI.Instance.Open((self) =>
-                {
-                    self.Data = new List<List<PlayerManager>>
-                {
-                    GameManager.Instance.Team1Ships,
-                    GameManager.Instance.Team2Ships
-                };
-                });
-            }
-            else
-            {
-                ScoreBoardUI.Instance.Close();
-            }
-        }
-
-        // This is a debug feature where player can kill itself
-        if (Input.IsSelfDestruct)
-        {
-            photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, photonView.ViewID);
-
-            PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
-        }
-
-        UpdateCrosshair();
-    }
-
     private void FixedUpdate()
     {
         if (AftermathUI.Instance.gameObject.activeSelf) return;
@@ -241,7 +200,7 @@ public class PlayerManager : ActorManager, IPunObservable
         prevMoveDir = moveDir;
     }
 
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         if (!photonView.IsMine || IsBot) return;
 
@@ -253,7 +212,7 @@ public class PlayerManager : ActorManager, IPunObservable
             !SettingsUI.Instance.gameObject.activeSelf ?
             CursorLockMode.Locked :
             CursorLockMode.None;
-    }
+    }*/
 
     #endregion
 
@@ -377,17 +336,17 @@ public class PlayerManager : ActorManager, IPunObservable
 
         Stat.AddHealth(-amount);
 
-        if (photonView.IsMine && !IsBot)
+        var attacker = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
+
+        //if ((photonView.IsMine && !IsBot) || i)
+        if (Mine == this || Mine == attacker)
         {
             PopupManager.Instance.ShowDamage(amount, transform.position);
         }
         
-
         if (Stat.Health <= 0)
         {
             /* Add score to opponent */
-            var attacker = PhotonView.Find(attackerId).GetComponent<ActorManager>();
-
             if (attacker != null)
             {
                 var attackerTeam = attacker.GetTeam();
@@ -457,37 +416,7 @@ public class PlayerManager : ActorManager, IPunObservable
 
     #region Private
         
-    private void UpdateCrosshair()
-    {
-        var offset = Vector3.up * 2;
-
-        var aimPosition = transform.position + cameraFollow.forward * 999f;
-
-        var targetPosition = aimPosition + offset;
-
-        var fromPosition = transform.position + offset;
-
-        var direction = (targetPosition - fromPosition).normalized;
-
-        var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
-
-        var layerMask = Utils.GetBulletHitMask(gameObject);
-
-        direction = new Vector3(direction.x, 0, direction.z).normalized;
-
-        targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance + offset;
-
-        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, maxDistance, layerMask))
-        {
-            CrosshairUI.Instance.Target = hit.point;
-        }
-        else
-        {
-            CrosshairUI.Instance.Target = targetPosition;
-        }
-
-        //CrosshairUI.Instance.Target = transform.position;
-    }
+    
 
     private void ExecuteActionAim(SkillData action, bool isAttack)
     {

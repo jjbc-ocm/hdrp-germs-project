@@ -121,6 +121,9 @@ public class ConstantsSO : ScriptableObject
     [SerializeField]
     private float respawnTime = 10f;
 
+    [SerializeField]
+    private float baseRadius = 50f;
+
     public double PreparationTime { get => preparationTime; }
 
     public float CaptureChestTime { get => captureChestTime; }
@@ -144,6 +147,8 @@ public class ConstantsSO : ScriptableObject
     public int ScoreRequired { get => scoreRequired; }
 
     public float RespawnTime { get => respawnTime; }
+
+    public float BaseRadius { get => baseRadius; }
 
 
     [Header("Settings")]

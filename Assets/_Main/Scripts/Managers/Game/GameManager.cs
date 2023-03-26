@@ -1,7 +1,3 @@
-/*  This file is part of the "Tanks Multiplayer" project by FLOBUK.
- *  You are only allowed to use these resources if you've bought them from the Unity Asset Store.
- * 	You shall not license, sublicense, sell, resell, transfer, assign, distribute or
- * 	otherwise make available to any third party the Service or the Content. */
 
 using System.Collections;
 using UnityEngine;
@@ -20,9 +16,6 @@ public class GameManager : MonoBehaviourPun
 
     [SerializeField]
     public UIGame ui;
-
-    [SerializeField]
-    public Team[] teams;
 
     private List<PlayerManager> ships;
 
@@ -56,12 +49,47 @@ public class GameManager : MonoBehaviourPun
 
         entities = new List<GameEntityManager>();
 
-        battleResults = new BattleResultType[teams.Length];
+        battleResults = new BattleResultType[SOManager.Instance.Constants.MaxTeam];
     }
 
     private void Start()
     {
         AudioManager.Instance.PlayMusic(1);
+    }
+
+    private void Update()
+    {
+        var input = InputManager.Instance;
+
+        // Shop can only be accessed if chat is minimized and player is in the base
+        if (input.IsShop && !ChatManager.Instance.UI.IsMaximized && GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine))
+        {
+            ShopManager.Instance.ToggleShop();
+        }
+
+        // Score board can be toggled
+        if (input.IsScoreBoard)
+        {
+            if (!ScoreBoardUI.Instance.gameObject.activeSelf)
+            {
+                ScoreBoardUI.Instance.Open((self) =>
+                {
+                    self.Data = new List<List<PlayerManager>>
+                    {
+                            Team1Ships,
+                            Instance.Team2Ships
+                    };
+                });
+            }
+            else
+            {
+                ScoreBoardUI.Instance.Close();
+            }
+        }
+
+        UpdateCrosshair();
+
+        UpdateDebugKeys();
     }
 
     #endregion
@@ -171,28 +199,113 @@ public class GameManager : MonoBehaviourPun
     }
 
     #endregion
-}
 
+    #region Private
 
-/// <summary>
-/// Defines properties of a team.
-/// </summary>
-[System.Serializable]
-public class Team
-{
-    /// <summary>
-    /// The name of the team shown on game over.
-    /// </summary>
-    public string name;
+    private void UpdateCrosshair()
+    {
+        var player = PlayerManager.Mine;
 
-    /// <summary>
-    /// The color of a team for UI and player prefabs.
-    /// </summary>   
-    public Material material;
+        var offset = Vector3.up * 2;
 
-    /// <summary>
-    /// The spawn point of a team in the scene. In case it has a BoxCollider
-    /// component attached, a point within the collider bounds will be used.
-    /// </summary>
-    //public Transform spawn;
+        var aimPosition = player.transform.position + PlayerManager.Mine.CameraFollow.forward * 999f;
+
+        var targetPosition = aimPosition + offset;
+
+        var fromPosition = player.transform.position + offset;
+
+        var direction = (targetPosition - fromPosition).normalized;
+
+        var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
+
+        var layerMask = Utils.GetBulletHitMask(gameObject);
+
+        direction = new Vector3(direction.x, 0, direction.z).normalized;
+
+        targetPosition = fromPosition + direction * SOManager.Instance.Constants.FogOrWarDistance + offset;
+
+        if (Physics.Raycast(fromPosition, direction, out RaycastHit hit, maxDistance, layerMask))
+        {
+            CrosshairUI.Instance.Target = hit.point;
+        }
+        else
+        {
+            CrosshairUI.Instance.Target = targetPosition;
+        }
+    }
+
+    private void UpdateDebugKeys()
+    {
+        if (InputManager.Instance.IsDebugKey(0))
+        {
+            PlayerManager.Mine.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, PlayerManager.Mine.photonView.ViewID);
+
+            //PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
+        }
+
+        if (InputManager.Instance.IsDebugKey(1))
+        {
+            var ship = Team1Ships[0];
+
+            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
+            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+        }
+
+        if (InputManager.Instance.IsDebugKey(2))
+        {
+            var ship = Team1Ships[1];
+
+            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
+            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+        }
+
+        if (InputManager.Instance.IsDebugKey(3))
+        {
+            var ship = Team1Ships[2];
+
+            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
+            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+        }
+
+        if (InputManager.Instance.IsDebugKey(4))
+        {
+            var ship = Team2Ships[0];
+
+            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
+            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+        }
+
+        if (InputManager.Instance.IsDebugKey(5))
+        {
+            var ship = Team2Ships[1];
+
+            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
+            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+        }
+
+        if (InputManager.Instance.IsDebugKey(6))
+        {
+            var ship = Team2Ships[2];
+
+            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
+            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+        }
+
+        if (InputManager.Instance.IsDebugKey(7))
+        {
+
+        }
+
+        if (InputManager.Instance.IsDebugKey(8))
+        {
+
+        }
+
+        if (InputManager.Instance.IsDebugKey(9))
+        {
+
+        }
+    }
+
+    #endregion
 }
