@@ -25,9 +25,10 @@ public class InputManager : Singleton<InputManager>
 
     private bool isScoreBoard;
 
-    private bool isSelfDestruct;
-
     private bool isChat;
+
+    private bool[] isDebugKey;
+
 
     public Vector2 Move { get => move; }
 
@@ -86,18 +87,6 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    public bool IsSelfDestruct
-    {
-        get
-        {
-            var oldValue = isSelfDestruct;
-
-            isSelfDestruct = false;
-
-            return oldValue;
-        }
-    }
-
     public bool IsChat
     {
         get
@@ -110,6 +99,15 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    public bool IsDebugKey(int index)
+    {
+        var oldValue = isDebugKey[index];
+
+        isDebugKey[index] = false;
+
+        return oldValue;
+    }
+
     #region Unity
 
     private void Awake()
@@ -119,66 +117,53 @@ public class InputManager : Singleton<InputManager>
         // Why? Because a singleton class means there's one script in scene, but this script is attached to all bots and player ship
         // Why? Lazy implementation
         var _ = Instance;
+
+        isDebugKey = new bool[10];
     }
 
     #endregion
 
     #region Player Input Bindings
 
-    public void OnMove(InputValue value)
-    {
-        move = value.Get<Vector2>();
-    }
+    public void OnMove(InputValue value) => move = value.Get<Vector2>();
 
-    public void OnLook(InputValue value)
-    {
-        look = value.Get<Vector2>();
-    }
+    public void OnLook(InputValue value) => look = value.Get<Vector2>();
 
-    public void OnLookDelta(InputValue value)
-    {
-        lookDelta = value.Get<Vector2>();
-    }
+    public void OnLookDelta(InputValue value) => lookDelta = value.Get<Vector2>();
 
-    public void OnAim(InputValue value)
-    {
-        isAim = value.isPressed;
-    }
+    public void OnAim(InputValue value) => isAim = value.isPressed;
 
-    public void OnAimCancel(InputValue value)
-    {
-        isAimCancel = value.isPressed;
-    }
+    public void OnAimCancel(InputValue value) => isAimCancel = value.isPressed;
 
-    public void OnSprint(InputValue value)
-    {
-        isSprint = value.isPressed;
-    }
+    public void OnSprint(InputValue value) => isSprint = value.isPressed;
 
-    public void OnAttack(InputValue value)
-    {
-        isAttack = value.isPressed;
-    }
+    public void OnAttack(InputValue value) => isAttack = value.isPressed;
 
-    public void OnShop(InputValue value)
-    {
-        isShop = value.isPressed;
-    }
+    public void OnShop(InputValue value) => isShop = value.isPressed;
 
-    public void OnScoreBoard(InputValue value)
-    {
-        isScoreBoard = value.isPressed;
-    }
+    public void OnScoreBoard(InputValue value) => isScoreBoard = value.isPressed;
 
-    public void OnSelfDestruct(InputValue value)
-    {
-        isSelfDestruct = value.isPressed;
-    }
+    public void OnChat(InputValue value) => isChat = value.isPressed;
 
-    public void OnChat(InputValue value)
-    {
-        isChat = value.isPressed;
-    }
+    public void OnDebugKey0(InputValue value) => isDebugKey[0] = value.isPressed;
+
+    public void OnDebugKey1(InputValue value) => isDebugKey[1] = value.isPressed;
+
+    public void OnDebugKey2(InputValue value) => isDebugKey[2] = value.isPressed;
+
+    public void OnDebugKey3(InputValue value) => isDebugKey[3] = value.isPressed;
+
+    public void OnDebugKey4(InputValue value) => isDebugKey[4] = value.isPressed;
+
+    public void OnDebugKey5(InputValue value) => isDebugKey[5] = value.isPressed;
+
+    public void OnDebugKey6(InputValue value) => isDebugKey[6] = value.isPressed;
+
+    public void OnDebugKey7(InputValue value) => isDebugKey[7] = value.isPressed;
+
+    public void OnDebugKey8(InputValue value) => isDebugKey[8] = value.isPressed;
+
+    public void OnDebugKey9(InputValue value) => isDebugKey[9] = value.isPressed;
 
     #endregion
 

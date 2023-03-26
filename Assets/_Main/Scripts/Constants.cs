@@ -55,3 +55,43 @@ public enum BattleResultType
     Victory,
     Defeat
 }
+public enum BotTargetType
+{
+    /// <summary>
+    /// This bot is refering to itself
+    /// </summary>
+    Self,
+
+    /// <summary>
+    /// This bot is refering to the target
+    /// </summary>
+    Target
+}
+
+public enum BotPropertyType
+{
+    /// <summary>
+    /// Nearer: 0, Further: 1, Max Cap: FOV distance
+    /// </summary>
+    Distance,
+
+    /// <summary>
+    /// None: 0, Has: 1
+    /// </summary>
+    Chest,
+
+    /// <summary>
+    /// Less Health: 0, Move Health: 1
+    /// </summary>
+    HealthRatio,
+
+    /// <summary>
+    /// Nearer: 0, Further: 1, Max Cap: 1000
+    /// </summary>
+    DistanceNoFOV,
+
+    /// <summary>
+    /// None: 0, Has: 1
+    /// </summary>
+    Key,
+}

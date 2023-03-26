@@ -50,93 +50,89 @@ public class MoveThreadInfo : DecisionThreadInfo
             Decision = () => ApproachTargetDecision(entity.transform)
         };
     }
+    
+    private float GetFinalWeight(List<PriorityInfo> priorities, GameEntityManager target)
+    {
+        var weight = 0f;
+
+        foreach (var prio in priorities)
+        {
+            var other = prio.Target == BotTargetType.Target ? target : null;
+
+            weight += GetDecisionWeight(other, prio.Property, prio.IsInverse) * prio.Weight;
+        }
+
+        return weight;
+    }
 
     private float GetWeightToApproachTarget(GameEntityManager target)
     {
+        // Decisions if target is a player
         if (target is PlayerManager)
         {
             var targetPlayer = target as PlayerManager;
 
-            /* Prioritize enemy carrying a chest */
-            var targetChest = targetPlayer.Stat.HasChest && player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
+            // Decisions if target player is ally
+            if (player.GetTeam() == targetPlayer.GetTeam())
+            {
+                return GetFinalWeight(personality.MoveToAllyPlayerConditions, targetPlayer);
+            }
 
-            /* Prioritize enemy with less health */
-            var targetHealthRatio = 1f - (targetPlayer.Stat.Health / (float)targetPlayer.Stat.MaxHealth());
-
-            /* Derioritize enemy if player have less health */
-            var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
-
-            /* Prioritize nearby enemies */
-            var playerTargetDistance = Vector3.Distance(player.transform.position, targetPlayer.transform.position);
-
-            var targetDistance = Mathf.Max(0f, 1f - (playerTargetDistance / SOManager.Instance.Constants.FogOrWarDistance));
-
-            /* Prioritize enemies generally */
-            // TODO: this is a problem because what if my action is to cast a support skill
-            // TODO: right now, player will not approach their ally
-            var weightTeam = player.GetTeam() != targetPlayer.GetTeam() ? 1f : 0f;
-
-            return
-                targetChest * personality.GetWeightMoveToPlayerPriority("targetChest") +
-                targetHealthRatio * personality.GetWeightMoveToPlayerPriority("targetHealthRatio") +
-                selfHealthRatio * personality.GetWeightMoveToPlayerPriority("selfHealthRatio") +
-                targetDistance * personality.GetWeightMoveToPlayerPriority("targetDistance") +
-                weightTeam * 0.2f;
+            // Decisions if target player if enemy
+            else
+            {
+                return GetFinalWeight(personality.MoveToEnemyPlayerConditions, targetPlayer);
+            }
         }
 
+        // Decision if target is monster
         if (target is GPMonsterBase)
         {
             var targetMonster = target as GPMonsterBase;
 
-            /* Deprioritize monster when carrying a chest */
-            var selfChest = !player.Stat.HasChest ? 1f : 0f;
-
-            /* Prioritize monster with less health */
-            var targetHealthRatio = 1f - (targetMonster.m_health.m_currentHealth / targetMonster.m_health.m_maxHealth);
-
-            /* Deprioritize monster if player have less health */
-            var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
-
-            /* Prioritize nearby monster */
-            var targetDistance = Mathf.Max(0f, 1f - (Vector3.Distance(player.transform.position, targetMonster.transform.position) / 1000f));
-
-            return
-                selfChest * personality.GetWeightMoveToMonsterPriority("selfChest") +
-                targetHealthRatio * personality.GetWeightMoveToMonsterPriority("targetHealthRatio") +
-                selfHealthRatio * personality.GetWeightMoveToMonsterPriority("selfHealthRatio") +
-                targetDistance * personality.GetWeightMoveToMonsterPriority("targetDistance");
+            return GetFinalWeight(personality.MoveToMonsterConditions, targetMonster);
         }
 
+        // Decision if target is key
+        if (target is KeyCollectible)
+        {
+            var targetKey = target as KeyCollectible;
+
+            return GetFinalWeight(personality.MoveToKeyConditions, targetKey);
+        }
+        
+        // Decision if target is chest
         if (target is ChestCollectible)
         {
             var targetChest = target as ChestCollectible;
 
-            /* Deprioritize chest if player have less health */
-            var selfHealthRatio = player.Stat.Health / (float)player.Stat.MaxHealth();
-
-            return selfHealthRatio * personality.GetWeightMoveToChestPriority("selfHealthRatio");
+            return GetFinalWeight(personality.MoveToChestConditions, targetChest);
         }
-
-        if (target is Collectible && target is not ChestCollectible)
+        
+        // Decision if target is normal item
+        if (target is Collectible && target is not ChestCollectible && target is not KeyCollectible)
         {
             var targetCollectible = target as Collectible;
 
-            /* Prioritize nearby enemies */
-            var playerTargetDistance = Vector3.Distance(player.transform.position, targetCollectible.transform.position);
-
-            var targetDistance = Mathf.Max(0f, 1f - (playerTargetDistance / SOManager.Instance.Constants.FogOrWarDistance));
-
-            return targetDistance * personality.GetWeightMoveToCollectiblePriority("targetDistance");
+            return GetFinalWeight(personality.MoveToCollectibleConditions, targetCollectible);
         }
 
+        // Decisiob if target is base
         if (target is BaseManager)
         {
             var targetBase = target as BaseManager;
 
-            /* Prioritize returning to base if player has the chest */
-            var selfChest = player.Stat.HasChest && targetBase.Team == player.GetTeam() ? 1f : 0f;
+            // Decisions if target base is ally
+            if (player.GetTeam() == targetBase.Team)
+            {
+                return GetFinalWeight(personality.MoveToAllyBaseConditions, targetBase);
+            }
 
-            return selfChest * personality.GetWeightMoveToBasePriority("selfChest");
+            // Decisions if target base if enemy
+            else
+            {
+                return GetFinalWeight(personality.MoveToEnemyBaseConditions, targetBase);
+            }
         }
 
         return 0;
@@ -158,14 +154,14 @@ public class MoveThreadInfo : DecisionThreadInfo
 
             var dotHorizontal = Vector3.Dot(player.transform.right, (targetPosition - player.transform.position).normalized);
 
-            /* Keep distance to the target */
+            // Keep distance to the target if it is a target
             if (target.TryGetComponent(out ActorManager _) &&
                 Vector3.Distance(player.transform.position, targetDestination) <= 25f) // TODO: range should actually be different based on role (melee, ranger, etc)
             {
                 player.Input.OnMove(new Vector2(dotHorizontal, Mathf.Min(0, dotVertical)));
             }
 
-            /* Otherwise, move normally */
+            // Otherwise, move normally
             else
             {
                 player.Input.OnMove(new Vector2(dotHorizontal, dotVertical));
