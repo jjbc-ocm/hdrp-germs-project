@@ -337,9 +337,8 @@ public class PlayerManager : ActorManager, IPunObservable
         Stat.AddHealth(-amount);
 
         var attacker = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
-
-        //if ((photonView.IsMine && !IsBot) || i)
-        if (Mine == this || Mine == attacker)
+        
+        if ((Mine == this || Mine == attacker) && amount > 0)
         {
             PopupManager.Instance.ShowDamage(amount, transform.position);
         }

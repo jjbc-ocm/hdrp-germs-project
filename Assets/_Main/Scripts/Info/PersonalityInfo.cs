@@ -7,103 +7,55 @@ using UnityEngine;
 public class PersonalityInfo
 {
     [SerializeField]
-    private List<PriorityInfo> moveToAllyPlayerConditions;
+    private List<MovePriorityInfo> moveToAllyPlayerConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToEnemyPlayerConditions;
+    private List<MovePriorityInfo> moveToEnemyPlayerConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToMonsterConditions;
+    private List<MovePriorityInfo> moveToMonsterConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToKeyConditions;
+    private List<MovePriorityInfo> moveToKeyConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToChestConditions;
+    private List<MovePriorityInfo> moveToChestConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToCollectibleConditions;
+    private List<MovePriorityInfo> moveToCollectibleConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToAllyBaseConditions;
+    private List<MovePriorityInfo> moveToAllyBaseConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToEnemyBaseConditions;
-
-
-    /*[SerializeField]
-    private List<PriorityInfo> moveToPlayerPriorities;
+    private List<MovePriorityInfo> moveToEnemyBaseConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToMonsterPriorities;
+    private List<BuyPriorityInfo> buyItemConditions;
 
-    [SerializeField]
-    private List<PriorityInfo> moveToChestPriorities;
+    //[SerializeField]
+    //private List<MovePriorityInfo> buyItemPriorities;
 
-    [SerializeField]
-    private List<PriorityInfo> moveToCollectiblePriorities;
+    public List<MovePriorityInfo> MoveToAllyPlayerConditions { get => moveToAllyPlayerConditions; }
 
-    [SerializeField]
-    private List<PriorityInfo> moveToBasePriorities;*/
+    public List<MovePriorityInfo> MoveToEnemyPlayerConditions { get => moveToEnemyPlayerConditions; }
 
-    [SerializeField]
-    private List<PriorityInfo> buyItemPriorities;
+    public List<MovePriorityInfo> MoveToMonsterConditions { get => moveToMonsterConditions; }
 
-    /*public List<PriorityInfo> MoveToPlayerPriorities { get => moveToPlayerPriorities; }
+    public List<MovePriorityInfo> MoveToKeyConditions { get => moveToKeyConditions; }
 
-    public List<PriorityInfo> MoveToMonsterPriorities { get => moveToMonsterPriorities; }
+    public List<MovePriorityInfo> MoveToChestConditions { get => moveToChestConditions; }
 
-    public List<PriorityInfo> MoveToChestPriorities { get => moveToChestPriorities; }
+    public List<MovePriorityInfo> MoveToCollectibleConditions { get => moveToCollectibleConditions; }
 
-    public List<PriorityInfo> MoveToCollectiblePriorities { get => moveToCollectiblePriorities; }
+    public List<MovePriorityInfo> MoveToAllyBaseConditions { get => moveToAllyBaseConditions; }
 
-    public List<PriorityInfo> MoveToBasePriorities { get => moveToBasePriorities; }
+    public List<MovePriorityInfo> MoveToEnemyBaseConditions { get => moveToEnemyBaseConditions; }
 
-    public List<PriorityInfo> BuyItemPriorities { get => buyItemPriorities; }*/
+    public List<BuyPriorityInfo> BuyItemConditions { get => buyItemConditions; }
 
-    public List<PriorityInfo> MoveToAllyPlayerConditions { get => moveToAllyPlayerConditions; }
-
-    public List<PriorityInfo> MoveToEnemyPlayerConditions { get => moveToEnemyPlayerConditions; }
-
-    public List<PriorityInfo> MoveToMonsterConditions { get => moveToMonsterConditions; }
-
-    public List<PriorityInfo> MoveToKeyConditions { get => moveToKeyConditions; }
-
-    public List<PriorityInfo> MoveToChestConditions { get => moveToChestConditions; }
-
-    public List<PriorityInfo> MoveToCollectibleConditions { get => moveToCollectibleConditions; }
-
-    public List<PriorityInfo> MoveToAllyBaseConditions { get => moveToAllyBaseConditions; }
-
-    public List<PriorityInfo> MoveToEnemyBaseConditions { get => moveToEnemyBaseConditions; }
-
-    /*public float GetWeightMoveToPlayerPriority(string key)
-    {
-        return moveToPlayerPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
-
-    public float GetWeightMoveToMonsterPriority(string key)
-    {
-        return moveToMonsterPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
-
-    public float GetWeightMoveToChestPriority(string key)
-    {
-        return moveToChestPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
-
-    public float GetWeightMoveToCollectiblePriority(string key)
-    {
-        return moveToCollectiblePriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
-
-    public float GetWeightMoveToBasePriority(string key)
-    {
-        return moveToBasePriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }*/
-
-    public float GetWeightBuyItem(string key)
+    /*public float GetWeightBuyItem(string key)
     {
         return buyItemPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    }*/
 }

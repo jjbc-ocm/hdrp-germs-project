@@ -9,11 +9,9 @@ public class ShopThreadInfo : DecisionThreadInfo
     {
         DecisionNodeInfo currentDecision = null;
 
-        /* Only allow shop for bots when they are at their bases */
+        // Only allow shop for bots when they are at their bases
         if (GameManager.Instance.GetBase(player.GetTeam()).HasPlayer(player))
         {
-            //Debug.Log("[ShopThreadInfo] " + player.gameObject.name + " can buy an item.");
-
             foreach (var item in ShopManager.Instance.Data)
             {
                 if (!ShopManager.Instance.CanBuy(player, item)) continue;
@@ -27,7 +25,7 @@ public class ShopThreadInfo : DecisionThreadInfo
 
     private DecisionNodeInfo GetDecisionTo(ItemSO item)
     {
-        var weight = GetWeightToItem(item);
+        var weight = GetFinalWeight(personality.BuyItemConditions, item);//GetWeightToItem(item);
 
         return new DecisionNodeInfo
         {
@@ -42,7 +40,7 @@ public class ShopThreadInfo : DecisionThreadInfo
         };
     }
 
-    private float GetWeightToItem(ItemSO item)
+    /*private float GetWeightToItem(ItemSO item)
     {
         var healthRatio = item.StatModifier.BuffMaxHealth / maxItemStatValues.Health * personality.GetWeightBuyItem("healthRatio");
 
@@ -66,8 +64,8 @@ public class ShopThreadInfo : DecisionThreadInfo
 
         var invisibilityRatio = (item.StatModifier.IsInvisible ? 1f : 0f) * personality.GetWeightBuyItem("invisibilityRatio");
 
-        /* Need to add some limit because if not, bot will always prioritize buying the cheapest item
-         * despite it can afford the item that is really helpful. */
+        *//* Need to add some limit because if not, bot will always prioritize buying the cheapest item
+         * despite it can afford the item that is really helpful. *//*
         var costRatio = Mathf.Min(1f, player.Inventory.Gold / item.CostBuy) * personality.GetWeightBuyItem("costRatio");
 
         var consumableRatio = (item.Category == CategoryType.Consumables ? 1f : 0f) * personality.GetWeightBuyItem("consumableRatio");
@@ -76,5 +74,17 @@ public class ShopThreadInfo : DecisionThreadInfo
             healthRatio + manaRatio + attackDamageRatio + abilityPowerRatio + armorRatio + 
             resistRatio + attackSpeedRatio + moveSpeedRatio + lifeStealRatio + cooldownRatio + 
             invisibilityRatio + costRatio + consumableRatio;
+    }*/
+
+    private float GetFinalWeight(List<BuyPriorityInfo> priorities, ItemSO item)
+    {
+        var weight = 0f;
+
+        foreach (var prio in priorities)
+        {
+            weight += GetBuyDecisionWeight(item, maxItemStatValues, prio.Property, prio.IsInverse) * prio.Weight;
+        }
+
+        return weight;
     }
 }

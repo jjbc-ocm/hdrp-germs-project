@@ -271,7 +271,7 @@ public class GPMonsterBase : ActorManager
 
         if (other.photonView.IsMine && !IsBot)
         {
-            //PopupManager.Instance.ShowDamage(amount, transform.position);
+            PopupManager.Instance.ShowDamage(amount, transform.position);
         }
         
         m_health.Damage(amount);

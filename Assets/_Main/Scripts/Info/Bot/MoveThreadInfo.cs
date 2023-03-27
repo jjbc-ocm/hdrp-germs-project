@@ -51,7 +51,7 @@ public class MoveThreadInfo : DecisionThreadInfo
         };
     }
     
-    private float GetFinalWeight(List<PriorityInfo> priorities, GameEntityManager target)
+    private float GetFinalWeight(List<MovePriorityInfo> priorities, GameEntityManager target)
     {
         var weight = 0f;
 
@@ -59,7 +59,7 @@ public class MoveThreadInfo : DecisionThreadInfo
         {
             var other = prio.Target == BotTargetType.Target ? target : null;
 
-            weight += GetDecisionWeight(other, prio.Property, prio.IsInverse) * prio.Weight;
+            weight += GetMoveDecisionWeight(other, prio.Property, prio.IsInverse) * prio.Weight;
         }
 
         return weight;
