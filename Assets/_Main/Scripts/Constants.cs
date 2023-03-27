@@ -94,4 +94,28 @@ public enum BotPropertyType
     /// None: 0, Has: 1
     /// </summary>
     Key,
+
+    ManaRatio,
+
+    AttackDamageRatio,
+
+    AbilityPowerRatio,
+
+    ArmorRatio,
+
+    ResistRatio,
+
+    AttackSpeedRatio,
+
+    MoveSpeedRatio,
+
+    LifeStealRatio,
+
+    CooldownRatio,
+
+    InvisibilityRatio,
+
+    CostRatio,
+
+    ConsumableRatio
 }
