@@ -25,6 +25,8 @@ public class TrailOfFrostSkill : SkillBase
     protected override void OnInitialize()
     {
         StartCoroutine(YieldSpawnIcicle());
+
+        AudioManager.Instance.Play3D(data.Sounds[0], transform.position);
     }
 
     private int spawnBoxCounter;
@@ -55,8 +57,6 @@ public class TrailOfFrostSkill : SkillBase
             Instantiate(prefabIcicle, position + offset, rotation, transform);
 
             ExecuteDamageOnCollision(position);
-
-            AudioManager.Instance.Play3D(data.Sounds[0], position + offset);
         }
     }
 

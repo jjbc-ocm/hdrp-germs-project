@@ -32,7 +32,7 @@ public abstract class DecisionThreadInfo
 
         if (finalDecision != null)
         {
-            //Debug.Log("[BOT: " + player.gameObject.name + "] " + finalDecision.Key);
+            Debug.Log("[BOT: " + player.gameObject.name + "] " + finalDecision.Key + " | Weight: " + finalDecision.Weight);
 
             finalDecision.Decision.Invoke();
         }
@@ -50,40 +50,138 @@ public abstract class DecisionThreadInfo
         return a.Weight > b.Weight ? a : b;
     }
 
-    #region DECISION TO ENTITY
+    #region Decisions
 
-    
-    private DecisionNodeInfo AttackDecision()
+    protected float GetMoveDecisionWeight(GameEntityManager other, BotPropertyType propertyType, bool isInverse)
     {
-        return new DecisionNodeInfo
+        var target = other ?? player;
+
+        // Note: It's value must always be between or equal 0 and 1
+        var value = 0f;
+
+        if (propertyType == BotPropertyType.Distance)
         {
-            Key = "Attack: True",
+            var distance = Vector3.Distance(player.transform.position, target.transform.position);
 
-            Weight = 0f,
+            value = Mathf.Min(1f, distance / SOManager.Instance.Constants.FogOrWarDistance);
+        }
 
-            Decision = () => player.Input.OnAttack(true)
-        };
+        else if (propertyType == BotPropertyType.DistanceNoFOV)
+        {
+            var distance = Vector3.Distance(player.transform.position, target.transform.position);
+
+            value = Mathf.Min(1f, distance / 1000f);
+        }
+
+        else if (propertyType == BotPropertyType.Key)
+        {
+            if (target is PlayerManager)
+            {
+                value = (target as PlayerManager).Stat.HasKey ? 1f : 0f;
+            }
+        }
+
+        else if (propertyType == BotPropertyType.Chest)
+        {
+            if (target is PlayerManager)
+            {
+                value = (target as PlayerManager).Stat.HasChest ? 1f : 0f;
+            }
+        }
+
+        else if (propertyType == BotPropertyType.HealthRatio)
+        {
+            if (target is PlayerManager)
+            {
+                value = (target as PlayerManager).Stat.Health / (float)(target as PlayerManager).Stat.MaxHealth();
+            }
+
+            if (target is GPMonsterBase)
+            {
+                value = (target as GPMonsterBase).m_health.m_currentHealth / (target as GPMonsterBase).m_health.m_maxHealth;
+            }
+        }
+
+        if (isInverse) value = 1f - value;
+
+        return value;
     }
 
-    private DecisionNodeInfo AttackStopDecision()
+    protected float GetBuyDecisionWeight(ItemSO item, ItemStatValuesInfo maxItemStatValues, BotPropertyType propertyType, bool isInverse)
     {
-        return new DecisionNodeInfo
+        var value = 0f;
+
+        if (propertyType == BotPropertyType.HealthRatio)
         {
-            Key = "Attack: False",
+            value = item.StatModifier.BuffMaxHealth / maxItemStatValues.Health;
+        }
 
-            Weight = 0f,
+        else if (propertyType == BotPropertyType.ManaRatio)
+        {
+            value = item.StatModifier.BuffMaxMana / maxItemStatValues.Mana;
+        }
 
-            Decision = () => player.Input.OnAttack(false)
-        };
+        else if (propertyType == BotPropertyType.AttackDamageRatio)
+        {
+            value = item.StatModifier.BuffAttackDamage / maxItemStatValues.AttackDamage;
+        }
+
+        else if (propertyType == BotPropertyType.AbilityPowerRatio)
+        {
+            value = item.StatModifier.BuffAbilityPower / maxItemStatValues.AbilityPower;
+        }
+
+        else if (propertyType == BotPropertyType.ArmorRatio)
+        {
+            value = item.StatModifier.BuffArmor / maxItemStatValues.Armor;
+        }
+
+        else if (propertyType == BotPropertyType.ResistRatio)
+        {
+            value = item.StatModifier.BuffResist / maxItemStatValues.Resist;
+        }
+
+        else if (propertyType == BotPropertyType.AttackSpeedRatio)
+        {
+            value = item.StatModifier.BuffAttackSpeed / maxItemStatValues.AttackSpeed;
+        }
+
+        else if (propertyType == BotPropertyType.MoveSpeedRatio)
+        {
+            value = item.StatModifier.BuffMoveSpeed / maxItemStatValues.MoveSpeed;
+        }
+
+        else if (propertyType == BotPropertyType.LifeStealRatio)
+        {
+            value = item.StatModifier.LifeSteal / maxItemStatValues.LifeSteal;
+        }
+
+        else if (propertyType == BotPropertyType.CooldownRatio)
+        {
+            value = item.StatModifier.BuffCooldown / maxItemStatValues.Cooldown;
+        }
+
+        else if (propertyType == BotPropertyType.InvisibilityRatio)
+        {
+            value = (item.StatModifier.IsInvisible ? 1f : 0f);
+        }
+
+        else if (propertyType == BotPropertyType.CostRatio)
+        {
+            value = Mathf.Min(1f, player.Inventory.Gold / item.CostBuy);
+        }
+
+        else if (propertyType == BotPropertyType.ConsumableRatio)
+        {
+            value = (item.Category == CategoryType.Consumables ? 1f : 0f);
+        }
+
+        if (isInverse) value = 1f - value;
+
+        return value;
     }
-
-    
-
-    #endregion
-
-    #region DECISION TO ITEM
-
-    
 
     #endregion
 }
+
+

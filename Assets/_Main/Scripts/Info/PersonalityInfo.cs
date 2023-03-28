@@ -7,50 +7,55 @@ using UnityEngine;
 public class PersonalityInfo
 {
     [SerializeField]
-    private List<PriorityInfo> moveToPlayerPriorities;
+    private List<MovePriorityInfo> moveToAllyPlayerConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToMonsterPriorities;
+    private List<MovePriorityInfo> moveToEnemyPlayerConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToChestPriorities;
+    private List<MovePriorityInfo> moveToMonsterConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToCollectiblePriorities;
+    private List<MovePriorityInfo> moveToKeyConditions;
 
     [SerializeField]
-    private List<PriorityInfo> moveToBasePriorities;
+    private List<MovePriorityInfo> moveToChestConditions;
 
     [SerializeField]
-    private List<PriorityInfo> buyItemPriorities;
+    private List<MovePriorityInfo> moveToCollectibleConditions;
 
-    public float GetWeightMoveToPlayerPriority(string key)
-    {
-        return moveToPlayerPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    [SerializeField]
+    private List<MovePriorityInfo> moveToAllyBaseConditions;
 
-    public float GetWeightMoveToMonsterPriority(string key)
-    {
-        return moveToMonsterPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    [SerializeField]
+    private List<MovePriorityInfo> moveToEnemyBaseConditions;
 
-    public float GetWeightMoveToChestPriority(string key)
-    {
-        return moveToChestPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    [SerializeField]
+    private List<BuyPriorityInfo> buyItemConditions;
 
-    public float GetWeightMoveToCollectiblePriority(string key)
-    {
-        return moveToCollectiblePriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    //[SerializeField]
+    //private List<MovePriorityInfo> buyItemPriorities;
 
-    public float GetWeightMoveToBasePriority(string key)
-    {
-        return moveToBasePriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    public List<MovePriorityInfo> MoveToAllyPlayerConditions { get => moveToAllyPlayerConditions; }
 
-    public float GetWeightBuyItem(string key)
+    public List<MovePriorityInfo> MoveToEnemyPlayerConditions { get => moveToEnemyPlayerConditions; }
+
+    public List<MovePriorityInfo> MoveToMonsterConditions { get => moveToMonsterConditions; }
+
+    public List<MovePriorityInfo> MoveToKeyConditions { get => moveToKeyConditions; }
+
+    public List<MovePriorityInfo> MoveToChestConditions { get => moveToChestConditions; }
+
+    public List<MovePriorityInfo> MoveToCollectibleConditions { get => moveToCollectibleConditions; }
+
+    public List<MovePriorityInfo> MoveToAllyBaseConditions { get => moveToAllyBaseConditions; }
+
+    public List<MovePriorityInfo> MoveToEnemyBaseConditions { get => moveToEnemyBaseConditions; }
+
+    public List<BuyPriorityInfo> BuyItemConditions { get => buyItemConditions; }
+
+    /*public float GetWeightBuyItem(string key)
     {
         return buyItemPriorities.FirstOrDefault(i => i.Key == key).Weight;
-    }
+    }*/
 }

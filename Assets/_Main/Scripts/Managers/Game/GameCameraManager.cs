@@ -22,6 +22,8 @@ public class GameCameraManager : Singleton<GameCameraManager>
 
     private float targetPitch;
 
+    public CinemachineVirtualCamera VirtualCamera { get => virtualCamera; }
+
     public Camera MainCamera { get => mainCamera; }
 
     private void Awake()
@@ -36,7 +38,7 @@ public class GameCameraManager : Singleton<GameCameraManager>
         virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, targetFOV, Time.deltaTime * 2f);
     }
     
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         
         // if there is an input and camera position is not fixed
@@ -55,7 +57,7 @@ public class GameCameraManager : Singleton<GameCameraManager>
 
         // Cinemachine will follow this target
         virtualCamera.Follow.transform.localRotation = Quaternion.Euler(targetPitch, targetYaw, 0.0f);
-    }
+    }*/
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {

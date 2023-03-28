@@ -2,6 +2,7 @@ using DamageNumbersPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PopupManager : Singleton<PopupManager>
 {
@@ -17,13 +18,25 @@ public class PopupManager : Singleton<PopupManager>
     [SerializeField]
     private DamageNumber popupHeal;
 
+    /*private CanvasScaler canvasScaler;
+
+    private void Awake()
+    {
+        canvasScaler = canvas.GetComponent<CanvasScaler>();
+    }*/
+
     public void ShowDamage(int amount, Vector3 worldPos)
     {
         var newPopup = popupDamage.Spawn(Vector3.zero, amount);
 
         var pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
 
-        newPopup.SetAnchoredPosition(canvas.transform, pos);
+        var posScaled = new Vector3(
+                pos.x / canvas.scaleFactor,
+                pos.y / canvas.scaleFactor,
+                pos.z);
+
+        newPopup.SetAnchoredPosition(canvas.transform, posScaled);
     }
 
     public void ShowGold(int amount, Vector3 worldPos)
@@ -32,7 +45,12 @@ public class PopupManager : Singleton<PopupManager>
 
         var pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
 
-        newPopup.SetAnchoredPosition(canvas.transform, pos);
+        var posScaled = new Vector3(
+                pos.x / canvas.scaleFactor,
+                pos.y / canvas.scaleFactor,
+                pos.z);
+
+        newPopup.SetAnchoredPosition(canvas.transform, posScaled);
     }
 
     public void ShowHeal(int amount, Vector3 worldPos)
@@ -41,6 +59,11 @@ public class PopupManager : Singleton<PopupManager>
 
         var pos = GameCameraManager.Instance.MainCamera.WorldToScreenPoint(worldPos);
 
-        newPopup.SetAnchoredPosition(canvas.transform, pos);
+        var posScaled = new Vector3(
+                pos.x / canvas.scaleFactor,
+                pos.y / canvas.scaleFactor,
+                pos.z);
+
+        newPopup.SetAnchoredPosition(canvas.transform, posScaled);
     }
 }

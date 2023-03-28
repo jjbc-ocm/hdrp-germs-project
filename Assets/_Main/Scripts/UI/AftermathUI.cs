@@ -73,6 +73,11 @@ public class AftermathUI : WindowUI<AftermathUI>
         SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
 
+    public void OnFeedbackClick()
+    {
+        Application.OpenURL("https://forms.gle/VkunW5eMyEzygqa77");
+    }
+
     protected override void OnRefreshUI()
     {
         uiInGame.SetActive(false);

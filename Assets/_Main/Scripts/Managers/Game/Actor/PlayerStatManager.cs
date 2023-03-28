@@ -55,6 +55,10 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private bool hasChest;
 
+    private bool hasChestTeam0;
+
+    private bool hasChestTeam1;
+
     #endregion
 
     #region Accessors
@@ -133,6 +137,13 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int Resist(float modifier = 0) => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist + modifier));
 
+    /*public bool HasChest(int team)
+    {
+        if (team == 0) return hasChestTeam0;
+        if (team == 1) return hasChestTeam1;
+
+        return false;
+    }*/
 
     public void AddHealth(int amount)
     {
@@ -162,6 +173,12 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     public void SetChest(bool value)
     {
         hasChest = value;
+    }
+
+    public void SetChest(bool value, int team)
+    {
+        if (team == 0) hasChestTeam0 = value;
+        if (team == 1) hasChestTeam1 = value;
     }
 
     public void AddKill()
@@ -194,17 +211,23 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             stream.SendNext(health);
             stream.SendNext(mana);
-            stream.SendNext(hasChest);
             stream.SendNext(kills);
             stream.SendNext(deaths);
+            stream.SendNext(hasKey);
+            stream.SendNext(hasChest);
+            //stream.SendNext(hasChestTeam0);
+            //stream.SendNext(hasChestTeam1);
         }
         else
         {
             health = (int)stream.ReceiveNext();
             mana = (int)stream.ReceiveNext();
-            hasChest = (bool)stream.ReceiveNext();
             kills = (int)stream.ReceiveNext();
             deaths = (int)stream.ReceiveNext();
+            hasKey = (bool)stream.ReceiveNext();
+            hasChest = (bool)stream.ReceiveNext();
+            //hasChestTeam0 = (bool)stream.ReceiveNext();
+            //hasChestTeam1 = (bool)stream.ReceiveNext();
         }
     }
 
