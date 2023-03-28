@@ -200,20 +200,6 @@ public class PlayerManager : ActorManager, IPunObservable
         prevMoveDir = moveDir;
     }
 
-    /*private void LateUpdate()
-    {
-        if (!photonView.IsMine || IsBot) return;
-
-        Cursor.lockState =
-            !ShopUI.Instance.gameObject.activeSelf &&
-            !ChatUI.Instance.gameObject.activeSelf &&
-            !ScoreBoardUI.Instance.gameObject.activeSelf &&
-            !AftermathUI.Instance.gameObject.activeSelf &&
-            !SettingsUI.Instance.gameObject.activeSelf ?
-            CursorLockMode.Locked :
-            CursorLockMode.None;
-    }*/
-
     #endregion
 
     #region Photon
@@ -246,8 +232,8 @@ public class PlayerManager : ActorManager, IPunObservable
         var rotation = Quaternion.LookRotation(forward);
 
         var effect = action.IsSpawnOnAim
-            ? PoolManager.Instance.Get(action.Effect, targetPosition, rotation)//Instantiate(action.Effect, targetPosition, rotation)
-            : PoolManager.Instance.Get(action.Effect, fromPosition, rotation);//Instantiate(action.Effect, fromPosition, rotation);
+            ? Instantiate(action.Effect, targetPosition, rotation)//PoolManager.Instance.Get(action.Effect, targetPosition, rotation)//
+            : Instantiate(action.Effect, fromPosition, rotation);//PoolManager.Instance.Get(action.Effect, fromPosition, rotation);//
 
         var targetActor = PhotonView.Find(targetActorId)?.GetComponent<ActorManager>() ?? null;
 
@@ -259,7 +245,7 @@ public class PlayerManager : ActorManager, IPunObservable
     {
         var attackerView = PhotonView.Find(attackerId);
 
-        if (PhotonNetwork.IsMasterClient)
+        if (photonView.IsMine)
         {
             //send player back to the team area, this will get overwritten by the exact position from the client itself later on
             //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
@@ -285,9 +271,11 @@ public class PlayerManager : ActorManager, IPunObservable
         {
             if (!IsBot)
             {
-                var target = attackerView.TryGetComponent(out PlayerManager player) ? player.cameraFollow : attackerView.transform;
+                //var target = attackerView.TryGetComponent(out PlayerManager player) ? player.cameraFollow : attackerView.transform;
 
-                GameCameraManager.Instance.SetTarget(target);
+                //GameCameraManager.Instance.SetTarget(target);
+
+                GameManager.Instance.AimCameraToNextPlayer();
             }
                 
             photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
@@ -368,13 +356,24 @@ public class PlayerManager : ActorManager, IPunObservable
             }
 
             /* Handle collected chest */
-            if (Stat.HasChest)
+            if (Stat.HasChest(0) || Stat.HasChest(1))
             {
-                Stat.SetChest(false);
+                var team = 
+                    Stat.HasChest(0) ? 0 : 
+                    Stat.HasChest(1) ? 1 : 
+                    -1;
 
-                PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
+                // TODO: do not hard-code
+                var prefabName = "Chest - " + (
+                    team == 0 ? "Red" :
+                    team == 1 ? "Blue" :
+                    "???");
+
+                PhotonNetwork.InstantiateRoomObject(prefabName, transform.position, Quaternion.identity);
 
                 GPSManager.Instance.ClearDestination();
+
+                Stat.SetChest(false);
             }
                 
             /* Reset stats */
@@ -464,8 +463,11 @@ public class PlayerManager : ActorManager, IPunObservable
 
         while (targetTime - Time.time > 0)
         {
-            GameManager.Instance.ui.SetSpawnDelay(targetTime - Time.time);
-
+            if (photonView.IsMine && !IsBot)
+            {
+                GameManager.Instance.ui.SetSpawnDelay(targetTime - Time.time);
+            }
+            
             yield return null;
         }
 

@@ -96,9 +96,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelfDestruct",
+                    "name": "CamAimPrev",
                     "type": "Button",
-                    "id": "808f4bf9-5e13-42c1-b5d9-4730e1761255",
+                    "id": "9dbe5500-4381-4d1f-a240-7682ea8b15fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CamAimNext",
+                    "type": "Button",
+                    "id": "83912872-e3e1-4183-a9f4-7a533321d575",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -396,17 +405,6 @@
                 },
                 {
                     "name": "",
-                    "id": "87d267c2-7db3-4072-93ef-810c9fff4b39",
-                    "path": "<Keyboard>/j",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SelfDestruct",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0f4b4968-2dd7-4ada-9131-c5d7e6de18cb",
                     "path": "<Keyboard>/0",
                     "interactions": "",
@@ -512,6 +510,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "DebugKey9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8c202d23-d95b-4e6c-8718-7e11caf76f0a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CamAimNext",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9427ac4f-be9c-4a1a-8706-d5ac2abaf0ad",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CamAimPrev",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

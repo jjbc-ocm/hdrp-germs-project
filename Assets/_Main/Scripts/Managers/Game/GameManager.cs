@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviourPun
 
     private BattleResultType[] battleResults;
 
+    private bool isDebugKill;
+
     public List<PlayerManager> Ships { get => ships; }
 
     public List<PlayerManager> Team1Ships { get => ships.Where(i => i.GetTeam() == 0).ToList(); }
@@ -61,8 +63,10 @@ public class GameManager : MonoBehaviourPun
     {
         var input = InputManager.Instance;
 
+        var myPlayer = PlayerManager.Mine;
+
         // Shop can only be accessed if chat is minimized and player is in the base
-        if (input.IsShop && !ChatManager.Instance.UI.IsMaximized && GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine))
+        if (input.IsShop && !ChatManager.Instance.UI.IsMaximized && GetBase(myPlayer.GetTeam()).HasPlayer(myPlayer))
         {
             ShopManager.Instance.ToggleShop();
         }
@@ -85,6 +89,16 @@ public class GameManager : MonoBehaviourPun
             {
                 ScoreBoardUI.Instance.Close();
             }
+        }
+
+        if (input.IsCamAimPrev && PlayerManager.Mine.IsRespawning)
+        {
+            AimCameraToPrevPlayer();
+        }
+
+        if (input.IsCamAimNext && PlayerManager.Mine.IsRespawning)
+        {
+            AimCameraToNextPlayer();
         }
 
         UpdateCrosshair();
@@ -129,6 +143,32 @@ public class GameManager : MonoBehaviourPun
         {
             ships.Remove(entity as PlayerManager);
         }
+    }
+
+    public void AimCameraToPrevPlayer()
+    {
+        var camFollowedPlayer = GameCameraManager.Instance.VirtualCamera.Follow.parent.GetComponent<PlayerManager>();
+
+        var myTeamShips = camFollowedPlayer.GetTeam() == 0 ? Team1Ships : Team2Ships;
+
+        var newIndex = myTeamShips.IndexOf(camFollowedPlayer);
+
+        newIndex = (newIndex + myTeamShips.Count - 1) % myTeamShips.Count;
+
+        GameCameraManager.Instance.SetTarget(myTeamShips[newIndex].CameraFollow);
+    }
+
+    public void AimCameraToNextPlayer()
+    {
+        var camFollowedPlayer = GameCameraManager.Instance.VirtualCamera.Follow.parent.GetComponent<PlayerManager>();
+
+        var myTeamShips = camFollowedPlayer.GetTeam() == 0 ? Team1Ships : Team2Ships;
+
+        var newIndex = myTeamShips.IndexOf(camFollowedPlayer);
+
+        newIndex = (newIndex + 1) % myTeamShips.Count;
+
+        GameCameraManager.Instance.SetTarget(myTeamShips[newIndex].CameraFollow);
     }
 
     public void PlayerSurrender()
@@ -236,64 +276,106 @@ public class GameManager : MonoBehaviourPun
 
     private void UpdateDebugKeys()
     {
-        if (InputManager.Instance.IsDebugKey(0))
+        /*if (InputManager.Instance.IsDebugKey(0))
         {
-            PlayerManager.Mine.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, PlayerManager.Mine.photonView.ViewID);
+            
 
             //PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
-        }
+        }*/
 
         if (InputManager.Instance.IsDebugKey(1))
         {
             var ship = Team1Ships[0];
 
-            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+            if (isDebugKill)
+            {
+                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+            }
+            else
+            {
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
+            }
         }
 
         if (InputManager.Instance.IsDebugKey(2))
         {
             var ship = Team1Ships[1];
 
-            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+            if (isDebugKill)
+            {
+                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+            }
+            else
+            {
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
+            }
         }
 
         if (InputManager.Instance.IsDebugKey(3))
         {
             var ship = Team1Ships[2];
 
-            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+            if (isDebugKill)
+            {
+                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+            }
+            else
+            {
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
+            }
         }
 
         if (InputManager.Instance.IsDebugKey(4))
         {
             var ship = Team2Ships[0];
 
-            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+            if (isDebugKill)
+            {
+                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+            }
+            else
+            {
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
+            }
         }
 
         if (InputManager.Instance.IsDebugKey(5))
         {
             var ship = Team2Ships[1];
 
-            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+            if (isDebugKill)
+            {
+                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+            }
+            else
+            {
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
+            }
         }
 
         if (InputManager.Instance.IsDebugKey(6))
         {
             var ship = Team2Ships[2];
 
-            ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-            ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+            if (isDebugKill)
+            {
+                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+            }
+            else
+            {
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
+            }
         }
 
         if (InputManager.Instance.IsDebugKey(7))
         {
-
+            isDebugKill = !isDebugKill;
         }
 
         if (InputManager.Instance.IsDebugKey(8))

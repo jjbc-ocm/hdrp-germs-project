@@ -10,6 +10,9 @@ using System.Collections;
 
 public class ChestCollectible : Collectible
 {
+    [SerializeField]
+    private int team;
+
     private void Start()
     {
         StartCoroutine(YieldAutoReturn());
@@ -17,7 +20,7 @@ public class ChestCollectible : Collectible
 
     protected override void OnObtain(PlayerManager player)
     {
-        player.Stat.SetChest(true);
+        player.Stat.SetChest(true, team);
 
         GuideManager.Instance.TryAddChestGuide();
     }

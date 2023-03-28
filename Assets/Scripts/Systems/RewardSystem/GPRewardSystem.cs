@@ -147,8 +147,8 @@ public class GPRewardSystem : MonoBehaviour
             amount -= tens * 10;
             for (int i = 0; i < tens; i++)
             {
-                offset.x = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
-                offset.z = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
+                offset.x = Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
+                offset.z = Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
                 GPCoinMovement instancedItem = Instantiate(m_coin10Prefab, position, Quaternion.identity).GetComponent<GPCoinMovement>();
                 instancedItem.m_target = targetPlayer;
                 instancedItem.StartCoroutine(instancedItem.Dispersate(position + offset));
@@ -157,8 +157,8 @@ public class GPRewardSystem : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            offset.x = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
-            offset.z = UnityEngine.Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
+            offset.x = Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
+            offset.z = Random.Range(-m_coinDispersionRadius, m_coinDispersionRadius);
             GPCoinMovement instancedItem = Instantiate(m_coin1Prefab, position, Quaternion.identity).GetComponent<GPCoinMovement>();
             instancedItem.m_target = targetPlayer;
             instancedItem.StartCoroutine(instancedItem.Dispersate(position + offset));

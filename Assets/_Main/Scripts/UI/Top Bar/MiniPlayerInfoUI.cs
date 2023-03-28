@@ -26,7 +26,7 @@ public class MiniPlayerInfoUI : UI<MiniPlayerInfoUI>
     {
         imageShip.sprite = Data.SoundVisuals.SpriteIcon;
 
-        imageChest.gameObject.SetActive(Data.Stat.HasChest);
+        imageChest.gameObject.SetActive(Data.Stat.HasChest());
 
         imageKey.gameObject.SetActive(Data.Stat.HasKey);
 

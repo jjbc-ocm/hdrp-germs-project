@@ -85,7 +85,7 @@ public abstract class DecisionThreadInfo
         {
             if (target is PlayerManager)
             {
-                value = (target as PlayerManager).Stat.HasChest ? 1f : 0f;
+                value = (target as PlayerManager).Stat.HasChest() ? 1f : 0f;
             }
         }
 
