@@ -356,13 +356,24 @@ public class PlayerManager : ActorManager, IPunObservable
             }
 
             /* Handle collected chest */
-            if (Stat.HasChest)
+            if (Stat.HasChest(0) || Stat.HasChest(1))
             {
-                Stat.SetChest(false);
+                var team = 
+                    Stat.HasChest(0) ? 0 : 
+                    Stat.HasChest(1) ? 1 : 
+                    -1;
 
-                PhotonNetwork.InstantiateRoomObject("Chest", transform.position, Quaternion.identity);
+                // TODO: do not hard-code
+                var prefabName = "Chest - " + (
+                    team == 0 ? "Red" :
+                    team == 1 ? "Blue" :
+                    "???");
+
+                PhotonNetwork.InstantiateRoomObject(prefabName, transform.position, Quaternion.identity);
 
                 GPSManager.Instance.ClearDestination();
+
+                Stat.SetChest(false);
             }
                 
             /* Reset stats */

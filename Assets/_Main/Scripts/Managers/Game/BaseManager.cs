@@ -52,11 +52,11 @@ public class BaseManager : GameEntityManager
 
         var enemyShips = team == 0 ? GameManager.Instance.Team2Ships : GameManager.Instance.Team1Ships;
 
-        var hasAllyWithChest = allyShips.Any(i => i.Stat.HasChest && HasPlayer(i));
+        var allyWithChest = allyShips.FirstOrDefault(i => i.Stat.HasChest() && HasPlayer(i));
 
-        UpdateChestLogic(enemyShips, hasAllyWithChest);
+        UpdateChestLogic(enemyShips, allyWithChest);
 
-        UpdateChestVisual(hasAllyWithChest);
+        UpdateChestVisual(allyWithChest);
     }
 
     #endregion
@@ -87,12 +87,12 @@ public class BaseManager : GameEntityManager
 
     #region Private
 
-    private void UpdateChestLogic(List<PlayerManager> enemyShips, bool hasAllyWithChest)
+    private void UpdateChestLogic(List<PlayerManager> enemyShips, PlayerManager allyWithChest)
     {
         var enemyWithKey = enemyShips.FirstOrDefault(i => HasPlayer(i) && i.Stat.HasKey);
 
         // If allied ship carrying a chest is in this base
-        if (hasAllyWithChest)
+        if (allyWithChest)
         {
             var hasEnemy = enemyShips.Any(i => HasPlayer(i));
 
@@ -105,7 +105,7 @@ public class BaseManager : GameEntityManager
                 if (timer >= SOManager.Instance.Constants.CaptureChestTime)
                 {
                     // Finally dropping the chest
-                    DropChest();
+                    DropChest(allyWithChest);
 
                     // Reset countdown so it has to repeat the same process next time
                     timer = 0;
@@ -126,11 +126,11 @@ public class BaseManager : GameEntityManager
         }
     }
 
-    private void UpdateChestVisual(bool hasAllyWithChest)
+    private void UpdateChestVisual(PlayerManager allyWithChest)
     {
-        indicatorNormal.SetActive(!hasAllyWithChest);
+        indicatorNormal.SetActive(!allyWithChest);
 
-        indicatorCollect.SetActive(hasAllyWithChest);
+        indicatorCollect.SetActive(allyWithChest);
 
         var chestCount = SOManager.Instance.Constants.MaxChestPerTeam - PhotonNetwork.CurrentRoom.GetChestLost(team);
 
@@ -150,17 +150,20 @@ public class BaseManager : GameEntityManager
         player.Stat.SetKey(false);
 
         // Add chest in player's possession
-        player.Stat.SetChest(true);
+        player.Stat.SetChest(true, team);
     }
 
-    private void DropChest()
+    private void DropChest(PlayerManager allyWithChest)
     {
         if (clip) AudioManager.Instance.Play3D(clip, transform.position);
 
         // Add score
-        //GameManager.Instance.AddScore(ScoreType.Capture, team);
-        GameManager.Instance.AddScoreByChest(team, team == 0 ? 1 : 0);
-
+        if ((team == 0 && allyWithChest.Stat.HasChest(1)) || 
+            (team == 1 && allyWithChest.Stat.HasChest(0)))
+        {
+            GameManager.Instance.AddScoreByChest(team, team == 0 ? 1 : 0);
+        }
+        
         // Remove chest in any player's possession
         foreach (var ship in GameManager.Instance.Ships)
         {

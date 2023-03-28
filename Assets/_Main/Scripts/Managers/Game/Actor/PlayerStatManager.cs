@@ -53,7 +53,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private bool hasKey;
 
-    private bool hasChest;
+    //private bool hasChest;
 
     private bool hasChestTeam0;
 
@@ -85,7 +85,7 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool HasKey { get => hasKey; }
 
-    public bool HasChest { get => hasChest; }
+    //public bool HasChest { get => hasChestTeam0 || hasChestTeam1; }
 
     public int Kills { get => kills; }
 
@@ -137,13 +137,13 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public int Resist(float modifier = 0) => (int)(resist * (1 + Inventory.StatModifier.BuffResist + Status.StatModifier.BuffResist + modifier));
 
-    /*public bool HasChest(int team)
+    public bool HasChest(int team = -1)
     {
         if (team == 0) return hasChestTeam0;
         if (team == 1) return hasChestTeam1;
 
-        return false;
-    }*/
+        return hasChestTeam0 || hasChestTeam1;
+    }
 
     public void AddHealth(int amount)
     {
@@ -170,13 +170,19 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         hasKey = value;
     }
 
-    public void SetChest(bool value)
+    /*public void SetChest(bool value)
     {
         hasChest = value;
-    }
+    }*/
 
-    public void SetChest(bool value, int team)
+    public void SetChest(bool value, int team = -1)
     {
+        if (team == -1)
+        {
+            hasChestTeam0 = value;
+            hasChestTeam1 = value;
+        }
+
         if (team == 0) hasChestTeam0 = value;
         if (team == 1) hasChestTeam1 = value;
     }
@@ -214,9 +220,9 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(kills);
             stream.SendNext(deaths);
             stream.SendNext(hasKey);
-            stream.SendNext(hasChest);
-            //stream.SendNext(hasChestTeam0);
-            //stream.SendNext(hasChestTeam1);
+            //stream.SendNext(hasChest);
+            stream.SendNext(hasChestTeam0);
+            stream.SendNext(hasChestTeam1);
         }
         else
         {
@@ -225,9 +231,9 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
             kills = (int)stream.ReceiveNext();
             deaths = (int)stream.ReceiveNext();
             hasKey = (bool)stream.ReceiveNext();
-            hasChest = (bool)stream.ReceiveNext();
-            //hasChestTeam0 = (bool)stream.ReceiveNext();
-            //hasChestTeam1 = (bool)stream.ReceiveNext();
+            //hasChest = (bool)stream.ReceiveNext();
+            hasChestTeam0 = (bool)stream.ReceiveNext();
+            hasChestTeam1 = (bool)stream.ReceiveNext();
         }
     }
 

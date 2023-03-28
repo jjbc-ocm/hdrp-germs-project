@@ -293,8 +293,8 @@ public class GameManager : MonoBehaviourPun
             }
             else
             {
-                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
             }
         }
 
@@ -308,8 +308,8 @@ public class GameManager : MonoBehaviourPun
             }
             else
             {
-                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
             }
         }
 
@@ -323,8 +323,8 @@ public class GameManager : MonoBehaviourPun
             }
             else
             {
-                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
             }
         }
 
@@ -338,8 +338,8 @@ public class GameManager : MonoBehaviourPun
             }
             else
             {
-                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
             }
         }
 
@@ -353,8 +353,8 @@ public class GameManager : MonoBehaviourPun
             }
             else
             {
-                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
             }
         }
 
@@ -368,8 +368,8 @@ public class GameManager : MonoBehaviourPun
             }
             else
             {
-                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest);
-                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest);
+                ship.Stat.SetChest(ship.Stat.HasKey && !ship.Stat.HasChest(), ship.GetTeam());
+                ship.Stat.SetKey(!ship.Stat.HasKey && !ship.Stat.HasChest());
             }
         }
 

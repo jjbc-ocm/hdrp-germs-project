@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class FriendsUI : ListViewUI<FriendItemUI, FriendsUI>
 {
-    private List<FriendInfo> Data { get; set; }
+    [SerializeField]
+    private GameObject handle;
 
-    private bool isMaximized;
+    private List<FriendInfo> Data { get; set; }
 
     #region Unity
 
@@ -20,13 +21,18 @@ public class FriendsUI : ListViewUI<FriendItemUI, FriendsUI>
 
     #region Public
 
-    public void OnDockerClick()
+    public void OnMaximizeClick()
     {
-        isMaximized = !isMaximized;
+        (transform as RectTransform).DOAnchorPosX(0, 0.25f, true);
 
-        var direction = isMaximized ? 0 : 1;
+        handle.SetActive(false);
+    }
 
-        (transform as RectTransform).DOAnchorPosX(1200 * transform.localScale.x * direction, 0.25f, true);
+    public void OnMinimizeClick()
+    {
+        (transform as RectTransform).DOAnchorPosX(1200 * transform.localScale.x, 0.25f, true);
+
+        handle.SetActive(true);
     }
 
     #endregion
