@@ -15,6 +15,8 @@ public abstract class Collectible : GameEntityManager, IPunObservable
     [SerializeField]
     private GameObject graphics;
 
+    private bool isObtained;
+
     private void Update()
     {
         if (PlayerManager.Mine != null)
@@ -72,7 +74,14 @@ public abstract class Collectible : GameEntityManager, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
+        if (stream.IsWriting)
+        {
+            stream.SendNext(isObtained);
+        }
+        else
+        {
+            isObtained = (bool)stream.ReceiveNext();
+        }
     }
 
     protected abstract void OnObtain(PlayerManager player);

@@ -18,13 +18,6 @@ public class PopupManager : Singleton<PopupManager>
     [SerializeField]
     private DamageNumber popupHeal;
 
-    /*private CanvasScaler canvasScaler;
-
-    private void Awake()
-    {
-        canvasScaler = canvas.GetComponent<CanvasScaler>();
-    }*/
-
     public void ShowDamage(int amount, Vector3 worldPos)
     {
         var newPopup = popupDamage.Spawn(Vector3.zero, amount);

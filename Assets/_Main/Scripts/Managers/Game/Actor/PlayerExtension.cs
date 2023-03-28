@@ -11,8 +11,6 @@ public static class PlayerExtension
     public const string team = "team";
     public const string shipIndex = "shipIndex";
 
-    //public const string hasChest = "hasChest";
-
     public const string hasSurrendered = "hasSurrendered";
 
     public static int m_selectedShipIdx = 0;
