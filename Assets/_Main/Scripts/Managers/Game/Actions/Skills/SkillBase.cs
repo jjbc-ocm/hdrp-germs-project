@@ -7,6 +7,11 @@ public abstract class SkillBase : ActionBase
     [SerializeField]
     protected float duration;
 
+    private void Awake()
+    {
+        StartCoroutine(YieldDespawn());
+    }
+
     protected override void OnGet()
     {
         StartCoroutine(YieldDespawn());
@@ -21,6 +26,7 @@ public abstract class SkillBase : ActionBase
     {
         yield return new WaitForSeconds(duration);
 
-        PoolManager.Instance.Release(this);
+        Destroy(gameObject);
+        //PoolManager.Instance.Release(this);
     }
 }

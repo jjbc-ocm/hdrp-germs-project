@@ -269,7 +269,7 @@ public class GPMonsterBase : ActorManager
             }
         }
 
-        if (other.photonView.IsMine && !IsBot)
+        if (other == PlayerManager.Mine && !IsBot)
         {
             PopupManager.Instance.ShowDamage(amount, transform.position);
         }

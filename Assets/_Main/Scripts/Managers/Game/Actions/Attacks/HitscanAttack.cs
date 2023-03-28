@@ -134,8 +134,8 @@ public class HitscanAttack : AttackBase
         {
             transform.position = targetPosition;
 
-            //Destroy(gameObject);
-            PoolManager.Instance.Release(this);
+            Destroy(gameObject);
+            //PoolManager.Instance.Release(this);
         }
     }
 
@@ -150,8 +150,8 @@ public class HitscanAttack : AttackBase
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
-            //Destroy(gameObject);
-            PoolManager.Instance.Release(this);
+            Destroy(gameObject);
+            //PoolManager.Instance.Release(this);
         }
 
 

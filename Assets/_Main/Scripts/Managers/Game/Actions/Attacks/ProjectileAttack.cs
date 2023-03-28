@@ -61,6 +61,8 @@ public class ProjectileAttack : AttackBase
         rigidBody = GetComponent<Rigidbody>();
 
         rigidBody.velocity = transform.forward * velocity;
+
+        StartCoroutine(YieldDespawn());
     }
 
     protected override void OnGet()
@@ -81,7 +83,8 @@ public class ProjectileAttack : AttackBase
     {
         yield return new WaitForSeconds(SOManager.Instance.Constants.FogOrWarDistance / velocity);
 
-        PoolManager.Instance.Release(this);
+        Destroy(gameObject);
+        //PoolManager.Instance.Release(this);
     }
 
     #endregion

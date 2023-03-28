@@ -126,14 +126,14 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
         {
             var bot = team1Bots[i];
 
-            InstantiateBot(bot.Team, bot.ShipIndex, bot);
+            InstantiateBot(bot);
         }
 
         for (var i = 0; i < team2FreeSlots; i++)
         {
             var bot = team2Bots[i];
 
-            InstantiateBot(bot.Team, bot.ShipIndex, bot);
+            InstantiateBot(bot);
         }
     }
 
@@ -141,18 +141,22 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var prefabName = SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name;
 
-        var spawnPoint = GameManager.Instance.GetBase(team).SpawnPoint.transform;
+        var spawnPosition = GameManager.Instance.GetBase(team).GetSpawnPosition(0);
 
-        PhotonNetwork.Instantiate(prefabName, spawnPoint.position, spawnPoint.rotation);
+        var spawnRotation = GameManager.Instance.GetBase(team).GetSpawnRotation();
+
+        PhotonNetwork.Instantiate(prefabName, spawnPosition, spawnRotation);
     }
 
-    private void InstantiateBot(int team, int shipIndex, BotInfo botInfo)
+    private void InstantiateBot(BotInfo botInfo)
     {
-        var prefabName = SOManager.Instance.BotShips[shipIndex].m_playerPrefab.name;
+        var prefabName = SOManager.Instance.BotShips[botInfo.ShipIndex].m_playerPrefab.name;
 
-        var spawnPoint = GameManager.Instance.GetBase(team).SpawnPoint.transform;
+        var spawnPosition = GameManager.Instance.GetBase(botInfo.Team).GetSpawnPosition(botInfo.BotIndex);
 
-        var player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPoint.position, spawnPoint.rotation);
+        var spawnRotation = GameManager.Instance.GetBase(botInfo.Team).GetSpawnRotation();
+
+        var player = PhotonNetwork.InstantiateRoomObject(prefabName, spawnPosition, spawnRotation);
 
         player.GetComponent<PlayerManager>().Bot.Initialize(botInfo.BotIndex);
     }

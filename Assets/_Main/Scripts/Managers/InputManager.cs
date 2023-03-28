@@ -27,6 +27,10 @@ public class InputManager : Singleton<InputManager>
 
     private bool isChat;
 
+    private bool isCamAimPrev;
+
+    private bool isCamAimNext;
+
     private bool[] isDebugKey;
 
 
@@ -99,6 +103,30 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    public bool IsCamAimPrev
+    {
+        get
+        {
+            var oldValue = isCamAimPrev;
+
+            isCamAimPrev = false;
+
+            return oldValue;
+        }
+    }
+
+    public bool IsCamAimNext
+    {
+        get
+        {
+            var oldValue = isCamAimNext;
+
+            isCamAimNext = false;
+
+            return oldValue;
+        }
+    }
+
     public bool IsDebugKey(int index)
     {
         var oldValue = isDebugKey[index];
@@ -144,6 +172,10 @@ public class InputManager : Singleton<InputManager>
     public void OnScoreBoard(InputValue value) => isScoreBoard = value.isPressed;
 
     public void OnChat(InputValue value) => isChat = value.isPressed;
+
+    public void OnCamAimPrev(InputValue value) => isCamAimPrev = value.isPressed;
+
+    public void OnCamAimNext(InputValue value) => isCamAimNext = value.isPressed;
 
     public void OnDebugKey0(InputValue value) => isDebugKey[0] = value.isPressed;
 

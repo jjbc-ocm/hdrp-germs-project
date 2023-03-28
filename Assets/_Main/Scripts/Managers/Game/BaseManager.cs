@@ -68,6 +68,21 @@ public class BaseManager : GameEntityManager
         return Vector3.Distance(collectibleZone.transform.position, player.transform.position) <= SOManager.Instance.Constants.BaseRadius;
     }
 
+    public Vector3 GetSpawnPosition(int index)
+    {
+        var offset =
+            index == 0 ? collectibleZone.transform.right * -1 :
+            index == 2 ? collectibleZone.transform.right :
+            Vector3.zero;
+
+        return spawnPoint.transform.position + offset;
+    }
+
+    public Quaternion GetSpawnRotation()
+    {
+        return spawnPoint.transform.rotation;
+    }
+
     #endregion
 
     #region Private
