@@ -7,6 +7,6 @@ public class BaseItemEffect : ItemEffectManager
 {
     public override void Execute(int slotIndex, PlayerManager user)
     {
-        user.Status.TryApplyItem(PlayerManager.Mine.Inventory.Items[slotIndex]);
+        //user.Status.TryApplyItem(PlayerManager.Mine.Inventory.Items[slotIndex]);
     }
 }
