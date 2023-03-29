@@ -141,7 +141,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var prefabName = SOManager.Instance.PlayerShips[shipIndex].m_playerPrefab.name;
 
-        var spawnPosition = GameManager.Instance.GetBase(team).GetSpawnPosition(0);
+        var spawnPosition = GameManager.Instance.GetBase(team).GetSpawnPosition();
 
         var spawnRotation = GameManager.Instance.GetBase(team).GetSpawnRotation();
 
@@ -152,7 +152,7 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
     {
         var prefabName = SOManager.Instance.BotShips[botInfo.ShipIndex].m_playerPrefab.name;
 
-        var spawnPosition = GameManager.Instance.GetBase(botInfo.Team).GetSpawnPosition(botInfo.BotIndex);
+        var spawnPosition = GameManager.Instance.GetBase(botInfo.Team).GetSpawnPosition();
 
         var spawnRotation = GameManager.Instance.GetBase(botInfo.Team).GetSpawnRotation();
 

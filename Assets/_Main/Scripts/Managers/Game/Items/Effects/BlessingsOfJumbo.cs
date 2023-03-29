@@ -31,6 +31,13 @@ public class BlessingsOfJumbo : ItemEffectManager
         }
 
         user.Inventory.TryRemoveItem(slotIndex);
+
+        InitializeVFX(user.transform.position);
+    }
+
+    private void InitializeVFX(Vector3 position)
+    {
+        var newObject = PhotonNetwork.InstantiateRoomObject("Blessing of Jumbo", position, Quaternion.identity);
     }
 
     private bool IsHit(ActorManager origin, ActorManager target)

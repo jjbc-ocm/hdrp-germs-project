@@ -9470,6 +9470,7 @@ GameObject:
   - component: {fileID: 7031478459533163729}
   - component: {fileID: 4283561778865503218}
   - component: {fileID: 683812197500156360}
+  - component: {fileID: 7868885068449081435}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -9581,18 +9582,33 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2875811125777672264}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2875811125777672266}
+        m_TargetAssemblyTypeName: AftermathUI, Assembly-CSharp
+        m_MethodName: OnFeedbackClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7868885068449081435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5180077647240586015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDurationClick: 0
+  tweenEaseClick: 0
 --- !u!1 &5291043865663627111
 GameObject:
   m_ObjectHideFlags: 0
@@ -9720,6 +9736,7 @@ GameObject:
   - component: {fileID: 7925145117335704330}
   - component: {fileID: 8610339476126580735}
   - component: {fileID: 3012911801082024084}
+  - component: {fileID: 2090967927339963861}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -9843,6 +9860,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2090967927339963861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7705219903146150473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: d24a02b24ab87964db85e05f03f0f91e, type: 3}
+  tweenDurationClick: 0
+  tweenEaseClick: 0
 --- !u!1 &7988972623572673354
 GameObject:
   m_ObjectHideFlags: 0
