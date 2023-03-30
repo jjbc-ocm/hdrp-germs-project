@@ -380,7 +380,7 @@ public class GameManager : MonoBehaviourPun
 
         if (InputManager.Instance.IsDebugKey(8))
         {
-
+            PlayerManager.Mine.Inventory.AddGold(5000);
         }
 
         if (InputManager.Instance.IsDebugKey(9))
