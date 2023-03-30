@@ -275,7 +275,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\ERC721\ERC721BalanceOfExample.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\ShopManager.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Scenes\WebLogin.cs" />
-    <Compile Include="Assets\_Main\Scripts\Info\PriorityInfo.cs" />
+    <Compile Include="Assets\_Main\Scripts\Info\MovePriorityInfo.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Collectibles\KeyCollectible.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\GetVoucherWeb3Wallet1155.cs" />
     <Compile Include="Assets\Scripts\Menus\GPRollScreen.cs" />
@@ -319,6 +319,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\MintIPFS.cs" />
     <Compile Include="Assets\_Main\Scripts\Data\SkillData.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\DepthOfField.cs" />
+    <Compile Include="Assets\_Main\Scripts\Info\BuyPriorityInfo.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeySend721Example.cs" />
     <Compile Include="Assets\Scripts\Menus\GPLevelUpScreen.cs" />
     <Compile Include="Assets\Scripts\UI\GPRouletteItem.cs" />
@@ -333,6 +334,7 @@
     <Compile Include="Assets\Volume Fog V2\Scripts\NoiseMaker.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\AftermathUI.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Library\Web3PrivateKey.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\PopupManager.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\UI\GPGUIScreen.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\CreateApprovalWebGL.cs" />
     <Compile Include="Assets\Scripts\Utilities\GPScaleTween.cs" />
@@ -342,7 +344,7 @@
     <Compile Include="Assets\Scripts\UI\GPAddFriendSlot.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\TiltShift.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\PlayerStatus\ScoreBoardUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Player Status\ScoreBoardUI.cs" />
     <Compile Include="Assets\updownscript.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\WebGL\WebGLSendContractExample.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\Effects\BlessingsOfJumbo.cs" />
@@ -372,6 +374,7 @@
     <Compile Include="Assets\_Main\Scripts\UI\Friends\FriendItemUI.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\ContrastEnhance.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\ButtonUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Top Bar\MiniPlayerInfoUI.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\EVM\VerifyExample.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\TimerManager.cs" />
     <Compile Include="Assets\Scripts\Data\Ships\GPShipDesc.cs" />
@@ -388,8 +391,9 @@
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Collectibles\Collectible.cs" />
     <Compile Include="Assets\Scripts\Entities\GPHealth.cs" />
     <Compile Include="Assets\Scripts\UI\GPFloatingNumberUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\Managers\Game\Items\Effects\BlessingOfJumboEffectManager.cs" />
     <Compile Include="Assets\IgniteCoders\Simple Water Shader\Info\Scripts\Readme.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\PlayerStatus\PlayerStatusesUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Player Status\PlayerStatusesUI.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGConfirmationWindow.cs" />
     <Compile Include="Assets\Scripts\Menus\GPProfileWindow.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Settings\SettingCategoryUI.cs" />
@@ -461,7 +465,7 @@
     <Compile Include="Assets\_Main\Scripts\Core\WindowUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\_Main\Scripts\Data\GuideData.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\PlayerStatus\PlayerStatusUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Player Status\PlayerStatusUI.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\CreaseShading.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Collectibles\ChestCollectible.cs" />
@@ -469,7 +473,7 @@
     <Compile Include="Assets\Scripts\Menus\GPStoreScreen.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\MintPK1155.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGWindowUI.cs" />
-    <Compile Include="Assets\_Main\Scripts\UI\TopBarUI.cs" />
+    <Compile Include="Assets\_Main\Scripts\UI\Top Bar\TopBarUI.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\EVM\NonceExample.cs" />
     <Compile Include="Assets\Env VFX\Environment VFX pack\Demo\Scripts\_InputKeyBoard.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\RecipeItemUI.cs" />
@@ -1511,6 +1515,10 @@
     <ProjectReference Include="PhotonUnityNetworking.csproj">
       <Project>{7AA533EE-5CF3-886B-8177-12494A60A17D}</Project>
       <Name>PhotonUnityNetworking</Name>
+    </ProjectReference>
+    <ProjectReference Include="DamageNumbersPro.csproj">
+      <Project>{0FF3D847-55E4-AB65-6DAF-A825AD70689B}</Project>
+      <Name>DamageNumbersPro</Name>
     </ProjectReference>
     <ProjectReference Include="AllIn1VfxAssmebly.csproj">
       <Project>{A299386B-B8C6-AEE8-19A9-FD56414E1040}</Project>

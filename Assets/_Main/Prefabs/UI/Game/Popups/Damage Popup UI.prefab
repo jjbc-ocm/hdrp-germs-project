@@ -26,7 +26,7 @@ RectTransform:
   m_GameObject: {fileID: 2405237727557789869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6187, y: 1.6187, z: 1.6187}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9160508804900267887}
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.49499512, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4253935853773538503
@@ -205,14 +205,14 @@ MonoBehaviour:
   shakeFrequencyFadeIn: 4
   durationFadeOut: 0.2
   enableOffsetFadeOut: 1
-  offsetFadeOut: {x: 0.5, y: 0}
-  enableScaleFadeOut: 0
-  scaleFadeOut: {x: 2, y: 2}
+  offsetFadeOut: {x: 0.05, y: 0}
+  enableScaleFadeOut: 1
+  scaleFadeOut: {x: 1.05, y: -0.1}
   enableCrossScaleFadeOut: 0
   crossScaleFadeOut: {x: 1, y: 1.5}
-  enableShakeFadeOut: 0
-  shakeOffsetFadeOut: {x: 0, y: 1.5}
-  shakeFrequencyFadeOut: 4
+  enableShakeFadeOut: 1
+  shakeOffsetFadeOut: {x: 0, y: -0.2}
+  shakeFrequencyFadeOut: 2
   enableLerp: 1
   lerpSettings:
     speed: 5
@@ -295,7 +295,7 @@ MonoBehaviour:
     fromNumber: 0
     toNumber: 1000
     fromScale: 1
-    toScale: 2
+    toScale: 1.2
   enableScaleOverTime: 0
   scaleOverTime:
     serializedVersion: 2
@@ -321,13 +321,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spamGroup: 
-  enableCombination: 0
+  spamGroup: Default
+  enableCombination: 1
   combinationSettings:
-    method: 0
+    method: 1
     maxDistance: 10
-    spawnDelay: 0.2
-    absorbDuration: 0.4
+    spawnDelay: 0.25
+    absorbDuration: 0.35
     scaleCurve:
       serializedVersion: 2
       m_Curve:
@@ -460,8 +460,8 @@ MonoBehaviour:
     desiredDirection: {x: 0, y: 0, z: 0}
   enablePush: 0
   pushSettings:
-    radius: 4
-    pushOffset: 0.8
+    radius: 3
+    pushOffset: 1
   updateDelay: 0.01667
   enablePooling: 1
   poolSize: 10
@@ -492,18 +492,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3190449282948529189}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.03058441, w: 0.99953216}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5807133498732968133}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.505}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2}
-  m_SizeDelta: {x: 124.06155, y: 50.4}
+  m_AnchoredPosition: {x: -0.8, y: -2.1}
+  m_SizeDelta: {x: 124.0615, y: 71.5526}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2824429227000940925
 CanvasRenderer:
@@ -583,14 +583,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5458098237456011928}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.04431279, w: 0.9990178}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5807133498732968133}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.08}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -718,14 +718,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7740845436848777521}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.04431279, w: 0.9990178}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5807133498732968133}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5.08}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
