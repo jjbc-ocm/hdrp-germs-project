@@ -271,10 +271,10 @@ public class GPMonsterBase : ActorManager
             }
         }
 
-        if (attacker == PlayerManager.Mine && !IsBot)
+        /*if (attacker == PlayerManager.Mine && !IsBot)
         {
             PopupManager.Instance.ShowDamage(amount, transform.position);
-        }
+        }*/
         
         m_health.Damage(amount);
     }
@@ -288,7 +288,8 @@ public class GPMonsterBase : ActorManager
         MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (meleeAtk == null) { return; }
         //player.TakeMonsterDamage(meleeAtk);
-        player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+        //player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+        DamageManager.Instance.ApplyDamage(this, player, meleeAtk.m_damage, false);
     }
 
     /// <summary>
@@ -420,7 +421,8 @@ public class GPMonsterBase : ActorManager
 
         if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
         {
-            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            //m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            DamageManager.Instance.ApplyDamage(this, m_currTargetPlayer, meleeAtk.m_damage, false);
         }
         else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
@@ -521,7 +523,8 @@ public class GPMonsterBase : ActorManager
         {
             m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
             //player.TakeMonsterDamage(meleeAtk);
-            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            //player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            DamageManager.Instance.ApplyDamage(this, player, meleeAtk.m_damage, false);
         }
 
         EndMeleeAttack();
@@ -583,36 +586,30 @@ public class GPMonsterBase : ActorManager
         //photonView.SetMana(photonView.GetMana() - action.MpCost);
 
         photonView.RPC(
-            "RpcAction",
+            "RpcActionMonster",
             RpcTarget.AllViaServer,
-            new float[] { m_bulletSpawnPoint.position.x, m_bulletSpawnPoint.position.y, m_bulletSpawnPoint.position.z },
-            new float[] { aimPosition.x, aimPosition.y, aimPosition.z },
+            m_bulletSpawnPoint.position,
+            aimPosition,
+            -1,
             isAttack);
     }
 
     [PunRPC]
-    public void RpcAction(float[] position, float[] target, bool isAttack)
+    public void RpcActionMonster(Vector3 fromPosition, Vector3 targetPosition, int targetActorId, bool isAttack)
     {
-        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
-        var action = isAttack ? projAtk.attack : skill;
+        //MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
 
-        /* Steps
-         * 1. Calculate the rotation ased on position and target
-         * 2. Spawn action.Effect based on position, and rotation
-         * 3. pass the action (SkillData) as parameter to the spawned object
-         * 4. Any trail reset or sound effects should be done on the actual object spawned
-         */
-        var vPosition = new Vector3(position[0], position[1], position[2]);
+        var action = isAttack && (m_currAtk is MonsterProjectileAttackDesc) 
+            ? (m_currAtk as MonsterProjectileAttackDesc).attack 
+            : skill;
 
-        var vTarget = new Vector3(target[0], target[1], target[2]);
-
-        var forward = vTarget - vPosition;
+        var forward = targetPosition - fromPosition;
 
         var rotation = Quaternion.LookRotation(forward);
 
-        var effect = Instantiate(action.Effect, vPosition, rotation);
+        var effect = Instantiate(action.Effect, fromPosition, rotation);
 
-        effect.GetComponent<ActionBase>().Initialize(this, Vector3.zero); // TODO: ProjectileAttack = this is not always the case // TODO: 3 and 4
+        effect.Initialize(this, Vector3.zero);
     }
 
     /// <summary>

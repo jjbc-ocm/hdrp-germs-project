@@ -205,7 +205,7 @@ public class GPBee : GPMonsterBase
 
         if (m_nextAttackDesc != null)
         {
-            m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.All, m_nextAttackDesc.m_triggerName);
+            m_photonView.RPC("RPCPlayAnimationTrigger", RpcTarget.AllViaServer, m_nextAttackDesc.m_triggerName);
         }
     }
 

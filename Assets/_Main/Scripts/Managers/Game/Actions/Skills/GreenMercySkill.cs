@@ -21,7 +21,7 @@ public class GreenMercySkill : SkillBase
 
     void Update()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        //if (!PhotonNetwork.IsMasterClient) return;
 
         if (Time.time > lastAttackTime + sustainDelay)
         {

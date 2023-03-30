@@ -55,14 +55,20 @@ public abstract class ActionBase : MonoBehaviour
 
     protected void ApplyEffect(ActorManager user, ActorManager target)
     {
-        target.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, user.photonView.ViewID);
+        /*if (!PhotonNetwork.IsMasterClient) return;
 
-        if (user.TryGetComponent(out PlayerManager playerUser))//(owner is Player)
+        var rpcTarget = target is GPMonsterBase ? RpcTarget.MasterClient : RpcTarget.All;
+
+        target.photonView.RPC("RpcDamageHealth", rpcTarget, damage, user.photonView.ViewID);
+
+        if (user.TryGetComponent(out PlayerManager playerUser))
         {
             var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * playerUser.Inventory.StatModifier.LifeSteal));
 
             playerUser.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
-        }
+        }*/
+
+        DamageManager.Instance.ApplyDamage(user, target, damage, true);
     }
 
     protected bool IsHit(ActorManager origin, ActorManager target) // TODO: this need to be dynamic, because what if the skill is suppose to be targeting the ally instead of the enemy
