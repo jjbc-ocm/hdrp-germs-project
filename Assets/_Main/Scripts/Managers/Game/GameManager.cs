@@ -289,7 +289,8 @@ public class GameManager : MonoBehaviourPun
 
             if (isDebugKill)
             {
-                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                //ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                DamageManager.Instance.ApplyDamage(ship, ship, 9999, false);
             }
             else
             {
@@ -304,7 +305,8 @@ public class GameManager : MonoBehaviourPun
 
             if (isDebugKill)
             {
-                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                //ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                DamageManager.Instance.ApplyDamage(ship, ship, 9999, false);
             }
             else
             {
@@ -319,7 +321,8 @@ public class GameManager : MonoBehaviourPun
 
             if (isDebugKill)
             {
-                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                //ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                DamageManager.Instance.ApplyDamage(ship, ship, 9999, false);
             }
             else
             {
@@ -334,7 +337,8 @@ public class GameManager : MonoBehaviourPun
 
             if (isDebugKill)
             {
-                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                //ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                DamageManager.Instance.ApplyDamage(ship, ship, 9999, false);
             }
             else
             {
@@ -349,7 +353,8 @@ public class GameManager : MonoBehaviourPun
 
             if (isDebugKill)
             {
-                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                //ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                DamageManager.Instance.ApplyDamage(ship, ship, 9999, false);
             }
             else
             {
@@ -364,7 +369,8 @@ public class GameManager : MonoBehaviourPun
 
             if (isDebugKill)
             {
-                ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                //ship.photonView.RPC("RpcDamageHealth", RpcTarget.All, 9999, ship.photonView.ViewID);
+                DamageManager.Instance.ApplyDamage(ship, ship, 9999, false);
             }
             else
             {
