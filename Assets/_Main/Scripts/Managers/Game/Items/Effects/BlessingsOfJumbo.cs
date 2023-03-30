@@ -20,13 +20,17 @@ public class BlessingsOfJumbo : ItemEffectManager
 
             if (IsHit(user, actor))
             {
-                var damage = 100;
+                /*var damage = 100;
 
                 actor.photonView.RPC("RpcDamageHealth", RpcTarget.All, damage, user.photonView.ViewID);
 
                 var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * user.Inventory.StatModifier.LifeSteal));
 
-                user.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
+                user.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);*/
+
+                //ApplyDamage(100, user, actor);
+
+                DamageManager.Instance.ApplyDamage(user, actor, 100, false);
             }
         }
 
@@ -37,8 +41,17 @@ public class BlessingsOfJumbo : ItemEffectManager
 
     private void InitializeVFX(Vector3 position)
     {
-        var newObject = PhotonNetwork.InstantiateRoomObject("Blessing of Jumbo", position, Quaternion.identity);
+        PhotonNetwork.InstantiateRoomObject("Blessing of Jumbo", position, Quaternion.identity);
     }
+
+    /*private void ApplyDamage(int damage, ActorManager user, ActorManager target)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        var rpcTarget = target is GPMonsterBase ? RpcTarget.MasterClient : RpcTarget.All;
+
+        target.photonView.RPC("RpcDamageHealth", rpcTarget, damage, user.photonView.ViewID);
+    }*/
 
     private bool IsHit(ActorManager origin, ActorManager target)
     {

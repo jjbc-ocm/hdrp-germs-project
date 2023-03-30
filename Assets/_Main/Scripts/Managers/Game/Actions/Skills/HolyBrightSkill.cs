@@ -27,7 +27,7 @@ public class HolyBrightSkill : SkillBase
 
         transform.position = owner.transform.position + offset;
 
-        if (!PhotonNetwork.IsMasterClient) return;
+        //if (!PhotonNetwork.IsMasterClient) return;
 
         if (Time.time > lastAttackTime + sustainDelay)
         {

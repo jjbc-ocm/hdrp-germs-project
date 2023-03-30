@@ -223,7 +223,7 @@ public class PlayerManager : ActorManager, IPunObservable
     }
 
     [PunRPC]
-    public void RpcAction(Vector3 fromPosition, Vector3 targetPosition, int targetActorId, bool isAttack)
+    public void RpcActionActor(Vector3 fromPosition, Vector3 targetPosition, int targetActorId, bool isAttack)
     {
         var action = isAttack ? attack : skill;
 
@@ -326,10 +326,10 @@ public class PlayerManager : ActorManager, IPunObservable
 
         var attacker = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
         
-        if ((Mine == this || Mine == attacker) && amount > 0)
+        /*if ((Mine == this || Mine == attacker) && amount > 0)
         {
             PopupManager.Instance.ShowDamage(amount, transform.position);
-        }
+        }*/
         
         if (Stat.Health <= 0)
         {
@@ -447,7 +447,7 @@ public class PlayerManager : ActorManager, IPunObservable
         var offset = Vector3.up * 2;
 
         photonView.RPC(
-            "RpcAction",
+            "RpcActionActor",
             RpcTarget.AllViaServer,
             transform.position + offset,
             aimPosition + offset,
