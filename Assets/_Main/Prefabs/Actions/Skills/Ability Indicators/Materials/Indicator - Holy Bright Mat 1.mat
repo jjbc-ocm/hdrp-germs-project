@@ -59,7 +59,6 @@ Material:
   m_ValidKeywords:
   - ADDITIVECONFIG_ON
   - COLORRAMPGRAD_ON
-  - GLOW_ON
   - HSV_ON
   - MASK_ON
   - RIM_ON
@@ -69,8 +68,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 5000
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -186,7 +184,7 @@ Material:
     - _FadeTransition: 0.075
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
-    - _GlowGlobal: 1
+    - _GlowGlobal: 0.5
     - _HandDrawnAmount: 40
     - _HandDrawnSpeed: 30
     - _HsvBright: 1
@@ -208,8 +206,8 @@ Material:
     - _RimAddAmount: 1
     - _RimBias: 0.015
     - _RimErodesAlpha: 0
-    - _RimIntensity: 30.4
-    - _RimPower: 14.6
+    - _RimIntensity: 4.8
+    - _RimPower: 14.1
     - _RimScale: 5.8
     - _RoundWaveSpeed: 2
     - _RoundWaveStrength: 0.7
