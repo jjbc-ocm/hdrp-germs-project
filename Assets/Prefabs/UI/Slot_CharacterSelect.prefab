@@ -12792,6 +12792,7 @@ GameObject:
   - component: {fileID: 8692614985725071417}
   - component: {fileID: 8692614985725071422}
   - component: {fileID: 8692614985725071416}
+  - component: {fileID: 8592750403738716595}
   m_Layer: 5
   m_Name: image
   m_TagString: Untagged
@@ -12910,6 +12911,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8592750403738716595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692614985725071420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDurationClick: 0
+  tweenEaseClick: 0
 --- !u!1 &8692614985731925684
 GameObject:
   m_ObjectHideFlags: 0
@@ -13104,6 +13120,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnToggledEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNameChangedEvent:
     m_PersistentCalls:
       m_Calls: []
   m_toggle: {fileID: 2267973081315716147}
@@ -13322,6 +13341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8692614986319254893}
   - component: {fileID: 2267973081315716147}
+  - component: {fileID: 7202436522444308828}
   m_Layer: 5
   m_Name: Select Dummy
   m_TagString: Untagged
@@ -13408,6 +13428,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7202436522444308828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692614986319254882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDurationClick: 0
+  tweenEaseClick: 0
 --- !u!1 &8692614986581373162
 GameObject:
   m_ObjectHideFlags: 0

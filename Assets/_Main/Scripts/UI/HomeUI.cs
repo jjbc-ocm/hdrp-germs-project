@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HomeUI : UI<HomeUI>
+public class HomeUI : WindowUI<HomeUI>
 {
     async void Start()
     {
@@ -19,6 +19,20 @@ public class HomeUI : UI<HomeUI>
         MatchMakingUI.Instance.Open();
 
         MenuNetworkManager.Instance.TryStartMatchMaking();
+    }
+
+    public void OnCrewClick()
+    {
+        CrewUI.Instance.Open();
+
+        Close();
+    }
+
+    public void OnDummyClick()
+    {
+        DummyUI.Instance.Open();
+
+        Close();
     }
 
     public void OnSettingsClick()
