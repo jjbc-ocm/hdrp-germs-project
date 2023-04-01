@@ -9,18 +9,14 @@ public abstract class ActionBase : MonoBehaviour
     [SerializeField]
     protected SkillData data;
 
-    [SerializeField]
-    protected int damage;
+    //[SerializeField]
+    //protected int damage;
 
     protected ActorManager owner;
 
     protected Vector3 targetPosition;
 
     protected ActorManager targetActor;
-
-    public int Damage { get => damage; }
-
-    public ActorManager Owner { get => owner; }
 
     #region Public
 
@@ -68,7 +64,7 @@ public abstract class ActionBase : MonoBehaviour
             playerUser.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
         }*/
 
-        DamageManager.Instance.ApplyDamage(user, target, damage, true);
+        DamageManager.Instance.ApplyDamage(user, target, (int)data.Damage, true);
     }
 
     protected bool IsHit(ActorManager origin, ActorManager target) // TODO: this need to be dynamic, because what if the skill is suppose to be targeting the ally instead of the enemy

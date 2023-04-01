@@ -32,6 +32,8 @@ public class APIManager : Singleton<APIManager>
 
     private void Awake()
     {
+        LoadingUI.Instance.RefreshUI();
+
         Initialize((text, value) =>
         {
             LoadingUI.Instance.RefreshUI((self) =>
