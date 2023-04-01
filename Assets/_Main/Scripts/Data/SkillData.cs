@@ -22,6 +22,9 @@ public class SkillData : ScriptableObject
     private TargetType target;
 
     [SerializeField]
+    private float damage;
+
+    [SerializeField]
     private float range;
 
     [SerializeField]
@@ -48,6 +51,8 @@ public class SkillData : ScriptableObject
     public AimType Aim { get => aim; }
 
     public TargetType Target { get => target; }
+
+    public float Damage { get => damage; }
 
     public float Range { get => range; }
 

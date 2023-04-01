@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class LoadingUI : WindowUI<LoadingUI>
 {
     [SerializeField]
+    private TMP_Text textVersion;
+
+    [SerializeField]
     private TMP_Text textMessage;
 
     [SerializeField]
@@ -18,6 +21,8 @@ public class LoadingUI : WindowUI<LoadingUI>
 
     protected override void OnRefreshUI()
     {
+        textVersion.text = Application.version;
+
         textMessage.text = Text;
 
         sliderProgress.value = Progress;
