@@ -24,11 +24,11 @@ public class GPDragonPart : GPMonsterBase
     void Update()
     {
         // Update visuals
-        if (Player.Mine != null)
+        if (PlayerManager.Mine != null)
         {
-            var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
+            //var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
 
-            var isActive = isInPlayerRange || IsInSupremacyWard();
+            var isActive = IsVisibleRelativeTo(PlayerManager.Mine.transform);//isInPlayerRange || IsInSupremacyWard();
 
             foreach (var m_renderer in m_renderers)
             {

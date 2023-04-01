@@ -29,43 +29,31 @@ public class AimManager : MonoBehaviour
 
     private ActorManager aimAutoTarget;
 
-    private Player player;
+    private PlayerManager player;
 
-    void Awake()
+    public bool IsAiming { get => isAiming; }
+
+    #region Unity
+
+    private void Awake()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerManager>();
     }
 
-    void Start()
+    private void Start()
     {
         IndicatorSetActive(false, false);
     }
 
-    public void Initialize(
-        Action onAttackPress, 
-        Action onAimSkillPress, 
-        Action<Vector3, ActorManager> onAimSkillRelease, 
-        Func<bool> onCanExecuteAttack, 
-        Func<bool> onCanExecuteSkill)
+    private void Update()
     {
-        this.onAttackPress = onAttackPress;
+        if (AftermathUI.Instance.gameObject.activeSelf ||
+            ShopManager.Instance.UI.gameObject.activeSelf ||
+            ChatManager.Instance.UI.IsMaximized) return;
 
-        this.onAimSkillPress = onAimSkillPress;
-
-        this.onAimSkillRelease = onAimSkillRelease;
-
-        this.onCanExecuteAttack = onCanExecuteAttack;
-
-        this.onCanExecuteSkill = onCanExecuteSkill;
-    }
-
-    void Update()
-    {
-        if (ShopManager.Instance.UI.gameObject.activeSelf) return;
-        
         if (!player.photonView.IsMine || player.IsRespawning) return;
 
-        if (Input.GetMouseButton(0) && onCanExecuteAttack.Invoke())
+        if (player.Input.IsAttack && onCanExecuteAttack.Invoke())
         {
             if (!isAiming)
             {
@@ -73,26 +61,27 @@ public class AimManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(1))
-        {
-            isAiming = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q) && onCanExecuteSkill.Invoke())
+        if (player.Input.IsAim && onCanExecuteSkill.Invoke())
         {
             isAiming = true;
 
             onAimSkillPress.Invoke();
         }
-
-        if (Input.GetKeyUp(KeyCode.Q) && isAiming)
+        
+        /* Executed when player release the aim, which will execute the skill */
+        if (!player.Input.IsAim && isAiming)
         {
             isAiming = false;
 
-            if (aimIndicator.activeSelf)
+            if (aimAutoTarget || !IsAimAutoTarget(player.Skill))
             {
                 onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
             }
+        }
+
+        if (player.Input.IsAimCancel)
+        {
+            isAiming = false;
         }
 
         if (isAiming)
@@ -101,7 +90,9 @@ public class AimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(Input.mousePosition);
+            var ray = player.IsBot
+                ? player.Bot.GetRay()
+                : GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var layerNames =
                 action.Aim == AimType.Water ? new string[] { constants.LayerWater } :
@@ -133,9 +124,7 @@ public class AimManager : MonoBehaviour
                         aimTrailIndicator.transform.eulerAngles = new Vector3(0, targetEuler.y, 0);
                     }
 
-                    if (action.Aim == AimType.EnemyShip ||
-                        action.Aim == AimType.AllyShip ||
-                        action.Aim == AimType.AnyShip)
+                    if (IsAimAutoTarget(action))
                     {
                         aimAutoTarget = hit.transform.GetComponent<ActorManager>();
                     }
@@ -144,6 +133,8 @@ public class AimManager : MonoBehaviour
             else
             {
                 IndicatorSetActive(false, true);
+
+                aimAutoTarget = null;
             }
         }
         else
@@ -152,22 +143,56 @@ public class AimManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Public
+
+    public void Initialize(
+        Action onAttackPress,
+        Action onAimSkillPress,
+        Action<Vector3, ActorManager> onAimSkillRelease,
+        Func<bool> onCanExecuteAttack,
+        Func<bool> onCanExecuteSkill)
+    {
+        this.onAttackPress = onAttackPress;
+
+        this.onAimSkillPress = onAimSkillPress;
+
+        this.onAimSkillRelease = onAimSkillRelease;
+
+        this.onCanExecuteAttack = onCanExecuteAttack;
+
+        this.onCanExecuteSkill = onCanExecuteSkill;
+    }
+
+    #endregion
+
+    private bool IsAimAutoTarget(SkillData action)
+    {
+        return
+            action.Aim == AimType.EnemyShip ||
+            action.Aim == AimType.AllyShip ||
+            action.Aim == AimType.AnyShip;
+    }
+
     private bool IsEnemyShip(RaycastHit hit)
     {
         var hitPlayer = hit.transform.GetComponent<ActorManager>();
 
-        return !hitPlayer || (hitPlayer && hitPlayer.photonView.GetTeam() != player.photonView.GetTeam()) || hitPlayer.IsMonster;
+        return !hitPlayer || (hitPlayer && hitPlayer.GetTeam() != player.GetTeam()) || hitPlayer.IsMonster;
     }
 
     private void IndicatorSetActive(bool aim, bool range)
     {
-        aimIndicator.SetActive(aim);
+        var isMine = player.photonView.IsMine && !player.IsBot;
 
-        aimRangeIndicator.SetActive(range);
+        aimIndicator.SetActive(aim && isMine);
+
+        aimRangeIndicator.SetActive(range && isMine);
 
         if (aimTrailIndicator != null)
         {
-            aimTrailIndicator.SetActive(aim);
+            aimTrailIndicator.SetActive(aim && isMine);
         }
     }
 }

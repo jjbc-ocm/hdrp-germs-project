@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342adb7a097e3fb4490d985e5691c535, type: 3}
+  m_Name: Bot - Ship03
+  m_EditorClassIdentifier: 
+  id: 0b78a0ab-fb6d-4cab-814d-8a15ee0e215f
+  m_prefabListIndex: 2
+  m_name: 'Lost Rose Crew '
+  m_desc: The Roses are the leftovers and the wonderers, they have been casted away
+    by the deep forces of the Ocean Tales to gather pirates souls as a punishment.
+  m_ability: "\rSmells Like Death:\nThey create a black mistic fog around the selected
+    enemy causing great damage."
+  m_model: {fileID: 919132149155446097, guid: c0d8a4968c607ac4aa0a84f467711d0d, type: 3}
+  m_playerPrefab: {fileID: 114000011901014096, guid: 7d8ec490901aa1e448248f56b2e29f49, type: 3}
+  m_cardImage: {fileID: 21300000, guid: e67cac975fcc66248b667783b4b1a0b8, type: 3}
+  m_shipIconImage: {fileID: 21300000, guid: 2eadf6bf47348354183c0e3dda2d4fa3, type: 3}
+  m_type: 0
+  idealStarterItems:
+  - {fileID: 11400000, guid: cb07227d41c2ac644aed07e2b8b83d17, type: 2}
+  - {fileID: 11400000, guid: 73d06cc0179bb9248b6a77d39089c877, type: 2}
+  - {fileID: 11400000, guid: 44bc83bc49496604ea240b1b3fee6d56, type: 2}
+  idealOffensiveItems:
+  - {fileID: 11400000, guid: 61de84167523f4b40b2d48a6507e9302, type: 2}
+  - {fileID: 11400000, guid: 21382891077a1584ca6ed7f6b5be1515, type: 2}
+  - {fileID: 11400000, guid: 8209079d27a59414f9630a90ab4ce2f8, type: 2}
+  idealDefensiveItems:
+  - {fileID: 11400000, guid: 13c26977870119a439a52ae5ec2bde47, type: 2}
+  - {fileID: 11400000, guid: 1f5acca1ea09403469dbeb6fcf270787, type: 2}
+  idealUtilityItems:
+  - {fileID: 11400000, guid: 1afe3fc43491bf247906a2fe22728bc8, type: 2}
+  personality:
+    moveToAllyPlayerConditions: []
+    moveToEnemyPlayerConditions:
+    - target: 0
+      property: 1
+      isInverse: 0
+      weight: 0.225
+    - target: 1
+      property: 2
+      isInverse: 1
+      weight: 0.225
+    - target: 0
+      property: 2
+      isInverse: 0
+      weight: 0.225
+    - target: 1
+      property: 0
+      isInverse: 1
+      weight: 0.225
+    moveToMonsterConditions:
+    - target: 0
+      property: 1
+      isInverse: 1
+      weight: 0.2
+    - target: 1
+      property: 2
+      isInverse: 1
+      weight: 0.2
+    - target: 0
+      property: 2
+      isInverse: 0
+      weight: 0.2
+    - target: 1
+      property: 3
+      isInverse: 1
+      weight: 0.2
+    moveToKeyConditions:
+    - target: 0
+      property: 2
+      isInverse: 0
+      weight: 1
+    moveToChestConditions:
+    - target: 0
+      property: 2
+      isInverse: 0
+      weight: 1
+    moveToCollectibleConditions:
+    - target: 0
+      property: 2
+      isInverse: 0
+      weight: 0.5
+    moveToAllyBaseConditions:
+    - target: 0
+      property: 1
+      isInverse: 0
+      weight: 1
+    moveToEnemyBaseConditions:
+    - target: 0
+      property: 4
+      isInverse: 0
+      weight: 1
+    buyItemConditions:
+    - property: 2
+      isInverse: 0
+      weight: 1
+    - property: 5
+      isInverse: 0
+      weight: 1
+    - property: 6
+      isInverse: 0
+      weight: 1
+    - property: 7
+      isInverse: 0
+      weight: 1
+    - property: 8
+      isInverse: 0
+      weight: 1
+    - property: 9
+      isInverse: 0
+      weight: 1
+    - property: 10
+      isInverse: 0
+      weight: 1
+    - property: 11
+      isInverse: 0
+      weight: 1
+    - property: 12
+      isInverse: 0
+      weight: 1
+    - property: 13
+      isInverse: 0
+      weight: 1
+    - property: 14
+      isInverse: 0
+      weight: 1
+    - property: 15
+      isInverse: 0
+      weight: 1
+    - property: 16
+      isInverse: 0
+      weight: -1

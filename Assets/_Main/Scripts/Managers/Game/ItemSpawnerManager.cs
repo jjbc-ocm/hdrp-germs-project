@@ -24,10 +24,13 @@ public class ItemSpawnerManager : MonoBehaviourPun
         private float delay;
 
         [SerializeField]
-        private bool isChest;
+        private float range;
 
         [SerializeField]
         private int maxLimit;
+
+        [SerializeField]
+        private bool isKey;
 
         private float dt;
 
@@ -37,9 +40,11 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
         public float Delay { get => delay; }
 
-        public bool IsChest { get => isChest; }
+        public float Range { get => range; }
 
         public int MaxLimit { get => maxLimit; }
+
+        public bool IsKey { get => isKey; }
 
         public float Dt { get => dt; set => dt = value; }
     }
@@ -64,14 +69,19 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
             if (spawner.Dt >= spawner.Delay)
             {
-                spawner.Dt = 0;
-
                 if (CanSpawn(spawner))
                 {
-                    RandomNavmeshLocation(i, 200, (position) =>
-                    {
-                        PhotonNetwork.InstantiateRoomObject(spawner.Prefab.name, position, Quaternion.identity);
-                    });
+                    spawner.Dt = 0;
+
+                    RandomNavmeshLocation(i, spawner.Range, 
+                        () =>
+                        {
+                            
+                        },
+                        (position) =>
+                        {
+                            PhotonNetwork.InstantiateRoomObject(spawner.Prefab.name, position, Quaternion.identity);
+                        });
                 }
             }
             else
@@ -80,22 +90,24 @@ public class ItemSpawnerManager : MonoBehaviourPun
             }
         }
     }
+
     private bool CanSpawn(ItemSpawner spawner)
     {
         var objWithTags = GameObject.FindGameObjectsWithTag(spawner.Prefab.tag);
 
-        if (spawner.IsChest)
+        if (spawner.IsKey)
         {
             var ships = GameManager.Instance.Ships;
 
-            var hasChest = ships.FirstOrDefault(i => i.photonView.HasChest()) != null;
+            var hasKey = ships.Any(i => i.Stat.HasKey);
 
-            return objWithTags.Length < spawner.MaxLimit && !hasChest;
+            return objWithTags.Length < spawner.MaxLimit && !hasKey;
         }
 
         return objWithTags.Length < spawner.MaxLimit;
-    } 
-    private void RandomNavmeshLocation(int spawnerIndex, float radius, Action<Vector3> onSetDestination)
+    }
+    
+    private void RandomNavmeshLocation(int spawnerIndex, float radius, Action onSpawnSuccess, Action<Vector3> onSetDestination)
     {
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * radius;
 
@@ -105,6 +117,8 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
         if (spawners[spawnerIndex].Agent.SetDestination(randomDirection))
         {
+            onSpawnSuccess.Invoke();
+
             StartCoroutine(YieldRandomNavmeshLocation(spawners[spawnerIndex].Agent, onSetDestination));
         }
     }

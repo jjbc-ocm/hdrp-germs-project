@@ -3,62 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Constants
+public enum FireType
 {
-    //public const string NETWORK_VERSION = "1";
-
-    /*public const string DEBUG_SCENE_NAME = "Debug";
-
-    public const string MENU_SCENE_NAME = "Intro";
-
-    public const string WAITING_ROOM_SCENE_NAME = "Waiting_Room";
-
-    public const string GAME_SCENE_NAME = "CTF_Game";*/
-
-    public const string KEY_TEAM = "team";
-
-    public const string KEY_SHIP_INDEX = "shipIndex";
-
-    public const int MAX_PLAYER_COUNT = 6;
-
-    public const int MIN_PLAYER_COUNT = 6;
-
-    public const int MAX_TEAM = 2;
-
-    public const int MAX_PLAYER_COUNT_PER_TEAM = MAX_PLAYER_COUNT / MAX_TEAM;
-
-    public const float GAME_MAX_TIMER = 1200;
-
-    public const int FOG_OF_WAR_DISTANCE = 150;
-
-    public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
-
-    public const int SCORE_REQUIRED = 50;
-
-    public const float RESPAWN_TIME = 10;
-
-    /*public const int LAYER_ALLY = 8;
-
-    public const int LAYER_ENEMY = 13;*/
-
-    /*public static Vector2Int[] SETTINGS_RESOLUTION = new Vector2Int[]
-    {
-        new Vector2Int(3840, 2160),
-        new Vector2Int(2560, 1440),
-        new Vector2Int(1920, 1080),
-        new Vector2Int(1280, 720)
-    };
-
-    public static float[] SETTINGS_RENDER_SCALE = new float[] { 1f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f };
-
-    public static int[] SETTINGS_MSAA = new int[] { 8, 0 };
-
-    public static bool[] SETTINGS_POST_PROCESS = new bool[] { true, false };*/
-}
-
-public class Globals
-{
-    public static string ROOM_NAME;
+    Straight,
+    Reticle,
+    Sight
 }
 
 public enum AimType 
@@ -105,4 +54,68 @@ public enum BattleResultType
     Draw,
     Victory,
     Defeat
+}
+public enum BotTargetType
+{
+    /// <summary>
+    /// This bot is refering to itself
+    /// </summary>
+    Self,
+
+    /// <summary>
+    /// This bot is refering to the target
+    /// </summary>
+    Target
+}
+
+public enum BotPropertyType
+{
+    /// <summary>
+    /// Nearer: 0, Further: 1, Max Cap: FOV distance
+    /// </summary>
+    Distance,
+
+    /// <summary>
+    /// None: 0, Has: 1
+    /// </summary>
+    Chest,
+
+    /// <summary>
+    /// Less Health: 0, Move Health: 1
+    /// </summary>
+    HealthRatio,
+
+    /// <summary>
+    /// Nearer: 0, Further: 1, Max Cap: 1000
+    /// </summary>
+    DistanceNoFOV,
+
+    /// <summary>
+    /// None: 0, Has: 1
+    /// </summary>
+    Key,
+
+    ManaRatio,
+
+    AttackDamageRatio,
+
+    AbilityPowerRatio,
+
+    ArmorRatio,
+
+    ResistRatio,
+
+    AttackSpeedRatio,
+
+    MoveSpeedRatio,
+
+    LifeStealRatio,
+
+    CooldownRatio,
+
+    InvisibilityRatio,
+
+    CostRatio,
+
+    ConsumableRatio
 }

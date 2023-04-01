@@ -11,53 +11,13 @@ public static class PlayerExtension
     public const string team = "team";
     public const string shipIndex = "shipIndex";
 
-    public const string hasChest = "hasChest";
-
     public const string hasSurrendered = "hasSurrendered";
 
     public static int m_selectedShipIdx = 0;
 
-    #region For Photon View
-
-    public static string GetName(this PhotonView view)
-    {
-        //Debug.Log("NickName: " + view.Owner.NickName);
-
-        //return view.Owner.NickName;
-
-        return view.Owner.GetName();
-    }
-
-    public static int GetTeam(this PhotonView view)
-    {
-        return view.Owner.GetTeam();
-    }
-
-    public static bool HasChest(this PhotonView view)
-    {
-        return view.Owner.HasChest();
-    }
-
-    public static bool HasSurrendered(this PhotonView view)
-    {
-        return view.Owner.HasSurrendered();
-    }
-
-    public static void HasChest(this PhotonView view, bool value)
-    {
-        view.Owner.HasChest(value);
-    }
-
-    public static void HasSurrendered(this PhotonView view, bool value)
-    {
-        view.Owner.HasSurrendered(value);
-    }
-
-    #endregion
-
     #region For Photon Player
 
-    public static void Initialize(this Player player, int team, int shipIndex)
+    public static void Initialize(this Player player, int shipIndex)
     {
         var profile = GPPlayerProfile.m_instance;
 
@@ -76,8 +36,8 @@ public static class PlayerExtension
         player.SetCustomProperties(new Hashtable
         {
             { name, APIManager.Instance.PlayerData.Name },
-            { PlayerExtension.team, team },
-            { PlayerExtension.shipIndex, shipIndex },
+            //{ PlayerExtension.team, team },
+            { shipIndex, shipIndex },
             {"skin", dummyData.m_skin?.name },
             {"eyes", dummyData.m_eye?.name },
             {"mouth", dummyData.m_mouth?.name },
@@ -119,16 +79,6 @@ public static class PlayerExtension
         return 0;
     }
 
-    public static int GetSelectedShipIdx(this Player player)
-    {
-        return m_selectedShipIdx;
-    }
-
-    public static bool HasChest(this Player player)
-    {
-        return System.Convert.ToBoolean(player.CustomProperties[hasChest]);
-    }
-
     public static bool HasSurrendered(this Player player)
     {
         return System.Convert.ToBoolean(player.CustomProperties[hasSurrendered]);
@@ -142,11 +92,6 @@ public static class PlayerExtension
     public static void SetShipIdx(this Player player, int value)
     {
         player.SetCustomProperties(new Hashtable() { { shipIndex, (byte)value } });
-    }
-
-    public static void HasChest(this Player player, bool value)
-    {
-        player.SetCustomProperties(new Hashtable() { { hasChest, value } });
     }
 
     public static void HasSurrendered(this Player player, bool value)

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using TanksMP;
 using Photon.Pun;
+using System.Linq;
 
 public enum AttackPickType
 {
@@ -52,8 +53,8 @@ public class GPMonsterBase : ActorManager
     public GPGTriggerEvent m_detectionTrigger;
     [Tooltip("When player enters this trigger he will be damage, this trigger is actiavted using animation events")]
     public GPGTriggerEvent m_meleeDamageTrigger;
-    [Tooltip("Only the players that are inside it when the mosnter dies will get gold (last hit team only)")]
-    public GPGTriggerEvent m_goldTrigger;
+    //[Tooltip("Only the players that are inside it when the mosnter dies will get gold (last hit team only)")]
+    //public GPGTriggerEvent m_goldTrigger;
     public GameObject m_model; //Monster model gameobject
     public GameObject m_monsterHPBar;
 
@@ -91,8 +92,8 @@ public class GPMonsterBase : ActorManager
 
     [HideInInspector]
     public List<ActorManager> m_playersInRange = new List<ActorManager>();
-    [HideInInspector]
-    public List<ActorManager> m_playersInGoldRange = new List<ActorManager>();
+    //[HideInInspector]
+    //public List<ActorManager> m_playersInGoldRange = new List<ActorManager>();
     [HideInInspector]
     public List<ActorManager> m_playersWhoDamageIt = new List<ActorManager>();
     [HideInInspector]
@@ -152,8 +153,8 @@ public class GPMonsterBase : ActorManager
             //m_detectionTrigger.m_OnEnterEvent.AddListener(OnPlayerEnter);
             //m_detectionTrigger.m_OnExitEvent.AddListener(OnPlayerExit);
             m_meleeDamageTrigger.m_OnEnterEvent.AddListener(BitePlayer);
-            m_goldTrigger.m_OnEnterEvent.AddListener(OnPlayerGoldTriggerEnter);
-            m_goldTrigger.m_OnExitEvent.AddListener(OnPlayerGoldTriggerExit);
+            //m_goldTrigger.m_OnEnterEvent.AddListener(OnPlayerGoldTriggerEnter);
+            //m_goldTrigger.m_OnExitEvent.AddListener(OnPlayerGoldTriggerExit);
         }
 
         //store respawn position.
@@ -258,17 +259,23 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public override void RpcDamageHealth(int amount, int attackerId)
     {
-        var other = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
+        var attacker = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
 
-        if (other)
+        if (attacker)
         {
-            m_lastHitPlayer = other;
-            if (!m_playersWhoDamageIt.Contains(other))
+            m_lastHitPlayer = attacker;
+
+            if (!m_playersWhoDamageIt.Contains(attacker))
             {
-                m_playersWhoDamageIt.Add(other);
+                m_playersWhoDamageIt.Add(attacker);
             }
         }
 
+        /*if (attacker == PlayerManager.Mine && !IsBot)
+        {
+            PopupManager.Instance.ShowDamage(amount, transform.position);
+        }*/
+        
         m_health.Damage(amount);
     }
 
@@ -281,7 +288,8 @@ public class GPMonsterBase : ActorManager
         MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (meleeAtk == null) { return; }
         //player.TakeMonsterDamage(meleeAtk);
-        player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+        //player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+        DamageManager.Instance.ApplyDamage(this, player, meleeAtk.m_damage, false);
     }
 
     /// <summary>
@@ -327,7 +335,8 @@ public class GPMonsterBase : ActorManager
     /// Registers a player inside monster's gold range.
     /// </summary>
     /// <param name="other"></param>
-    public virtual void OnPlayerGoldTriggerEnter(Collider other)
+    /// // TODO: unused method remove someday
+    /*public virtual void OnPlayerGoldTriggerEnter(Collider other)
     {
         ActorManager player = other.GetComponent<ActorManager>();
         if (player)
@@ -337,13 +346,14 @@ public class GPMonsterBase : ActorManager
                 m_playersInGoldRange.Add(player);
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// Erase a player from the monster's gold range list.
     /// </summary>
     /// <param name="other"></param>
-    public virtual void OnPlayerGoldTriggerExit(Collider other)
+    /// // TODO: unused method remove someday
+    /*public virtual void OnPlayerGoldTriggerExit(Collider other)
     {
         ActorManager player = other.GetComponent<ActorManager>();
         if (player)
@@ -353,7 +363,7 @@ public class GPMonsterBase : ActorManager
                 m_playersInGoldRange.Remove(player);
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// Gives gold to all players in gold range that are from the team that made the last hit.
@@ -361,14 +371,36 @@ public class GPMonsterBase : ActorManager
     public void GiveRewards()
     {
         //get winning team
-        int team = m_lastHitPlayer.photonView.GetTeam();
-        foreach (ActorManager player in m_playersWhoDamageIt)
+        var team = m_lastHitPlayer.GetTeam();
+
+        // filter the players who must receive the reward by team and range
+        var rewardedPlayers = m_playersWhoDamageIt.Where(i => i.GetTeam() == team && IsVisibleRelativeTo(i.transform));
+
+        /*foreach (ActorManager player in m_playersWhoDamageIt)
         {
-            if (player.photonView.GetTeam() == team && m_playersInGoldRange.Contains(player))
+            if (player.GetTeam() == team && m_playersInGoldRange.Contains(player))
             {
-                GPRewardSystem.m_instance.AddGoldToPlayer(player.photonView.Owner, m_rewardKey);
+                GPRewardSystem.m_instance.AddGoldToPlayer(player, m_rewardKey);
                 m_photonView.RPC("RPCSpawnCoinsForPlayer", player.photonView.Owner);
-                GPNumberSpawnerSystem.m_instance.SpawnGoldNumber(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
+
+                if (player.photonView.IsMine && !player.IsBot)
+                {
+                    PopupManager.Instance.ShowGold(GPRewardSystem.m_instance.GetRewardAmountByKey(m_rewardKey), transform.position);
+                }
+            }
+        }*/
+
+        foreach (var rewardedPlayer in rewardedPlayers)
+        {
+            var amount = Mathf.CeilToInt(GPRewardSystem.m_instance.m_rewardsMap[m_rewardKey] / (float)rewardedPlayers.Count());
+
+            rewardedPlayer.photonView.RPC("AddGold", RpcTarget.All, amount);
+
+            GPRewardSystem.m_instance.SpawnCoins(transform.position, amount, rewardedPlayer.transform);
+
+            if (rewardedPlayer.photonView.IsMine && !rewardedPlayer.IsBot)
+            {
+                PopupManager.Instance.ShowGold(amount, rewardedPlayer.transform.position);
             }
         }
     }
@@ -389,7 +421,8 @@ public class GPMonsterBase : ActorManager
 
         if (meleeAtk.m_damageType == DamageDetectionType.kAlwaysDamageTarget)
         {
-            m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            //m_currTargetPlayer.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            DamageManager.Instance.ApplyDamage(this, m_currTargetPlayer, meleeAtk.m_damage, false);
         }
         else if (meleeAtk.m_damageType == DamageDetectionType.kDamageOnCollision)
         {
@@ -482,7 +515,7 @@ public class GPMonsterBase : ActorManager
     /// <param name="collider"></param>
     public virtual void BitePlayer(Collider collider)
     {
-        Player player = collider.GetComponent<Player>();
+        var player = collider.GetComponent<PlayerManager>();
         MonsterMeleeAttackDesc meleeAtk = m_currAtk as MonsterMeleeAttackDesc;
         if (meleeAtk == null) { return; }
 
@@ -490,7 +523,8 @@ public class GPMonsterBase : ActorManager
         {
             m_photonView.RPC("RPCOnMeleeHit", RpcTarget.All);
             //player.TakeMonsterDamage(meleeAtk);
-            player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            //player.photonView.RPC("RpcDamageHealth", RpcTarget.All, meleeAtk.m_damage, photonView.ViewID);
+            DamageManager.Instance.ApplyDamage(this, player, meleeAtk.m_damage, false);
         }
 
         EndMeleeAttack();
@@ -552,36 +586,30 @@ public class GPMonsterBase : ActorManager
         //photonView.SetMana(photonView.GetMana() - action.MpCost);
 
         photonView.RPC(
-            "RpcAction",
+            "RpcActionMonster",
             RpcTarget.AllViaServer,
-            new float[] { m_bulletSpawnPoint.position.x, m_bulletSpawnPoint.position.y, m_bulletSpawnPoint.position.z },
-            new float[] { aimPosition.x, aimPosition.y, aimPosition.z },
+            m_bulletSpawnPoint.position,
+            aimPosition,
+            -1,
             isAttack);
     }
 
     [PunRPC]
-    public void RpcAction(float[] position, float[] target, bool isAttack)
+    public void RpcActionMonster(Vector3 fromPosition, Vector3 targetPosition, int targetActorId, bool isAttack)
     {
-        MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
-        var action = isAttack ? projAtk.attack : skill;
+        //MonsterProjectileAttackDesc projAtk = (MonsterProjectileAttackDesc)m_currAtk;
 
-        /* Steps
-         * 1. Calculate the rotation ased on position and target
-         * 2. Spawn action.Effect based on position, and rotation
-         * 3. pass the action (SkillData) as parameter to the spawned object
-         * 4. Any trail reset or sound effects should be done on the actual object spawned
-         */
-        var vPosition = new Vector3(position[0], position[1], position[2]);
+        var action = isAttack && (m_currAtk is MonsterProjectileAttackDesc) 
+            ? (m_currAtk as MonsterProjectileAttackDesc).attack 
+            : skill;
 
-        var vTarget = new Vector3(target[0], target[1], target[2]);
-
-        var forward = vTarget - vPosition;
+        var forward = targetPosition - fromPosition;
 
         var rotation = Quaternion.LookRotation(forward);
 
-        var effect = Instantiate(action.Effect, vPosition, rotation);
+        var effect = Instantiate(action.Effect, fromPosition, rotation);
 
-        effect.GetComponent<SkillBaseManager>().Initialize(this); // TODO: BulletManager = this is not always the case // TODO: 3 and 4
+        effect.Initialize(this, Vector3.zero);
     }
 
     /// <summary>
@@ -604,10 +632,10 @@ public class GPMonsterBase : ActorManager
             m_playersInRange.Remove(playerKilled);
         }
 
-        if (m_playersInGoldRange.Contains(playerKilled))
+        /*if (m_playersInGoldRange.Contains(playerKilled))
         {
             m_playersInGoldRange.Remove(playerKilled);
-        }
+        }*/
 
         playerKilled.onDieEvent.RemoveListener(OnPlayerKilled);
     }
@@ -622,7 +650,7 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public void RPCOnHurt()
     {
-        AudioManager.Instance.Play3D(m_hurtSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_hurtSFX, transform.position);
         if (OnRPCHurtEvent != null)
         {
             OnRPCHurtEvent.Invoke();
@@ -633,7 +661,7 @@ public class GPMonsterBase : ActorManager
     public void RPCOnDie()
     {
         m_mainCollider.enabled = false;
-        AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_deathSFX, transform.position);
         if (m_monsterHPBar)
         {
             m_monsterHPBar.SetActive(false);
@@ -643,7 +671,7 @@ public class GPMonsterBase : ActorManager
     /// <summary>
     /// Spawns visual coins for the local player
     /// </summary>
-    [PunRPC]
+    /*[PunRPC]
     public void RPCSpawnCoinsForPlayer()
     {
         //search player
@@ -654,7 +682,7 @@ public class GPMonsterBase : ActorManager
                 GPRewardSystem.m_instance.SpawnCoins(transform.position, GPRewardSystem.m_instance.m_rewardsMap[m_rewardKey], player.transform);
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// Resets monsters health, colliders, animator, among other things.
@@ -670,7 +698,7 @@ public class GPMonsterBase : ActorManager
         }
         m_health.Resurrect();
         m_animator.Play("Idle");
-        AudioManager.Instance.Play3D(m_deathSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_deathSFX, transform.position);
     }
 
     /// <summary>
@@ -679,6 +707,16 @@ public class GPMonsterBase : ActorManager
     [PunRPC]
     public void RPCOnMeleeHit()
     {
-        AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position, 0.1f);
+        AudioManager.Instance.Play3D(m_meleeAtkHitSFX, transform.position);
+    }
+
+    protected override void OnTriggerEnterCalled(Collider col)
+    {
+
+    }
+
+    protected override void OnTriggerExitCalled(Collider col)
+    {
+
     }
 }

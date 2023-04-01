@@ -57,6 +57,7 @@ Material:
   m_Name: Ship Water Ripples
   m_Shader: {fileID: 4800000, guid: b430983578466934c944e7171b4c372c, type: 3}
   m_ValidKeywords:
+  - ADDITIVECONFIG_ON
   - ALPHAFADE_ON
   - COLORRAMPGRAD_ON
   - COLORRAMP_ON
@@ -65,6 +66,7 @@ Material:
   - MASK_ON
   - POLARUVDISTORT_ON
   - POLARUV_ON
+  - PREMULTIPLYCOLOR_ON
   - ROUNDWAVEUV_ON
   - SHAPE1CONTRAST_ON
   - SHAPE1DISTORT_ON
@@ -74,8 +76,9 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap: {}
+  m_CustomRenderQueue: 4000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -180,7 +183,7 @@ Material:
     - _DistortionPower: 5
     - _DistortionScrollXSpeed: 0
     - _DistortionScrollYSpeed: 0
-    - _DstMode: 1
+    - _DstMode: 10
     - _EditorDrawers: 61
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 5
@@ -198,7 +201,7 @@ Material:
     - _HsvSaturation: 0
     - _HsvShift: 225
     - _LightAmount: 0
-    - _MaskPow: 2.13
+    - _MaskPow: 0.66
     - _OffsetSh1: 1
     - _OffsetSh2: 1
     - _OffsetSh3: 1
@@ -209,7 +212,7 @@ Material:
     - _RandomSh1Mult: 1
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
-    - _RenderingMode: 5
+    - _RenderingMode: 3
     - _RimAddAmount: 1
     - _RimBias: 0
     - _RimErodesAlpha: 0
@@ -264,23 +267,23 @@ Material:
     - _ShapeRotationOffset: 0
     - _ShapeRotationSpeed: 0
     - _ShapeXSpeed: 0.06
-    - _ShapeYSpeed: -0.5
+    - _ShapeYSpeed: -0.1
     - _SoftFactor: 0.5
-    - _SrcMode: 5
+    - _SrcMode: 1
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
     - _TimingSeed: 0
     - _TrailWidthPower: 1
-    - _TwistUvAmount: 1.92
+    - _TwistUvAmount: 0.38
     - _TwistUvPosX: 0.5
     - _TwistUvPosY: 0.5
-    - _TwistUvRadius: 2.53
+    - _TwistUvRadius: 2.01
     - _VertOffsetAmount: 0.5
     - _VertOffsetPower: 1
     - _VertOffsetTexXSpeed: 0.1
     - _VertOffsetTexYSpeed: 0.1
-    - _WaveAmount: 9.5
-    - _WaveSpeed: 2
+    - _WaveAmount: 7.8
+    - _WaveSpeed: 1
     - _WaveStrength: 5.8
     - _WaveX: 0
     - _WaveY: 0.5

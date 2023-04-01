@@ -6,79 +6,83 @@
 using UnityEngine;
 using Photon.Pun;
 
-namespace TanksMP
+[RequireComponent(typeof(PhotonView))]
+public abstract class Collectible : GameEntityManager, IPunObservable
 {
-    /// <summary>
-    /// Base class for all derived Collectibles (health, shields, etc.) consumed or carried around.
-    /// Extend this to create highly customized Collectible with specific functionality.
-    /// </summary>
-    /// 
+    [SerializeField]
+    private AudioClip sound;
 
-    [RequireComponent(typeof(PhotonView))]
-	public abstract class Collectible : GameEntityManager, IPunObservable
+    [SerializeField]
+    private GameObject graphics;
+
+    private bool isObtained;
+
+    private void Update()
     {
-        [SerializeField]
-        private AudioClip sound;
-
-        [SerializeField]
-        private GameObject graphics;
-
-        void Update()
+        if (PlayerManager.Mine != null)
         {
-            if (Player.Mine != null)
-            {
-                var isInPlayerRange = Vector3.Distance(transform.position, Player.Mine.transform.position) <= Constants.FOG_OF_WAR_DISTANCE;
-
-                graphics.SetActive(isInPlayerRange || IsInSupremacyWard());
-            }
+            graphics.SetActive(IsVisibleRelativeTo(PlayerManager.Mine.transform));
         }
+    }
 
-        public virtual void OnTriggerEnter(Collider col)
-		{
-            if (!PhotonNetwork.IsMasterClient) return;
-            
-    		GameObject obj = col.gameObject;
+    protected override void OnTriggerEnterCalled(Collider col)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
 
-			Player player = obj.GetComponent<Player>();
+        var obj = col.gameObject;
 
-            if (Apply(player))
-            {
-                PhotonNetwork.Destroy(photonView);
-            }
-		}
+        var player = obj.GetComponent<PlayerManager>();
 
-        public virtual bool Apply(Player p)
-		{
-            return p != null;
-        }
-
-
-
-
-
-
-        [PunRPC]
-        public void Destroy()
+        if (Apply(player))
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
             PhotonNetwork.Destroy(photonView);
         }
-
-        public void Obtain(Player player)
-        {
-            OnObtain(player);
-
-            AudioManager.Instance.Play3D(sound, transform.position);
-
-            photonView.RPC("Destroy", RpcTarget.MasterClient);
-        }
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-
-        }
-
-        protected abstract void OnObtain(Player player);
     }
+
+    protected override void OnTriggerExitCalled(Collider col)
+    {
+
+    }
+
+    public virtual bool Apply(PlayerManager p)
+	{
+        return p != null;
+    }
+
+
+
+
+
+    [PunRPC]
+    public void Destroy()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        PhotonNetwork.Destroy(photonView);
+    }
+
+    public void Obtain(PlayerManager player)
+    {
+        OnObtain(player);
+
+        graphics.SetActive(false);
+
+        AudioManager.Instance.Play3D(sound, transform.position);
+
+        photonView.RPC("Destroy", RpcTarget.MasterClient);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(isObtained);
+        }
+        else
+        {
+            isObtained = (bool)stream.ReceiveNext();
+        }
+    }
+
+    protected abstract void OnObtain(PlayerManager player);
 }

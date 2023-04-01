@@ -12,39 +12,45 @@ using Unity.Services.Economy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class APIManager : MonoBehaviour
+public class APIManager : Singleton<APIManager>
 {
-    public static APIManager Instance;
-
     [SerializeField]
     private GPDevFeaturesSettingsSO devSettings;
 
     [SerializeField]
     private GPShipDesc startingShip;
 
-    [SerializeField]
-    private LoadingUI uiLoading;
-
     private PlayerData playerData;
+
+    private List<FriendInfo> friends;
 
     public PlayerData PlayerData { get => playerData; }
 
-    void Awake()
+    public List<FriendInfo> Friends { get => friends; }
+
+    #region Unity
+
+    private void Awake()
     {
-        Instance = this;
+        LoadingUI.Instance.RefreshUI();
 
         Initialize((text, value) =>
         {
-            uiLoading.Text = text;
+            LoadingUI.Instance.RefreshUI((self) =>
+            {
+                self.Text = text;
 
-            uiLoading.Progress = value;
+                self.Progress = value;
+            });
         });
     }
 
+    #endregion
 
 
 
 
+    #region Public
 
     public void Initialize(Action<string, float> onProgress)
     {
@@ -89,7 +95,44 @@ public class APIManager : MonoBehaviour
         }
     }
 
+    public List<FriendInfo> GetFriends()
+    {
+        //SteamFriends.ActivateGameOverlay("Friends");
 
+        var list = new List<FriendInfo>();
+
+        var count = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagAll);
+
+        for (var i = 0; i < count; i++)
+        {
+            var steamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
+
+            list.Add(new FriendInfo
+            {
+                SteamID = steamId,
+
+                Name = SteamFriends.GetFriendPersonaName(steamId),
+
+                Status = SteamFriends.GetFriendPersonaState(steamId)
+            });
+        }
+
+        return list;
+    }
+
+    public void InviteFriend(CSteamID steamId)
+    {
+        SteamFriends.InviteUserToGame(steamId, "TEST");
+
+        Callback<GameRichPresenceJoinRequested_t>.Create((callback) =>
+        {
+            Debug.Log(callback.m_rgchConnect + " " + callback.m_steamIDFriend);
+        });
+    }
+
+    #endregion
+
+    #region Private
 
     private void LogInWithSteam(Action<string> onSuccess)
     {
@@ -161,4 +204,6 @@ public class APIManager : MonoBehaviour
 
         SceneManager.LoadScene(SOManager.Instance.Constants.SceneMenu);
     }
+
+    #endregion
 }

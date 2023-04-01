@@ -12,19 +12,19 @@ public class RecoItemsUI : UI<RecoItemsUI>
     private GameObject buttonSelectedIndicator;
 
     /*[SerializeField]
-    private ItemData[] starterItems;*/
+    private ItemSO[] starterItems;*/
 
     [SerializeField]
-    private ItemData[] consumableItems;
+    private ItemSO[] consumableItems;
 
-   /* [SerializeField]
-    private ItemData[] offensiveItems;
+    /* [SerializeField]
+     private ItemSO[] offensiveItems;
 
-    [SerializeField]
-    private ItemData[] defensiveItems;
+     [SerializeField]
+     private ItemSO[] defensiveItems;
 
-    [SerializeField]
-    private ItemData[] utilityItems;*/
+     [SerializeField]
+     private ItemSO[] utilityItems;*/
 
     [SerializeField]
     private Transform transformStarter;
@@ -74,7 +74,7 @@ public class RecoItemsUI : UI<RecoItemsUI>
 
         
 
-        foreach (var starterItem in Player.Mine.Data.IdealStarterItems)
+        foreach (var starterItem in PlayerManager.Mine.Data.IdealStarterItems)
         {
             var item = Instantiate(prefabItem, transformStarter);
 
@@ -94,7 +94,7 @@ public class RecoItemsUI : UI<RecoItemsUI>
             });
         }
 
-        foreach (var offensiveItem in Player.Mine.Data.IdealOffensiveItems)
+        foreach (var offensiveItem in PlayerManager.Mine.Data.IdealOffensiveItems)
         {
             var item = Instantiate(prefabItem, transformOffensive);
 
@@ -104,7 +104,7 @@ public class RecoItemsUI : UI<RecoItemsUI>
             });
         }
 
-        foreach (var defensiveItem in Player.Mine.Data.IdealDefensiveItems)
+        foreach (var defensiveItem in PlayerManager.Mine.Data.IdealDefensiveItems)
         {
             var item = Instantiate(prefabItem, transformDefensive);
 
@@ -114,7 +114,7 @@ public class RecoItemsUI : UI<RecoItemsUI>
             });
         }
 
-        foreach (var utilityItem in Player.Mine.Data.IdealUtilityItems)
+        foreach (var utilityItem in PlayerManager.Mine.Data.IdealUtilityItems)
         {
             var item = Instantiate(prefabItem, transformUtility);
 

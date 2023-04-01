@@ -69,7 +69,7 @@ public class ConstantsSO : ScriptableObject
     private string sceneMenu = "Intro";
 
     [SerializeField]
-    private string sceneWaitRoom = "Waiting_Room";
+    private string scenePreparation = "Preparation";
 
     [SerializeField]
     private string sceneGame = "CTF_Game";
@@ -78,35 +78,78 @@ public class ConstantsSO : ScriptableObject
 
     public string SceneMenu { get => sceneMenu; }
 
-    public string SceneWaitRoom { get => sceneWaitRoom; }
+    public string ScenePreparation { get => scenePreparation; }
 
     public string SceneGame { get => sceneGame; }
 
 
+    [Header("In-Game")]
 
+    [SerializeField]
+    private double preparationTime = 30f;
 
+    [SerializeField]
+    private float captureChestTime = 45f;
 
-    public const string KEY_TEAM = "team";
+    [SerializeField]
+    private float returnChestTime = 45f;
 
-    public const string KEY_SHIP_INDEX = "shipIndex";
+    [SerializeField]
+    private byte maxPlayerCount = 6;
 
-    public const int MAX_PLAYER_COUNT = 6;
+    [SerializeField]
+    private int maxTeam = 2;
 
-    public const int MIN_PLAYER_COUNT = 6;
+    [SerializeField]
+    private int maxPlayerPerTeam = 3;
 
-    public const int MAX_TEAM = 2;
+    [SerializeField]
+    private int maxChestPerTeam = 5;
 
-    public const int MAX_PLAYER_COUNT_PER_TEAM = MAX_PLAYER_COUNT / MAX_TEAM;
+    [SerializeField]
+    private float gameTimer = 1200f;
 
-    public const float GAME_MAX_TIMER = 1200;
+    [SerializeField]
+    private float fogOrWarDistance = 150f;
 
-    public const int FOG_OF_WAR_DISTANCE = 150;
+    [SerializeField]
+    private float moveSpeedToSecondsRatio = 25f;
 
-    public const float MOVE_SPEED_TO_SECONDS_RATIO = 25f;
+    [SerializeField]
+    private int scoreRequired = 50;
 
-    public const int SCORE_REQUIRED = 50;
+    [SerializeField]
+    private float respawnTime = 10f;
 
-    public const float RESPAWN_TIME = 10;
+    [SerializeField]
+    private float baseRadius = 50f;
+
+    public double PreparationTime { get => preparationTime; }
+
+    public float CaptureChestTime { get => captureChestTime; }
+
+    public float ReturnChestTime { get => returnChestTime; }
+
+    public byte MaxPlayerCount { get => maxPlayerCount; }
+
+    public int MaxTeam { get => maxTeam; }
+
+    public int MaxPlayerPerTeam { get => maxPlayerPerTeam; }
+
+    public int MaxChestPerTeam { get => maxChestPerTeam; }
+
+    public float GameTimer { get => gameTimer; }
+
+    public float FogOrWarDistance { get => fogOrWarDistance; }
+
+    public float MoveSpeedToSecondsRatio { get => moveSpeedToSecondsRatio; }
+
+    public int ScoreRequired { get => scoreRequired; }
+
+    public float RespawnTime { get => respawnTime; }
+
+    public float BaseRadius { get => baseRadius; }
+
 
     [Header("Settings")]
 

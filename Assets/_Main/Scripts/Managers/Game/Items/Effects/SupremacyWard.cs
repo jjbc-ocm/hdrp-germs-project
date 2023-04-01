@@ -6,13 +6,15 @@ using UnityEngine;
 
 public class SupremacyWard : ItemEffectManager
 {
-    public override void Execute(int slotIndex, Player user)
+    public override void Execute(int slotIndex, PlayerManager user)
     {
         user.ItemAim.Aim((targetPosition) =>
         {
-            var supremacyWard = PhotonNetwork.InstantiateRoomObject("Supremacy Ward", targetPosition, Quaternion.identity);
+            var newObject = PhotonNetwork.InstantiateRoomObject("Supremacy Ward", targetPosition, Quaternion.identity);
 
-            supremacyWard.GetComponent<SupremacyWardEffectManager>().Team = user.photonView.GetTeam();
+            var supremacyWard = newObject.GetComponent<SupremacyWardEffectManager>();
+
+            supremacyWard.Team = user.GetTeam();
 
             user.Inventory.TryRemoveItem(slotIndex);
         });

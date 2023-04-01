@@ -13,6 +13,32 @@ MonoBehaviour:
   m_Name: Constants
   m_EditorClassIdentifier: 
   networkVersion: 0.6
+  layerWater: Water
+  layerEnvironment: Environment
+  layerMinimap: Minimap
+  layerAlly: Ally Ship
+  layerEnemy: Enemy Ship
+  layerMonster: Monster
+  layerBullet: Bullet
+  layerItem: Item
+  layerBush: Bush
+  sceneDebug: Debug
+  sceneMenu: Intro
+  scenePreparation: Preparation
+  sceneGame: CTF_Game
+  preparationTime: 30
+  captureChestTime: 5
+  returnChestTime: 45
+  maxPlayerCount: 6
+  maxTeam: 2
+  maxPlayerPerTeam: 3
+  maxChestPerTeam: 5
+  gameTimer: 1200
+  fogOrWarDistance: 150
+  moveSpeedToSecondsRatio: 25
+  scoreRequired: 50
+  respawnTime: 10
+  baseRadius: 50
   settingResolutions:
   - {x: 3840, y: 2160}
   - {x: 2560, y: 1440}

@@ -39,6 +39,9 @@ public class MyPlayerUI : UI<MyPlayerUI>
     private TMP_Text textSkillCooldown;
 
     [SerializeField]
+    private Button buttonShop;
+
+    [SerializeField]
     private ItemSlotUI[] itemSlots;
 
     void Update()
@@ -48,41 +51,41 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
     protected override void OnRefreshUI()
     {
-        if (Player.Mine == null) return;
+        if (PlayerManager.Mine == null) return;
 
-        var ad = Player.Mine.Stat.AttackDamage;
+        var ad = PlayerManager.Mine.Stat.AttackDamage();
 
-        var ap = Player.Mine.Stat.AbilityPower;
+        var ap = PlayerManager.Mine.Stat.AbilityPower();
 
-        var @as = Player.Mine.Stat.AttackSpeed;
+        var @as = PlayerManager.Mine.Stat.AttackSpeed();
 
-        var ms = Player.Mine.Stat.MoveSpeed;
+        var ms = PlayerManager.Mine.Stat.MoveSpeed();
 
-        var ar = Player.Mine.Stat.Armor;
+        var ar = PlayerManager.Mine.Stat.Armor();
 
-        var mr = Player.Mine.Stat.Resist;
+        var mr = PlayerManager.Mine.Stat.Resist();
 
-        var attackCooldown = Mathf.Max(0, Player.Mine.NextAttackTime - Time.time);
+        var attackCooldown = Mathf.Max(0, PlayerManager.Mine.NextAttackTime - Time.time);
 
-        var skillCooldown = Mathf.Max(0,Player.Mine.NextSkillTime - Time.time);
+        var skillCooldown = Mathf.Max(0,PlayerManager.Mine.NextSkillTime - Time.time);
 
-        var attackMaxCooldown = Constants.MOVE_SPEED_TO_SECONDS_RATIO / Player.Mine.Stat.AttackSpeed;
+        var attackMaxCooldown = SOManager.Instance.Constants.MoveSpeedToSecondsRatio / PlayerManager.Mine.Stat.AttackSpeed();
 
-        var skillMaxCooldown = Player.Mine.Skill.Cooldown;
+        var skillMaxCooldown = PlayerManager.Mine.Skill.Cooldown;
 
-        imageShip.sprite = Player.Mine.Data.ShipIconImage;
+        imageShip.sprite = PlayerManager.Mine.Data.ShipIconImage;
 
-        imageAttack.sprite = Player.Mine.Attack.Icon;
+        imageAttack.sprite = PlayerManager.Mine.Attack.Icon;
 
-        imageSkill.sprite = Player.Mine.Skill.Icon;
+        imageSkill.sprite = PlayerManager.Mine.Skill.Icon;
 
-        sliderHealth.value = Player.Mine.Stat.Health / (float)Player.Mine.Stat.MaxHealth;
+        sliderHealth.value = PlayerManager.Mine.Stat.Health / (float)PlayerManager.Mine.Stat.MaxHealth();
 
-        sliderMana.value = Player.Mine.Stat.Mana / (float)Player.Mine.Stat.MaxMana;
+        sliderMana.value = PlayerManager.Mine.Stat.Mana / (float)PlayerManager.Mine.Stat.MaxMana();
 
-        textHealth.text = $"{Player.Mine.Stat.Health}/{Player.Mine.Stat.MaxHealth}";
+        textHealth.text = $"{PlayerManager.Mine.Stat.Health}/{PlayerManager.Mine.Stat.MaxHealth()}";
 
-        textMana.text = $"{Player.Mine.Stat.Mana}/{Player.Mine.Stat.MaxMana}";
+        textMana.text = $"{PlayerManager.Mine.Stat.Mana}/{PlayerManager.Mine.Stat.MaxMana()}";
 
         textStats.text = $"{ad}\n{ap}\n{@as}\n{ms}\n{ar}\n{mr}";
 
@@ -98,10 +101,13 @@ public class MyPlayerUI : UI<MyPlayerUI>
 
         imageSkill.fillAmount = (skillMaxCooldown - skillCooldown) / skillMaxCooldown;
 
-        var items = Player.Mine.Inventory.Items;
+        buttonShop.interactable = GameManager.Instance.GetBase(PlayerManager.Mine.GetTeam()).HasPlayer(PlayerManager.Mine);
+
+        var items = PlayerManager.Mine.Inventory.Items;
+
+        if (items == null) return;
 
         /* For item slots */
-
         for (var i = 0; i < itemSlots.Length; i++)
         {
             var item = items[i];

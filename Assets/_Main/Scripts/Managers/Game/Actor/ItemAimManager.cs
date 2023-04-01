@@ -11,13 +11,13 @@ public class ItemAimManager : MonoBehaviour
 
     private bool isAiming;
 
-    private Player player;
+    private PlayerManager player;
 
     private Action<Vector3> onRelease;
 
     void Awake()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerManager>();
     }
 
     void Start()
@@ -44,7 +44,7 @@ public class ItemAimManager : MonoBehaviour
             onAimSkillPress.Invoke();
         }*/
 
-        if (Input.GetMouseButton(0) && isAiming)
+        /*if (Input.GetMouseButton(0) && isAiming)
         {
             isAiming = false;
 
@@ -58,6 +58,22 @@ public class ItemAimManager : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             isAiming = false;
+        }*/
+
+        if (player.Input.IsAttack && isAiming)
+        {
+            isAiming = false;
+
+            if (aimIndicator.activeSelf)
+            {
+                onRelease.Invoke(aimIndicator.transform.position);
+                //onAimSkillRelease.Invoke(aimIndicator.transform.position, aimAutoTarget);
+            }
+        }
+
+        if (player.Input.IsAim)
+        {
+            isAiming = false;
         }
 
         if (isAiming)
@@ -66,7 +82,7 @@ public class ItemAimManager : MonoBehaviour
 
             var action = player.Skill;
 
-            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(Input.mousePosition);
+            var ray = GameCameraManager.Instance.MainCamera.ScreenPointToRay(player.Input.Look);
 
             var camDistanceToShip = Vector3.Distance(player.transform.position, GameCameraManager.Instance.MainCamera.transform.position);
 

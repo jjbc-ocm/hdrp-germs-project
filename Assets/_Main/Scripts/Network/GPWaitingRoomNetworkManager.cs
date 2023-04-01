@@ -41,7 +41,7 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable() {{ "WaitingForPlayers", true }};
         string[] lobbyProperties = { "WaitingForPlayers" };
         RoomOptions opt = new RoomOptions();
-        opt.MaxPlayers = Constants.MAX_PLAYER_COUNT;
+        opt.MaxPlayers = (byte)SOManager.Instance.Constants.MaxPlayerCount;
         opt.IsOpen = true;
         opt.IsVisible = true;
         opt.PublishUserId = true;
@@ -57,7 +57,7 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
     {
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        PhotonNetwork.LocalPlayer.Initialize(playerCount % 2, GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+        PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
     }
     #endregion
 
@@ -75,7 +75,7 @@ public class GPWaitingRoomNetworkManager : MonoBehaviourPunCallbacks
     {
         // Join random room that meets the battle mode configurations
         ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable() { { "WaitingForPlayers", true } };
-        PhotonNetwork.JoinRandomRoom(roomProperties, Constants.MAX_PLAYER_COUNT);
+        PhotonNetwork.JoinRandomRoom(roomProperties, SOManager.Instance.Constants.MaxPlayerCount);
     }
 
     #endregion

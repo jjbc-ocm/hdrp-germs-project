@@ -38,28 +38,28 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 9.64
+    value: 6.98
   threshold:
     overrideState: 1
-    value: 0.9
+    value: 2.83
   softKnee:
     overrideState: 1
-    value: 0.645
+    value: 1
   clamp:
     overrideState: 1
-    value: 65472
+    value: 1
   diffusion:
-    overrideState: 0
-    value: 7
+    overrideState: 1
+    value: 8.29
   anamorphicRatio:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 0.37
   color:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    overrideState: 1
+    value: {r: 0.7924528, g: 0, b: 0, a: 1}
   fastMode:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 1
   dirtTexture:
     overrideState: 0
     value: {fileID: 0}
@@ -105,13 +105,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb84e30e02715445aeb9959894e3b4d, type: 3}
   m_Name: ColorGrading
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
-    value: 0
-  gradingMode:
-    overrideState: 0
     value: 1
+  gradingMode:
+    overrideState: 1
+    value: 0
   externalLut:
     overrideState: 0
     value: {fileID: 0}
@@ -145,17 +145,17 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -16
   tint:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -3
   colorFilter:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    overrideState: 1
+    value: {r: 0.745283, g: 0, b: 0, a: 1}
   hueShift:
     overrideState: 1
-    value: 0
+    value: 93
   saturation:
     overrideState: 0
     value: 0
@@ -1416,7 +1416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1431,7 +1431,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.375
+    value: 0.693
   smoothness:
     overrideState: 0
     value: 0.2
@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1469,10 +1469,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.26
+    value: 2.46
   color:
     overrideState: 1
-    value: {r: 0.17788449, g: 0.16994482, b: 0.1792453, a: 1}
+    value: {r: 0.039491378, g: 0.03457635, b: 0.066037714, a: 1}
   ambientOnly:
     overrideState: 0
     value: 1
@@ -1487,7 +1487,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 1
-    value: 1
+    value: 2.65
   directLightingStrength:
     overrideState: 0
     value: 0
@@ -1512,7 +1512,7 @@ MonoBehaviour:
   active: 0
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   preset:
     overrideState: 0
     value: 2
@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1

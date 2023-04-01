@@ -51,9 +51,9 @@ public class ShopUI : WindowUI<ShopUI>
     [SerializeField]
     private Transform[] transformRecipeLayers;
 
-    public List<ItemData> Data { get; set; }
+    public List<ItemSO> Data { get; set; }
 
-    public ItemData SelectedData { get; set; }
+    public ItemSO SelectedData { get; set; }
 
     public int SelectedSlotIndex { get; set; }
 
@@ -66,20 +66,20 @@ public class ShopUI : WindowUI<ShopUI>
     {
         var data = 
             SelectedData != null ? SelectedData :
-            SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] : 
+            SelectedSlotIndex > -1 ? PlayerManager.Mine.Inventory.Items[SelectedSlotIndex] : 
             null;
 
         buttonBuy.gameObject.SetActive(data != null);
 
-        buttonSell.gameObject.SetActive(SelectedSlotIndex > -1 && Player.Mine.Inventory.Items[SelectedSlotIndex] != null);
+        buttonSell.gameObject.SetActive(SelectedSlotIndex > -1 && PlayerManager.Mine.Inventory.Items[SelectedSlotIndex] != null);
 
         uiSelectedInfo.SetActive(data != null);
 
         if (data != null)
         {
-            var totalCost = ShopManager.Instance.GetTotalCost(data);
+            var totalCost = ShopManager.Instance.GetTotalCost(PlayerManager.Mine, data);
 
-            buttonBuy.enabled = Player.Mine.Inventory.Gold >= totalCost;
+            buttonBuy.interactable = ShopManager.Instance.CanBuy(PlayerManager.Mine, data);
 
             textName.text = data.Name;
 
@@ -141,18 +141,18 @@ public class ShopUI : WindowUI<ShopUI>
     {
         var data =
             SelectedData != null ? SelectedData :
-            SelectedSlotIndex > -1 ? Player.Mine.Inventory.Items[SelectedSlotIndex] :
+            SelectedSlotIndex > -1 ? PlayerManager.Mine.Inventory.Items[SelectedSlotIndex] :
             null;
 
-        ShopManager.Instance.Buy(data);
+        ShopManager.Instance.Buy(PlayerManager.Mine, data);
     }
 
     public void OnSellButtonClick()
     {
-        ShopManager.Instance.Sell(SelectedSlotIndex);
+        ShopManager.Instance.Sell(PlayerManager.Mine, SelectedSlotIndex);
     }
 
-    private void CreateRecipeTree(ItemData item, int recipeLayer)
+    private void CreateRecipeTree(ItemSO item, int recipeLayer)
     {
         var recipeItem = Instantiate(prefabRecipeItem, transformRecipeLayers[recipeLayer]);
 

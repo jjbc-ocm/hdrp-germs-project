@@ -26,7 +26,7 @@ public class TimerManager : MonoBehaviour
 
     public double TimeLapse { get => hasStartTime ? PhotonNetwork.Time - startTime : 0; }
 
-    public double ReverseTimeLapse { get => Constants.GAME_MAX_TIMER - TimeLapse; }
+    public double ReverseTimeLapse { get => SOManager.Instance.Constants.GameTimer - TimeLapse; }
 
     void Awake()
     {
@@ -58,9 +58,9 @@ public class TimerManager : MonoBehaviour
 
         if (!hasStartTime) return;
 
-        if (GameManager.Instance.IsGameOver(out List<BattleResultType> teamResults) && !isAftermathCalled)
+        if (GameManager.Instance.IsGameOver() && !isAftermathCalled)
         {
-            int[] score = PhotonNetwork.CurrentRoom.GetScore();
+            //int[] score = PhotonNetwork.CurrentRoom.GetScore();
 
             //close room for joining players
             PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -71,7 +71,7 @@ public class TimerManager : MonoBehaviour
                 score[0] < score[1] ? 1 :
                 -1;*/
 
-            Player.Mine.photonView.RPC("RpcGameOver", RpcTarget.All, teamResults.IndexOf(BattleResultType.Victory));
+            PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
             isAftermathCalled = true;
 

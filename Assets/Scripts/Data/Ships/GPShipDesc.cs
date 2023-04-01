@@ -26,7 +26,7 @@ public class GPShipDesc : ScriptableObject
     [TextArea(2, 10)]
     public string m_ability;
     public GameObject m_model;
-    public Player m_playerPrefab;
+    public PlayerManager m_playerPrefab;
     public Sprite m_cardImage;
 
     [SerializeField]
@@ -35,26 +35,31 @@ public class GPShipDesc : ScriptableObject
     public GP_SHIP_TYPE m_type;
 
     [SerializeField]
-    private List<ItemData> idealStarterItems;
+    private List<ItemSO> idealStarterItems;
 
     [SerializeField]
-    private List<ItemData> idealOffensiveItems;
+    private List<ItemSO> idealOffensiveItems;
 
     [SerializeField]
-    private List<ItemData> idealDefensiveItems;
+    private List<ItemSO> idealDefensiveItems;
 
     [SerializeField]
-    private List<ItemData> idealUtilityItems;
+    private List<ItemSO> idealUtilityItems;
+
+    [SerializeField]
+    private PersonalityInfo personality;
 
     public string ID { get => id; }
 
     public Sprite ShipIconImage { get => m_shipIconImage; }
 
-    public List<ItemData> IdealStarterItems { get => idealStarterItems; }
+    public List<ItemSO> IdealStarterItems { get => idealStarterItems; }
 
-    public List<ItemData> IdealOffensiveItems { get => idealOffensiveItems; }
+    public List<ItemSO> IdealOffensiveItems { get => idealOffensiveItems; }
 
-    public List<ItemData> IdealDefensiveItems { get => idealDefensiveItems; }
+    public List<ItemSO> IdealDefensiveItems { get => idealDefensiveItems; }
 
-    public List<ItemData> IdealUtilityItems { get => idealUtilityItems; }
+    public List<ItemSO> IdealUtilityItems { get => idealUtilityItems; }
+
+    public PersonalityInfo Personality { get => personality; }
 }

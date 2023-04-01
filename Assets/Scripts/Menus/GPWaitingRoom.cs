@@ -137,7 +137,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     m_readyWaitCountDown = 0; // just so UI doesn't show negative numbers
 
-                    if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT || m_skippedPlayerSearch)
+                    if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MaxPlayerCount || m_skippedPlayerSearch)
                     {
                         if (!m_levelLoadedCalled)
                         {
@@ -186,6 +186,17 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
             m_skipSearchButtonHolder.SetActive(false);
         }
         m_photonView.RPC("RPCSkipPlayerSearch", RpcTarget.AllBuffered);
+    }
+
+    /// <summary>
+    /// Binded to a UI button only for development purposes. Disable the button for release.
+    /// Will fill up other player slots.
+    /// </summary>
+    public void AutoFillBotDevCheat()
+    {
+        //PhotonNetwork.CurrentRoom.SetBots();
+
+        SkipPlayerSearchDevCheat();
     }
 
     [PunRPC]
@@ -561,7 +572,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= Constants.MIN_PLAYER_COUNT)
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= SOManager.Instance.Constants.MaxPlayerCount)
         {
             m_photonView.RPC("OnMatchFound", RpcTarget.AllBuffered);
         }
@@ -591,7 +602,7 @@ public class GPWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
         int playersInSelectedTeam = GetNumberOfPlayersInTeam(m_choosedTeam, true);
 
         //check if player can still join the team.
-        if (playersInSelectedTeam < Constants.MAX_PLAYER_COUNT_PER_TEAM)
+        if (playersInSelectedTeam < SOManager.Instance.Constants.MaxPlayerPerTeam)
         {
             //join the team
             PhotonNetwork.LocalPlayer.SetTeam(m_choosedTeam);

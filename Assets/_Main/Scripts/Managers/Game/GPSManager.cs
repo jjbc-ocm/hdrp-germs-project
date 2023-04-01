@@ -15,6 +15,8 @@ public class GPSManager : MonoBehaviour
     [SerializeField]
     private LineRenderer pathMarker;
 
+    private PlayerManager player;
+
     private NavMeshAgent agent;
 
     void Awake()
@@ -26,7 +28,7 @@ public class GPSManager : MonoBehaviour
 
     void Update()
     {
-        var player = Player.Mine;
+        //var player = PlayerManager.Mine;
 
         if (player != null)
         {
@@ -43,8 +45,10 @@ public class GPSManager : MonoBehaviour
         }
     }
 
-    public void SetDestination(Vector3 position)
+    public void SetDestination(PlayerManager player, Vector3 position)
     {
+        this.player = player;
+
         agent.SetDestination(position);
 
         destinationMarker.SetActive(true);
@@ -56,6 +60,8 @@ public class GPSManager : MonoBehaviour
 
     public void ClearDestination()
     {
+        player = null;
+
         agent.isStopped = true;
 
         destinationMarker.SetActive(false);

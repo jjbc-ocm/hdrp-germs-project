@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5816341175208613859}
   - component: {fileID: 5816341175208613858}
   - component: {fileID: 4571636996137375491}
+  - component: {fileID: 9078103024687826944}
   m_Layer: 5
   m_Name: Item icon
   m_TagString: Untagged
@@ -134,6 +135,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9078103024687826944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5816341175208613868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDurationClick: 0
+  tweenEaseClick: 0
 --- !u!1 &5816341175723444726
 GameObject:
   m_ObjectHideFlags: 0

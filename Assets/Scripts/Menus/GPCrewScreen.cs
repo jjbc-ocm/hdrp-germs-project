@@ -204,7 +204,7 @@ public class GPCrewScreen : GPGUIScreen
     {
         if (m_visible)
         {
-            AudioManager.Instance.Play2D(m_shipChangedSFX);
+            //AudioManager.Instance.Play2D(m_shipChangedSFX);
         }
 
         m_currShipIdx = Mathf.Clamp(m_currShipIdx, 0, m_shipsCards.Count - 1);
@@ -214,14 +214,14 @@ public class GPCrewScreen : GPGUIScreen
         m_shipDesc.text = m_viewedShip.m_desc;
         m_shipAbility.text = m_viewedShip.m_ability;
 
-        m_health.text = m_viewedShip.m_playerPrefab.Stat.MaxHealth.ToString();
-        m_mana.text = m_viewedShip.m_playerPrefab.Stat.MaxMana.ToString();
-        m_dmg.text = m_viewedShip.m_playerPrefab.Stat.AttackDamage.ToString();
-        m_abilityPower.text = m_viewedShip.m_playerPrefab.Stat.AbilityPower.ToString();
-        m_atkSpeed.text = m_viewedShip.m_playerPrefab.Stat.AttackSpeed.ToString();
-        m_movSpeed.text = m_viewedShip.m_playerPrefab.Stat.MoveSpeed.ToString();
-        m_armor.text = m_viewedShip.m_playerPrefab.Stat.Armor.ToString();
-        m_magicResist.text = m_viewedShip.m_playerPrefab.Stat.Resist.ToString();
+        m_health.text = m_viewedShip.m_playerPrefab.Stat.MaxHealth().ToString();
+        m_mana.text = m_viewedShip.m_playerPrefab.Stat.MaxMana().ToString();
+        m_dmg.text = m_viewedShip.m_playerPrefab.Stat.AttackDamage().ToString();
+        m_abilityPower.text = m_viewedShip.m_playerPrefab.Stat.AbilityPower().ToString();
+        m_atkSpeed.text = m_viewedShip.m_playerPrefab.Stat.AttackSpeed().ToString();
+        m_movSpeed.text = m_viewedShip.m_playerPrefab.Stat.MoveSpeed().ToString();
+        m_armor.text = m_viewedShip.m_playerPrefab.Stat.Armor().ToString();
+        m_magicResist.text = m_viewedShip.m_playerPrefab.Stat.Resist().ToString();
 
         if (m_prevViewedCard)
         {
