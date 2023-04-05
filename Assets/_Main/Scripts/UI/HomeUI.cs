@@ -1,10 +1,14 @@
 
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HomeUI : WindowUI<HomeUI>
 {
+    [SerializeField]
+    private Transform cameraPos;
+
     async void Start()
     {
         SpinnerUI.Instance.Open();
@@ -23,7 +27,7 @@ public class HomeUI : WindowUI<HomeUI>
 
     public void OnCrewClick()
     {
-        CrewUI.Instance.Open();
+        CrewUI.Instance.Open((self) => { });
 
         Close();
     }
@@ -50,6 +54,6 @@ public class HomeUI : WindowUI<HomeUI>
 
     protected override void OnRefreshUI()
     {
-
+        Camera.main.transform.DOMove(cameraPos.transform.position, 0.25f).SetEase(Ease.InOutBounce);
     }
 }
