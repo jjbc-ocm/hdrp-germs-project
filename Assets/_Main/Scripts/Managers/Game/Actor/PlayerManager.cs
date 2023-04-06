@@ -91,9 +91,9 @@ public class PlayerManager : ActorManager, IPunObservable
         {
             chest.Obtain(this);
 
-            var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
+            //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
 
-            GPSManager.Instance.SetDestination(this, destination);
+            //GPSManager.Instance.SetDestination(this, destination);
         }
 
         // Handle collision to normal item
@@ -355,8 +355,8 @@ public class PlayerManager : ActorManager, IPunObservable
                 }
             }
 
-            /* Handle collected chest */
-            if (Stat.HasChest(0) || Stat.HasChest(1))
+            // Handle collected chest
+            if (Stat.HasChest())
             {
                 var team = 
                     Stat.HasChest(0) ? 0 : 
@@ -364,16 +364,26 @@ public class PlayerManager : ActorManager, IPunObservable
                     -1;
 
                 // TODO: do not hard-code
-                var prefabName = "Chest - " + (
-                    team == 0 ? "Red" :
-                    team == 1 ? "Blue" :
-                    "???");
+                var prefabName = 
+                    team == 0 ? "Chest - Red" :
+                    team == 1 ? "Chest - Blue" :
+                    "???";
 
                 PhotonNetwork.InstantiateRoomObject(prefabName, transform.position, Quaternion.identity);
 
-                GPSManager.Instance.ClearDestination();
+                //GPSManager.Instance.ClearDestination();
 
                 Stat.SetChest(false);
+            }
+
+            // Handle collected key
+            if (Stat.HasKey)
+            {
+                PhotonNetwork.InstantiateRoomObject("Key", transform.position, Quaternion.identity);
+
+                //GPSManager.Instance.ClearDestination();
+
+                Stat.SetKey(false);
             }
                 
             /* Reset stats */

@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviourPun
 
         UpdateCrosshair();
 
-        //UpdateDebugKeys();
+        UpdateDebugKeys();
     }
 
     #endregion
@@ -258,7 +258,7 @@ public class GameManager : MonoBehaviourPun
 
         var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
 
-        var layerMask = Utils.GetBulletHitMask(gameObject);
+        var layerMask = Utils.GetBulletHitMask(player.gameObject);
 
         direction = new Vector3(direction.x, 0, direction.z).normalized;
 

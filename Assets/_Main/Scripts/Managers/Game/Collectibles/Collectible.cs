@@ -21,7 +21,7 @@ public abstract class Collectible : GameEntityManager, IPunObservable
     {
         if (PlayerManager.Mine != null)
         {
-            graphics.SetActive(IsVisibleRelativeTo(PlayerManager.Mine.transform));
+            graphics.SetActive(IsVisibleRelativeTo(PlayerManager.Mine.GetTeam()));
         }
     }
 

@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TanksMP;
 using UnityEngine;
 
@@ -57,6 +58,21 @@ public abstract class GameEntityManager : MonoBehaviourPunCallbacks
             // TODO: still have to handle invisibility items
             //return (isInTargetRange || IsInSupremacyWard()) && !isInsideBush;
         }
+
+        return (isInTargetRange || IsInSupremacyWard()) && !isInsideBush;
+    }
+
+    public bool IsVisibleRelativeTo(int team)
+    {
+        var targets = team == 0 ? GameManager.Instance.Team1Ships : GameManager.Instance.Team2Ships;
+
+        var isInTargetRange = targets.Any(i => Vector3.Distance(transform.position, i.transform.position) <= SOManager.Instance.Constants.FogOrWarDistance);
+
+        /*if (target.TryGetComponent(out PlayerManager targetPlayer))
+        {
+            // TODO: still have to handle invisibility items
+            //return (isInTargetRange || IsInSupremacyWard()) && !isInsideBush;
+        }*/
 
         return (isInTargetRange || IsInSupremacyWard()) && !isInsideBush;
     }
