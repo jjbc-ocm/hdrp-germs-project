@@ -17,13 +17,13 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.49056602, g: 0.23834105, b: 0.4083055, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.007
+  m_FogDensity: 0.009
   m_LinearFogStart: 53.1
   m_LinearFogEnd: 105
   m_AmbientSkyColor: {r: 0.15599875, g: 0.057317656, b: 0.16470589, a: 1}
   m_AmbientEquatorColor: {r: 0.033018887, g: 0.9113891, b: 1, a: 1}
   m_AmbientGroundColor: {r: 0.16553658, g: 0.062477753, b: 0.33962262, a: 1}
-  m_AmbientIntensity: 0.39
+  m_AmbientIntensity: 0.1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.107318714, g: 0, b: 0.39607844, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: d38b94569e6ecde4092b59234b4d3abd, type: 2}
@@ -3090,11 +3090,11 @@ ReflectionProbe:
   m_FarClip: 50000
   m_ShadowDistance: 5
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0.8306871, b: 0.8867924, a: 1}
+  m_BackGroundColor: {r: 0.20754719, g: 0.090733014, b: 0.08301887, a: 1}
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 16374
-  m_IntensityMultiplier: 0.3
+  m_IntensityMultiplier: 0.1
   m_BlendDistance: 100
   m_HDR: 1
   m_BoxProjection: 0
@@ -3568,11 +3568,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 62849972313492855, guid: bbc93d4faab02b443a25cfce1bd85096, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.99
+      value: 10.13
       objectReference: {fileID: 0}
     - target: {fileID: 62849972313492855, guid: bbc93d4faab02b443a25cfce1bd85096, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.55
+      value: 16.03
       objectReference: {fileID: 0}
     - target: {fileID: 62849972313492855, guid: bbc93d4faab02b443a25cfce1bd85096, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4738,7 +4738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &225430630
 Transform:
   m_ObjectHideFlags: 0
@@ -7325,7 +7325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &313318613
 Transform:
   m_ObjectHideFlags: 0
@@ -22903,6 +22903,7 @@ MonoBehaviour:
   tweenDuration: 0
   tweenEaseOpen: 0
   tweenEaseClose: 0
+  textVersion: {fileID: 0}
   textMessage: {fileID: 1106144534}
   sliderProgress: {fileID: 568695230}
 --- !u!1 &1116316981
@@ -25545,8 +25546,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218422449}
-  m_LocalRotation: {x: 0.5744762, y: 0.06954642, z: 0.094396174, w: 0.8100801}
-  m_LocalPosition: {x: -2355.4092, y: 134.7885, z: 12873.103}
+  m_LocalRotation: {x: 0.15018274, y: 0.7847066, z: -0.599007, w: 0.053584844}
+  m_LocalPosition: {x: -2340.6328, y: 136.58664, z: 12901.396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39328,7 +39329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1864531381
 Transform:
   m_ObjectHideFlags: 0
