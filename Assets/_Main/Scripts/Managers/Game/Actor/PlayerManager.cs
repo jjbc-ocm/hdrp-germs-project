@@ -84,12 +84,14 @@ public class PlayerManager : ActorManager, IPunObservable
         if (key != null)
         {
             key.Obtain(this);
+            //key.photonView.RPC("RpcObtain", RpcTarget.All, photonView.ViewID);
         }
 
         // Handle collision to chest
         else if (chest != null)
         {
             chest.Obtain(this);
+            //chest.photonView.RPC("RpcObtain", RpcTarget.All, photonView.ViewID);
 
             //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
 
@@ -100,6 +102,7 @@ public class PlayerManager : ActorManager, IPunObservable
         else if (collectible != null)
         {
             collectible.Obtain(this);
+            //collectible.photonView.RPC("RpcObtain", RpcTarget.All, photonView.ViewID);
         }
     }
 

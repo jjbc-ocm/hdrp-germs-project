@@ -34,55 +34,31 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - AddPlayer
+  - AddGold
   - ClickRpc
-  - CmdShoot
-  - Destroy
   - DestroyRpc
   - DestroySpaceship
-  - Drop
   - Fire
-  - Instantiate
-  - Pickup
+  - OnMatchFound
+  - RemovePlayerFromPanelsUI
   - RespawnSpaceship
-  - Return
-  - RpcGameOver
-  - RpcRespawn
-  - SetRespawn
-  - SpawnItem
-  - RpcRespawnOld
+  - RpcActionActor
+  - RpcActionMonster
+  - RpcBroadcastKillStatement
+  - RpcDamageHealth
   - RpcDestroy
-  - RpcRevive
-  - RpcAttack
-  - RpcSkill
-  - RpcAction
-  - RPCOnPlayerKilled
-  - RPCPlayAniamtionTrigger
-  - RPCPlayAnimationTrigger
+  - RpcGameOver
+  - RpcObtain
   - RPCOnDie
   - RPCOnHurt
   - RPCOnMeleeHit
-  - RpcHasChest
-  - RpcCollect
-  - RpcHpDamage
-  - RpcDamageHealth
   - RPCOnRespawn
-  - AddGold
-  - RpcDie
-  - UpdatePlayerPanelsUI
-  - RPCSetReady
-  - OnMatchFound
-  - RPCSkipPlayerSearch
-  - RpcBroadcastKillStatement
-  - RPCAddKill
+  - RPCPlayAnimationTrigger
+  - RpcRevive
   - RpcSendChat
-  - RemovePlayerFromPanelsUI
-  - RpcHitscanVfx
-  - RpcHitscanEffect
-  - RPCSpawnCoinsForPlayer
-  - RpcActionActor
-  - RpcActionMonster
-  - Test
+  - RPCSetReady
+  - RPCSkipPlayerSearch
+  - UpdatePlayerPanelsUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

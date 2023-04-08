@@ -6,9 +6,9 @@ using UnityEngine;
 public class RpcManager : Singleton<RpcManager>
 {
 
-    [PunRPC]
+    /*[PunRPC]
     public void Test()
     {
 
-    }
+    }*/
 }
