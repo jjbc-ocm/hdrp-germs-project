@@ -87,14 +87,14 @@ public class GPCrewScreen : GPGUIScreen
         // So the description displays the info of the first ship
         OnCurrentShipChanged();
 
-        LeanTween.move(m_camera.gameObject, m_crewCameraPos, m_transitionTime).setEaseSpring();
+        //LeanTween.move(m_camera.gameObject, m_crewCameraPos, m_transitionTime).setEaseSpring();
     }
 
     public override void Hide()
     {
         base.Hide();
 
-        LeanTween.move(m_camera.gameObject, m_homeCameraPos, m_transitionTime).setEaseSpring();
+        //LeanTween.move(m_camera.gameObject, m_homeCameraPos, m_transitionTime).setEaseSpring();
 
         ChangeShipModel(m_selectedShip);
     }

@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 5391126101812049881}
   - component: {fileID: 5391126101812049882}
   m_Layer: 5
-  m_Name: Status icon
+  m_Name: Status Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -676,9 +676,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8829bd45527c3c4a8977b5f8304db78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteStatuses:
+  - {fileID: 21300000, guid: b2b2b5de96fed40d2898dd15c17892e6, type: 3}
+  - {fileID: 21300000, guid: 4ad15db1aebb749f5b1846fbbfa25de7, type: 3}
   textName: {fileID: 5391126101993832703}
   textStatus: {fileID: 5391126101444936239}
-  objectStatus: {fileID: 5391126101812049876}
+  imageStatus: {fileID: 5391126101812049882}
 --- !u!1 &5391126102450354458
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +955,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5391126102165112741}
     m_Modifications:
+    - target: {fileID: 2957018857357331509, guid: c7cef89d26ee2b84297bba3a8737d88f, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 3126266231770999643}
     - target: {fileID: 6833722952399979276, guid: c7cef89d26ee2b84297bba3a8737d88f, type: 3}
       propertyPath: m_Name
       value: UserMiniatureUI
@@ -1103,3 +1110,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6833722952399979315, guid: c7cef89d26ee2b84297bba3a8737d88f, type: 3}
   m_PrefabInstance: {fileID: 5260087506252996163}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3126266231770999643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7177945218059891992, guid: c7cef89d26ee2b84297bba3a8737d88f, type: 3}
+  m_PrefabInstance: {fileID: 5260087506252996163}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
