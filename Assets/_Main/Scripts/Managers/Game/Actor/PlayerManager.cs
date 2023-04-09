@@ -84,14 +84,16 @@ public class PlayerManager : ActorManager, IPunObservable
         if (key != null)
         {
             key.Obtain(this);
-            //key.photonView.RPC("RpcObtain", RpcTarget.All, photonView.ViewID);
+
+            //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
+
+            //GPSManager.Instance.SetDestination(this, destination);
         }
 
         // Handle collision to chest
         else if (chest != null)
         {
             chest.Obtain(this);
-            //chest.photonView.RPC("RpcObtain", RpcTarget.All, photonView.ViewID);
 
             //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
 

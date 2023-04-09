@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using TanksMP;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -21,22 +22,25 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField]
     private AudioClip[] musicClips;
 
+    private int clipIndexPlaying;
+
     public AudioClip[] MusicClips { get => musicClips; }
 
-
-    // Stop playing music after switching scenes. To keep playing
-    // music in the new scene, this requires calling PlayMusic() again.
-    /*void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        musicSource.Stop();
-    }*/
-
+    public int ClipIndexPlaying { get => clipIndexPlaying; }
 
     public void PlayMusic(int index)
     {
+        /*StartCoroutine(FadeOut(musicSource, 1f));
+
         musicSource.clip = musicClips[index];
 
         musicSource.Play();
+
+        StartCoroutine(FadeIn(musicSource, 1f));*/
+
+        StartCoroutine(FadeOutAndIn(musicSource, musicSource.clip, musicClips[index], 1f));
+
+        clipIndexPlaying = index;
     }
 
     public void Play2D(AudioClip clip)
@@ -69,4 +73,81 @@ public class AudioManager : Singleton<AudioManager>
     {
         audioMixer.SetFloat("volumeSound", value);
     }
+
+
+
+
+
+
+    #region Private
+
+    private IEnumerator FadeIn(AudioSource audioSource, float duration)
+    {
+        float startTime = Time.time;
+        float startVolume = 0.0f;
+        float endVolume = 1.0f;
+
+        while (Time.time < startTime + duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            audioSource.volume = Mathf.Lerp(startVolume, endVolume, t);
+            yield return null;
+        }
+
+        audioSource.volume = endVolume;
+    }
+
+    private IEnumerator FadeOut(AudioSource audioSource, float duration)
+    {
+        float startTime = Time.time;
+        float startVolume = audioSource.volume;
+        float endVolume = 0.0f;
+
+        while (Time.time < startTime + duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            audioSource.volume = Mathf.Lerp(startVolume, endVolume, t);
+            yield return null;
+        }
+
+        audioSource.volume = endVolume;
+        audioSource.Stop();
+    }
+
+    private IEnumerator FadeOutAndIn(AudioSource audioSource, AudioClip clipToFadeOut, AudioClip clipToFadeIn, float duration)
+    {
+        // Fade out the current clip
+        float startTime = Time.time;
+        float startVolume = audioSource.volume;
+        float endVolume = 0.0f;
+
+        while (Time.time < startTime + duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            audioSource.volume = Mathf.Lerp(startVolume, endVolume, t);
+            yield return null;
+        }
+
+        audioSource.volume = endVolume;
+        audioSource.Stop();
+
+        // Fade in the new clip
+        audioSource.clip = clipToFadeIn;
+        audioSource.Play();
+
+        startTime = Time.time;
+        startVolume = 0.0f;
+        endVolume = 1.0f;
+
+        while (Time.time < startTime + duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            audioSource.volume = Mathf.Lerp(startVolume, endVolume, t);
+            yield return null;
+        }
+
+        audioSource.volume = endVolume;
+    }
+
+    #endregion
 }
