@@ -14,7 +14,11 @@ namespace TanksMP
 
         protected override void OnObtain(PlayerManager player)
         {
+            Debug.Log("Collectible Mana");
+
             player.Stat.AddMana(amount);
+
+            Debug.Log("Collectible Mana End");
         }
 
         /*public override bool Apply(Player p)

@@ -23,6 +23,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     private bool isConnecting;
 
+    private bool isJoined;
+
     private bool isPreparationInitiated;
 
     #endregion
@@ -100,12 +102,16 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
         timeLastPlayerJoined = PhotonNetwork.Time;
 
+        isJoined = true;
+
         PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
     }
 
     public override void OnLeftRoom()
     {
         status = "Match making canceled...";
+
+        isJoined = false;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

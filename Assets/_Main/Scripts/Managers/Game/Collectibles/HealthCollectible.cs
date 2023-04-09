@@ -11,6 +11,8 @@ namespace TanksMP
     {
         protected override void OnObtain(PlayerManager player)
         {
+            Debug.Log("Collectible Health");
+
             var amount = player.Stat.MaxHealth() / 2;
 
             player.Stat.AddHealth(amount);
@@ -19,6 +21,8 @@ namespace TanksMP
             {
                 PopupManager.Instance.ShowHeal(amount, transform.position);
             }
+
+            Debug.Log("Collectible Health End");
         }
 
         /*public override bool Apply(Player p)

@@ -54,10 +54,10 @@ public class GameManager : MonoBehaviourPun
         battleResults = new BattleResultType[SOManager.Instance.Constants.MaxTeam];
     }
 
-    private void Start()
+    /*private void Start()
     {
-        AudioManager.Instance.PlayMusic(1);
-    }
+        AudioManager.Instance.PlayMusic(0);
+    }*/
 
     private void Update()
     {
@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviourPun
         }
 
         UpdateCrosshair();
+
+        UpdateMusic();
 
         //UpdateDebugKeys();
     }
@@ -258,7 +260,7 @@ public class GameManager : MonoBehaviourPun
 
         var maxDistance = SOManager.Instance.Constants.FogOrWarDistance;
 
-        var layerMask = Utils.GetBulletHitMask(gameObject);
+        var layerMask = Utils.GetBulletHitMask(player.gameObject);
 
         direction = new Vector3(direction.x, 0, direction.z).normalized;
 
@@ -271,6 +273,18 @@ public class GameManager : MonoBehaviourPun
         else
         {
             CrosshairUI.Instance.Target = targetPosition;
+        }
+    }
+
+    private void UpdateMusic()
+    {
+        var enemyTeam = PlayerManager.Mine.GetTeam() == 0 ? 1 : 0;
+
+        var targetIndex = PlayerManager.Mine.IsVisibleRelativeTo(enemyTeam) ? 1 : 0; // TODO: check if I'm at peace or at war
+
+        if (AudioManager.Instance.ClipIndexPlaying != targetIndex)
+        {
+            AudioManager.Instance.PlayMusic(targetIndex);
         }
     }
 
