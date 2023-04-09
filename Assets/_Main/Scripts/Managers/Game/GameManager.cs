@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviourPun
 
         UpdateMusic();
 
-        UpdateDebugKeys();
+        //UpdateDebugKeys();
     }
 
     #endregion
