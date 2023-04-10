@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class FriendsUI : ListViewUI<FriendItemUI, FriendsUI>
     [SerializeField]
     private GameObject handle;
 
-    private List<FriendInfo> Data { get; set; }
+    private IEnumerable<Friend> Data { get; set; }
 
     #region Unity
 
@@ -61,7 +62,7 @@ public class FriendsUI : ListViewUI<FriendItemUI, FriendsUI>
 
             RefreshUI((self) =>
             {
-                self.Data = APIManager.Instance.GetFriends();
+                self.Data = SteamFriends.GetFriends();//APIManager.Instance.GetFriends();
             });
         }
     }

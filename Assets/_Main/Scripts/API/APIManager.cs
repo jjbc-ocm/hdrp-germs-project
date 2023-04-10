@@ -22,11 +22,8 @@ public class APIManager : Singleton<APIManager>
 
     private PlayerData playerData;
 
-    private List<FriendInfo> friends;
-
     public PlayerData PlayerData { get => playerData; }
 
-    public List<FriendInfo> Friends { get => friends; }
 
     #region Unity
 
@@ -45,6 +42,11 @@ public class APIManager : Singleton<APIManager>
         });
     }
 
+    private void OnApplicationQuit()
+    {
+        SteamClient.Shutdown();
+    }
+
     #endregion
 
 
@@ -54,11 +56,17 @@ public class APIManager : Singleton<APIManager>
 
     public void Initialize(Action<string, float> onProgress)
     {
-        if (!SteamManager.Initialized && !devSettings.LoginAsAnonymous)
+        try
         {
+            SteamClient.Init(SOManager.Instance.Constants.AppID);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+
             // TODO: notify the player to open their steam or connect to internet to be able to continue
 
-            return;
+            if (!devSettings.LoginAsAnonymous) return;
         }
 
         
@@ -95,41 +103,6 @@ public class APIManager : Singleton<APIManager>
         }
     }
 
-    public List<FriendInfo> GetFriends()
-    {
-        //SteamFriends.ActivateGameOverlay("Friends");
-
-        var list = new List<FriendInfo>();
-
-        var count = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagAll);
-
-        for (var i = 0; i < count; i++)
-        {
-            var steamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagAll);
-
-            list.Add(new FriendInfo
-            {
-                SteamID = steamId,
-
-                Name = SteamFriends.GetFriendPersonaName(steamId),
-
-                Status = SteamFriends.GetFriendPersonaState(steamId)
-            });
-        }
-
-        return list;
-    }
-
-    public void InviteFriend(CSteamID steamId)
-    {
-        SteamFriends.InviteUserToGame(steamId, "TEST");
-
-        Callback<GameRichPresenceJoinRequested_t>.Create((callback) =>
-        {
-            Debug.Log(callback.m_rgchConnect + " " + callback.m_steamIDFriend);
-        });
-    }
-
     #endregion
 
     #region Private
@@ -138,20 +111,9 @@ public class APIManager : Singleton<APIManager>
     {
         if (!devSettings.LoginAsAnonymous)
         {
-            var sessionTicket = "";
+            var ticket = SteamUser.GetAuthSessionTicket();
 
-            Callback<GetAuthSessionTicketResponse_t>.Create((callback) =>
-            {
-                onSuccess.Invoke(sessionTicket);
-            });
-
-            var buffer = new byte[1024];
-
-            SteamUser.GetAuthSessionTicket(buffer, buffer.Length, out var ticketSize);
-
-            Array.Resize(ref buffer, (int)ticketSize);
-
-            sessionTicket = BitConverter.ToString(buffer).Replace("-", string.Empty);
+            onSuccess.Invoke(BitConverter.ToString(ticket.Data).Replace("-", string.Empty));
         }
         else
         {
@@ -194,7 +156,7 @@ public class APIManager : Singleton<APIManager>
         }
 
         /* Always update the name based on the name using on Steam */
-        playerData.SetName(devSettings.LoginAsAnonymous ? "Anonymous User" : SteamFriends.GetPersonaName());
+        playerData.SetName(devSettings.LoginAsAnonymous ? "Anonymous User" : SteamClient.Name);
 
         /* Save data to cloud save */
         await playerData.Put();

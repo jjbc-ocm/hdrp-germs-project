@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SOManager : MonoBehaviour
+public class SOManager : Singleton<SOManager>
 {
-    public static SOManager Instance;
-
     [SerializeField]
     private ConstantsSO constants;
 
@@ -29,8 +27,6 @@ public class SOManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
 }
