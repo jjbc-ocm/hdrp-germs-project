@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Dummy Pirates/Constants")]
 public class ConstantsSO : ScriptableObject
 {
+    [Header("Steam")]
+
+    [SerializeField]
+    private uint appID = 2261610;
+
+    public uint AppID { get => appID; }
+
     [Header("Network")]
 
     [SerializeField]

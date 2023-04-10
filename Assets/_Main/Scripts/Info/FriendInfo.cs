@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FriendInfo
+public class FriendInfoOld
 {
-    private CSteamID steamId;
+    /*private CSteamID steamId;
 
     private string name;
 
@@ -15,5 +15,5 @@ public class FriendInfo
 
     public string Name { get => name; set => name = value; }
 
-    public EPersonaState Status { get => status; set => status = value; }
+    public EPersonaState Status { get => status; set => status = value; }*/
 }
