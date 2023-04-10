@@ -94,7 +94,7 @@ public class PlayerSoundVisualManager : MonoBehaviour
         {
             if (PlayerManager.Mine != null)
             {
-                var isActive = !isInvisible && player.IsVisibleRelativeTo(PlayerManager.Mine.transform);
+                var isActive = !isInvisible && player.IsVisibleRelativeTo(PlayerManager.Mine.GetTeam());
 
                 rendererShip.gameObject.SetActive(isActive);
 

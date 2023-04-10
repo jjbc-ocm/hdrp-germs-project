@@ -19,13 +19,13 @@ public class FriendItemUI : UI<FriendItemUI>
     [SerializeField]
     private Image imageStatus;
 
-    public FriendInfo Data { get; set; }
+    public Friend Data { get; set; }
 
     #region Public
 
     public void InviteButtonClick()
     {
-        APIManager.Instance.InviteFriend(Data.SteamID);
+        //APIManager.Instance.InviteFriend(Data.SteamID);
     }
 
     #endregion
@@ -47,32 +47,24 @@ public class FriendItemUI : UI<FriendItemUI>
 
     private string GetStatusAsString()
     {
-        if (Data.Status == EPersonaState.k_EPersonaStateOffline)
+        if (Data.IsOnline)
             return "Offline";
 
-        if (Data.Status == EPersonaState.k_EPersonaStateBusy)
+        if (Data.IsBusy)
             return "Busy";
 
-        if (Data.Status == EPersonaState.k_EPersonaStateAway ||
-            Data.Status == EPersonaState.k_EPersonaStateSnooze)
+        if (Data.IsAway)
             return "Away";
 
-        return "Online";
+        return "Offline";
     }
 
     private Sprite GetStatusAsSprite()
     {
-        if (Data.Status == EPersonaState.k_EPersonaStateOffline)
-            return spriteStatuses[0];
+        if (Data.IsOnline)
+            return spriteStatuses[1];
 
-        if (Data.Status == EPersonaState.k_EPersonaStateBusy)
-            return spriteStatuses[0];
-
-        if (Data.Status == EPersonaState.k_EPersonaStateAway ||
-            Data.Status == EPersonaState.k_EPersonaStateSnooze)
-            return spriteStatuses[0];
-
-        return spriteStatuses[1];
+        return spriteStatuses[0];
     }
 
     #endregion
