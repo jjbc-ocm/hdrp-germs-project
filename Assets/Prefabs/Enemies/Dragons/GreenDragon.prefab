@@ -215,7 +215,6 @@ MonoBehaviour:
   m_health: {fileID: 6198374858569578704}
   m_detectionTrigger: {fileID: 5696015179258554672}
   m_meleeDamageTrigger: {fileID: 4396148897698546822}
-  m_goldTrigger: {fileID: 2365253748316645809}
   m_model: {fileID: 5696015177533450300}
   m_monsterHPBar: {fileID: 8789991284634359717}
   m_rotateSpeed: 3
@@ -246,7 +245,6 @@ MonoBehaviour:
     m_duration: 1
   m_attacking: 0
   m_playersInRange: []
-  m_playersInGoldRange: []
   m_playersWhoDamageIt: []
   m_lastHitPlayer: {fileID: 0}
   m_destroyTime: 3
@@ -261,7 +259,7 @@ MonoBehaviour:
   m_attackSpeed: 50
   m_hurtSFX: {fileID: 8300000, guid: 0f6e6cde7431023478fa143d637d7634, type: 3}
   m_deathSFX: {fileID: 8300000, guid: 3a511bb3ebc631f44b51ee2c2504ece2, type: 3}
-  m_meleeAtkHitSFX: {fileID: 8300000, guid: 1cfe9286d58642749a4834e078b6f353, type: 3}
+  m_meleeAtkHitSFX: {fileID: 8300000, guid: 236de8da8a4a38e4a8e35c6538b4f550, type: 3}
   m_renderers:
   - {fileID: 5696015177533450292}
   - {fileID: 860638041332591150}
@@ -508,17 +506,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
---- !u!114 &2365253748316645809 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3563861270606863765, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
-  m_PrefabInstance: {fileID: 1271828400706188324}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b938b811b6f7b84478416b28f771d283, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5317650855648837366 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6371017281301400274, guid: 808fe6c58da43a04da7838a52d7d03f8, type: 3}
