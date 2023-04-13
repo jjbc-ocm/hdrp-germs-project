@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 9db30a16efd0f064aa937033db078d60, type: 2}
-  damage: 3
-  duration: 10
+  duration: 5
   sustainDelay: 0.5
   radius: 12.5
 --- !u!1001 &2617547934151666480
@@ -358,6 +357,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4366900416157295908, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366900416157295908, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
       propertyPath: EmissionModule.m_BurstCount
       value: 0
       objectReference: {fileID: 0}
@@ -446,6 +449,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5949270249505147935, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5949270249505147935, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
       propertyPath: InitialModule.maxNumParticles
       value: 300
       objectReference: {fileID: 0}
@@ -464,6 +471,10 @@ PrefabInstance:
     - target: {fileID: 8771273815034864989, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
       propertyPath: prewarm
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771273815034864989, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
+      propertyPath: lengthInSec
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8771273815034864989, guid: c75e302e0191e4049ad0274e59a3a7b8, type: 3}
       propertyPath: InitialModule.maxNumParticles

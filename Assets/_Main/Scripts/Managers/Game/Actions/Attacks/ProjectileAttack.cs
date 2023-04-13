@@ -10,15 +10,6 @@ public class ProjectileAttack : AttackBase
     [SerializeField]
     private AudioClip hitClip;
 
-    [SerializeField]
-    private AudioClip explosionClip;
-
-    [SerializeField]
-    private GameObject hitFX;
-
-    [SerializeField]
-    private GameObject explosionFX;
-
     private Rigidbody rigidBody;
 
 
@@ -44,7 +35,7 @@ public class ProjectileAttack : AttackBase
 
             ApplyEffect(owner, actor);
 
-            if (hitFX) Instantiate(hitFX, transform.position, Quaternion.identity);
+            //if (hitFX) Instantiate(hitFX, transform.position, Quaternion.identity);
 
             if (hitClip) AudioManager.Instance.Play3D(hitClip, transform.position);
 
