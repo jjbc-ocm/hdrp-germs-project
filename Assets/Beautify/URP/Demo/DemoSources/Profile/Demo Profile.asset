@@ -177,19 +177,19 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.45
   sharpenMotionSensibility:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.5
   sharpenMotionRestoreSpeed:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.5
   antialiasStrength:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 12.9
   antialiasDepthThreshold:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.00027
   antialiasSpread:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 3
   antialiasDepthAttenuation:
     m_OverrideState: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
     m_Value: 0
   brightness:
     m_OverrideState: 1
-    m_Value: 1.31
+    m_Value: 1
   contrast:
     m_OverrideState: 1
     m_Value: 1
@@ -229,25 +229,25 @@ MonoBehaviour:
     m_Value: 10455
   colorTempBlend:
     m_OverrideState: 1
-    m_Value: 0.621
+    m_Value: 0.614
   lut:
     m_OverrideState: 1
     m_Value: 1
   lutIntensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.316
   lutTexture:
     m_OverrideState: 1
     m_Value: {fileID: 2800000, guid: cb660b42a27954f348c1567c26aaf7c9, type: 3}
   bloomIntensity:
     m_OverrideState: 1
-    m_Value: 6.73
+    m_Value: 1.4
   bloomThreshold:
     m_OverrideState: 1
-    m_Value: 1.8
+    m_Value: 0.9
   bloomSpread:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.357
   bloomMaxBrightness:
     m_OverrideState: 0
     m_Value: 2
@@ -317,10 +317,10 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {r: 0.5, g: 0.5, b: 1, a: 0}
   anamorphicFlaresIntensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1.24
   anamorphicFlaresThreshold:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 4.68
   anamorphicFlaresTint:
     m_OverrideState: 0
@@ -329,13 +329,13 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   anamorphicFlaresSpread:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.186
   anamorphicFlaresDepthAtten:
     m_OverrideState: 0
     m_Value: 23.21
   anamorphicFlaresNearAtten:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 8
   anamorphicFlaresExcludeLayers:
     m_OverrideState: 0
@@ -346,13 +346,13 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
   anamorphicFlaresAntiflicker:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   anamorphicFlaresResolution:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   anamorphicFlaresQuickerBlur:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   sunFlaresIntensity:
     m_OverrideState: 0
@@ -486,7 +486,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   depthOfField:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   depthOfFieldFocusMode:
     m_OverrideState: 0
@@ -539,8 +539,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   depthOfFieldTransparentSupport:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   depthOfFieldTransparentLayerMask:
     m_OverrideState: 0
     m_Value:
@@ -600,19 +600,19 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   eyeAdaptation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   eyeAdaptationMinExposure:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.2
   eyeAdaptationMaxExposure:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 5
   eyeAdaptationSpeedToLight:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.4
   eyeAdaptationSpeedToDark:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.2
   purkinje:
     m_OverrideState: 0
@@ -628,9 +628,9 @@ MonoBehaviour:
     m_Value: 0.2
   vignettingInnerRing:
     m_OverrideState: 1
-    m_Value: 0.645
+    m_Value: 0.798
   vignettingFade:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   vignettingCircularShape:
     m_OverrideState: 0
@@ -663,16 +663,16 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {r: 0, g: 0, b: 0, a: 0.8}
   outlineThreshold:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.159
   outlineCustomize:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   outlineStageParameter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 10
   outlineSpread:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.559
   outlineBlurPassCount:
     m_OverrideState: 0
