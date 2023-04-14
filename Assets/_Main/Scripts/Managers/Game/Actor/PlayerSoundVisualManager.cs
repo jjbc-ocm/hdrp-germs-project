@@ -48,6 +48,17 @@ public class PlayerSoundVisualManager : MonoBehaviour
     [SerializeField]
     private GameObject dummyInvisible;
 
+    [Header("Wind")]
+
+    [SerializeField]
+    private GameObject windAnchor;
+
+    [SerializeField]
+    private GameObject windNormal;
+
+    [SerializeField]
+    private GameObject windFast;
+
     private PlayerManager player;
 
     private PlayerInventoryManager inventory;
@@ -82,6 +93,8 @@ public class PlayerSoundVisualManager : MonoBehaviour
     {
         var isInvisible = inventory.StatModifier.IsInvisible || status.StatModifier.IsInvisible;
 
+        UpdateWind();
+
         if (player.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
             rendererShip.material = isInvisible ? materialInvisible : materialNormal;
@@ -112,6 +125,32 @@ public class PlayerSoundVisualManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    #endregion
+
+    #region Private
+
+    private void UpdateWind()
+    {
+        var isMine = PlayerManager.Mine == player;
+
+        windAnchor.SetActive(isMine);
+
+        if (isMine)
+        {
+            var isMoving = player.RigidBody.velocity.magnitude > 1;
+
+            var isMovingForward = InputManager.Instance.Move.y >= 0;
+
+            //windAnchor.transform.localEulerAngles = ( ? Vector3.zero : Vector3.up) * 180;
+
+            windNormal.SetActive(isMoving && isMovingForward && !InputManager.Instance.IsSprint);
+
+            windFast.SetActive(isMoving && isMovingForward && InputManager.Instance.IsSprint);
+        }
+
+        
     }
 
     #endregion
