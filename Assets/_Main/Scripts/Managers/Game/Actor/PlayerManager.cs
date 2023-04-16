@@ -81,30 +81,21 @@ public class PlayerManager : ActorManager, IPunObservable
         var collectible = col.GetComponent<Collectible>();
 
         // Handle collision to key
-        if (key != null)
+        if (key)
         {
-            key.Obtain(this);
-
-            //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
-
-            //GPSManager.Instance.SetDestination(this, destination);
+            key.photonView.RPC("RpcObtain", photonView.Owner, photonView.ViewID);
         }
 
         // Handle collision to chest
-        else if (chest != null)
+        else if (chest)
         {
-            chest.Obtain(this);
-
-            //var destination = GameManager.Instance.GetBase(GetTeam()).transform.position;
-
-            //GPSManager.Instance.SetDestination(this, destination);
+            chest.photonView.RPC("RpcObtain", photonView.Owner, photonView.ViewID);
         }
 
         // Handle collision to normal item
-        else if (collectible != null)
+        else if (collectible)
         {
-            collectible.Obtain(this);
-            //collectible.photonView.RPC("RpcObtain", RpcTarget.All, photonView.ViewID);
+            collectible.photonView.RPC("RpcObtain", photonView.Owner, photonView.ViewID);
         }
     }
 
@@ -246,55 +237,21 @@ public class PlayerManager : ActorManager, IPunObservable
     }
 
     [PunRPC]
-    public void RpcDestroy(int attackerId)
+    // This method must received by all
+    // This must use when disabling/enabling the object back during respawning process
+    public void RpcSetAvailability(bool isAvailable)
     {
-        var attackerView = PhotonView.Find(attackerId);
+        SoundVisuals.RendererAnchor.SetActive(isAvailable);
 
-        if (photonView.IsMine)
+        foreach (var collider in Colliders)
         {
-            //send player back to the team area, this will get overwritten by the exact position from the client itself later on
-            //we just do this to avoid players "popping up" from the position they died and then teleporting to the team area instantly
-            //this is manipulating the internal PhotonTransformView cache to update the networkPosition variable
-            /*GetComponent<PhotonTransformView>().OnPhotonSerializeView(
-                new PhotonStream(
-                    false,
-                    new object[]
-                    {
-                        //GameManager.Instance.GetSpawnPosition(photonView.GetTeam()),
-                        GameNetworkManager.Instance.SpawnPoints[photonView.GetTeam()].position,
-                        Vector3.zero,
-                        Quaternion.identity
-                    }),
-                new PhotonMessageInfo());*/
-
-            ResetPosition(false);
-        }
-
-        ToggleFunction(false);
-
-        if (photonView.IsMine)
-        {
-            if (!IsBot)
-            {
-                //var target = attackerView.TryGetComponent(out PlayerManager player) ? player.cameraFollow : attackerView.transform;
-
-                //GameCameraManager.Instance.SetTarget(target);
-
-                GameManager.Instance.AimCameraToNextPlayer();
-            }
-                
-            photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerView.ViewID, photonView.ViewID);
-
-            StartCoroutine(SpawnRoutine());
-        }
-
-        if (onDieEvent != null)
-        {
-            onDieEvent.Invoke(photonView.ViewID);
+            collider.enabled = isAvailable;
         }
     }
 
     [PunRPC]
+    // This method must received by all
+    // Similar to RpcSetAvailability, but this is to show in UI instead
     public void RpcBroadcastKillStatement(int attackerId, int defenderId)
     {
         var winner = PhotonView.Find(attackerId).GetComponent<ActorManager>();
@@ -305,62 +262,43 @@ public class PlayerManager : ActorManager, IPunObservable
     }
 
     [PunRPC]
-    public void RpcRevive()
-    {
-        ToggleFunction(true);
-
-        if (photonView.IsMine)
-        {
-            ResetPosition(true);
-        }
-    }
-
-    [PunRPC]
     public void RpcGameOver()
     {
         GameManager.Instance.DisplayGameOver(Array.IndexOf(GameManager.Instance.BattleResults, BattleResultType.Victory));
     }
 
     [PunRPC]
+    // This method must only received by the player who will get damaged
     public override void RpcDamageHealth(int amount, int attackerId)
     {
-        /* Do not damage this ship if respawning */
+        // Do not damage this ship if respawning
         if (isRespawning) return;
 
         Stat.AddHealth(-amount);
-
-        var attacker = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
         
-        /*if ((Mine == this || Mine == attacker) && amount > 0)
-        {
-            PopupManager.Instance.ShowDamage(amount, transform.position);
-        }*/
-        
+        // Additional logic must be executed if this ship is destroyed
         if (Stat.Health <= 0)
         {
-            /* Add score to opponent */
+            var attacker = PhotonView.Find(attackerId)?.GetComponent<ActorManager>() ?? null;
+
+            // Add score to opponent
             if (attacker != null)
             {
                 var attackerTeam = attacker.GetTeam();
 
                 if (GetTeam() != attackerTeam)
                 {
-                    //GameManager.Instance.AddScore(ScoreType.Kill, attackerTeam);
                     GameManager.Instance.AddScoreByKill(attackerTeam);
 
                     GPRewardSystem.m_instance.AddGoldToPlayer(attacker, "Kill");
                 }
 
-                /* If the attacker is me, add kill count, then broadcast it */
-                if (attacker.photonView.IsMine && attacker.TryGetComponent(out PlayerManager attackerPlayer))
-                {
-                    attackerPlayer.Stat.AddKill();
-
-                    photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
-                }
+                // Add kill counter to the attacker. But since I cannot directly do it since that property is owned by attacker,
+                // I'll do a RPC call to tell to that attacker that it got a kill counter instead.
+                attacker.photonView.RPC("RpcAddKill", attacker.photonView.Owner);
             }
 
-            // Handle collected chest
+            // Drop chest if there is
             if (Stat.HasChest())
             {
                 var team = 
@@ -376,30 +314,30 @@ public class PlayerManager : ActorManager, IPunObservable
 
                 PhotonNetwork.InstantiateRoomObject(prefabName, transform.position, Quaternion.identity);
 
-                //GPSManager.Instance.ClearDestination();
-
                 Stat.SetChest(false);
             }
 
-            // Handle collected key
+            // Drop key if there is
             if (Stat.HasKey)
             {
                 PhotonNetwork.InstantiateRoomObject("Key", transform.position, Quaternion.identity);
 
-                //GPSManager.Instance.ClearDestination();
-
                 Stat.SetKey(false);
             }
                 
-            /* Reset stats */
+            // Reset anything that needed to be reset
             Stat.SetHealth(Stat.MaxHealth());
 
             Stat.SetMana(Stat.MaxMana());
 
             Stat.AddDeath();
 
-            /* Broadcast to all player that this ship is destroyed */
-            photonView.RPC("RpcDestroy", RpcTarget.All, attackerId);
+            ResetAndDestroy();
+
+            // Broadcast to all players that this ship has been destroyed
+            photonView.RPC("RpcSetAvailability", RpcTarget.All, false);
+
+            photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
 
             GuideManager.Instance.TryAddShopGuide();
         }
@@ -407,9 +345,9 @@ public class PlayerManager : ActorManager, IPunObservable
 
     #endregion
 
-    #region Public
+    #region Private
 
-    public void ResetPosition(bool isCameraFollow)
+    private void ResetPosition(bool isCameraFollow)
     {
         if (isCameraFollow && !IsBot)
         {
@@ -424,12 +362,6 @@ public class PlayerManager : ActorManager, IPunObservable
         RigidBody.velocity = Vector3.zero;
         RigidBody.angularVelocity = Vector3.zero;
     }
-
-    #endregion
-
-    #region Private
-        
-    
 
     private void ExecuteActionAim(SkillData action, bool isAttack)
     {
@@ -470,7 +402,19 @@ public class PlayerManager : ActorManager, IPunObservable
             isAttack);
     }
 
-    private IEnumerator SpawnRoutine()
+    private void ResetAndDestroy()
+    {
+        ResetPosition(false);
+
+        if (!IsBot)
+        {
+            GameManager.Instance.AimCameraToNextPlayer();
+        }
+
+        StartCoroutine(YieldSpawn());
+    }
+
+    private IEnumerator YieldSpawn()
     {
         isRespawning = true;
 
@@ -482,7 +426,7 @@ public class PlayerManager : ActorManager, IPunObservable
             {
                 GameManager.Instance.ui.SetSpawnDelay(targetTime - Time.time);
             }
-            
+
             yield return null;
         }
 
@@ -490,17 +434,14 @@ public class PlayerManager : ActorManager, IPunObservable
 
         isRespawning = false;
 
-        photonView.RPC("RpcRevive", RpcTarget.All);
+        ResetAndRespawn();
+
+        photonView.RPC("RpcSetAvailability", RpcTarget.All, true);
     }
 
-    private void ToggleFunction(bool toggle)
+    private void ResetAndRespawn()
     {
-        SoundVisuals.RendererAnchor.SetActive(toggle);
-
-        foreach (var collider in Colliders)
-        {
-            collider.enabled = toggle;
-        }
+        ResetPosition(true);
     }
 
     #endregion

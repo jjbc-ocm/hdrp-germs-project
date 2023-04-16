@@ -51,19 +51,6 @@ public abstract class ActionBase : MonoBehaviour
 
     protected void ApplyEffect(ActorManager user, ActorManager target)
     {
-        /*if (!PhotonNetwork.IsMasterClient) return;
-
-        var rpcTarget = target is GPMonsterBase ? RpcTarget.MasterClient : RpcTarget.All;
-
-        target.photonView.RPC("RpcDamageHealth", rpcTarget, damage, user.photonView.ViewID);
-
-        if (user.TryGetComponent(out PlayerManager playerUser))
-        {
-            var lifeSteal = -Mathf.Max(1, Mathf.RoundToInt(damage * playerUser.Inventory.StatModifier.LifeSteal));
-
-            playerUser.photonView.RPC("RpcDamageHealth", RpcTarget.All, lifeSteal, 0);
-        }*/
-
         DamageManager.Instance.ApplyDamage(user, target, (int)data.Damage, true);
     }
 

@@ -27,16 +27,7 @@ public abstract class Collectible : GameEntityManager, IPunObservable
 
     protected override void OnTriggerEnterCalled(Collider col)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
 
-        var obj = col.gameObject;
-
-        var player = obj.GetComponent<PlayerManager>();
-
-        if (Apply(player))
-        {
-            PhotonNetwork.Destroy(photonView);
-        }
     }
 
     protected override void OnTriggerExitCalled(Collider col)
@@ -49,46 +40,17 @@ public abstract class Collectible : GameEntityManager, IPunObservable
         return p != null;
     }
 
-    public void Obtain(PlayerManager player)
-    {
-        if (isObtained) return;
-
-        OnObtain(player);
-
-        isObtained = true;
-
-        graphics.SetActive(false);
-
-        AudioManager.Instance.Play3D(sound, transform.position);
-
-        photonView.RPC("RpcDestroy", RpcTarget.MasterClient);
-    }
-
 
 
 
     #region Photon
 
     [PunRPC]
-    public void RpcDestroy()
+    public void RpcObtain(int viewID)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        PhotonNetwork.Destroy(photonView);
-    }
-
-    [PunRPC]
-    public void RpcObtain(int viewID)//(PlayerManager player)
-    {
-        Debug.Log("Collectible 2");
-
         if (isObtained) return;
 
-        var photonView = PhotonNetwork.GetPhotonView(viewID);
-
-        var player = photonView.GetComponent<PlayerManager>();
-
-        Debug.Log("Collectible 3");
+        var player = PhotonNetwork.GetPhotonView(viewID).GetComponent<PlayerManager>();
 
         OnObtain(player);
 
@@ -98,7 +60,7 @@ public abstract class Collectible : GameEntityManager, IPunObservable
 
         AudioManager.Instance.Play3D(sound, transform.position);
 
-        photonView.RPC("RpcDestroy", RpcTarget.MasterClient);
+        PhotonNetwork.Destroy(photonView);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

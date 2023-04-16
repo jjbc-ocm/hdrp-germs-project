@@ -187,7 +187,8 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
         if (team == 1) hasChestTeam1 = value;
     }
 
-    public void AddKill()
+    [PunRPC]
+    public void RpcAddKill()
     {
         kills++;
     }
