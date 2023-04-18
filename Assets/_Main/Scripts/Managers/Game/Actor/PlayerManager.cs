@@ -249,7 +249,7 @@ public class PlayerManager : ActorManager, IPunObservable
         }
     }
 
-    [PunRPC]
+    /*[PunRPC]
     // This method must received by all
     // Similar to RpcSetAvailability, but this is to show in UI instead
     public void RpcBroadcastKillStatement(int attackerId, int defenderId)
@@ -259,7 +259,7 @@ public class PlayerManager : ActorManager, IPunObservable
         var loser = PhotonView.Find(defenderId).GetComponent<ActorManager>();
 
         GameManager.Instance.ui.OpenKillStatement(winner, loser);
-    }
+    }*/
 
     [PunRPC]
     public void RpcGameOver()
@@ -337,7 +337,7 @@ public class PlayerManager : ActorManager, IPunObservable
             // Broadcast to all players that this ship has been destroyed
             photonView.RPC("RpcSetAvailability", RpcTarget.All, false);
 
-            photonView.RPC("RpcBroadcastKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
+            GameManager.Instance.ui.photonView.RPC("RpcKillStatement", RpcTarget.All, attackerId, photonView.ViewID);
 
             GuideManager.Instance.TryAddShopGuide();
         }

@@ -46,6 +46,12 @@ public abstract class Collectible : GameEntityManager, IPunObservable
     #region Photon
 
     [PunRPC]
+    public void RpcDestroy()
+    {
+        PhotonNetwork.Destroy(photonView);
+    }
+
+    [PunRPC]
     public void RpcObtain(int viewID)
     {
         if (isObtained) return;
@@ -56,11 +62,9 @@ public abstract class Collectible : GameEntityManager, IPunObservable
 
         isObtained = true;
 
-        graphics.SetActive(false);
-
         AudioManager.Instance.Play3D(sound, transform.position);
 
-        PhotonNetwork.Destroy(photonView);
+        photonView.RPC("RpcDestroy", RpcTarget.MasterClient);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

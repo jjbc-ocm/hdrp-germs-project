@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum FireType
+public enum FireType : byte
 {
     Straight,
     Reticle,
     Sight
 }
 
-public enum AimType 
+public enum AimType : byte
 { 
     None, /* For skills that target your own ship */
     WhileExecute, /* For skills like normal attack */
@@ -20,13 +20,13 @@ public enum AimType
     AnyShip /* For skills that always hit either enemy or ally */
 }
 
-public enum TargetType
+public enum TargetType : byte
 {
     One,
     Area
 }
 
-public enum CategoryType
+public enum CategoryType : byte
 {
     Consumables,
     Offensive,
@@ -34,7 +34,7 @@ public enum CategoryType
     Utility,
 }
 
-public enum StatFilterType
+public enum StatFilterType : byte
 {
     All,
     AttackDamage,
@@ -49,13 +49,13 @@ public enum StatFilterType
     LifeSteal
 }
 
-public enum BattleResultType
+public enum BattleResultType : byte
 {
     Draw,
     Victory,
     Defeat
 }
-public enum BotTargetType
+public enum BotTargetType : byte
 {
     /// <summary>
     /// This bot is refering to itself
@@ -68,7 +68,7 @@ public enum BotTargetType
     Target
 }
 
-public enum BotPropertyType
+public enum BotPropertyType : byte
 {
     /// <summary>
     /// Nearer: 0, Further: 1, Max Cap: FOV distance
@@ -118,4 +118,15 @@ public enum BotPropertyType
     CostRatio,
 
     ConsumableRatio
+}
+
+public enum MessageBroadcastType : byte
+{
+    KeyObtained,
+
+    ChestObtained,
+
+    KeyDropped,
+
+    ChestDropped
 }
