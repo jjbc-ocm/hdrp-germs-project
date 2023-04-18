@@ -9,9 +9,6 @@ public abstract class ActionBase : MonoBehaviour
     [SerializeField]
     protected SkillData data;
 
-    //[SerializeField]
-    //protected int damage;
-
     protected ActorManager owner;
 
     protected Vector3 targetPosition;

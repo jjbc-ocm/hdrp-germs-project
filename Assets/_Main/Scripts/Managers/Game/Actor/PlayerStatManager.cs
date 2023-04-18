@@ -168,12 +168,27 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
     public void SetKey(bool value)
     {
         hasKey = value;
-    }
 
-    /*public void SetChest(bool value)
-    {
-        hasChest = value;
-    }*/
+        Debug.LogError(GameManager.Instance == null);
+        Debug.LogError(GameManager.Instance.ui == null);
+        Debug.LogError(GameManager.Instance.ui.photonView == null);
+        Debug.LogError(photonView == null);
+
+        if (value)
+        {
+            GameManager.Instance.ui.photonView.RPC(
+                "RpcBroadcastMessage", 
+                RpcTarget.All, 
+                photonView.ViewID, MessageBroadcastType.KeyObtained);
+        }
+        else
+        {
+            GameManager.Instance.ui.photonView.RPC(
+                "RpcBroadcastMessage", 
+                RpcTarget.All, 
+                photonView.ViewID, MessageBroadcastType.KeyDropped);
+        }
+    }
 
     public void SetChest(bool value, int team = -1)
     {
@@ -185,6 +200,21 @@ public class PlayerStatManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (team == 0) hasChestTeam0 = value;
         if (team == 1) hasChestTeam1 = value;
+
+        if (value)
+        {
+            GameManager.Instance.ui.photonView.RPC(
+                "RpcBroadcastMessage",
+                RpcTarget.All,
+                photonView.ViewID, MessageBroadcastType.ChestObtained);
+        }
+        else
+        {
+            GameManager.Instance.ui.photonView.RPC(
+                "RpcBroadcastMessage",
+                RpcTarget.All,
+                photonView.ViewID, MessageBroadcastType.ChestDropped);
+        }
     }
 
     [PunRPC]

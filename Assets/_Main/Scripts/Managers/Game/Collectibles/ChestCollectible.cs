@@ -25,6 +25,6 @@ public class ChestCollectible : Collectible
     {
         yield return new WaitForSeconds(SOManager.Instance.Constants.ReturnChestTime);
 
-        PhotonNetwork.Destroy(photonView);
+        photonView.RPC("RpcDestroy", RpcTarget.MasterClient);
     }
 }

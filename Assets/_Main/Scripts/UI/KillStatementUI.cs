@@ -20,7 +20,7 @@ public class KillStatementUI : UI<KillStatementUI>
 
     public ActorManager Loser { get; set; }
 
-    void OnEnable()
+    private void OnEnable()
     {
         StopAllCoroutines();
 

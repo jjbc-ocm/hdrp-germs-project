@@ -5,50 +5,59 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class GPSManager : MonoBehaviour
+public class GPSManager : Singleton<GPSManager>
 {
-    public static GPSManager Instance;
-
     [SerializeField]
     private GameObject destinationMarker;
 
     [SerializeField]
     private LineRenderer pathMarker;
 
-    private PlayerManager player;
-
     private NavMeshAgent agent;
 
-    void Awake()
-    {
-        Instance = this;
+    #region Unity
 
+    private void Awake()
+    {
         agent = GetComponent<NavMeshAgent>();
     }
 
-    void Update()
+    private void Update()
     {
-        //var player = PlayerManager.Mine;
+        var player = PlayerManager.Mine;
 
-        if (player != null)
+        if (player == null) return;
+
+        // Put GPS starting marker on player's position
+        transform.position = player.transform.position;
+
+        // Set destination based on these conditions
+        if (player.Stat.HasKey)
         {
-            transform.position = player.transform.position;
+            SetDestination(GameManager.Instance.GetBase(1 - player.GetTeam()).transform.position);
+        }
+        else if (player.Stat.HasChest())
+        {
+            SetDestination(GameManager.Instance.GetBase(player.GetTeam()).transform.position);
+        }
+        else
+        {
+            ClearDestination();
         }
 
-        if (Vector3.Distance(agent.destination, transform.position) <= agent.stoppingDistance)
-        {
-            destinationMarker.SetActive(false); // TODO: actually this only happen when done drooping chest
-        }
-        else if (agent.hasPath && destinationMarker.activeSelf)
+        // Draw path, if there is
+        if (agent.hasPath && destinationMarker.activeSelf)
         {
             DrawPath(player.transform.position);
         }
     }
 
-    public void SetDestination(PlayerManager player, Vector3 position)
-    {
-        this.player = player;
+    #endregion
 
+    #region Private
+
+    private void SetDestination(Vector3 position)
+    {
         agent.SetDestination(position);
 
         destinationMarker.SetActive(true);
@@ -58,10 +67,8 @@ public class GPSManager : MonoBehaviour
 
     }
 
-    public void ClearDestination()
+    private void ClearDestination()
     {
-        player = null;
-
         agent.isStopped = true;
 
         destinationMarker.SetActive(false);
@@ -87,4 +94,6 @@ public class GPSManager : MonoBehaviour
             pathMarker.SetPosition(i, position);
         }
     }
+
+    #endregion
 }
