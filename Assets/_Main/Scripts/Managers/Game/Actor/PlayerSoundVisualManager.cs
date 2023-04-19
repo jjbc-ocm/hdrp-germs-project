@@ -7,40 +7,35 @@ using UnityEngine;
 public class PlayerSoundVisualManager : MonoBehaviour
 {
     [SerializeField]
+    private MeshRenderer rendererShip;
+
+    [SerializeField]
+    private MeshRenderer[] rendererCannon;
+
+    [SerializeField]
     private GameObject[] teamIndicators;
 
     [SerializeField]
     private GameObject[] waterIndicators;
 
     [SerializeField]
-    private Sprite spriteIcon;
-
-    [SerializeField]
-    private AudioClip shotClip;
-
-    [SerializeField]
-    private AudioClip explosionClip;
-
-    [SerializeField]
-    private GameObject shotFX;
-
-    [SerializeField]
-    private GameObject explosionFX;
-
-    [SerializeField]
     private GameObject rendererAnchor;
 
     [SerializeField]
-    private MeshRenderer rendererShip;
+    private GameObject concealableAnchor;
 
-    [SerializeField]
-    private GameObject iconIndicator;
+    [Header("Materials")]
 
     [SerializeField]
     private Material materialNormal;
 
     [SerializeField]
+    private Material materialCannon;
+
+    [SerializeField]
     private Material materialInvisible;
+
+    [Header("Dummy")]
 
     [SerializeField]
     private GameObject dummyNormal;
@@ -65,14 +60,10 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
     private PlayerStatusManager status;
 
-    public Sprite SpriteIcon { get => spriteIcon; }
-
     public GameObject RendererAnchor { get => rendererAnchor; }
 
     public MeshRenderer RendererShip { get => rendererShip; }
-
-    public GameObject IconIndicator { get => iconIndicator; }
-
+    
     #region Unity
 
     private void Awake()
@@ -95,7 +86,11 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
         UpdateWind();
 
-        if (player.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
+        UpdateConcealability(isInvisible);
+
+        UpdateMaterials(isInvisible);
+
+        /*if (player.GetTeam() == PhotonNetwork.LocalPlayer.GetTeam())
         {
             rendererShip.material = isInvisible ? materialInvisible : materialNormal;
 
@@ -117,14 +112,14 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
                 teamIndicators[player.GetTeam()].SetActive(isActive);
 
-                iconIndicator.SetActive(isActive);
+                //iconIndicator.SetActive(isActive);
 
                 foreach (var waterIndicator in waterIndicators)
                 {
                     waterIndicator.SetActive(isActive);
                 }
             }
-        }
+        }*/
     }
 
     #endregion
@@ -143,14 +138,33 @@ public class PlayerSoundVisualManager : MonoBehaviour
 
             var isMovingForward = InputManager.Instance.Move.y >= 0;
 
-            //windAnchor.transform.localEulerAngles = ( ? Vector3.zero : Vector3.up) * 180;
-
             windNormal.SetActive(isMoving && isMovingForward && !InputManager.Instance.IsSprint);
 
             windFast.SetActive(isMoving && isMovingForward && InputManager.Instance.IsSprint);
         }
+    }
 
-        
+    private void UpdateConcealability(bool isInvisible)
+    {
+        var isMyTeam = PlayerManager.Mine.GetTeam() == player.GetTeam();
+
+        var isActive = isMyTeam || (player.IsVisibleRelativeTo(PlayerManager.Mine.GetTeam()) && !isInvisible);// isInvisible;//isMyTeam && player.IsVisibleRelativeTo(PlayerManager.Mine.GetTeam()) || !isInvisible;
+
+        concealableAnchor.SetActive(isActive);
+    }
+
+    private void UpdateMaterials(bool isInvisible)
+    {
+        rendererShip.material = isInvisible ? materialInvisible : materialNormal;
+
+        foreach (var cannon in rendererCannon)
+        {
+            cannon.material = isInvisible ? materialInvisible : materialCannon;
+        }
+
+        dummyNormal.SetActive(!isInvisible);
+
+        dummyInvisible.SetActive(isInvisible);
     }
 
     #endregion

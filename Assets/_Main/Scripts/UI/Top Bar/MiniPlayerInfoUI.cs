@@ -24,7 +24,7 @@ public class MiniPlayerInfoUI : UI<MiniPlayerInfoUI>
 
     protected override void OnRefreshUI()
     {
-        imageShip.sprite = Data.SoundVisuals.SpriteIcon;
+        imageShip.sprite = Data.Data.ShipIconImage;
 
         imageChest.gameObject.SetActive(Data.Stat.HasChest());
 
