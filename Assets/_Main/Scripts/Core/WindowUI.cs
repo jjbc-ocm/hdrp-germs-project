@@ -106,6 +106,10 @@ public abstract class WindowUI<T> : UI<T> where T : MonoBehaviour
         {
             windowMain.transform.DOScale(Vector3.zero, tweenDuration).SetEase(tweenEaseClose).OnComplete(() => onComplete.Invoke());
         }
+        else
+        {
+            onComplete.Invoke();
+        }
 
         if (soundOpen)
         {

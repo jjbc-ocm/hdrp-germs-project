@@ -22,6 +22,8 @@ public class TimerManager : MonoBehaviour
 
     private double startTime;
 
+    private bool isInitialized;
+
     private bool isAftermathCalled;
 
     public double TimeLapse { get => hasStartTime ? PhotonNetwork.Time - startTime : 0; }
@@ -33,27 +35,31 @@ public class TimerManager : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
+    void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (!GameManager.Instance.HasStarted) return;
+
+        if (!isInitialized)
         {
-            startTime = PhotonNetwork.Time;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                startTime = PhotonNetwork.Time;
 
-            hasStartTime = true;
+                hasStartTime = true;
 
-            PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
+                PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
             {
                 { "startTime", startTime }
             });
-        }
-        else
-        {
-            GetStartTime();
-        }
-    }
+            }
+            else
+            {
+                GetStartTime();
+            }
 
-    void Update()
-    {
+            isInitialized = true;
+        }
+
         if (!hasStartTime) GetStartTime();
 
         if (!hasStartTime) return;

@@ -49,6 +49,13 @@ public class PreparationNetworkManager : MonoBehaviourPunCallbacks
 
     private void TryLoadGameScene()
     {
+        LoadingUI.Instance.Open((self) =>
+        {
+            self.Text = "Loading scene...";
+
+            self.Progress = 0.5f;
+        });
+
         if (!PhotonNetwork.IsMasterClient) return;
 
         PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneGame);
