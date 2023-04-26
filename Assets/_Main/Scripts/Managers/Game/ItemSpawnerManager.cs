@@ -61,6 +61,8 @@ public class ItemSpawnerManager : MonoBehaviourPun
 
     void Update()
     {
+        if (!GameManager.Instance.HasStarted) return;
+
         if (!PhotonNetwork.IsMasterClient) return;
 
         for (var i = 0; i < spawners.Length; i++)
