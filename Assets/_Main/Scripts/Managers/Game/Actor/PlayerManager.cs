@@ -150,6 +150,8 @@ public class PlayerManager : ActorManager, IPunObservable
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.HasStarted) return;
+
         if (AftermathUI.Instance.gameObject.activeSelf) return;
 
         if (!photonView.IsMine || isRespawning) return;
@@ -248,18 +250,6 @@ public class PlayerManager : ActorManager, IPunObservable
             collider.enabled = isAvailable;
         }
     }
-
-    /*[PunRPC]
-    // This method must received by all
-    // Similar to RpcSetAvailability, but this is to show in UI instead
-    public void RpcBroadcastKillStatement(int attackerId, int defenderId)
-    {
-        var winner = PhotonView.Find(attackerId).GetComponent<ActorManager>();
-
-        var loser = PhotonView.Find(defenderId).GetComponent<ActorManager>();
-
-        GameManager.Instance.ui.OpenKillStatement(winner, loser);
-    }*/
 
     [PunRPC]
     public void RpcGameOver()

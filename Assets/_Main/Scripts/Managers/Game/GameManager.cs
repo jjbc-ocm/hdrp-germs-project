@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TanksMP;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviourPun
 
     private BattleResultType[] battleResults;
 
+    private bool hasStarted;
+
     private bool isDebugKill;
 
     public List<PlayerManager> Ships { get => ships; }
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviourPun
 
     public BattleResultType[] BattleResults { get => battleResults; }
 
+    public bool HasStarted { get => hasStarted; }
+
     #region Unity
 
     private void Awake()
@@ -52,12 +57,16 @@ public class GameManager : MonoBehaviourPun
         entities = new List<GameEntityManager>();
 
         battleResults = new BattleResultType[SOManager.Instance.Constants.MaxTeam];
-    }
 
-    /*private void Start()
-    {
-        AudioManager.Instance.PlayMusic(0);
-    }*/
+        LoadingUI.Instance.RefreshUI((self) =>
+        {
+            self.Text = "Waiting for other players...";
+
+            self.Progress = 0.9f;
+        });
+
+        CheckPlayerAvailability();
+    }
 
     private void Update()
     {
@@ -243,6 +252,34 @@ public class GameManager : MonoBehaviourPun
     #endregion
 
     #region Private
+
+    private void CheckPlayerAvailability()
+    {
+        var countPlayers = PhotonNetwork.PlayerList.Length;
+
+        var countPlayersInScene = 0;
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (ships.Any(i => !i.IsBot && i.photonView.Owner == player))
+            {
+                countPlayersInScene++;
+            }
+        }
+
+        if (countPlayersInScene == countPlayers)
+        {
+            LoadingUI.Instance.Close();
+
+            hasStarted = true;
+
+            CancelInvoke(nameof(CheckPlayerAvailability));
+        }
+        else
+        {
+            Invoke(nameof(CheckPlayerAvailability), 1f); // check aga   in in 1 second
+        }
+    }
 
     private void UpdateCrosshair()
     {

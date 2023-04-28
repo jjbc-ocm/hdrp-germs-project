@@ -47,6 +47,8 @@ public class AimManager : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.HasStarted) return;
+
         if (AftermathUI.Instance.gameObject.activeSelf ||
             ShopManager.Instance.UI.gameObject.activeSelf ||
             ChatManager.Instance.UI.IsMaximized) return;
