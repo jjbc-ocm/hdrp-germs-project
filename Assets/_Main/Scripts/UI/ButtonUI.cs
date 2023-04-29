@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TanksMP;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class ButtonUI : UI<ButtonUI>
+public class ButtonUI : UI<ButtonUI>, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Sound Settings")]
 
@@ -16,26 +17,52 @@ public class ButtonUI : UI<ButtonUI>
     [Header("Tween Settings")]
 
     [SerializeField]
-    private float tweenDurationClick;
+    private float tweenDuration;
 
     [SerializeField]
-    private Ease tweenEaseClick;
+    private Ease tweenEase;
+
+    private float baseScale;
+
+    #region Unity
+
+    private void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            if (tweenEase != Ease.Unset)
+            {
+                transform.DOScale(baseScale, tweenDuration).SetEase(tweenEase);
+            }
+
+            AudioManager.Instance.Play2D(soundClick);
+        });
+
+        baseScale = transform.localScale.x;
+    }
+
+    #endregion
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (tweenEase != Ease.Unset)
+        {
+            transform.DOScale(baseScale * 1.2f, tweenDuration).SetEase(tweenEase);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (tweenEase != Ease.Unset)
+        {
+            transform.DOScale(baseScale, tweenDuration).SetEase(tweenEase);
+        }
+    }
 
     protected override void OnRefreshUI()
     {
 
     }
 
-    void Awake()
-    {
-        GetComponent<Button>().onClick.AddListener(() =>
-        {
-            if (tweenEaseClick != Ease.Unset)
-            {
-                transform.DOScale(Vector3.one, tweenDurationClick).SetEase(tweenEaseClick);
-            }
-
-            AudioManager.Instance.Play2D(soundClick);
-        });
-    }
+    
 }

@@ -14449,8 +14449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
-  tweenDurationClick: 0
-  tweenEaseClick: 0
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765698821137292
 GameObject:
   m_ObjectHideFlags: 0
@@ -16824,6 +16824,7 @@ GameObject:
   - component: {fileID: 2273765698920026380}
   - component: {fileID: 2273765698920026381}
   - component: {fileID: 2273765698920026386}
+  - component: {fileID: 2777790195402791813}
   m_Layer: 5
   m_Name: MR icon
   m_TagString: Untagged
@@ -16881,8 +16882,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -16947,6 +16948,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2777790195402791813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765698920026384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765698920607010
 GameObject:
   m_ObjectHideFlags: 0
@@ -19584,8 +19600,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
-  tweenDurationClick: 0
-  tweenEaseClick: 0
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699053424856
 GameObject:
   m_ObjectHideFlags: 0
@@ -21257,6 +21273,7 @@ GameObject:
   - component: {fileID: 2273765699118217930}
   - component: {fileID: 2273765699118217931}
   - component: {fileID: 2273765699118217928}
+  - component: {fileID: 3955457993577989709}
   m_Layer: 5
   m_Name: AS icon
   m_TagString: Untagged
@@ -21314,8 +21331,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -21380,6 +21397,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3955457993577989709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699118217934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699135250386
 GameObject:
   m_ObjectHideFlags: 0
@@ -26229,6 +26261,7 @@ GameObject:
   - component: {fileID: 2273765699305014260}
   - component: {fileID: 2273765699305014261}
   - component: {fileID: 2273765699305014266}
+  - component: {fileID: 406974874491120063}
   m_Layer: 5
   m_Name: HP icon
   m_TagString: Untagged
@@ -26286,8 +26319,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -26352,6 +26385,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &406974874491120063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699305014264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699310660529
 GameObject:
   m_ObjectHideFlags: 0
@@ -33035,6 +33083,7 @@ GameObject:
   - component: {fileID: 2273765699585542594}
   - component: {fileID: 2273765699585542595}
   - component: {fileID: 2273765699585542592}
+  - component: {fileID: 1841959755001776743}
   m_Layer: 5
   m_Name: AP icon
   m_TagString: Untagged
@@ -33092,8 +33141,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -33158,6 +33207,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1841959755001776743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699585542598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699589739029
 GameObject:
   m_ObjectHideFlags: 0
@@ -33821,6 +33885,7 @@ GameObject:
   - component: {fileID: 2273765699607770749}
   - component: {fileID: 2273765699607770690}
   - component: {fileID: 2273765699607770691}
+  - component: {fileID: 1249480830506913590}
   m_Layer: 5
   m_Name: CD icon
   m_TagString: Untagged
@@ -33878,8 +33943,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -33944,6 +34009,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1249480830506913590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699607770689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699612948201
 GameObject:
   m_ObjectHideFlags: 0
@@ -37286,8 +37366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
-  tweenDurationClick: 0
-  tweenEaseClick: 0
+  tweenDuration: 0.1
+  tweenEase: 0
 --- !u!1 &2273765699781245481
 GameObject:
   m_ObjectHideFlags: 0
@@ -37858,6 +37938,7 @@ GameObject:
   - component: {fileID: 2273765699789632568}
   - component: {fileID: 2273765699789632569}
   - component: {fileID: 2273765699789632574}
+  - component: {fileID: 8270265434183462956}
   m_Layer: 5
   m_Name: Mana icon
   m_TagString: Untagged
@@ -37915,8 +37996,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -37981,6 +38062,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8270265434183462956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699789632572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699792449132
 GameObject:
   m_ObjectHideFlags: 0
@@ -38307,6 +38403,7 @@ GameObject:
   - component: {fileID: 2273765699802824049}
   - component: {fileID: 2273765699802824054}
   - component: {fileID: 2273765699802824055}
+  - component: {fileID: 6704378306731475985}
   m_Layer: 5
   m_Name: LS icon
   m_TagString: Untagged
@@ -38364,8 +38461,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -38430,6 +38527,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6704378306731475985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699802824053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699804801762
 GameObject:
   m_ObjectHideFlags: 0
@@ -38633,6 +38745,7 @@ GameObject:
   - component: {fileID: 2273765699815471522}
   - component: {fileID: 2273765699815471523}
   - component: {fileID: 2273765699815471520}
+  - component: {fileID: 8178205850928324574}
   m_Layer: 5
   m_Name: AR icon
   m_TagString: Untagged
@@ -38690,8 +38803,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -38756,6 +38869,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8178205850928324574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699815471526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699831737926
 GameObject:
   m_ObjectHideFlags: 0
@@ -39557,6 +39685,7 @@ GameObject:
   - component: {fileID: 2273765699887996089}
   - component: {fileID: 2273765699887996094}
   - component: {fileID: 2273765699887996095}
+  - component: {fileID: 2766833749489470431}
   m_Layer: 5
   m_Name: MS icon
   m_TagString: Untagged
@@ -39614,8 +39743,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -39680,6 +39809,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2766833749489470431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765699887996093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765699891227362
 GameObject:
   m_ObjectHideFlags: 0
@@ -42209,6 +42353,7 @@ GameObject:
   - component: {fileID: 2273765700046548993}
   - component: {fileID: 2273765700046548998}
   - component: {fileID: 2273765700046548999}
+  - component: {fileID: 3867056838569397100}
   m_Layer: 5
   m_Name: AD icon
   m_TagString: Untagged
@@ -42266,8 +42411,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0f5ded523971af949a388cf55ec722f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -42332,6 +42477,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3867056838569397100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273765700046548997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &2273765700055672593
 GameObject:
   m_ObjectHideFlags: 0
@@ -46810,8 +46970,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundClick: {fileID: 8300000, guid: 2aac97cad4b5e57479057c22fcb1b36e, type: 3}
-  tweenDurationClick: 0
-  tweenEaseClick: 0
+  tweenDuration: 0.1
+  tweenEase: 0
 --- !u!1 &8048902329734067668
 GameObject:
   m_ObjectHideFlags: 0

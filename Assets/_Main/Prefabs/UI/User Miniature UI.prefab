@@ -1669,6 +1669,7 @@ GameObject:
   - component: {fileID: 2957018857357331509}
   - component: {fileID: 3663510768940653503}
   - component: {fileID: 7177945218059891992}
+  - component: {fileID: 8851049714099973093}
   m_Layer: 5
   m_Name: User Miniature UI
   m_TagString: Untagged
@@ -1781,7 +1782,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 7177945218059891992}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -1835,6 +1836,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8851049714099973093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6833722952399979276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 0}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &6833722952455119992
 GameObject:
   m_ObjectHideFlags: 0
