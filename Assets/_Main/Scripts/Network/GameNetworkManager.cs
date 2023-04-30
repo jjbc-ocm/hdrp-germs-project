@@ -31,6 +31,8 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
+        if (PhotonNetwork.CurrentRoom.GetGameMode() == GameMode.Tutorial) return;
+
         InstantiateBots();
     }
 

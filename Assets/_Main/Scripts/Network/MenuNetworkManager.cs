@@ -15,6 +15,8 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Private Variables
 
+    private GameMode gameMode;
+
     private string status;
 
     private double timeJoined;
@@ -91,7 +93,19 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         status = "Cannot join room, creating one instead...";
 
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = SOManager.Instance.Constants.MaxPlayerCount });
+        var maxPlayers = gameMode == GameMode.Tutorial ? (byte)1 : SOManager.Instance.Constants.MaxPlayerCount;
+
+        var options = new RoomOptions
+        {
+            MaxPlayers = maxPlayers,
+
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            {
+                //{ "gameMode", gameMode } Not needed
+            }
+        };
+
+        PhotonNetwork.CreateRoom(null, options);
     }
 
     public override void OnJoinedRoom()
@@ -105,6 +119,11 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         isJoined = true;
 
         PhotonNetwork.LocalPlayer.Initialize(GPCrewScreen.Instance.SelectedShip.m_prefabListIndex);
+
+        if (gameMode == GameMode.Tutorial)
+        {
+            TryInitializePlayers(true);
+        }
     }
 
     public override void OnLeftRoom()
@@ -134,7 +153,14 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         {
             status = "Player initialization complete...";
 
-            TryLoadPreparationScene();
+            if (gameMode == GameMode.Tutorial)
+            {
+                TryLoadTutorialScene();
+            }
+            else
+            {
+                TryLoadPreparationScene();
+            }
         }
     }
 
@@ -142,8 +168,10 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
 
     #region Public
 
-    public void TryStartMatchMaking()
+    public void TryStartMatchMaking(GameMode gameMode)
     {
+        this.gameMode = gameMode;
+
         status = "Starting a game...";
 
         if (PhotonNetwork.IsConnected)
@@ -173,8 +201,13 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
     {
         status = "Joining random room...";
 
+        var props = new ExitGames.Client.Photon.Hashtable
+        {
+            //{ "gameMode", gameMode } Not needed
+        };
+
         PhotonNetwork.JoinRandomRoom(
-                new ExitGames.Client.Photon.Hashtable { /* Enter game mode here in the future */ },
+                props,
                 SOManager.Instance.Constants.MaxPlayerCount);
     }
 
@@ -197,6 +230,15 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         status = "Loading preparation phase...";
 
         PhotonNetwork.LoadLevel(SOManager.Instance.Constants.ScenePreparation);
+    }
+    
+    private void TryLoadTutorialScene()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        status = "Loading tutorial...";
+
+        PhotonNetwork.LoadLevel(SOManager.Instance.Constants.SceneTutorial);
     }
 
     private void InitializePlayers()
@@ -228,7 +270,7 @@ public class MenuNetworkManager : MonoBehaviourPunCallbacks
         }
         while (i < players.Length);
 
-        PhotonNetwork.CurrentRoom.Initialize(true);
+        PhotonNetwork.CurrentRoom.Initialize(true, gameMode);
 
         isPreparationInitiated = true;
     }

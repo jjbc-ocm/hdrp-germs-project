@@ -81,6 +81,9 @@ public class ConstantsSO : ScriptableObject
     [SerializeField]
     private string sceneGame = "CTF_Game";
 
+    [SerializeField]
+    private string sceneTutorial = "Tutorial A";
+
     public string SceneDebug { get => sceneDebug; }
 
     public string SceneMenu { get => sceneMenu; }
@@ -88,6 +91,8 @@ public class ConstantsSO : ScriptableObject
     public string ScenePreparation { get => scenePreparation; }
 
     public string SceneGame { get => sceneGame; }
+
+    public string SceneTutorial { get => sceneTutorial; }
 
 
     [Header("In-Game")]

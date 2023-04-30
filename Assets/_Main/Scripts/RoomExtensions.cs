@@ -15,6 +15,8 @@ public static class RoomExtensions
 
     public const string chestLost = "chestLost";
 
+    public const string gameMode = "gameMode";
+
     public const string bot0 = "bot0";
     public const string bot1 = "bot1";
     public const string bot2 = "bot2";
@@ -22,11 +24,12 @@ public static class RoomExtensions
     public const string bot4 = "bot4";
     public const string bot5 = "bot5";
 
-    public static void Initialize(this Room room, bool isTeamSetup)
+    public static void Initialize(this Room room, bool isTeamSetup, GameMode gameMode)
     {
         room.SetCustomProperties(new Hashtable
         {
             { RoomExtensions.isTeamSetup, isTeamSetup },
+            { RoomExtensions.gameMode, gameMode },
             { bot0, JsonUtility.ToJson(new BotInfo { BotIndex = 0, Name = "Bot 1", Team = 0, ShipIndex = 0 }) },
             { bot1, JsonUtility.ToJson(new BotInfo { BotIndex = 1, Name = "Bot 2", Team = 0, ShipIndex = 1 }) },
             { bot2, JsonUtility.ToJson(new BotInfo { BotIndex = 2, Name = "Bot 3", Team = 0, ShipIndex = 2 }) },
@@ -84,6 +87,15 @@ public static class RoomExtensions
         return 0;
     }
 
+    public static GameMode GetGameMode(this Room room)
+    {
+        if (room.CustomProperties.TryGetValue(gameMode, out object value))
+        {
+            return (GameMode)value;
+        }
+        return GameMode.Standard;
+    }
+
     public static void AddScoreByKill(this Room room, int teamGain, int value)
     {
         var data = new Hashtable
@@ -100,6 +112,16 @@ public static class RoomExtensions
         {
             { score + teamGain, room.GetScore(teamGain) + value },
             { chestLost + teamLose, room.GetChestLost(teamLose) + 1 }
+        };
+
+        room.SetCustomProperties(data);
+    }
+
+    public static void AddGameMode(this Room room, GameMode gameMode)
+    {
+        var data = new Hashtable
+        {
+            { gameMode, gameMode }
         };
 
         room.SetCustomProperties(data);
