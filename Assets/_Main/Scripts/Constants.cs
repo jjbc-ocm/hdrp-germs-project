@@ -137,3 +137,10 @@ public enum GameMode
 
     Tutorial
 }
+
+public enum TutorialEventTriggerType
+{
+    OnTriggerEnter,
+
+    OnDestroy
+}

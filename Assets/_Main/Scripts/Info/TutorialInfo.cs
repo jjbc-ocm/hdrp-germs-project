@@ -9,14 +9,14 @@ public class TutorialInfo
     private GameObject prefab;
 
     [SerializeField]
-    private int partFrom;
+    private int eventIndexMin;
 
     [SerializeField]
-    private int partTo;
+    private int eventIndexMax;
 
     public GameObject Prefab { get => prefab; }
 
-    public int PartFrom { get => partFrom; }
+    public int EventIndexMin { get => eventIndexMin; }
 
-    public int PartTo { get => partTo; }
+    public int EventIndexMax { get => eventIndexMax; }
 }

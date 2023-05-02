@@ -9,7 +9,7 @@ public class TutorialManager : Singleton<TutorialManager>
     [SerializeField]
     private TutorialInfo[] infos;
 
-    private int part;
+    private int eventIndex;
 
     #endregion
 
@@ -24,10 +24,14 @@ public class TutorialManager : Singleton<TutorialManager>
 
     #region Public
 
-    public void NextPart()
+    public void NextEvent()
     {
-        part += 1;
+        eventIndex += 1;
 
+        foreach (var info in infos)
+        {
+            info.Prefab.SetActive(eventIndex >= info.EventIndexMin && eventIndex <= info.EventIndexMax);
+        }
     }
 
     #endregion

@@ -106,6 +106,8 @@ public class GameNetworkManager : MonoBehaviourPunCallbacks
 
     private void InstantiateBots()
     {
+        Debug.Log("Game Mode: " + PhotonNetwork.CurrentRoom.GetGameMode());
+
         var bots = PhotonNetwork.CurrentRoom.GetBots();
 
         var players = PhotonNetwork.CurrentRoom.Players.Select(i => i.Value);
