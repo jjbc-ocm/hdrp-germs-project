@@ -15,6 +15,11 @@ public class TutorialManager : Singleton<TutorialManager>
 
     #region Unity
 
+    private void Awake()
+    {
+        NextEvent();
+    }
+
     private void Update()
     {
         

@@ -10,6 +10,8 @@ public class TutorialEventManager : MonoBehaviour
     [SerializeField]
     private bool isDestroyOnTrigger;
 
+    #region Unity
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out PlayerManager _) && trigger == TutorialEventTriggerType.OnTriggerEnter)
@@ -35,4 +37,6 @@ public class TutorialEventManager : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }
