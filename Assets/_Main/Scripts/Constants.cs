@@ -130,3 +130,17 @@ public enum MessageBroadcastType : byte
 
     ChestDropped
 }
+
+public enum GameMode
+{
+    Standard,
+
+    Tutorial
+}
+
+public enum TutorialEventTriggerType
+{
+    OnTriggerEnter,
+
+    OnDestroy
+}

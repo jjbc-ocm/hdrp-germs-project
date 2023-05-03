@@ -22,7 +22,7 @@ public class HomeUI : WindowUI<HomeUI>
     {
         MatchMakingUI.Instance.Open();
 
-        MenuNetworkManager.Instance.TryStartMatchMaking();
+        MenuNetworkManager.Instance.TryStartMatchMaking(GameMode.Standard);
     }
 
     public void OnCrewClick()
@@ -45,6 +45,11 @@ public class HomeUI : WindowUI<HomeUI>
         {
             self.Data = new SettingsData(APIManager.Instance.PlayerData.Settings);
         });
+    }
+
+    public void OnTutorialClick()
+    {
+        MenuNetworkManager.Instance.TryStartMatchMaking(GameMode.Tutorial);
     }
 
     public void OnExitClick()

@@ -51,12 +51,15 @@ public class TopBarUI : UI<TopBarUI>
 
                 var player = i < players.Count() ? players[i] : null;
 
-                teams[team].UIPlayerInfo[i].gameObject.SetActive(player != null);
+                teams[team].UIPlayerInfo[i].gameObject.SetActive(player);
 
-                teams[team].UIPlayerInfo[i].RefreshUI((self) =>
+                if (player)
                 {
-                    self.Data = player;
-                });
+                    teams[team].UIPlayerInfo[i].RefreshUI((self) =>
+                    {
+                        self.Data = player;
+                    });
+                }
             }
 
             teams[team].SliderChests.value = SOManager.Instance.Constants.MaxChestPerTeam - PhotonNetwork.CurrentRoom.GetChestLost(team);

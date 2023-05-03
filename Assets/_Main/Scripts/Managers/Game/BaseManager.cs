@@ -172,6 +172,8 @@ public class BaseManager : GameEntityManager
 
         if (GameManager.Instance.IsGameOver())
         {
+            Debug.Log("GOT IN BASE");
+
             PhotonNetwork.CurrentRoom.IsOpen = false;
 
             PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
