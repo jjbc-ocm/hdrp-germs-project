@@ -6,7 +6,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: _ColorRampTexGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.4373927116394043,"g":0.0,"b":1.0,"a":1.0},"time":0.5159838199615479},{"color":{"r":1.0,"g":0.6084905862808228,"b":0.9948430061340332,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
+  m_Name: _ColorRampTexGradientTex{"mode":0,"colorKeys":[{"color":{"r":0.4373927116394043,"g":0.0,"b":1.0,"a":1.0},"time":0.2735332250595093},{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.4323491156101227},{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.7617608904838562},{"color":{"r":1.0,"g":0.6084905862808228,"b":0.9948430061340332,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -41,7 +41,7 @@ Texture2D:
   m_ColorSpace: 0
   m_PlatformBlob: 
   image data: 256
-  _typelessdata: 000000ff030008ff070010ff0a0018ff0e001fff110027ff15002fff180037ff1b003fff1f0047ff22004eff260056ff29005eff2d0066ff30006eff330076ff37007eff3a0085ff3e008dff410095ff45009dff4800a5ff4b00adff4f00b4ff5200bcff5600c4ff5900ccff5d00d4ff6000dcff6400e3ff6700ebff6a00f3ff6e00fbff7203ffff7708ffff7b0dffff8012ffff8517ffff891cffff8e21ffff9326ffff972bffff9c30ffffa135ffffa63affffaa40feffaf45feffb44afeffb84ffeffbd54feffc259feffc75efeffcb63feffd068feffd56dfeffd972feffde78feffe37dfeffe782feffec87fefff18cfefff691fefffa96feffff9bfeff
+  _typelessdata: 7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff7000ffff6700ebff5c00d2ff5100b8ff46009fff3a0085ff2f006cff240053ff190039ff0e0020ff030006ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff110a11ff221522ff331f33ff442944ff553455ff663e66ff774876ff885387ff995d98ffaa67a9ffbb72baffcc7ccbffdd86dcffee91edffff9bfeff
   m_StreamData:
     serializedVersion: 2
     offset: 0
@@ -63,6 +63,7 @@ Material:
   - FADE_ON
   - FOG_ON
   - GLOW_ON
+  - HSV_ON
   - MASK_ON
   - PREMULTIPLYCOLOR_ON
   - SHAPE1DISTORT_ON
@@ -70,7 +71,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 5000
+  m_CustomRenderQueue: 3800
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -97,19 +98,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FadeTex:
-        m_Texture: {fileID: 2800000, guid: 1a748330fd1f90e448ec7b4fb53ed8af, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 2800000, guid: 9a35f2175dbf4614fab117b99bc9697e, type: 3}
+        m_Scale: {x: 6, y: 6}
         m_Offset: {x: 0, y: 0}
     - _GlowTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6d7a29633b5f4ca4790770ba66492211, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc28c024cb2616c4fa4a6fbb12626a53, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
-        m_Texture: {fileID: 2800000, guid: e1e79dcc7d08c8545ada46d75689a0e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: e56d27cbfa142a04999ba84262ab1eb2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Shape1MaskTex:
@@ -133,7 +134,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShapeDistortTex:
-        m_Texture: {fileID: 2800000, guid: f7f1df61b90615744860aaf37c83fb9c, type: 3}
+        m_Texture: {fileID: 2800000, guid: a0899f91edff0e44dadeaf43a58b4a51, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _TrailWidthGradient:
@@ -161,14 +162,14 @@ Material:
     - _CamDistProximityFade: 0
     - _ColorGradingMidPoint: 0.463
     - _ColorMask: 15
-    - _ColorRampBlend: 1
+    - _ColorRampBlend: 0.806
     - _ColorRampLuminosity: -1
     - _CullingOption: 0
     - _DebugShape: 1
-    - _DepthGlow: 20
+    - _DepthGlow: 22.1
     - _DepthGlowDist: 10
-    - _DepthGlowGlobal: 0
-    - _DepthGlowPow: 0.01
+    - _DepthGlowGlobal: 37.81
+    - _DepthGlowPow: 7.68
     - _DistortAmount: 1.68
     - _DistortTexXSpeed: 5
     - _DistortTexYSpeed: 5
@@ -181,20 +182,20 @@ Material:
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 7
     - _FadeBurnWidth: 0.2
-    - _FadePower: 1.45
+    - _FadePower: 2.42
     - _FadeScrollXSpeed: 0
     - _FadeScrollYSpeed: 0
-    - _FadeTransition: 0.28
+    - _FadeTransition: 0.117
     - _FishEyeUvAmount: 0.35
     - _Glow: 0
     - _GlowGlobal: 1.49
     - _HandDrawnAmount: 0
     - _HandDrawnSpeed: 5
-    - _HsvBright: 1.26
-    - _HsvSaturation: 1.02
-    - _HsvShift: 0
+    - _HsvBright: 0.24
+    - _HsvSaturation: 1
+    - _HsvShift: 360
     - _LightAmount: 0
-    - _MaskPow: 0.001
+    - _MaskPow: 0.62
     - _OffsetSh1: -0.34
     - _OffsetSh2: 1
     - _OffsetSh3: 1
@@ -206,12 +207,12 @@ Material:
     - _RandomSh2Mult: 1
     - _RandomSh3Mult: 1
     - _RenderingMode: 5
-    - _RimAddAmount: 1
-    - _RimBias: 0
-    - _RimErodesAlpha: 0
-    - _RimIntensity: 1
-    - _RimPower: 5
-    - _RimScale: 1
+    - _RimAddAmount: 0.585
+    - _RimBias: 0.1
+    - _RimErodesAlpha: 0.84
+    - _RimIntensity: 50
+    - _RimPower: 11.9
+    - _RimScale: 6
     - _RoundWaveSpeed: 2
     - _RoundWaveStrength: 0.7
     - _ScreenUvSh1DistScale: 1
@@ -255,8 +256,8 @@ Material:
     - _ShapeColorWeight: 1
     - _ShapeContrast: 1
     - _ShapeDistortAmount: 1.6
-    - _ShapeDistortXSpeed: 0.3
-    - _ShapeDistortYSpeed: 0.3
+    - _ShapeDistortXSpeed: 1
+    - _ShapeDistortYSpeed: 1
     - _ShapeRotationOffset: 0
     - _ShapeRotationSpeed: 0
     - _ShapeXSpeed: 0
@@ -294,7 +295,7 @@ Material:
     - _FrontFaceTint: {r: 1, g: 0.97545284, b: 0.11792451, a: 1}
     - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 1, g: 0, b: 0, a: 1}
     - _Shape2Color: {r: 1, g: 1, b: 1, a: 1}
     - _Shape3Color: {r: 1, g: 1, b: 1, a: 1}
     - _ShapeColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}

@@ -70,6 +70,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Minter\GetListedNFTWebWallet.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\CrewUI.cs" />
     <Compile Include="Assets\_Main\Scripts\Info\ItemStatValuesInfo.cs" />
+    <Compile Include="Assets\StylizedWater\_Demo\OrbitCamera.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\ImageEffects.cs" />
     <Compile Include="Assets\Photon\PhotonLibs\WebSocket\SocketWebTcp.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\Wallet\Web3WalletTransfer721Example.cs" />
@@ -97,6 +98,8 @@
     <Compile Include="Assets\Hovl Studio\Epic toon VFX 3\Scripts\ParticleCollisionInstance.cs" />
     <Compile Include="Assets\Hovl Studio\Epic toon VFX 3\Scripts\ObjectInstance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\_Main\Scripts\WaterWavee.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\StylizedWaterShadowCaster.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerStatManager.cs" />
     <Compile Include="Assets\_Main\Scenes\IAPTest\IAPTest.cs" />
     <Compile Include="Assets\Scripts\Menus\GPDummyCustomizationScreen.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Quads.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WaterVolumeBox.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\StylizedWaterUtilities.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\DamageManager.cs" />
     <Compile Include="Assets\Scripts\Data\Store\Chests\GPStoreChestSO.cs" />
     <Compile Include="Assets\GUI\Extensions\UIParticle\UIParticleSystem.cs" />
@@ -249,6 +253,7 @@
     <Compile Include="Assets\_Main\Scenes\Debug\DebugTrajectory.cs" />
     <Compile Include="Assets\Bitgem\StylisedWater\URP\Scripts\Bitgem\VFX\StylisedWater\WateverVolumeFloater.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\EnableDepthBuffer.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Fisheye.cs" />
     <Compile Include="Assets\_Main\Scripts\Core\UI.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\MotionBlur.cs" />
@@ -260,6 +265,7 @@
     <Compile Include="Assets\Scripts\Menus\GPCrewScreen.cs" />
     <Compile Include="Assets\Volume Fog V2\Scripts\FlyCamera.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\SpinnerUI.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\StylizedWaterBlur.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\ColorCorrectionCurves.cs" />
     <Compile Include="Assets\3d_party\LeanTween\Framework\LeanTween.cs" />
@@ -320,6 +326,7 @@
     <Compile Include="Assets\Scripts\Menus\GPFriendWindow.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Profile\UserMiniatureUI.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerManager.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\StylizedWaterRenderer.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\RpcManager.cs" />
@@ -330,6 +337,7 @@
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\PrivateKey\Web3PrivateKeySend721Example.cs" />
     <Compile Include="Assets\Scripts\Menus\GPLevelUpScreen.cs" />
     <Compile Include="Assets\Scripts\UI\GPRouletteItem.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\StylizedWaterResources.cs" />
     <Compile Include="Assets\Scripts\Data\Store\Gems\GPStoreGemsSO.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\EVM\EthBalanceOfExample.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\NoiseAndScratches.cs" />
@@ -448,6 +456,7 @@
     <Compile Include="Assets\Scripts\UI\GPWeeklyRewardBlock.cs" />
     <Compile Include="Assets\GoodPlaceGames_Toolkit\Scripts\Systems\MessageSystem\GPGMessageWindow.cs" />
     <Compile Include="Assets\Web3Unity\Scripts\Prefabs\WebGL\WebGLSignMessageExample.cs" />
+    <Compile Include="Assets\StylizedWater\Scripts\StylizedWater.cs" />
     <Compile Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\Scripts\Entities\GPMonsterAnimationEvents.cs" />
     <Compile Include="Assets\_Main\Scripts\API\APIManager.cs" />
@@ -486,10 +495,10 @@
     <Compile Include="Assets\Env VFX\Environment VFX pack\Demo\Scripts\_InputKeyBoard.cs" />
     <Compile Include="Assets\_Main\Scripts\UI\Shop\RecipeItemUI.cs" />
     <Compile Include="Assets\_Main\Scripts\Managers\Game\Actor\PlayerStatusManager.cs" />
-    <Compile Include="Assets\_Main\Scripts\WaterWavee.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\Tonemapper.shader" />
+    <None Include="Assets\StylizedWater\Scripts\Textures\Intersection\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\GlobalFog.shader" />
@@ -497,6 +506,7 @@
     <None Include="Assets\Hovl Studio\Epic toon VFX 3\Demo scene\HDRP and URP(LWRP).txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
+    <None Include="Assets\StylizedWater\Scripts\Textures\Normals\Readme.txt" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\Projectors\Shaders\ProjectorLight.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
@@ -522,6 +532,7 @@
     <None Include="Assets\Toon\Shaders\CustomHLSL\CustomLighting.hlsl" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\SSAOShader.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
+    <None Include="Assets\StylizedWater\Scripts\Resources\StylizedWaterReflectionBlur.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\Toon\Shaders\Unused\Outline.hlsl" />
@@ -534,6 +545,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\Toby Fredson\Rocky Hills Environment - Light Pack\Legacy Project\Legacy Project_Read Me!.txt" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\TwirlEffect.shader" />
+    <None Include="Assets\StylizedWater\Shaders\StylizedWater_Mobile.shader" />
     <None Include="Assets\Beautify\_README FIRST!.txt" />
     <None Include="Assets\Photon\PhotonLibs\WebSocket\websocket-sharp.dll" />
     <None Include="Assets\ZerinLabs_shaderPack_CartoonLandscape\shaders\sh_fx_SOLID_vegetationMoving.shader" />
@@ -577,9 +589,11 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
     <None Include="Assets\Gummy Characters\Material\Instruction for materials.txt" />
+    <None Include="Assets\StylizedWater\Changelog.txt" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ToonShading\Shaders\ToonLit.shader" />
+    <None Include="Assets\StylizedWater\Scripts\Textures\Heightmap\Readme.txt" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
@@ -615,6 +629,7 @@
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
     <None Include="Assets\Photon\PhotonLibs\Metro\Photon3Unity3D.dll" />
     <None Include="Assets\ZerinLabs_shaderPack_CartoonLandscape\shaders\sh_regular_SOLID_groundWorldCoords_props.shader" />
+    <None Include="Assets\StylizedWater\Shaders\StylizedWater_Desktop.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
     <None Include="Assets\Gummy Characters\SRP\URP\Material\Instruction for materials.txt" />
@@ -627,6 +642,7 @@
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
     <None Include="Assets\Gummy Characters\Shader\PBRMaskTint.shader" />
     <None Include="Assets\ZerinLabs_shaderPack_CartoonLandscape\shaders\sh_fx_CUTOUT_flagAnimVert.shader" />
+    <None Include="Assets\StylizedWater\Effects\Shaders\StylizedWater_Particle_Mobile.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />
     <None Include="Assets\Hovl Studio\Epic toon VFX 3\Shaders\Add_CenterGlow.shader" />
@@ -634,6 +650,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\StylizedWater\Effects\Shaders\StylizedWater_Particle_Desktop.shader" />
     <None Include="Assets\Hovl Studio\Epic toon VFX 3\Demo scene\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
@@ -642,6 +659,7 @@
     <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Beautify\URP\Demo\DemoSources\Skybox\README_SKYBOX.txt" />
+    <None Include="Assets\StylizedWater\Shaders\Lighting.hlsl" />
     <None Include="Assets\GUI\Extensions\UIParticle\UIAdditive.shader" />
     <None Include="Assets\Realistic Terrain Collection\Other\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
     <None Include="Assets\Volume Fog V2\Scripts\Noise 3D gen.compute" />
