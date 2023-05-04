@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5391126101065855346}
   - component: {fileID: 5391126101065855347}
   - component: {fileID: 1254704006904994089}
+  - component: {fileID: 4761592520009857324}
   m_Layer: 5
   m_Name: Chat icon
   m_TagString: Untagged
@@ -133,6 +134,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4761592520009857324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5391126101065855341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 0}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &5391126101427440437
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +710,7 @@ GameObject:
   - component: {fileID: 5391126102450354463}
   - component: {fileID: 5391126102450354456}
   - component: {fileID: 2336857347621304783}
+  - component: {fileID: 2304262093083563388}
   m_Layer: 5
   m_Name: Plus icon
   m_TagString: Untagged
@@ -815,6 +832,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2304262093083563388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5391126102450354458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 0}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1 &5391126102533268803
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,6 +859,7 @@ GameObject:
   - component: {fileID: 5391126102533268800}
   - component: {fileID: 5391126102533268801}
   - component: {fileID: 6093638423634926656}
+  - component: {fileID: 936722606635209705}
   m_Layer: 5
   m_Name: Block icon
   m_TagString: Untagged
@@ -948,6 +981,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &936722606635209705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5391126102533268803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efceaedd2256a446ac7be9230487251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClick: {fileID: 0}
+  tweenDuration: 0.1
+  tweenEase: 1
 --- !u!1001 &5260087506252996163
 PrefabInstance:
   m_ObjectHideFlags: 0

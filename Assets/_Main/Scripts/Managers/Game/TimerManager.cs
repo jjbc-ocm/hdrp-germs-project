@@ -66,16 +66,10 @@ public class TimerManager : MonoBehaviour
 
         if (GameManager.Instance.IsGameOver() && !isAftermathCalled)
         {
-            //int[] score = PhotonNetwork.CurrentRoom.GetScore();
+            Debug.Log("GOT IN TIMER");
 
             //close room for joining players
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            //tell all clients the winning team
-
-            /*var winnerTeamIndex =
-                score[0] > score[1] ? 0 :
-                score[0] < score[1] ? 1 :
-                -1;*/
 
             PlayerManager.Mine.photonView.RPC("RpcGameOver", RpcTarget.All);
 
