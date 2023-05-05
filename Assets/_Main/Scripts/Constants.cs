@@ -142,5 +142,7 @@ public enum TutorialEventTriggerType
 {
     OnTriggerEnter,
 
-    OnDestroy
+    OnDestroy,
+
+    OnWaitASecond
 }
