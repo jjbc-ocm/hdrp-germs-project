@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TutorialManager : Singleton<TutorialManager>
 {
@@ -32,6 +33,16 @@ public class TutorialManager : Singleton<TutorialManager>
     public void NextEvent()
     {
         eventIndex += 1;
+
+        foreach (var info in infos)
+        {
+            info.Prefab.SetActive(eventIndex >= info.EventIndexMin && eventIndex <= info.EventIndexMax);
+        }
+    }
+
+    public void SetEventIndex(int index)
+    {
+        eventIndex = index;
 
         foreach (var info in infos)
         {
