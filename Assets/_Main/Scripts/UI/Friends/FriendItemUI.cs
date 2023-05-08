@@ -48,7 +48,7 @@ public class FriendItemUI : UI<FriendItemUI>
     private string GetStatusAsString()
     {
         if (Data.IsOnline)
-            return "Offline";
+            return "Online";
 
         if (Data.IsBusy)
             return "Busy";
