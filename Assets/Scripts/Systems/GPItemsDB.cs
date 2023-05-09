@@ -6,23 +6,23 @@ public class GPItemsDB : MonoBehaviour
 {
     [Header("Dummy Parts")]
     [SerializeField]
-    List<GPDummyPartDesc> m_dummySkins = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummySkins = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyEyes = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyEyes = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyMouths = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyMouths = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyHairs = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyHairs = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyHorns = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyHorns = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyWears = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyWears = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyGloves = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyGloves = new List<DummyPartSO>();
     [SerializeField]
-    List<GPDummyPartDesc> m_dummyTails = new List<GPDummyPartDesc>();
+    List<DummyPartSO> m_dummyTails = new List<DummyPartSO>();
 
-    public Dictionary<string, GPDummyPartDesc> m_dummyPartsMap = new Dictionary<string, GPDummyPartDesc>();
+    public Dictionary<string, DummyPartSO> m_dummyPartsMap = new Dictionary<string, DummyPartSO>();
 
     [Header("Crews")]
     [SerializeField]
@@ -113,10 +113,10 @@ public class GPItemsDB : MonoBehaviour
     /// <param name="type"></param>
     /// <param name="rarity"></param>
     /// <returns></returns>
-    public List<GPDummyPartDesc> GetPartsOfTypeAndRarity(GP_DUMMY_PART_TYPE type, GP_DUMMY_PART_RARITY rarity)
+    public List<DummyPartSO> GetPartsOfTypeAndRarity(GP_DUMMY_PART_TYPE type, GP_DUMMY_PART_RARITY rarity)
     {
-        List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
-        foreach (KeyValuePair<string, GPDummyPartDesc> entry in m_dummyPartsMap)
+        List<DummyPartSO> parts = new List<DummyPartSO>();
+        foreach (KeyValuePair<string, DummyPartSO> entry in m_dummyPartsMap)
         {
             if (entry.Value.m_rarity == rarity && entry.Value.m_type == type)
             {
@@ -131,10 +131,10 @@ public class GPItemsDB : MonoBehaviour
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public List<GPDummyPartDesc> GetPartsOfType(GP_DUMMY_PART_TYPE type)
+    public List<DummyPartSO> GetPartsOfType(GP_DUMMY_PART_TYPE type)
     {
-        List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
-        foreach (KeyValuePair<string, GPDummyPartDesc> entry in m_dummyPartsMap)
+        List<DummyPartSO> parts = new List<DummyPartSO>();
+        foreach (KeyValuePair<string, DummyPartSO> entry in m_dummyPartsMap)
         {
             if (entry.Value.m_type == type)
             {
@@ -149,10 +149,10 @@ public class GPItemsDB : MonoBehaviour
     /// </summary>
     /// <param name="rarity"></param>
     /// <returns></returns>
-    public List<GPDummyPartDesc> GetPartsOfRarity(GP_DUMMY_PART_RARITY rarity)
+    public List<DummyPartSO> GetPartsOfRarity(GP_DUMMY_PART_RARITY rarity)
     {
-        List<GPDummyPartDesc> parts = new List<GPDummyPartDesc>();
-        foreach (KeyValuePair<string, GPDummyPartDesc> entry in m_dummyPartsMap)
+        List<DummyPartSO> parts = new List<DummyPartSO>();
+        foreach (KeyValuePair<string, DummyPartSO> entry in m_dummyPartsMap)
         {
             if (entry.Value.m_rarity == rarity)
             {

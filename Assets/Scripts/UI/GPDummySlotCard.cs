@@ -18,7 +18,7 @@ public class GPDummySlotCard : MonoBehaviour
     Vector3 m_originalScale;
     Vector3 m_originalLocalEuler;
     public GPDummyData m_savedData;
-    public GPDummyPartDesc m_defaultEyes;
+    public DummyPartSO m_defaultEyes;
     bool m_equipDefault = true;
 
     void Awake()
@@ -90,7 +90,7 @@ public class GPDummySlotCard : MonoBehaviour
     /// </summary>
     /// <param name="desc"></param>
     /// <param name="animate"></param>
-    public void EquipCustomPart(GPDummyPartDesc desc, bool animate = true)
+    public void EquipCustomPart(DummyPartSO desc, bool animate = true)
     {
         if (desc == null)
         {
@@ -114,7 +114,7 @@ public class GPDummySlotCard : MonoBehaviour
     /// Deactivates a dummy part on the dummy model
     /// </summary>
     /// <param name="desc"></param>
-    public void UnequipCustomPart(GPDummyPartDesc desc, bool animate = true)
+    public void UnequipCustomPart(DummyPartSO desc, bool animate = true)
     {
         if (desc == null)
         {

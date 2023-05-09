@@ -22,12 +22,15 @@ public enum GP_DUMMY_PART_RARITY
     kCrystal
 }
 
-[CreateAssetMenu(fileName = "GPDummyPartDesc", menuName = "ScriptableObjects/GPDummyPartDesc")]
-public class GPDummyPartDesc : ScriptableObject
+[CreateAssetMenu(fileName = "DummyPartSO", menuName = "ScriptableObjects/DummyPartSO")]
+public class DummyPartSO : ScriptableObject
 {
     [SerializeField]
     [ScriptableObjectId]
     private string id;
+
+    [SerializeField]
+    private int cost;
 
     public GP_DUMMY_PART_TYPE m_type;
     public GP_DUMMY_PART_RARITY m_rarity;
@@ -37,4 +40,6 @@ public class GPDummyPartDesc : ScriptableObject
     public Material m_material; // Override material to use for that body part
 
     public string ID { get => id; }
+
+    public int Cost { get => cost; }
 }

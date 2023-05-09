@@ -187,6 +187,17 @@ public class PlayerData
         return this;
     }
 
+    public async Task<PlayerData> SubCoins(int value)
+    {
+        var result = await EconomyService.Instance.PlayerBalances.DecrementBalanceAsync("COINS", value);
+
+        var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "COINS");
+
+        getBalances[targetIndex] = result;
+
+        return this;
+    }
+
     public async Task<PlayerData> AddGems(int value)
     {
         var result = await EconomyService.Instance.PlayerBalances.IncrementBalanceAsync("GEMS", value);
@@ -194,6 +205,36 @@ public class PlayerData
         var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "GEMS");
 
         getBalances[targetIndex] = result;
+
+        return this;
+    }
+
+    public async Task<PlayerData> SubGems(int value)
+    {
+        var result = await EconomyService.Instance.PlayerBalances.DecrementBalanceAsync("GEMS", value);
+
+        var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "GEMS");
+
+        getBalances[targetIndex] = result;
+
+        return this;
+    }
+
+    public async Task<PlayerData> AddDummyPart(DummyPartSO dummyPart)
+    {
+        var options = new AddInventoryItemOptions
+        {
+            InstanceData = new Dictionary<string, object>
+            {
+                { "id", dummyPart.ID }
+            }
+        };
+
+        var result = await EconomyService.Instance.PlayerInventory.AddInventoryItemAsync("DUMMY_PART", options);
+
+        //var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "GEMS");
+
+        //getBalances[targetIndex] = result;
 
         return this;
     }
@@ -212,14 +253,14 @@ public class DummyData
     public string DummyName;
 
     public GPDummyData ToGPDummyData(
-        List<GPDummyPartDesc> skins, 
-        List<GPDummyPartDesc> eyes, 
-        List<GPDummyPartDesc> mouths,
-        List<GPDummyPartDesc> hairs,
-        List<GPDummyPartDesc> horns,
-        List<GPDummyPartDesc> wears,
-        List<GPDummyPartDesc> gloves,
-        List<GPDummyPartDesc> tails)
+        List<DummyPartSO> skins, 
+        List<DummyPartSO> eyes, 
+        List<DummyPartSO> mouths,
+        List<DummyPartSO> hairs,
+        List<DummyPartSO> horns,
+        List<DummyPartSO> wears,
+        List<DummyPartSO> gloves,
+        List<DummyPartSO> tails)
     {
         return new GPDummyData
         {

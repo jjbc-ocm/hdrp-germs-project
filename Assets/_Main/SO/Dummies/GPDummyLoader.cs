@@ -25,7 +25,7 @@ public class GPDummyLoader : MonoBehaviour
                 continue;
             }
 
-            GPDummyPartDesc part = GPItemsDB.m_instance.m_dummyPartsMap[key];
+            DummyPartSO part = GPItemsDB.m_instance.m_dummyPartsMap[key];
             switch (part.m_type)
             {
                 case GP_DUMMY_PART_TYPE.kSkin:
@@ -78,7 +78,7 @@ public class GPDummyLoader : MonoBehaviour
     /// </summary>
     /// <param name="desc"></param>
     /// <param name="animate"></param>
-    public void EquipCustomPart(GPDummyPartDesc desc)
+    public void EquipCustomPart(DummyPartSO desc)
     {
         if (!desc)
         {
@@ -97,7 +97,7 @@ public class GPDummyLoader : MonoBehaviour
     /// Deactivates a dummy part on the dummy model
     /// </summary>
     /// <param name="desc"></param>
-    public void UnequipCustomPart(GPDummyPartDesc desc)
+    public void UnequipCustomPart(DummyPartSO desc)
     {
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
         part.gameObject.SetActive(false);

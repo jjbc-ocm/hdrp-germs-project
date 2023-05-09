@@ -11,6 +11,9 @@ public class SOManager : Singleton<SOManager>
     private SettingsSO settings;
 
     [SerializeField]
+    private DummyPartSO[] dummyParts;
+
+    [SerializeField]
     private GPShipDesc[] playerShips;
 
     [SerializeField]
@@ -19,6 +22,8 @@ public class SOManager : Singleton<SOManager>
     public ConstantsSO Constants { get => constants; }
 
     public SettingsSO Settings { get => settings; }
+
+    public DummyPartSO[] DummyParts { get => dummyParts; }
 
     public GPShipDesc[] PlayerShips { get => playerShips; }
 

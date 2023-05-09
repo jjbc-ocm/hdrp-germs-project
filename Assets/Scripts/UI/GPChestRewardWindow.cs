@@ -71,7 +71,7 @@ public class GPChestRewardWindow : GPGWindowUI
     /// Display the given dummy parts as rewards.
     /// </summary>
     /// <param name="dummyParts"></param>
-    public void DisplayDummyRewards(List<GPDummyPartDesc> dummyParts)
+    public void DisplayDummyRewards(List<DummyPartSO> dummyParts)
     {
         for (int i = 0; i < dummyParts.Count; i++)
         {

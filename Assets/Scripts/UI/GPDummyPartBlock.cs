@@ -10,7 +10,7 @@ public class GPDummyPartBlock : MonoBehaviour
     public Image m_selectedPinImage;
     public Button m_button;
     [HideInInspector]
-    public GPDummyPartDesc m_partDesc;
+    public DummyPartSO m_partDesc;
 
     public UnityEvent<GPDummyPartBlock> OnSelectedEvent;
 
@@ -25,7 +25,7 @@ public class GPDummyPartBlock : MonoBehaviour
     /// Changes the icon of the body part button using the given dummy part description
     /// </summary>
     /// <param name="desc"></param>
-    public void DisplayPart(GPDummyPartDesc desc)
+    public void DisplayPart(DummyPartSO desc)
     {
         m_partDesc = desc;
         m_iconSprite.sprite = desc.m_displayIcon;

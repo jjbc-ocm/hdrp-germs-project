@@ -15,14 +15,14 @@ public class GPUITab
 [System.Serializable]
 public class GPDummyData
 {
-    public GPDummyPartDesc m_skin;
-    public GPDummyPartDesc m_eye;
-    public GPDummyPartDesc m_mouth;
-    public GPDummyPartDesc m_hair;
-    public GPDummyPartDesc m_horns;
-    public GPDummyPartDesc m_wear;
-    public GPDummyPartDesc m_gloves;
-    public GPDummyPartDesc m_tail;
+    public DummyPartSO m_skin;
+    public DummyPartSO m_eye;
+    public DummyPartSO m_mouth;
+    public DummyPartSO m_hair;
+    public DummyPartSO m_horns;
+    public DummyPartSO m_wear;
+    public DummyPartSO m_gloves;
+    public DummyPartSO m_tail;
     public string m_dummyName;
 
     public DummyData ToDummyData()
