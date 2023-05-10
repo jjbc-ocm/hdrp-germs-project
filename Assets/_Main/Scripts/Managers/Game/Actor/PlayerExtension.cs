@@ -19,19 +19,11 @@ public static class PlayerExtension
 
     public static void Initialize(this Player player, int shipIndex)
     {
-        var profile = GPPlayerProfile.m_instance;
+        //var profile = GPPlayerProfile.m_instance;
 
         var playerData = APIManager.Instance.PlayerData;
 
-        var dummyData = playerData.Dummy(playerData.SelectedDummyIndex).ToGPDummyData(
-            profile.m_dummySkins,
-            profile.m_dummyEyes,
-            profile.m_dummyMouths,
-            profile.m_dummyHairs,
-            profile.m_dummyHorns,
-            profile.m_dummyWears,
-            profile.m_dummyGloves,
-            profile.m_dummyTails);
+        var dummyData = playerData.Dummy(playerData.SelectedDummyIndex).ToGPDummyData(SOManager.Instance.DummyParts);
 
         player.SetCustomProperties(new Hashtable
         {

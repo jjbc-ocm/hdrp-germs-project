@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
 
 public class GPDummyLoader : MonoBehaviour
 {
@@ -20,12 +21,14 @@ public class GPDummyLoader : MonoBehaviour
                 continue;
             }
 
-            if (!GPItemsDB.m_instance.m_dummyPartsMap.ContainsKey(key))
+            /*if (!GPItemsDB.m_instance.m_dummyPartsMap.ContainsKey(key))
             {
                 continue;
-            }
+            }*/
 
-            DummyPartSO part = GPItemsDB.m_instance.m_dummyPartsMap[key];
+            var part = SOManager.Instance.DummyParts.FirstOrDefault(i => key == i.name);
+
+            //DummyPartSO part = GPItemsDB.m_instance.m_dummyPartsMap[key];
             switch (part.m_type)
             {
                 case GP_DUMMY_PART_TYPE.kSkin:
@@ -84,13 +87,18 @@ public class GPDummyLoader : MonoBehaviour
         {
             return;
         }
-        Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
-        part.gameObject.SetActive(true);
-        if (desc.m_material != null)
-        {
-            part.GetComponent<Renderer>().material = desc.m_material;
-        }
 
+        Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
+
+        if (part)
+        {
+            part.gameObject.SetActive(true);
+
+            if (desc.m_material != null)
+            {
+                part.GetComponent<Renderer>().material = desc.m_material;
+            }
+        }
     }
 
     /// <summary>
@@ -99,7 +107,7 @@ public class GPDummyLoader : MonoBehaviour
     /// <param name="desc"></param>
     public void UnequipCustomPart(DummyPartSO desc)
     {
-        Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
+        Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
         part.gameObject.SetActive(false);
     }
 

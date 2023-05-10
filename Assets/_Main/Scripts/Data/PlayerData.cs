@@ -226,7 +226,7 @@ public class PlayerData
         {
             InstanceData = new Dictionary<string, object>
             {
-                { "id", dummyPart.ID }
+                { "name", dummyPart.name }
             }
         };
 
@@ -242,36 +242,28 @@ public class PlayerData
 
 public class DummyData
 {
-    public string SkinID;
-    public string EyeID;
-    public string MouthID;
-    public string HairID;
-    public string HornID;
-    public string WearID;
-    public string GloveID;
-    public string TailID;
+    public string Skin;
+    public string Eye;
+    public string Mouth;
+    public string Hair;
+    public string Horn;
+    public string Wear;
+    public string Glove;
+    public string Tail;
     public string DummyName;
 
-    public GPDummyData ToGPDummyData(
-        List<DummyPartSO> skins, 
-        List<DummyPartSO> eyes, 
-        List<DummyPartSO> mouths,
-        List<DummyPartSO> hairs,
-        List<DummyPartSO> horns,
-        List<DummyPartSO> wears,
-        List<DummyPartSO> gloves,
-        List<DummyPartSO> tails)
+    public GPDummyData ToGPDummyData(DummyPartSO[] dummyParts)
     {
         return new GPDummyData
         {
-            m_skin = skins.FirstOrDefault(i => i.ID == SkinID),
-            m_eye = eyes.FirstOrDefault(i => i.ID == EyeID),
-            m_mouth = mouths.FirstOrDefault(i => i.ID == MouthID),
-            m_hair = hairs.FirstOrDefault(i => i.ID == HairID),
-            m_horns = horns.FirstOrDefault(i => i.ID == HornID),
-            m_wear = wears.FirstOrDefault(i => i.ID == WearID),
-            m_gloves = gloves.FirstOrDefault(i => i.ID == GloveID),
-            m_tail = tails.FirstOrDefault(i => i.ID == TailID),
+            m_skin = dummyParts.FirstOrDefault(i => i.name == Skin),
+            m_eye = dummyParts.FirstOrDefault(i => i.name == Eye),
+            m_mouth = dummyParts.FirstOrDefault(i => i.name == Mouth),
+            m_hair = dummyParts.FirstOrDefault(i => i.name == Hair),
+            m_horns = dummyParts.FirstOrDefault(i => i.name == Horn),
+            m_wear = dummyParts.FirstOrDefault(i => i.name == Wear),
+            m_gloves = dummyParts.FirstOrDefault(i => i.name == Glove),
+            m_tail = dummyParts.FirstOrDefault(i => i.name == Tail),
             m_dummyName = DummyName,
         };
     }

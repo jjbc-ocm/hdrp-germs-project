@@ -92,22 +92,29 @@ public class GPDummySlotCard : MonoBehaviour
     /// <param name="animate"></param>
     public void EquipCustomPart(DummyPartSO desc, bool animate = true)
     {
-        if (desc == null)
+        if (!desc)
         {
             return;
         }
 
-        Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
-        part.gameObject.SetActive(true);
-        if (desc.m_material != null)
+        Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
+
+        if (part)
         {
-            part.GetComponent<Renderer>().material = desc.m_material;
+            part.gameObject.SetActive(true);
+
+            if (desc.m_material != null)
+            {
+                part.GetComponent<Renderer>().material = desc.m_material;
+            }
         }
 
         if (animate)
         {
             LeanTween.scale(m_dummyModelRef.gameObject, m_originalScale - (Vector3.one * 0.2f), 0.4f).setEasePunch().setOnComplete(ResetScale);
         }
+
+
     }
 
     /// <summary>
@@ -116,14 +123,18 @@ public class GPDummySlotCard : MonoBehaviour
     /// <param name="desc"></param>
     public void UnequipCustomPart(DummyPartSO desc, bool animate = true)
     {
-        if (desc == null)
+        if (!desc)
         {
             return;
         }
 
-        Transform part = RecursiveFindChild(m_dummyModelRef, desc.m_gameObjectName);
-        part.gameObject.SetActive(false);
+        Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
 
+        if (part)
+        {
+            part.gameObject.SetActive(false);
+        }
+        
         if (animate)
         {
             m_dummyModelRef.gameObject.transform.localScale = m_originalScale;
@@ -159,6 +170,8 @@ public class GPDummySlotCard : MonoBehaviour
             UnequipCustomPart(m_defaultEyes, false);
             m_equipDefault = false;
         }
+
+        Debug.Log(data.m_eye?.name ?? "");
 
         EquipCustomPart(data.m_skin, false);
         EquipCustomPart(data.m_eye, false);
