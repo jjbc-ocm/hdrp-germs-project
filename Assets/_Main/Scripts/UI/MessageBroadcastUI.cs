@@ -38,8 +38,8 @@ public class MessageBroadcastUI : UI<MessageBroadcastUI>
             "";
 
         textTarget.text =
-            Type == MessageBroadcastType.ChestObtained || Type == MessageBroadcastType.ChestDropped ? "Chest" :
-            Type == MessageBroadcastType.KeyObtained || Type == MessageBroadcastType.KeyDropped ? "Key" :
+            Type == MessageBroadcastType.ChestObtained || Type == MessageBroadcastType.ChestDropped ? "<color=yellow>Chest</color>" :
+            Type == MessageBroadcastType.KeyObtained || Type == MessageBroadcastType.KeyDropped ? "<color=yellow>Key</color>" :
             "";
 
         textPlayer.color = colorTeams[Player.GetTeam()];
