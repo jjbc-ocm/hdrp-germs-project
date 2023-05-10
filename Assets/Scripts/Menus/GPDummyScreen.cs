@@ -33,20 +33,10 @@ public class GPDummyScreen : GPGUIScreen
 
     public override void Show()
     {
-        var profile = GPPlayerProfile.m_instance;
-
         base.Show();
         for (int i = 0; i < m_dummySlots.Count; i++)
         {
-            var data = APIManager.Instance.PlayerData.Dummy(i).ToGPDummyData(
-                profile.m_dummySkins,
-                profile.m_dummyEyes,
-                profile.m_dummyMouths,
-                profile.m_dummyHairs,
-                profile.m_dummyHorns,
-                profile.m_dummyWears,
-                profile.m_dummyGloves,
-                profile.m_dummyTails);
+            var data = APIManager.Instance.PlayerData.Dummy(i).ToGPDummyData(SOManager.Instance.DummyParts);
 
             //m_dummySlots[i].ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[i]);
             m_dummySlots[i].ChangeAppearance(data);

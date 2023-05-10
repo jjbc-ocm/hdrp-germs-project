@@ -11,7 +11,7 @@ public class GPCustomizationTabScreen : GPGUIScreen
 
     [Header("Customization menu references")]
     public Transform m_container; // where parts buttons will be parented
-    private List<GPDummyPartDesc> m_parts = new List<GPDummyPartDesc>();
+    private List<DummyPartSO> m_parts = new List<DummyPartSO>();
     public GPDummyPartBlock m_blockPrefab; // part button prefab
     [HideInInspector]
     public List<GPDummyPartBlock> m_partBlocks = new List<GPDummyPartBlock>(); // store the instanced part buttons
@@ -172,7 +172,7 @@ public class GPCustomizationTabScreen : GPGUIScreen
         return null;
     }
 
-    public GPDummyPartBlock FindBlockOfPartDesc(GPDummyPartDesc desc)
+    public GPDummyPartBlock FindBlockOfPartDesc(DummyPartSO desc)
     {
         for (int i = 0; i < m_partBlocks.Count; i++)
         {

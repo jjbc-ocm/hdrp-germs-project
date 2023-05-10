@@ -13,14 +13,14 @@ public class GPPlayerProfile : MonoBehaviour
     [Header("Owned items settings")]
     public List<GPShipDesc> m_ships;
     public List<GPProfileIconSO> m_profileIcons;
-    public List<GPDummyPartDesc> m_dummySkins;
-    public List<GPDummyPartDesc> m_dummyEyes;
-    public List<GPDummyPartDesc> m_dummyMouths;
-    public List<GPDummyPartDesc> m_dummyHairs;
-    public List<GPDummyPartDesc> m_dummyHorns;
-    public List<GPDummyPartDesc> m_dummyWears;
-    public List<GPDummyPartDesc> m_dummyGloves;
-    public List<GPDummyPartDesc> m_dummyTails;
+    public List<DummyPartSO> m_dummySkins;
+    public List<DummyPartSO> m_dummyEyes;
+    public List<DummyPartSO> m_dummyMouths;
+    public List<DummyPartSO> m_dummyHairs;
+    public List<DummyPartSO> m_dummyHorns;
+    public List<DummyPartSO> m_dummyWears;
+    public List<DummyPartSO> m_dummyGloves;
+    public List<DummyPartSO> m_dummyTails;
     public UnityEvent OnDummyPartsModifiedEvent; // called when player gets new dummy part
 
     [Header("Social Settings")]
@@ -89,7 +89,7 @@ public class GPPlayerProfile : MonoBehaviour
     /// Adds a dummy part to the owned parts by the user locally.
     /// </summary>
     /// <param name="dummyPart"></param>
-    public void AddDummyPart(GPDummyPartDesc dummyPart)
+    public void AddDummyPart(DummyPartSO dummyPart)
     {
         switch (dummyPart.m_type)
         {

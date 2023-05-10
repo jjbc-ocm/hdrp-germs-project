@@ -15,28 +15,28 @@ public class GPUITab
 [System.Serializable]
 public class GPDummyData
 {
-    public GPDummyPartDesc m_skin;
-    public GPDummyPartDesc m_eye;
-    public GPDummyPartDesc m_mouth;
-    public GPDummyPartDesc m_hair;
-    public GPDummyPartDesc m_horns;
-    public GPDummyPartDesc m_wear;
-    public GPDummyPartDesc m_gloves;
-    public GPDummyPartDesc m_tail;
+    public DummyPartSO m_skin;
+    public DummyPartSO m_eye;
+    public DummyPartSO m_mouth;
+    public DummyPartSO m_hair;
+    public DummyPartSO m_horns;
+    public DummyPartSO m_wear;
+    public DummyPartSO m_gloves;
+    public DummyPartSO m_tail;
     public string m_dummyName;
 
     public DummyData ToDummyData()
     {
         return new DummyData
         {
-            SkinID = m_skin?.ID ?? "",
-            EyeID = m_eye?.ID ?? "",
-            MouthID = m_mouth?.ID ?? "",
-            HairID = m_hair?.ID ?? "",
-            HornID = m_horns?.ID ?? "",
-            WearID = m_wear?.ID ?? "",
-            GloveID = m_gloves?.ID ?? "",
-            TailID = m_tail?.ID ?? "",
+            Skin = m_skin?.name ?? "",
+            Eye = m_eye?.name ?? "",
+            Mouth = m_mouth?.name ?? "",
+            Hair = m_hair?.name ?? "",
+            Horn = m_horns?.name ?? "",
+            Wear = m_wear?.name ?? "",
+            Glove = m_gloves?.name ?? "",
+            Tail = m_tail?.name ?? "",
             DummyName = m_dummyName ?? "",
         };
     }

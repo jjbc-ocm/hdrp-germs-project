@@ -12,7 +12,7 @@ public enum GP_CHEST_TAG
 
 public class GPGivenRewards
 {
-    public List<GPDummyPartDesc> m_dummyParts = new List<GPDummyPartDesc>();
+    public List<DummyPartSO> m_dummyParts = new List<DummyPartSO>();
     public List<GPShipDesc> m_ships = null;
     public List<GPProfileIconSO> m_profileIcons = null;
 }
@@ -65,7 +65,7 @@ public class GPStoreChestSO : ScriptableObject
         return rewards;
     }
 
-    List<GPDummyPartDesc> GiveDummyRewards()
+    List<DummyPartSO> GiveDummyRewards()
     {
         //Suffle part types so they are randombly picked.
         //We'll pick in order so if whe shuffle the lsit they will be random
@@ -75,7 +75,7 @@ public class GPStoreChestSO : ScriptableObject
         List<GP_DUMMY_PART_TYPE> randomTypes = types.OrderBy(a => rng.Next()).ToList();
 
         //Pick random dummy parts
-        List<GPDummyPartDesc> dummyRewards = new List<GPDummyPartDesc>();
+        List<DummyPartSO> dummyRewards = new List<DummyPartSO>();
         int typeIdx = 0;
         for (int i = 0; i < m_dummyPartAmount; i++)
         {
