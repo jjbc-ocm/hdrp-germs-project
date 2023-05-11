@@ -89,6 +89,8 @@ public class PlayerData
         ? JsonUtility.FromJson<DummyData>(strValue)
         : new DummyData();
 
+    public DummyData CurrentDummy() => Dummy(SelectedDummyIndex);
+
     public SettingsData Settings
     {
         get => getData.TryGetValue("settings", out string strValue)
