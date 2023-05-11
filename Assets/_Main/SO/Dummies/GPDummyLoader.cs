@@ -12,56 +12,11 @@ public class GPDummyLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        List<string> dummyKeys = m_view.Owner.GetDummyKeys();
-        GPDummyData loadedData = new GPDummyData();
-        foreach (var key in dummyKeys)
-        {
-            if (key == null)
-            {
-                continue;
-            }
+        var keys = m_view.Owner.GetDummyKeys();
 
-            /*if (!GPItemsDB.m_instance.m_dummyPartsMap.ContainsKey(key))
-            {
-                continue;
-            }*/
+        var data = new GPDummyData(keys);
 
-            var part = SOManager.Instance.DummyParts.FirstOrDefault(i => key == i.name);
-
-            //DummyPartSO part = GPItemsDB.m_instance.m_dummyPartsMap[key];
-            switch (part.m_type)
-            {
-                case GP_DUMMY_PART_TYPE.kSkin:
-                    loadedData.m_skin = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kEye:
-                    loadedData.m_eye = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kMouth:
-                    loadedData.m_mouth = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kHair:
-                    loadedData.m_hair = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kHorn:
-                    loadedData.m_horns = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kWear:
-                    loadedData.m_wear = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kGlove:
-                    loadedData.m_gloves = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kTail:
-                    loadedData.m_tail = part;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        ChangeAppearance(loadedData);
-        //ChangeAppearance(GPPlayerProfile.m_instance.m_dummySlots[GPPlayerProfile.m_instance.m_currDummySlotIdx]);
+        ChangeAppearance(data);
     }
 
     public void ChangeAppearance(GPDummyData data)

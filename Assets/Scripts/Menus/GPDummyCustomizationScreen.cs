@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 [System.Serializable]
 public class GPUITab
@@ -24,6 +25,48 @@ public class GPDummyData
     public DummyPartSO m_gloves;
     public DummyPartSO m_tail;
     public string m_dummyName;
+
+    public GPDummyData() { }
+
+    public GPDummyData(List<string> keys)
+    {
+        foreach (var key in keys)
+        {
+            if (key == null) continue;
+
+            var part = SOManager.Instance.DummyParts.FirstOrDefault(i => key == i.name);
+
+            switch (part.m_type)
+            {
+                case GP_DUMMY_PART_TYPE.kSkin:
+                    m_skin = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kEye:
+                    m_eye = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kMouth:
+                    m_mouth = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHair:
+                    m_hair = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHorn:
+                    m_horns = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kWear:
+                    m_wear = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kGlove:
+                    m_gloves = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kTail:
+                    m_tail = part;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     public DummyData ToDummyData()
     {
