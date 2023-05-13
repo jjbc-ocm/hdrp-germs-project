@@ -176,8 +176,7 @@ public class GPDummySlotCard : MonoBehaviour
         EquipCustomPart(data.m_skin, false);
         EquipCustomPart(data.m_eye, false);
         EquipCustomPart(data.m_mouth, false);
-        EquipCustomPart(data.m_hair, false);
-        EquipCustomPart(data.m_horns, false);
+        EquipCustomPart(data.m_head, false);
         EquipCustomPart(data.m_wear, false);
         EquipCustomPart(data.m_gloves, false);
         EquipCustomPart(data.m_tail, false);

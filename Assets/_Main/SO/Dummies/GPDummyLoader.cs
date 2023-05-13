@@ -24,8 +24,7 @@ public class GPDummyLoader : MonoBehaviour
         EquipCustomPart(data.m_skin);
         EquipCustomPart(data.m_eye);
         EquipCustomPart(data.m_mouth);
-        EquipCustomPart(data.m_hair);
-        EquipCustomPart(data.m_horns);
+        EquipCustomPart(data.m_head);
         EquipCustomPart(data.m_wear);
         EquipCustomPart(data.m_gloves);
         EquipCustomPart(data.m_tail);

@@ -19,8 +19,7 @@ public class GPDummyData
     public DummyPartSO m_skin;
     public DummyPartSO m_eye;
     public DummyPartSO m_mouth;
-    public DummyPartSO m_hair;
-    public DummyPartSO m_horns;
+    public DummyPartSO m_head;
     public DummyPartSO m_wear;
     public DummyPartSO m_gloves;
     public DummyPartSO m_tail;
@@ -47,11 +46,8 @@ public class GPDummyData
                 case GP_DUMMY_PART_TYPE.kMouth:
                     m_mouth = part;
                     break;
-                case GP_DUMMY_PART_TYPE.kHair:
-                    m_hair = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kHorn:
-                    m_horns = part;
+                case GP_DUMMY_PART_TYPE.kHead:
+                    m_head = part;
                     break;
                 case GP_DUMMY_PART_TYPE.kWear:
                     m_wear = part;
@@ -75,8 +71,7 @@ public class GPDummyData
             Skin = m_skin?.name ?? "",
             Eye = m_eye?.name ?? "",
             Mouth = m_mouth?.name ?? "",
-            Hair = m_hair?.name ?? "",
-            Horn = m_horns?.name ?? "",
+            Head = m_head?.name ?? "",
             Wear = m_wear?.name ?? "",
             Glove = m_gloves?.name ?? "",
             Tail = m_tail?.name ?? "",
