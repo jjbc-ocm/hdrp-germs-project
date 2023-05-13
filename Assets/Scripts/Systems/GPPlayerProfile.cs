@@ -111,7 +111,7 @@ public class GPPlayerProfile : MonoBehaviour
                     m_dummyMouths.Add(dummyPart);
                 }
                 break;
-            case GP_DUMMY_PART_TYPE.kHair:
+           /* case GP_DUMMY_PART_TYPE.kHair:
                 if (!m_dummyHairs.Contains(dummyPart))
                 {
                     m_dummyHairs.Add(dummyPart);
@@ -122,7 +122,7 @@ public class GPPlayerProfile : MonoBehaviour
                 {
                     m_dummyHorns.Add(dummyPart);
                 }
-                break;
+                break;*/
             case GP_DUMMY_PART_TYPE.kWear:
                 if (!m_dummyWears.Contains(dummyPart))
                 {

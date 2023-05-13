@@ -33,8 +33,7 @@ public static class PlayerExtension
             {"skin", dummyData.m_skin?.name },
             {"eyes", dummyData.m_eye?.name },
             {"mouth", dummyData.m_mouth?.name },
-            {"hair", dummyData.m_hair?.name },
-            {"horns", dummyData.m_horns?.name},
+            {"head", dummyData.m_head?.name },
             {"wear", dummyData.m_wear?.name },
             {"gloves", dummyData.m_gloves?.name },
             {"tail", dummyData.m_tail?.name }
@@ -106,13 +105,9 @@ public static class PlayerExtension
         {
             dummyKeys.Add((string)mouth);
         }
-        if (player.CustomProperties.TryGetValue("hair", out object hair))
+        if (player.CustomProperties.TryGetValue("head", out object head))
         {
-            dummyKeys.Add((string)hair);
-        }
-        if (player.CustomProperties.TryGetValue("horns", out object horns))
-        {
-            dummyKeys.Add((string)horns);
+            dummyKeys.Add((string)head);
         }
         if (player.CustomProperties.TryGetValue("wear", out object wear))
         {

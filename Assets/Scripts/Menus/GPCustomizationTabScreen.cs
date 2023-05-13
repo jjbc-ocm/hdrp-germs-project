@@ -78,11 +78,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
                 case GP_DUMMY_PART_TYPE.kMouth:
                     m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_mouth = null;
                     break;
-                case GP_DUMMY_PART_TYPE.kHair:
-                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_hair = null;
-                    break;
-                case GP_DUMMY_PART_TYPE.kHorn:
-                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_horns = null;
+                case GP_DUMMY_PART_TYPE.kHead:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_head = null;
                     break;
                 case GP_DUMMY_PART_TYPE.kWear:
                     m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_wear = null;
@@ -117,11 +114,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
                 case GP_DUMMY_PART_TYPE.kMouth:
                     m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_mouth = block.m_partDesc;
                     break;
-                case GP_DUMMY_PART_TYPE.kHair:
-                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_hair = block.m_partDesc;
-                    break;
-                case GP_DUMMY_PART_TYPE.kHorn:
-                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_horns = block.m_partDesc;
+                case GP_DUMMY_PART_TYPE.kHead:
+                    m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_head = block.m_partDesc;
                     break;
                 case GP_DUMMY_PART_TYPE.kWear:
                     m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_wear = block.m_partDesc;
@@ -214,16 +208,10 @@ public class GPCustomizationTabScreen : GPGUIScreen
                     block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_mouth);
                     break;
                 }
-            case GP_DUMMY_PART_TYPE.kHair:
+            case GP_DUMMY_PART_TYPE.kHead:
                 {
 
-                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_hair);
-                    break;
-                }
-            case GP_DUMMY_PART_TYPE.kHorn:
-                {
-
-                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_horns);
+                    block = FindBlockOfPartDesc(m_customization.m_dummyScreen.m_selectedSlot.m_savedData.m_head);
                     break;
                 }
             case GP_DUMMY_PART_TYPE.kWear:
@@ -268,11 +256,8 @@ public class GPCustomizationTabScreen : GPGUIScreen
             case GP_DUMMY_PART_TYPE.kMouth:
                 m_parts = GPPlayerProfile.m_instance.m_dummyMouths;
                 break;
-            case GP_DUMMY_PART_TYPE.kHair:
+            case GP_DUMMY_PART_TYPE.kHead:
                 m_parts = GPPlayerProfile.m_instance.m_dummyHairs;
-                break;
-            case GP_DUMMY_PART_TYPE.kHorn:
-                m_parts = GPPlayerProfile.m_instance.m_dummyHorns;
                 break;
             case GP_DUMMY_PART_TYPE.kWear:
                 m_parts = GPPlayerProfile.m_instance.m_dummyWears;

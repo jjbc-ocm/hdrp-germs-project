@@ -247,8 +247,7 @@ public class DummyData
     public string Skin;
     public string Eye;
     public string Mouth;
-    public string Hair;
-    public string Horn;
+    public string Head;
     public string Wear;
     public string Glove;
     public string Tail;
@@ -261,8 +260,7 @@ public class DummyData
             m_skin = dummyParts.FirstOrDefault(i => i.name == Skin),
             m_eye = dummyParts.FirstOrDefault(i => i.name == Eye),
             m_mouth = dummyParts.FirstOrDefault(i => i.name == Mouth),
-            m_hair = dummyParts.FirstOrDefault(i => i.name == Hair),
-            m_horns = dummyParts.FirstOrDefault(i => i.name == Horn),
+            m_head = dummyParts.FirstOrDefault(i => i.name == Head),
             m_wear = dummyParts.FirstOrDefault(i => i.name == Wear),
             m_gloves = dummyParts.FirstOrDefault(i => i.name == Glove),
             m_tail = dummyParts.FirstOrDefault(i => i.name == Tail),
