@@ -5,9 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.GameFoundation;
 
-public class IAPTest : MonoBehaviour
+public class IAPManager : Singleton<IAPManager>
 {
     private InventoryDef[] shopItems;
+
+    private bool isSuccess;
+
+    #region Unity
 
     private void Start()
     {
@@ -20,13 +24,22 @@ public class IAPTest : MonoBehaviour
             Debug.LogError(e);
         }
 
-        InitializeShopItems();
-
-
         SteamUser.OnMicroTxnAuthorizationResponse += OnPurchaseFinished;
 
-
     }
+
+    #endregion
+
+    #region Public
+
+    public async void InitializeShopItems(Action<InventoryDef[]> onComplete)
+    {
+        shopItems = await SteamInventory.GetDefinitionsWithPricesAsync();
+
+        onComplete.Invoke(shopItems);
+    }
+
+    #endregion
 
 
 
@@ -38,28 +51,31 @@ public class IAPTest : MonoBehaviour
         CheckoutAsync(0);
     }
 
-    private async void InitializeShopItems()
-    {
-        shopItems = await SteamInventory.GetDefinitionsWithPricesAsync();
-
-        foreach (var shopItem in shopItems)
-        {
-            Debug.Log(shopItem.Name + " " + shopItem.LocalPrice);
-        }
-    }
+    
 
     private async void CheckoutAsync(int index)
     {
+        shopItems = await SteamInventory.GetDefinitionsWithPricesAsync(); // TODO: check uli bukas parang may problem yata
+
         // This tries to open the steam overlay to commence the checkout
         var result = await SteamInventory.StartPurchaseAsync(new InventoryDef[] { shopItems[index] });
+
+        //var result = await SteamInventory.StartPurchaseAsync(new InventoryDef[] { new InventoryDef(new Steamworks.Data.InventoryDefId { Value = 100 }) });
 
         Debug.Log($"Result: {result.Value.Result}");
         Debug.Log($"TransID: {result.Value.TransID}");
         Debug.Log($"OrderID: {result.Value.OrderID}");
+
+        if (isSuccess)
+        {
+            Debug.Log("YOWN PWEDE NA ISAVE SA UGS!");
+        }
     }
 
     private void OnPurchaseFinished(AppId appid, ulong orderid, bool success)
     {
+        isSuccess = success;
+
         if (success)
         {
             Debug.Log(appid + " " + orderid);
