@@ -81,7 +81,7 @@ public class GPStoreScreen : GPGUIScreen
     public void ShowTicketScreen()
     {
         m_currentScreen.Hide();
-        m_ticketsScreen.Show();
+        //m_ticketsScreen.Show();
 
         m_currentScreen = m_ticketsScreen;
 
