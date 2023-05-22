@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// TODO: can remove in the future, functionality is transfered to StoreUI
 public class GPStoreScreen : GPGUIScreen
 {
     [Header("Tab buttons")]
@@ -32,7 +33,7 @@ public class GPStoreScreen : GPGUIScreen
     {
         //Suscribe to tab button events
         m_chestButton.onClick.AddListener(ShowChestScreen);
-        m_ticketsButton.onClick.AddListener(ShowTicketScreen);
+        //m_ticketsButton.onClick.AddListener(ShowTicketScreen);
         m_rollButton.onClick.AddListener(ShowRollScreen);
     }
 
@@ -41,13 +42,13 @@ public class GPStoreScreen : GPGUIScreen
         base.Show();
         m_currentScreen = m_chestScreen;
         m_currentTabButton = m_chestButton;
-        ShowChestScreen();
+        //ShowChestScreen();
     }
 
     public override void Hide()
     {
         base.Hide();
-        ShowChestScreen(); // so it's the one selected when the user opens the store again.
+        //ShowChestScreen(); // so it's the one selected when the user opens the store again.
     }
 
     public void LockButtons(bool locked)
@@ -68,11 +69,11 @@ public class GPStoreScreen : GPGUIScreen
 
         m_currentScreen = m_chestScreen;
 
-        MoveTapFocus(m_chestButton.transform);
+        /*MoveTapFocus(m_chestButton.transform);
         m_currentTabButton.GetComponent<TextMeshProUGUI>().color = m_originalTabColor;
         m_chestButton.GetComponent<TextMeshProUGUI>().color = m_selectedTabColor;
         m_currentTabButton = m_chestButton;
-        OnNewTabShown();
+        OnNewTabShown();*/
     }
 
     /// <summary>
@@ -81,17 +82,17 @@ public class GPStoreScreen : GPGUIScreen
     public void ShowTicketScreen()
     {
         m_currentScreen.Hide();
-        //m_ticketsScreen.Show();
+        m_ticketsScreen.Show();
 
         m_currentScreen = m_ticketsScreen;
 
-        MoveTapFocus(m_ticketsButton.transform);
+        /*MoveTapFocus(m_ticketsButton.transform);
 
         m_currentTabButton.GetComponent<TextMeshProUGUI>().color = m_originalTabColor;
         m_ticketsButton.GetComponent<TextMeshProUGUI>().color = m_selectedTabColor;
 
         m_currentTabButton = m_ticketsButton;
-        OnNewTabShown();
+        OnNewTabShown();*/
     }
 
     /// <summary>
@@ -104,12 +105,12 @@ public class GPStoreScreen : GPGUIScreen
 
         m_currentScreen = m_rollScreen;
 
-        MoveTapFocus(m_rollButton.transform);
+        /*MoveTapFocus(m_rollButton.transform);
 
         m_currentTabButton.GetComponent<TextMeshProUGUI>().color = m_originalTabColor;
         m_rollButton.GetComponent<TextMeshProUGUI>().color = m_selectedTabColor;
         m_currentTabButton = m_rollButton;
-        OnNewTabShown();
+        OnNewTabShown();*/
     }
 
     /// <summary>
