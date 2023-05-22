@@ -1,16 +1,47 @@
+using Org.BouncyCastle.Asn1.Mozilla;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StoreUI : UI<StoreUI>
 {
     [SerializeField]
     private GemsUI uiGems;
 
+    [SerializeField]
+    private DPStoreUI uiDPStore;
 
+    [Header("Tab Settings")]
 
-    public void OnGemsClick()
+    [SerializeField]
+    private Button[] buttonTabs;
+
+    [SerializeField]
+    private Transform tabSelectedIndicator;
+
+    [SerializeField]
+    private Color tabSelectedColor;
+
+    [SerializeField]
+    private Color tabNormalColor;
+
+    #region Unity
+
+    private void OnEnable()
     {
+        OnGemsClick(buttonTabs[0]);
+    }
+
+    #endregion
+
+    #region Public
+
+    public void OnGemsClick(Button buttonSelf)
+    {
+        ResetTabUIs();
+
         SpinnerUI.Instance.Open();
 
         IAPManager.Instance.InitializeShopItems((items) =>
@@ -21,12 +52,54 @@ public class StoreUI : UI<StoreUI>
             });
 
             SpinnerUI.Instance.Close();
+
+            UpdateTabUI(buttonSelf, true);
         });
-        
+
     }
+
+    public void OnDummyPartStoreClick(Button buttonSelf)
+    {
+        ResetTabUIs();
+
+        uiDPStore.Open((self) =>
+        {
+            self.Data = SOManager.Instance.DummyParts;
+        });
+
+        UpdateTabUI(buttonSelf, true);
+    }
+
+    #endregion
 
     protected override void OnRefreshUI()
     {
 
     }
+
+    #region Private
+
+    private void ResetTabUIs()
+    {
+        foreach (var buttonTab in buttonTabs)
+        {
+            UpdateTabUI(buttonTab, false);
+        }
+
+        uiGems.Close();
+
+        uiDPStore.Close();
+    }
+
+    private void UpdateTabUI(Button buttonSelf, bool isSelected)
+    {
+        buttonSelf.GetComponent<TMP_Text>().color = isSelected ? tabSelectedColor : tabNormalColor;
+
+        if (isSelected)
+        {
+            LeanTween.move(tabSelectedIndicator.gameObject, buttonSelf.transform.position, 0.3f).setEaseSpring();
+        }
+    }
+
+    #endregion
 }
