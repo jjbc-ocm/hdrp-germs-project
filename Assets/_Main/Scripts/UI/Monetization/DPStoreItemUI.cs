@@ -13,7 +13,12 @@ public class DPStoreItemUI : UI<DPStoreItemUI>
     [SerializeField]
     private TMP_Text textCost;
 
+    [SerializeField]
+    private GameObject selectedIndicator;
+
     public DummyPartSO Data { get; set; }
+
+    public bool IsSelected { get; set; }
 
     public Action OnClickCallback { get; set; }
 
@@ -24,6 +29,10 @@ public class DPStoreItemUI : UI<DPStoreItemUI>
 
     protected override void OnRefreshUI()
     {
+        imageIcon.sprite = Data.Icon;
 
+        textCost.text = Data.Cost.ToString();
+
+        selectedIndicator.SetActive(IsSelected);
     }
 }

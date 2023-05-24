@@ -9,7 +9,7 @@ public class IAPManager : Singleton<IAPManager>
 {
     private InventoryDef[] shopItems;
 
-    private bool isSuccess;
+    //private bool isSuccess;
 
     #region Unity
 
@@ -24,7 +24,7 @@ public class IAPManager : Singleton<IAPManager>
             Debug.LogError(e);
         }
 
-        SteamUser.OnMicroTxnAuthorizationResponse += OnPurchaseFinished;
+        //SteamUser.OnMicroTxnAuthorizationResponse += OnPurchaseFinished;
 
     }
 
@@ -39,7 +39,7 @@ public class IAPManager : Singleton<IAPManager>
         onComplete.Invoke(shopItems);
     }
 
-    public async void BuyGem(InventoryDef item)
+    public async void BuyGem(InventoryDef item, Action onComplete)
     {
         // This tries to open the steam overlay to commence the checkout
         var result = await SteamInventory.StartPurchaseAsync(new InventoryDef[] { item });
@@ -50,9 +50,9 @@ public class IAPManager : Singleton<IAPManager>
         Debug.Log($"TransID: {result.Value.TransID}");
         Debug.Log($"OrderID: {result.Value.OrderID}");
 
-        if (isSuccess)
+        if (result.Value.Result == Result.OK)
         {
-            Debug.Log("YOWN PWEDE NA ISAVE SA UGS!");
+            onComplete.Invoke();
         }
     }
 
@@ -67,7 +67,7 @@ public class IAPManager : Singleton<IAPManager>
 
 
 
-    private void OnPurchaseFinished(AppId appid, ulong orderid, bool success)
+    /*private void OnPurchaseFinished(AppId appid, ulong orderid, bool success)
     {
         isSuccess = success;
 
@@ -80,5 +80,5 @@ public class IAPManager : Singleton<IAPManager>
             Debug.LogError("OnPurchaseFinished failed");
             // They probably pressed cancel or something
         }
-    }
+    }*/
 }

@@ -28,7 +28,7 @@ public class GPDummyPartBlock : MonoBehaviour
     public void DisplayPart(DummyPartSO desc)
     {
         m_partDesc = desc;
-        m_iconSprite.sprite = desc.m_displayIcon;
+        //m_iconSprite.sprite = desc.m_displayIcon;
     }
 
     /// <summary>
