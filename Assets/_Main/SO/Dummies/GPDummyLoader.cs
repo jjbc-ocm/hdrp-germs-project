@@ -48,10 +48,10 @@ public class GPDummyLoader : MonoBehaviour
         {
             part.gameObject.SetActive(true);
 
-            if (desc.m_material != null)
+            /*if (desc.m_material != null)
             {
                 part.GetComponent<Renderer>().material = desc.m_material;
-            }
+            }*/
         }
     }
 
