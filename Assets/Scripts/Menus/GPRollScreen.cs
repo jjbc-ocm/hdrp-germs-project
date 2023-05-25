@@ -31,7 +31,7 @@ public class GPWheelPrize : GPPrize
 
 public class GPRollScreen : GPGUIScreen
 {
-    public GPStoreScreen m_storeScreen;
+    //public GPStoreScreen m_storeScreen;
 
     [Header("UI references")]
     public Button m_spinButton;
@@ -129,7 +129,7 @@ public class GPRollScreen : GPGUIScreen
 
     IEnumerator IESpin()
     {
-        m_storeScreen.LockButtons(true);
+        //m_storeScreen.LockButtons(true);
         string selectedPrize = m_weightedList.Next();
         int prizeIDX = m_weightedList.IndexOf(selectedPrize);
         //Debug.Log(selectedPrize);
@@ -156,7 +156,7 @@ public class GPRollScreen : GPGUIScreen
         m_spinning = false;
 
         GivePrize(m_prizes[prizeIDX]);
-        m_storeScreen.LockButtons(false);
+        //m_storeScreen.LockButtons(false);
     }
 
     public void ShuffleRewards()

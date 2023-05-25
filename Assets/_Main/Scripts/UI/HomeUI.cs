@@ -39,6 +39,13 @@ public class HomeUI : WindowUI<HomeUI>
         Close();
     }
 
+    public void OnStoreClick()
+    {
+        StoreUI.Instance.Open();
+
+        Close();
+    }
+
     public void OnSettingsClick()
     {
         SettingsUI.Instance.Open((self) =>

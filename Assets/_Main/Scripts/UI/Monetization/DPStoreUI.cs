@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
 {
     [SerializeField]
+    private GPDummyLoader dummyPreview;
+
+    [SerializeField]
     private Button buttonBuy;
 
     [Header("Tab Settings")]
@@ -87,6 +90,17 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
         });
 
         buttonBuy.interactable = selectedItem != null;
+
+        if (selectedItem)
+        {
+            foreach (var part in SOManager.Instance.DummyParts)
+            {
+                dummyPreview.UnequipCustomPart(part);
+            }
+
+            dummyPreview.EquipCustomPart(selectedItem.Data);
+            //dummyPreview.ChangeAppearance(new GPDummyData(new List<string> { selectedItem.Data.name }));
+        }
     }
 
     #region Private

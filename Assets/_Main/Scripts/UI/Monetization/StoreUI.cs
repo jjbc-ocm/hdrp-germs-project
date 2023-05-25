@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StoreUI : UI<StoreUI>
+public class StoreUI : WindowUI<StoreUI>
 {
     [SerializeField]
     private GemsUI uiGems;
