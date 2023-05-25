@@ -62,7 +62,15 @@ public class GPDummyLoader : MonoBehaviour
     public void UnequipCustomPart(DummyPartSO desc)
     {
         Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
-        part.gameObject.SetActive(false);
+
+        if (part != null)
+        {
+            part.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log(desc.name + " is not in the dummy parts");
+        }
     }
 
     /// <summary>

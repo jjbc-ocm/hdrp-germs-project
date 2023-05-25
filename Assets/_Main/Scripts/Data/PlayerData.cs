@@ -15,6 +15,8 @@ public class PlayerData
 
     private List<PlayerBalance> getBalances;
 
+    private List<PlayersInventoryItem> getItems;
+
     public PlayerData()
     {
         putData = new Dictionary<string, object>();
@@ -25,6 +27,8 @@ public class PlayerData
         getData = await CloudSaveService.Instance.Data.LoadAllAsync();
 
         getBalances = (await EconomyService.Instance.PlayerBalances.GetBalancesAsync()).Balances;
+
+        getItems = (await EconomyService.Instance.PlayerInventory.GetInventoryAsync()).PlayersInventoryItems;
 
         return this;
     }
@@ -113,6 +117,11 @@ public class PlayerData
     public long Gems
     {
         get => getBalances.FirstOrDefault(i => i.CurrencyId == "GEMS")?.Balance ?? 0;
+    }
+
+    public List<PlayersInventoryItem> DummyParts
+    {
+        get => getItems.Where(i => i.InventoryItemId == "DUMMY_PART").ToList();
     }
 
     public PlayerData SetInitialized(bool value)
@@ -234,9 +243,7 @@ public class PlayerData
 
         var result = await EconomyService.Instance.PlayerInventory.AddInventoryItemAsync("DUMMY_PART", options);
 
-        //var targetIndex = getBalances.FindIndex(i => i.CurrencyId == "GEMS");
-
-        //getBalances[targetIndex] = result;
+        getItems.Add(result);
 
         return this;
     }
