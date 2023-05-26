@@ -1,6 +1,7 @@
 
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,7 +35,14 @@ public class HomeUI : WindowUI<HomeUI>
 
     public void OnDummyClick()
     {
-        DummyUI.Instance.Open();
+        DummyUI.Instance.Open((self) =>
+        {
+            self.Data = new List<GPDummyData> {
+                APIManager.Instance.PlayerData.Dummy(0).ToGPDummyData(SOManager.Instance.DummyParts),
+                APIManager.Instance.PlayerData.Dummy(1).ToGPDummyData(SOManager.Instance.DummyParts),
+                APIManager.Instance.PlayerData.Dummy(2).ToGPDummyData(SOManager.Instance.DummyParts)
+            };
+        });
 
         Close();
     }
