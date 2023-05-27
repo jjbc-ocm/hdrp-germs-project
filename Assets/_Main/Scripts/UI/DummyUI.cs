@@ -11,7 +11,7 @@ public class DummyUI : WindowUI<DummyUI>
     [SerializeField]
     private DummyCustomizeUI uiCustomize;
 
-    public List<GPDummyData> Data { get; set; }
+    public List<DummyData> Data { get; set; }
 
     public void OnDummyClick(int index)
     {
@@ -34,7 +34,16 @@ public class DummyUI : WindowUI<DummyUI>
         uiCustomize.Open((self) =>
         {
             self.Data = ownedItem;
+
+            self.DummyData = APIManager.Instance.PlayerData.Dummy(index);
+
+            self.Index = index;
         });
+    }
+
+    public void OnBackClick()
+    {
+        uiCustomize.Close();
     }
 
     public void OnHomeClick()

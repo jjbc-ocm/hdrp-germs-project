@@ -23,20 +23,20 @@ public static class PlayerExtension
 
         var playerData = APIManager.Instance.PlayerData;
 
-        var dummyData = playerData.Dummy(playerData.SelectedDummyIndex).ToGPDummyData(SOManager.Instance.DummyParts);
+        var dummyData = playerData.Dummy(playerData.SelectedDummyIndex);
 
         player.SetCustomProperties(new Hashtable
         {
             { name, APIManager.Instance.PlayerData.Name },
             //{ PlayerExtension.team, team },
             { shipIndex, shipIndex },
-            {"skin", dummyData.m_skin?.name },
-            {"eyes", dummyData.m_eye?.name },
-            {"mouth", dummyData.m_mouth?.name },
-            {"head", dummyData.m_head?.name },
-            {"wear", dummyData.m_wear?.name },
-            {"gloves", dummyData.m_gloves?.name },
-            {"tail", dummyData.m_tail?.name }
+            {"skin", dummyData.Skin },
+            {"eyes", dummyData.Eye },
+            {"mouth", dummyData.Mouth },
+            {"head", dummyData.Head },
+            {"wear", dummyData.Wear },
+            {"gloves", dummyData.Glove },
+            {"tail", dummyData.Tail }
         });
     }
 

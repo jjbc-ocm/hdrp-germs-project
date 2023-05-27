@@ -37,10 +37,10 @@ public class HomeUI : WindowUI<HomeUI>
     {
         DummyUI.Instance.Open((self) =>
         {
-            self.Data = new List<GPDummyData> {
-                APIManager.Instance.PlayerData.Dummy(0).ToGPDummyData(SOManager.Instance.DummyParts),
-                APIManager.Instance.PlayerData.Dummy(1).ToGPDummyData(SOManager.Instance.DummyParts),
-                APIManager.Instance.PlayerData.Dummy(2).ToGPDummyData(SOManager.Instance.DummyParts)
+            self.Data = new List<DummyData> {
+                APIManager.Instance.PlayerData.Dummy(0),
+                APIManager.Instance.PlayerData.Dummy(1),
+                APIManager.Instance.PlayerData.Dummy(2)
             };
         });
 

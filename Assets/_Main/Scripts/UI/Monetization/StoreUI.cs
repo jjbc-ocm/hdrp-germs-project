@@ -70,6 +70,13 @@ public class StoreUI : WindowUI<StoreUI>
         UpdateTabUI(buttonSelf, true);
     }
 
+    public void OnHomeClick()
+    {
+        HomeUI.Instance.Open();
+
+        Close();
+    }
+
     #endregion
 
     protected override void OnRefreshUI()

@@ -95,11 +95,10 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
         {
             foreach (var part in SOManager.Instance.DummyParts)
             {
-                dummyPreview.UnequipCustomPart(part);
+                dummyPreview.UnequipCustomPart(part.name);
             }
 
-            dummyPreview.EquipCustomPart(selectedItem.Data);
-            //dummyPreview.ChangeAppearance(new GPDummyData(new List<string> { selectedItem.Data.name }));
+            dummyPreview.EquipCustomPart(selectedItem.Data.name);
         }
     }
 
