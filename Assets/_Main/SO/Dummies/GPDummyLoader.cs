@@ -16,71 +16,51 @@ public class GPDummyLoader : MonoBehaviour
 
         var keys = m_view.Owner.GetDummyKeys();
 
-        var data = new GPDummyData(keys);
-
-        ChangeAppearance(data);
+        ChangeAppearance(DummyData.Create(keys));
     }
 
-    public void ChangeAppearance(GPDummyData data)
+    public void ChangeAppearance(DummyData data)
     {
-        EquipCustomPart(data.m_skin);
-        EquipCustomPart(data.m_eye);
-        EquipCustomPart(data.m_mouth);
-        EquipCustomPart(data.m_head);
-        EquipCustomPart(data.m_wear);
-        EquipCustomPart(data.m_gloves);
-        EquipCustomPart(data.m_tail);
-    }
-
-    /// <summary>
-    /// Activates a dummy part on the dummy model.
-    /// </summary>
-    /// <param name="desc"></param>
-    /// <param name="animate"></param>
-    public void EquipCustomPart(DummyPartSO desc)
-    {
-        if (!desc)
+        foreach (var part in SOManager.Instance.DummyParts)
         {
-            return;
+            UnequipCustomPart(part.name);
         }
 
-        Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
+        EquipCustomPart(data.Skin);
+        EquipCustomPart(data.Eye);
+        EquipCustomPart(data.Mouth);
+        EquipCustomPart(data.Head);
+        EquipCustomPart(data.Wear);
+        EquipCustomPart(data.Glove);
+        EquipCustomPart(data.Tail);
+    }
+
+
+    public void EquipCustomPart(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return;
+
+        Transform part = RecursiveFindChild(m_dummyModelRef, name);
 
         if (part)
         {
             part.gameObject.SetActive(true);
-
-            /*if (desc.m_material != null)
-            {
-                part.GetComponent<Renderer>().material = desc.m_material;
-            }*/
         }
     }
 
-    /// <summary>
-    /// Deactivates a dummy part on the dummy model
-    /// </summary>
-    /// <param name="desc"></param>
-    public void UnequipCustomPart(DummyPartSO desc)
+    public void UnequipCustomPart(string name)
     {
-        Transform part = RecursiveFindChild(m_dummyModelRef, desc.name);
+        if (string.IsNullOrEmpty(name)) return;
 
-        if (part != null)
+        Transform part = RecursiveFindChild(m_dummyModelRef, name);
+
+        if (part)
         {
             part.gameObject.SetActive(false);
         }
-        else
-        {
-            Debug.Log(desc.name + " is not in the dummy parts");
-        }
     }
 
-    /// <summary>
-    /// Find a nested child of a transform that matchs the given child name.
-    /// </summary>
-    /// <param name="parent"></param>
-    /// <param name="childName"></param>
-    /// <returns></returns>
+    
     Transform RecursiveFindChild(Transform parent, string childName)
     {
         foreach (Transform child in parent)

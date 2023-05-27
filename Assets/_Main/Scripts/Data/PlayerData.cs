@@ -260,19 +260,108 @@ public class DummyData
     public string Tail;
     public string DummyName;
 
-    public GPDummyData ToGPDummyData(DummyPartSO[] dummyParts)
+    public static DummyData Create(List<string> keys)
     {
-        return new GPDummyData
+        var dummyData = new DummyData();
+
+        foreach (var key in keys)
         {
-            m_skin = dummyParts.FirstOrDefault(i => i.name == Skin),
-            m_eye = dummyParts.FirstOrDefault(i => i.name == Eye),
-            m_mouth = dummyParts.FirstOrDefault(i => i.name == Mouth),
-            m_head = dummyParts.FirstOrDefault(i => i.name == Head),
-            m_wear = dummyParts.FirstOrDefault(i => i.name == Wear),
-            m_gloves = dummyParts.FirstOrDefault(i => i.name == Glove),
-            m_tail = dummyParts.FirstOrDefault(i => i.name == Tail),
-            m_dummyName = DummyName,
-        };
+            if (key == null) continue;
+
+            var part = SOManager.Instance.DummyParts.FirstOrDefault(i => key == i.name);
+
+            if (part.m_type == GP_DUMMY_PART_TYPE.kSkin)
+            {
+                dummyData.Skin = part.name;
+            }
+            else if (part.m_type == GP_DUMMY_PART_TYPE.kEye)
+            {
+                dummyData.Eye = part.name;
+            }
+            else if (part.m_type == GP_DUMMY_PART_TYPE.kMouth)
+            {
+                dummyData.Mouth = part.name;
+            }
+            else if (part.m_type == GP_DUMMY_PART_TYPE.kHead)
+            {
+                dummyData.Head = part.name;
+            }
+            else if (part.m_type == GP_DUMMY_PART_TYPE.kWear)
+            {
+                dummyData.Wear = part.name;
+            }
+            else if (part.m_type == GP_DUMMY_PART_TYPE.kGlove)
+            {
+                dummyData.Glove = part.name;
+            }
+            else if (part.m_type == GP_DUMMY_PART_TYPE.kTail)
+            {
+                dummyData.Tail = part.name;
+            }
+
+           
+
+            /*switch (part.m_type)
+            {
+                case GP_DUMMY_PART_TYPE.kSkin:
+                    m_skin = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kEye:
+                    m_eye = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kMouth:
+                    m_mouth = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kHead:
+                    m_head = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kWear:
+                    m_wear = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kGlove:
+                    m_gloves = part;
+                    break;
+                case GP_DUMMY_PART_TYPE.kTail:
+                    m_tail = part;
+                    break;
+                default:
+                    break;
+            }*/
+        }
+
+        return dummyData;
+    }
+
+    public void AutoSetPart(DummyPartSO part)
+    {
+        if (part.m_type == GP_DUMMY_PART_TYPE.kSkin)
+        {
+            Skin = part.name;
+        }
+        else if (part.m_type == GP_DUMMY_PART_TYPE.kEye)
+        {
+            Eye = part.name;
+        }
+        else if (part.m_type == GP_DUMMY_PART_TYPE.kMouth)
+        {
+            Mouth = part.name;
+        }
+        else if (part.m_type == GP_DUMMY_PART_TYPE.kHead)
+        {
+            Head = part.name;
+        }
+        else if (part.m_type == GP_DUMMY_PART_TYPE.kWear)
+        {
+            Wear = part.name;
+        }
+        else if (part.m_type == GP_DUMMY_PART_TYPE.kGlove)
+        {
+            Glove = part.name;
+        }
+        else if (part.m_type == GP_DUMMY_PART_TYPE.kTail)
+        {
+            Tail = part.name;
+        }
     }
 }
 
