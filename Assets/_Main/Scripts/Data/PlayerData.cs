@@ -298,38 +298,21 @@ public class DummyData
             {
                 dummyData.Tail = part.name;
             }
-
-           
-
-            /*switch (part.m_type)
-            {
-                case GP_DUMMY_PART_TYPE.kSkin:
-                    m_skin = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kEye:
-                    m_eye = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kMouth:
-                    m_mouth = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kHead:
-                    m_head = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kWear:
-                    m_wear = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kGlove:
-                    m_gloves = part;
-                    break;
-                case GP_DUMMY_PART_TYPE.kTail:
-                    m_tail = part;
-                    break;
-                default:
-                    break;
-            }*/
         }
 
         return dummyData;
+    }
+
+    public bool Contains(DummyPartSO part)
+    {
+        return
+            Skin == part.name ||
+            Eye == part.name ||
+            Mouth == part.name ||
+            Head == part.name ||
+            Wear == part.name ||
+            Glove == part.name ||
+            Tail == part.name;
     }
 
     public void AutoSetPart(DummyPartSO part)

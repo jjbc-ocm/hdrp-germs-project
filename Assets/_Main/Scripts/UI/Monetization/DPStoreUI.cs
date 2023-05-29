@@ -30,9 +30,9 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
     [SerializeField]
     private Color tabNormalColor;
 
-    private DPStoreItemUI selectedItem;
-
     private int selectedTabIndex;
+
+    private DPStoreItemUI selectedItem;
 
     public DummyPartSO[] Data { get; set; }
 

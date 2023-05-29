@@ -14,6 +14,8 @@ public class DummyCustomizeItemUI : UI<DummyCustomizeItemUI>
 
     public DummyPartSO Data { get; set; }
 
+    public bool IsSelected { get; set; }
+
     public Action OnClickCallback { get; set; }
 
     public void OnClick()
@@ -24,5 +26,7 @@ public class DummyCustomizeItemUI : UI<DummyCustomizeItemUI>
     protected override void OnRefreshUI()
     {
         imageIcon.sprite = Data.Icon;
+
+        imageIndicator.SetActive(IsSelected);
     }
 }
