@@ -20,6 +20,8 @@ public class PlayerData
     public PlayerData()
     {
         putData = new Dictionary<string, object>();
+
+        getItems = new List<PlayersInventoryItem>();
     }
 
     public async Task<PlayerData> Get()
@@ -28,7 +30,25 @@ public class PlayerData
 
         getBalances = (await EconomyService.Instance.PlayerBalances.GetBalancesAsync()).Balances;
 
-        getItems = (await EconomyService.Instance.PlayerInventory.GetInventoryAsync()).PlayersInventoryItems;
+        var getItemsOptions = new GetInventoryOptions 
+        { 
+            InventoryItemIds = new List<string> { "DUMMY_PART" }
+        };
+
+        GetInventoryResult request = null;
+
+        do
+        {
+            request = request == null 
+                ? await EconomyService.Instance.PlayerInventory.GetInventoryAsync(getItemsOptions)
+                : await request.GetNextAsync();
+
+            foreach (var item in request.PlayersInventoryItems)
+            {
+                getItems.Add(item);
+            }
+        }
+        while (request.HasNext);
 
         return this;
     }

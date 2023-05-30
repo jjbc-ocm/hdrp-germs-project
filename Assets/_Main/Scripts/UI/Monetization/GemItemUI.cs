@@ -22,14 +22,30 @@ public class GemItemUI : UI<GemItemUI>
 
     public void OnBuyClick()
     {
-        SpinnerUI.Instance.Open();
-
-        IAPManager.Instance.BuyGem(Data, async () =>
+        ConfirmPurchaseUI.Instance.Open((self) =>
         {
-            await APIManager.Instance.PlayerData.AddGems(data.Amount);
+            self.Header = data.name;
 
-            SpinnerUI.Instance.Close();
+            self.TextContent = string.Format("Buy <color=#4BBAE0>{0} Gems</color> for {1}?", data.Amount, Data.LocalPriceFormatted);
+
+            self.IconContent = data.Sprite;
+
+            self.OnConfirm = () =>
+            {
+                SpinnerUI.Instance.Open();
+
+                IAPManager.Instance.BuyGem(Data, async () =>
+                {
+                    await APIManager.Instance.PlayerData.AddGems(data.Amount);
+
+                    SpinnerUI.Instance.Close();
+                });
+
+                self.Close();
+            };
         });
+
+       
     }
 
     protected override void OnRefreshUI()

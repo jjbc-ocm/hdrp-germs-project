@@ -58,15 +58,30 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
         RefreshUI();
     }
 
-    public async void OnBuyClick()
+    public void OnBuyClick()
     {
-        SpinnerUI.Instance.Open();
+        ConfirmPurchaseUI.Instance.Open((self) =>
+        {
+            self.Header = selectedItem.Data.name;
 
-        await APIManager.Instance.PlayerData.SubGems(selectedItem.Data.Cost);
+            self.TextContent = string.Format("Buy this item for <color=#4BBAE0>{0} Gems</color>?", selectedItem.Data.Cost);
 
-        await APIManager.Instance.PlayerData.AddDummyPart(selectedItem.Data);
+            self.IconContent = selectedItem.Data.Icon;
 
-        SpinnerUI.Instance.Close();
+            self.OnConfirm = async () =>
+            {
+                SpinnerUI.Instance.Open();
+
+                await APIManager.Instance.PlayerData.SubGems(selectedItem.Data.Cost);
+
+                await APIManager.Instance.PlayerData.AddDummyPart(selectedItem.Data);
+
+                SpinnerUI.Instance.Close();
+
+                self.Close();
+            };
+        });
+        
     }
 
     #endregion
