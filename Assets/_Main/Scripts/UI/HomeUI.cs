@@ -49,7 +49,7 @@ public class HomeUI : WindowUI<HomeUI>
 
     public void OnStoreClick()
     {
-        StoreUI.Instance.Open();
+        StoreUI.Instance.Open((self) => { });
 
         Close();
     }

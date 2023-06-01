@@ -30,6 +30,8 @@ public class PlayerData
 
         getBalances = (await EconomyService.Instance.PlayerBalances.GetBalancesAsync()).Balances;
 
+        getItems.Clear();
+
         var getItemsOptions = new GetInventoryOptions 
         { 
             InventoryItemIds = new List<string> { "DUMMY_PART" }

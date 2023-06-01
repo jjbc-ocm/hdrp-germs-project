@@ -13,6 +13,15 @@ public class DummyUI : WindowUI<DummyUI>
 
     public List<DummyData> Data { get; set; }
 
+    #region Unity
+
+    private void OnEnable()
+    {
+        uiCustomize.Close();
+    }
+
+    #endregion
+
     public void OnDummyClick(int index)
     {
         var ownedItem = new List<DummyPartSO>();

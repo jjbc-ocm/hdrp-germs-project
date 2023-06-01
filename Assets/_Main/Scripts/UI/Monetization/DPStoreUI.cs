@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
 
     [SerializeField]
     private Button buttonBuy;
+
+    [SerializeField]
+    private TMP_Text textBuy;
 
     [Header("Tab Settings")]
 
@@ -76,6 +80,8 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
 
                 await APIManager.Instance.PlayerData.AddDummyPart(selectedItem.Data);
 
+                StoreUI.Instance.RefreshUI();
+
                 SpinnerUI.Instance.Close();
 
                 self.Close();
@@ -101,10 +107,12 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
                 selectedItem = item;
 
                 RefreshUI();
+
+                UpdateBuyButton();
             };
         });
 
-        buttonBuy.interactable = selectedItem != null;
+        UpdateBuyButton();
 
         if (selectedItem)
         {
@@ -135,6 +143,22 @@ public class DPStoreUI : ListViewUI<DPStoreItemUI, DPStoreUI>
         {
             LeanTween.move(tabSelectedIndicator.gameObject, buttonTabs[tabIndex].transform.position, 0.3f).setEaseSpring();
         }
+    }
+
+    private void UpdateBuyButton()
+    {
+        var hasItem = APIManager.Instance.PlayerData.DummyParts
+            .Select(part =>
+            {
+                var rawData = JsonUtility.FromJson<DummyPartInstanceInfo>(part.InstanceData.GetAsString());
+
+                return SOManager.Instance.DummyParts.FirstOrDefault(i => i.name == rawData.name);
+            })
+            .Any(i => selectedItem && i == selectedItem.Data);
+
+        buttonBuy.interactable = selectedItem != null && !hasItem;
+
+        textBuy.text = !hasItem ? "Buy" : "Bought";
     }
 
     #endregion
