@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class StoreUI : WindowUI<StoreUI>
 {
     [SerializeField]
+    private CurrencyUI uiCurrency;
+
+    [SerializeField]
     private GemsUI uiGems;
 
     [SerializeField]
@@ -81,7 +84,10 @@ public class StoreUI : WindowUI<StoreUI>
 
     protected override void OnRefreshUI()
     {
-
+        uiCurrency.RefreshUI((self) =>
+        {
+            self.Gems = APIManager.Instance.PlayerData.Gems;
+        });
     }
 
     #region Private

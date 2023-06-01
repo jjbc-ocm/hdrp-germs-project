@@ -38,6 +38,8 @@ public class GemItemUI : UI<GemItemUI>
                 {
                     await APIManager.Instance.PlayerData.AddGems(data.Amount);
 
+                    StoreUI.Instance.RefreshUI();
+
                     SpinnerUI.Instance.Close();
                 });
 
